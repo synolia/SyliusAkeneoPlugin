@@ -1,0 +1,18 @@
+parameters:
+    level: max
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+
+    excludes_analyse:
+        # Makes PHPStan crash
+        - ../src/DependencyInjection/Configuration.php
+        - ../src/Migrations/
+
+        # Test dependencies
+        - ../tests/Application
+
+        # PHPSpec
+        - ../spec
+
+    ignoreErrors:
+        # ignore false positive
