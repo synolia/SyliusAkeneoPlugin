@@ -1,13 +1,12 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "synolia/sylius-akeneo-plugin",
     "type": "sylius-plugin",
-    "keywords": ["sylius", "sylius-plugin"],
-    "description": "Acme example plugin for Sylius.",
+    "keywords": ["sylius", "sylius-plugin", "akeneo", "connector"],
+    "description": "Akeneo connector for Sylius.",
     "license": "MIT",
     "require": {
         "php": "^7.2",
-
-        "sylius/sylius": "dev-master"
+        "sylius/sylius": "^1.6"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -37,16 +36,14 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "Synolia\\SyliusAkeneoPlugin\\": "src/",
+            "Tests\\Synolia\\SyliusAkeneoPlugin\\": "tests/"
         }
     },
     "autoload-dev": {
         "classmap": ["tests/Application/Kernel.php"]
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.6-dev"
-        }
+    "config": {
+        "sort-packages": true
     }
 }
