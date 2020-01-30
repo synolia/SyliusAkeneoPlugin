@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "league/pipeline": "^1.0",
         "sylius/sylius": "^1.6"
     },
     "require-dev": {
@@ -56,5 +57,8 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "fix-ecs": "ecs check -c ruleset/easy-coding-standard.yml --fix --ansi --clear-cache  ."
     }
 }

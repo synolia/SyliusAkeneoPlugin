@@ -3,3 +3,11 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+
+    Synolia\SyliusAkeneoPlugin\:
+        resource: '../../*'
+        exclude: '../../{DependencyInjection,Model,Migrations,SynoliaSyliusAkeneoPlugin.php}'
+
+    Synolia\SyliusAkeneoPlugin\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
