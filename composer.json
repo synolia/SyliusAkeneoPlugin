@@ -5,9 +5,12 @@
     "description": "Akeneo connector for Sylius.",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
+        "akeneo/api-php-client": "^4.0",
+        "http-interop/http-factory-guzzle": "^1.0",
         "league/pipeline": "^1.0",
-        "sylius/sylius": "^1.6"
+        "php-http/guzzle6-adapter": "^2.0",
+        "sylius/sylius": "dev-master"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -15,6 +18,7 @@
         "behat/mink-browserkit-driver": "^1.3",
         "behat/mink-extension": "^2.2",
         "behat/mink-selenium2-driver": "^1.3",
+        "donatj/mock-webserver": "^2.1",
         "friends-of-behat/page-object-extension": "^0.3",
         "friends-of-behat/suite-settings-extension": "^1.0",
         "friends-of-behat/symfony-extension": "^2.0",
@@ -46,6 +50,7 @@
         "webmozart/assert": "^1.6"
     },
     "prefer-stable": true,
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Synolia\\SyliusAkeneoPlugin\\": "src/",

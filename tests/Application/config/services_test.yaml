@@ -15,3 +15,6 @@ services:
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../../src/Controller'
         tags: ['controller.service_arguments']
+
+    Akeneo\Pim\ApiClient\Client\ResourceClientInterface:
+        class: Tests\Synolia\SyliusAkeneoPlugin\Akeneo\Pim\ApiClient\Client\ResourceClientMock
