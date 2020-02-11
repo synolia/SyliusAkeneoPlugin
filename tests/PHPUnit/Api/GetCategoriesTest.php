@@ -11,15 +11,16 @@ use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class GetCategoriesTest extends ApiTestCase
+final class GetCategoriesTest extends ApiTestCase
 {
     public function testGetCategories(): void
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
-                new Response($this->getCategories(), [], 200)
+                new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
             )
         );
 

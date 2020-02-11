@@ -10,16 +10,17 @@ use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class GetProductsTest extends ApiTestCase
+final class GetProductsTest extends ApiTestCase
 {
     public function testGetProducts(): void
     {
         $this->server->setResponseOfPath(
             '/' . ProductApi::PRODUCTS_URI,
             new ResponseStack(
-                new Response($this->getProducts(), [], 200),
-                new Response($this->getProducts(), [], 200)
+                new Response($this->getProducts(), [], HttpResponse::HTTP_OK),
+                new Response($this->getProducts(), [], HttpResponse::HTTP_OK)
             )
         );
 
