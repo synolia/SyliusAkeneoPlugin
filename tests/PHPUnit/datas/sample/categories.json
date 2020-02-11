@@ -1,0 +1,91 @@
+{
+    "_links": {
+        "self": {
+            "href": "https://demo.akeneo.com/api/rest/v1/categories?page=2&limit=5"
+        },
+        "first": {
+            "href": "https://demo.akeneo.com/api/rest/v1/categories?page=1&limit=5"
+        },
+        "previous": {
+            "href": "https://demo.akeneo.com/api/rest/v1/categories?page=1&limit=5"
+        },
+        "next": {
+            "href": "https://demo.akeneo.com/api/rest/v1/categories?page=3&limit=5"
+        }
+    },
+    "current_page": 2,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://demo.akeneo.com/api/rest/v1/categories/winter_collection"
+                    }
+                },
+                "code": "winter_collection",
+                "parent": null,
+                "labels": {
+                    "en_US": "Winter collection",
+                    "fr_FR": "Collection hiver",
+                    "de_DE": "Winter-Kollektion"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://demo.akeneo.com/api/rest/v1/categories/woman"
+                    }
+                },
+                "code": "woman",
+                "parent": "winter_collection",
+                "labels": {
+                    "en_US": "Woman",
+                    "fr_FR": "Femme",
+                    "de_DE": "Damen"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://demo.akeneo.com/api/rest/v1/categories/man"
+                    }
+                },
+                "code": "man",
+                "parent": "winter_collection",
+                "labels": {
+                    "en_US": "Man",
+                    "fr_FR": "Homme",
+                    "de_DE": "Herren"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://demo.akeneo.com/api/rest/v1/categories/kids"
+                    }
+                },
+                "code": "kids",
+                "parent": "winter_collection",
+                "labels": {
+                    "en_US": "Kids",
+                    "fr_FR": "Enfant",
+                    "de_DE": "Kinder"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://demo.akeneo.com/api/rest/v1/categories/summer_collection"
+                    }
+                },
+                "code": "summer_collection",
+                "parent": null,
+                "labels": {
+                    "en_US": "Summer collection",
+                    "fr_FR": "Collection été",
+                    "de_DE": "Sommer-Kollektion"
+                }
+            }
+        ]
+    }
+}

@@ -17,7 +17,7 @@ projectChannelName = "sylius-plugins-ci"
 failedStage = "unknown"
 
 // Docker
-phpDockerRegistry = "registry.synocloud.com/php72dev:latest"
+phpDockerRegistry = "registry.synocloud.com/php73dev:latest"
 dbDockerRegistry = "registry.synocloud.com/percona57dev:latest"
 seleniumRegistry = "selenium/standalone-chrome:3.141.59-europium"
 
