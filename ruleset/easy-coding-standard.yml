@@ -1,0 +1,10 @@
+imports:
+    - { resource: '../vendor/sylius-labs/coding-standard/easy-coding-standard.yml' }
+
+parameters:
+    paths:
+        - src
+        - tests
+        - spec
+    exclude_files:
+        - 'tests/Application/**'
