@@ -1,0 +1,35 @@
+api_configuration:
+    path: /api/configuration
+    methods: [GET|POST]
+    defaults:
+        _controller: Synolia\SyliusAkeneoPlugin\Controller\AkeneoApiConfigurationController
+
+product_filter_rules:
+    path: /product_filter/rules
+    methods: [GET|POST]
+    defaults:
+        _controller: Synolia\SyliusAkeneoPlugin\Controller\AkeneoProductFilterRulesController
+
+categories:
+    path: /categories
+    methods: [GET|POST]
+    defaults:
+        _controller: Synolia\SyliusAkeneoPlugin\Controller\AkeneoCategoriesController
+
+products:
+    path: /Products
+    methods: [GET|POST]
+    defaults:
+        _controller: Synolia\SyliusAkeneoPlugin\Controller\AkeneoProductsController
+
+attributes:
+    path: /attributes
+    methods: [GET|POST]
+    defaults:
+        _controller: Synolia\SyliusAkeneoPlugin\Controller\AkeneoAttributesController
+
+medias:
+    path: /medias
+    methods: [GET|POST]
+    defaults:
+        _controller: Synolia\SyliusAkeneoPlugin\Controller\AkeneoMediasController

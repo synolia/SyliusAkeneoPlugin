@@ -1,0 +1,11 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
+
+{% block title %}{{ 'sylius.ui.admin.akeneo.api_configuration.api_configuration'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ headers.default('sylius.ui.admin.akeneo.api_configuration.api_configuration'|trans, 'cogs') }}
+    <div class="ui segment">
+    </div>
+{% endblock %}
