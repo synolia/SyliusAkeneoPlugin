@@ -4,8 +4,8 @@
 
 import com.synolia.log.Slack;
 import com.synolia.system.Security;
-import com.synolia.quality.PhpStan;
 import com.synolia.quality.GrumPhp;
+import com.synolia.quality.PhpStan;
 import com.synolia.quality.PhpUnit;
 
 // Global
@@ -26,10 +26,11 @@ def slack = new Slack(this, "synolia", projectChannelName)
 // Get Security tools
 def security = new Security(this)
 
+DOCKER_NETWORK = 'net-' + BUILD_TAG
 BUILD_TAG = env.BUILD_TAG.replaceAll('%2F', '_')
 JOB_NAME = env.JOB_NAME.replaceAll('%2F', '/')
 DB_URL = "mysql://synbshop:Synolia01@db-" + BUILD_TAG + ":3306/sylius-akeneo-plugin"
-COMPOSER_ARGS = '-e COMPOSER_HOME=$HOME/.composer -v $HOME/.composer:$HOME/.composer'
+COMPOSER_ARGS = '-e COMPOSER_HOME=$HOME/.composer -v $HOME/.composer/cache:$HOME/.composer/cache'
 PHP_BUILD_ARGS = '--name=php-' + BUILD_TAG
 
 pipeline {
@@ -38,27 +39,28 @@ pipeline {
         durabilityHint('PERFORMANCE_OPTIMIZED')
     }
     stages {
+        stage('Preparing Docker') {
+            steps {
+                script {
+                    sh 'docker network create ' + DOCKER_NETWORK
+                }
+            }
+            post { unsuccessful { script { failedStage = env.STAGE_NAME } } }
+        }
         stage('Creating Selenium container') {
             steps {
                 script {
-                    try {
-                        echo "Installing Selenium container"
-                        selenium = docker.image(seleniumRegistry)
-                        // Use the same name for each process: "selenium_chrome" because we don't need multiple seleniums, we can keep it !
-                        // I don't remove it cause it could be use by several apps...
-                        selenium.run('--name selenium_chrome --volume /dev/shm:/dev/shm -p 4444:4444')
-                    } catch (Exception e) {
-                        echo "Container probably already exists... but it's ok ;)"
-                        echo e.getMessage()
-                    }
+                    selenium = docker.image(seleniumRegistry)
+                    selenium.run('--name selenium_chrome-'+BUILD_TAG+' --volume /dev/shm:/dev/shm --network '+DOCKER_NETWORK)
                 }
             }
+            post { unsuccessful { script { failedStage = env.STAGE_NAME } } }
         }
         stage('Creating MySQL container') {
             steps {
                 script {
                     db = docker.image(dbDockerRegistry)
-                    db.run('--name db-'+BUILD_TAG)
+                    db.run('--name db-'+BUILD_TAG+' --network '+DOCKER_NETWORK)
                 }
             }
             post { unsuccessful { script { failedStage = env.STAGE_NAME } } }
@@ -67,7 +69,7 @@ pipeline {
             agent {
                 docker {
                     image phpDockerRegistry
-                    args "${PHP_BUILD_ARGS} ${COMPOSER_ARGS} --link selenium_chrome:selenium_chrome --link db-${BUILD_TAG}:db -e APP_ENV=test"
+                    args "${PHP_BUILD_ARGS} ${COMPOSER_ARGS} --network "+DOCKER_NETWORK+" -e APP_ENV=test"
                     reuseNode true
                 }
             }
@@ -106,12 +108,12 @@ pipeline {
                             }
 
                             sh "cp behat.yml.dist behat.yml"
-                            sh "sed -i 's/localhost:8080/selenium_chrome:4444/g' behat.yml"
+                            sh "sed -i 's/localhost:8080/selenium_chrome-"+BUILD_TAG+":4444/g' behat.yml"
                             sh "sed -i 's|DB_URL|${DB_URL}|g' phpunit.xml.dist"
                             sh "cd ${applicationDir}; yarn install && yarn build"
                             sh "cd ${applicationDir}; php bin/console doctrine:database:create --env=test"
                             sh "cd ${applicationDir}; php bin/console doctrine:schema:create --env=test"
-                            sh "cd ${applicationDir}; php bin/console sylius:fixtures:load --env=test"
+                            sh "cd ${applicationDir}; php bin/console sylius:fixtures:load -n --env=test"
                             sh "cd ${applicationDir}; php bin/console assets:install public --symlink"
                             sh "cd ${applicationDir}; php bin/console cache:warmup --env=test"
                         }
@@ -161,7 +163,7 @@ pipeline {
                             steps {
                                 script {
                                     def phpUnit = new PhpUnit(this, "vendor/bin/phpunit")
-                                    phpUnit.runTest('Synolia Akeneo Plugin Test Suite', 'phpunit.xml.dist', "${sourceDir}");
+                                    phpUnit.runTest('Synolia-Akeneo-Plugin-Test-Suite', 'phpunit.xml.dist', ".");
                                 }
                             }
                             post { unsuccessful { script { failedStage = env.STAGE_NAME } } }
@@ -214,7 +216,10 @@ pipeline {
         always {
             cleanWs deleteDirs: true, notFailBuild: true
             sh 'docker stop --time=1 db-' + BUILD_TAG + ' || true'
+            sh 'docker stop --time=1 selenium_chrome-' + BUILD_TAG + ' || true'
             sh 'docker rm -f db-' + BUILD_TAG + ' || true'
+            sh 'docker rm -f selenium_chrome-' + BUILD_TAG + ' || true'
+            sh 'docker network rm ' + DOCKER_NETWORK + ' || true'
         }
     }
 }
