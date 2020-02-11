@@ -6,6 +6,7 @@ import com.synolia.log.Slack;
 import com.synolia.system.Security;
 import com.synolia.quality.PhpStan;
 import com.synolia.quality.GrumPhp;
+import com.synolia.quality.PhpUnit;
 
 // Global
 projectName = "Sylius Akeneo Plugin"
@@ -159,15 +160,8 @@ pipeline {
                         stage('PhpUnit') {
                             steps {
                                 script {
-                                    try {
-                                        sh """
-                                            APP_ENV=test \
-                                            vendor/bin/phpunit -c phpunit.xml.dist \
-                                                --log-junit phpunit-junit.xml
-                                        """
-                                    } finally {
-                                         junit allowEmptyResults: true, testResults: "phpunit-junit.xml"
-                                    }
+                                    def phpUnit = new PhpUnit(this, "vendor/bin/phpunit")
+                                    phpUnit.runTest('Synolia Akeneo Plugin Test Suite', 'phpunit.xml.dist', "${sourceDir}");
                                 }
                             }
                             post { unsuccessful { script { failedStage = env.STAGE_NAME } } }
