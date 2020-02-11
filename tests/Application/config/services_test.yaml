@@ -1,3 +1,17 @@
 imports:
     - { resource: "../../Behat/Resources/services.xml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Synolia\SyliusAkeneoPlugin\:
+        resource: '../../../src/*'
+        exclude: '../../../src/{DependencyInjection,Model,Migrations,SynoliaSyliusAkeneoPlugin.php}'
+
+    Synolia\SyliusAkeneoPlugin\Controller\:
+        resource: '../../../src/Controller'
+        tags: ['controller.service_arguments']
