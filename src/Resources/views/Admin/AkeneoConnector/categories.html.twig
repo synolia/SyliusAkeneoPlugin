@@ -1,0 +1,69 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
+
+{% block title %}{{ 'sylius.ui.admin.akeneo.categories.categories'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ headers.default('sylius.ui.admin.akeneo.categories.categories'|trans, 'cogs') }}
+    {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+    <div class="ui segment">
+        {{ form_row(form.active_new_categories) }}
+        {{ form_row(form.not_import_categories) }}
+        {{ form_row(form.main_category) }}
+        {{ form_row(form.root_category) }}
+        {{ form_row(form.empty_local_replace_by) }}
+        <ul class="attribute-mapping" data-prototype="{{ form_widget(form.attribute_mapping.vars.prototype)|e('html_attr') }}"></ul>
+    </div>
+    {{ form_end(form) }}
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script>
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+
+        var collectionHolder;
+
+        var addButton = jQuery('<button type="button">Add</button>');
+        var newLinkLi = jQuery('<li></li>').append(addButton);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            collectionHolder = jQuery('ul.attribute-mapping');
+
+            // add the "add a tag" anchor and li to the tags ul
+            collectionHolder.append(newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            collectionHolder.data('index', collectionHolder.find(':input').length);
+
+            addButton.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm(collectionHolder, newLinkLi);
+            });
+
+            jQuery('#categories_configuration_attribute_mapping').children('div').each(function(i)
+            {
+                $(this).append('<button name="delete' + i + '" class="delete-mapping">Delete</button>');
+            });
+        });
+    </script>
+{% endblock %}

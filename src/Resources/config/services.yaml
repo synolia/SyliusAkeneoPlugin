@@ -15,3 +15,14 @@ services:
     Synolia\SyliusAkeneoPlugin\Menu\AdminMenuListener:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+
+    Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@sylius.categories_configuration_class_metadata'
+
+    sylius.categories_configuration_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration'

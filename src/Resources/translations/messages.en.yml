@@ -2,12 +2,19 @@ sylius:
     ui:
         admin:
             akeneo:
+                no: No
+                yes: Yes
+                save: Save
                 api_configuration:
                     api_configuration: Api configuration
                 product_filter_rules:
                     product_filter_rules: Product filter rules
                 categories:
                     categories: Categories
+                    activate_new_categories: Activate new categories
+                    main_category: Main category
+                    root_category: Root category
+                    empty_local_replace_by: Replace empty local by
                 products:
                     products: Products
                 attributes:
