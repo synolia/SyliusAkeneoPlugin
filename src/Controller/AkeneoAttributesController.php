@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Controller;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
