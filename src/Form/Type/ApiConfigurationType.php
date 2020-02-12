@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +23,7 @@ final class ApiConfigurationType extends AbstractType
         $builder
             ->add('baseUrl', TextType::class)
             ->add('username', TextType::class)
-            ->add('password', TextType::class)
+            ->add('password', PasswordType::class)
             ->add('apiClientId', TextType::class)
             ->add('apiClientSecret', TextType::class)
             ->add('paginationSize', IntegerType::class)
@@ -37,6 +38,7 @@ final class ApiConfigurationType extends AbstractType
                 'by_reference' => false,
             ])
 
+            ->add('testCredentials', SubmitType::class)
             ->add('submit', SubmitType::class)
         ;
     }
