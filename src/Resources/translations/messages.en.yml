@@ -14,3 +14,8 @@ sylius:
                     attributes: Attributes
                 medias:
                     medias: Medias
+akeneo:
+    ui:
+        attribute_type_mappings: 'Akeneo Attribute Type Mappings'
+        attribute_type: 'Attribute Type'
+        akeneo_attribute_type: 'Akeneo Attribute'

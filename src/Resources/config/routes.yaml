@@ -12,8 +12,6 @@ akeneo_admin_attribute_type_routing:
         redirect: update
         grid: akeneo_admin_attribute_type_mapping
         vars:
-            all:
-                subheader: akeneo.ui.attribute_type_mapping # define a translation key for your entity subheader
             index:
                 icon: 'file image outline' # choose an icon that will be displayed next to the subheader
     type: sylius.resource

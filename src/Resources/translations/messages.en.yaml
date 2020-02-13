@@ -1,6 +1,0 @@
-akeneo:
-    ui:
-        attribute_type_mappings: 'Akeneo Attribute Type Mappings'
-        attribute_type_mapping: 'Akeneo Attribute Type Mapping'
-        attribute_type: 'Attribute Type'
-        akeneo_attribute_type: 'Akeneo Attribute'
