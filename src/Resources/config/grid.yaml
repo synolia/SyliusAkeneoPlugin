@@ -1,0 +1,25 @@
+sylius_grid:
+    grids:
+        akeneo_admin_attribute_type_mapping:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping
+            fields:
+                attribute_type:
+                    type: string
+                    label: akeneo.ui.attribute_type
+                    sortable: ~
+                akeneo_attribute:
+                    type: string
+                    label: akeneo.ui.akeneo_attribute_type
+                    sortable: ~
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

@@ -49,7 +49,7 @@ final class AdminMenuListener
         ;
 
         $newSubmenu->addChild('sylius_admin_akeneo_attributes', [
-                'route' => 'sylius_akeneo_connector_attributes',
+                'route' => 'akeneo_admin_attribute_type_mapping_index',
             ])
             ->setAttribute('type', 'link')
             ->setLabel('sylius.ui.admin.akeneo.attributes.attributes')

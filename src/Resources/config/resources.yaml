@@ -1,0 +1,7 @@
+sylius_resource:
+    resources:
+        akeneo.attribute_type_mapping:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping
+                form: Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeMappingType

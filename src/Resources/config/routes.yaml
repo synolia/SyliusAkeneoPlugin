@@ -1,4 +1,19 @@
 sylius_akeneo_controllers:
-    resource: '@SynoliaSyliusAkeneoPlugin/Resources/config/routes/admin_routing.yaml'
+    resource: '@SynoliaSyliusAkeneoPlugin/Resources/config/routes/admin_controller_routing.yaml'
     prefix: /akeneo
     name_prefix: 'sylius_akeneo_connector_'
+
+akeneo_admin_attribute_type_routing:
+    resource: |
+        alias: akeneo.attribute_type_mapping
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        except: ['show']
+        redirect: update
+        grid: akeneo_admin_attribute_type_mapping
+        vars:
+            all:
+                subheader: akeneo.ui.attribute_type_mapping # define a translation key for your entity subheader
+            index:
+                icon: 'file image outline' # choose an icon that will be displayed next to the subheader
+    type: sylius.resource
