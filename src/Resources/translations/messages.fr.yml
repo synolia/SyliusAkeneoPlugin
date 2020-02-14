@@ -2,6 +2,9 @@ sylius:
     ui:
         admin:
             akeneo:
+                delete: Supprimer
+                add: Ajouter
+                submit: Enregistrer les modifications
                 no: Non
                 yes: Oui
                 save: Enregistrer

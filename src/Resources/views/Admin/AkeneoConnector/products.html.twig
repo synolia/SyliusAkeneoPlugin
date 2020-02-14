@@ -1,0 +1,92 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
+
+{% block title %}{{ 'sylius.ui.admin.akeneo.categories.categories'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ headers.default('sylius.ui.admin.akeneo.categories.categories'|trans, 'cogs') }}
+
+    <div class="ui segment">
+        {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+        {{ form_row(form.website_attribute) }}
+        {{ form_row(form.import_media_files) }}
+        {{ form_row(form.akeneo_image_attributes) }}
+        {{ form_row(form.product_images_mapping) }}
+        {{ form_row(form.import_asset_files) }}
+        {{ form_row(form.akeneo_asset_attributes) }}
+        {{ form_row(form.regenerate_url_rewrites) }}
+        <div class="ui segment">
+            <div id="default-tax" data-prototype="{{ form_row(form.default_tax.vars.prototype)|e('html_attr') }}">{{ form_row(form.default_tax) }}</div>
+        </div>
+        <div class="ui segment">
+            <div id="configurable" data-prototype="{{ form_row(form.configurable.vars.prototype)|e('html_attr') }}">{{ form_row(form.configurable) }}</div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script>
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an div, before the "Add" link div
+            var $newFormLi = $('<div></div>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+
+        var collectionHolderDefaultTax, collectionHolderConfiguration;
+
+        var addButtonDefaultTax = jQuery(
+            '<button type="button" class="ui icon button">' +
+                '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
+            '</button>'
+        );
+        var addButtonConfigurable = jQuery(
+            '<button type="button" class="ui icon button">' +
+                '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
+            '</button>'
+        );
+        var newLinkLiDefaultTax = jQuery('<div></div>').append(addButtonDefaultTax);
+        var newLinkLiConfigurable = jQuery('<div></div>').append(addButtonConfigurable);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            collectionHolderDefaultTax = jQuery('#default-tax');
+            collectionHolderConfiguration = jQuery('#configurable');
+
+            // add the "add a tag" anchor and li to the tags ul
+            collectionHolderDefaultTax.append(newLinkLiDefaultTax);
+            collectionHolderConfiguration.append(newLinkLiConfigurable);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            collectionHolderDefaultTax.data('index', collectionHolderDefaultTax.find(':input').length);
+            collectionHolderConfiguration.data('index', collectionHolderConfiguration.find(':input').length);
+
+            addButtonDefaultTax.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm(collectionHolderDefaultTax, newLinkLiDefaultTax);
+            });
+            addButtonConfigurable.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm(collectionHolderConfiguration, newLinkLiConfigurable);
+            });
+            jQuery('.delete').on('click', function(e) {
+                jQuery(this).parent().parent().remove();
+            });
+        });
+    </script>
+{% endblock %}

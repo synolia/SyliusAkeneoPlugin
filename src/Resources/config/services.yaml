@@ -6,7 +6,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{Controller,DependencyInjection,Model,Migrations,Payload,Repository,SynoliaSyliusAkeneoPlugin.php}'
+        exclude: '../../{Controller,DependencyInjection,Model,Migrations,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../Controller'
@@ -15,6 +15,17 @@ services:
     Synolia\SyliusAkeneoPlugin\Menu\AdminMenuListener:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+
+    Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@sylius.products_configuration_class_metadata'
+
+    sylius.products_configuration_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration'
 
     Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository:
         arguments:
