@@ -51,7 +51,7 @@
         "webmozart/assert": "^1.6"
     },
     "prefer-stable": true,
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "autoload": {
         "psr-4": {
             "Synolia\\SyliusAkeneoPlugin\\": "src/",

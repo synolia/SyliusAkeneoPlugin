@@ -6,9 +6,12 @@ parameters:
 
     excludes_analyse:
         # Makes PHPStan crash
+        - ../src/Configuration/SettingConfiguration.php
         - ../src/DependencyInjection/Configuration.php
         - ../src/Migrations/
         - ../tests/PHPUnit
+        - ../src/Manager/SettingsManager.php
+        - ../src/Form/Type/SettingsType.php
 
         # Test dependencies
         - ../tests/Application
@@ -18,3 +21,4 @@ parameters:
 
     ignoreErrors:
         # ignore false positive
+

@@ -1,0 +1,65 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
+
+{% block title %}{{ 'sylius.ui.admin.akeneo.api_configuration.attributes_configuration'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ headers.default('sylius.ui.admin.akeneo.api_configuration.attributes_configuration'|trans, 'cogs') }}
+    <div class="ui segment">
+        {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+        <div class="ui segment">
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+        <script
+                src="https://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous"></script>
+        <script>
+            function addTagForm($collectionHolder, $newLinkLi) {
+                // Get the data-prototype explained earlier
+                var prototype = $collectionHolder.data('prototype');
+
+                // get the new index
+                var index = $collectionHolder.data('index');
+
+                var newForm = prototype;
+                newForm = newForm.replace(/__name__/g, index);
+
+                // increase the index with one for the next item
+                $collectionHolder.data('index', index + 1);
+
+                // Display the form in the page in an li, before the "Add" link li
+                var $newFormLi = $('<div></div>').append(newForm);
+                $newLinkLi.before($newFormLi);
+            }
+
+            var collectionHolder;
+
+            var addButton = jQuery('<button type="button">Add</button>');
+            var newLinkLi = jQuery('<div></div>').append(addButton);
+
+            jQuery(document).ready(function() {
+                // Get the ul that holds the collection of tags
+                collectionHolder = jQuery('#attributes_type_mapping_mappings');
+
+                // add the "add a tag" anchor and li to the tags ul
+                collectionHolder.append(newLinkLi);
+
+                // count the current form inputs we have (e.g. 2), use that as the new
+                // index when inserting a new item (e.g. 2)
+                collectionHolder.data('index', collectionHolder.find(':input').length);
+
+                addButton.on('click', function(e) {
+                    // add a new tag form (see next code block)
+                    addTagForm(collectionHolder, newLinkLi);
+                });
+
+                jQuery('.delete').on('click', function(e) {
+                    jQuery(this).parent().parent().remove();
+                });
+            });
+        </script>
+    </div>
+{% endblock %}

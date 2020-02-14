@@ -1,0 +1,7 @@
+sylius:
+    ui:
+        admin:
+            akeneo:
+                api_configuration:
+                    attributes_configuration: Attributes Configuration
+                import_referential_attributes: Import Referential Attributes
