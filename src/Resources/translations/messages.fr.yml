@@ -1,0 +1,16 @@
+sylius:
+    ui:
+        admin:
+            akeneo:
+                api_configuration:
+                    api_configuration: Configurer l'API
+                product_filter_rules:
+                    product_filter_rules: Règle filtre des produits
+                categories:
+                    categories: Categories
+                products:
+                    products: Produits
+                attributes:
+                    attributes: Attributs
+                medias:
+                    medias: Médias
