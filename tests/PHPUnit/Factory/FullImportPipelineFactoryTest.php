@@ -6,12 +6,12 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Factory;
 
 use League\Pipeline\Pipeline;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Synolia\SyliusAkeneoPlugin\Factory\PingPipelineFactory;
+use Synolia\SyliusAkeneoPlugin\Factory\FullImportPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\FakePayload;
 
-class CategoriesPipelineFactoryTest extends KernelTestCase
+class FullImportPipelineFactoryTest extends KernelTestCase
 {
-    /** @var PingPipelineFactory */
+    /** @var FullImportPipelineFactory */
     private $factory;
 
     protected function setUp(): void
@@ -19,9 +19,9 @@ class CategoriesPipelineFactoryTest extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        /** @var PingPipelineFactory $factory */
-        $factory = self::$container->get(PingPipelineFactory::class);
-        self::assertInstanceOf(PingPipelineFactory::class, $factory);
+        /** @var FullImportPipelineFactory $factory */
+        $factory = self::$container->get(FullImportPipelineFactory::class);
+        self::assertInstanceOf(FullImportPipelineFactory::class, $factory);
 
         $this->factory = $factory;
     }
@@ -29,7 +29,7 @@ class CategoriesPipelineFactoryTest extends KernelTestCase
     public function testProcessPipeline(): void
     {
         /** @var Pipeline $pipeline */
-        $pipeline = $this->factory->createImportCategoriesPipeline();
+        $pipeline = $this->factory->createFullImportPipeline();
         $pipeline->process(new FakePayload());
     }
 }
