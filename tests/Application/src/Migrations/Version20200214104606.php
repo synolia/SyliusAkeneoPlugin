@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200212143255 extends AbstractMigration
+final class Version20200214104606 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,12 @@ final class Version20200212143255 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE 
-          akeneo_api_configuration CHANGE token token VARCHAR(255) DEFAULT NULL, 
-          CHANGE refreshToken refreshToken VARCHAR(255) DEFAULT NULL');
+        $this->addSql('CREATE TABLE akeneo_settings (
+          id INT AUTO_INCREMENT NOT NULL, 
+          name VARCHAR(255) NOT NULL, 
+          value VARCHAR(255) DEFAULT NULL, 
+          PRIMARY KEY(id)
+        ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +35,6 @@ final class Version20200212143255 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE 
-          akeneo_api_configuration CHANGE token token VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, 
-          CHANGE refreshToken refreshToken VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`');
+        $this->addSql('DROP TABLE akeneo_settings');
     }
 }
