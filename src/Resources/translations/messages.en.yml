@@ -19,3 +19,5 @@ akeneo:
         attribute_type_mappings: 'Akeneo Attribute Type Mappings'
         attribute_type: 'Attribute Type'
         akeneo_attribute_type: 'Akeneo Attribute'
+        admin:
+            authentication_successfully_succeeded: Authenticated successfully succeeded

@@ -11,15 +11,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
 
 final class ApiConfigurationController extends AbstractController
 {
-    public function configurationAction(
+    public function __invoke(
         Request $request,
         EntityManagerInterface $entityManager,
-        FlashBagInterface $flashBag
+        FlashBagInterface $flashBag,
+        TranslatorInterface $translator
     ): Response {
         /** @var ApiConfiguration $apiConfiguration */
         $apiConfiguration = $entityManager->getRepository(ApiConfiguration::class)->findOneBy([]);
@@ -34,33 +36,24 @@ final class ApiConfigurationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var \Symfony\Component\Form\SubmitButton $testCredentialsButton */
             $testCredentialsButton = $form->get('testCredentials');
-            if ($testCredentialsButton->isClicked()) {
-                try {
-                    $this->testCredentials($apiConfiguration);
-                } catch (\Throwable $throwable) {
-                    $flashBag->add('error', $throwable->getMessage());
-                }
-
-                return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/api_configuration.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
 
             try {
                 $client = $this->connect($apiConfiguration);
+                $client->getCategoryApi()->get('master');
 
                 $apiConfiguration->setToken($client->getToken() ?? '');
                 $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
+
+                $entityManager->persist($apiConfiguration);
+
+                if (!$testCredentialsButton->isClicked()) {
+                    $entityManager->flush();
+                }
+
+                $flashBag->add('success', $translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
             } catch (\Throwable $throwable) {
                 $flashBag->add('error', $throwable->getMessage());
             }
-
-            $entityManager->persist($apiConfiguration);
-            $entityManager->flush();
-
-            return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/api_configuration.html.twig', [
-                'form' => $form->createView(),
-            ]);
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/api_configuration.html.twig', [
@@ -78,13 +71,5 @@ final class ApiConfigurationController extends AbstractController
             $apiConfiguration->getUsername() ?? '',
             $apiConfiguration->getPassword() ?? '',
         );
-    }
-
-    private function testCredentials(ApiConfiguration $apiConfiguration): void
-    {
-        $client = $this->connect($apiConfiguration);
-
-        $apiConfiguration->setToken($client->getToken() ?? '');
-        $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
     }
 }
