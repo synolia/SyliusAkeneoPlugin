@@ -36,6 +36,6 @@ final class AttributesTypeMappingType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['settings' => []]);
+        $resolver->setDefaults(['data' => ['settings' => []]]);
     }
 }
