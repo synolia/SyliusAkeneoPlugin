@@ -28,3 +28,8 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\Setting
+        sylius.product_filters_rules:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository

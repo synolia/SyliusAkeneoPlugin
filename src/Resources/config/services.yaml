@@ -16,6 +16,17 @@ services:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
 
+    Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@sylius.product_filters_rules_class_metadata'
+
+    sylius.product_filters_rules_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules'
+
     Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository:
         arguments:
             - '@doctrine.orm.default_entity_manager'
