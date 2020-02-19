@@ -4,27 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Sylius\Component\Core\Model\Product;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-class ProductRepository extends ServiceEntityRepository
+final class ProductRepository extends EntityRepository
 {
-    /**
-     * ProductRepository constructor.
-     */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Product::class);
-    }
-
     public function findProductsUsingCategories(array $ids): iterable
     {
         return $this->createQueryBuilder('p')
             ->where('p.mainTaxon IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

@@ -33,13 +33,13 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
-        TaxonRepository $taxonRepository,
-        ProductRepository $productRepository
+        ProductRepository $productAkeneoRepository,
+        TaxonRepository $taxonAkeneoRepository
     ) {
         $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
-        $this->taxonRepository = $taxonRepository;
-        $this->productRepository = $productRepository;
+        $this->productRepository = $productAkeneoRepository;
+        $this->taxonRepository = $taxonAkeneoRepository;
     }
 
     /**
@@ -62,6 +62,7 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
 
                 /** @var \Sylius\Component\Core\Model\TaxonInterface $taxon */
                 $taxon = $this->getOrCreateEntity($resource['code']);
+
                 $taxons[$resource['code']] = $taxon;
 
                 if (null !== $resource['parent']) {
@@ -77,7 +78,6 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
                 foreach ($resource['labels'] as $locale => $label) {
                     $taxon->setCurrentLocale($locale);
                     $taxon->setFallbackLocale($locale);
-                    $taxon->setName($resource['labels'][$locale]);
                     $taxon->setName($label);
                     $taxon->setSlug($resource['code']);
                 }
@@ -96,12 +96,12 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
         return $payload;
     }
 
-    private function getOrCreateEntity(string $code): \Sylius\Component\Core\Model\TaxonInterface
+    private function getOrCreateEntity(string $code): TaxonInterface
     {
         /** @var \Sylius\Component\Core\Model\TaxonInterface $taxon */
-        $taxon = $this->entityManager->getRepository(Taxon::class)->findOneBy(['code' => $code]);
+        $taxon = $this->taxonRepository->findOneBy(['code' => $code]);
 
-        if (!$taxon instanceof \Sylius\Component\Core\Model\TaxonInterface) {
+        if (!$taxon instanceof TaxonInterface) {
             /** @var TaxonInterface $taxon */
             $taxon = $this->taxonFactory->createNew();
             $taxon->setCode($code);
@@ -131,7 +131,7 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
 
         foreach ($taxonIdsArray as $taxonId) {
             /** @var TaxonInterface $taxon */
-            $taxon = $this->entityManager->getPartialReference(Taxon::class, $taxonId);
+            $taxon = $this->entityManager->getReference(Taxon::class, $taxonId);
             if (!$taxon instanceof TaxonInterface) {
                 continue;
             }

@@ -28,6 +28,16 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\Setting
+        akeneo.product_akeneo:
+            driver: doctrine/orm
+            classes:
+                model: Sylius\Component\Core\Model\Product
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductRepository
+        akeneo.taxon_akeneo:
+            driver: doctrine/orm
+            classes:
+                model: Sylius\Component\Core\Model\TaxonInterface
+                repository: Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository
         sylius.product_filters_rules:
             driver: doctrine/orm
             classes:
