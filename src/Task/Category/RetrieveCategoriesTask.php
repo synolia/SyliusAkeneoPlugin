@@ -15,7 +15,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(100);
+        $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all();
 
         $payload = new CategoryPayload($payload->getAkeneoPimClient());
         $payload->setResources($resources);

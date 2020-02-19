@@ -1,0 +1,1411 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master"
+                    }
+                },
+                "code": "master",
+                "parent": null,
+                "labels": {
+                    "en_US": "Master catalog",
+                    "de_DE": "Hauptkatalog",
+                    "fr_FR": "Catalogue principal"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/tvs_projectors"
+                    }
+                },
+                "code": "tvs_projectors",
+                "parent": "master",
+                "labels": {
+                    "en_US": "TVs and projectors",
+                    "de_DE": "TVs und projectoren",
+                    "fr_FR": "Téléviseurs et projecteurs"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/pc_monitors"
+                    }
+                },
+                "code": "pc_monitors",
+                "parent": "tvs_projectors",
+                "labels": {
+                    "en_US": "PC Monitors",
+                    "de_DE": "PC Monitoren",
+                    "fr_FR": "Moniteurs PC"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/led_tvs"
+                    }
+                },
+                "code": "led_tvs",
+                "parent": "tvs_projectors",
+                "labels": {
+                    "en_US": "LED TVs",
+                    "de_DE": "TVs LED",
+                    "fr_FR": "Télévisions LED"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/cameras"
+                    }
+                },
+                "code": "cameras",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Cameras",
+                    "de_DE": "Cameras",
+                    "fr_FR": "Caméras"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/digital_cameras"
+                    }
+                },
+                "code": "digital_cameras",
+                "parent": "cameras",
+                "labels": {
+                    "en_US": "Digital cameras",
+                    "de_DE": "Digitale Kameras",
+                    "fr_FR": "Caméras digitales"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/camcorders"
+                    }
+                },
+                "code": "camcorders",
+                "parent": "cameras",
+                "labels": {
+                    "en_US": "Camcorders",
+                    "de_DE": "Digitale Videokameras",
+                    "fr_FR": "Caméscopes numériques"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/webcams"
+                    }
+                },
+                "code": "webcams",
+                "parent": "cameras",
+                "labels": {
+                    "en_US": "Webcams",
+                    "de_DE": "Webcams",
+                    "fr_FR": "Webcams"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/audio_video"
+                    }
+                },
+                "code": "audio_video",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Audio and Video",
+                    "de_DE": "Audio und Video",
+                    "fr_FR": "Audio et Video"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/headphones"
+                    }
+                },
+                "code": "headphones",
+                "parent": "audio_video",
+                "labels": {
+                    "en_US": "Headphones",
+                    "de_DE": "Kopfhörer",
+                    "fr_FR": "Casques audio"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/mp3_players"
+                    }
+                },
+                "code": "mp3_players",
+                "parent": "audio_video",
+                "labels": {
+                    "en_US": "MP3 players",
+                    "de_DE": "MP3\/MP4 Player",
+                    "fr_FR": "Lecteurs et enregistreurs MP3"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/loudspeakers"
+                    }
+                },
+                "code": "loudspeakers",
+                "parent": "audio_video",
+                "labels": {
+                    "en_US": "Loudspeakers",
+                    "de_DE": "Lautsprecher",
+                    "fr_FR": "Hauts-parleurs"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/print_scan"
+                    }
+                },
+                "code": "print_scan",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Print and scan",
+                    "de_DE": "Drucken und Scannen",
+                    "fr_FR": "Imprimantes et scanners"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/multifunctionals"
+                    }
+                },
+                "code": "multifunctionals",
+                "parent": "print_scan",
+                "labels": {
+                    "en_US": "Multifunctionals",
+                    "de_DE": "Multifunktionsgeräte",
+                    "fr_FR": "Multifonctions"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/laser_led_printers"
+                    }
+                },
+                "code": "laser_led_printers",
+                "parent": "print_scan",
+                "labels": {
+                    "en_US": "Laser and LED printers",
+                    "de_DE": "Laserdrucker",
+                    "fr_FR": "Imprimantes laser et LED"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/scanners"
+                    }
+                },
+                "code": "scanners",
+                "parent": "print_scan",
+                "labels": {
+                    "en_US": "Scanners",
+                    "de_DE": "Scanners",
+                    "fr_FR": "Scanners"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/clothes"
+                    }
+                },
+                "code": "clothes",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Clothes",
+                    "de_DE": "Kleidung",
+                    "fr_FR": "Vêtements"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/pants"
+                    }
+                },
+                "code": "pants",
+                "parent": "clothes",
+                "labels": {
+                    "en_US": "Pants",
+                    "de_DE": "Hose",
+                    "fr_FR": "Pantalons"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/jeans"
+                    }
+                },
+                "code": "jeans",
+                "parent": "pants",
+                "labels": {
+                    "en_US": "Jeans",
+                    "de_DE": "Jeans",
+                    "fr_FR": "Jeans"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/shoes"
+                    }
+                },
+                "code": "shoes",
+                "parent": "clothes",
+                "labels": {
+                    "en_US": "Shoes",
+                    "de_DE": "Schuhe",
+                    "fr_FR": "Chaussures"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/clothes_accessories"
+                    }
+                },
+                "code": "clothes_accessories",
+                "parent": "clothes",
+                "labels": {
+                    "en_US": "Accessories",
+                    "de_DE": "Zubehör",
+                    "fr_FR": "Accessoires"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/caps"
+                    }
+                },
+                "code": "caps",
+                "parent": "clothes_accessories",
+                "labels": {
+                    "en_US": "Caps",
+                    "de_DE": "Kappe",
+                    "fr_FR": "Bonnets"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/ties"
+                    }
+                },
+                "code": "ties",
+                "parent": "clothes_accessories",
+                "labels": {
+                    "en_US": "Ties",
+                    "de_DE": "Binden",
+                    "fr_FR": "Cravates"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/gloves"
+                    }
+                },
+                "code": "gloves",
+                "parent": "clothes_accessories",
+                "labels": {
+                    "en_US": "Gloves",
+                    "de_DE": "Handschuhe",
+                    "fr_FR": "Gants"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/belts"
+                    }
+                },
+                "code": "belts",
+                "parent": "clothes_accessories",
+                "labels": {
+                    "en_US": "Belts",
+                    "de_DE": "Gürtel",
+                    "fr_FR": "Ceintures"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/sweat"
+                    }
+                },
+                "code": "sweat",
+                "parent": "clothes",
+                "labels": {
+                    "en_US": "Sweat",
+                    "de_DE": "Pull",
+                    "fr_FR": "Pullover"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/coats"
+                    }
+                },
+                "code": "coats",
+                "parent": "clothes",
+                "labels": {
+                    "en_US": "Coats",
+                    "de_DE": "Mäntel",
+                    "fr_FR": "Manteaux"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/underwear"
+                    }
+                },
+                "code": "underwear",
+                "parent": "clothes",
+                "labels": {
+                    "en_US": "Underwear",
+                    "de_DE": "Unterwäsche",
+                    "fr_FR": "Sous-vêtements"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/office"
+                    }
+                },
+                "code": "office",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Office",
+                    "de_DE": "Büro",
+                    "fr_FR": "Bureau"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/office_furnitures"
+                    }
+                },
+                "code": "office_furnitures",
+                "parent": "office",
+                "labels": {
+                    "en_US": "Office furnitures",
+                    "de_DE": "Büromöbel",
+                    "fr_FR": "Mobilier de bureau"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/desk_chairs"
+                    }
+                },
+                "code": "desk_chairs",
+                "parent": "office_furnitures",
+                "labels": {
+                    "en_US": "Desk chairs",
+                    "de_DE": "Schreibtisch-Stühle",
+                    "fr_FR": "Chaises de bureau"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/office_tables"
+                    }
+                },
+                "code": "office_tables",
+                "parent": "office_furnitures",
+                "labels": {
+                    "en_US": "Office tables",
+                    "de_DE": "Bürotische",
+                    "fr_FR": "Tables de bureau"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/paper"
+                    }
+                },
+                "code": "paper",
+                "parent": "office",
+                "labels": {
+                    "en_US": "Stationery",
+                    "de_DE": "Briefpapier",
+                    "fr_FR": "Papeterie"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/notebooks"
+                    }
+                },
+                "code": "notebooks",
+                "parent": "paper",
+                "labels": {
+                    "en_US": "Notebooks",
+                    "de_DE": "Heft",
+                    "fr_FR": "Cahiers"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/cards"
+                    }
+                },
+                "code": "cards",
+                "parent": "paper",
+                "labels": {
+                    "en_US": "Cards",
+                    "de_DE": "Karten",
+                    "fr_FR": "Cartes"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/envelopes"
+                    }
+                },
+                "code": "envelopes",
+                "parent": "paper",
+                "labels": {
+                    "en_US": "Envelopes",
+                    "de_DE": "Umschläge",
+                    "fr_FR": "Enveloppes"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/desk_supplies"
+                    }
+                },
+                "code": "desk_supplies",
+                "parent": "office",
+                "labels": {
+                    "en_US": "Desk supplies",
+                    "de_DE": "Schreibtisch Versorgung",
+                    "fr_FR": "Fournitures de bureau"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/markers"
+                    }
+                },
+                "code": "markers",
+                "parent": "desk_supplies",
+                "labels": {
+                    "en_US": "Markers",
+                    "de_DE": "Marker",
+                    "fr_FR": "Marqueurs"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/erasers"
+                    }
+                },
+                "code": "erasers",
+                "parent": "desk_supplies",
+                "labels": {
+                    "en_US": "Erasers",
+                    "de_DE": "Radiergummi",
+                    "fr_FR": "Effaceurs"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/pens"
+                    }
+                },
+                "code": "pens",
+                "parent": "desk_supplies",
+                "labels": {
+                    "en_US": "Pens",
+                    "de_DE": "Stifte",
+                    "fr_FR": "Stylos"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/postit_notes"
+                    }
+                },
+                "code": "postit_notes",
+                "parent": "desk_supplies",
+                "labels": {}
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/stamps"
+                    }
+                },
+                "code": "stamps",
+                "parent": "desk_supplies",
+                "labels": {
+                    "en_US": "Stamps",
+                    "de_DE": "Briefmarken",
+                    "fr_FR": "Timbres"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/adhesives"
+                    }
+                },
+                "code": "adhesives",
+                "parent": "desk_supplies",
+                "labels": {
+                    "en_US": "Adhesives",
+                    "de_DE": "Klebstoffe",
+                    "fr_FR": "Adhésifs"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/goodies"
+                    }
+                },
+                "code": "goodies",
+                "parent": "office",
+                "labels": {
+                    "en_US": "Goodies",
+                    "de_DE": "Leckereien",
+                    "fr_FR": "Goodies"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/stickers"
+                    }
+                },
+                "code": "stickers",
+                "parent": "goodies",
+                "labels": {
+                    "en_US": "Stickers",
+                    "de_DE": "Aufkleber",
+                    "fr_FR": "Autocollants"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/casino_chips"
+                    }
+                },
+                "code": "casino_chips",
+                "parent": "goodies",
+                "labels": {
+                    "en_US": "Casino chips",
+                    "de_DE": "Casino-Chips",
+                    "fr_FR": "Jetons de casino"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/mugs"
+                    }
+                },
+                "code": "mugs",
+                "parent": "goodies",
+                "labels": {
+                    "en_US": "Mugs",
+                    "de_DE": "Tassen",
+                    "fr_FR": "Chopes"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories"
+                    }
+                },
+                "code": "master_accessories",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Accessories",
+                    "de_DE": "Accessories",
+                    "fr_FR": "Accessories"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_belts"
+                    }
+                },
+                "code": "master_accessories_belts",
+                "parent": "master_accessories",
+                "labels": {
+                    "en_US": "Belts",
+                    "de_DE": "Belts",
+                    "fr_FR": "Belts"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_bags"
+                    }
+                },
+                "code": "master_accessories_bags",
+                "parent": "master_accessories",
+                "labels": {
+                    "en_US": "Bags",
+                    "de_DE": "Bags",
+                    "fr_FR": "Bags"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_sunglasses"
+                    }
+                },
+                "code": "master_accessories_sunglasses",
+                "parent": "master_accessories",
+                "labels": {
+                    "en_US": "Sunglasses",
+                    "de_DE": "Sunglasses",
+                    "fr_FR": "Sunglasses"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_hats"
+                    }
+                },
+                "code": "master_accessories_hats",
+                "parent": "master_accessories",
+                "labels": {
+                    "en_US": "Hats",
+                    "de_DE": "Hats",
+                    "fr_FR": "Hats"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_scarves"
+                    }
+                },
+                "code": "master_accessories_scarves",
+                "parent": "master_accessories",
+                "labels": {
+                    "en_US": "Scarves",
+                    "de_DE": "Scarves",
+                    "fr_FR": "Scarves"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men"
+                    }
+                },
+                "code": "master_men",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Men",
+                    "de_DE": "Men",
+                    "fr_FR": "Men"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_blazers"
+                    }
+                },
+                "code": "master_men_blazers",
+                "parent": "master_men",
+                "labels": {
+                    "en_US": "Blazers",
+                    "de_DE": "Blazers",
+                    "fr_FR": "Blazers"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_blazers_deals"
+                    }
+                },
+                "code": "master_men_blazers_deals",
+                "parent": "master_men_blazers",
+                "labels": {
+                    "en_US": "Deals",
+                    "de_DE": "Deals",
+                    "fr_FR": "Deals"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_pants"
+                    }
+                },
+                "code": "master_men_pants",
+                "parent": "master_men",
+                "labels": {
+                    "en_US": "Pants",
+                    "de_DE": "Pants",
+                    "fr_FR": "Pants"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_pants_shorts"
+                    }
+                },
+                "code": "master_men_pants_shorts",
+                "parent": "master_men_pants",
+                "labels": {
+                    "en_US": "Shorts",
+                    "de_DE": "Shorts",
+                    "fr_FR": "Shorts"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_pants_jeans"
+                    }
+                },
+                "code": "master_men_pants_jeans",
+                "parent": "master_men_pants",
+                "labels": {
+                    "en_US": "Jeans",
+                    "de_DE": "Jeans",
+                    "fr_FR": "Jeans"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_shoes"
+                    }
+                },
+                "code": "master_men_shoes",
+                "parent": "master_men",
+                "labels": {
+                    "en_US": "Shoes",
+                    "de_DE": "Shoes",
+                    "fr_FR": "Shoes"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/tshirts"
+                    }
+                },
+                "code": "tshirts",
+                "parent": "master_men",
+                "labels": {
+                    "en_US": "T-shirts",
+                    "de_DE": "T-shirts",
+                    "fr_FR": "T-shirts"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women"
+                    }
+                },
+                "code": "master_women",
+                "parent": "master",
+                "labels": {
+                    "en_US": "Women",
+                    "de_DE": "Women",
+                    "fr_FR": "Women"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_blouses"
+                    }
+                },
+                "code": "master_women_blouses",
+                "parent": "master_women",
+                "labels": {
+                    "en_US": "Blouses",
+                    "de_DE": "Blouses",
+                    "fr_FR": "Blouses"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_blouses_deals"
+                    }
+                },
+                "code": "master_women_blouses_deals",
+                "parent": "master_women_blouses",
+                "labels": {
+                    "en_US": "Deals",
+                    "de_DE": "Deals",
+                    "fr_FR": "Deals"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_dresses"
+                    }
+                },
+                "code": "master_women_dresses",
+                "parent": "master_women",
+                "labels": {
+                    "en_US": "Dresses",
+                    "de_DE": "Dresses",
+                    "fr_FR": "Dresses"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_shirts"
+                    }
+                },
+                "code": "master_women_shirts",
+                "parent": "master_women",
+                "labels": {
+                    "en_US": "Shirts",
+                    "de_DE": "Shirts",
+                    "fr_FR": "Shirts"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_shoes"
+                    }
+                },
+                "code": "master_women_shoes",
+                "parent": "master_women",
+                "labels": {
+                    "en_US": "Shoes",
+                    "de_DE": "Shoes",
+                    "fr_FR": "Shoes"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/sales"
+                    }
+                },
+                "code": "sales",
+                "parent": null,
+                "labels": {
+                    "en_US": "Sales catalog",
+                    "de_DE": "Katalog Umsatz",
+                    "fr_FR": "Catalogue des ventes"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/brands"
+                    }
+                },
+                "code": "brands",
+                "parent": "sales",
+                "labels": {
+                    "en_US": "Brands",
+                    "de_DE": "Marken",
+                    "fr_FR": "Marques"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/3go"
+                    }
+                },
+                "code": "3go",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "3GO",
+                    "de_DE": "3GO",
+                    "fr_FR": "3GO"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/3m"
+                    }
+                },
+                "code": "3m",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "3M",
+                    "de_DE": "3M",
+                    "fr_FR": "3M"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/a4tech"
+                    }
+                },
+                "code": "a4tech",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "A4Tech",
+                    "de_DE": "A4Tech",
+                    "fr_FR": "A4Tech"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/aoc"
+                    }
+                },
+                "code": "aoc",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "AOC",
+                    "de_DE": "AOC",
+                    "fr_FR": "AOC"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/asus"
+                    }
+                },
+                "code": "asus",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "ASUS",
+                    "de_DE": "ASUS",
+                    "fr_FR": "ASUS"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/acer"
+                    }
+                },
+                "code": "acer",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Acer",
+                    "de_DE": "Acer",
+                    "fr_FR": "Acer"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/adapt"
+                    }
+                },
+                "code": "adapt",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Adapt",
+                    "de_DE": "Adapt",
+                    "fr_FR": "Adapt"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/approx"
+                    }
+                },
+                "code": "approx",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Approx",
+                    "de_DE": "Approx",
+                    "fr_FR": "Approx"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/avision"
+                    }
+                },
+                "code": "avision",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Avision",
+                    "de_DE": "Avision",
+                    "fr_FR": "Avision"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/belkin"
+                    }
+                },
+                "code": "belkin",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Belkin",
+                    "de_DE": "Belkin",
+                    "fr_FR": "Belkin"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/brother"
+                    }
+                },
+                "code": "brother",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Brother",
+                    "de_DE": "Brother",
+                    "fr_FR": "Brother"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/canon"
+                    }
+                },
+                "code": "canon",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Canon",
+                    "de_DE": "Canon",
+                    "fr_FR": "Canon"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/cisco"
+                    }
+                },
+                "code": "cisco",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Cisco",
+                    "de_DE": "Cisco",
+                    "fr_FR": "Cisco"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/conceptronic"
+                    }
+                },
+                "code": "conceptronic",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Conceptronic",
+                    "de_DE": "Conceptronic",
+                    "fr_FR": "Conceptronic"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/d_link"
+                    }
+                },
+                "code": "d_link",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "D-Link",
+                    "de_DE": "D-Link",
+                    "fr_FR": "D-Link"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/dell"
+                    }
+                },
+                "code": "dell",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "DELL",
+                    "de_DE": "DELL",
+                    "fr_FR": "DELL"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/dymo"
+                    }
+                },
+                "code": "dymo",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "DYMO",
+                    "de_DE": "DYMO",
+                    "fr_FR": "DYMO"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/devolo"
+                    }
+                },
+                "code": "devolo",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Devolo",
+                    "de_DE": "Devolo",
+                    "fr_FR": "Devolo"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/dicota"
+                    }
+                },
+                "code": "dicota",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Dicota",
+                    "de_DE": "Dicota",
+                    "fr_FR": "Dicota"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/eminent"
+                    }
+                },
+                "code": "eminent",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Eminent",
+                    "de_DE": "Eminent",
+                    "fr_FR": "Eminent"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/emtec"
+                    }
+                },
+                "code": "emtec",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Emtec",
+                    "de_DE": "Emtec",
+                    "fr_FR": "Emtec"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/ewent"
+                    }
+                },
+                "code": "ewent",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Ewent",
+                    "de_DE": "Ewent",
+                    "fr_FR": "Ewent"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/fujifilm"
+                    }
+                },
+                "code": "fujifilm",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Fujifilm",
+                    "de_DE": "Fujifilm",
+                    "fr_FR": "Fujifilm"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/fujitsu"
+                    }
+                },
+                "code": "fujitsu",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Fujitsu",
+                    "de_DE": "Fujitsu",
+                    "fr_FR": "Fujitsu"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/g_cube"
+                    }
+                },
+                "code": "g_cube",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "G-Cube",
+                    "de_DE": "G-Cube",
+                    "fr_FR": "G-Cube"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/gear4"
+                    }
+                },
+                "code": "gear4",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "GEAR4",
+                    "de_DE": "GEAR4",
+                    "fr_FR": "GEAR4"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/gigabyte"
+                    }
+                },
+                "code": "gigabyte",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Gigabyte",
+                    "de_DE": "Gigabyte",
+                    "fr_FR": "Gigabyte"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/hp"
+                    }
+                },
+                "code": "hp",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "HP",
+                    "de_DE": "HP",
+                    "fr_FR": "HP"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/hamlet"
+                    }
+                },
+                "code": "hamlet",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Hamlet",
+                    "de_DE": "Hamlet",
+                    "fr_FR": "Hamlet"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/hiper"
+                    }
+                },
+                "code": "hiper",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "Hiper",
+                    "de_DE": "Hiper",
+                    "fr_FR": "Hiper"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/ibm"
+                    }
+                },
+                "code": "ibm",
+                "parent": "brands",
+                "labels": {
+                    "en_US": "IBM",
+                    "de_DE": "IBM",
+                    "fr_FR": "IBM"
+                }
+            }
+        ]
+    }
+}

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Akeneo\Pim\ApiClient\Api\CategoryApi;
+use donatj\MockWebServer\Response;
+use donatj\MockWebServer\ResponseStack;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category\AbstractTaskTest;
 
-final class RetrieveCategoriesTaskTest extends KernelTestCase
+final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
@@ -18,7 +21,6 @@ final class RetrieveCategoriesTaskTest extends KernelTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        self::bootKernel();
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
@@ -26,8 +28,14 @@ final class RetrieveCategoriesTaskTest extends KernelTestCase
 
     public function testGetCategories(): void
     {
-        $akeneoClientFactory = self::$container->get(ClientFactory::class);
-        $retrieveCategoryPayload = new CategoryPayload($akeneoClientFactory->createFromApiCredentials());
+        $this->server->setResponseOfPath(
+            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            new ResponseStack(
+                new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
+            )
+        );
+
+        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
         /** @var RetrieveCategoriesTask $task */
         $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
