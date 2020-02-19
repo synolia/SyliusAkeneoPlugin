@@ -6,7 +6,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{Controller,DependencyInjection,Model,Migrations,SynoliaSyliusAkeneoPlugin.php}'
+        exclude: '../../{Controller,DependencyInjection,Model,Migrations,Payload,Task,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../Controller'
