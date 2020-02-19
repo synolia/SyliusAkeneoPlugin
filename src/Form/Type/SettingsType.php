@@ -16,7 +16,8 @@ final class SettingsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        foreach ($options['data'] as $name => $value) {
+        $entries = \array_keys($options['data']);
+        foreach ($entries as $name) {
             $configuration = SettingType::AKENEO_SETTINGS[$name];
             // If setting's value exists in data and setting isn't disabled
 
