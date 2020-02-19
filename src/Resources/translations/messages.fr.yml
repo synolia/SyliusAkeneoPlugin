@@ -14,3 +14,7 @@ sylius:
                     attributes: Attributs
                 medias:
                     medias: Médias
+akeneo:
+    ui:
+        admin:
+            authentication_successfully_succeeded: Authentification réussie
