@@ -8,6 +8,7 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Category\MatchPimCodeWithEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Family\CountOfChildCategoriesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Family\CreateFamiliesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Family\CreateFamilyAttributeRelationsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Family\InitDefaultGroupsTask;
@@ -23,8 +24,8 @@ final class FamilyPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(MatchPimCodeWithEntityTask::class))
             ->pipe($this->taskProvider->get(CreateFamiliesTask::class))
             ->pipe($this->taskProvider->get(CreateFamilyAttributeRelationsTask::class))
-            ->pipe($this->taskProvider->get(\Synolia\SyliusAkeneoPlugin\Task\Family\CountOfChildCategoriesTask::class))
+            ->pipe($this->taskProvider->get(CountOfChildCategoriesTask::class))
             ->pipe($this->taskProvider->get(InitDefaultGroupsTask::class))
-            ;
+        ;
     }
 }

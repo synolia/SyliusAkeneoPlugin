@@ -16,6 +16,6 @@ final class AssetPipelineFactory extends AbstractPipelineFactory
 
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveAssetsTask::class))
-            ;
+        ;
     }
 }

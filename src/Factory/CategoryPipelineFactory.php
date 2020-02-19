@@ -30,6 +30,6 @@ final class CategoryPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(AssignValueToAttributesTask::class))
             ->pipe($this->taskProvider->get(CountOfChildCategoriesTask::class))
             ->pipe($this->taskProvider->get(UpdateUrlKeysTask::class))
-            ;
+        ;
     }
 }

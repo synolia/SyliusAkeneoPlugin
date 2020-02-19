@@ -18,6 +18,6 @@ final class VariantPipelineFactory extends AbstractPipelineFactory
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveVariantsTask::class))
             ->pipe($this->taskProvider->get(UpdateVariantsTask::class))
-            ;
+        ;
     }
 }

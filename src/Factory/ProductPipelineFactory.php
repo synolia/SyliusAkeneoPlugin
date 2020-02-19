@@ -10,6 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\CreateProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\DetectConfigurableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InitStockTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\MatchPimCodeWithEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetProductsToWebsitesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetValuesToAttributesTask;
@@ -31,7 +32,7 @@ final class ProductPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(RetrieveProductsTask::class))
             ->pipe($this->taskProvider->get(UpdateColumnNameTask::class))
             ->pipe($this->taskProvider->get(DetectConfigurableProductsTask::class))
-            ->pipe($this->taskProvider->get(\Synolia\SyliusAkeneoPlugin\Task\Product\MatchPimCodeWithEntityTask::class))
+            ->pipe($this->taskProvider->get(MatchPimCodeWithEntityTask::class))
             ->pipe($this->taskProvider->get(UpdateFamilyTask::class))
             ->pipe($this->taskProvider->get(UpdateColumnValuesForOptionTask::class))
             ->pipe($this->taskProvider->get(CreateProductEntitiesTask::class))
@@ -43,6 +44,6 @@ final class ProductPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(InitStockTask::class))
             ->pipe($this->taskProvider->get(UpdateRelatedProductsTask::class))
             ->pipe($this->taskProvider->get(InsertProductImagesTask::class))
-            ;
+        ;
     }
 }
