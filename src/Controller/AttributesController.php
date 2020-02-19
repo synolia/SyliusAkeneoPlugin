@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
 
 final class AttributesController extends AbstractController
 {
-    public function configurationAction(
+    public function __invoke(
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
