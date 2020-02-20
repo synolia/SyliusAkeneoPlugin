@@ -9,9 +9,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_api_configuration_products_attributes")
+ * @ORM\Table("akeneo_api_configuration_products_images_mapping")
  */
-class ProductsConfigurationAttributes implements ResourceInterface
+class ProductsConfigurationImagesMapping implements ResourceInterface
 {
     /**
      * @var int
@@ -25,17 +25,17 @@ class ProductsConfigurationAttributes implements ResourceInterface
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $attribute;
+    private $syliusAttribute;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $value;
+    private $akeneoAttribute;
 
     /**
      * @var ProductsConfiguration|null
-     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration", inversedBy="configurable")
+     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration", inversedBy="defaultTax")
      * @ORM\JoinColumn(nullable=false)
      */
     private $productsConfiguration;
@@ -45,26 +45,26 @@ class ProductsConfigurationAttributes implements ResourceInterface
         return $this->id;
     }
 
-    public function getAttribute(): ?string
+    public function getSyliusAttribute(): ?string
     {
-        return $this->attribute;
+        return $this->syliusAttribute;
     }
 
-    public function setAttribute(string $attribute): self
+    public function setSyliusAttribute(string $syliusAttribute): self
     {
-        $this->attribute = $attribute;
+        $this->syliusAttribute = $syliusAttribute;
 
         return $this;
     }
 
-    public function getValue(): ?string
+    public function getAkeneoAttribute(): ?string
     {
-        return $this->value;
+        return $this->akeneoAttribute;
     }
 
-    public function setValue(string $value): self
+    public function setAkeneoAttribute(string $akeneoAttribute): self
     {
-        $this->value = $value;
+        $this->akeneoAttribute = $akeneoAttribute;
 
         return $this;
     }

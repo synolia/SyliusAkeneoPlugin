@@ -9,7 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_api_configuration_products_configuration_default_tax")
+ * @ORM\Table("akeneo_api_configuration_products_default_tax")
  */
 class ProductsConfigurationDefaultTax implements ResourceInterface
 {

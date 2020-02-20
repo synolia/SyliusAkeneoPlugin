@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Form;
+namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -20,7 +20,7 @@ final class ProductsDefaultTaxType extends AbstractType
     {
         $builder
             ->add('website', ChoiceType::class, ['choices' => ['yes' => 'yes']])
-            ->add('tax_class', ChoiceType::class, ['choices' => ['yes' => 'yes']])
+            ->add('taxClass', ChoiceType::class, ['choices' => ['yes' => 'yes']])
             ->add('delete', ButtonType::class, [
                 'label' => 'sylius.ui.admin.akeneo.delete',
                 'attr' => [

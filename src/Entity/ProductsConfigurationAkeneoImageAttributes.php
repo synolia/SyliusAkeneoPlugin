@@ -9,9 +9,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_api_configuration_products_attributes")
+ * @ORM\Table("akeneo_api_configuration_products_akeneo_image_attributes")
  */
-class ProductsConfigurationAttributes implements ResourceInterface
+class ProductsConfigurationAkeneoImageAttributes implements ResourceInterface
 {
     /**
      * @var int
@@ -25,17 +25,11 @@ class ProductsConfigurationAttributes implements ResourceInterface
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $attribute;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $value;
+    private $akeneoAttributes;
 
     /**
      * @var ProductsConfiguration|null
-     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration", inversedBy="configurable")
+     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration", inversedBy="defaultTax")
      * @ORM\JoinColumn(nullable=false)
      */
     private $productsConfiguration;
@@ -45,26 +39,14 @@ class ProductsConfigurationAttributes implements ResourceInterface
         return $this->id;
     }
 
-    public function getAttribute(): ?string
+    public function getAkeneoAttributes(): ?string
     {
-        return $this->attribute;
+        return $this->akeneoAttributes;
     }
 
-    public function setAttribute(string $attribute): self
+    public function setAkeneoAttributes(string $akeneoAttributes): self
     {
-        $this->attribute = $attribute;
-
-        return $this;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function setValue(string $value): self
-    {
-        $this->value = $value;
+        $this->akeneoAttributes = $akeneoAttributes;
 
         return $this;
     }

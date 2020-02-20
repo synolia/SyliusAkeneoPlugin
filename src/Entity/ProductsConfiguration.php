@@ -11,7 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository")
- * @ORM\Table("akeneo_api_configuration_products_configuration")
+ * @ORM\Table("akeneo_api_configuration_products")
  */
 class ProductsConfiguration implements ResourceInterface
 {
@@ -64,28 +64,26 @@ class ProductsConfiguration implements ResourceInterface
     private $importMediaFiles;
 
     /**
-     * @var array|null
-     * @ORM\Column(type="array", nullable=true)
+     * @var Collection
+     * @ORM\OneToMany(
+     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationAkeneoImageAttributes",
+     *     mappedBy="productsConfiguration",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
+     * )
      */
     private $akeneoImageAttributes;
 
     /**
-     * @var array|null
-     * @ORM\Column(type="array", nullable=true)
+     * @var Collection
+     * @ORM\OneToMany(
+     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationImagesMapping",
+     *     mappedBy="productsConfiguration",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
+     * )
      */
     private $productImagesMapping;
-
-    /**
-     * @var bool|null
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $importAssetFiles;
-
-    /**
-     * @var array|null
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $akeneoAssetAttributes;
 
     /**
      * @var bool|null
@@ -97,6 +95,8 @@ class ProductsConfiguration implements ResourceInterface
     {
         $this->defaultTax = new ArrayCollection();
         $this->configurable = new ArrayCollection();
+        $this->akeneoImageAttributes = new ArrayCollection();
+        $this->productImagesMapping = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,7 +150,6 @@ class ProductsConfiguration implements ResourceInterface
     {
         if ($this->defaultTax->contains($defaultTax)) {
             $this->defaultTax->removeElement($defaultTax);
-            // set the owning side to null (unless already changed)
             if ($defaultTax->getProductsConfiguration() === $this) {
                 $defaultTax->setProductsConfiguration(null);
             }
@@ -181,7 +180,6 @@ class ProductsConfiguration implements ResourceInterface
     {
         if ($this->configurable->contains($configurable)) {
             $this->configurable->removeElement($configurable);
-            // set the owning side to null (unless already changed)
             if ($configurable->getProductsConfiguration() === $this) {
                 $configurable->setProductsConfiguration(null);
             }
@@ -202,50 +200,62 @@ class ProductsConfiguration implements ResourceInterface
         return $this;
     }
 
-    public function getAkeneoImageAttributes(): ?array
+    /**
+     * @return Collection|ProductsConfigurationAkeneoImageAttributes[]
+     */
+    public function getAkeneoImageAttributes(): ?Collection
     {
         return $this->akeneoImageAttributes;
     }
 
-    public function setAkeneoImageAttributes(?array $akeneoImageAttributes): self
+    public function addAkeneoImageAttribute(ProductsConfigurationAkeneoImageAttributes $akeneoImageAttributes): self
     {
-        $this->akeneoImageAttributes = $akeneoImageAttributes;
+        if (!$this->akeneoImageAttributes->contains($akeneoImageAttributes)) {
+            $this->akeneoImageAttributes[] = $akeneoImageAttributes;
+            $akeneoImageAttributes->setProductsConfiguration($this);
+        }
 
         return $this;
     }
 
-    public function getProductImagesMapping(): ?array
+    public function removeAkeneoImageAttribute(ProductsConfigurationAkeneoImageAttributes $akeneoImageAttributes): self
+    {
+        if ($this->akeneoImageAttributes->contains($akeneoImageAttributes)) {
+            $this->akeneoImageAttributes->removeElement($akeneoImageAttributes);
+            if ($akeneoImageAttributes->getProductsConfiguration() === $this) {
+                $akeneoImageAttributes->setProductsConfiguration(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductsConfigurationImagesMapping[]
+     */
+    public function getProductImagesMapping(): ?Collection
     {
         return $this->productImagesMapping;
     }
 
-    public function setProductImagesMapping(?array $productImagesMapping): self
+    public function addProductImagesMapping(ProductsConfigurationImagesMapping $productImagesMapping): self
     {
-        $this->productImagesMapping = $productImagesMapping;
+        if (!$this->productImagesMapping->contains($productImagesMapping)) {
+            $this->productImagesMapping[] = $productImagesMapping;
+            $productImagesMapping->setProductsConfiguration($this);
+        }
 
         return $this;
     }
 
-    public function getImportAssetFiles(): ?bool
+    public function removeProductImagesMapping(ProductsConfigurationImagesMapping $productImagesMapping): self
     {
-        return $this->importAssetFiles;
-    }
-
-    public function setImportAssetFiles(?bool $importAssetFiles): self
-    {
-        $this->importAssetFiles = $importAssetFiles;
-
-        return $this;
-    }
-
-    public function getAkeneoAssetAttributes(): ?array
-    {
-        return $this->akeneoAssetAttributes;
-    }
-
-    public function setAkeneoAssetAttributes(?array $akeneoAssetAttributes): self
-    {
-        $this->akeneoAssetAttributes = $akeneoAssetAttributes;
+        if ($this->productImagesMapping->contains($productImagesMapping)) {
+            $this->productImagesMapping->removeElement($productImagesMapping);
+            if ($productImagesMapping->getProductsConfiguration() === $this) {
+                $productImagesMapping->setProductsConfiguration(null);
+            }
+        }
 
         return $this;
     }

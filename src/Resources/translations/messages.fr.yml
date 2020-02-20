@@ -20,6 +20,14 @@ sylius:
                     empty_local_replace_by: Remplacer la locale vide par
                 products:
                     products: Produits
+                    website_attribute: Attribue du site
+                    attribute: Attribue
+                    value: Valeur
+                    import_media_files: Import de média
+                    akeneo_attributes: Attribue Akeneo
+                    sylius_attribute: Attribue Sylius
+                    akeneo_attribute: Attribue Akeneo
+                    regenerate_url_rewrites: Regenerate url rewrites
                 attributes:
                     attributes: Attributs
                 medias:

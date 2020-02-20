@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Form;
+namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,19 +19,8 @@ final class ProductsConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('website_attribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.website_attribute'])
-//            ->add('attribute_mapping', CollectionType::class, [
-//                'required' => true,
-//                'mapped' => true,
-//                'label' => false,
-//                'entry_type' => AttributeMappingType::class,
-//                'entry_options' => ['label' => false],
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//                'by_reference' => false,
-//                'error_bubbling' => false,
-//            ])
-            ->add('default_tax', CollectionType::class, [
+            ->add('websiteAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.website_attribute'])
+            ->add('defaultTax', CollectionType::class, [
                 'required' => true,
                 'mapped' => true,
                 'label' => false,
@@ -54,12 +42,32 @@ final class ProductsConfigurationType extends AbstractType
                 'by_reference' => false,
                 'error_bubbling' => false,
             ])
-            ->add('import_media_files', CheckboxType::class, ['label' => 'sylius.ui.admin.akeneo.products.import_media_files'])
-            ->add('akeneo_image_attributes', ChoiceType::class, ['label' => 'sylius.ui.admin.akeneo.products.import_media_files'])
-            ->add('product_images_mapping', ChoiceType::class, ['label' => 'sylius.ui.admin.akeneo.products.import_media_files'])
-            ->add('import_asset_files', CheckboxType::class, ['label' => 'sylius.ui.admin.akeneo.products.import_asset_files'])
-            ->add('akeneo_asset_attributes', ChoiceType::class, ['label' => 'sylius.ui.admin.akeneo.products.import_asset_files'])
-            ->add('regenerate_url_rewrites', CheckboxType::class, [
+            ->add('importMediaFiles', CheckboxType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.import_media_files',
+            ])
+            ->add('akeneoImageAttributes', CollectionType::class, [
+                'required' => true,
+                'mapped' => true,
+                'label' => false,
+                'entry_type' => ProductsImageAttributesType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'error_bubbling' => false,
+            ])
+            ->add('productImagesMapping', CollectionType::class, [
+                'required' => true,
+                'mapped' => true,
+                'label' => false,
+                'entry_type' => ProductsImagesMappingType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'error_bubbling' => false,
+            ])
+            ->add('regenerateUrlRewrites', CheckboxType::class, [
                 'label' => 'sylius.ui.admin.akeneo.products.regenerate_url_rewrites',
             ])
             ->add('submit', SubmitType::class, [

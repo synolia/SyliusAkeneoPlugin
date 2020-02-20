@@ -9,21 +9,35 @@
 
     <div class="ui segment">
         {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
-        {{ form_row(form.website_attribute) }}
-        {{ form_row(form.import_media_files) }}
-        {{ form_row(form.akeneo_image_attributes) }}
-        {{ form_row(form.product_images_mapping) }}
-        {{ form_row(form.import_asset_files) }}
-        {{ form_row(form.akeneo_asset_attributes) }}
-        {{ form_row(form.regenerate_url_rewrites) }}
+        {{ form_row(form.websiteAttribute) }}
         <div class="ui segment">
-            <div id="default-tax" data-prototype="{{ form_row(form.default_tax.vars.prototype)|e('html_attr') }}">{{ form_row(form.default_tax) }}</div>
+            <div id="default-tax" data-prototype="{{ form_row(form.defaultTax.vars.prototype)|e('html_attr') }}">
+                {{ form_row(form.defaultTax) }}
+            </div>
         </div>
         <div class="ui segment">
-            <div id="configurable" data-prototype="{{ form_row(form.configurable.vars.prototype)|e('html_attr') }}">{{ form_row(form.configurable) }}</div>
+            <div id="configurable" data-prototype="{{ form_row(form.configurable.vars.prototype)|e('html_attr') }}">
+                {{ form_row(form.configurable) }}
+            </div>
         </div>
+        {{ form_row(form.importMediaFiles) }}
+        <div class="ui segment">
+            <div id="akeneo-image-attributes" data-prototype="{{ form_row(form.akeneoImageAttributes.vars.prototype)|e('html_attr') }}">
+                {{ form_row(form.akeneoImageAttributes) }}
+            </div>
+        </div>
+        <div class="ui segment">
+            <div id="product-images-mapping" data-prototype="{{ form_row(form.productImagesMapping.vars.prototype)|e('html_attr') }}">
+                {{ form_row(form.productImagesMapping) }}
+            </div>
+        </div>
+        {{ form_row(form.regenerateUrlRewrites) }}
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
     <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -47,34 +61,56 @@
             $newLinkLi.before($newFormLi);
         }
 
-        var collectionHolderDefaultTax, collectionHolderConfiguration;
+        var collectionHolderDefaultTax,
+            collectionHolderConfiguration,
+            collectionHolderAkeneoImageAttributes,
+            collectionHolderProductImagesMapping
+        ;
 
         var addButtonDefaultTax = jQuery(
             '<button type="button" class="ui icon button">' +
-                '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
+            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
             '</button>'
         );
         var addButtonConfigurable = jQuery(
             '<button type="button" class="ui icon button">' +
-                '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
+            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
+            '</button>'
+        );
+        var addButtonAkeneoImageAttributes = jQuery(
+            '<button type="button" class="ui icon button">' +
+            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
+            '</button>'
+        );
+        var addButtonProductImagesMapping = jQuery(
+            '<button type="button" class="ui icon button">' +
+            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
             '</button>'
         );
         var newLinkLiDefaultTax = jQuery('<div></div>').append(addButtonDefaultTax);
         var newLinkLiConfigurable = jQuery('<div></div>').append(addButtonConfigurable);
+        var newLinkLiAkeneoImageAttributes = jQuery('<div></div>').append(addButtonAkeneoImageAttributes);
+        var newLinkLiProductImagesMapping = jQuery('<div></div>').append(addButtonProductImagesMapping);
 
         jQuery(document).ready(function() {
             // Get the ul that holds the collection of tags
             collectionHolderDefaultTax = jQuery('#default-tax');
             collectionHolderConfiguration = jQuery('#configurable');
+            collectionHolderAkeneoImageAttributes = jQuery('#akeneo-image-attributes');
+            collectionHolderProductImagesMapping = jQuery('#product-images-mapping');
 
             // add the "add a tag" anchor and li to the tags ul
             collectionHolderDefaultTax.append(newLinkLiDefaultTax);
             collectionHolderConfiguration.append(newLinkLiConfigurable);
+            collectionHolderAkeneoImageAttributes.append(newLinkLiAkeneoImageAttributes);
+            collectionHolderProductImagesMapping.append(newLinkLiProductImagesMapping);
 
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
             collectionHolderDefaultTax.data('index', collectionHolderDefaultTax.find(':input').length);
             collectionHolderConfiguration.data('index', collectionHolderConfiguration.find(':input').length);
+            collectionHolderAkeneoImageAttributes.data('index', collectionHolderAkeneoImageAttributes.find(':input').length);
+            collectionHolderProductImagesMapping.data('index', collectionHolderProductImagesMapping.find(':input').length);
 
             addButtonDefaultTax.on('click', function(e) {
                 // add a new tag form (see next code block)
@@ -83,6 +119,14 @@
             addButtonConfigurable.on('click', function(e) {
                 // add a new tag form (see next code block)
                 addTagForm(collectionHolderConfiguration, newLinkLiConfigurable);
+            });
+            addButtonAkeneoImageAttributes.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm(collectionHolderAkeneoImageAttributes, newLinkLiAkeneoImageAttributes);
+            });
+            addButtonProductImagesMapping.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm(collectionHolderProductImagesMapping, newLinkLiProductImagesMapping);
             });
             jQuery('.delete').on('click', function(e) {
                 jQuery(this).parent().parent().remove();
