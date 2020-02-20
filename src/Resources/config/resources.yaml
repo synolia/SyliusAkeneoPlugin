@@ -5,3 +5,12 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping
                 form: Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeMappingType
+        akeneo.api_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration
+        akeneo.product_attribute_akeneo:
+            driver: doctrine/orm
+            classes:
+                model: Sylius\Component\Product\Model\ProductAttribute
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository
