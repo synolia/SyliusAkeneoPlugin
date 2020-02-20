@@ -9,32 +9,32 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Synolia\SyliusAkeneoPlugin\Entity\AkeneoCategoriesConfiguration;
-use Synolia\SyliusAkeneoPlugin\Form\CategoriesConfigurationType;
-use Synolia\SyliusAkeneoPlugin\Repository\AkeneoCategoriesConfigurationRepository;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration;
+use Synolia\SyliusAkeneoPlugin\Form\Type\CategoriesConfigurationType;
+use Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository;
 
 final class CategoriesController extends AbstractController
 {
     /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var AkeneoCategoriesConfigurationRepository|RepositoryInterface */
-    private $akeneoCategoriesConfigurationRepository;
+    /** @var CategoriesConfigurationRepository|RepositoryInterface */
+    private $categoriesConfigurationRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, RepositoryInterface $akeneoCategoriesConfigurationRepository)
+    public function __construct(EntityManagerInterface $entityManager, RepositoryInterface $categoriesConfigurationRepository)
     {
         $this->entityManager = $entityManager;
-        $this->akeneoCategoriesConfigurationRepository = $akeneoCategoriesConfigurationRepository;
+        $this->categoriesConfigurationRepository = $categoriesConfigurationRepository;
     }
 
     public function __invoke(Request $request): Response
     {
         $categoriesConfigurations = null;
-        if ($this->akeneoCategoriesConfigurationRepository instanceof AkeneoCategoriesConfigurationRepository) {
-            $categoriesConfigurations = $this->akeneoCategoriesConfigurationRepository->getCategoriesConfiguration();
+        if ($this->categoriesConfigurationRepository instanceof CategoriesConfigurationRepository) {
+            $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
         }
         if ($categoriesConfigurations === null) {
-            $categoriesConfigurations = new AkeneoCategoriesConfiguration();
+            $categoriesConfigurations = new CategoriesConfiguration();
         }
 
         $form = $this->createForm(CategoriesConfigurationType::class, $categoriesConfigurations);

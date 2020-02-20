@@ -19,9 +19,9 @@ services:
     Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository:
         arguments:
             - '@doctrine.orm.default_entity_manager'
-            - '@sylius.categories_configuration_class_metadata'
+            - '@akeneo.categories_configuration_class_metadata'
 
-    sylius.categories_configuration_class_metadata:
+    akeneo.categories_configuration_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:

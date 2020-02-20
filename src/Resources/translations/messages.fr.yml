@@ -14,7 +14,7 @@ sylius:
                     activate_new_categories: Activation des nouvelles catégories
                     main_category: Catégorie principal
                     root_category: Catégorie racine
-                    empty_local_replace_by: Remplacer la local vide par
+                    empty_local_replace_by: Remplacer la locale vide par
                 products:
                     products: Produits
                 attributes:

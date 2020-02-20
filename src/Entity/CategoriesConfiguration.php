@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\AkeneoCategoriesConfigurationRepository")
+ * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository")
  * @ORM\Table("akeneo_api_configuration_categories")
  */
-final class AkeneoCategoriesConfiguration implements ResourceInterface
+final class CategoriesConfiguration implements ResourceInterface
 {
     /**
      * @var int
@@ -51,13 +50,6 @@ final class AkeneoCategoriesConfiguration implements ResourceInterface
      * @ORM\Column(type="string")
      */
     private $emptyLocalReplaceBy;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\AttributeMapping", inversedBy="attributes")
-     * @ORM\JoinColumn(name="categories_configuration", referencedColumnName="id")
-     */
-    private $attributeMapping;
 
     public function getId(): int
     {
@@ -122,22 +114,5 @@ final class AkeneoCategoriesConfiguration implements ResourceInterface
         $this->emptyLocalReplaceBy = $emptyLocalReplaceBy;
 
         return $this;
-    }
-
-    public function getAttributeMapping(): ?ArrayCollection
-    {
-        return $this->attributeMapping;
-    }
-
-    public function addAttributeMapping(AttributeMapping $attributeMapping): self
-    {
-        $this->attributeMapping->add($attributeMapping);
-
-        return $this;
-    }
-
-    public function removeAttributeMapping(AttributeMapping $attributeMapping): void
-    {
-        $this->attributeMapping->removeElement($attributeMapping);
     }
 }
