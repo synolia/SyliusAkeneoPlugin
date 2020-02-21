@@ -1,0 +1,105 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/l"
+                    }
+                },
+                "code": "l",
+                "attribute": "clothing_size",
+                "sort_order": 4,
+                "labels": {
+                    "de_DE": "L",
+                    "en_US": "L",
+                    "fr_FR": "L"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/m"
+                    }
+                },
+                "code": "m",
+                "attribute": "clothing_size",
+                "sort_order": 3,
+                "labels": {
+                    "de_DE": "M",
+                    "en_US": "M",
+                    "fr_FR": "M"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/s"
+                    }
+                },
+                "code": "s",
+                "attribute": "clothing_size",
+                "sort_order": 2,
+                "labels": {
+                    "de_DE": "S",
+                    "en_US": "S",
+                    "fr_FR": "S"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xl"
+                    }
+                },
+                "code": "xl",
+                "attribute": "clothing_size",
+                "sort_order": 5,
+                "labels": {
+                    "de_DE": "XL",
+                    "en_US": "XL",
+                    "fr_FR": "XL"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xs"
+                    }
+                },
+                "code": "xs",
+                "attribute": "clothing_size",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "XS",
+                    "en_US": "XS",
+                    "fr_FR": "XS"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xxl"
+                    }
+                },
+                "code": "xxl",
+                "attribute": "clothing_size",
+                "sort_order": 6,
+                "labels": {
+                    "de_DE": "XXL",
+                    "en_US": "XXL",
+                    "fr_FR": "XXL"
+                }
+            }
+        ]
+    }
+}

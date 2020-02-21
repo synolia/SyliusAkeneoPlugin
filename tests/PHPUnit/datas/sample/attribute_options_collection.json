@@ -1,0 +1,118 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/autumn_2016"
+                    }
+                },
+                "code": "autumn_2016",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Autumn 2016",
+                    "en_US": "Autumn 2016",
+                    "fr_FR": "Automne 2016"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/spring_2015"
+                    }
+                },
+                "code": "spring_2015",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Spring 2015",
+                    "en_US": "Spring 2015",
+                    "fr_FR": "Printemps 2015"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/spring_2016"
+                    }
+                },
+                "code": "spring_2016",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Spring 2016",
+                    "en_US": "Spring 2016",
+                    "fr_FR": "Printemps 2016"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/Spring2017"
+                    }
+                },
+                "code": "Spring2017",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "en_US": "Spring 2017"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/summer_2016"
+                    }
+                },
+                "code": "summer_2016",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Summer 2016",
+                    "en_US": "Summer 2016",
+                    "fr_FR": "Eté 2016"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/summer_2017"
+                    }
+                },
+                "code": "summer_2017",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Summer 2017",
+                    "en_US": "Summer 2017",
+                    "fr_FR": "Eté 2017"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/winter_2016"
+                    }
+                },
+                "code": "winter_2016",
+                "attribute": "collection",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Winter 2016",
+                    "en_US": "Winter 2016",
+                    "fr_FR": "Hiver 2016"
+                }
+            }
+        ]
+    }
+}

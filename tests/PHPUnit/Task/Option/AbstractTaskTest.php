@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Option;
+
+use Akeneo\Pim\ApiClient\Api\AttributeApi;
+use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
+use donatj\MockWebServer\Response;
+use donatj\MockWebServer\ResponseStack;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
+
+abstract class AbstractTaskTest extends ApiTestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        self::bootKernel();
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            new ResponseStack(
+                new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
+            )
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
+            new ResponseStack(
+                new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
+            )
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
+            new ResponseStack(
+                new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
+            )
+        );
+    }
+
+    protected function tearDown(): void
+    {
+        $this->server->stop();
+
+        parent::tearDown();
+    }
+}
