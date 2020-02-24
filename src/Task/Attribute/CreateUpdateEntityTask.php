@@ -70,7 +70,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                         $attribute->setFallbackLocale($locale);
                         $attribute->setName($label);
                     }
-                } catch (UnsupportedAttributeTypeException $unsuportedAttributeTypeException) {
+                } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
                     continue;
                 }
             }
