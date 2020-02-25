@@ -43,6 +43,11 @@ sylius_resource:
             classes:
                 model: Sylius\Component\Core\Model\TaxonInterface
                 repository: Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository
+        akeneo.product_taxon_akeneo:
+            driver: doctrine/orm
+            classes:
+                model: Sylius\Component\Core\Model\ProductTaxon
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository
         sylius.product_filters_rules:
             driver: doctrine/orm
             classes:

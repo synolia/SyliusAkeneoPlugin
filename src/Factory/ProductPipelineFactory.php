@@ -17,7 +17,6 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\SetValuesToAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\UpdateColumnNameTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\UpdateColumnValuesForOptionTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\UpdateConfigurablePricesTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\UpdateConfigurableProductsRelationTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\UpdateFamilyTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\UpdatePricesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\UpdateRelatedProductsTask;
@@ -37,7 +36,6 @@ final class ProductPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(UpdateColumnValuesForOptionTask::class))
             ->pipe($this->taskProvider->get(CreateProductEntitiesTask::class))
             ->pipe($this->taskProvider->get(SetValuesToAttributesTask::class))
-            ->pipe($this->taskProvider->get(UpdateConfigurableProductsRelationTask::class))
             ->pipe($this->taskProvider->get(SetProductsToWebsitesTask::class))
             ->pipe($this->taskProvider->get(UpdatePricesTask::class))
             ->pipe($this->taskProvider->get(UpdateConfigurablePricesTask::class))
