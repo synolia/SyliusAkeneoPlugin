@@ -1,0 +1,14 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
+
+{% block title %}{{ 'sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ headers.default('sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans, 'cogs') }}
+    <div class="ui segment">
+        {{ form_start(form, {'attr': {'class': 'ui loadable form'}}) }}
+        {{ form_row(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
