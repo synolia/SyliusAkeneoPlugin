@@ -15,6 +15,7 @@ parameters:
 
         # Test dependencies
         - ../tests/Application
+        - ../tests/PHPUnit
 
         # PHPSpec
         - ../spec
