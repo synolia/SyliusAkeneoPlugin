@@ -10,7 +10,8 @@
         "http-interop/http-factory-guzzle": "^1.0",
         "league/pipeline": "^1.0",
         "php-http/guzzle6-adapter": "^2.0",
-        "sylius/sylius": "dev-master"
+        "sylius/sylius": "dev-master",
+        "symfony/lock": "^3.4|^4.3"
     },
     "require-dev": {
         "behat/behat": "^3.4",
