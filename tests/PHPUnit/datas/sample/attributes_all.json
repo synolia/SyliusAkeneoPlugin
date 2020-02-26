@@ -1,0 +1,3035 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_exposure"
+                    }
+                },
+                "code": "auto_exposure",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 39,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Auto exposure",
+                    "en_US": "Auto exposure",
+                    "fr_FR": "Auto exposure"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_assist_beam"
+                    }
+                },
+                "code": "auto_focus_assist_beam",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 34,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Auto focus beam",
+                    "en_US": "Auto focus beam",
+                    "fr_FR": "Auto focus beam"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_lock"
+                    }
+                },
+                "code": "auto_focus_lock",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 33,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Auto focus lock",
+                    "en_US": "Auto focus lock",
+                    "fr_FR": "Auto focus lock"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_modes"
+                    }
+                },
+                "code": "auto_focus_modes",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 31,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Auto focus modes",
+                    "en_US": "Auto focus modes",
+                    "fr_FR": "Auto focus modes"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_points"
+                    }
+                },
+                "code": "auto_focus_points",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 32,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Auto focus points",
+                    "en_US": "Auto focus points",
+                    "fr_FR": "Auto focus points"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/brand"
+                    }
+                },
+                "code": "brand",
+                "type": "pim_catalog_simpleselect",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": false,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 3,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Brand",
+                    "en_US": "Brand",
+                    "fr_FR": "Marque"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/camera_brand"
+                    }
+                },
+                "code": "camera_brand",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 21,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Hersteller",
+                    "en_US": "Brand",
+                    "fr_FR": "Marque"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/camera_model_name"
+                    }
+                },
+                "code": "camera_model_name",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 22,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Modelname",
+                    "en_US": "Model name",
+                    "fr_FR": "Modèle"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/camera_type"
+                    }
+                },
+                "code": "camera_type",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 10,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Kamera-Typ",
+                    "en_US": "Camera type",
+                    "fr_FR": "Type d'appareil photo"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/care_instructions"
+                    }
+                },
+                "code": "care_instructions",
+                "type": "pim_catalog_textarea",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 7,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Care instructions",
+                    "en_US": "Care instructions",
+                    "fr_FR": "Instructions d'entretien"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size"
+                    }
+                },
+                "code": "clothing_size",
+                "type": "pim_catalog_simpleselect",
+                "group": "size",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Größe Kleidung",
+                    "en_US": "Clothing size",
+                    "fr_FR": "Taille du vêtement"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection"
+                    }
+                },
+                "code": "collection",
+                "type": "pim_catalog_multiselect",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Collection",
+                    "en_US": "Collection",
+                    "fr_FR": "Collection"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color"
+                    }
+                },
+                "code": "color",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Color",
+                    "en_US": "Color",
+                    "fr_FR": "Couleur"
+                },
+                "auto_option_sorting": false,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color_scanning"
+                    }
+                },
+                "code": "color_scanning",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 3,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Farbscannen",
+                    "en_US": "Color scanning",
+                    "fr_FR": "Numérisation couleur"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/composition"
+                    }
+                },
+                "code": "composition",
+                "type": "pim_catalog_textarea",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 5,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Composition",
+                    "en_US": "Composition",
+                    "fr_FR": "Composition"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/container_material"
+                    }
+                },
+                "code": "container_material",
+                "type": "pim_catalog_simpleselect",
+                "group": "manufacturing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Behältermaterial",
+                    "en_US": "Container material",
+                    "fr_FR": "Matériau du récipient"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/description"
+                    }
+                },
+                "code": "description",
+                "type": "pim_catalog_textarea",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": true,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 3,
+                "localizable": true,
+                "scopable": true,
+                "labels": {
+                    "de_DE": "Beschreibung",
+                    "en_US": "Description",
+                    "fr_FR": "Description"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/display_color"
+                    }
+                },
+                "code": "display_color",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 18,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Display Color",
+                    "en_US": "Display Color",
+                    "fr_FR": "Couleur d'affichage"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/display_diagonal"
+                    }
+                },
+                "code": "display_diagonal",
+                "type": "pim_catalog_metric",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": "Length",
+                "default_metric_unit": "INCH",
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 19,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Bildschirmdiagonale",
+                    "en_US": "Display diagonal",
+                    "fr_FR": "Taille de l'écran"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/display_srgb"
+                    }
+                },
+                "code": "display_srgb",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 17,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "sRGB",
+                    "en_US": "Display sRGB",
+                    "fr_FR": "sRGB"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/ean"
+                    }
+                },
+                "code": "ean",
+                "type": "pim_catalog_text",
+                "group": "erp",
+                "unique": true,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 0,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "EAN",
+                    "en_US": "EAN",
+                    "fr_FR": "EAN"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/erp_name"
+                    }
+                },
+                "code": "erp_name",
+                "type": "pim_catalog_text",
+                "group": "erp",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 10,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "ERP-Produktname",
+                    "en_US": "ERP name",
+                    "fr_FR": "Nom ERP"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/eu_shoes_size"
+                    }
+                },
+                "code": "eu_shoes_size",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 3,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "EU Shoes Size",
+                    "en_US": "EU Shoes Size",
+                    "fr_FR": "Taille chaussures EU"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/focus"
+                    }
+                },
+                "code": "focus",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 29,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Fokus",
+                    "en_US": "Focus",
+                    "fr_FR": "Mise au point"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/focus_adjustement"
+                    }
+                },
+                "code": "focus_adjustement",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 30,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Fokus-Apassung",
+                    "en_US": "Focus adjustment",
+                    "fr_FR": "Ajustement mise au point"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/headphone_connectivity"
+                    }
+                },
+                "code": "headphone_connectivity",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 13,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Kopfhörerausgang",
+                    "en_US": "Headphone connectivity",
+                    "fr_FR": "Casque"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/image"
+                    }
+                },
+                "code": "image",
+                "type": "pim_catalog_image",
+                "group": "medias",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [
+                    "png",
+                    "jpeg",
+                    "jpg"
+                ],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 11,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Model bild",
+                    "en_US": "Model picture",
+                    "fr_FR": "Image du modèle"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/image_resolutions"
+                    }
+                },
+                "code": "image_resolutions",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 25,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Festbild Auflösung(en)",
+                    "en_US": "Still image resolution(s)",
+                    "fr_FR": "Résolution de la capture Photo"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/image_stabilizer"
+                    }
+                },
+                "code": "image_stabilizer",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 9,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Bildstabilisator",
+                    "en_US": "Image stabilizer",
+                    "fr_FR": "Stabilisateur d'image"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/iso_sensitivity"
+                    }
+                },
+                "code": "iso_sensitivity",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 35,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Iso sensitivity",
+                    "en_US": "Iso sensitivity",
+                    "fr_FR": "Iso sensitivity"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/iso_sensitivity_max"
+                    }
+                },
+                "code": "iso_sensitivity_max",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 40,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "ISO sensitivity (max)",
+                    "en_US": "ISO sensitivity (max)",
+                    "fr_FR": "ISO sensitivity (max)"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/iso_sensitivity_min"
+                    }
+                },
+                "code": "iso_sensitivity_min",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 41,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "ISO sensitivity (min)",
+                    "en_US": "ISO sensitivity (min)",
+                    "fr_FR": "ISO sensitivity (min)"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/keywords"
+                    }
+                },
+                "code": "keywords",
+                "type": "pim_catalog_textarea",
+                "group": "ecommerce",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 20,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Keywords",
+                    "en_US": "Keywords",
+                    "fr_FR": "Mots clés"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/lens_mount_interface"
+                    }
+                },
+                "code": "lens_mount_interface",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 28,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Linsen Montageanschluss",
+                    "en_US": "Lens mount interface",
+                    "fr_FR": "Monture d'objectif d'interface"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/light_exposure_corrections"
+                    }
+                },
+                "code": "light_exposure_corrections",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 37,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Light exposure corrections",
+                    "en_US": "Light exposure corrections",
+                    "fr_FR": "Light exposure corrections"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/light_exposure_modes"
+                    }
+                },
+                "code": "light_exposure_modes",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 36,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Light exposure modes",
+                    "en_US": "Light exposure modes",
+                    "fr_FR": "Light exposure modes"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/light_metering"
+                    }
+                },
+                "code": "light_metering",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 38,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Light metering",
+                    "en_US": "Light metering",
+                    "fr_FR": "Light metering"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/main_color"
+                    }
+                },
+                "code": "main_color",
+                "type": "pim_catalog_simpleselect",
+                "group": "color",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Hauptfarbe",
+                    "en_US": "Main color",
+                    "fr_FR": "Couleur principale"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/material"
+                    }
+                },
+                "code": "material",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 22,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Material",
+                    "en_US": "Material",
+                    "fr_FR": "Matière"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/max_image_resolution"
+                    }
+                },
+                "code": "max_image_resolution",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 24,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Maximale Bildauflösung",
+                    "en_US": "Maximum image resolution",
+                    "fr_FR": "Résolution maximum"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_frame_rate"
+                    }
+                },
+                "code": "maximum_frame_rate",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 15,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Maximale Bildfrequenz",
+                    "en_US": "Maximum frame rate",
+                    "fr_FR": "Cadence maximale"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size"
+                    }
+                },
+                "code": "maximum_print_size",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 5,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Maximale Druckgröße",
+                    "en_US": "Maximum print size",
+                    "fr_FR": "Format d’impression maximale"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_scan_size"
+                    }
+                },
+                "code": "maximum_scan_size",
+                "type": "pim_catalog_metric",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": "Length",
+                "default_metric_unit": "MILLIMETER",
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Maximale Scan-Abmessung",
+                    "en_US": "Maximum scan size",
+                    "fr_FR": "Surface maximal de numérisation"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_video_resolution"
+                    }
+                },
+                "code": "maximum_video_resolution",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 14,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Maximale Video-Auflösung",
+                    "en_US": "Maximum video resolution",
+                    "fr_FR": "Résolution vidéo maximale"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/meta_description"
+                    }
+                },
+                "code": "meta_description",
+                "type": "pim_catalog_textarea",
+                "group": "ecommerce",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 10,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Meta description",
+                    "en_US": "Meta description",
+                    "fr_FR": "Meta description"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/meta_title"
+                    }
+                },
+                "code": "meta_title",
+                "type": "pim_catalog_text",
+                "group": "ecommerce",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 10,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Meta title",
+                    "en_US": "Meta title",
+                    "fr_FR": "Meta titre"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions"
+                    }
+                },
+                "code": "multifunctional_functions",
+                "type": "pim_catalog_multiselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 16,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Functies all-in-one",
+                    "en_US": "All-in-one functions",
+                    "fr_FR": "Fonctions tout-en-un"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/name"
+                    }
+                },
+                "code": "name",
+                "type": "pim_catalog_text",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Name",
+                    "en_US": "Name",
+                    "fr_FR": "Nom"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/notice"
+                    }
+                },
+                "code": "notice",
+                "type": "pim_catalog_file",
+                "group": "medias",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [
+                    "pdf"
+                ],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 15,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Notice",
+                    "en_US": "Notice",
+                    "fr_FR": "Notice"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/optical_zoom"
+                    }
+                },
+                "code": "optical_zoom",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 8,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Optischer Zoom",
+                    "en_US": "Optical zoom",
+                    "fr_FR": "Zoom optique"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/pdf_description"
+                    }
+                },
+                "code": "pdf_description",
+                "type": "pim_catalog_file",
+                "group": "medias",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [
+                    "pdf"
+                ],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "PDF Bezeichnung",
+                    "en_US": "PDF description",
+                    "fr_FR": "Description PDF"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/picture"
+                    }
+                },
+                "code": "picture",
+                "type": "pim_catalog_image",
+                "group": "medias",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [
+                    "jpg",
+                    "jpeg",
+                    "gif",
+                    "png"
+                ],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Photography",
+                    "en_US": "Picture",
+                    "fr_FR": "Photographie"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/power_requirements"
+                    }
+                },
+                "code": "power_requirements",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 4,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Energiebedarf",
+                    "en_US": "Power requirements",
+                    "fr_FR": "Exigences d'alimentation"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/price"
+                    }
+                },
+                "code": "price",
+                "type": "pim_catalog_price_collection",
+                "group": "erp",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": true,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 6,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Preis",
+                    "en_US": "Price",
+                    "fr_FR": "Prix"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/release_date"
+                    }
+                },
+                "code": "release_date",
+                "type": "pim_catalog_date",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 5,
+                "localizable": false,
+                "scopable": true,
+                "labels": {
+                    "de_DE": "Erscheinungstermin",
+                    "en_US": "Release date",
+                    "fr_FR": "Date de sortie"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/response_time"
+                    }
+                },
+                "code": "response_time",
+                "type": "pim_catalog_number",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 4,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Erscheinungstermin",
+                    "en_US": "Response time (ms)",
+                    "fr_FR": "Temps de réponse (ms)"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/secondary_color"
+                    }
+                },
+                "code": "secondary_color",
+                "type": "pim_catalog_simpleselect",
+                "group": "color",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Sekundärfarbe",
+                    "en_US": "Secondary color",
+                    "fr_FR": "Couleur secondaire"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/sensor_type"
+                    }
+                },
+                "code": "sensor_type",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 6,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "CCD-Bildsensor",
+                    "en_US": "Sensor type",
+                    "fr_FR": "Type de capteur"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/short_description"
+                    }
+                },
+                "code": "short_description",
+                "type": "pim_catalog_textarea",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 23,
+                "localizable": true,
+                "scopable": true,
+                "labels": {
+                    "de_DE": "Kurze Beschreibung",
+                    "en_US": "Short description",
+                    "fr_FR": "Description courte"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size"
+                    }
+                },
+                "code": "size",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Size",
+                    "en_US": "Size",
+                    "fr_FR": "Taille"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/sku"
+                    }
+                },
+                "code": "sku",
+                "type": "pim_catalog_identifier",
+                "group": "erp",
+                "unique": true,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "SKU",
+                    "en_US": "SKU",
+                    "fr_FR": "SKU"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/snr"
+                    }
+                },
+                "code": "snr",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 12,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Signal-zu-Geräusche Verhältnis (SNR)",
+                    "en_US": "Signal-to-Noise Ratio (SNR)",
+                    "fr_FR": "Rapport de signal-à-bruit"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/sole_composition"
+                    }
+                },
+                "code": "sole_composition",
+                "type": "pim_catalog_text",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 4,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Sole composition",
+                    "en_US": "Sole composition",
+                    "fr_FR": "Composition semelle"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/supplier"
+                    }
+                },
+                "code": "supplier",
+                "type": "pim_catalog_simpleselect",
+                "group": "erp",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Lieferant",
+                    "en_US": "Supplier",
+                    "fr_FR": "Fournisseur"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/supported_aspect_ratios"
+                    }
+                },
+                "code": "supported_aspect_ratios",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 26,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Unterstützte Seitenverhältnisse",
+                    "en_US": "Supported aspect ratios",
+                    "fr_FR": "Rapports d'aspect pris en charge"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/supported_image_format"
+                    }
+                },
+                "code": "supported_image_format",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 27,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Unterstützte Bildformate",
+                    "en_US": "Supported image format",
+                    "fr_FR": "Format d'image supportée"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/thd"
+                    }
+                },
+                "code": "thd",
+                "type": "pim_catalog_number",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 11,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "THD, totalklirren",
+                    "en_US": "Total Harmonic Distortion (THD)",
+                    "fr_FR": "DHT, distorsion harmonique totale"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/top_composition"
+                    }
+                },
+                "code": "top_composition",
+                "type": "pim_catalog_text",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 8,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Top composition",
+                    "en_US": "Top composition",
+                    "fr_FR": "Composition dessus"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/total_megapixels"
+                    }
+                },
+                "code": "total_megapixels",
+                "type": "pim_catalog_text",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 7,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Total megapixels",
+                    "en_US": "Total megapixels",
+                    "fr_FR": "Total des megapixels"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/tshirt_materials"
+                    }
+                },
+                "code": "tshirt_materials",
+                "type": "pim_catalog_simpleselect",
+                "group": "manufacturing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "T-Shirt gewebe",
+                    "en_US": "T-Shirt material",
+                    "fr_FR": "Matière T-Shirt"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/tshirt_style"
+                    }
+                },
+                "code": "tshirt_style",
+                "type": "pim_catalog_multiselect",
+                "group": "design",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "T-Shirt stil",
+                    "en_US": "T-Shirt style",
+                    "fr_FR": "Style du T-Shirt"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/variation_description"
+                    }
+                },
+                "code": "variation_description",
+                "type": "pim_catalog_textarea",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 5,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Variant beschreibung",
+                    "en_US": "Variant description",
+                    "fr_FR": "Description de la variante"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/variation_image"
+                    }
+                },
+                "code": "variation_image",
+                "type": "pim_catalog_image",
+                "group": "medias",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [
+                    "png",
+                    "jpeg",
+                    "jpg"
+                ],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 20,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Variant bild",
+                    "en_US": "Variant picture",
+                    "fr_FR": "Image de la variante"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/variation_name"
+                    }
+                },
+                "code": "variation_name",
+                "type": "pim_catalog_text",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 4,
+                "localizable": true,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Variant Name",
+                    "en_US": "Variant Name",
+                    "fr_FR": "Nom de la variante"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/viewing_area"
+                    }
+                },
+                "code": "viewing_area",
+                "type": "pim_catalog_metric",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": "Length",
+                "default_metric_unit": "MILLIMETER",
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": false,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 20,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Effektive Bildfläche",
+                    "en_US": "Effective viewing area",
+                    "fr_FR": "Zone d'affichage active"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/wash_temperature"
+                    }
+                },
+                "code": "wash_temperature",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 6,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Wash temperature",
+                    "en_US": "Wash temperature",
+                    "fr_FR": "Température de lavage"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/weight"
+                    }
+                },
+                "code": "weight",
+                "type": "pim_catalog_metric",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": "Weight",
+                "default_metric_unit": "KILOGRAM",
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": true,
+                "negative_allowed": false,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Gewicht",
+                    "en_US": "Weight",
+                    "fr_FR": "Poids"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            }
+        ]
+    }
+}

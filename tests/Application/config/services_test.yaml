@@ -10,7 +10,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../../src/*'
-        exclude: '../../../src/{DependencyInjection,Model,Migrations,SynoliaSyliusAkeneoPlugin.php}'
+        exclude: '../../../src/{DependencyInjection,Model,Migrations,Payload,Repository,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../../src/Controller'

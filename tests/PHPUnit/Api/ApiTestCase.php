@@ -10,10 +10,10 @@ use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Webmozart\Assert\Assert;
 
-abstract class ApiTestCase extends TestCase
+abstract class ApiTestCase extends KernelTestCase
 {
     private const SAMPLE_PATH = '/datas/sample/';
 
@@ -22,6 +22,9 @@ abstract class ApiTestCase extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+        self::bootKernel();
+
         $this->server = new MockWebServer(8081, '127.0.0.1');
         $this->server->start();
 
@@ -36,6 +39,7 @@ abstract class ApiTestCase extends TestCase
     protected function tearDown(): void
     {
         $this->server->stop();
+        parent::tearDown();
     }
 
     protected function createClient(): AkeneoPimClientInterface
@@ -68,7 +72,7 @@ abstract class ApiTestCase extends TestCase
         return $content;
     }
 
-    private function getAuthenticatedJson(): string
+    protected function getAuthenticatedJson(): string
     {
         return <<<JSON
             {
