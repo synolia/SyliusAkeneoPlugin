@@ -8,7 +8,6 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\Taxon;
-use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
@@ -16,11 +15,8 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
+final class DeleteEntityTask implements AkeneoTaskInterface
 {
-    /** @var \Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface */
-    private $taxonFactory;
-
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
 
@@ -31,12 +27,10 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
     private $productRepository;
 
     public function __construct(
-        TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
         ProductRepository $productAkeneoRepository,
         TaxonRepository $taxonAkeneoRepository
     ) {
-        $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
         $this->productRepository = $productAkeneoRepository;
         $this->taxonRepository = $taxonAkeneoRepository;
@@ -59,28 +53,6 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
 
             foreach ($payload->getResources() as $resource) {
                 $codes[] = $resource['code'];
-
-                /** @var \Sylius\Component\Core\Model\TaxonInterface $taxon */
-                $taxon = $this->getOrCreateEntity($resource['code']);
-
-                $taxons[$resource['code']] = $taxon;
-
-                if (null !== $resource['parent']) {
-                    $parent = $taxons[$resource['parent']];
-
-                    if (!$parent instanceof Taxon) {
-                        continue;
-                    }
-
-                    $taxon->setParent($parent);
-                }
-
-                foreach ($resource['labels'] as $locale => $label) {
-                    $taxon->setCurrentLocale($locale);
-                    $taxon->setFallbackLocale($locale);
-                    $taxon->setName($label);
-                    $taxon->setSlug($resource['code']);
-                }
             }
 
             $this->removeUnusedCategories($codes);
@@ -94,21 +66,6 @@ final class CreateUpdateDeleteEntityTask implements AkeneoTaskInterface
         }
 
         return $payload;
-    }
-
-    private function getOrCreateEntity(string $code): TaxonInterface
-    {
-        /** @var \Sylius\Component\Core\Model\TaxonInterface $taxon */
-        $taxon = $this->taxonRepository->findOneBy(['code' => $code]);
-
-        if (!$taxon instanceof TaxonInterface) {
-            /** @var TaxonInterface $taxon */
-            $taxon = $this->taxonFactory->createNew();
-            $taxon->setCode($code);
-            $this->entityManager->persist($taxon);
-        }
-
-        return $taxon;
     }
 
     private function removeUnusedCategories(array $codes): void

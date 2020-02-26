@@ -8,7 +8,7 @@ use donatj\MockWebServer\MockWebServer;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateDeleteEntityTask;
+use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category\AbstractTaskTest;
 
@@ -41,8 +41,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $this->expectExceptionObject(new NoCategoryResourcesException('No resource found.'));
         $payload = new CategoryPayload($this->createClient());
 
-        /** @var CreateUpdateDeleteEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateDeleteEntityTask::class);
+        /** @var CreateUpdateEntityTask $task */
+        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
         $task->__invoke($payload);
     }
 
@@ -53,8 +53,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $retrieveTask = $this->taskProvider->get(RetrieveCategoriesTask::class);
         $payload = $retrieveTask->__invoke($initialPayload);
 
-        /** @var CreateUpdateDeleteEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateDeleteEntityTask::class);
+        /** @var CreateUpdateEntityTask $task */
+        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
         $task->__invoke($payload);
     }
 }
