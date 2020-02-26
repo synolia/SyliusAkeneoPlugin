@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table("akeneo_settings")
  */
-class Setting
+class Setting implements ResourceInterface
 {
     /**
      * @var int

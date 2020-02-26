@@ -19,3 +19,7 @@ sylius_resource:
             classes:
                 model: Sylius\Component\Product\Model\ProductAttribute
                 repository: Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository
+        akeneo.setting:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\Setting
