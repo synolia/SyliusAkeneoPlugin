@@ -2,6 +2,9 @@ sylius:
     ui:
         admin:
             akeneo:
+                delete: Delete
+                add: Add
+                submit: Save changes
                 no: No
                 yes: Yes
                 save: Save
@@ -17,6 +20,14 @@ sylius:
                     empty_local_replace_by: Replace empty local by
                 products:
                     products: Products
+                    website_attribute: Website attribute
+                    attribute: Attribute
+                    value: Value
+                    import_media_files: Import media files
+                    akeneo_attributes: Akeneo attributes
+                    sylius_attribute: Sylius attributes
+                    akeneo_attribute: Akeneo attributes
+                    regenerate_url_rewrites: Regenerate url rewrites
                 attributes:
                     attributes: Attributes
                 medias:
