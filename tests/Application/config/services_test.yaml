@@ -6,15 +6,4 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
-
-    Synolia\SyliusAkeneoPlugin\:
-        resource: '../../../src/*'
-        exclude: '../../../src/{DependencyInjection,Model,Migrations,Payload,Repository,SynoliaSyliusAkeneoPlugin.php}'
-
-    Synolia\SyliusAkeneoPlugin\Controller\:
-        resource: '../../../src/Controller'
-        tags: ['controller.service_arguments']
-
-    Akeneo\Pim\ApiClient\Client\ResourceClientInterface:
-        class: Tests\Synolia\SyliusAkeneoPlugin\Akeneo\Pim\ApiClient\Client\ResourceClientMock
+        public: false
