@@ -6,4 +6,7 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: false
+        public: true
+
+    Akeneo\Pim\ApiClient\Client\ResourceClientInterface:
+        class: Tests\Synolia\SyliusAkeneoPlugin\Akeneo\Pim\ApiClient\Client\ResourceClientMock

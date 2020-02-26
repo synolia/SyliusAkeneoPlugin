@@ -26,3 +26,8 @@ services:
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration'
+    akeneo.setting_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
