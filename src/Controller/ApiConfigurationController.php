@@ -39,7 +39,7 @@ final class ApiConfigurationController extends AbstractController
 
             try {
                 $client = $this->connect($apiConfiguration);
-                $client->getCategoryApi()->get('master');
+                $client->getCategoryApi()->all(1);
 
                 $apiConfiguration->setToken($client->getToken() ?? '');
                 $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');

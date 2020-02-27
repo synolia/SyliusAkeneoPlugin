@@ -7,8 +7,10 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -23,14 +25,19 @@ final class CreateUpdateTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeRepository;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
+    private $configurationProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeAkeneoRepository,
-        ProductOptionManager $productOptionManager
+        ProductOptionManager $productOptionManager,
+        ConfigurationProvider $configurationProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeAkeneoRepository;
         $this->productOptionManager = $productOptionManager;
+        $this->configurationProvider = $configurationProvider;
     }
 
     /**
@@ -44,15 +51,24 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
         $this->entityManager->beginTransaction();
         $variationAxes = [];
-        $families = $payload->getAkeneoPimClient()->getFamilyApi()->all();
+        $families = $payload->getAkeneoPimClient()->getFamilyApi()->all(
+            $this->configurationProvider->getConfiguration()->getPaginationSize() ?? ApiConfiguration::DEFAULT_PAGINATION_SIZE
+        );
         foreach ($families as $family) {
-            $familyVariants = $payload->getAkeneoPimClient()->getFamilyVariantApi()->all($family['code']);
+            $familyVariants = $payload->getAkeneoPimClient()->getFamilyVariantApi()->all(
+                $family['code'],
+                $this->configurationProvider->getConfiguration()->getPaginationSize() ?? ApiConfiguration::DEFAULT_PAGINATION_SIZE
+            );
 
             foreach ($familyVariants as $familyVariant) {
-                foreach ($familyVariant['variant_attribute_sets'] as $variantAttributeSet) {
-                    foreach ($variantAttributeSet['axes'] as $axe) {
-                        $variationAxes[] = $axe;
-                    }
+                //Sort array of variant attribute sets by level DESC
+                usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
+                    return $leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level'];
+                });
+
+                //We only want to get the last variation set
+                foreach ($familyVariant['variant_attribute_sets'][0]['axes'] as $axe) {
+                    $variationAxes[] = $axe;
                 }
             }
         }

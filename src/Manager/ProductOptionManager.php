@@ -91,30 +91,38 @@ final class ProductOptionManager
         }
     }
 
-    private function updateProductOptionValues(?ProductOptionInterface $productOption, AttributeInterface $attribute): void
+    public static function getOptionValueCodeFromProductOption(
+        ProductOptionInterface $productOption,
+        string $optionValueCode
+    ): string {
+        return \sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode);
+    }
+
+    private function updateProductOptionValues(ProductOptionInterface $productOption, AttributeInterface $attribute): void
     {
-        foreach ($attribute->getConfiguration()['choices'] as $productOptionValueCode => $translations) {
-            if (!is_string($productOptionValueCode)) {
+        $productOptionValuesMapping = [];
+        $productOptionValueCodes = \array_keys($attribute->getConfiguration()['choices']);
+        foreach ($productOptionValueCodes as $productOptionValueCode) {
+            if (isset($productOptionValuesMapping[(string) $productOptionValueCode])) {
                 continue;
             }
 
             $productOptionValue = $this->productOptionValueRepository->findOneBy([
-                'code' => $productOptionValueCode,
+                'code' => self::getOptionValueCodeFromProductOption($productOption, (string) $productOptionValueCode),
                 'option' => $productOption,
             ]);
 
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
                 /** @var ProductOptionValueInterface $productOptionValue */
                 $productOptionValue = $this->productOptionValueFactory->createNew();
-                $productOptionValue->setCode($productOptionValueCode);
+                $productOptionValue->setCode(self::getOptionValueCodeFromProductOption($productOption, (string) $productOptionValueCode));
                 $productOptionValue->setOption($productOption);
                 $this->entityManager->persist($productOptionValue);
             }
-
-            foreach ($translations as $locale => $value) {
-                $productOptionValue->setCurrentLocale($locale);
-                $productOptionValue->setValue($value);
-            }
+            $productOptionValuesMapping[(string) $productOptionValueCode] = [
+                'entity' => $productOptionValue,
+                'translations' => $attribute->getConfiguration()['choices'][$productOptionValueCode],
+            ];
         }
     }
 }

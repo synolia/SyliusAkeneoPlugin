@@ -15,6 +15,8 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  */
 final class ApiConfiguration implements ResourceInterface
 {
+    public const DEFAULT_PAGINATION_SIZE = 100;
+
     /**
      * @var int
      * @ORM\Id()

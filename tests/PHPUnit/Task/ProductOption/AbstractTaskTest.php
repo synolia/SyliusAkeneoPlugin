@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Option;
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductOption;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
+use Akeneo\Pim\ApiClient\Api\FamilyApi;
+use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -37,6 +39,27 @@ abstract class AbstractTaskTest extends ApiTestCase
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
             new ResponseStack(
                 new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
+            )
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
+            new ResponseStack(
+                new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
+            )
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . FamilyApi::FAMILIES_URI,
+            new ResponseStack(
+                new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
+            )
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
+            new ResponseStack(
+                new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
             )
         );
     }

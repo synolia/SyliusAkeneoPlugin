@@ -56,7 +56,7 @@ final class ClientFactory
         AkeneoPimClientInterface $client,
         ApiConfiguration $apiConfiguration
     ): void {
-        $client->getCategoryApi()->get('master');
+        $client->getCategoryApi()->all(1);
         if ($client->getToken() === $apiConfiguration->getToken()) {
             return;
         }

@@ -87,6 +87,45 @@
                 },
                 "auto_option_sorting": null,
                 "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color"
+                    }
+                },
+                "code": "color",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Color",
+                    "en_US": "Color",
+                    "fr_FR": "Couleur"
+                },
+                "auto_option_sorting": false,
+                "is_read_only": false
             }
         ]
     }

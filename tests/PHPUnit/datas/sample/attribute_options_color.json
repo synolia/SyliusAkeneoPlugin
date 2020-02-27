@@ -1,0 +1,165 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/black"
+                    }
+                },
+                "code": "black",
+                "attribute": "color",
+                "sort_order": 0,
+                "labels": {
+                    "de_DE": "Black",
+                    "en_US": "Black",
+                    "fr_FR": "Noir"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/blue"
+                    }
+                },
+                "code": "blue",
+                "attribute": "color",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "Blue",
+                    "en_US": "Blue",
+                    "fr_FR": "Bleu"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/brown"
+                    }
+                },
+                "code": "brown",
+                "attribute": "color",
+                "sort_order": 2,
+                "labels": {
+                    "de_DE": "Brown",
+                    "en_US": "Brown",
+                    "fr_FR": "Marron"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/green"
+                    }
+                },
+                "code": "green",
+                "attribute": "color",
+                "sort_order": 3,
+                "labels": {
+                    "de_DE": "Green",
+                    "en_US": "Green",
+                    "fr_FR": "Vert"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/grey"
+                    }
+                },
+                "code": "grey",
+                "attribute": "color",
+                "sort_order": 4,
+                "labels": {
+                    "de_DE": "Grey",
+                    "en_US": "Grey",
+                    "fr_FR": "Gris"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/orange"
+                    }
+                },
+                "code": "orange",
+                "attribute": "color",
+                "sort_order": 6,
+                "labels": {
+                    "de_DE": "Orange",
+                    "en_US": "Orange",
+                    "fr_FR": "Orange"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/pink"
+                    }
+                },
+                "code": "pink",
+                "attribute": "color",
+                "sort_order": 5,
+                "labels": {
+                    "de_DE": "Pink",
+                    "en_US": "Pink",
+                    "fr_FR": "Rose"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/red"
+                    }
+                },
+                "code": "red",
+                "attribute": "color",
+                "sort_order": 7,
+                "labels": {
+                    "de_DE": "Red",
+                    "en_US": "Red",
+                    "fr_FR": "Rouge"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/white"
+                    }
+                },
+                "code": "white",
+                "attribute": "color",
+                "sort_order": 9,
+                "labels": {
+                    "de_DE": "White",
+                    "en_US": "White",
+                    "fr_FR": "Blanc"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/yellow"
+                    }
+                },
+                "code": "yellow",
+                "attribute": "color",
+                "sort_order": 8,
+                "labels": {
+                    "de_DE": "Yellow",
+                    "en_US": "Yellow",
+                    "fr_FR": "Jaune"
+                }
+            }
+        ]
+    }
+}
