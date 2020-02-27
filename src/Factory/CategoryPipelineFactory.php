@@ -18,8 +18,8 @@ final class CategoryPipelineFactory extends AbstractPipelineFactory
 
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveCategoriesTask::class))
-            ->pipe($this->taskProvider->get(CreateUpdateEntityTask::class))
             ->pipe($this->taskProvider->get(DeleteEntityTask::class))
+            ->pipe($this->taskProvider->get(CreateUpdateEntityTask::class))
         ;
     }
 }
