@@ -8,8 +8,8 @@ use donatj\MockWebServer\MockWebServer;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateDeleteTask;
-use Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
@@ -42,11 +42,11 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $importAttributePipeline = self::$container->get(AttributePipelineFactory::class)->create();
         $attributesPayload = $importAttributePipeline->process($attributesPayload);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask $retrieveOptionsTask */
+        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask $retrieveOptionsTask */
         $retrieveOptionsTask = $this->taskProvider->get(RetrieveOptionsTask::class);
         $optionsPayload = $retrieveOptionsTask->__invoke($attributesPayload);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateDeleteTask $createUpdateDeleteTask */
+        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask $createUpdateDeleteTask */
         $createUpdateDeleteTask = $this->taskProvider->get(CreateUpdateDeleteTask::class);
         $createUpdateDeleteTask->__invoke($optionsPayload);
     }

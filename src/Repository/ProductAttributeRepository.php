@@ -18,4 +18,14 @@ final class ProductAttributeRepository extends EntityRepository
             ->getResult()
         ;
     }
+
+    public function findByCodes(array $codes): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.code IN (:codes)')
+            ->setParameter('codes', $codes)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

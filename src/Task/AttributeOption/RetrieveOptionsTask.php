@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Task\Option;
+namespace Synolia\SyliusAkeneoPlugin\Task\AttributeOption;
 
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;

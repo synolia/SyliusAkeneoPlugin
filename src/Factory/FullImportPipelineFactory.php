@@ -16,7 +16,7 @@ final class FullImportPipelineFactory extends AbstractPipelineFactory
         return $pipeline
             ->pipe((new CategoryPipelineFactory($this->taskProvider))->create())
             ->pipe((new AttributePipelineFactory($this->taskProvider))->create())
-            ->pipe((new OptionPipelineFactory($this->taskProvider))->create())
+            ->pipe((new AttributeOptionPipelineFactory($this->taskProvider))->create())
             ->pipe((new AssetPipelineFactory($this->taskProvider))->create())
             ->pipe((new VariantPipelineFactory($this->taskProvider))->create())
             ->pipe((new ProductPipelineFactory($this->taskProvider))->create())

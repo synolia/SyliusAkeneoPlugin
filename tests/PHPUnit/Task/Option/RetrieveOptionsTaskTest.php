@@ -7,7 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Option;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
 final class RetrieveOptionsTaskTest extends AbstractTaskTest
 {
@@ -30,7 +30,7 @@ final class RetrieveOptionsTaskTest extends AbstractTaskTest
         $importAttributePipeline = self::$container->get(AttributePipelineFactory::class)->create();
         $attributesPayload = $importAttributePipeline->process($attributesPayload);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask $task */
+        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask $task */
         $task = $this->taskProvider->get(RetrieveOptionsTask::class);
 
         $task->__invoke($attributesPayload);
