@@ -18,6 +18,7 @@ use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -56,6 +57,9 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
     /** @var ProductTaxonRepository */
     private $productTaxonRepository;
 
+    /** @var EntityRepository */
+    private $productsGroupRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
@@ -64,6 +68,7 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
         TaxonRepositoryInterface $taxonRepository,
         EntityRepository $productAttributeRepository,
         EntityRepository $productTranslationRepository,
+        EntityRepository $productsGroupRepository,
         FactoryInterface $productAttributeValueFactory,
         FactoryInterface $productTaxonAkeneoFactory,
         SlugGeneratorInterface $slugGenerator
@@ -76,6 +81,7 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
         $this->productTaxonRepository = $productTaxonAkeneoRepository;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productTranslationRepository = $productTranslationRepository;
+        $this->productsGroupRepository = $productsGroupRepository;
         $this->taxonRepository = $taxonRepository;
         $this->slugGenerator = $slugGenerator;
     }
@@ -122,12 +128,17 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
 
     private function process(array $resource, array $productsMapping, array $attributesMapping): void
     {
-        if (!isset($resource['values']['name']) || $resource['parent'] === null) {
+        if (!isset($resource['values']['name'])) {
             return;
         }
+        if ($resource['parent'] === null && $resource['code'] !== null && $this->productsGroupRepository->findOneBy(['productParent' => $resource['code']]) === null) {
+            $this->createProductsGroup($resource);
+
+            return;
+        }
+
         if (isset($productsMapping[$resource['code']])) {
-            $product = $this->addOrUpdate($resource, $productsMapping[$resource['code']], $attributesMapping);
-            $product->enable();
+            $this->addOrUpdate($resource, $productsMapping[$resource['code']], $attributesMapping);
 
             return;
         }
@@ -136,11 +147,30 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
 
         $product = $this->addOrUpdate($resource, $newProduct, $attributesMapping);
 
+        if ($product === null) {
+            return;
+        }
+
         $this->entityManager->persist($product);
     }
 
-    private function addOrUpdate(array $resource, ProductInterface $product, array $attributesMapping): ProductInterface
+    private function createProductsGroup(array $resource): void
     {
+        $productsGroup = new ProductsGroup();
+        $productsGroup->setProductParent($resource['code']);
+
+        $this->entityManager->persist($productsGroup);
+    }
+
+    private function addOrUpdate(array $resource, ProductInterface $product, array $attributesMapping): ?ProductInterface
+    {
+        $productsGroup = $this->productsGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+        if (!$productsGroup instanceof ProductsGroup) {
+            return null;
+        }
+
+        $productsGroup->addProduct($product);
+
         $productTaxonIds = array_map(function ($productTaxonIds) {
             return $productTaxonIds['id'];
         }, $this->productTaxonRepository->getProductTaxonIds($product));
@@ -150,6 +180,7 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
         $this->updateAttributes($resource, $product, $attributesMapping);
 
         $product->setCode($resource['code']);
+
         if ($product->getSlug() === null) {
             $this->updateSlug($product, $resource);
         }
