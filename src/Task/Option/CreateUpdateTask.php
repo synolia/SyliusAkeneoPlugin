@@ -49,40 +49,46 @@ final class CreateUpdateTask implements AkeneoTaskInterface
             throw new \LogicException('Wrong repository instance provided.');
         }
 
-        $this->entityManager->beginTransaction();
-        $variationAxes = [];
-        $families = $payload->getAkeneoPimClient()->getFamilyApi()->all(
+        try {
+            $this->entityManager->beginTransaction();
+            $variationAxes = [];
+            $families = $payload->getAkeneoPimClient()->getFamilyApi()->all(
             $this->configurationProvider->getConfiguration()->getPaginationSize() ?? ApiConfiguration::DEFAULT_PAGINATION_SIZE
         );
-        foreach ($families as $family) {
-            $familyVariants = $payload->getAkeneoPimClient()->getFamilyVariantApi()->all(
+            foreach ($families as $family) {
+                $familyVariants = $payload->getAkeneoPimClient()->getFamilyVariantApi()->all(
                 $family['code'],
                 $this->configurationProvider->getConfiguration()->getPaginationSize() ?? ApiConfiguration::DEFAULT_PAGINATION_SIZE
             );
 
-            foreach ($familyVariants as $familyVariant) {
-                //Sort array of variant attribute sets by level DESC
-                usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
-                    return $leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level'];
-                });
+                foreach ($familyVariants as $familyVariant) {
+                    //Sort array of variant attribute sets by level DESC
+                    \usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
+                        return $leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level'];
+                    });
 
-                //We only want to get the last variation set
-                foreach ($familyVariant['variant_attribute_sets'][0]['axes'] as $axe) {
-                    $variationAxes[] = $axe;
+                    //We only want to get the last variation set
+                    foreach ($familyVariant['variant_attribute_sets'][0]['axes'] as $axe) {
+                        $variationAxes[] = $axe;
+                    }
                 }
             }
-        }
-        $variationAxes = array_unique($variationAxes);
+            $variationAxes = \array_unique($variationAxes);
 
-        /** @var AttributeInterface $attribute */
-        foreach ($this->productAttributeRepository->findByCodes($variationAxes) as $attribute) {
-            if (\in_array($attribute->getCode(), $variationAxes, true)) {
-                $this->productOptionManager->createOrUpdateProductOptionFromAttribute($attribute);
+            /** @var AttributeInterface $attribute */
+            foreach ($this->productAttributeRepository->findByCodes($variationAxes) as $attribute) {
+                if (\in_array($attribute->getCode(), $variationAxes, true)) {
+                    $this->productOptionManager->createOrUpdateProductOptionFromAttribute($attribute);
+                }
             }
-        }
 
-        $this->entityManager->flush();
-        $this->entityManager->commit();
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (\Throwable $throwable) {
+            $this->entityManager->rollback();
+
+            throw $throwable;
+        }
 
         return $payload;
     }

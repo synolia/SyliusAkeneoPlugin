@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\AttributeOption;
 
-use donatj\MockWebServer\MockWebServer;
+use Sylius\Component\Product\Model\ProductAttribute;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -13,26 +13,14 @@ use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
-    private const SAMPLE_PATH = '/datas/sample/';
-
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
-
-    /** @var MockWebServer */
-    protected $server;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
-        self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->server->stop();
-        parent::tearDown();
     }
 
     public function testCreateUpdateTask(): void
@@ -49,5 +37,58 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask $createUpdateDeleteTask */
         $createUpdateDeleteTask = $this->taskProvider->get(CreateUpdateDeleteTask::class);
         $createUpdateDeleteTask->__invoke($optionsPayload);
+
+        /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository $attributeRepository */
+        $attributeRepository = self::$container->get('sylius.repository.product_attribute');
+        /** @var ProductAttribute $productAttribute */
+        $productAttribute = $attributeRepository->findOneBy(['code' => 'color']);
+        $this->assertNotNull($productAttribute);
+
+        $this->assertProductAttributeTranslations($productAttribute);
+        $this->assertProductAttributeChoices($productAttribute);
+        $this->assertProductAttributeChoicesTranslations($productAttribute);
+    }
+
+    private function assertProductAttributeTranslations(ProductAttribute $productAttribute): void
+    {
+        $this->assertEquals('Couleur', $productAttribute->getTranslation('fr_FR')->getName());
+        $this->assertEquals('Color', $productAttribute->getTranslation('en_US')->getName());
+    }
+
+    private function assertProductAttributeChoices(ProductAttribute $productAttribute): void
+    {
+        $expectedChoiceCodes = [
+            'black',
+            'blue',
+            'brown',
+            'green',
+            'grey',
+            'orange',
+            'pink',
+            'red',
+            'white',
+            'yellow',
+        ];
+        /** @var array $choices */
+        $choices = $productAttribute->getConfiguration()['choices'];
+
+        foreach (array_keys($choices) as $attributeOptionCode) {
+            $this->assertEquals(
+                true,
+                \in_array(
+                    $attributeOptionCode,
+                    $expectedChoiceCodes,
+                    true
+                )
+            );
+        }
+    }
+
+    private function assertProductAttributeChoicesTranslations(ProductAttribute $productAttribute): void
+    {
+        $blackChoice = $productAttribute->getConfiguration()['choices']['black'];
+
+        $this->assertEquals('Noir', $blackChoice['fr_FR']);
+        $this->assertEquals('Black', $blackChoice['en_US']);
     }
 }

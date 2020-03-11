@@ -18,8 +18,10 @@ abstract class AbstractTaskTest extends ApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         self::bootKernel();
+
+        $this->manager = self::$container->get('doctrine')->getManager();
+        $this->manager->beginTransaction();
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
@@ -66,6 +68,10 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function tearDown(): void
     {
+        $this->manager->rollback();
+        $this->manager->close();
+        $this->manager = null;
+
         $this->server->stop();
 
         parent::tearDown();

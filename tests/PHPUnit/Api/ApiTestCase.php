@@ -20,6 +20,9 @@ abstract class ApiTestCase extends KernelTestCase
     /** @var MockWebServer */
     protected $server;
 
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    protected $manager;
+
     protected function setUp(): void
     {
         parent::setUp();

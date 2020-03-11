@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task;
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category;
 
 use donatj\MockWebServer\MockWebServer;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
@@ -10,7 +10,6 @@ use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category\AbstractTaskTest;
 
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
@@ -28,12 +27,6 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->server->stop();
-        parent::tearDown();
     }
 
     public function testNoCategories(): void

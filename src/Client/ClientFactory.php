@@ -13,6 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ClientFactory
 {
+    private const PAGING_SIZE = 1;
+
     /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder */
     private $clientBuilder;
 
@@ -56,7 +58,7 @@ final class ClientFactory
         AkeneoPimClientInterface $client,
         ApiConfiguration $apiConfiguration
     ): void {
-        $client->getCategoryApi()->all(1);
+        $client->getCategoryApi()->all(self::PAGING_SIZE);
         if ($client->getToken() === $apiConfiguration->getToken()) {
             return;
         }

@@ -78,10 +78,9 @@ pipeline {
                     steps {
                         script {
                             security.buildSshFolder()
-
                             // Credentials for Github
                             withCredentials([string(credentialsId: 'githubToken', variable: 'githubToken')]) {
-                                sh "composer config -g github-oauth.github.com ${githubToken}"
+                                  sh "composer config -g github-oauth.github.com ${githubToken}"
                             }
 
                             // Credentials for BitBucket

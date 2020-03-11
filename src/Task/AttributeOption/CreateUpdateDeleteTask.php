@@ -52,10 +52,10 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
             return;
         }
 
-        $this->getOrCreateOption($attribute, $options, $isMultiple);
+        $this->setAttributeChoices($attribute, $options, $isMultiple);
     }
 
-    private function getOrCreateOption(
+    private function setAttributeChoices(
         AttributeInterface $attribute,
         ResourceCursorInterface $options,
         bool $isMultiple

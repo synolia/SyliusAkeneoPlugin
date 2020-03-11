@@ -9,7 +9,9 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
+use Sylius\Component\Product\Model\ProductOptionTranslationInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
+use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -33,20 +35,45 @@ final class ProductOptionManager
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productOptionValueFactory;
 
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productOptionValueTranslationRepository;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productOptionValueTranslationFactory;
+
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productOptionTranslationRepository;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productOptionTranslationFactory;
+
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productAttributeTranslationRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
+        RepositoryInterface $productAttributeTranslationRepository,
         RepositoryInterface $productOptionRepository,
         RepositoryInterface $productOptionValueRepository,
+        RepositoryInterface $productOptionValueTranslationRepository,
+        RepositoryInterface $productOptionTranslationRepository,
         RepositoryInterface $localeRepository,
         FactoryInterface $productOptionValueFactory,
+        FactoryInterface $productOptionValueTranslationFactory,
+        FactoryInterface $productOptionTranslationFactory,
         FactoryInterface $productOptionFactory
     ) {
         $this->entityManager = $entityManager;
         $this->productOptionRepository = $productOptionRepository;
         $this->productOptionValueRepository = $productOptionValueRepository;
         $this->localeRepository = $localeRepository;
-        $this->productOptionFactory = $productOptionFactory;
+        $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productOptionValueFactory = $productOptionValueFactory;
+        $this->productOptionValueTranslationFactory = $productOptionValueTranslationFactory;
+        $this->productOptionFactory = $productOptionFactory;
+        $this->productOptionTranslationRepository = $productOptionTranslationRepository;
+        $this->productOptionTranslationFactory = $productOptionTranslationFactory;
+        $this->productAttributeTranslationRepository = $productAttributeTranslationRepository;
     }
 
     public function createOrUpdateProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface
@@ -70,15 +97,30 @@ final class ProductOptionManager
     {
         foreach ($this->getLocales() as $localeCode) {
             /** @var AttributeTranslationInterface $attributeTranslation */
-            $attributeTranslation = $attribute->getTranslation($localeCode);
+            $attributeTranslation = $this->productAttributeTranslationRepository->findOneBy([
+                'translatable' => $attribute,
+                'locale' => $localeCode,
+            ]);
+
             //Skip unavailable translations
             if (!$attributeTranslation instanceof AttributeTranslationInterface) {
                 continue;
             }
 
-            $productOption->setCurrentLocale($localeCode);
-            $productOption->setFallbackLocale($localeCode);
-            $productOption->setName($attributeTranslation->getName());
+            $productOptionTranslation = $this->productOptionTranslationRepository->findOneBy([
+                'locale' => $localeCode,
+                'translatable' => $productOption,
+            ]);
+
+            if (!$productOptionTranslation instanceof ProductOptionTranslationInterface) {
+                /** @var ProductOptionTranslationInterface $productOptionTranslation */
+                $productOptionTranslation = $this->productOptionTranslationFactory->createNew();
+                $productOptionTranslation->setTranslatable($productOption);
+                $productOptionTranslation->setLocale($localeCode);
+                $this->entityManager->persist($productOptionTranslation);
+            }
+
+            $productOptionTranslation->setName($attributeTranslation->getName());
         }
     }
 
@@ -119,10 +161,38 @@ final class ProductOptionManager
                 $productOptionValue->setOption($productOption);
                 $this->entityManager->persist($productOptionValue);
             }
+
+            $this->updateProductOptionValueTranslations($productOptionValue, $attribute, (string) $productOptionValueCode);
+
             $productOptionValuesMapping[(string) $productOptionValueCode] = [
                 'entity' => $productOptionValue,
                 'translations' => $attribute->getConfiguration()['choices'][$productOptionValueCode],
             ];
+        }
+    }
+
+    private function updateProductOptionValueTranslations(
+        ProductOptionValueInterface $productOptionValue,
+        AttributeInterface $attribute,
+        string $productOptionValueCode
+    ): void {
+        $translations = $attribute->getConfiguration()['choices'][$productOptionValueCode];
+
+        foreach ($translations as $locale => $translation) {
+            $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
+                'locale' => $locale,
+                'translatable' => $productOptionValue,
+            ]);
+
+            if (!$productOptionValueTranslation instanceof ProductOptionValueTranslationInterface) {
+                /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
+                $productOptionValueTranslation = $this->productOptionValueTranslationFactory->createNew();
+                $productOptionValueTranslation->setTranslatable($productOptionValue);
+                $productOptionValueTranslation->setLocale($locale);
+                $this->entityManager->persist($productOptionValueTranslation);
+            }
+
+            $productOptionValueTranslation->setValue($translation);
         }
     }
 }
