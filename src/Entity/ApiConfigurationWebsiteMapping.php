@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
@@ -38,6 +39,8 @@ final class ApiConfigurationWebsiteMapping implements ResourceInterface
     private $channel;
 
     /**
+     * @SerializedName("akeneo_channel")
+     *
      * @var string
      * @ORM\Column(type="string")
      */

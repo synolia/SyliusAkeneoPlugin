@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
@@ -22,6 +23,8 @@ class ProductsConfigurationAkeneoImageAttributes implements ResourceInterface
     private $id;
 
     /**
+     * @SerializedName("akeneo_attributes")
+     *
      * @var string
      * @ORM\Column(type="string", length=255)
      */
