@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
@@ -28,6 +29,8 @@ class ProductsConfigurationDefaultTax implements ResourceInterface
     private $website;
 
     /**
+     * @SerializedName("tax_class")
+     *
      * @var string
      * @ORM\Column(type="string", length=255)
      */

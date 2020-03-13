@@ -8,5 +8,5 @@ services:
         autoconfigure: true
         public: true
 
-    Akeneo\Pim\ApiClient\Client\ResourceClientInterface:
-        class: Tests\Synolia\SyliusAkeneoPlugin\Akeneo\Pim\ApiClient\Client\ResourceClientMock
+    Synolia\SyliusAkeneoPlugin\Transformer\EntityObjectToArrayTransformer: ~
+    test.serialize.akeneo: '@Symfony\Component\Serializer\SerializerInterface'
