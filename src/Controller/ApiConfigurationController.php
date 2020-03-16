@@ -17,6 +17,8 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
 
 final class ApiConfigurationController extends AbstractController
 {
+    private const PAGING_SIZE = 1;
+
     public function __invoke(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -39,7 +41,7 @@ final class ApiConfigurationController extends AbstractController
 
             try {
                 $client = $this->connect($apiConfiguration);
-                $client->getCategoryApi()->get('master');
+                $client->getCategoryApi()->all(self::PAGING_SIZE);
 
                 $apiConfiguration->setToken($client->getToken() ?? '');
                 $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');

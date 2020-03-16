@@ -8,6 +8,11 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 final class ProductAttributeRepository extends EntityRepository
 {
+    /**
+     * @param array<string> $codes
+     *
+     * @return array<int, int>
+     */
     public function getMissingAttributesIds(array $codes): array
     {
         return $this->createQueryBuilder('a')
@@ -17,5 +22,37 @@ final class ProductAttributeRepository extends EntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * @param array<string> $codes
+     *
+     * @return array<int, int>
+     */
+    public function findByCodes(array $codes): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.code IN (:codes)')
+            ->setParameter('codes', $codes)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getAllAttributeCodes(): array
+    {
+        $attributeCodesResult = $this->createQueryBuilder('a')
+            ->select('a.code')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if (0 === \count($attributeCodesResult)) {
+            return [];
+        }
+
+        return \array_map(function (array $data) {
+            return $data['code'];
+        }, $attributeCodesResult);
     }
 }

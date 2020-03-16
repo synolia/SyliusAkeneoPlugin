@@ -9,8 +9,8 @@ use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Factory\OptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 
 final class ImportAttributesCommand extends Command
@@ -22,21 +22,21 @@ final class ImportAttributesCommand extends Command
     /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory */
     private $attributePipelineFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\OptionPipelineFactory */
-    private $optionPipelineFactory;
+    /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory */
+    private $attributeOptionPipelineFactory;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
     private $clientFactory;
 
     public function __construct(
         AttributePipelineFactory $attributePipelineFactory,
-        OptionPipelineFactory $optionPipelineFactory,
+        AttributeOptionPipelineFactory $attributeOptionPipelineFactory,
         ClientFactory $clientFactory,
         string $name = null
     ) {
         parent::__construct($name);
         $this->attributePipelineFactory = $attributePipelineFactory;
-        $this->optionPipelineFactory = $optionPipelineFactory;
+        $this->attributeOptionPipelineFactory = $attributeOptionPipelineFactory;
         $this->clientFactory = $clientFactory;
     }
 
@@ -61,7 +61,7 @@ final class ImportAttributesCommand extends Command
         $payload = $attributePipeline->process($attributePayload);
 
         /** @var \League\Pipeline\Pipeline $optionPipeline */
-        $optionPipeline = $this->optionPipelineFactory->create();
+        $optionPipeline = $this->attributeOptionPipelineFactory->create();
         $optionPipeline->process($payload);
 
         return 0;

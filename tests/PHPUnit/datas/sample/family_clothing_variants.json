@@ -1,0 +1,182 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_color"
+                    }
+                },
+                "code": "clothing_color",
+                "labels": {
+                    "de_DE": "Kleidung nach Farbe",
+                    "en_US": "Clothing by color",
+                    "fr_FR": "Vêtements par couleur"
+                },
+                "variant_attribute_sets": [
+                    {
+                        "level": 1,
+                        "axes": [
+                            "color"
+                        ],
+                        "attributes": [
+                            "sku",
+                            "variation_name",
+                            "variation_image",
+                            "composition",
+                            "color",
+                            "ean"
+                        ]
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_color_size"
+                    }
+                },
+                "code": "clothing_color_size",
+                "labels": {
+                    "de_DE": "Kleidung nach Farbe und Größe",
+                    "en_US": "Clothing by color and size",
+                    "fr_FR": "Vêtements par couleur et taille"
+                },
+                "variant_attribute_sets": [
+                    {
+                        "level": 1,
+                        "axes": [
+                            "color"
+                        ],
+                        "attributes": [
+                            "variation_name",
+                            "variation_image",
+                            "composition",
+                            "color",
+                            "material"
+                        ]
+                    },
+                    {
+                        "level": 2,
+                        "axes": [
+                            "size"
+                        ],
+                        "attributes": [
+                            "sku",
+                            "weight",
+                            "size",
+                            "ean"
+                        ]
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_colorsize"
+                    }
+                },
+                "code": "clothing_colorsize",
+                "labels": {
+                    "de_DE": "Kleidung nach Farbe\/Größe",
+                    "en_US": "Clothing by color\/size",
+                    "fr_FR": "Vêtements par couleur\/taille"
+                },
+                "variant_attribute_sets": [
+                    {
+                        "level": 1,
+                        "axes": [
+                            "color",
+                            "size"
+                        ],
+                        "attributes": [
+                            "sku",
+                            "variation_name",
+                            "variation_image",
+                            "composition",
+                            "color",
+                            "size",
+                            "ean"
+                        ]
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_material_size"
+                    }
+                },
+                "code": "clothing_material_size",
+                "labels": {
+                    "de_DE": "Clothing by material and size",
+                    "en_US": "Clothing by material and size",
+                    "fr_FR": "Vêtements par matière et taille"
+                },
+                "variant_attribute_sets": [
+                    {
+                        "level": 1,
+                        "axes": [
+                            "material"
+                        ],
+                        "attributes": [
+                            "variation_name",
+                            "variation_image",
+                            "composition",
+                            "color",
+                            "material"
+                        ]
+                    },
+                    {
+                        "level": 2,
+                        "axes": [
+                            "size"
+                        ],
+                        "attributes": [
+                            "sku",
+                            "weight",
+                            "size",
+                            "ean"
+                        ]
+                    }
+                ]
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_size"
+                    }
+                },
+                "code": "clothing_size",
+                "labels": {
+                    "de_DE": "Kleidung nach Größe",
+                    "en_US": "Clothing by size",
+                    "fr_FR": "Vêtements par taille"
+                },
+                "variant_attribute_sets": [
+                    {
+                        "level": 1,
+                        "axes": [
+                            "size"
+                        ],
+                        "attributes": [
+                            "sku",
+                            "weight",
+                            "size",
+                            "ean"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

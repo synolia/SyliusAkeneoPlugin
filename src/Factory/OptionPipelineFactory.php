@@ -6,8 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 
 use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateDeleteTask;
-use Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateTask;
 
 final class OptionPipelineFactory extends AbstractPipelineFactory
 {
@@ -16,7 +15,7 @@ final class OptionPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline();
 
         return $pipeline
-            ->pipe($this->taskProvider->get(RetrieveOptionsTask::class))
-            ->pipe($this->taskProvider->get(CreateUpdateDeleteTask::class));
+            ->pipe($this->taskProvider->get(CreateUpdateTask::class))
+        ;
     }
 }

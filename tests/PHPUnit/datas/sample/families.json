@@ -1,0 +1,86 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families?page=1&limit=100&with_count=false&search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3A%22clothing%22%7D%5D%7D"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families?page=1&limit=100&with_count=false&search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3A%22clothing%22%7D%5D%7D"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing"
+                    }
+                },
+                "code": "clothing",
+                "attributes": [
+                    "brand",
+                    "care_instructions",
+                    "collection",
+                    "color",
+                    "composition",
+                    "description",
+                    "ean",
+                    "erp_name",
+                    "image",
+                    "keywords",
+                    "material",
+                    "meta_description",
+                    "meta_title",
+                    "name",
+                    "notice",
+                    "price",
+                    "size",
+                    "sku",
+                    "supplier",
+                    "variation_image",
+                    "variation_name",
+                    "wash_temperature",
+                    "weight"
+                ],
+                "attribute_as_label": "variation_name",
+                "attribute_as_image": "variation_image",
+                "attribute_requirements": {
+                    "ecommerce": [
+                        "collection",
+                        "color",
+                        "description",
+                        "ean",
+                        "size",
+                        "sku",
+                        "variation_image",
+                        "variation_name"
+                    ],
+                    "mobile": [
+                        "collection",
+                        "color",
+                        "ean",
+                        "size",
+                        "sku",
+                        "variation_image",
+                        "variation_name"
+                    ],
+                    "print": [
+                        "collection",
+                        "color",
+                        "ean",
+                        "size",
+                        "sku",
+                        "variation_image",
+                        "variation_name"
+                    ]
+                },
+                "labels": {
+                    "en_US": "Clothing",
+                    "fr_FR": "Clothing",
+                    "de_DE": "Clothing"
+                }
+            }
+        ]
+    }
+}
+

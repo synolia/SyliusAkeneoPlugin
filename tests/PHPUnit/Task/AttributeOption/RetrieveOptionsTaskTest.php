@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Option;
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\AttributeOption;
 
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
 final class RetrieveOptionsTaskTest extends AbstractTaskTest
 {
@@ -19,20 +20,24 @@ final class RetrieveOptionsTaskTest extends AbstractTaskTest
         parent::setUp();
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
-
-        self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
-    public function testGetAttributes(): void
+    public function testGetOptions(): void
     {
         $attributesPayload = new AttributePayload($this->createClient());
 
         $importAttributePipeline = self::$container->get(AttributePipelineFactory::class)->create();
         $attributesPayload = $importAttributePipeline->process($attributesPayload);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\Option\RetrieveOptionsTask $task */
+        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask $task */
         $task = $this->taskProvider->get(RetrieveOptionsTask::class);
 
-        $task->__invoke($attributesPayload);
+        /** @var OptionsPayload $optionPayload */
+        $optionPayload = $task->__invoke($attributesPayload);
+
+        $options = \json_decode($this->getFileContent('attributes_for_options.json'), true);
+        $optionCount = \count($options['_embedded']['items']);
+
+        $this->assertCount($optionCount, $optionPayload->getResources());
     }
 }

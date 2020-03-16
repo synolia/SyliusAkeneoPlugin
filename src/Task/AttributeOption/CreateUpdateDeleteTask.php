@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Task\Option;
+namespace Synolia\SyliusAkeneoPlugin\Task\AttributeOption;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,10 +52,10 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
             return;
         }
 
-        $this->getOrCreateOption($attribute, $options, $isMultiple);
+        $this->setAttributeChoices($attribute, $options, $isMultiple);
     }
 
-    private function getOrCreateOption(
+    private function setAttributeChoices(
         AttributeInterface $attribute,
         ResourceCursorInterface $options,
         bool $isMultiple

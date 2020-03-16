@@ -19,6 +19,11 @@ sylius_resource:
             classes:
                 model: Sylius\Component\Product\Model\ProductAttribute
                 repository: Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository
+        akeneo.product_option_akeneo:
+            driver: doctrine/orm
+            classes:
+                model: Sylius\Component\Product\Model\ProductOption
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository
         akeneo.products_configuration:
             driver: doctrine/orm
             classes:

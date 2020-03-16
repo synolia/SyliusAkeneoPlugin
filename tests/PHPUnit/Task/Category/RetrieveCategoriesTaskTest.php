@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task;
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category;
 
 use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category\AbstractTaskTest;
 
 final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 {
