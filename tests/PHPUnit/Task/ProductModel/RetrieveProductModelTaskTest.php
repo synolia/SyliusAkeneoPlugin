@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use donatj\MockWebServer\MockWebServer;
 use PHPUnit\Framework\Assert;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -26,13 +27,13 @@ final class RetrieveProductModelTaskTest extends AbstractTaskTest
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
-    public function testCreateUpdateTask(): void
+    public function testRetrieveProductModelTask(): void
     {
         $productModelPayload = new ProductModelPayload($this->createClient());
 
         /** @var RetrieveProductModelsTask $retrieveProductModelsTask */
         $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
         $productModelPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
-        Assert::assertNotEmpty($productModelPayload->getResources());
+        Assert::assertContainsOnlyInstancesOf(ResourceCursorInterface::class, [$productModelPayload->getResources()]);
     }
 }

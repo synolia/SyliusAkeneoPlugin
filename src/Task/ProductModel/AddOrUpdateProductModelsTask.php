@@ -110,6 +110,7 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
                 $attributesMapping[$attribute->getName()] = $attribute;
             }
 
+            $this->createProductsGroup($payload->getResources());
             $this->entityManager->beginTransaction();
             foreach ($payload->getResources() as $resource) {
                 $this->process($resource, $productsMapping, $attributesMapping);
@@ -128,12 +129,7 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
 
     private function process(array $resource, array $productsMapping, array $attributesMapping): void
     {
-        if (!isset($resource['values']['name'])) {
-            return;
-        }
-        if ($resource['parent'] === null && $resource['code'] !== null && $this->productsGroupRepository->findOneBy(['productParent' => $resource['code']]) === null) {
-            $this->createProductsGroup($resource);
-
+        if (!isset($resource['values']['name']) && $resource['parent'] === null) {
             return;
         }
 
@@ -154,12 +150,22 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
         $this->entityManager->persist($product);
     }
 
-    private function createProductsGroup(array $resource): void
+    private function createProductsGroup(ResourceCursorInterface $resources): void
     {
-        $productsGroup = new ProductsGroup();
-        $productsGroup->setProductParent($resource['code']);
-
-        $this->entityManager->persist($productsGroup);
+        $this->entityManager->beginTransaction();
+        foreach ($resources as $resource) {
+            if ($resource['parent'] !== null) {
+                continue;
+            }
+            if ($resource['code'] !== null && $this->productsGroupRepository->findOneBy(['productParent' => $resource['code']]) !== null) {
+                continue;
+            }
+            $productsGroup = new ProductsGroup();
+            $productsGroup->setProductParent($resource['code']);
+            $this->entityManager->persist($productsGroup);
+        }
+        $this->entityManager->flush();
+        $this->entityManager->commit();
     }
 
     private function addOrUpdate(array $resource, ProductInterface $product, array $attributesMapping): ?ProductInterface
@@ -170,10 +176,15 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
         }
 
         $productsGroup->addProduct($product);
+        $productsGroup->addVariationAxe($resource['family']);
+        $productsGroup->addVariationAxe($resource['family_variant']);
 
-        $productTaxonIds = array_map(function ($productTaxonIds) {
-            return $productTaxonIds['id'];
-        }, $this->productTaxonRepository->getProductTaxonIds($product));
+        $productTaxonIds = [];
+        if ($product->getId() !== null) {
+            $productTaxonIds = array_map(function ($productTaxonIds) {
+                return $productTaxonIds['id'];
+            }, $this->productTaxonRepository->getProductTaxonIds($product));
+        }
 
         $productTaxons = $this->updateTaxon($resource, $product);
         $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
