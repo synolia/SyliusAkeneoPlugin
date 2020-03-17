@@ -29,6 +29,10 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration
                 repository: Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository
+        akeneo.products_group:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup
         akeneo.setting:
             driver: doctrine/orm
             classes:
@@ -43,6 +47,11 @@ sylius_resource:
             classes:
                 model: Sylius\Component\Core\Model\TaxonInterface
                 repository: Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository
+        akeneo.product_taxon_akeneo:
+            driver: doctrine/orm
+            classes:
+                model: Sylius\Component\Core\Model\ProductTaxon
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository
         sylius.product_filters_rules:
             driver: doctrine/orm
             classes:
