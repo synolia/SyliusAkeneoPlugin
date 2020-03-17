@@ -8,10 +8,14 @@ use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
 {
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
+    protected $taskProvider;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,6 +31,8 @@ abstract class AbstractTaskTest extends ApiTestCase
                 new Response($this->getAttributes(), [], HttpResponse::HTTP_OK)
             )
         );
+
+        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
     }
 
     protected function tearDown(): void
