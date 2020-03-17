@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
-use donatj\MockWebServer\MockWebServer;
 use PHPUnit\Framework\Assert;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\Product;
+use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -17,14 +20,19 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
     /** @var AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var MockWebServer */
-    protected $server;
+    /** @var ProductRepositoryInterface */
+    private $productRepository;
+
+    /** @var EntityRepository */
+    private $productsGroupRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->productRepository = self::$container->get('sylius.repository.product');
+        $this->productsGroupRepository = self::$container->get('akeneo.repository.products_group');
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
@@ -36,9 +44,25 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
         $optionsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
 
+        foreach ($optionsPayload->getResources() as $resource) {
+            if ($resource['parent'] === null) {
+                continue;
+            }
+            $productBase = $resource;
+
+            break;
+        }
+
         /** @var AddOrUpdateProductModelsTask $addOrUpdateProductModelsTask */
         $addOrUpdateProductModelsTask = $this->taskProvider->get(AddOrUpdateProductModelsTask::class);
         $result = $addOrUpdateProductModelsTask->__invoke($optionsPayload);
         Assert::assertInstanceOf(PipelinePayloadInterface::class, $result);
+
+        /** @var Product $productFinal */
+        $productFinal = $this->productRepository->findOneBy(['code' => $productBase['code']]);
+        Assert::assertInstanceOf(Product::class, $productFinal);
+
+        $productsGroup = $this->productsGroupRepository->findOneBy(['productParent' => $productBase['parent']]);
+        Assert::assertInstanceOf(ProductsGroup::class, $productsGroup);
     }
 }

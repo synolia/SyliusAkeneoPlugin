@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use donatj\MockWebServer\MockWebServer;
 use PHPUnit\Framework\Assert;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -15,9 +14,6 @@ final class RetrieveProductModelTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
     private $taskProvider;
-
-    /** @var MockWebServer */
-    protected $server;
 
     protected function setUp(): void
     {
