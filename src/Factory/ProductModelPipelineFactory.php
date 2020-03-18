@@ -6,7 +6,8 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 
 use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelsTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddFamilyVariationAxeTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 
 final class ProductModelPipelineFactory extends AbstractPipelineFactory
@@ -17,7 +18,8 @@ final class ProductModelPipelineFactory extends AbstractPipelineFactory
 
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveProductModelsTask::class))
-            ->pipe($this->taskProvider->get(AddOrUpdateProductModelsTask::class))
+            ->pipe($this->taskProvider->get(AddOrUpdateProductModelTask::class))
+            ->pipe($this->taskProvider->get(AddFamilyVariationAxeTask::class))
         ;
     }
 }

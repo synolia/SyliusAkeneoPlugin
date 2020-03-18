@@ -1,0 +1,115 @@
+{
+  "_links": {
+    "self": {
+      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+    },
+    "first": {
+      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/caelus"
+          }
+        },
+        "code": "caelus",
+        "family": "clothing",
+        "family_variant": "clothing_color_size",
+        "parent": null,
+        "categories": [
+          "master_men_blazers_deals",
+          "supplier_mongo"
+        ],
+        "values": {
+          "supplier": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "mongo"
+            }
+          ],
+          "wash_temperature": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "600"
+            }
+          ],
+          "collection": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "summer_2016"
+              ]
+            }
+          ],
+          "price": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                {
+                  "amount": "999.00",
+                  "currency": "EUR"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Tuxedo with animal print"
+            }
+          ],
+          "erp_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Caelus"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "ecommerce",
+              "data": "Get ready to party in this tuxedo with animal print grabbing composed of a single-breasted jacket with 2 buttons and matching pants. Our skinny suits offer a perfect contemporary snowstorm.\nThe model is 1.85 meters (6 feet 1 inch), wears a size 40 jacket and pants 32R.\nDry clean only."
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:26+01:00",
+        "updated": "2020-02-13T08:34:26+01:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      }
+    ]
+  }
+}
