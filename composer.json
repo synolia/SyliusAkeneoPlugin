@@ -12,8 +12,7 @@
         "php-http/guzzle6-adapter": "^2.0",
         "sylius/sylius": "^1.7.0",
         "symfony/lock": "^3.4|^4.3",
-        "symfony/serializer": "^4.2",
-        "symplify/package-builder": "7.2.4"
+        "symfony/serializer": "^4.2"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -50,7 +49,8 @@
         "symfony/web-profiler-bundle": "^3.4|^4.3",
         "symfony/web-server-bundle": "^3.4|^4.3",
         "symplify/easy-coding-standard": "^7.2",
-        "webmozart/assert": "^1.6"
+        "webmozart/assert": "^1.6",
+        "symplify/package-builder": "7.2.4"
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
