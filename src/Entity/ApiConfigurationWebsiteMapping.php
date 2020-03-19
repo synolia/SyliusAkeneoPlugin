@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * @ORM\Entity()
  * @ORM\Table("akeneo_api_configuration_website_mapping")
  */
-final class ApiConfigurationWebsiteMapping implements ResourceInterface
+class ApiConfigurationWebsiteMapping implements ResourceInterface
 {
     /**
      * @var int

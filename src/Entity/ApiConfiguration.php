@@ -13,7 +13,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Entity()
  * @ORM\Table("akeneo_api_configuration")
  */
-final class ApiConfiguration implements ResourceInterface
+class ApiConfiguration implements ResourceInterface
 {
     public const DEFAULT_PAGINATION_SIZE = 100;
 
