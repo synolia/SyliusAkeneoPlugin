@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration;
 
-final class CategoriesConfigurationRepository extends EntityRepository
+final class CategorieConfigurationRepository extends EntityRepository
 {
-    public function getCategoriesConfiguration(): ?CategoriesConfiguration
+    public function getCategoriesConfiguration(): ?CategorieConfiguration
     {
         $categoriesConfiguration = $this->findOneBy([]);
-        if (!$categoriesConfiguration instanceof CategoriesConfiguration) {
+        if (!$categoriesConfiguration instanceof CategorieConfiguration) {
             return null;
         }
 

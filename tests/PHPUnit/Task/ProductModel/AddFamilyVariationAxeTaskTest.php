@@ -11,7 +11,7 @@ use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -25,14 +25,14 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
     private $taskProvider;
 
     /** @var EntityRepository */
-    private $productsGroupRepository;
+    private $productGroupRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
-        $this->productsGroupRepository = self::$container->get('akeneo.repository.products_group');
+        $this->productGroupRepository = self::$container->get('akeneo.repository.product_group');
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
             new ResponseStack(
@@ -65,10 +65,10 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $productModelPayload = $addFamilyVariationAxes->__invoke($familyVariantPayload);
         Assert::assertInstanceOf(PipelinePayloadInterface::class, $productModelPayload);
 
-        /** @var ProductsGroup $productsGroup */
-        $productsGroup = $this->productsGroupRepository->findOneBy(['productParent' => 'caelus']);
-        Assert::assertInstanceOf(ProductsGroup::class, $productsGroup);
-        Assert::assertNotEmpty($productsGroup->getVariationAxes());
+        /** @var ProductGroup $productGroup */
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'caelus']);
+        Assert::assertInstanceOf(ProductGroup::class, $productGroup);
+        Assert::assertNotEmpty($productGroup->getVariationAxes());
 
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
@@ -83,7 +83,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
                 continue;
             }
             foreach ($variantAttributeSet['axes'] as $axe) {
-                assert::assertContains($axe, $productsGroup->getVariationAxes());
+                assert::assertContains($axe, $productGroup->getVariationAxes());
             }
         }
     }

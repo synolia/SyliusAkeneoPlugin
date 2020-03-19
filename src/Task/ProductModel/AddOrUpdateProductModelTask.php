@@ -18,7 +18,7 @@ use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -58,7 +58,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     private $productTaxonRepository;
 
     /** @var EntityRepository */
-    private $productsGroupRepository;
+    private $productGroupRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -68,7 +68,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         TaxonRepositoryInterface $taxonRepository,
         EntityRepository $productAttributeRepository,
         EntityRepository $productTranslationRepository,
-        EntityRepository $productsGroupRepository,
+        EntityRepository $productGroupRepository,
         FactoryInterface $productAttributeValueFactory,
         FactoryInterface $productTaxonAkeneoFactory,
         SlugGeneratorInterface $slugGenerator
@@ -81,7 +81,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->productTaxonRepository = $productTaxonAkeneoRepository;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productTranslationRepository = $productTranslationRepository;
-        $this->productsGroupRepository = $productsGroupRepository;
+        $this->productGroupRepository = $productGroupRepository;
         $this->taxonRepository = $taxonRepository;
         $this->slugGenerator = $slugGenerator;
     }
@@ -110,7 +110,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
                 $attributesMapping[$attribute->getName()] = $attribute;
             }
 
-            $this->createProductsGroup($payload->getResources());
+            $this->createProductGroup($payload->getResources());
             $this->entityManager->beginTransaction();
             foreach ($payload->getResources() as $resource) {
                 $this->process($resource, $productsMapping, $attributesMapping);
@@ -150,19 +150,19 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->entityManager->persist($product);
     }
 
-    private function createProductsGroup(ResourceCursorInterface $resources): void
+    private function createProductGroup(ResourceCursorInterface $resources): void
     {
         $this->entityManager->beginTransaction();
         foreach ($resources as $resource) {
             if ($resource['parent'] !== null) {
                 continue;
             }
-            if ($resource['code'] !== null && $this->productsGroupRepository->findOneBy(['productParent' => $resource['code']]) !== null) {
+            if ($resource['code'] !== null && $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]) !== null) {
                 continue;
             }
-            $productsGroup = new ProductsGroup();
-            $productsGroup->setProductParent($resource['code']);
-            $this->entityManager->persist($productsGroup);
+            $productGroup = new ProductGroup();
+            $productGroup->setProductParent($resource['code']);
+            $this->entityManager->persist($productGroup);
         }
         $this->entityManager->flush();
         $this->entityManager->commit();
@@ -170,12 +170,12 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function addOrUpdate(array $resource, ProductInterface $product, array $attributesMapping): ?ProductInterface
     {
-        $productsGroup = $this->productsGroupRepository->findOneBy(['productParent' => $resource['parent']]);
-        if (!$productsGroup instanceof ProductsGroup) {
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+        if (!$productGroup instanceof ProductGroup) {
             return null;
         }
 
-        $productsGroup->addProduct($product);
+        $productGroup->addProduct($product);
 
         $productTaxonIds = [];
         if ($product->getId() !== null) {

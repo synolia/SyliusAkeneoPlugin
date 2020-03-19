@@ -12,9 +12,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_products_group")
+ * @ORM\Table("akeneo_product_group")
  */
-class ProductsGroup implements ResourceInterface
+class ProductGroup implements ResourceInterface
 {
     /**
      * @var int

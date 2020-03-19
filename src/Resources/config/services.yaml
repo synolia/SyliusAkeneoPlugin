@@ -27,27 +27,27 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules'
 
-    Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository:
+    Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository:
         arguments:
             - '@doctrine.orm.default_entity_manager'
-            - '@sylius.products_configuration_class_metadata'
+            - '@sylius.product_configuration_class_metadata'
 
-    sylius.products_configuration_class_metadata:
+    sylius.product_configuration_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
-            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration'
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration'
 
-    Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository:
+    Synolia\SyliusAkeneoPlugin\Repository\CategorieConfigurationRepository:
         arguments:
             - '@doctrine.orm.default_entity_manager'
-            - '@akeneo.categories_configuration_class_metadata'
+            - '@akeneo.categorie_configuration_class_metadata'
 
-    akeneo.categories_configuration_class_metadata:
+    akeneo.categorie_configuration_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
-            - '@Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration'
+            - '@Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration'
     akeneo.setting_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]

@@ -9,16 +9,16 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\CategoriesConfigurationType;
-use Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\CategorieConfigurationRepository;
 
 final class CategoriesController extends AbstractController
 {
     /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var CategoriesConfigurationRepository|RepositoryInterface */
+    /** @var CategorieConfigurationRepository|RepositoryInterface */
     private $categoriesConfigurationRepository;
 
     public function __construct(EntityManagerInterface $entityManager, RepositoryInterface $categoriesConfigurationRepository)
@@ -30,11 +30,11 @@ final class CategoriesController extends AbstractController
     public function __invoke(Request $request): Response
     {
         $categoriesConfigurations = null;
-        if ($this->categoriesConfigurationRepository instanceof CategoriesConfigurationRepository) {
+        if ($this->categoriesConfigurationRepository instanceof CategorieConfigurationRepository) {
             $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
         }
         if ($categoriesConfigurations === null) {
-            $categoriesConfigurations = new CategoriesConfiguration();
+            $categoriesConfigurations = new CategorieConfiguration();
         }
 
         $form = $this->createForm(CategoriesConfigurationType::class, $categoriesConfigurations);

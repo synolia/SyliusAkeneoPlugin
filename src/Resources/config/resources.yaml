@@ -8,8 +8,8 @@ sylius_resource:
         akeneo.categories_configuration:
             driver: doctrine/orm
             classes:
-                model: Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration
-                repository: Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository
+                model: Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration
+                repository: Synolia\SyliusAkeneoPlugin\Repository\CategorieConfigurationRepository
         akeneo.api_configuration:
             driver: doctrine/orm
             classes:
@@ -24,15 +24,15 @@ sylius_resource:
             classes:
                 model: Sylius\Component\Product\Model\ProductOption
                 repository: Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository
-        akeneo.products_configuration:
+        akeneo.product_configuration:
             driver: doctrine/orm
             classes:
-                model: Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration
-                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository
-        akeneo.products_group:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository
+        akeneo.product_group:
             driver: doctrine/orm
             classes:
-                model: Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductGroup
         akeneo.setting:
             driver: doctrine/orm
             classes:
