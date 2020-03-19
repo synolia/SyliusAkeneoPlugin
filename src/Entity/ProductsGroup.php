@@ -66,9 +66,9 @@ class ProductsGroup implements ResourceInterface
     }
 
     /**
-     * @return Collection|string[]
+     * @return ArrayCollection|string[]
      */
-    public function getVariationAxes(): Collection
+    public function getVariationAxes(): ArrayCollection
     {
         return $this->variationAxes;
     }

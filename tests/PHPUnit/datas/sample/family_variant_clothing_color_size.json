@@ -1,0 +1,35 @@
+{
+  "code": "clothing_color_size",
+  "labels": {
+    "de_DE": "Kleidung nach Farbe und Größe",
+    "en_US": "Clothing by color and size",
+    "fr_FR": "Vêtements par couleur et taille"
+  },
+  "variant_attribute_sets": [
+    {
+      "level": 1,
+      "axes": [
+        "color"
+      ],
+      "attributes": [
+        "variation_name",
+        "variation_image",
+        "composition",
+        "color",
+        "material"
+      ]
+    },
+    {
+      "level": 2,
+      "axes": [
+        "size"
+      ],
+      "attributes": [
+        "sku",
+        "weight",
+        "size",
+        "ean"
+      ]
+    }
+  ]
+}

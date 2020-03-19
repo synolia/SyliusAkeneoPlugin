@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelsTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
@@ -53,8 +53,8 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
             break;
         }
 
-        /** @var AddOrUpdateProductModelsTask $addOrUpdateProductModelsTask */
-        $addOrUpdateProductModelsTask = $this->taskProvider->get(AddOrUpdateProductModelsTask::class);
+        /** @var AddOrUpdateProductModelTask $addOrUpdateProductModelsTask */
+        $addOrUpdateProductModelsTask = $this->taskProvider->get(AddOrUpdateProductModelTask::class);
         $result = $addOrUpdateProductModelsTask->__invoke($optionsPayload);
         Assert::assertInstanceOf(PipelinePayloadInterface::class, $result);
 

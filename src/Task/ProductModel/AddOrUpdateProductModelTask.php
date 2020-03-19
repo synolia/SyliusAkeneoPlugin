@@ -25,7 +25,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
+final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
     /** @var EntityManagerInterface */
     private $entityManager;
@@ -176,8 +176,6 @@ final class AddOrUpdateProductModelsTask implements AkeneoTaskInterface
         }
 
         $productsGroup->addProduct($product);
-        $productsGroup->addVariationAxe($resource['family']);
-        $productsGroup->addVariationAxe($resource['family_variant']);
 
         $productTaxonIds = [];
         if ($product->getId() !== null) {
