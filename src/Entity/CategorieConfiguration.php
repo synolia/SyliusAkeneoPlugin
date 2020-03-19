@@ -8,10 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\CategoriesConfigurationRepository")
+ * @ORM\Entity(repositoryClass="CategorieConfigurationRepository")
  * @ORM\Table("akeneo_api_configuration_categories")
  */
-final class CategoriesConfiguration implements ResourceInterface
+final class CategorieConfiguration implements ResourceInterface
 {
     /**
      * @var int

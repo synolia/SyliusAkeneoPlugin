@@ -6,6 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-final class ProductsConfigurationRepository extends EntityRepository
+final class ProductConfigurationRepository extends EntityRepository
 {
 }

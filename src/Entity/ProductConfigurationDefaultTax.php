@@ -10,9 +10,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_api_configuration_products_default_tax")
+ * @ORM\Table("akeneo_api_configuration_product_default_tax")
  */
-class ProductsConfigurationDefaultTax implements ResourceInterface
+class ProductConfigurationDefaultTax implements ResourceInterface
 {
     /**
      * @var int
@@ -37,11 +37,11 @@ class ProductsConfigurationDefaultTax implements ResourceInterface
     private $taxClass;
 
     /**
-     * @var ProductsConfiguration|null
-     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration", inversedBy="defaultTax")
+     * @var ProductConfiguration|null
+     * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="defaultTax")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $productsConfiguration;
+    private $productConfiguration;
 
     public function getId(): ?int
     {
@@ -72,14 +72,14 @@ class ProductsConfigurationDefaultTax implements ResourceInterface
         return $this;
     }
 
-    public function getProductsConfiguration(): ?ProductsConfiguration
+    public function getProductConfiguration(): ?ProductConfiguration
     {
-        return $this->productsConfiguration;
+        return $this->productConfiguration;
     }
 
-    public function setProductsConfiguration(?ProductsConfiguration $productsConfiguration): self
+    public function setProductConfiguration(?ProductConfiguration $productConfiguration): self
     {
-        $this->productsConfiguration = $productsConfiguration;
+        $this->productConfiguration = $productConfiguration;
 
         return $this;
     }

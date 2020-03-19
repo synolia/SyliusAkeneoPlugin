@@ -8,7 +8,7 @@ use PHPUnit\Framework\Assert;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -24,7 +24,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
     private $productRepository;
 
     /** @var EntityRepository */
-    private $productsGroupRepository;
+    private $productGroupRepository;
 
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
         $this->productRepository = self::$container->get('sylius.repository.product');
-        $this->productsGroupRepository = self::$container->get('akeneo.repository.products_group');
+        $this->productGroupRepository = self::$container->get('akeneo.repository.product_group');
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
@@ -62,7 +62,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         $productFinal = $this->productRepository->findOneBy(['code' => $productBase['code']]);
         Assert::assertInstanceOf(Product::class, $productFinal);
 
-        $productsGroup = $this->productsGroupRepository->findOneBy(['productParent' => $productBase['parent']]);
-        Assert::assertInstanceOf(ProductsGroup::class, $productsGroup);
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productBase['parent']]);
+        Assert::assertInstanceOf(ProductGroup::class, $productGroup);
     }
 }

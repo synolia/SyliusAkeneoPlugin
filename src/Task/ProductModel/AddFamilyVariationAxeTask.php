@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductsGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -19,12 +19,12 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
     private $entityManager;
 
     /** @var EntityRepository */
-    private $productsGroupRepository;
+    private $productGroupRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, EntityRepository $productsGroupRepository)
+    public function __construct(EntityManagerInterface $entityManager, EntityRepository $productGroupRepository)
     {
         $this->entityManager = $entityManager;
-        $this->productsGroupRepository = $productsGroupRepository;
+        $this->productGroupRepository = $productGroupRepository;
     }
 
     /**
@@ -43,19 +43,19 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                     continue;
                 }
 
-                $productsGroup = $this->productsGroupRepository->findOneBy(['productParent' => $resource['code']]);
-                if (!$productsGroup instanceof ProductsGroup) {
+                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
+                if (!$productGroup instanceof ProductGroup) {
                     continue;
                 }
 
-                $payloadProductsGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
+                $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
 
-                foreach ($payloadProductsGroup['variant_attribute_sets'] as $variantAttributeSet) {
-                    if (count($payloadProductsGroup['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+                foreach ($payloadProductGroup['variant_attribute_sets'] as $variantAttributeSet) {
+                    if (count($payloadProductGroup['variant_attribute_sets']) !== $variantAttributeSet['level']) {
                         continue;
                     }
                     foreach ($variantAttributeSet['axes'] as $axe) {
-                        $productsGroup->addVariationAxe($axe);
+                        $productGroup->addVariationAxe($axe);
                     }
                 }
             }

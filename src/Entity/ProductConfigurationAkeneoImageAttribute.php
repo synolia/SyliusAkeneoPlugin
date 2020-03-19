@@ -10,9 +10,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_api_configuration_products_akeneo_image_attributes")
+ * @ORM\Table("akeneo_api_configuration_producs_akeneo_image_attribute")
  */
-class ProductsConfigurationAkeneoImageAttributes implements ResourceInterface
+class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
 {
     /**
      * @var int
@@ -31,11 +31,11 @@ class ProductsConfigurationAkeneoImageAttributes implements ResourceInterface
     private $akeneoAttributes;
 
     /**
-     * @var ProductsConfiguration|null
-     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfiguration", inversedBy="defaultTax")
+     * @var ProductConfiguration|null
+     * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="defaultTax")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $productsConfiguration;
+    private $productConfiguration;
 
     public function getId(): ?int
     {
@@ -54,14 +54,14 @@ class ProductsConfigurationAkeneoImageAttributes implements ResourceInterface
         return $this;
     }
 
-    public function getProductsConfiguration(): ?ProductsConfiguration
+    public function getProductConfiguration(): ?ProductConfiguration
     {
-        return $this->productsConfiguration;
+        return $this->productConfiguration;
     }
 
-    public function setProductsConfiguration(?ProductsConfiguration $productsConfiguration): self
+    public function setProductConfiguration(?ProductConfiguration $productConfiguration): self
     {
-        $this->productsConfiguration = $productsConfiguration;
+        $this->productConfiguration = $productConfiguration;
 
         return $this;
     }

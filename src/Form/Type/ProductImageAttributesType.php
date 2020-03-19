@@ -9,9 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationImagesMapping;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 
-final class ProductsImagesMappingType extends AbstractType
+final class ProductImageAttributesType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,8 +19,7 @@ final class ProductsImagesMappingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('syliusAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.sylius_attribute'])
-            ->add('akeneoAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attribute'])
+            ->add('akeneoAttributes', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attributes'])
             ->add('delete', ButtonType::class, [
                 'label' => 'sylius.ui.admin.akeneo.delete',
                 'attr' => [
@@ -32,6 +31,6 @@ final class ProductsImagesMappingType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProductsConfigurationImagesMapping::class]);
+        $resolver->setDefaults(['data_class' => ProductConfigurationAkeneoImageAttribute::class]);
     }
 }

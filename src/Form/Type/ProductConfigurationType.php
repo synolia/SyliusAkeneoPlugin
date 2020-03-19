@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-final class ProductsConfigurationType extends AbstractType
+final class ProductConfigurationType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ final class ProductsConfigurationType extends AbstractType
                 'required' => true,
                 'mapped' => true,
                 'label' => false,
-                'entry_type' => ProductsDefaultTaxType::class,
+                'entry_type' => ProductDefaultTaxType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -35,7 +35,7 @@ final class ProductsConfigurationType extends AbstractType
                 'required' => true,
                 'mapped' => true,
                 'label' => false,
-                'entry_type' => ProductsAttributsType::class,
+                'entry_type' => ProductAttributsType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -49,7 +49,7 @@ final class ProductsConfigurationType extends AbstractType
                 'required' => true,
                 'mapped' => true,
                 'label' => false,
-                'entry_type' => ProductsImageAttributesType::class,
+                'entry_type' => ProductImageAttributesType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -60,7 +60,7 @@ final class ProductsConfigurationType extends AbstractType
                 'required' => true,
                 'mapped' => true,
                 'label' => false,
-                'entry_type' => ProductsImagesMappingType::class,
+                'entry_type' => ProductImagesMappingType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,

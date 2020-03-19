@@ -9,9 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationAttributes;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAttribute;
 
-final class ProductsAttributsType extends AbstractType
+final class ProductAttributsType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -32,6 +32,6 @@ final class ProductsAttributsType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProductsConfigurationAttributes::class]);
+        $resolver->setDefaults(['data_class' => ProductConfigurationAttribute::class]);
     }
 }

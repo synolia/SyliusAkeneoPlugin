@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductsConfigurationRepository")
- * @ORM\Table("akeneo_api_configuration_products")
+ * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository")
+ * @ORM\Table("akeneo_api_configuration_product")
  */
-class ProductsConfiguration implements ResourceInterface
+class ProductConfiguration implements ResourceInterface
 {
     /**
      * @var int
@@ -38,8 +38,8 @@ class ProductsConfiguration implements ResourceInterface
     /**
      * @var Collection
      * @ORM\OneToMany(
-     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationDefaultTax",
-     *     mappedBy="productsConfiguration",
+     *     targetEntity="ProductConfigurationDefaultTax",
+     *     mappedBy="productConfiguration",
      *     orphanRemoval=true,
      *     cascade={"persist"}
      * )
@@ -49,8 +49,8 @@ class ProductsConfiguration implements ResourceInterface
     /**
      * @var Collection
      * @ORM\OneToMany(
-     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationAttributes",
-     *     mappedBy="productsConfiguration",
+     *     targetEntity="ProductConfigurationAttribute",
+     *     mappedBy="productConfiguration",
      *     orphanRemoval=true,
      *     cascade={"persist"}
      * )
@@ -66,8 +66,8 @@ class ProductsConfiguration implements ResourceInterface
     /**
      * @var Collection
      * @ORM\OneToMany(
-     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationAkeneoImageAttributes",
-     *     mappedBy="productsConfiguration",
+     *     targetEntity="ProductConfigurationAkeneoImageAttribute",
+     *     mappedBy="productConfiguration",
      *     orphanRemoval=true,
      *     cascade={"persist"}
      * )
@@ -77,8 +77,8 @@ class ProductsConfiguration implements ResourceInterface
     /**
      * @var Collection
      * @ORM\OneToMany(
-     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductsConfigurationImagesMapping",
-     *     mappedBy="productsConfiguration",
+     *     targetEntity="ProductConfigurationImageMapping",
+     *     mappedBy="productConfiguration",
      *     orphanRemoval=true,
      *     cascade={"persist"}
      * )
@@ -129,29 +129,29 @@ class ProductsConfiguration implements ResourceInterface
     }
 
     /**
-     * @return Collection|ProductsConfigurationDefaultTax[]
+     * @return Collection|ProductConfigurationDefaultTax[]
      */
     public function getDefaultTax(): Collection
     {
         return $this->defaultTax;
     }
 
-    public function addDefaultTax(ProductsConfigurationDefaultTax $defaultTax): self
+    public function addDefaultTax(ProductConfigurationDefaultTax $defaultTax): self
     {
         if (!$this->defaultTax->contains($defaultTax)) {
             $this->defaultTax[] = $defaultTax;
-            $defaultTax->setProductsConfiguration($this);
+            $defaultTax->setProductConfiguration($this);
         }
 
         return $this;
     }
 
-    public function removeDefaultTax(ProductsConfigurationDefaultTax $defaultTax): self
+    public function removeDefaultTax(ProductConfigurationDefaultTax $defaultTax): self
     {
         if ($this->defaultTax->contains($defaultTax)) {
             $this->defaultTax->removeElement($defaultTax);
-            if ($defaultTax->getProductsConfiguration() === $this) {
-                $defaultTax->setProductsConfiguration(null);
+            if ($defaultTax->getProductConfiguration() === $this) {
+                $defaultTax->setProductConfiguration(null);
             }
         }
 
@@ -159,29 +159,29 @@ class ProductsConfiguration implements ResourceInterface
     }
 
     /**
-     * @return Collection|ProductsConfigurationAttributes[]
+     * @return Collection|ProductConfigurationAttribute[]
      */
     public function getConfigurable(): Collection
     {
         return $this->configurable;
     }
 
-    public function addConfigurable(ProductsConfigurationAttributes $configurable): self
+    public function addConfigurable(ProductConfigurationAttribute $configurable): self
     {
         if (!$this->configurable->contains($configurable)) {
             $this->configurable[] = $configurable;
-            $configurable->setProductsConfiguration($this);
+            $configurable->setProductConfiguration($this);
         }
 
         return $this;
     }
 
-    public function removeConfigurable(ProductsConfigurationAttributes $configurable): self
+    public function removeConfigurable(ProductConfigurationAttribute $configurable): self
     {
         if ($this->configurable->contains($configurable)) {
             $this->configurable->removeElement($configurable);
-            if ($configurable->getProductsConfiguration() === $this) {
-                $configurable->setProductsConfiguration(null);
+            if ($configurable->getProductConfiguration() === $this) {
+                $configurable->setProductConfiguration(null);
             }
         }
 
@@ -201,29 +201,29 @@ class ProductsConfiguration implements ResourceInterface
     }
 
     /**
-     * @return Collection|ProductsConfigurationAkeneoImageAttributes[]
+     * @return Collection|ProductConfigurationAkeneoImageAttribute[]
      */
     public function getAkeneoImageAttributes(): ?Collection
     {
         return $this->akeneoImageAttributes;
     }
 
-    public function addAkeneoImageAttribute(ProductsConfigurationAkeneoImageAttributes $akeneoImageAttributes): self
+    public function addAkeneoImageAttribute(ProductConfigurationAkeneoImageAttribute $akeneoImageAttributes): self
     {
         if (!$this->akeneoImageAttributes->contains($akeneoImageAttributes)) {
             $this->akeneoImageAttributes[] = $akeneoImageAttributes;
-            $akeneoImageAttributes->setProductsConfiguration($this);
+            $akeneoImageAttributes->setProductConfiguration($this);
         }
 
         return $this;
     }
 
-    public function removeAkeneoImageAttribute(ProductsConfigurationAkeneoImageAttributes $akeneoImageAttributes): self
+    public function removeAkeneoImageAttribute(ProductConfigurationAkeneoImageAttribute $akeneoImageAttributes): self
     {
         if ($this->akeneoImageAttributes->contains($akeneoImageAttributes)) {
             $this->akeneoImageAttributes->removeElement($akeneoImageAttributes);
-            if ($akeneoImageAttributes->getProductsConfiguration() === $this) {
-                $akeneoImageAttributes->setProductsConfiguration(null);
+            if ($akeneoImageAttributes->getProductConfiguration() === $this) {
+                $akeneoImageAttributes->setProductConfiguration(null);
             }
         }
 
@@ -231,29 +231,29 @@ class ProductsConfiguration implements ResourceInterface
     }
 
     /**
-     * @return Collection|ProductsConfigurationImagesMapping[]
+     * @return Collection|ProductConfigurationImageMapping[]
      */
     public function getProductImagesMapping(): ?Collection
     {
         return $this->productImagesMapping;
     }
 
-    public function addProductImagesMapping(ProductsConfigurationImagesMapping $productImagesMapping): self
+    public function addProductImagesMapping(ProductConfigurationImageMapping $productImagesMapping): self
     {
         if (!$this->productImagesMapping->contains($productImagesMapping)) {
             $this->productImagesMapping[] = $productImagesMapping;
-            $productImagesMapping->setProductsConfiguration($this);
+            $productImagesMapping->setProductConfiguration($this);
         }
 
         return $this;
     }
 
-    public function removeProductImagesMapping(ProductsConfigurationImagesMapping $productImagesMapping): self
+    public function removeProductImagesMapping(ProductConfigurationImageMapping $productImagesMapping): self
     {
         if ($this->productImagesMapping->contains($productImagesMapping)) {
             $this->productImagesMapping->removeElement($productImagesMapping);
-            if ($productImagesMapping->getProductsConfiguration() === $this) {
-                $productImagesMapping->setProductsConfiguration(null);
+            if ($productImagesMapping->getProductConfiguration() === $this) {
+                $productImagesMapping->setProductConfiguration(null);
             }
         }
 
