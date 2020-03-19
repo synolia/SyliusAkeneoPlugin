@@ -11,7 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Entity(repositoryClass="CategorieConfigurationRepository")
  * @ORM\Table("akeneo_api_configuration_categories")
  */
-final class CategorieConfiguration implements ResourceInterface
+class CategorieConfiguration implements ResourceInterface
 {
     /**
      * @var int
