@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
@@ -22,7 +21,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager */
     private $productOptionManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository */
     private $productAttributeRepository;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
@@ -30,7 +29,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        RepositoryInterface $productAttributeAkeneoRepository,
+        ProductAttributeRepository $productAttributeAkeneoRepository,
         ProductOptionManager $productOptionManager,
         ConfigurationProvider $configurationProvider
     ) {

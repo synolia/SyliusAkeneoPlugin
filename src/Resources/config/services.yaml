@@ -53,3 +53,10 @@ services:
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
+
+    Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository: ~
+    Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository: ~
+    Synolia\SyliusAkeneoPlugin\Repository\ProductRepository: ~
+    Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository: ~
+    Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository: ~
+

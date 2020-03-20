@@ -14,11 +14,6 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration
-        akeneo.product_attribute_akeneo:
-            driver: doctrine/orm
-            classes:
-                model: Synolia\SyliusAkeneoPlugin\Entity\ProductAttribute
-                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository
         akeneo.product_option_akeneo:
             driver: doctrine/orm
             classes:
@@ -37,21 +32,6 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\Setting
-        akeneo.product_akeneo:
-            driver: doctrine/orm
-            classes:
-                model: Sylius\Component\Core\Model\Product
-                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductRepository
-        akeneo.taxon_akeneo:
-            driver: doctrine/orm
-            classes:
-                model: Sylius\Component\Core\Model\TaxonInterface
-                repository: Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository
-        akeneo.product_taxon_akeneo:
-            driver: doctrine/orm
-            classes:
-                model: Sylius\Component\Core\Model\ProductTaxon
-                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository
         sylius.product_filters_rules:
             driver: doctrine/orm
             classes:
