@@ -23,7 +23,6 @@ final class ProductConfigurationType extends AbstractType
             ->add('defaultTax', CollectionType::class, [
                 'required' => true,
                 'mapped' => true,
-                'label' => false,
                 'entry_type' => ProductDefaultTaxType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
@@ -34,7 +33,6 @@ final class ProductConfigurationType extends AbstractType
             ->add('configurable', CollectionType::class, [
                 'required' => true,
                 'mapped' => true,
-                'label' => false,
                 'entry_type' => ProductAttributsType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
@@ -48,7 +46,6 @@ final class ProductConfigurationType extends AbstractType
             ->add('akeneoImageAttributes', CollectionType::class, [
                 'required' => true,
                 'mapped' => true,
-                'label' => false,
                 'entry_type' => ProductImageAttributesType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
@@ -59,7 +56,6 @@ final class ProductConfigurationType extends AbstractType
             ->add('productImagesMapping', CollectionType::class, [
                 'required' => true,
                 'mapped' => true,
-                'label' => false,
                 'entry_type' => ProductImagesMappingType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
