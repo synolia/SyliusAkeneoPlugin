@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Sylius\Component\Product\Model\ProductAttribute;
 
-final class ProductAttributeRepository extends EntityRepository
+final class ProductAttributeRepository extends ServiceEntityRepository
 {
-    public function __construct(EntityManagerInterface $productAttributeManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($productAttributeManager, new ClassMetadata(ProductAttribute::class));
+        parent::__construct($registry, ProductAttribute::class);
     }
 
     /**
