@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Product\Model\ProductOption;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository;
@@ -17,16 +16,16 @@ final class DeleteTask implements AkeneoTaskInterface
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository */
     private $productAttributeRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository */
     private $productOptionRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        RepositoryInterface $productAttributeAkeneoRepository,
-        RepositoryInterface $productOptionAkeneoRepository
+        ProductAttributeRepository $productAttributeAkeneoRepository,
+        ProductOptionRepository $productOptionAkeneoRepository
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeAkeneoRepository;

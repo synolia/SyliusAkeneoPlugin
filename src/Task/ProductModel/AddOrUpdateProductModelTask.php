@@ -70,13 +70,13 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         EntityRepository $productTranslationRepository,
         EntityRepository $productGroupRepository,
         FactoryInterface $productAttributeValueFactory,
-        FactoryInterface $productTaxonAkeneoFactory,
+        FactoryInterface $productTaxonFactory,
         SlugGeneratorInterface $slugGenerator
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
         $this->productAttributeValueFactory = $productAttributeValueFactory;
-        $this->productTaxonFactory = $productTaxonAkeneoFactory;
+        $this->productTaxonFactory = $productTaxonFactory;
         $this->productRepository = $productRepository;
         $this->productTaxonRepository = $productTaxonAkeneoRepository;
         $this->productAttributeRepository = $productAttributeRepository;

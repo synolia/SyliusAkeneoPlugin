@@ -49,7 +49,6 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         $productOptionRepository = self::$container->get('sylius.repository.product_option');
         /** @var \Sylius\Component\Product\Model\ProductOptionInterface $productOption */
         $productOption = $productOptionRepository->findOneBy(['code' => 'color']);
-        $this->assertNotNull($productOption);
 
         $this->assertNotNull($productOption);
         $this->assertProductOptionTranslations($productOption);

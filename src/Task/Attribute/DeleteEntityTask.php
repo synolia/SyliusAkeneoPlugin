@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Attribute\Model\Attribute;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductAttribute;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
