@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -39,6 +40,7 @@ class ProductGroup implements ResourceInterface
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\Product")
+     * @JoinTable(name="akeneo_productgroup_product")
      */
     private $products;
 

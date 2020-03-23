@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
- * @ORM\Table("akeneo_api_configuration_producs_akeneo_image_attribute")
+ * @ORM\Table("akeneo_api_configuration_product_akeneo_image_attribute")
  */
 class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
 {
