@@ -12,9 +12,6 @@ use Sylius\Component\Core\Model\ProductTaxonInterface;
 
 final class ProductTaxonRepository extends ServiceEntityRepository
 {
-    /**
-     * ProductTaxonRepository constructor.
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ProductTaxon::class);
