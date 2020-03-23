@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\Product;
 
-final class ProductRepository extends ServiceEntityRepository
+final class ProductRepository extends EntityRepository
 {
-    /**
-     * ProductRepository constructor.
-     */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(EntityManagerInterface $productManager)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($productManager, new ClassMetadata(Product::class));
     }
 
     public function findProductsUsingCategories(array $ids): iterable

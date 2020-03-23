@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\Taxon;
 
-final class TaxonRepository extends ServiceEntityRepository
+final class TaxonRepository extends EntityRepository
 {
-    /**
-     * TaxonRepository constructor.
-     */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(EntityManagerInterface $productTaxonManager)
     {
-        parent::__construct($registry, Taxon::class);
+        parent::__construct($productTaxonManager, new ClassMetadata(Taxon::class));
     }
 
     public function getMissingCategoriesIds(array $codes): iterable

@@ -14,11 +14,6 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration
-        akeneo.product_option_akeneo:
-            driver: doctrine/orm
-            classes:
-                model: Sylius\Component\Product\Model\ProductOption
-                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository
         akeneo.product_configuration:
             driver: doctrine/orm
             classes:

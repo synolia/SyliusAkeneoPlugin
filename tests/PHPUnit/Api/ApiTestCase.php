@@ -28,7 +28,7 @@ abstract class ApiTestCase extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->server = new MockWebServer(8081, '127.0.0.1');
+        $this->server = new MockWebServer(8022, '127.0.0.1');
         $this->server->start();
 
         $this->server->setResponseOfPath(

@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Product\Model\ProductOption;
 
-final class ProductOptionRepository extends ServiceEntityRepository
+final class ProductOptionRepository extends EntityRepository
 {
-    /**
-     * ProductOptionRepository constructor.
-     */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(EntityManagerInterface $productOptionManager)
     {
-        parent::__construct($registry, ProductOption::class);
+        parent::__construct($productOptionManager, new ClassMetadata(ProductOption::class));
     }
 
     public function getRemovedOptionIds(array $codes): array
