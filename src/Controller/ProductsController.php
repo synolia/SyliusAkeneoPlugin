@@ -10,6 +10,9 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductConfigurationType;
 
@@ -21,14 +24,38 @@ final class ProductsController extends AbstractController
     /** @var RepositoryInterface */
     private $productConfigurationRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, RepositoryInterface $productConfigurationRepository)
-    {
+    /** @var RepositoryInterface */
+    private $apiConfigurationRepository;
+
+    /** @var FlashBagInterface */
+    private $flashBag;
+
+    /** @var TranslatorInterface */
+    private $translator;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        RepositoryInterface $productConfigurationRepository,
+        RepositoryInterface $apiConfigurationRepository,
+        FlashBagInterface $flashBag,
+        TranslatorInterface $translator
+    ) {
         $this->entityManager = $entityManager;
         $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->flashBag = $flashBag;
+        $this->translator = $translator;
     }
 
     public function __invoke(Request $request): Response
     {
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        if (!$apiConfiguration instanceof ApiConfiguration) {
+            $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
+
+            return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
+        }
+
         /** @var ProductConfiguration $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([]) ?? new ProductConfiguration();
 

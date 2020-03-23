@@ -2,6 +2,7 @@ sylius:
     ui:
         admin:
             akeneo:
+                not_configured_yet: The API must be configure before continue.
                 delete: Delete
                 add: Add
                 submit: Save changes
