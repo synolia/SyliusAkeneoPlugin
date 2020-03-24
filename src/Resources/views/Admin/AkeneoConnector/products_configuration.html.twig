@@ -2,10 +2,10 @@
 
 {% import '@SyliusUi/Macro/headers.html.twig' as headers %}
 
-{% block title %}{{ 'sylius.ui.admin.akeneo.categories.categories'|trans }} {{ parent() }}{% endblock %}
+{% block title %}{{ 'sylius.ui.admin.akeneo.products.products'|trans }} {{ parent() }}{% endblock %}
 
 {% block content %}
-    {{ headers.default('sylius.ui.admin.akeneo.categories.categories'|trans, 'cogs') }}
+    {{ headers.default('sylius.ui.admin.akeneo.products.products'|trans, 'cogs') }}
 
     <div class="ui segment">
         {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
