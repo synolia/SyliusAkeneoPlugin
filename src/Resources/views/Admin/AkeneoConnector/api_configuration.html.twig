@@ -16,7 +16,11 @@
             {{ form_row(form.apiClientSecret) }}
             {{ form_row(form.paginationSize) }}
             {{ form_row(form.isEnterprise) }}
-            <ul class="website_mappings" data-prototype="{{ form_widget(form.websiteMappings.vars.prototype)|e('html_attr') }}"></ul>
+            <div class="ui segment">
+                <div class="website_mappings" data-prototype="{{ form_widget(form.websiteMappings.vars.prototype)|e('html_attr') }}">
+                    {{ form_row(form.websiteMappings) }}
+                </div>
+            </div>
 
             {{ form_end(form) }}
         </div>
@@ -50,7 +54,7 @@
 
             jQuery(document).ready(function() {
                 // Get the ul that holds the collection of tags
-                collectionHolder = jQuery('ul.website_mappings');
+                collectionHolder = jQuery('div.website_mappings');
 
                 // add the "add a tag" anchor and li to the tags ul
                 collectionHolder.append(newLinkLi);
