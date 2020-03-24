@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Controller;
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,14 +20,34 @@ final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;
 
-    public function __invoke(
-        Request $request,
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
+    /** @var EntityRepository */
+    private $apiConfigurationRepository;
+
+    /** @var TranslatorInterface */
+    private $translator;
+
+    /** @var FlashBagInterface */
+    private $flashBag;
+
+    public function __construct(
         EntityManagerInterface $entityManager,
+        EntityRepository $apiConfigurationRepository,
         FlashBagInterface $flashBag,
         TranslatorInterface $translator
-    ): Response {
+    ) {
+        $this->entityManager = $entityManager;
+        $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->flashBag = $flashBag;
+        $this->translator = $translator;
+    }
+
+    public function __invoke(Request $request): Response
+    {
         /** @var ApiConfiguration $apiConfiguration */
-        $apiConfiguration = $entityManager->getRepository(ApiConfiguration::class)->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
             $apiConfiguration = new ApiConfiguration();
@@ -46,15 +67,15 @@ final class ApiConfigurationController extends AbstractController
                 $apiConfiguration->setToken($client->getToken() ?? '');
                 $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
 
-                $entityManager->persist($apiConfiguration);
+                $this->entityManager->persist($apiConfiguration);
 
                 if (!$testCredentialsButton->isClicked()) {
-                    $entityManager->flush();
+                    $this->entityManager->flush();
                 }
 
-                $flashBag->add('success', $translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
+                $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
             } catch (\Throwable $throwable) {
-                $flashBag->add('error', $throwable->getMessage());
+                $this->flashBag->add('error', $throwable->getMessage());
             }
         }
 
