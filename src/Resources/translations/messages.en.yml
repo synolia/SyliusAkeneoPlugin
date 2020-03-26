@@ -13,6 +13,33 @@ sylius:
                     api_configuration: Api configuration
                 product_filter_rules:
                     product_filter_rules: Product filter rules
+                    mode: Mode
+                    simple: Simple
+                    advanced: Advanced
+                    advanced_filter: Advanced filter
+                    completeness_type: Completeness type
+                    locales: Locales
+                    completeness_value: Completeness value
+                    status: Status
+                    updated_mode: Update mode
+                    updated_before: Updated before
+                    updated_after: Updated After
+                    updated: Updated
+                    families: Families
+                    no_condition: No condition
+                    enabled: Enabled
+                    disabled: Disabled
+                    lower_than: Lower than
+                    lower_than_on_all_locales: Lower than on all locales
+                    lower_or_equals_than_on_all_locales: Lower or equals than on all locales
+                    greater_than: Greater than
+                    greater_or_equals_than: Greater than or equals than
+                    greater_or_equals_than_on_all_locales: Greater than or equals than on all locales
+                    greater_than_on_all_locales: Greater than on all locales
+                    equals: Equals
+                    differ: Differ
+                    between: Between
+                    since_last_x_days: Since last x days
                 categories:
                     categories: Categories
                     activate_new_categories: Activate new categories
