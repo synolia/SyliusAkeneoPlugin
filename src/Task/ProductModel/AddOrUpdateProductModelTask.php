@@ -21,9 +21,12 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
@@ -60,6 +63,12 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var EntityRepository */
     private $productGroupRepository;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
+    private $taskProvider;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload */
+    private $payload;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
@@ -71,7 +80,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         EntityRepository $productGroupRepository,
         FactoryInterface $productAttributeValueFactory,
         FactoryInterface $productTaxonFactory,
-        SlugGeneratorInterface $slugGenerator
+        SlugGeneratorInterface $slugGenerator,
+        AkeneoTaskProvider $taskProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
@@ -84,6 +94,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->productGroupRepository = $productGroupRepository;
         $this->taxonRepository = $taxonRepository;
         $this->slugGenerator = $slugGenerator;
+        $this->taskProvider = $taskProvider;
     }
 
     /**
@@ -91,6 +102,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $this->payload = $payload;
         if (!$payload->getResources() instanceof ResourceCursorInterface) {
             throw new NoProductModelResourcesException('No resource found.');
         }
@@ -187,6 +199,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $productTaxons = $this->updateTaxon($resource, $product);
         $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
         $this->updateAttributes($resource, $product, $attributesMapping);
+        $this->updateImages($resource, $product);
 
         $product->setCode($resource['code']);
 
@@ -305,5 +318,16 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
                 $this->productTaxonRepository->removeProductTaxonById($diff);
             }
         }
+    }
+
+    private function updateImages(array $resource, ProductInterface $product): void
+    {
+        $productMediaPayload = new ProductMediaPayload($this->payload->getAkeneoPimClient());
+        $productMediaPayload
+            ->setProduct($product)
+            ->setAttributes($resource['values'])
+        ;
+        $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
+        $imageTask->__invoke($productMediaPayload);
     }
 }
