@@ -9,9 +9,16 @@
     <div class="ui segment">
         {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
         <div class="ui segment">
-            {{ form_rest(form) }}
-            {{ form_end(form) }}
+            {{ form_row(form.settings) }}
         </div>
+        <div id="attributeTypeMappings" class="ui segment">
+            {{ form_row(form.attributeTypeMappings) }}
+        </div>
+        <div id="attributeAkeneoSyliusMappings" class="ui segment">
+            {{ form_row(form.attributeAkeneoSyliusMappings) }}
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
 {% endblock %}
 
@@ -40,25 +47,27 @@
          $newLinkLi.before($newFormLi);
      }
 
-     var collectionHolder;
+     var attributeTypeMappingCollectionHolder;
+     var addButtonAttributeTypeMapping = jQuery('<button type="button" class="ui button">Add</button>');
+     var newLinkLiAttributeTypeMapping = jQuery('<div></div>').append(addButtonAttributeTypeMapping);
 
-     var addButton = jQuery('<button type="button">Add</button>');
-     var newLinkLi = jQuery('<div></div>').append(addButton);
+     var attributeAkeneoSyliusMappingCollectionHolder;
+     var addButtonAttributeAkeneoSyliusMapping = jQuery('<button type="button" class="ui button">Add</button>');
+     var newLinkLiAttributeAkeneoSyliusMapping = jQuery('<div></div>').append(addButtonAttributeAkeneoSyliusMapping);
 
      jQuery(document).ready(function() {
-         // Get the ul that holds the collection of tags
-         collectionHolder = jQuery('#attributes_type_mapping_mappings');
+         attributeTypeMappingCollectionHolder = jQuery('#attributes_type_mapping_attributeTypeMappings');
+         attributeTypeMappingCollectionHolder.append(newLinkLiAttributeTypeMapping);
+         attributeTypeMappingCollectionHolder.data('index', attributeTypeMappingCollectionHolder.find(':input').length);
+         addButtonAttributeTypeMapping.on('click', function(e) {
+             addTagForm(attributeTypeMappingCollectionHolder, newLinkLiAttributeTypeMapping);
+         });
 
-         // add the "add a tag" anchor and li to the tags ul
-         collectionHolder.append(newLinkLi);
-
-         // count the current form inputs we have (e.g. 2), use that as the new
-         // index when inserting a new item (e.g. 2)
-         collectionHolder.data('index', collectionHolder.find(':input').length);
-
-         addButton.on('click', function(e) {
-             // add a new tag form (see next code block)
-             addTagForm(collectionHolder, newLinkLi);
+         attributeAkeneoSyliusMappingCollectionHolder = jQuery('#attributes_type_mapping_attributeAkeneoSyliusMappings');
+         attributeAkeneoSyliusMappingCollectionHolder.append(newLinkLiAttributeAkeneoSyliusMapping);
+         attributeAkeneoSyliusMappingCollectionHolder.data('index', attributeAkeneoSyliusMappingCollectionHolder.find(':input').length);
+         addButtonAttributeAkeneoSyliusMapping.on('click', function(e) {
+             addTagForm(attributeAkeneoSyliusMappingCollectionHolder, newLinkLiAttributeAkeneoSyliusMapping);
          });
 
          jQuery('.delete').on('click', function(e) {

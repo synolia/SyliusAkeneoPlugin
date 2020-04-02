@@ -67,3 +67,4 @@ akeneo:
         akeneo_attribute_type: 'Akeneo Attribute'
         admin:
             authentication_successfully_succeeded: Authenticated successfully succeeded
+            changes_successfully_saved: Changes successfully saved
