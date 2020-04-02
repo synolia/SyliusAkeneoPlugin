@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 use Sylius\Component\Core\Model\Channel;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +25,9 @@ final class ApiConfigurationWebsiteMappingType extends AbstractType
                 'class' => Channel::class,
             ])
             ->add('akeneoChannel', TextType::class)
+            ->add('delete', ButtonType::class, [
+                'attr' => ['class' => 'ui red button delete'],
+            ])
         ;
     }
 
