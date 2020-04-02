@@ -5,6 +5,11 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping
                 form: Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeMappingType
+        akeneo.attribute_akeneo_sylius_mapping:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping
+                form: Synolia\SyliusAkeneoPlugin\Form\Type\AttributeAkeneoSyliusMappingType
         akeneo.categories_configuration:
             driver: doctrine/orm
             classes:

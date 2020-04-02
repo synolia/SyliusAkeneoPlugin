@@ -64,3 +64,4 @@ akeneo:
     ui:
         admin:
             authentication_successfully_succeeded: Authentification réussie
+            changes_successfully_saved: Les modifications ont bien été enregistrées
