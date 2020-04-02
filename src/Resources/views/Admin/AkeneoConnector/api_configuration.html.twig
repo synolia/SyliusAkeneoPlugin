@@ -7,72 +7,80 @@
 {% block content %}
     {{ headers.default('sylius.ui.admin.akeneo.api_configuration.api_configuration'|trans, 'cogs') }}
     <div class="ui segment">
-        {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+        {{ form_start(form, {'attr': {'class': 'ui form'}}) }}
         <div class="ui segment">
             {{ form_row(form.baseUrl) }}
             {{ form_row(form.username) }}
             {{ form_row(form.password) }}
             {{ form_row(form.apiClientId) }}
             {{ form_row(form.apiClientSecret) }}
+            {{ form_row(form.testCredentials) }}
+        </div>
+        <div class="ui segment">
             {{ form_row(form.paginationSize) }}
-            {{ form_row(form.isEnterprise) }}
+            <div class="ui toggle checkbox">
+                {{ form_widget(form.isEnterprise) }}
+                {{ form_label(form.isEnterprise) }}
+            </div>
             <div class="ui segment">
                 <div class="website_mappings" data-prototype="{{ form_widget(form.websiteMappings.vars.prototype)|e('html_attr') }}">
                     {{ form_row(form.websiteMappings) }}
                 </div>
             </div>
-
-            {{ form_end(form) }}
         </div>
-        <script
-                src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                crossorigin="anonymous"></script>
-        <script>
-            function addTagForm($collectionHolder, $newLinkLi) {
-                // Get the data-prototype explained earlier
-                var prototype = $collectionHolder.data('prototype');
-
-                // get the new index
-                var index = $collectionHolder.data('index');
-
-                var newForm = prototype;
-                newForm = newForm.replace(/__name__/g, index);
-
-                // increase the index with one for the next item
-                $collectionHolder.data('index', index + 1);
-
-                // Display the form in the page in an li, before the "Add" link li
-                var $newFormLi = $('<li></li>').append(newForm);
-                $newLinkLi.before($newFormLi);
-            }
-
-            var collectionHolder;
-
-            var addButton = jQuery('<button type="button">Add</button>');
-            var newLinkLi = jQuery('<li></li>').append(addButton);
-
-            jQuery(document).ready(function() {
-                // Get the ul that holds the collection of tags
-                collectionHolder = jQuery('div.website_mappings');
-
-                // add the "add a tag" anchor and li to the tags ul
-                collectionHolder.append(newLinkLi);
-
-                // count the current form inputs we have (e.g. 2), use that as the new
-                // index when inserting a new item (e.g. 2)
-                collectionHolder.data('index', collectionHolder.find(':input').length);
-
-                addButton.on('click', function(e) {
-                    // add a new tag form (see next code block)
-                    addTagForm(collectionHolder, newLinkLi);
-                });
-
-                jQuery('#api_configuration_websiteMappings').children('div').each(function(i)
-                {
-                    $(this).append('<button name="delete' + i + '" class="delete-mapping">Delete</button>');
-                });
-            });
-        </script>
+        {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+ {{ parent() }}
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script>
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add" link li
+            var $newFormLi = $('<div></div>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+
+        var collectionHolder;
+
+        var addButton = jQuery('<button type="button" class="ui button">Add</button>');
+        var newLinkLi = jQuery('<div></div>').append(addButton);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            collectionHolder = jQuery('div.website_mappings');
+
+            // add the "add a tag" anchor and li to the tags ul
+            collectionHolder.append(newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            collectionHolder.data('index', collectionHolder.find(':input').length);
+
+            addButton.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm(collectionHolder, newLinkLi);
+            });
+
+            jQuery('.delete').on('click', function(e) {
+                jQuery(this).parent().parent().remove();
+            });
+        });
+    </script>
 {% endblock %}

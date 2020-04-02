@@ -38,8 +38,13 @@ final class ApiConfigurationType extends AbstractType
                 'by_reference' => false,
             ])
 
-            ->add('testCredentials', SubmitType::class)
-            ->add('submit', SubmitType::class)
+            ->add('testCredentials', SubmitType::class, [
+                'attr' => ['class' => 'ui secondary button'],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'sylius.ui.save',
+                'attr' => ['class' => 'ui primary button'],
+            ])
         ;
     }
 }
