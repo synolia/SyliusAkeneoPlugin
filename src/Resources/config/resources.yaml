@@ -28,6 +28,7 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ProductGroup
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository
         akeneo.setting:
             driver: doctrine/orm
             classes:

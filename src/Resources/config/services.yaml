@@ -48,6 +48,18 @@ services:
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration'
+
+    Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@akeneo.product_group'
+
+    akeneo.product_group:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductGroup'
+
     akeneo.setting_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
