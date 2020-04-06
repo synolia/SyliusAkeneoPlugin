@@ -51,8 +51,6 @@ final class InsertProductImagesTask implements AkeneoTaskInterface
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         try {
-            $this->entityManager->beginTransaction();
-
             /** @var \Sylius\Component\Core\Model\ProductInterface $product */
             $product = $payload->getProduct();
 
