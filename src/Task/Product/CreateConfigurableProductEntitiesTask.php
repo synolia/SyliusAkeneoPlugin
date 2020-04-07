@@ -15,7 +15,9 @@ use Sylius\Component\Product\Model\ProductVariantTranslation;
 use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
@@ -26,6 +28,13 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productOptionValueRepository;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
+    private $productGroupRepository;
+
+    /**
+     * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
+     * @param \Sylius\Component\Product\Factory\ProductVariantFactoryInterface $productVariantFactory
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -35,6 +44,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         RepositoryInterface $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
+        RepositoryInterface $productGroupRepository,
         FactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory
     ) {
@@ -51,6 +61,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
         $this->productOptionRepository = $productOptionRepository;
         $this->productOptionValueRepository = $productOptionValueRepository;
+        $this->productGroupRepository = $productGroupRepository;
     }
 
     /**
@@ -58,6 +69,10 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        if (!$payload instanceof ProductPayload) {
+            return $payload;
+        }
+
         foreach ($payload->getConfigurableProductPayload()->getProducts() as $configurableProductItem) {
             try {
                 $this->entityManager->beginTransaction();
@@ -66,47 +81,24 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 $productModel = $this->productRepository->findOneBy(['code' => $configurableProductItem['parent']]);
 
                 //Skip product variant import if it does not have a parent model on Sylius
-                if (!$productModel instanceof ProductInterface) {
+                if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
                     continue;
                 }
 
-                //Use fake variation axe "size" for testing purpose
-                $variationAxes = ['size'];
+                $productGroup = $this->productGroupRepository->getProductGroupByProductCode($productModel->getCode());
 
-                foreach ($configurableProductItem['values'] as $attributeCode => $values) {
-                    /*
-                     * Skip attributes that aren't variation axes.
-                     * Variation axes value will be created as option for the product
-                     */
-                    if (!in_array($attributeCode, $variationAxes, true)) {
-                        continue;
-                    }
-
-                    /** @var ProductOptionInterface $productOption */
-                    $productOption = $this->productOptionRepository->findOneBy(['code' => $attributeCode]);
-
-                    //We cannot create the variant if the option does not exists
-                    if (!$productOption instanceof ProductOptionInterface) {
-                        continue;
-                    }
-
-                    if ($productModel->hasOption($productOption)) {
-                        $productModel->addOption($productOption);
-                    }
-
-                    $productVariant = $this->productVariantRepository->findOneBy(['code' => $configurableProductItem['identifier']]);
-
-                    if (!$productVariant instanceof ProductVariantInterface) {
-                        /** @var ProductVariantInterface $productVariant */
-                        $productVariant = $this->productVariantFactory->createForProduct($productModel);
-                        $productVariant->setCode($configurableProductItem['identifier']);
-
-                        $this->entityManager->persist($productVariant);
-                    }
-
-                    $this->setProductOptionValues($productVariant, $productOption, $values);
-                    $this->setProductPrices($productVariant);
+                if (!$productGroup instanceof ProductGroup) {
+                    continue;
                 }
+
+                $variationAxes = $productGroup->getVariationAxes()->toArray();
+
+                if (\count($variationAxes) === 0) {
+                    continue;
+                }
+
+                $this->processVariations($configurableProductItem['identifier'], $productModel, $configurableProductItem['values'], $variationAxes);
+
                 $this->entityManager->commit();
             } catch (\Throwable $throwable) {
                 $this->entityManager->rollback();
@@ -116,6 +108,44 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         }
 
         return $payload;
+    }
+
+    private function processVariations(string $variantCode, ProductInterface $productModel, array $attributes, array $variationAxes): void
+    {
+        foreach ($attributes as $attributeCode => $values) {
+            /*
+             * Skip attributes that aren't variation axes.
+             * Variation axes value will be created as option for the product
+             */
+            if (!in_array($attributeCode, $variationAxes, true)) {
+                continue;
+            }
+
+            /** @var ProductOptionInterface $productOption */
+            $productOption = $this->productOptionRepository->findOneBy(['code' => $attributeCode]);
+
+            //We cannot create the variant if the option does not exists
+            if (!$productOption instanceof ProductOptionInterface) {
+                continue;
+            }
+
+            if ($productModel->hasOption($productOption)) {
+                $productModel->addOption($productOption);
+            }
+
+            $productVariant = $this->productVariantRepository->findOneBy(['code' => $variantCode]);
+
+            if (!$productVariant instanceof ProductVariantInterface) {
+                /** @var ProductVariantInterface $productVariant */
+                $productVariant = $this->productVariantFactory->createForProduct($productModel);
+                $productVariant->setCode($variantCode);
+
+                $this->entityManager->persist($productVariant);
+            }
+
+            $this->setProductOptionValues($productVariant, $productOption, $values);
+            $this->setProductPrices($productVariant);
+        }
     }
 
     private function getLocales(): iterable

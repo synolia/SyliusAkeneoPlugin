@@ -12,6 +12,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -58,6 +59,10 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        if (!$payload instanceof ProductPayload) {
+            return $payload;
+        }
+
         foreach ($payload->getSimpleProductPayload()->getProducts() as $simpleProductItem) {
             try {
                 $this->entityManager->beginTransaction();

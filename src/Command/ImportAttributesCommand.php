@@ -29,13 +29,13 @@ final class ImportAttributesCommand extends Command
     private $clientFactory;
 
     public function __construct(
-        AttributePipelineFactory $attributePipelineFactory,
+        AttributePipelineFactory $fullImportPipelineFactory,
         AttributeOptionPipelineFactory $attributeOptionPipelineFactory,
         ClientFactory $clientFactory,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->attributePipelineFactory = $attributePipelineFactory;
+        $this->attributePipelineFactory = $fullImportPipelineFactory;
         $this->attributeOptionPipelineFactory = $attributeOptionPipelineFactory;
         $this->clientFactory = $clientFactory;
     }
