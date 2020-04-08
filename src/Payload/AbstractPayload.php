@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 
@@ -36,5 +37,14 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         $this->outputInterface = $outputInterface;
 
         return $this;
+    }
+
+    public function getType(): string
+    {
+        try {
+            return \mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
+        } catch (\ReflectionException $e) {
+            return '';
+        }
     }
 }

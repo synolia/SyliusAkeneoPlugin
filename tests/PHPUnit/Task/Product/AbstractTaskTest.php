@@ -113,6 +113,17 @@ abstract class AbstractTaskTest extends ApiTestCase
         );
     }
 
+    protected function tearDown(): void
+    {
+        $this->manager->rollback();
+        $this->manager->close();
+        $this->manager = null;
+
+        $this->server->stop();
+
+        parent::tearDown();
+    }
+
     protected function createConfiguration(): void
     {
         $apiConfiguration = new ApiConfiguration();
@@ -125,16 +136,5 @@ abstract class AbstractTaskTest extends ApiTestCase
         $apiConfiguration->setPassword('');
         $this->manager->persist($apiConfiguration);
         $this->manager->flush();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->manager->rollback();
-        $this->manager->close();
-        $this->manager = null;
-
-        $this->server->stop();
-
-        parent::tearDown();
     }
 }

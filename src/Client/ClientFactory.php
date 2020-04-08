@@ -32,7 +32,7 @@ final class ClientFactory
 
     public function createFromApiCredentials(): AkeneoPimClientInterface
     {
-        /** @var ApiConfiguration $apiConfiguration */
+        /** @var ApiConfiguration|null $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {

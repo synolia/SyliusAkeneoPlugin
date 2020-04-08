@@ -59,7 +59,7 @@ class ApiConfiguration implements ResourceInterface
      * @var int
      * @ORM\Column(type="integer")
      */
-    private $paginationSize;
+    private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
     /**
      * @var bool
@@ -172,7 +172,7 @@ class ApiConfiguration implements ResourceInterface
         return $this;
     }
 
-    public function getPaginationSize(): ?int
+    public function getPaginationSize(): int
     {
         return $this->paginationSize;
     }

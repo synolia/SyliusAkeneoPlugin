@@ -24,6 +24,6 @@ final class AttributeTypeMatcher
             }
         }
 
-        throw new UnsupportedAttributeTypeException('Unsupported Attribute Type');
+        throw new UnsupportedAttributeTypeException(\sprintf('Unsupported Attribute Type "%s"', $type));
     }
 }

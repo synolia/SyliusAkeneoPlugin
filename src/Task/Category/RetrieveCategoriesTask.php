@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -14,12 +16,18 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository */
     private $categoriesConfigurationRepository;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository $categoriesConfigurationRepository
      */
-    public function __construct(RepositoryInterface $categoriesConfigurationRepository)
-    {
+    public function __construct(
+        RepositoryInterface $categoriesConfigurationRepository,
+        LoggerInterface $logger
+    ) {
         $this->categoriesConfigurationRepository = $categoriesConfigurationRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -27,11 +35,15 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $this->logger->debug(self::class);
+        $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all();
 
         $configuration = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
         if (!$configuration instanceof CategoryConfiguration) {
-            $payload->setResources(\iterator_to_array($resources));
+            $resourcesArray = \iterator_to_array($resources);
+            $payload->setResources($resourcesArray);
+            $this->logger->info(Messages::totalToImport($payload->getType(), count($resourcesArray)));
 
             return $payload;
         }
@@ -55,6 +67,8 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
                 unset($categories[$key]);
             }
         }
+
+        $this->logger->info(Messages::totalToImport($payload->getType(), count($categories)));
 
         $payload->setResources($categories);
 

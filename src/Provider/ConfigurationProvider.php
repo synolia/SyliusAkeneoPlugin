@@ -19,7 +19,7 @@ final class ConfigurationProvider
 
     public function getConfiguration(): ApiConfiguration
     {
-        /** @var ApiConfiguration $apiConfiguration */
+        /** @var ApiConfiguration|null $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {

@@ -34,9 +34,9 @@
         "phpmd/phpmd": "^2.8",
         "phpro/grumphp": "^0.17.2",
         "phpspec/phpspec": "^6.0",
+        "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12.0",
         "phpstan/phpstan-doctrine": "^0.12.0",
-        "phpstan/phpstan-strict-rules": "^0.12.0",
         "phpstan/phpstan-webmozart-assert": "^0.12.0",
         "phpunit/phpunit": "^8.0",
         "povils/phpmnd": "^2.2",
@@ -51,8 +51,8 @@
         "symfony/web-profiler-bundle": "^3.4|^4.3",
         "symfony/web-server-bundle": "^3.4|^4.3",
         "symplify/easy-coding-standard": "^7.2",
-        "webmozart/assert": "^1.6",
-        "symplify/package-builder": "7.2.4"
+        "symplify/package-builder": "7.2.4",
+        "webmozart/assert": "^1.6"
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
