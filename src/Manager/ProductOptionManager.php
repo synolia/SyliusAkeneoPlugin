@@ -189,6 +189,7 @@ final class ProductOptionManager
                 $productOptionValueTranslation = $this->productOptionValueTranslationFactory->createNew();
                 $productOptionValueTranslation->setTranslatable($productOptionValue);
                 $productOptionValueTranslation->setLocale($locale);
+
                 $this->entityManager->persist($productOptionValueTranslation);
             }
 

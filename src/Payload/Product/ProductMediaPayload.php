@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
-final class ProductMediaPayload extends AbstractPayload
+final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
 {
     /** @var \Sylius\Component\Core\Model\ProductInterface */
     private $product;
