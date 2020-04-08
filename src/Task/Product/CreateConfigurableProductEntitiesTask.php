@@ -104,7 +104,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                     continue;
                 }
 
-                $variationAxes = $productGroup->getVariationAxes()->toArray();
+                $variationAxes = $productGroup->getVariationAxes();
 
                 if (\count($variationAxes) === 0) {
                     continue;
