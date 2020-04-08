@@ -32,10 +32,10 @@ class ProductGroup implements ResourceInterface
     private $productParent;
 
     /**
-     * @var ArrayCollection
+     * @var array
      * @ORM\Column(type="array")
      */
-    private $variationAxes;
+    private $variationAxes = [];
 
     /**
      * @var ArrayCollection
@@ -46,7 +46,6 @@ class ProductGroup implements ResourceInterface
 
     public function __construct()
     {
-        $this->variationAxes = new ArrayCollection();
         $this->products = new ArrayCollection();
     }
 
@@ -68,27 +67,31 @@ class ProductGroup implements ResourceInterface
     }
 
     /**
-     * @return ArrayCollection|string[]
+     * @return array|string[]
      */
-    public function getVariationAxes(): ArrayCollection
+    public function getVariationAxes(): array
     {
         return $this->variationAxes;
     }
 
     public function addVariationAxe(string $variationAxe): self
     {
-        if (!$this->variationAxes->contains($variationAxe)) {
-            $this->variationAxes->add($variationAxe);
+        if (in_array($variationAxe, $this->variationAxes)) {
+            return $this;
         }
+
+        $this->variationAxes[] = $variationAxe;
 
         return $this;
     }
 
     public function removeVariationAxe(string $variationAxe): self
     {
-        if ($this->variationAxes->contains($variationAxe)) {
-            $this->variationAxes->removeElement($variationAxe);
+        if (!in_array($variationAxe, $this->variationAxes)) {
+            return $this;
         }
+
+        unset($this->variationAxes[array_search($variationAxe, $this->variationAxes)]);
 
         return $this;
     }
