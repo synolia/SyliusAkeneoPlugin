@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\Taxon;
@@ -41,7 +40,7 @@ final class DeleteEntityTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        if (!$payload->getResources() instanceof ResourceCursorInterface) {
+        if (!\is_array($payload->getResources())) {
             throw new NoCategoryResourcesException('No resource found.');
         }
 
@@ -86,12 +85,18 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             $product->setMainTaxon(null);
         }
 
-        foreach ($taxonIdsArray as $taxonId) {
+        //Avoid having same ID multiple times
+        $taxonIds = \array_unique($taxonIds);
+        //Sort descending order of taxon ID to delete childs first
+        \rsort($taxonIds);
+
+        foreach ($taxonIds as $taxonId) {
             /** @var TaxonInterface $taxon */
             $taxon = $this->entityManager->getReference(Taxon::class, $taxonId);
             if (!$taxon instanceof TaxonInterface) {
                 continue;
             }
+
             $this->entityManager->remove($taxon);
         }
     }

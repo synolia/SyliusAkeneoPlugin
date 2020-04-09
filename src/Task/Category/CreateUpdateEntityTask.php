@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Repository\ProductRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -26,18 +24,13 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository */
     private $taxonRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductRepository */
-    private $productRepository;
-
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
-        ProductRepository $productAkeneoRepository,
         TaxonRepository $taxonAkeneoRepository
     ) {
         $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
-        $this->productRepository = $productAkeneoRepository;
         $this->taxonRepository = $taxonAkeneoRepository;
     }
 
@@ -46,7 +39,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        if (!$payload->getResources() instanceof ResourceCursorInterface) {
+        if (!is_array($payload->getResources())) {
             throw new NoCategoryResourcesException('No resource found.');
         }
 
@@ -65,7 +58,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 $taxons[$resource['code']] = $taxon;
 
                 if (null !== $resource['parent']) {
-                    $parent = $taxons[$resource['parent']];
+                    $parent = $taxons[$resource['parent']] ?? null;
 
                     if (!$parent instanceof Taxon) {
                         continue;

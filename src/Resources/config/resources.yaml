@@ -13,8 +13,8 @@ sylius_resource:
         akeneo.categories_configuration:
             driver: doctrine/orm
             classes:
-                model: Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration
-                repository: Synolia\SyliusAkeneoPlugin\Repository\CategorieConfigurationRepository
+                model: Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration
+                repository: Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository
         akeneo.api_configuration:
             driver: doctrine/orm
             classes:
