@@ -14,6 +14,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductFiltersRulesType extends AbstractType
 {
+    public const PRODUCT_FILTER_MODE_SIMPLE = 'simple';
+
+    public const PRODUCT_FILTER_MODE_ADVANCED = 'advanced';
+
     /**
      * {@inheritdoc}
      */
@@ -23,18 +27,20 @@ final class ProductFiltersRulesType extends AbstractType
             ->add('mode', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.mode',
                 'choices' => [
-                    'sylius.ui.admin.akeneo.product_filter_rules.simple' => 'simple',
-                    'sylius.ui.admin.akeneo.product_filter_rules.advanced' => 'advanced',
+                    'sylius.ui.admin.akeneo.product_filter_rules.simple' => self::PRODUCT_FILTER_MODE_SIMPLE,
+                    'sylius.ui.admin.akeneo.product_filter_rules.advanced' => self::PRODUCT_FILTER_MODE_ADVANCED,
                 ],
             ])
             ->add('advanced_filter', TextType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.advanced_filter',
+                'required' => false,
             ])
             ->add('completeness_type', CompletenessTypeChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type',
             ])
             ->add('locales', LocalesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.locales',
+                'multiple' => true,
             ])
             ->add('completeness_value', TextType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value',
@@ -64,9 +70,11 @@ final class ProductFiltersRulesType extends AbstractType
             ])
             ->add('updated', TextType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated',
+                'required' => false,
             ])
-            ->add('families', ChoiceType::class, [
+            ->add('families', FamiliesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
+                'multiple' => true,
             ])
             ->add('submit', SubmitType::class)
         ;
