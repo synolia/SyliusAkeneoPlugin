@@ -1,0 +1,55 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Apply patch Script
+ *
+ * @author Synolia <contact@synolia.com>
+ */
+if (PHP_SAPI !== 'cli') {
+    echo 'bin/patch must be run as a CLI application';
+    exit(1);
+}
+try {
+    require __DIR__ . '/../vendor/autoload.php';
+} catch (\Exception $exception) {
+    echo 'Autoload error: ' . $exception->getMessage();
+    exit(1);
+}
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+$finder = new Finder();
+$output = new ConsoleOutput();
+$output->setDecorated(true);
+try {
+    $rootDirectory = dirname(__DIR__);
+    $patchDirectory = 'patches';
+    $finder
+        ->name('*.patch')
+        ->in($rootDirectory. DIRECTORY_SEPARATOR . $patchDirectory);
+    // Browse each patch in patchDirectory
+    foreach ($finder as $file) {
+        $command = 'git apply ' . $file->getRealPath();
+        // Check if we can apply patch
+        $processCheckApply = new Process($command . ' --check');
+        $processCheckApply->run();
+        // Apply patch if the check is ok
+        if ($processCheckApply->isSuccessful()) {
+            $output->writeln('<info>Applying patch ' . $file->getRelativePathname() . '</info>');
+            $processApply = (new Process($command))->run();
+        } else {
+            $output->writeln('<warning>Patch ' . $file->getRelativePathname() . ' can\'t be applied.');
+            $output->writeln('File is probably already patched.</warning>');
+        }
+    }
+} catch (\Exception $exception) {
+    while ($exception) {
+        $output->getErrorOutput()->writeln($exception->getMessage());
+        $output->getErrorOutput()->writeln($exception->getTraceAsString());
+        $output->writeln('');
+        $exception = $exception->getPrevious();
+    }
+    exit(2);
+}

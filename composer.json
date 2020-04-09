@@ -67,6 +67,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "fix-ecs": "ecs check -c ruleset/easy-coding-standard.yml --fix --ansi --clear-cache  ."
+        "fix-ecs": "ecs check -c ruleset/easy-coding-standard.yml --fix --ansi --clear-cache  .",
+        "patch" : "php bin/patch"
     }
 }

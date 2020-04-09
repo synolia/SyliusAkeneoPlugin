@@ -106,6 +106,7 @@ pipeline {
                                 sh "php -d memory_limit=-1 /usr/local/bin/composer install --no-interaction --prefer-dist"
                             }
 
+                            sh "/usr/local/bin/composer patch"
                             sh "cp behat.yml.dist behat.yml"
                             sh "sed -i 's/localhost:8080/selenium_chrome-"+BUILD_TAG+":4444/g' behat.yml"
                             sh "sed -i 's|DB_URL|${DB_URL}|g' phpunit.xml.dist"
