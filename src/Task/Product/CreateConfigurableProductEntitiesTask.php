@@ -138,7 +138,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
              * Skip attributes that aren't variation axes.
              * Variation axes value will be created as option for the product
              */
-            if (!in_array($attributeCode, $variationAxes, true)) {
+            if (!\in_array($attributeCode, $variationAxes, true)) {
                 continue;
             }
 

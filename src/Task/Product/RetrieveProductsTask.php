@@ -21,26 +21,24 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
             return $payload;
         }
 
-        /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface $resources */
+        /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(100, true);
 
         if (!$resources instanceof Page) {
             return $payload;
         }
 
-        while ($resources->hasNextPage() || !$resources->hasPreviousPage()) {
+        while (
+            ($resources instanceof Page && $resources->hasNextPage()) ||
+            ($resources instanceof Page && !$resources->hasPreviousPage()) ||
+            $resources instanceof Page
+        ) {
             foreach ($resources->getItems() as $item) {
                 $this->handleSimpleProduct($payload->getSimpleProductPayload()->getProducts(), $item);
                 $this->handleConfigurableProduct($payload->getConfigurableProductPayload()->getProducts(), $item);
             }
 
-            /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface $nextPage */
-            $nextPage = $resources->getNextPage();
-            if (!$nextPage instanceof Page) {
-                return $payload;
-            }
-
-            $resources = $nextPage;
+            $resources = $resources->getNextPage();
         }
 
         return $payload;
