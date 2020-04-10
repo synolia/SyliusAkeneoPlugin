@@ -1,4 +1,8 @@
 {
+  "name": "synolia-sylius-akeneo",
+  "version": "1.0.0",
+  "description": "Synolia Sylius Akeneo PIM Plugin",
+  "main": "src/index.js",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.9.3",
@@ -33,6 +37,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglifycss": "^1.0.5",
     "merge-stream": "^1.0.0",
+    "parcel": "latest",
     "rollup": "^0.60.2",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.3",
@@ -44,15 +49,22 @@
     "yargs": "^6.4.0"
   },
   "scripts": {
-    "build": "gulp build",
+    "build": "yarn gulp && yarn parcel",
+    "parcel": "parcel build src/index.js --out-dir public/assets/admin/synolia-sylius-akeneo --out-file main.js --no-source-maps",
+    "watch": "parcel serve src/index.js --out-dir public/assets/admin/synolia-sylius-akeneo --out-file main.js --no-hmr",
     "gulp": "gulp build",
     "lint": "yarn lint:js",
     "lint:js": "eslint gulpfile.babel.js"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sylius/Sylius.git"
+    "url": "git+https://bitbucket.org/synolia/sylius-akeneo-plugin.git"
   },
-  "author": "Paweł Jędrzejewski",
-  "license": "MIT"
+  "private": true,
+  "license": "proprietary"
 }

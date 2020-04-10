@@ -1,0 +1,34 @@
+.synolia {
+    font: {
+        weight: 700;
+    };
+    color: $magenta-pink;
+    fill: $magenta-pink;
+
+    &:hover > span {
+        color: $magenta-pink;
+        text-decoration: underline;
+    }
+
+    svg {
+        vertical-align: text-bottom;
+        width: 18px;
+    }
+}
+
+.akeneo {
+    color: $black;
+    font: {
+        weight: 700;
+    }
+
+    &:hover > span {
+        color: $black;
+        text-decoration: underline;
+    }
+
+    svg {
+        vertical-align: text-bottom;
+        width: 20px;
+    }
+}
