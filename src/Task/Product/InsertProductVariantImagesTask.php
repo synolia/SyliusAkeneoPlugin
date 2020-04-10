@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
-use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-final class InsertProductImagesTask extends AbstractInsertProductImageTask implements AkeneoTaskInterface
+final class InsertProductVariantImagesTask extends AbstractInsertProductImageTask implements AkeneoTaskInterface
 {
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         try {
-            if (!$payload instanceof ProductMediaPayload) {
+            if (!$payload instanceof ProductVariantMediaPayload) {
                 throw new \LogicException('Wrong payload provided.');
             }
 
-            /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-            $product = $payload->getProduct();
+            /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
+            $productVariant = $payload->getProductVariant();
 
-            if (!$product instanceof ProductInterface) {
+            if (!$productVariant instanceof ProductVariantInterface) {
                 return $payload;
             }
 
-            $this->cleanImages($product);
+            $this->cleanImages($productVariant);
 
             $configuration = $this->productConfigurationRepository->findOneBy([]);
 
@@ -37,12 +37,14 @@ final class InsertProductImagesTask extends AbstractInsertProductImageTask imple
             $this->configuration = $configuration;
 
             $imageAttributes = $this->configuration->getAkeneoImageAttributes();
+
             if ($imageAttributes === null) {
                 return $payload;
             }
 
-            $this->addImage($payload, $product, $imageAttributes);
+            $this->addImage($payload, $productVariant, $imageAttributes);
         } catch (\Throwable $throwable) {
+            //TODO: log error
         }
 
         return $payload;

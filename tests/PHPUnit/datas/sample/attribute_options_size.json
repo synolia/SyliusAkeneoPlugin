@@ -1,0 +1,150 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/l"
+                    }
+                },
+                "code": "l",
+                "attribute": "size",
+                "sort_order": 4,
+                "labels": {
+                    "de_DE": "L",
+                    "en_US": "L",
+                    "fr_FR": "L"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/m"
+                    }
+                },
+                "code": "m",
+                "attribute": "size",
+                "sort_order": 3,
+                "labels": {
+                    "de_DE": "M",
+                    "en_US": "M",
+                    "fr_FR": "M"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/s"
+                    }
+                },
+                "code": "s",
+                "attribute": "size",
+                "sort_order": 2,
+                "labels": {
+                    "de_DE": "S",
+                    "en_US": "S",
+                    "fr_FR": "S"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/u"
+                    }
+                },
+                "code": "u",
+                "attribute": "size",
+                "sort_order": 8,
+                "labels": {
+                    "de_DE": "U",
+                    "en_US": "U",
+                    "fr_FR": "U"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xl"
+                    }
+                },
+                "code": "xl",
+                "attribute": "size",
+                "sort_order": 5,
+                "labels": {
+                    "de_DE": "XL",
+                    "en_US": "XL",
+                    "fr_FR": "XL"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xs"
+                    }
+                },
+                "code": "xs",
+                "attribute": "size",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "XS",
+                    "en_US": "XS",
+                    "fr_FR": "XS"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xxl"
+                    }
+                },
+                "code": "xxl",
+                "attribute": "size",
+                "sort_order": 6,
+                "labels": {
+                    "de_DE": "XXL",
+                    "en_US": "XXL",
+                    "fr_FR": "XXL"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xxs"
+                    }
+                },
+                "code": "xxs",
+                "attribute": "size",
+                "sort_order": 0,
+                "labels": {
+                    "de_DE": "XXS",
+                    "en_US": "XXS",
+                    "fr_FR": "XXS"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xxxl"
+                    }
+                },
+                "code": "xxxl",
+                "attribute": "size",
+                "sort_order": 7,
+                "labels": {
+                    "de_DE": "XXXL",
+                    "en_US": "XXXL",
+                    "fr_FR": "XXXL"
+                }
+            }
+        ]
+    }
+}

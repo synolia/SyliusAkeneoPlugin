@@ -7,13 +7,13 @@ namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
-final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
+final class ProductCategoriesPayload extends AbstractPayload
 {
     /** @var \Sylius\Component\Core\Model\ProductInterface */
     private $product;
 
     /** @var array */
-    private $attributes;
+    private $categories;
 
     public function getProduct(): ProductInterface
     {
@@ -27,14 +27,14 @@ final class ProductMediaPayload extends AbstractPayload implements ProductMediaP
         return $this;
     }
 
-    public function getAttributes(): array
+    public function getCategories(): array
     {
-        return $this->attributes;
+        return $this->categories;
     }
 
-    public function setAttributes(array $attributes): self
+    public function setCategories(array $categories): self
     {
-        $this->attributes = $attributes;
+        $this->categories = $categories;
 
         return $this;
     }

@@ -1,0 +1,171 @@
+{
+    "_links": {
+        "self": {
+            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes/clothing_size"
+                    }
+                },
+                "code": "clothing_size",
+                "type": "pim_catalog_simpleselect",
+                "group": "size",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Größe Kleidung",
+                    "en_US": "Clothing size",
+                    "fr_FR": "Taille du vêtement"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection"
+                    }
+                },
+                "code": "collection",
+                "type": "pim_catalog_multiselect",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Collection",
+                    "en_US": "Collection",
+                    "fr_FR": "Collection"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color"
+                    }
+                },
+                "code": "color",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 1,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Color",
+                    "en_US": "Color",
+                    "fr_FR": "Couleur"
+                },
+                "auto_option_sorting": false,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size"
+                    }
+                },
+                "code": "size",
+                "type": "pim_catalog_simpleselect",
+                "group": "product",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 2,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Size",
+                    "en_US": "Size",
+                    "fr_FR": "Taille"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            }
+        ]
+    }
+}

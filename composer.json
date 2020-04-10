@@ -12,6 +12,8 @@
         "php-http/guzzle6-adapter": "^2.0",
         "sylius/sylius": "^1.7.0",
         "symfony/lock": "^3.4|^4.3",
+        "symfony/property-access": "^3.4|^4.3",
+        "symfony/property-info": "^3.4|^4.3",
         "symfony/serializer": "^3.4|^4.3"
     },
     "require-dev": {

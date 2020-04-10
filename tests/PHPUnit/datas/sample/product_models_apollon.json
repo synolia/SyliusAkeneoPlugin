@@ -1,0 +1,391 @@
+{
+  "_links": {
+    "self": {
+      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+    },
+    "first": {
+      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon"
+          }
+        },
+        "code": "apollon",
+        "family": "clothing",
+        "family_variant": "clothing_color_size",
+        "parent": null,
+        "categories": [
+          "master_men_blazers_deals",
+          "supplier_zaro"
+        ],
+        "values": {
+          "supplier": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "zaro"
+            }
+          ],
+          "wash_temperature": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "600"
+            }
+          ],
+          "collection": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "winter_2016"
+              ]
+            }
+          ],
+          "price": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                {
+                  "amount": "899.00",
+                  "currency": "EUR"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Long gray suit jacket and matching pants unstructured testest"
+            }
+          ],
+          "erp_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "ecommerce",
+              "data": "Long gray suit jacket and matching pants unstructured. 61% wool, 30% polyester, 9% ramie. Dry clean only."
+            }
+          ],
+          "image": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
+              "_links": {
+                "download": {
+                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                }
+              }
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:26+01:00",
+        "updated": "2020-04-07T09:18:30+02:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon_yellow"
+          }
+        },
+        "code": "apollon_yellow",
+        "family": "clothing",
+        "family_variant": "clothing_color_size",
+        "parent": "apollon",
+        "categories": [
+          "master_men_blazers_deals",
+          "supplier_zaro"
+        ],
+        "values": {
+          "supplier": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "zaro"
+            }
+          ],
+          "wash_temperature": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "600"
+            }
+          ],
+          "color": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "yellow"
+            }
+          ],
+          "collection": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "winter_2016"
+              ]
+            }
+          ],
+          "price": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                {
+                  "amount": "899.00",
+                  "currency": "EUR"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Long gray suit jacket and matching pants unstructured Apollon yellow"
+            }
+          ],
+          "erp_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon"
+            }
+          ],
+          "variation_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon yellow"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "ecommerce",
+              "data": "Long gray suit jacket and matching pants unstructured. 61% wool, 30% polyester, 9% ramie. Dry clean only."
+            }
+          ],
+          "image": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
+              "_links": {
+                "download": {
+                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                }
+              }
+            }
+          ],
+          "variation_image": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "5\/1\/2\/b\/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg",
+              "_links": {
+                "download": {
+                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/5\/1\/2\/b\/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg\/download"
+                }
+              }
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:26+01:00",
+        "updated": "2020-02-13T08:34:26+01:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon_blue"
+          }
+        },
+        "code": "apollon_blue",
+        "family": "clothing",
+        "family_variant": "clothing_color_size",
+        "parent": "apollon",
+        "categories": [
+          "master_men_blazers_deals",
+          "supplier_zaro"
+        ],
+        "values": {
+          "supplier": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "zaro"
+            }
+          ],
+          "wash_temperature": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "600"
+            }
+          ],
+          "color": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "blue"
+            }
+          ],
+          "collection": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "winter_2016"
+              ]
+            }
+          ],
+          "price": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                {
+                  "amount": "899.00",
+                  "currency": "EUR"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Long gray suit jacket and matching pants unstructured Apollon blue"
+            }
+          ],
+          "erp_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon"
+            }
+          ],
+          "variation_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon blue"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "ecommerce",
+              "data": "Long gray suit jacket and matching pants unstructured. 61% wool, 30% polyester, 9% ramie. Dry clean only."
+            }
+          ],
+          "image": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
+              "_links": {
+                "download": {
+                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                }
+              }
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:26+01:00",
+        "updated": "2020-02-13T08:34:26+01:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      }
+    ]
+  }
+}

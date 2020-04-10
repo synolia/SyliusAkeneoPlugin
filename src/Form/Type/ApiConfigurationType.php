@@ -27,8 +27,9 @@ final class ApiConfigurationType extends AbstractType
             ->add('apiClientId', TextType::class)
             ->add('apiClientSecret', TextType::class)
             ->add('paginationSize', IntegerType::class)
-            ->add('isEnterprise', CheckboxType::class)
-
+            ->add('isEnterprise', CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('websiteMappings', CollectionType::class, [
                 'required' => false,
                 'entry_type' => ApiConfigurationWebsiteMappingType::class,
@@ -37,7 +38,6 @@ final class ApiConfigurationType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-
             ->add('testCredentials', SubmitType::class, [
                 'attr' => ['class' => 'ui secondary button'],
             ])
