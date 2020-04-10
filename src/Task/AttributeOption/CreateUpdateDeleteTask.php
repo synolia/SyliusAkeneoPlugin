@@ -6,8 +6,10 @@ namespace Synolia\SyliusAkeneoPlugin\Task\AttributeOption;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -19,12 +21,26 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeRepository;
 
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var int */
+    private $updateCount = 0;
+
+    /** @var int */
+    private $createCount = 0;
+
+    /** @var string */
+    private $type;
+
     public function __construct(
         EntityManagerInterface $entityManager,
-        RepositoryInterface $productAttributeRepository
+        RepositoryInterface $productAttributeRepository,
+        LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -32,11 +48,27 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        foreach ($payload->getResources() as $attributeCode => $optionResources) {
-            $this->processByAttribute($attributeCode, $optionResources['resources'], $optionResources['isMultiple']);
+        $this->logger->debug(self::class);
+        $this->type = 'Attribute Option';
+        $this->logger->notice(Messages::createOrUpdate($this->type));
+
+        try {
+            $this->entityManager->beginTransaction();
+
+            foreach ($payload->getResources() as $attributeCode => $optionResources) {
+                $this->processByAttribute($attributeCode, $optionResources['resources'], $optionResources['isMultiple']);
+            }
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (\Throwable $throwable) {
+            $this->entityManager->rollback();
+            $this->logger->warning($throwable->getMessage());
+
+            throw $throwable;
         }
 
-        $this->entityManager->flush();
+        $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
     }
@@ -65,6 +97,14 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
             foreach ($option['labels'] as $locale => $label) {
                 $choices[$option['code']][$locale] = $label;
             }
+        }
+
+        if (isset($attribute->getConfiguration()['choices'])) {
+            ++$this->updateCount;
+            $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));
+        } else {
+            ++$this->createCount;
+            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $attribute->getCode()));
         }
 
         $attribute->setConfiguration([

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
@@ -25,14 +27,25 @@ final class DeleteEntityTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductRepository */
     private $productRepository;
 
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var string */
+    private $type;
+
+    /** @var int */
+    private $deleteCount = 0;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductRepository $productAkeneoRepository,
-        TaxonRepository $taxonAkeneoRepository
+        TaxonRepository $taxonAkeneoRepository,
+        LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;
         $this->productRepository = $productAkeneoRepository;
         $this->taxonRepository = $taxonAkeneoRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -40,6 +53,10 @@ final class DeleteEntityTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $this->logger->debug(self::class);
+        $this->logger->notice(Messages::removalNoLongerExist($payload->getType()));
+        $this->type = $payload->getType();
+
         if (!\is_array($payload->getResources())) {
             throw new NoCategoryResourcesException('No resource found.');
         }
@@ -55,11 +72,13 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             }
 
             $this->removeUnusedCategories($codes);
+            $this->logger->notice(Messages::countOfDeleted($payload->getType(), $this->deleteCount));
 
             $this->entityManager->flush();
             $this->entityManager->commit();
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
+            $this->logger->warning($throwable->getMessage());
 
             throw $throwable;
         }
@@ -98,6 +117,8 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             }
 
             $this->entityManager->remove($taxon);
+            $this->logger->info(Messages::hasBeenDeleted($this->type, (string) $taxon->getCode()));
+            ++$this->deleteCount;
         }
     }
 }

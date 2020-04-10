@@ -1,6 +1,9 @@
 imports:
     - { resource: '../vendor/sylius-labs/coding-standard/easy-coding-standard.yml' }
 
+services:
+    PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
+
 parameters:
     paths:
         - src

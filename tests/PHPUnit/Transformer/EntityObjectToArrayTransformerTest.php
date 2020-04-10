@@ -38,7 +38,7 @@ final class EntityObjectToArrayTransformerTest extends KernelTestCase
             'enterprise' => null,
             'token' => null,
             'refresh_token' => null,
-            'pagination_size' => null,
+            'pagination_size' => 100,
             'username' => null,
             'password' => null,
             'website_mappings' => [

@@ -116,13 +116,13 @@ final class AttributesController extends AbstractController
         array $attributeAkeneoSyliusMappings
     ): void {
         foreach ($attributeTypeMappings as $attributeTypeMapping) {
-            if (!\array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::TYPE_MAPPINGS_CODE], true)) {
+            if (false === \array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::TYPE_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeTypeMapping);
             }
         }
 
         foreach ($attributeAkeneoSyliusMappings as $attributeAkeneoSyliusMapping) {
-            if (!\array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
+            if (false === \array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeAkeneoSyliusMapping);
             }
         }

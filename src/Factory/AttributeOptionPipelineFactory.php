@@ -18,8 +18,10 @@ final class AttributeOptionPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline();
 
         return $pipeline
+            // AttributeOption
             ->pipe($this->taskProvider->get(RetrieveOptionsTask::class))
             ->pipe($this->taskProvider->get(CreateUpdateDeleteTask::class))
+            // Option
             ->pipe($this->taskProvider->get(CreateUpdateTask::class))
             ->pipe($this->taskProvider->get(DeleteTask::class))
         ;

@@ -88,7 +88,7 @@ final class ProductsController extends AbstractController
         }
 
         foreach ($productConfiguration as $defaultTax) {
-            if (!array_search($defaultTax, $productConfigurationData->toArray())) {
+            if (false === \array_search($defaultTax, $productConfigurationData->toArray(), true)) {
                 $this->entityManager->remove($defaultTax);
             }
         }

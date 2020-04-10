@@ -76,27 +76,41 @@ final class ProductOptionManager
         $this->productAttributeTranslationRepository = $productAttributeTranslationRepository;
     }
 
-    public function createOrUpdateProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface
+    public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface
     {
+        /** @var ProductOptionInterface|null $productOption */
         $productOption = $this->productOptionRepository->findOneBy(['code' => $attribute->getCode()]);
 
-        if (!$productOption instanceof ProductOptionInterface) {
-            /** @var ProductOptionInterface $productOption */
-            $productOption = $this->productOptionFactory->createNew();
-            $productOption->setCode($attribute->getCode());
-            $this->entityManager->persist($productOption);
-        }
+        return $productOption;
+    }
 
-        $this->updateTranslationsFromAttribute($productOption, $attribute);
-        $this->updateProductOptionValues($productOption, $attribute);
+    public function createProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface
+    {
+        /** @var ProductOptionInterface $productOption */
+        $productOption = $this->productOptionFactory->createNew();
+        $productOption->setCode($attribute->getCode());
+        $this->entityManager->persist($productOption);
 
         return $productOption;
+    }
+
+    public function updateData(AttributeInterface $attribute, ProductOptionInterface $productOption): void
+    {
+        $this->updateTranslationsFromAttribute($productOption, $attribute);
+        $this->updateProductOptionValues($productOption, $attribute);
+    }
+
+    public static function getOptionValueCodeFromProductOption(
+        ProductOptionInterface $productOption,
+        string $optionValueCode
+    ): string {
+        return \sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode);
     }
 
     private function updateTranslationsFromAttribute(ProductOptionInterface $productOption, AttributeInterface $attribute): void
     {
         foreach ($this->getLocales() as $localeCode) {
-            /** @var AttributeTranslationInterface $attributeTranslation */
+            /** @var AttributeTranslationInterface|null $attributeTranslation */
             $attributeTranslation = $this->productAttributeTranslationRepository->findOneBy([
                 'translatable' => $attribute,
                 'locale' => $localeCode,
@@ -131,13 +145,6 @@ final class ProductOptionManager
         foreach ($locales as $locale) {
             yield $locale->getCode();
         }
-    }
-
-    public static function getOptionValueCodeFromProductOption(
-        ProductOptionInterface $productOption,
-        string $optionValueCode
-    ): string {
-        return \sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode);
     }
 
     private function updateProductOptionValues(ProductOptionInterface $productOption, AttributeInterface $attribute): void

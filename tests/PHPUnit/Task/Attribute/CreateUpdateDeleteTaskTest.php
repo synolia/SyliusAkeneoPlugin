@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
 
+use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
@@ -52,9 +53,11 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
     public function testDeleteTask(): void
     {
-        $oldAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy([]);
-        $this->assertNotNull($oldAttribute);
-        $oldAttributeCode = $oldAttribute->getCode();
+        /** @var AttributeInterface $attributeToDelete */
+        $attributeToDelete = self::$container->get('sylius.factory.product_attribute')->createTyped('text');
+        $attributeToDelete->setCode('to_be_deleted');
+        self::$container->get('doctrine.orm.entity_manager')->persist($attributeToDelete);
+        self::$container->get('doctrine.orm.entity_manager')->flush($attributeToDelete);
 
         $initialPayload = new AttributePayload($this->createClient());
         /** @var RetrieveAttributesTask $retrieveTask */
@@ -68,7 +71,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         /** @var DeleteEntityTask $deleteTask */
         $deleteTask = $this->taskProvider->get(DeleteEntityTask::class);
         $deleteTask->__invoke($createUpdatePayload);
-        $oldAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy(['code' => $oldAttributeCode]);
+        $oldAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy(['code' => $attributeToDelete->getCode()]);
 
         $this->assertNull($oldAttribute);
     }
