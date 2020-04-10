@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -37,11 +38,6 @@ class AbstractCreateProductEntities
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     protected $localeRepository;
 
-    /**
-     * AbstractCreateProductEntities constructor.
-     *
-     * @param \Sylius\Component\Product\Factory\ProductVariantFactoryInterface $productVariantFactory
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -49,7 +45,7 @@ class AbstractCreateProductEntities
         RepositoryInterface $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
-        FactoryInterface $productVariantFactory,
+        ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory
     ) {
         $this->entityManager = $entityManager;

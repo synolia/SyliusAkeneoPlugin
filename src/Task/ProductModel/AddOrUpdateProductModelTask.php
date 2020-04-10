@@ -128,13 +128,13 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
                 $this->process($resource, $productsMapping, $attributesMapping);
             }
 
+            $this->entityManager->flush();
             $this->entityManager->commit();
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
 
             throw $throwable;
         }
-        $this->entityManager->flush();
 
         return $payload;
     }

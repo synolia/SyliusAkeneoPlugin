@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class AddAttributesToProductTask implements AkeneoTaskInterface
@@ -29,16 +28,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     private $caseConverter;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productRepository;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeValueRepository;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $channelRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productFactory;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productAttributeValueFactory;
@@ -55,31 +45,20 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
-
     public function __construct(
-        RepositoryInterface $productRepository,
         RepositoryInterface $productAttributeValueRepository,
-        RepositoryInterface $channelRepository,
         RepositoryInterface $productAttributeRepository,
-        FactoryInterface $productFactory,
         FactoryInterface $productAttributeValueFactory,
         SlugGeneratorInterface $productSlugGenerator,
         LocaleContextInterface $localeContext,
-        ProductAttributeValueValueBuilder $attributeValueValueBuilder,
-        AkeneoTaskProvider $taskProvider
+        ProductAttributeValueValueBuilder $attributeValueValueBuilder
     ) {
-        $this->productRepository = $productRepository;
         $this->productAttributeValueRepository = $productAttributeValueRepository;
-        $this->channelRepository = $channelRepository;
-        $this->productFactory = $productFactory;
         $this->productAttributeValueFactory = $productAttributeValueFactory;
         $this->productSlugGenerator = $productSlugGenerator;
         $this->localeContext = $localeContext;
         $this->attributeValueValueBuilder = $attributeValueValueBuilder;
         $this->productAttributeRepository = $productAttributeRepository;
-        $this->taskProvider = $taskProvider;
     }
 
     /**

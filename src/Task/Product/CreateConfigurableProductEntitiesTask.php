@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
+use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
@@ -21,6 +22,7 @@ use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
@@ -40,10 +42,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
 
-    /**
-     * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
-     * @param \Sylius\Component\Product\Factory\ProductVariantFactoryInterface $productVariantFactory
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -54,8 +52,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         RepositoryInterface $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
-        RepositoryInterface $productGroupRepository,
-        FactoryInterface $productVariantFactory,
+        ProductGroupRepository $productGroupRepository,
+        ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         AkeneoTaskProvider $taskProvider
     ) {
@@ -112,22 +110,18 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                 $this->processVariations($payload, $configurableProductItem['identifier'], $productModel, $configurableProductItem['values'], $variationAxes);
 
+                $this->entityManager->flush();
                 $this->entityManager->commit();
             } catch (\Throwable $throwable) {
                 $this->entityManager->rollback();
             }
-
-            $this->entityManager->flush();
         }
 
         return $payload;
     }
 
-    /**
-     * @param ProductPayload $payload
-     */
     private function processVariations(
-        PipelinePayloadInterface $payload,
+        ProductPayload $payload,
         string $variantCode,
         ProductInterface $productModel,
         array $attributes,
@@ -224,10 +218,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         }
     }
 
-    /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
-     */
-    private function updateImages(PipelinePayloadInterface $payload, array $resource, ProductVariantInterface $productVariant): void
+    private function updateImages(ProductPayload $payload, array $resource, ProductVariantInterface $productVariant): void
     {
         $productVariantMediaPayload = new ProductVariantMediaPayload($payload->getAkeneoPimClient());
         $productVariantMediaPayload

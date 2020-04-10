@@ -73,6 +73,8 @@ class AbstractInsertProductImageTask
                         $this->imageUploader->upload($productImage);
 
                         $object->addImage($productImage);
+
+                        \unlink($imagePath);
                     } catch (\Throwable $throwable) {
                         //TODO: Log error when logger will be implemented.
                     }

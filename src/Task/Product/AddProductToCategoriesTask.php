@@ -39,9 +39,6 @@ final class AddProductToCategoriesTask implements AkeneoTaskInterface
         $this->productTaxonFactory = $productTaxonFactory;
     }
 
-    /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload $payload
-     */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         if (!$payload instanceof ProductCategoriesPayload) {

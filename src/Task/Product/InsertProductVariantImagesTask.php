@@ -44,6 +44,7 @@ final class InsertProductVariantImagesTask extends AbstractInsertProductImageTas
 
             $this->addImage($payload, $productVariant, $imageAttributes);
         } catch (\Throwable $throwable) {
+            //TODO: log error
         }
 
         return $payload;

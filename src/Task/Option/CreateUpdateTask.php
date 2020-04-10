@@ -81,11 +81,10 @@ final class CreateUpdateTask implements AkeneoTaskInterface
                 }
             }
 
-            $this->entityManager->commit();
             $this->entityManager->flush();
+            $this->entityManager->commit();
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
-            $this->entityManager->flush();
 
             throw $throwable;
         }

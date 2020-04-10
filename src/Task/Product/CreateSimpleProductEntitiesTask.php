@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Factory\ProductFactory;
+use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
@@ -32,7 +33,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
         FactoryInterface $productFactory,
-        FactoryInterface $productVariantFactory,
+        ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         EntityManagerInterface $entityManager,
         AkeneoTaskProvider $taskProvider
@@ -48,15 +49,10 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             $channelPricingFactory
         );
 
-        $this->productRepository = $productRepository;
-        $this->channelRepository = $channelRepository;
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
     }
 
-    /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
-     */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         if (!$payload instanceof ProductPayload) {
@@ -73,16 +69,11 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                 $this->updateImages($payload, $simpleProductItem, $product);
                 $this->setProductPrices($productVariant);
 
-                //Temporary enabling product to all channels
-                /** @var \Sylius\Component\Core\Model\ChannelInterface $channel */
-                foreach ($this->channelRepository->findAll() as $channel) {
-                    $product->addChannel($channel);
-                }
+                $this->entityManager->flush();
                 $this->entityManager->commit();
             } catch (\Throwable $throwable) {
                 $this->entityManager->rollback();
             }
-            $this->entityManager->flush();
         }
 
         return $payload;
