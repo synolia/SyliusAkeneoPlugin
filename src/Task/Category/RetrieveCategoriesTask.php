@@ -37,7 +37,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         }
 
         $categories = \iterator_to_array($resources);
-        $categoriesTree = $this->buildTree(\iterator_to_array($resources), null);
+        $categoriesTree = $this->buildTree($categories, null);
 
         $keptCategories = $this->excludeNotInRootCategory($configuration, $categoriesTree);
         $excludedCategories = $this->excludeNotImportedCategories($configuration, $categoriesTree);

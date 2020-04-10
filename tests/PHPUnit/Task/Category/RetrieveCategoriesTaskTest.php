@@ -21,7 +21,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     private const CLOTHES_ROOT_CATEGORY_COUNT_WITH_EXCLUSIONS = 7;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration */
+    /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration */
     private $categoryConfiguration;
 
     protected function setUp(): void
