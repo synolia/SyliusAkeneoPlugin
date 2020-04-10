@@ -203,22 +203,24 @@ final class ProductFilter
         ProductFiltersRules $productFilterRules,
         SearchBuilder $queryParameters,
         array $locales,
-        string $completeness,
-        ?string $completenessValue = null
+        string $completeness = null,
+        string $completenessValue = null
     ): SearchBuilder {
         $completenessType = $productFilterRules->getCompletenessType();
 
         if ($completenessType !== null && !empty($locales)) {
-            $queryParameters->addFilter(
-                'completeness',
-                $completeness,
-                $completenessValue,
-                [
-                    'locales' => $locales,
-                    //TODO dynamic scope
-                    'scope' => 'ecommerce',
-                ]
-            );
+            if ($completeness !== null) {
+                $queryParameters->addFilter(
+                    'completeness',
+                    $completeness,
+                    $completenessValue,
+                    [
+                        'locales' => $locales,
+                        //TODO dynamic scope
+                        'scope' => 'ecommerce',
+                    ]
+                );
+            }
             if (in_array($completenessType, [
                 Operator::LOWER_THAN_ON_ALL_LOCALES,
                 Operator::GREATER_THAN_ON_ALL_LOCALES,
@@ -227,7 +229,7 @@ final class ProductFilter
             ])) {
                 $queryParameters->addFilter(
                     'completeness',
-                    $completeness,
+                    $completenessType,
                     $completenessValue,
                     [
                         'locales' => $productFilterRules->getLocales(),

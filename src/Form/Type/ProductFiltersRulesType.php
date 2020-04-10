@@ -74,7 +74,6 @@ final class ProductFiltersRulesType extends AbstractType
             ])
             ->add('families', FamiliesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
-                'multiple' => true,
             ])
             ->add('submit', SubmitType::class)
         ;

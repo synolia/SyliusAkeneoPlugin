@@ -1,0 +1,915 @@
+{
+  "_links": {
+    "self": {
+      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales?page=1&limit=100&with_count=false"
+    },
+    "first": {
+      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales?page=1&limit=100&with_count=false"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/af_ZA"
+          }
+        },
+        "code": "af_ZA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/am_ET"
+          }
+        },
+        "code": "am_ET",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_AE"
+          }
+        },
+        "code": "ar_AE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_BH"
+          }
+        },
+        "code": "ar_BH",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_DZ"
+          }
+        },
+        "code": "ar_DZ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_EG"
+          }
+        },
+        "code": "ar_EG",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_IQ"
+          }
+        },
+        "code": "ar_IQ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_JO"
+          }
+        },
+        "code": "ar_JO",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_KW"
+          }
+        },
+        "code": "ar_KW",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_LB"
+          }
+        },
+        "code": "ar_LB",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_LY"
+          }
+        },
+        "code": "ar_LY",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_MA"
+          }
+        },
+        "code": "ar_MA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_OM"
+          }
+        },
+        "code": "ar_OM",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_QA"
+          }
+        },
+        "code": "ar_QA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_SA"
+          }
+        },
+        "code": "ar_SA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_SY"
+          }
+        },
+        "code": "ar_SY",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_TN"
+          }
+        },
+        "code": "ar_TN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_YE"
+          }
+        },
+        "code": "ar_YE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/arn_CL"
+          }
+        },
+        "code": "arn_CL",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/as_IN"
+          }
+        },
+        "code": "as_IN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/az_Cyrl_AZ"
+          }
+        },
+        "code": "az_Cyrl_AZ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/az_Latn_AZ"
+          }
+        },
+        "code": "az_Latn_AZ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ba_RU"
+          }
+        },
+        "code": "ba_RU",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/be_BY"
+          }
+        },
+        "code": "be_BY",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bg_BG"
+          }
+        },
+        "code": "bg_BG",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bn_BD"
+          }
+        },
+        "code": "bn_BD",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bn_IN"
+          }
+        },
+        "code": "bn_IN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bo_CN"
+          }
+        },
+        "code": "bo_CN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/br_FR"
+          }
+        },
+        "code": "br_FR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bs_Cyrl_BA"
+          }
+        },
+        "code": "bs_Cyrl_BA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bs_Latn_BA"
+          }
+        },
+        "code": "bs_Latn_BA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ca_ES"
+          }
+        },
+        "code": "ca_ES",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/co_FR"
+          }
+        },
+        "code": "co_FR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/cs_CZ"
+          }
+        },
+        "code": "cs_CZ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/cy_GB"
+          }
+        },
+        "code": "cy_GB",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/da_DK"
+          }
+        },
+        "code": "da_DK",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_AT"
+          }
+        },
+        "code": "de_AT",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_CH"
+          }
+        },
+        "code": "de_CH",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_DE"
+          }
+        },
+        "code": "de_DE",
+        "enabled": true
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_LI"
+          }
+        },
+        "code": "de_LI",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_LU"
+          }
+        },
+        "code": "de_LU",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/dsb_DE"
+          }
+        },
+        "code": "dsb_DE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/dv_MV"
+          }
+        },
+        "code": "dv_MV",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/el_GR"
+          }
+        },
+        "code": "el_GR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_029"
+          }
+        },
+        "code": "en_029",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_AU"
+          }
+        },
+        "code": "en_AU",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_BZ"
+          }
+        },
+        "code": "en_BZ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_CA"
+          }
+        },
+        "code": "en_CA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_GB"
+          }
+        },
+        "code": "en_GB",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_IE"
+          }
+        },
+        "code": "en_IE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_IN"
+          }
+        },
+        "code": "en_IN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_JM"
+          }
+        },
+        "code": "en_JM",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_MY"
+          }
+        },
+        "code": "en_MY",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_NZ"
+          }
+        },
+        "code": "en_NZ",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_PH"
+          }
+        },
+        "code": "en_PH",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_SG"
+          }
+        },
+        "code": "en_SG",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_TT"
+          }
+        },
+        "code": "en_TT",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_US"
+          }
+        },
+        "code": "en_US",
+        "enabled": true
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_ZA"
+          }
+        },
+        "code": "en_ZA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_ZW"
+          }
+        },
+        "code": "en_ZW",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_AR"
+          }
+        },
+        "code": "es_AR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_BO"
+          }
+        },
+        "code": "es_BO",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_CL"
+          }
+        },
+        "code": "es_CL",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_CO"
+          }
+        },
+        "code": "es_CO",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_CR"
+          }
+        },
+        "code": "es_CR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_DO"
+          }
+        },
+        "code": "es_DO",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_EC"
+          }
+        },
+        "code": "es_EC",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_ES"
+          }
+        },
+        "code": "es_ES",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_GT"
+          }
+        },
+        "code": "es_GT",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_HN"
+          }
+        },
+        "code": "es_HN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_MX"
+          }
+        },
+        "code": "es_MX",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_NI"
+          }
+        },
+        "code": "es_NI",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PA"
+          }
+        },
+        "code": "es_PA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PE"
+          }
+        },
+        "code": "es_PE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PR"
+          }
+        },
+        "code": "es_PR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PY"
+          }
+        },
+        "code": "es_PY",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_SV"
+          }
+        },
+        "code": "es_SV",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_US"
+          }
+        },
+        "code": "es_US",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_UY"
+          }
+        },
+        "code": "es_UY",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_VE"
+          }
+        },
+        "code": "es_VE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/et_EE"
+          }
+        },
+        "code": "et_EE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/eu_ES"
+          }
+        },
+        "code": "eu_ES",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fa_IR"
+          }
+        },
+        "code": "fa_IR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fi_FI"
+          }
+        },
+        "code": "fi_FI",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fil_PH"
+          }
+        },
+        "code": "fil_PH",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fo_FO"
+          }
+        },
+        "code": "fo_FO",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_BE"
+          }
+        },
+        "code": "fr_BE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_CA"
+          }
+        },
+        "code": "fr_CA",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_CH"
+          }
+        },
+        "code": "fr_CH",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_FR"
+          }
+        },
+        "code": "fr_FR",
+        "enabled": true
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_LU"
+          }
+        },
+        "code": "fr_LU",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_MC"
+          }
+        },
+        "code": "fr_MC",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fy_NL"
+          }
+        },
+        "code": "fy_NL",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ga_IE"
+          }
+        },
+        "code": "ga_IE",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gd_GB"
+          }
+        },
+        "code": "gd_GB",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gl_ES"
+          }
+        },
+        "code": "gl_ES",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gsw_FR"
+          }
+        },
+        "code": "gsw_FR",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gu_IN"
+          }
+        },
+        "code": "gu_IN",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ha_Latn_NG"
+          }
+        },
+        "code": "ha_Latn_NG",
+        "enabled": false
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/he_IL"
+          }
+        },
+        "code": "he_IL",
+        "enabled": false
+      }
+    ]
+  }
+}

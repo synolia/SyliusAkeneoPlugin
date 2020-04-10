@@ -32,7 +32,10 @@ final class FamiliesChoiceType extends AbstractType
             $families[$family['code']] = $family['code'];
         }
 
-        $resolver->setDefaults(['choices' => $families]);
+        $resolver->setDefaults([
+            'multiple' => true,
+            'choices' => $families,
+        ]);
     }
 
     public function getParent()

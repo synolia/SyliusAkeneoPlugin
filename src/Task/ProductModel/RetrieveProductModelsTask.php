@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
-use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;

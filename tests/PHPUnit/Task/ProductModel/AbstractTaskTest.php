@@ -25,16 +25,8 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->manager->beginTransaction();
 
-        $this->apiConfiguration = new ApiConfiguration();
-        $this->apiConfiguration->setPaginationSize(100);
-        $this->apiConfiguration->setBaseUrl('test');
-        $this->apiConfiguration->setUsername('test');
-        $this->apiConfiguration->setApiClientId('test');
-        $this->apiConfiguration->setApiClientSecret('test');
-        $this->apiConfiguration->setIsEnterprise(false);
-        $this->apiConfiguration->setPassword('test');
+        $this->initializeApiConfiguration();
 
-        $this->manager->persist($this->apiConfiguration);
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
@@ -54,5 +46,19 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->stop();
 
         parent::tearDown();
+    }
+
+    public function initializeApiConfiguration(): void
+    {
+        $this->apiConfiguration = new ApiConfiguration();
+        $this->apiConfiguration->setPaginationSize(100);
+        $this->apiConfiguration->setBaseUrl('test');
+        $this->apiConfiguration->setUsername('test');
+        $this->apiConfiguration->setApiClientId('test');
+        $this->apiConfiguration->setApiClientSecret('test');
+        $this->apiConfiguration->setIsEnterprise(false);
+        $this->apiConfiguration->setPassword('test');
+
+        $this->manager->persist($this->apiConfiguration);
     }
 }
