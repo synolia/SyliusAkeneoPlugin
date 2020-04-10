@@ -16,46 +16,38 @@ class CategoryConfiguration implements ResourceInterface
 {
     /**
      * @var int
-
      * @ORM\Id()
-
      * @ORM\GeneratedValue(strategy="AUTO")
-
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var bool
-
      * @ORM\Column(type="boolean")
      */
     private $activeNewCategories;
 
     /**
      * @var array
-
      * @ORM\Column(type="array")
      */
     private $notImportCategories;
 
     /**
      * @var string
-
      * @ORM\Column(type="string")
      */
     private $mainCategory;
 
     /**
      * @var string
-
      * @ORM\Column(type="string")
      */
     private $rootCategory;
 
     /**
      * @var string
-
      * @ORM\Column(type="string")
      */
     private $emptyLocalReplaceBy;
