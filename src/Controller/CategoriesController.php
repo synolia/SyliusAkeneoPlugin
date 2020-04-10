@@ -12,16 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Entity\CategorieConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\CategoriesConfigurationType;
-use Synolia\SyliusAkeneoPlugin\Repository\CategorieConfigurationRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 
 final class CategoriesController extends AbstractController
 {
     /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var CategorieConfigurationRepository|RepositoryInterface */
+    /** @var CategoryConfigurationRepository|RepositoryInterface */
     private $categoriesConfigurationRepository;
 
     /** @var RepositoryInterface */
@@ -57,11 +57,11 @@ final class CategoriesController extends AbstractController
         }
 
         $categoriesConfigurations = null;
-        if ($this->categoriesConfigurationRepository instanceof CategorieConfigurationRepository) {
+        if ($this->categoriesConfigurationRepository instanceof CategoryConfigurationRepository) {
             $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
         }
         if ($categoriesConfigurations === null) {
-            $categoriesConfigurations = new CategorieConfiguration();
+            $categoriesConfigurations = new CategoryConfiguration();
         }
 
         $form = $this->createForm(CategoriesConfigurationType::class, $categoriesConfigurations);

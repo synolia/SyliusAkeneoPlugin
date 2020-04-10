@@ -8,10 +8,15 @@ use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
 {
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
+    protected $taskProvider;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,6 +31,8 @@ abstract class AbstractTaskTest extends ApiTestCase
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
             )
         );
+
+        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
     }
 
     protected function tearDown(): void
@@ -42,5 +49,17 @@ abstract class AbstractTaskTest extends ApiTestCase
     protected function getCategories(): string
     {
         return $this->getFileContent('categories_all.json');
+    }
+
+    protected function buildBasicConfiguration(): CategoryConfiguration
+    {
+        $categoryConfiguration = new CategoryConfiguration();
+        $categoryConfiguration->setEmptyLocalReplaceBy('fr_FR'); //To be deleted, use default Sylius locale
+        $categoryConfiguration->setRootCategory('master');
+        $categoryConfiguration->setMainCategory('master'); //To be deleted
+        $categoryConfiguration->setActiveNewCategories(true); //To be deleted
+        $this->manager->persist($categoryConfiguration);
+
+        return $categoryConfiguration;
     }
 }

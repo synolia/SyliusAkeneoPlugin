@@ -8,45 +8,54 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
- * @ORM\Entity(repositoryClass="CategorieConfigurationRepository")
+ * @ORM\Entity(repositoryClass="CategoryConfigurationRepository")
+
  * @ORM\Table("akeneo_api_configuration_categories")
  */
-class CategorieConfiguration implements ResourceInterface
+class CategoryConfiguration implements ResourceInterface
 {
     /**
      * @var int
+
      * @ORM\Id()
+
      * @ORM\GeneratedValue(strategy="AUTO")
+
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var bool
+
      * @ORM\Column(type="boolean")
      */
     private $activeNewCategories;
 
     /**
      * @var array
+
      * @ORM\Column(type="array")
      */
     private $notImportCategories;
 
     /**
      * @var string
+
      * @ORM\Column(type="string")
      */
     private $mainCategory;
 
     /**
      * @var string
+
      * @ORM\Column(type="string")
      */
     private $rootCategory;
 
     /**
      * @var string
+
      * @ORM\Column(type="string")
      */
     private $emptyLocalReplaceBy;
