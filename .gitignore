@@ -1,15 +1,12 @@
 /vendor/
-/node_modules/
+**/node_modules/
+**/.*cache
 /composer.lock
 
 /etc/build/*
 !/etc/build/.gitignore
 
 /tests/Application/yarn.lock
-/tests/Application/.cache
-/tests/Application/.parcel-cache
-/tests/Application/src/*.map
-/tests/Application/public
 
 /behat.yml
 /phpspec.yml

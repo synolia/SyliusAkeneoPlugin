@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/admin/synolia-sylius-akeneo/main.css') }}">
+    {% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/main.css'} %}
 {% endblock %}
 
 {% block footer %}
@@ -13,5 +13,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('assets/admin/synolia-sylius-akeneo/main.js') }}"></script>
+    {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/main.js'} %}
 {% endblock %}

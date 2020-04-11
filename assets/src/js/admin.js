@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 const Admin = {
   organizations: ['synolia', 'akeneo'],
   initialize() {

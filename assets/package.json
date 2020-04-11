@@ -1,0 +1,24 @@
+{
+  "name": "synolia-sylius-akeneo-plugin",
+  "version": "1.0.0",
+  "description": "Synolia Sylius Akeneo PIM Plugin",
+  "source": "src/index.js",
+  "main": "../src/Resources/public/main.js",
+  "repository": "git@bitbucket.org:synolia/sylius-akeneo-plugin.git",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "parcel build src/index.js --no-scope-hoist"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "devDependencies": {
+    "@parcel/transformer-css": "^2.0.0-alpha.3",
+    "@parcel/transformer-postcss": "^2.0.0-alpha.3",
+    "parcel": "^2.0.0-alpha.3.2",
+    "sass": "^1.26.3"
+  }
+}
