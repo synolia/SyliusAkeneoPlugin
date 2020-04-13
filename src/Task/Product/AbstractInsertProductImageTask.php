@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -33,16 +34,21 @@ class AbstractInsertProductImageTask
     /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration */
     protected $configuration;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     public function __construct(
         ImageUploaderInterface $imageUploader,
         RepositoryInterface $productConfigurationRepository,
         EntityManagerInterface $entityManager,
-        FactoryInterface $productImageFactory
+        FactoryInterface $productImageFactory,
+        LoggerInterface $logger
     ) {
         $this->imageUploader = $imageUploader;
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->entityManager = $entityManager;
         $this->productImageFactory = $productImageFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -76,7 +82,7 @@ class AbstractInsertProductImageTask
 
                         \unlink($imagePath);
                     } catch (\Throwable $throwable) {
-                        //TODO: Log error when logger will be implemented.
+                        $this->logger->warning($throwable->getMessage());
                     }
                 }
             }

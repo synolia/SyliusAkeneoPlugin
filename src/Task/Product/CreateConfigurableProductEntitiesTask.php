@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
@@ -17,6 +18,7 @@ use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -42,6 +44,18 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
 
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var int */
+    private $updateCount = 0;
+
+    /** @var int */
+    private $createCount = 0;
+
+    /** @var string */
+    private $type;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -55,7 +69,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         ProductGroupRepository $productGroupRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
-        AkeneoTaskProvider $taskProvider
+        AkeneoTaskProvider $taskProvider,
+        LoggerInterface $logger
     ) {
         parent::__construct(
             $entityManager,
@@ -73,6 +88,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
+        $this->logger = $logger;
     }
 
     /**
@@ -83,6 +99,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         if (!$payload instanceof ProductPayload) {
             return $payload;
         }
+        $this->logger->debug(self::class);
+        $this->type = 'ConfigurableProduct';
+        $this->logger->notice(Messages::createOrUpdate($this->type));
 
         foreach ($payload->getConfigurableProductPayload()->getProducts() as $configurableProductItem) {
             try {
@@ -114,8 +133,11 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 $this->entityManager->commit();
             } catch (\Throwable $throwable) {
                 $this->entityManager->rollback();
+                $this->logger->warning($throwable->getMessage());
             }
         }
+
+        $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
     }
@@ -148,15 +170,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 $productModel->addOption($productOption);
             }
 
-            $productVariant = $this->productVariantRepository->findOneBy(['code' => $variantCode]);
-
-            if (!$productVariant instanceof ProductVariantInterface) {
-                /** @var ProductVariantInterface $productVariant */
-                $productVariant = $this->productVariantFactory->createForProduct($productModel);
-                $productVariant->setCode($variantCode);
-
-                $this->entityManager->persist($productVariant);
-            }
+            $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
 
             $this->setProductOptionValues($productVariant, $productOption, $values);
             $this->setProductPrices($productVariant);
@@ -227,5 +241,28 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         ;
         $imageTask = $this->taskProvider->get(InsertProductVariantImagesTask::class);
         $imageTask->__invoke($productVariantMediaPayload);
+    }
+
+    private function getOrCreateEntity(string $variantCode, ProductInterface $productModel): ProductVariantInterface
+    {
+        $productVariant = $this->productVariantRepository->findOneBy(['code' => $variantCode]);
+
+        if (!$productVariant instanceof ProductVariantInterface) {
+            /** @var ProductVariantInterface $productVariant */
+            $productVariant = $this->productVariantFactory->createForProduct($productModel);
+            $productVariant->setCode($variantCode);
+
+            ++$this->createCount;
+            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $productVariant->getCode()));
+
+            $this->entityManager->persist($productVariant);
+
+            return $productVariant;
+        }
+
+        ++$this->updateCount;
+        $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $productVariant->getCode()));
+
+        return $productVariant;
     }
 }
