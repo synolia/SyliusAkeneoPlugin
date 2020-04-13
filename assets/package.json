@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "Synolia Sylius Akeneo PIM Plugin",
   "source": "src/index.js",
-  "main": "../src/Resources/public/main.js",
   "repository": "git@bitbucket.org:synolia/sylius-akeneo-plugin.git",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "parcel build src/index.js --no-scope-hoist"
+    "build": "parcel build src/index.js --out-dir ../src/Resources/public --out-file main.js --no-source-maps",
+    "dev": "parcel watch src/index.js --out-dir ../tests/Application/public/bundles/synoliasyliusakeneoplugin --out-file main.js --no-hmr",
+    "eslint": "eslint -c .eslintrc ./",
+    "fix-eslint": "eslint -c .eslintrc ./ --fix"
   },
   "browserslist": [
     "> 1%",
@@ -16,9 +18,13 @@
     "not ie <= 8"
   ],
   "devDependencies": {
-    "@parcel/transformer-css": "^2.0.0-alpha.3",
-    "@parcel/transformer-postcss": "^2.0.0-alpha.3",
-    "parcel": "^2.0.0-alpha.3.2",
-    "sass": "^1.26.3"
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "2.0.4"
   }
 }

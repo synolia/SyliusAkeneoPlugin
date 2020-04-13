@@ -40,6 +40,10 @@ parameters:
             no-progress-bar: true
         phpmnd:
             directory: src
+        npm_script:
+            script: eslint
+            working_directory: './assets'
+            is_run_task: true
         twigcs:
             path: 'src/'
             severity: error
