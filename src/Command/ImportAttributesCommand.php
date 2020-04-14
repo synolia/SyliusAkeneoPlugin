@@ -21,6 +21,7 @@ final class ImportAttributesCommand extends Command
 
     private const DESCRIPTION = 'Import Attributes and Options from Akeneo PIM.';
 
+    /** @var string */
     protected static $defaultName = 'akeneo:import:attributes';
 
     /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory */
@@ -67,7 +68,7 @@ final class ImportAttributesCommand extends Command
             return 0;
         }
 
-        $this->logger->notice(self::DESCRIPTION);
+        $this->logger->notice(self::$defaultName);
         /** @var \League\Pipeline\Pipeline $attributePipeline */
         $attributePipeline = $this->attributePipelineFactory->create();
 
@@ -79,7 +80,7 @@ final class ImportAttributesCommand extends Command
         $optionPipeline = $this->attributeOptionPipelineFactory->create();
         $optionPipeline->process($payload);
 
-        $this->logger->notice(Messages::endOfCommand(self::DESCRIPTION));
+        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
         $this->release();
 
         return 0;

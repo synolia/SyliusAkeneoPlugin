@@ -20,6 +20,7 @@ final class ImportProductsCommand extends Command
 
     private const DESCRIPTION = 'Import Products from Akeneo PIM.';
 
+    /** @var string */
     protected static $defaultName = 'akeneo:import:products';
 
     /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
@@ -61,7 +62,7 @@ final class ImportProductsCommand extends Command
             return 0;
         }
 
-        $this->logger->notice(self::DESCRIPTION);
+        $this->logger->notice(self::$defaultName);
         /** @var \League\Pipeline\Pipeline $productPipeline */
         $productPipeline = $this->productPipelineFactory->create();
 
@@ -69,7 +70,7 @@ final class ImportProductsCommand extends Command
         $productPayload = new ProductPayload($this->clientFactory->createFromApiCredentials());
         $productPipeline->process($productPayload);
 
-        $this->logger->notice(Messages::endOfCommand(self::DESCRIPTION));
+        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
         $this->release();
 
         return 0;
