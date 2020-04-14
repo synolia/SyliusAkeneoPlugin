@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Synolia\SyliusAkeneoPlugin\Event;
+
+use Symfony\Contracts\EventDispatcher\Event;
+use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+
+abstract class AbstractTaskEvent extends Event
+{
+    /** @var string */
+    protected $task;
+
+    /** @var PipelinePayloadInterface */
+    protected $payload;
+
+    public function __construct(string $task, PipelinePayloadInterface $payload)
+    {
+        $this->task = $task;
+        $this->payload = $payload;
+    }
+
+    public function getTask(): string
+    {
+        return $this->task;
+    }
+
+    public function getPayload(): PipelinePayloadInterface
+    {
+        return $this->payload;
+    }
+}
