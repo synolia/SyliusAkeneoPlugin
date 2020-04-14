@@ -20,6 +20,7 @@ final class ProductConfigurationType extends AbstractType
     {
         $builder
             ->add('websiteAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.website_attribute'])
+            ->add('akeneoPriceAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_price_attribute'])
             ->add('defaultTax', CollectionType::class, [
                 'required' => true,
                 'mapped' => true,

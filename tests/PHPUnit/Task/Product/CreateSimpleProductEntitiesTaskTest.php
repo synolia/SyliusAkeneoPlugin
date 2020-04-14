@@ -90,8 +90,15 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         }
 
         //Testing simple variant
+        /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
         $productVariant = $this->manager->getRepository(ProductVariant::class)->findOneBy(['code' => $product->getCode()]);
         $this->assertNotNull($productVariant);
+
+        $this->assertEquals(1, $productVariant->getChannelPricings()->count());
+        foreach ($productVariant->getChannelPricings() as $channelPricing) {
+            $this->assertEquals(89900, $channelPricing->getPrice());
+            $this->assertEquals(89900, $channelPricing->getOriginalPrice());
+        }
     }
 
     private function importAttributes(): void
@@ -124,6 +131,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     private function prepareConfiguration(): void
     {
         $productConfiguration = new ProductConfiguration();
+        $productConfiguration->setAkeneoPriceAttribute('price');
         $this->manager->persist($productConfiguration);
 
         $imageMapping = new ProductConfigurationImageMapping();

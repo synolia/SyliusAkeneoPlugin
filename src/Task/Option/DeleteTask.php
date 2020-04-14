@@ -86,6 +86,7 @@ final class DeleteTask implements AkeneoTaskInterface
         $removedOptionIds = $this->productOptionRepository->getRemovedOptionIds($attributeCodes);
 
         foreach ($removedOptionIds as $removedOptionId) {
+            /** @var ProductOption $referenceEntity */
             $referenceEntity = $this->entityManager->getReference(ProductOption::class, $removedOptionId);
             if (null !== $referenceEntity) {
                 $this->entityManager->remove($referenceEntity);

@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
@@ -42,10 +43,11 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
     public function __construct(
         RepositoryInterface $productRepository,
-        RepositoryInterface $channelRepository,
+        ChannelRepository $channelRepository,
         RepositoryInterface $productVariantRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
+        RepositoryInterface $productConfigurationRepository,
         FactoryInterface $productFactory,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
@@ -60,6 +62,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             $channelRepository,
             $channelPricingRepository,
             $localeRepository,
+            $productConfigurationRepository,
             $productVariantFactory,
             $channelPricingFactory
         );
@@ -87,7 +90,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                 $this->linkCategoriesToProduct($payload, $product, $simpleProductItem['categories']);
                 $this->insertAttributesToProduct($payload, $product, $simpleProductItem);
                 $this->updateImages($payload, $simpleProductItem, $product);
-                $this->setProductPrices($productVariant);
+                $this->setProductPrices($productVariant, $simpleProductItem['values']);
 
                 $this->entityManager->flush();
                 $this->entityManager->commit();
