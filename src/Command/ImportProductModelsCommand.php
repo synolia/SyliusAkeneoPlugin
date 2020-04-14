@@ -36,13 +36,13 @@ final class ImportProductModelsCommand extends ContainerAwareCommand
     public function __construct(
         ProductModelPipelineFactory $productModelPipelineFactory,
         ClientFactory $clientFactory,
-        LoggerInterface $logger,
+        LoggerInterface $akeneoLogger,
         string $name = null
     ) {
         parent::__construct($name);
         $this->productModelPipelineFactory = $productModelPipelineFactory;
         $this->clientFactory = $clientFactory;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     protected function configure(): void

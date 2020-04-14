@@ -35,11 +35,11 @@ final class DeleteEntityTask implements AkeneoTaskInterface
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeAkeneoRepository,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeAkeneoRepository = $productAttributeAkeneoRepository;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

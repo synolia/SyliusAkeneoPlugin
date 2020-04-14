@@ -51,7 +51,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         FactoryInterface $channelPricingFactory,
         EntityManagerInterface $entityManager,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         parent::__construct(
             $entityManager,
@@ -66,7 +66,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface

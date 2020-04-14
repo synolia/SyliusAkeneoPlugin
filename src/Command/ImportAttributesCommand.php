@@ -40,14 +40,14 @@ final class ImportAttributesCommand extends Command
         AttributePipelineFactory $attributePipelineFactory,
         AttributeOptionPipelineFactory $attributeOptionPipelineFactory,
         ClientFactory $clientFactory,
-        LoggerInterface $logger,
+        LoggerInterface $akeneoLogger,
         string $name = null
     ) {
         parent::__construct($name);
         $this->attributePipelineFactory = $attributePipelineFactory;
         $this->attributeOptionPipelineFactory = $attributeOptionPipelineFactory;
         $this->clientFactory = $clientFactory;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     protected function configure(): void

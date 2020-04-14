@@ -42,13 +42,13 @@ class AbstractInsertProductImageTask
         RepositoryInterface $productConfigurationRepository,
         EntityManagerInterface $entityManager,
         FactoryInterface $productImageFactory,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->imageUploader = $imageUploader;
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->entityManager = $entityManager;
         $this->productImageFactory = $productImageFactory;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

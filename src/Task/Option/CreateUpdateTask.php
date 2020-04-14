@@ -49,13 +49,13 @@ final class CreateUpdateTask implements AkeneoTaskInterface
         ProductAttributeRepository $productAttributeAkeneoRepository,
         ProductOptionManager $productOptionManager,
         ConfigurationProvider $configurationProvider,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeAkeneoRepository;
         $this->productOptionManager = $productOptionManager;
         $this->configurationProvider = $configurationProvider;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

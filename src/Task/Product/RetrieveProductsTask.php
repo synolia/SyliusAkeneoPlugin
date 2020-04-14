@@ -17,9 +17,9 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $akeneoLogger)
     {
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

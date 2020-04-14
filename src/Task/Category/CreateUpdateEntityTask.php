@@ -42,12 +42,12 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
         TaxonRepository $taxonAkeneoRepository,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
         $this->taxonRepository = $taxonAkeneoRepository;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

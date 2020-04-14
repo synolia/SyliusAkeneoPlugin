@@ -50,13 +50,13 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         RepositoryInterface $productAttributeRepository,
         FactoryInterface $productAttributeFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productAttributeFactory = $productAttributeFactory;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

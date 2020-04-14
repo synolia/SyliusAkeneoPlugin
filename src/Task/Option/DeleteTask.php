@@ -37,12 +37,12 @@ final class DeleteTask implements AkeneoTaskInterface
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeAkeneoRepository,
         ProductOptionRepository $productOptionAkeneoRepository,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeAkeneoRepository;
         $this->productOptionRepository = $productOptionAkeneoRepository;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**
