@@ -134,6 +134,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         $apiConfiguration->setIsEnterprise(true);
         $apiConfiguration->setUsername('');
         $apiConfiguration->setPassword('');
+        $apiConfiguration->setChannel('');
         $this->manager->persist($apiConfiguration);
         $this->manager->flush();
     }

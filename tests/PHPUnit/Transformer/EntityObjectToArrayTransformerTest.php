@@ -7,7 +7,6 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Transformer;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationWebsiteMapping;
 use Synolia\SyliusAkeneoPlugin\Transformer\EntityObjectToArrayTransformer;
 
 final class EntityObjectToArrayTransformerTest extends KernelTestCase
@@ -27,7 +26,6 @@ final class EntityObjectToArrayTransformerTest extends KernelTestCase
     public function testApiConfigurationObjectToArray(): void
     {
         $apiConfiguration = new ApiConfiguration();
-        $apiConfiguration->addWebsiteMapping(new ApiConfigurationWebsiteMapping());
 
         $result = $this->entityObjectToArrayTransformer->entityObjectToArray($apiConfiguration);
 
@@ -41,12 +39,7 @@ final class EntityObjectToArrayTransformerTest extends KernelTestCase
             'pagination_size' => 100,
             'username' => null,
             'password' => null,
-            'website_mappings' => [
-                [
-                  'channel' => null,
-                  'akeneo_channel' => null,
-                ],
-            ],
+            'channel' => null,
         ];
 
         Assert::assertEquals($expected, $result);

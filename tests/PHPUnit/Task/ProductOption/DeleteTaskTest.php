@@ -56,6 +56,7 @@ final class DeleteTaskTest extends AbstractTaskTest
         $apiConfiguration->setIsEnterprise(true);
         $apiConfiguration->setUsername('');
         $apiConfiguration->setPassword('');
+        $apiConfiguration->setChannel('');
         $this->manager->persist($apiConfiguration);
         $this->manager->flush();
     }
