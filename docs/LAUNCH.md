@@ -1,0 +1,76 @@
+# Developers - Launch imports
+
+## By CLI on server
+
+### Commands
+
+You can launch each command by using 
+
+```shell
+bin/console 
+```
+
+and add one of
+
+    akeneo:import:categories                Import Categories from Akeneo PIM.
+    akeneo:import:attributes                Import Attributes and Options from Akeneo PIM.
+    akeneo:import:product-models            Import Product Models from Akeneo PIM.
+    akeneo:import:products                  Import Products from Akeneo PIM.
+
+> This is the recommended order to launch imports
+
+### Logs
+
+#### Show logs in console output
+
+```yaml
+# config/packages/monolog.yaml
+
+monolog:
+    handlers:
+        ...
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ['!event', '!doctrine', '!console']
+
+```
+
+#### Verbosity levels
+
+Command without verbosity option like :
+
+    php bin/console akeneo:import:categories
+    
+Will show logs levels :
+- alert
+- critical
+- error
+- emergency
+- warning // hide with add `-q` 
+
+
+    php bin/console akeneo:import:categories -v
+    
+- all previous
+- notice
+
+
+    php bin/console akeneo:import:categories -vv
+    
+- all previous
+- info
+
+
+    php bin/console akeneo:import:categories -vvv
+
+- all previous
+- debug
+
+## Launch in Sylius Back Office
+
+You can configure and launch every CLI command by using our [SyliusSchedulerCommandPlugin](https://github.com/synolia/SyliusSchedulerCommandPlugin)
+
+---
+
+Previous step: [Customization](CUSTOMIZE.md)
