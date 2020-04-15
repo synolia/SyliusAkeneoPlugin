@@ -10,3 +10,5 @@ services:
 
     Synolia\SyliusAkeneoPlugin\Transformer\EntityObjectToArrayTransformer: ~
     test.serialize.akeneo: '@Symfony\Component\Serializer\SerializerInterface'
+    Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\BeforeTaskSubscriber: ~
+    Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\AfterTaskSubscriber: ~
