@@ -70,7 +70,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         parent::__construct(
             $entityManager,
@@ -88,7 +88,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

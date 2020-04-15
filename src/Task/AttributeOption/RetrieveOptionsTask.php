@@ -26,10 +26,10 @@ final class RetrieveOptionsTask implements AkeneoTaskInterface
 
     public function __construct(
         AttributeTypeMatcher $attributeTypeMatcher,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

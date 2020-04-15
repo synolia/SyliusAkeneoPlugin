@@ -105,7 +105,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         FactoryInterface $productTaxonFactory,
         SlugGeneratorInterface $slugGenerator,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
@@ -119,7 +119,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->taxonRepository = $taxonRepository;
         $this->slugGenerator = $slugGenerator;
         $this->taskProvider = $taskProvider;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

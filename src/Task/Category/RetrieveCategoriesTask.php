@@ -24,10 +24,10 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
      */
     public function __construct(
         RepositoryInterface $categoriesConfigurationRepository,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->categoriesConfigurationRepository = $categoriesConfigurationRepository;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

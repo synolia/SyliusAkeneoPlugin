@@ -35,11 +35,11 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $productGroupRepository,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productGroupRepository = $productGroupRepository;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**

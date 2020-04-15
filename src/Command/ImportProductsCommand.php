@@ -35,13 +35,13 @@ final class ImportProductsCommand extends Command
     public function __construct(
         ProductPipelineFactory $productPipelineFactory,
         ClientFactory $clientFactory,
-        LoggerInterface $logger,
+        LoggerInterface $akeneoLogger,
         string $name = null
     ) {
         parent::__construct($name);
         $this->productPipelineFactory = $productPipelineFactory;
         $this->clientFactory = $clientFactory;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     protected function configure(): void

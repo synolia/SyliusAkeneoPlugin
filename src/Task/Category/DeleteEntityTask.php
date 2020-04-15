@@ -40,12 +40,12 @@ final class DeleteEntityTask implements AkeneoTaskInterface
         EntityManagerInterface $entityManager,
         ProductRepository $productAkeneoRepository,
         TaxonRepository $taxonAkeneoRepository,
-        LoggerInterface $logger
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productRepository = $productAkeneoRepository;
         $this->taxonRepository = $taxonAkeneoRepository;
-        $this->logger = $logger;
+        $this->logger = $akeneoLogger;
     }
 
     /**
