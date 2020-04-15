@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 

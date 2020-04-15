@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Pipeline;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class DummyPayload implements PipelinePayloadInterface
 {
@@ -39,6 +41,16 @@ final class DummyPayload implements PipelinePayloadInterface
     {
         $this->logs[] = $log;
 
+        return $this;
+    }
+
+    public function getOutputInterface(): OutputInterface
+    {
+        return new NullOutput();
+    }
+
+    public function setOutputInterface(OutputInterface $outputInterface): PipelinePayloadInterface
+    {
         return $this;
     }
 }
