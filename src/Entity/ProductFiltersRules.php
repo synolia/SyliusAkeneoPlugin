@@ -34,22 +34,22 @@ class ProductFiltersRules implements ResourceInterface
     private $advancedFilter;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     * @ORM\Column(type="string", length=255)
      */
-    private $completenessType;
+    private $completenessType = '';
+
+    /**
+     * @var array
+     * @ORM\Column(type="array")
+     */
+    private $locales = [];
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $locales;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $completenessValue;
+    private $completenessValue = '';
 
     /**
      * @var string|null
@@ -64,15 +64,15 @@ class ProductFiltersRules implements ResourceInterface
     private $updatedMode;
 
     /**
-     * @var \DateTimeInterface|null
-     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTimeInterface
+     * @ORM\Column(type="datetime")
      */
     private $updatedBefore;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var \DateTimeInterface
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
     private $updatedAfter;
 
@@ -83,10 +83,16 @@ class ProductFiltersRules implements ResourceInterface
     private $updated;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var array
+     * @ORM\Column(type="array")
      */
-    private $families;
+    private $families = [];
+
+    public function __construct()
+    {
+        $this->updatedBefore = new \DateTime();
+        $this->updatedAfter = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -117,36 +123,55 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getCompletenessType(): ?string
+    public function getCompletenessType(): string
     {
         return $this->completenessType;
     }
 
-    public function setCompletenessType(?string $completenessType): self
+    public function setCompletenessType(string $completenessType): self
     {
         $this->completenessType = $completenessType;
 
         return $this;
     }
 
-    public function getLocales(): ?string
+    public function getLocales(): array
     {
         return $this->locales;
     }
 
-    public function setLocales(string $locales): self
+    public function addLocale(string $locale): self
     {
-        $this->locales = $locales;
+        if (in_array($locale, $this->locales)) {
+            return $this;
+        }
+
+        $this->locales[] = $locale;
+
+        $this->locales = array_values($this->locales);
 
         return $this;
     }
 
-    public function getCompletenessValue(): ?string
+    public function removeLocale(string $locale): self
+    {
+        if (!in_array($locale, $this->locales)) {
+            return $this;
+        }
+
+        unset($this->locales[array_search($locale, $this->locales)]);
+
+        $this->locales = array_values($this->locales);
+
+        return $this;
+    }
+
+    public function getCompletenessValue(): string
     {
         return $this->completenessValue;
     }
 
-    public function setCompletenessValue(?string $completenessValue): self
+    public function setCompletenessValue(string $completenessValue): self
     {
         $this->completenessValue = $completenessValue;
 
@@ -177,24 +202,24 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getUpdatedBefore(): ?\DateTimeInterface
+    public function getUpdatedBefore(): \DateTimeInterface
     {
         return $this->updatedBefore;
     }
 
-    public function setUpdatedBefore(?\DateTimeInterface $updatedBefore): self
+    public function setUpdatedBefore(\DateTimeInterface $updatedBefore): self
     {
         $this->updatedBefore = $updatedBefore;
 
         return $this;
     }
 
-    public function getUpdatedAfter(): ?\DateTimeInterface
+    public function getUpdatedAfter(): \DateTimeInterface
     {
         return $this->updatedAfter;
     }
 
-    public function setUpdatedAfter(?\DateTimeInterface $updatedAfter): self
+    public function setUpdatedAfter(\DateTimeInterface $updatedAfter): self
     {
         $this->updatedAfter = $updatedAfter;
 
@@ -213,14 +238,33 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getFamilies(): ?string
+    public function getFamilies(): array
     {
         return $this->families;
     }
 
-    public function setFamilies(?string $families): self
+    public function addFamily(string $family): self
     {
-        $this->families = $families;
+        if (in_array($family, $this->families)) {
+            return $this;
+        }
+
+        $this->families[] = $family;
+
+        $this->families = array_values($this->families);
+
+        return $this;
+    }
+
+    public function removeFamily(string $family): self
+    {
+        if (!in_array($family, $this->families)) {
+            return $this;
+        }
+
+        unset($this->families[array_search($family, $this->families)]);
+
+        $this->families = array_values($this->families);
 
         return $this;
     }

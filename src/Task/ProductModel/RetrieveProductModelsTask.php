@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Psr\Log\LoggerInterface;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -12,11 +15,22 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveProductModelsTask implements AkeneoTaskInterface
 {
+    /** @var EntityRepository */
+    private $apiConfigurationRepository;
+
+    /** @var ProductFilter */
+    private $productFilter;
+
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
-    {
+    public function __construct(
+        EntityRepository $apiConfigurationRepository,
+        ProductFilter $productFilter,
+        LoggerInterface $logger
+    ) {
+        $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->productFilter = $productFilter;
         $this->logger = $logger;
     }
 
@@ -25,9 +39,17 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        /** @var ApiConfiguration $apiConfiguration */
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+
+        $queryParameters = $this->productFilter->getProductModelFilters($payload);
+
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
-        $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all();
+        $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
+            $apiConfiguration->getPaginationSize() ?? 0,
+            ['search' => $queryParameters]
+        );
 
         $noCodeCount = 0;
         foreach ($resources as $resource) {
