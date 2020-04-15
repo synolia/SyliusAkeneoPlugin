@@ -22,9 +22,6 @@ final class AttributeTypeMappingType extends AbstractType
         $builder
             ->add('akeneo_attribute', TextType::class)
             ->add('attribute_type', AttributeTypeChoiceType::class)
-            ->add('delete', ButtonType::class, [
-                'attr' => ['class' => 'ui red button delete'],
-            ])
         ;
     }
 

@@ -30,9 +30,6 @@ final class AttributeAkeneoSyliusMappingType extends AbstractType
                     ProductInterface::class => ProductInterface::class,
                     ProductTranslationInterface::class => ProductTranslationInterface::class,
                 ],
-            ])
-            ->add('delete', ButtonType::class, [
-                'attr' => ['class' => 'ui red button delete'],
             ]);
     }
 
