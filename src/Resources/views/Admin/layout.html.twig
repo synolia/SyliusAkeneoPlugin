@@ -1,6 +1,8 @@
 {% extends '@SyliusAdmin/layout.html.twig' %}
 
-{% form_theme form '@SyliusUi/Form/theme.html.twig' %}
+{% if form is defined %}
+    {% form_theme form '@SyliusUi/Form/theme.html.twig' %}
+{% endif %}
 
 {% block title %} | Synolia Sylius Akeneo Plugin{% endblock %}
 

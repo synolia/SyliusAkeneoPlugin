@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
-use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFiltersRulesType;
+use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
+use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 
 final class ProductFilterRulesController extends AbstractController
@@ -56,21 +57,30 @@ final class ProductFilterRulesController extends AbstractController
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
         }
 
-        $productfiltersRules = $this->productFiltersRulesRepository->getProductFiltersRules();
-        if ($productfiltersRules === null) {
-            $productfiltersRules = new ProductFiltersRules();
+        $productFiltersRules = $this->productFiltersRulesRepository->getProductFiltersRules();
+        if ($productFiltersRules === null) {
+            $productFiltersRules = new ProductFiltersRules();
         }
 
-        $form = $this->createForm(ProductFiltersRulesType::class, $productfiltersRules);
-        $form->handleRequest($request);
+        $simpleForm = $this->createForm(ProductFilterRuleSimpleType::class, $productFiltersRules);
+        $simpleForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($form->getData());
+        $advancedForm = $this->createForm(ProductFilterRuleAdvancedType::class, $productFiltersRules);
+        $advancedForm->handleRequest($request);
+
+        if ($simpleForm->isSubmitted() && $simpleForm->isValid()) {
+            $this->entityManager->persist($simpleForm->getData());
+            $this->entityManager->flush();
+        }
+
+        if ($advancedForm->isSubmitted() && $advancedForm->isValid()) {
+            $this->entityManager->persist($advancedForm->getData());
             $this->entityManager->flush();
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/filters_configuration.html.twig', [
-            'form' => $form->createView(),
+            'simple_form' => $simpleForm->createView(),
+            'advanced_form' => $advancedForm->createView(),
         ]);
     }
 }

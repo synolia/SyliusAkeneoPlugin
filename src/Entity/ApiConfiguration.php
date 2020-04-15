@@ -77,12 +77,6 @@ class ApiConfiguration implements ResourceInterface
      */
     private $password;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $channel;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -192,18 +186,6 @@ class ApiConfiguration implements ResourceInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getChannel(): ?string
-    {
-        return $this->channel;
-    }
-
-    public function setChannel(string $channel): self
-    {
-        $this->channel = $channel;
 
         return $this;
     }

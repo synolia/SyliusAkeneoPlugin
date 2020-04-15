@@ -1,5 +1,8 @@
 {% extends '@SynoliaSyliusAkeneoPlugin/Admin/layout.html.twig' %}
 
+{% form_theme advanced_form '@SyliusUi/Form/theme.html.twig' %}
+{% form_theme simple_form '@SyliusUi/Form/theme.html.twig' %}
+
 {% import '@SyliusUi/Macro/headers.html.twig' as headers %}
 
 {% block title %}{{ 'sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans }} {{ parent() }}{% endblock %}
@@ -7,8 +10,13 @@
 {% block content %}
     {{ headers.default('sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans, 'cogs') }}
     <div class="ui segment">
-        {{ form_start(form, {'attr': {'class': 'ui loadable form'}}) }}
-        {{ form_row(form) }}
-        {{ form_end(form) }}
+        {{ form_start(simple_form, {'attr': {'class': 'ui loadable form'}}) }}
+        {{ form_row(simple_form) }}
+        {{ form_end(simple_form) }}
+    </div>
+    <div class="ui segment">
+        {{ form_start(advanced_form, {'attr': {'class': 'ui loadable form'}}) }}
+        {{ form_row(advanced_form) }}
+        {{ form_end(advanced_form) }}
     </div>
 {% endblock %}

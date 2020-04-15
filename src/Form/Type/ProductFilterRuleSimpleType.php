@@ -8,15 +8,14 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-final class ProductFiltersRulesType extends AbstractType
+final class ProductFilterRuleSimpleType extends AbstractType
 {
-    public const PRODUCT_FILTER_MODE_SIMPLE = 'simple';
-
-    public const PRODUCT_FILTER_MODE_ADVANCED = 'advanced';
+    public const MODE = 'simple';
 
     /**
      * {@inheritdoc}
@@ -24,17 +23,11 @@ final class ProductFiltersRulesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('mode', ChoiceType::class, [
+            ->add('mode', HiddenType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.mode',
-                'choices' => [
-                    'sylius.ui.admin.akeneo.product_filter_rules.simple' => self::PRODUCT_FILTER_MODE_SIMPLE,
-                    'sylius.ui.admin.akeneo.product_filter_rules.advanced' => self::PRODUCT_FILTER_MODE_ADVANCED,
-                ],
+                'data' => self::MODE,
             ])
-            ->add('advanced_filter', TextType::class, [
-                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.advanced_filter',
-                'required' => false,
-            ])
+            ->add('channel', ChannelChoiceType::class)
             ->add('completeness_type', CompletenessTypeChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type',
             ])
