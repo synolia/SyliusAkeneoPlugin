@@ -68,7 +68,10 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ->add('families', FamiliesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'sylius.ui.save',
+                'attr' => ['class' => 'ui primary button'],
+            ])
         ;
     }
 }
