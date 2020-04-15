@@ -45,9 +45,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
-
     /** @var int */
     private $updateCount = 0;
 
@@ -57,6 +54,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var string */
     private $type;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -83,7 +83,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             $localeRepository,
             $productConfigurationRepository,
             $productVariantFactory,
-            $channelPricingFactory
+            $channelPricingFactory,
+            $akeneoLogger
         );
 
         $this->productOptionRepository = $productOptionRepository;
@@ -91,7 +92,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
-        $this->logger = $akeneoLogger;
     }
 
     /**

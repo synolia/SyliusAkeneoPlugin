@@ -29,9 +29,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
-
     /** @var int */
     private $updateCount = 0;
 
@@ -64,12 +61,12 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             $localeRepository,
             $productConfigurationRepository,
             $productVariantFactory,
-            $channelPricingFactory
+            $channelPricingFactory,
+            $akeneoLogger
         );
 
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
-        $this->logger = $akeneoLogger;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface

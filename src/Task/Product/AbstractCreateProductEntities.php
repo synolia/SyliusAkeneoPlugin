@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -45,6 +46,9 @@ class AbstractCreateProductEntities
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     protected $localeRepository;
 
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
+
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productConfigurationRepository;
 
@@ -57,7 +61,8 @@ class AbstractCreateProductEntities
         RepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
         ProductVariantFactoryInterface $productVariantFactory,
-        FactoryInterface $channelPricingFactory
+        FactoryInterface $channelPricingFactory,
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productVariantRepository = $productVariantRepository;
@@ -68,6 +73,7 @@ class AbstractCreateProductEntities
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->channelPricingFactory = $channelPricingFactory;
         $this->localeRepository = $localeRepository;
+        $this->logger = $akeneoLogger;
     }
 
     protected function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface
@@ -99,6 +105,8 @@ class AbstractCreateProductEntities
                 }
             }
         } catch (\Throwable $throwable) {
+            $this->logger->warning($throwable->getMessage());
+
             return;
         }
     }
