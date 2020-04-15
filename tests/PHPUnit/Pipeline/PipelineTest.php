@@ -8,6 +8,7 @@ use GrumPHP\Event\Dispatcher\EventDispatcherInterface;
 use League\Pipeline\Pipeline;
 use Synolia\SyliusAkeneoPlugin\Event\AfterTaskEvent;
 use Synolia\SyliusAkeneoPlugin\Event\BeforeTaskEvent;
+use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\DummyTask;
@@ -38,6 +39,7 @@ class PipelineTest extends ApiTestCase
         /** @var DummyPayload $payload */
         $payload = $pipeline->process(new DummyPayload($this->createClient()));
 
+        $this->assertInstanceOf(PipelinePayloadInterface::class, $payload);
         $this->assertContains(BeforeTaskEvent::NAME, $payload->getLogs());
         $this->assertContains(AfterTaskEvent::NAME, $payload->getLogs());
     }
