@@ -6,12 +6,22 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Doctrine\Common\Collections\Collection;
+use Psr\Log\LoggerInterface;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveProductsTask implements AkeneoTaskInterface
 {
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
      */
@@ -21,12 +31,17 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
             return $payload;
         }
 
+        $this->logger->debug(self::class);
+        $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
+
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(100, true);
 
         if (!$resources instanceof Page) {
             return $payload;
         }
+
+        $itemCount = 0;
 
         while (
             ($resources instanceof Page && $resources->hasNextPage()) ||
@@ -36,10 +51,13 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
             foreach ($resources->getItems() as $item) {
                 $this->handleSimpleProduct($payload->getSimpleProductPayload()->getProducts(), $item);
                 $this->handleConfigurableProduct($payload->getConfigurableProductPayload()->getProducts(), $item);
+                ++$itemCount;
             }
 
             $resources = $resources->getNextPage();
         }
+
+        $this->logger->info(Messages::totalToImport($payload->getType(), $itemCount));
 
         return $payload;
     }

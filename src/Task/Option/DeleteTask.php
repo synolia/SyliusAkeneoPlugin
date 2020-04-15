@@ -70,6 +70,7 @@ final class DeleteTask implements AkeneoTaskInterface
             $this->entityManager->commit();
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
+            $this->logger->warning($throwable->getMessage());
 
             throw $throwable;
         }

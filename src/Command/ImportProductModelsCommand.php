@@ -21,6 +21,7 @@ final class ImportProductModelsCommand extends ContainerAwareCommand
 
     private const DESCRIPTION = 'Import Product Models from Akeneo PIM.';
 
+    /** @var string */
     protected static $defaultName = 'akeneo:import:product-models';
 
     /** @var ProductModelPipelineFactory */
@@ -62,7 +63,7 @@ final class ImportProductModelsCommand extends ContainerAwareCommand
             return 0;
         }
 
-        $this->logger->notice(self::DESCRIPTION);
+        $this->logger->notice(self::$defaultName);
         /** @var Pipeline $productModelPipeline */
         $productModelPipeline = $this->productModelPipelineFactory->create();
 
@@ -70,7 +71,7 @@ final class ImportProductModelsCommand extends ContainerAwareCommand
         $productModelPayload = new ProductModelPayload($this->clientFactory->createFromApiCredentials());
         $productModelPipeline->process($productModelPayload);
 
-        $this->logger->notice(Messages::endOfCommand(self::DESCRIPTION));
+        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
         $this->release();
 
         return 0;

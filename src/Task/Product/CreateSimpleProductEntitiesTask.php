@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Factory\ProductFactory;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
@@ -26,6 +28,18 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
 
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var int */
+    private $updateCount = 0;
+
+    /** @var int */
+    private $createCount = 0;
+
+    /** @var string */
+    private $type;
+
     public function __construct(
         RepositoryInterface $productRepository,
         RepositoryInterface $channelRepository,
@@ -36,7 +50,8 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         EntityManagerInterface $entityManager,
-        AkeneoTaskProvider $taskProvider
+        AkeneoTaskProvider $taskProvider,
+        LoggerInterface $logger
     ) {
         parent::__construct(
             $entityManager,
@@ -51,6 +66,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
+        $this->logger = $logger;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -58,6 +74,10 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         if (!$payload instanceof ProductPayload) {
             return $payload;
         }
+
+        $this->logger->debug(self::class);
+        $this->type = 'SimpleProduct';
+        $this->logger->notice(Messages::createOrUpdate($this->type));
 
         foreach ($payload->getSimpleProductPayload()->getProducts() as $simpleProductItem) {
             try {
@@ -73,15 +93,18 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                 $this->entityManager->commit();
             } catch (\Throwable $throwable) {
                 $this->entityManager->rollback();
+                $this->logger->warning($throwable->getMessage());
             }
         }
+
+        $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
     }
 
     private function getOrCreateEntity(array $resource): ProductInterface
     {
-        /** @var \Sylius\Component\Core\Model\ProductInterface $product */
+        /** @var ProductInterface $product */
         $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
 
         if (!$product instanceof ProductInterface) {
@@ -90,12 +113,21 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             }
 
             if (null === $resource['parent']) {
+                /** @var ProductInterface $product */
                 $product = $this->productFactory->createNew();
             }
 
             $product->setCode($resource['identifier']);
             $this->entityManager->persist($product);
+
+            ++$this->createCount;
+            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $product->getCode()));
+
+            return $product;
         }
+
+        ++$this->updateCount;
+        $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $product->getCode()));
 
         return $product;
     }

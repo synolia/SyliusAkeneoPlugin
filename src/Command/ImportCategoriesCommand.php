@@ -20,6 +20,7 @@ final class ImportCategoriesCommand extends ContainerAwareCommand
 
     private const DESCRIPTION = 'Import Categories from Akeneo PIM.';
 
+    /** @var string */
     protected static $defaultName = 'akeneo:import:categories';
 
     /** @var LoggerInterface */
@@ -61,7 +62,7 @@ final class ImportCategoriesCommand extends ContainerAwareCommand
             return 0;
         }
 
-        $this->logger->notice(self::DESCRIPTION);
+        $this->logger->notice(self::$defaultName);
         /** @var \League\Pipeline\Pipeline $categoryPipeline */
         $categoryPipeline = $this->categoryPipelineFactory->create();
 
@@ -69,7 +70,7 @@ final class ImportCategoriesCommand extends ContainerAwareCommand
         $categoryPayload = new CategoryPayload($this->clientFactory->createFromApiCredentials());
         $categoryPipeline->process($categoryPayload);
 
-        $this->logger->notice(Messages::endOfCommand(self::DESCRIPTION));
+        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
         $this->release();
 
         return 0;

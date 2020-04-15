@@ -88,4 +88,9 @@ final class Messages
     {
         return sprintf('%s "%s" has variant axe "%s"', $type, $entity, $axe);
     }
+
+    public static function noConfigurationSet(string $config, string $for): string
+    {
+        return sprintf('You must configure %s to %s', $config, $for);
+    }
 }
