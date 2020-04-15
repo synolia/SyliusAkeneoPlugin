@@ -10,6 +10,7 @@
     <div class="ui segment">
         {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
         {{ form_row(form.websiteAttribute) }}
+        {{ form_row(form.akeneoPriceAttribute) }}
         <div class="ui segment">
             <div id="default-tax" data-prototype="{{ form_row(form.defaultTax.vars.prototype)|e('html_attr') }}">
                 {{ form_row(form.defaultTax) }}

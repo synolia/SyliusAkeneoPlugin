@@ -5,15 +5,23 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
+use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 
 class AbstractCreateProductEntities
 {
+    private const PRICE_CENTS = 100;
+
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $entityManager;
 
@@ -26,7 +34,7 @@ class AbstractCreateProductEntities
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     protected $productRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository */
     protected $channelRepository;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
@@ -38,15 +46,23 @@ class AbstractCreateProductEntities
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     protected $localeRepository;
 
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
+
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productConfigurationRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
         RepositoryInterface $productRepository,
-        RepositoryInterface $channelRepository,
+        ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
+        RepositoryInterface $productConfigurationRepository,
         ProductVariantFactoryInterface $productVariantFactory,
-        FactoryInterface $channelPricingFactory
+        FactoryInterface $channelPricingFactory,
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productVariantRepository = $productVariantRepository;
@@ -54,8 +70,10 @@ class AbstractCreateProductEntities
         $this->productRepository = $productRepository;
         $this->channelRepository = $channelRepository;
         $this->channelPricingRepository = $channelPricingRepository;
+        $this->productConfigurationRepository = $productConfigurationRepository;
         $this->channelPricingFactory = $channelPricingFactory;
         $this->localeRepository = $localeRepository;
+        $this->logger = $akeneoLogger;
     }
 
     protected function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface
@@ -73,27 +91,75 @@ class AbstractCreateProductEntities
         return $productVariant;
     }
 
-    protected function setProductPrices(ProductVariantInterface $productVariant): void
-    {
-        /** @var \Sylius\Component\Core\Model\ChannelInterface $channel */
-        foreach ($this->channelRepository->findAll() as $channel) {
-            /** @var \Sylius\Component\Core\Model\ChannelPricingInterface $channelPricing */
-            $channelPricing = $this->channelPricingRepository->findOneBy([
-                'channelCode' => $channel->getCode(),
-                'productVariant' => $productVariant,
-            ]);
+    protected function setProductPrices(
+        ProductVariantInterface $productVariant,
+        array $attributes = []
+    ): void {
+        try {
+            $pricingAttribute = $this->getPriceAttributeData($attributes);
 
-            if (!$channelPricing instanceof ChannelPricingInterface) {
-                /** @var \Sylius\Component\Core\Model\ChannelPricingInterface $channelPricing */
-                $channelPricing = $this->channelPricingFactory->createNew();
+            foreach ($pricingAttribute as $price) {
+                /** @var \Sylius\Component\Core\Model\ChannelInterface $channel */
+                foreach ($this->channelRepository->findByCurrencyCode($price['currency']) as $channel) {
+                    $this->addPriceToChannel((float) $price['amount'], $channel, $productVariant);
+                }
+            }
+        } catch (\Throwable $throwable) {
+            $this->logger->warning($throwable->getMessage());
+
+            return;
+        }
+    }
+
+    private function addPriceToChannel(
+        float $amount,
+        ChannelInterface $channel,
+        ProductVariantInterface $productVariant
+    ): void {
+        /** @var \Sylius\Component\Core\Model\ChannelPricingInterface $channelPricing */
+        $channelPricing = $this->channelPricingRepository->findOneBy([
+            'channelCode' => $channel->getCode(),
+            'productVariant' => $productVariant,
+        ]);
+
+        if (!$channelPricing instanceof ChannelPricingInterface) {
+            /** @var \Sylius\Component\Core\Model\ChannelPricingInterface $channelPricing */
+            $channelPricing = $this->channelPricingFactory->createNew();
+        }
+
+        $channelPricing->setOriginalPrice((int) ($amount * self::PRICE_CENTS));
+        $channelPricing->setPrice((int) ($amount * self::PRICE_CENTS));
+        $channelPricing->setProductVariant($productVariant);
+        $channelPricing->setChannelCode($channel->getCode());
+
+        $productVariant->addChannelPricing($channelPricing);
+    }
+
+    private function getPriceAttributeData(array $attributes): array
+    {
+        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+
+        if (!$productConfiguration instanceof ProductConfiguration) {
+            throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
+        }
+
+        if (null === $productConfiguration->getAkeneoPriceAttribute()) {
+            throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
+        }
+
+        foreach ($attributes as $attributeCode => $attributeValue) {
+            if ($attributeCode !== $productConfiguration->getAkeneoPriceAttribute()) {
+                continue;
             }
 
-            $channelPricing->setOriginalPrice(0);
-            $channelPricing->setPrice(0);
-            $channelPricing->setProductVariant($productVariant);
-            $channelPricing->setChannelCode($channel->getCode());
+            if (\count($attributeValue) === 0) {
+                throw new \LogicException('Price attribute is empty.');
+            }
 
-            $productVariant->addChannelPricing($channelPricing);
+            return \current($attributeValue)['data'];
         }
+
+        throw new NoAttributeResourcesException('Price attribute not found.');
     }
 }

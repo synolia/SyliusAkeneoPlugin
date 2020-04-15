@@ -24,6 +24,7 @@ use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -44,9 +45,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
-
     /** @var int */
     private $updateCount = 0;
 
@@ -56,6 +54,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var string */
     private $type;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -63,9 +64,10 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         RepositoryInterface $productOptionRepository,
         RepositoryInterface $productOptionValueRepository,
         RepositoryInterface $productOptionValueTranslationRepository,
-        RepositoryInterface $channelRepository,
+        ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
+        RepositoryInterface $productConfigurationRepository,
         ProductGroupRepository $productGroupRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
@@ -79,8 +81,10 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             $channelRepository,
             $channelPricingRepository,
             $localeRepository,
+            $productConfigurationRepository,
             $productVariantFactory,
-            $channelPricingFactory
+            $channelPricingFactory,
+            $akeneoLogger
         );
 
         $this->productOptionRepository = $productOptionRepository;
@@ -88,7 +92,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
-        $this->logger = $akeneoLogger;
     }
 
     /**
@@ -173,8 +176,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
 
             $this->setProductOptionValues($productVariant, $productOption, $values);
-            $this->setProductPrices($productVariant);
             $this->updateImages($payload, $attributes, $productVariant);
+            $this->setProductPrices($productVariant, $attributes);
         }
     }
 

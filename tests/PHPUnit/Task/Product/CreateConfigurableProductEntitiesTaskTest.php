@@ -71,6 +71,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 'attributes' => [
                     'size' => 'xs',
                 ],
+                'price' => 89900,
             ],
             [
                 'code' => '1111111131',
@@ -78,6 +79,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 'attributes' => [
                     'size' => 'xl',
                 ],
+                'price' => 89000,
             ],
             [
                 'code' => '1111111119',
@@ -85,6 +87,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 'attributes' => [
                     'size' => 'xxl',
                 ],
+                'price' => 76543,
             ],
         ];
 
@@ -121,6 +124,12 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
             //Testing image import
             $this->assertCount(1, $productVariant->getImages());
+
+            $this->assertEquals(1, $productVariant->getChannelPricings()->count());
+            foreach ($productVariant->getChannelPricings() as $channelPricing) {
+                $this->assertEquals($productToTest['price'], $channelPricing->getPrice());
+                $this->assertEquals($productToTest['price'], $channelPricing->getOriginalPrice());
+            }
         }
     }
 
@@ -155,6 +164,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     private function prepareProductConfiguration(): void
     {
         $productConfiguration = new ProductConfiguration();
+        $productConfiguration->setAkeneoPriceAttribute('price');
         $this->manager->persist($productConfiguration);
 
         $imageMapping = new ProductConfigurationImageMapping();

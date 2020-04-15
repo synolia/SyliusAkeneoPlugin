@@ -30,6 +30,12 @@ class ProductConfiguration implements ResourceInterface
     private $websiteAttribute;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $akeneoPriceAttribute;
+
+    /**
      * @var array|null
      * @ORM\Column(type="array", nullable=true)
      */
@@ -268,6 +274,18 @@ class ProductConfiguration implements ResourceInterface
     public function setRegenerateUrlRewrites(?bool $regenerateUrlRewrites): self
     {
         $this->regenerateUrlRewrites = $regenerateUrlRewrites;
+
+        return $this;
+    }
+
+    public function getAkeneoPriceAttribute(): ?string
+    {
+        return $this->akeneoPriceAttribute;
+    }
+
+    public function setAkeneoPriceAttribute(?string $akeneoPriceAttribute): self
+    {
+        $this->akeneoPriceAttribute = $akeneoPriceAttribute;
 
         return $this;
     }

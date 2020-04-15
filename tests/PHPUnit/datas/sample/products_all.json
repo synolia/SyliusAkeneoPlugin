@@ -28,6 +28,22 @@
                 "groups": [],
                 "parent": null,
                 "values": {
+                    "price": [
+                        {
+                            "locale": null,
+                            "scope": null,
+                            "data": [
+                                {
+                                    "amount": "899.00",
+                                    "currency": "EUR"
+                                },
+                                {
+                                    "amount": "899.00",
+                                    "currency": "USD"
+                                }
+                            ]
+                        }
+                    ],
                     "ean": [
                         {
                             "locale": null,
@@ -155,7 +171,7 @@
                             "data": [
                                 {
                                     "amount": "899.00",
-                                    "currency": "EUR"
+                                    "currency": "USD"
                                 }
                             ]
                         }
@@ -319,8 +335,8 @@
                             "scope": null,
                             "data": [
                                 {
-                                    "amount": "899.00",
-                                    "currency": "EUR"
+                                    "amount": "890.00",
+                                    "currency": "USD"
                                 }
                             ]
                         }
@@ -484,8 +500,8 @@
                             "scope": null,
                             "data": [
                                 {
-                                    "amount": "899.00",
-                                    "currency": "EUR"
+                                    "amount": "765.43",
+                                    "currency": "USD"
                                 }
                             ]
                         }
