@@ -26,6 +26,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
@@ -92,6 +93,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
+    private $excludedAttributesProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
@@ -105,7 +109,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         FactoryInterface $productTaxonFactory,
         SlugGeneratorInterface $slugGenerator,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ExcludedAttributesProvider $excludedAttributesProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
@@ -120,6 +125,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->slugGenerator = $slugGenerator;
         $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
+        $this->excludedAttributesProvider = $excludedAttributesProvider;
     }
 
     /**
@@ -147,7 +153,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $attributes = $this->productAttributeRepository->findAll();
         /** @var AttributeInterface $attribute */
         foreach ($attributes as $attribute) {
-            $attributesMapping[$attribute->getName()] = $attribute;
+            $attributesMapping[$attribute->getCode()] = $attribute;
         }
 
         try {
@@ -322,6 +328,11 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
 
         foreach ($resource['values'] as $attribute => $value) {
+            //Do not import attributes that must not be used as attribute in Sylius
+            if (\in_array($attribute, $this->excludedAttributesProvider->getExcludedAttributes(), true)) {
+                continue;
+            }
+
             $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
             if (in_array($setter, get_class_methods($product))) {
                 $product->$setter($value[0]['data']);

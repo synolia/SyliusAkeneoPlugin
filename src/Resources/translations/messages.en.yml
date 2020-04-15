@@ -50,6 +50,7 @@ sylius:
                     products: Products
                     website_attribute: Website attribute
                     akeneo_price_attribute: Akeneo price attribute
+                    akeneo_enabled_channels_attribute: Akeneo enabled channels attribute
                     attribute: Attribute
                     value: Value
                     import_media_files: Import media files
