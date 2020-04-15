@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Client;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -14,9 +15,6 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 final class ClientFactory
 {
     private const PAGING_SIZE = 1;
-
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder */
-    private $clientBuilder;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $apiConfigurationRepository;
@@ -39,10 +37,9 @@ final class ClientFactory
             throw new \Exception('The API is not configured in the admin section.');
         }
 
-        $this->clientBuilder = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
+        $clientBuilder = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
 
-        /** @var AkeneoPimClientInterface $client */
-        $client = $this->clientBuilder->buildAuthenticatedByToken(
+        $client = $clientBuilder->buildAuthenticatedByToken(
             $apiConfiguration->getApiClientId() ?? '',
             $apiConfiguration->getApiClientSecret() ?? '',
             $apiConfiguration->getToken() ?? '',
@@ -54,11 +51,38 @@ final class ClientFactory
         return $client;
     }
 
+    public function authenticatedByPassword(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface
+    {
+        $client = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
+
+        return $client->buildAuthenticatedByPassword(
+            $apiConfiguration->getApiClientId() ?? '',
+            $apiConfiguration->getApiClientSecret() ?? '',
+            $apiConfiguration->getUsername() ?? '',
+            $apiConfiguration->getPassword() ?? '',
+        );
+    }
+
     private function updateApiconfigurationCredentials(
         AkeneoPimClientInterface $client,
         ApiConfiguration $apiConfiguration
     ): void {
-        $client->getCategoryApi()->all(self::PAGING_SIZE);
+        try {
+            $client->getCategoryApi()->all(self::PAGING_SIZE);
+        } catch (HttpException $e) {
+            $client = $this->authenticatedByPassword($apiConfiguration);
+
+            $client->getCategoryApi()->all(self::PAGING_SIZE);
+            $apiConfiguration->setToken($client->getToken() ?? '');
+            $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
+
+            if (!$this->entityManager instanceof EntityManager) {
+                return;
+            }
+            $this->entityManager->flush($apiConfiguration);
+
+            return;
+        }
         if ($client->getToken() === $apiConfiguration->getToken()) {
             return;
         }
