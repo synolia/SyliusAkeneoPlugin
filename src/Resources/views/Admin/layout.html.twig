@@ -1,0 +1,17 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block title %} | Synolia Sylius Akeneo Plugin{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/main.css'} %}
+{% endblock %}
+
+{% block footer %}
+    {{ 'sylius.ui.powered_by'|trans }} <a href="https://www.synolia.com" target="_blank">{% include '@SynoliaSyliusAkeneoPlugin/Admin/includes/_synolia.svg.twig' %} <span>Synolia</span></a> & <a href="https://www.akeneo.com/" target="_blank">{% include '@SynoliaSyliusAkeneoPlugin/Admin/includes/_akeneo.svg.twig' %} <span>Akeneo</span></a>.
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/main.js'} %}
+{% endblock %}

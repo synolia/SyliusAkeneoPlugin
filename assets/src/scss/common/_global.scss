@@ -1,0 +1,7 @@
+.synolia {
+    @include brand(18, $magenta-pink);
+}
+
+.akeneo {
+    @include brand();
+}

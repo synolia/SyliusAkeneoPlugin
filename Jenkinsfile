@@ -116,6 +116,7 @@ pipeline {
                             sh "cd ${applicationDir}; php bin/console sylius:fixtures:load -n --env=test"
                             sh "cd ${applicationDir}; php bin/console assets:install public --symlink"
                             sh "cd ${applicationDir}; php bin/console cache:warmup --env=test"
+                            sh "cd assets; yarn install && yarn build"
                         }
                     }
                     post { unsuccessful { script { failedStage = env.STAGE_NAME } } }
