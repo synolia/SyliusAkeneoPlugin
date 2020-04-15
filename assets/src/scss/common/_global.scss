@@ -6,10 +6,3 @@
     @include brand();
 }
 
-[id*=Mappings] {
-    margin: 0 0 1rem;
-
-    [data-form-collection=item] > div {
-        margin: 0 0 1rem;
-    }
-}
