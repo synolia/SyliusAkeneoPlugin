@@ -47,8 +47,6 @@ final class CategoriesChoiceType extends AbstractType
                 continue;
             }
             $categories[$item['code']] = $item['code'];
-
-            $categoryApi->next();
         }
 
         $resolver->setDefaults(['choices' => $categories]);

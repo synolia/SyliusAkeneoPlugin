@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -68,17 +66,6 @@ class ApiConfiguration implements ResourceInterface
     private $isEnterprise;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     * @ORM\OneToMany(
-     *     targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationWebsiteMapping",
-     *     mappedBy="apiConfiguration",
-     *     cascade={"persist"},
-     *     orphanRemoval=true
-     * )
-     */
-    private $websiteMappings;
-
-    /**
      * @var string
      * @ORM\Column(type="string")
      */
@@ -90,10 +77,11 @@ class ApiConfiguration implements ResourceInterface
      */
     private $password;
 
-    public function __construct()
-    {
-        $this->websiteMappings = new ArrayCollection();
-    }
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $channel;
 
     public function getId(): ?int
     {
@@ -208,30 +196,14 @@ class ApiConfiguration implements ResourceInterface
         return $this;
     }
 
-    public function getWebsiteMappings(): Collection
+    public function getChannel(): ?string
     {
-        return $this->websiteMappings;
+        return $this->channel;
     }
 
-    public function addWebsiteMapping(ApiConfigurationWebsiteMapping $websiteMapping): self
+    public function setChannel(string $channel): self
     {
-        $websiteMapping->setApiConfiguration($this);
-        $this->websiteMappings->add($websiteMapping);
-
-        return $this;
-    }
-
-    public function removeWebsiteMapping(ApiConfigurationWebsiteMapping $websiteMapping): self
-    {
-        $websiteMapping->setApiConfiguration(null);
-        $this->websiteMappings->removeElement($websiteMapping);
-
-        return $this;
-    }
-
-    public function setWebsiteMappings(Collection $websiteMappings): self
-    {
-        $this->websiteMappings = $websiteMappings;
+        $this->channel = $channel;
 
         return $this;
     }
