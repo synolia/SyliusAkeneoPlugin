@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,12 +20,6 @@ final class ProductImagesMappingType extends AbstractType
         $builder
             ->add('syliusAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.sylius_attribute'])
             ->add('akeneoAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attribute'])
-            ->add('delete', ButtonType::class, [
-                'label' => 'sylius.ui.admin.akeneo.delete',
-                'attr' => [
-                    'class' => 'ui red icon button delete',
-                ],
-            ])
         ;
     }
 
