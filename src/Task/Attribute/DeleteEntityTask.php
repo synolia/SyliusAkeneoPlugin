@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 final class DeleteEntityTask implements AkeneoTaskInterface
 {
@@ -35,16 +36,21 @@ final class DeleteEntityTask implements AkeneoTaskInterface
     /** @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface */
     private $parameterBag;
 
+    /** @var AkeneoAttributeToSyliusAttributeTransformer */
+    private $akeneoAttributeToSyliusAttributeTransformer;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeAkeneoRepository,
         LoggerInterface $akeneoLogger,
+        AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         ParameterBagInterface $parameterBag
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeAkeneoRepository = $productAttributeAkeneoRepository;
         $this->logger = $akeneoLogger;
         $this->parameterBag = $parameterBag;
+        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
     }
 
     /**
@@ -69,7 +75,8 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             $this->entityManager->beginTransaction();
 
             foreach ($payload->getResources() as $resource) {
-                $attributeCodes[] = $resource['code'];
+                $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
+                $attributeCodes[] = $code;
             }
 
             $this->removeUnusedAttributes($attributeCodes);

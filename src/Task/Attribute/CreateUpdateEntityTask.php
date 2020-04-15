@@ -17,6 +17,7 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
 
@@ -46,12 +47,16 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var AkeneoAttributeToSyliusAttributeTransformer */
+    private $akeneoAttributeToSyliusAttributeTransformer;
+
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
     private $excludedAttributesProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeRepository,
+        AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         FactoryInterface $productAttributeFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
@@ -63,6 +68,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->logger = $akeneoLogger;
         $this->excludedAttributesProvider = $excludedAttributesProvider;
+        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
     }
 
     /**
@@ -127,8 +133,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
     private function getOrCreateEntity(array $resource, AttributeTypeMatcherInterface $attributeType): AttributeInterface
     {
+        $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
         /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $resource['code']]);
+        $attribute = $this->productAttributeRepository->findOneBy(['code' => $code]);
 
         if (!$attribute instanceof AttributeInterface) {
             if (!$this->productAttributeFactory instanceof AttributeFactory) {
@@ -136,7 +143,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             }
             /** @var AttributeInterface $attribute */
             $attribute = $this->productAttributeFactory->createTyped($attributeType->getType());
-            $attribute->setCode($resource['code']);
+            $attribute->setCode($code);
             $this->entityManager->persist($attribute);
             ++$this->createCount;
             $this->logger->info(Messages::hasBeenCreated($this->type, (string) $attribute->getCode()));
