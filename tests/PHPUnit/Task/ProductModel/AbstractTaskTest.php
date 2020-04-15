@@ -23,8 +23,6 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->manager = self::$container->get('doctrine')->getManager();
 
-        $this->manager->beginTransaction();
-
         $this->initializeApiConfiguration();
 
         $this->manager->flush();
@@ -39,7 +37,6 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function tearDown(): void
     {
-        $this->manager->rollback();
         $this->manager->close();
         $this->manager = null;
 

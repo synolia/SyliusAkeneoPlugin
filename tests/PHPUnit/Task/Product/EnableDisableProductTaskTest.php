@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\Product;
-use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -14,9 +14,10 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 
-final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
+final class EnableDisableProductTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
     private $taskProvider;
@@ -43,7 +44,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $this->assertInstanceOf(ProductPayload::class, $productPayload);
     }
 
-    public function testCreateSimpleProductsTask(): void
+    public function testEnableDisableProduct(): void
     {
         $this->createProductConfiguration();
         $this->importCategories();
@@ -60,43 +61,20 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
         $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
-        $createSimpleProductEntitiesTask->__invoke($productPayload);
+        $simpleProductCreationPayload = $createSimpleProductEntitiesTask->__invoke($productPayload);
+
+        $this->manager->flush();
+
+        /** @var EnableDisableProductsTask $enableDisableProductTask */
+        $enableDisableProductTask = $this->taskProvider->get(EnableDisableProductsTask::class);
+        $enableDisableProductTask->__invoke($simpleProductCreationPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
         $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => '1111111171']);
-        $this->assertNotNull($product);
 
-        //Testing product attribute translations inside models
-        $product->setCurrentLocale('en_US');
-        $this->assertEquals('Bag', $product->getName());
-
-        //Testing product attribute translations
-        foreach ($product->getAttributes() as $attribute) {
-            if ('ean' === $attribute->getCode()) {
-                $this->assertEquals('1234567890183', $attribute->getValue());
-            }
-        }
-
-        //Testing image import
-        $this->assertCount(1, $product->getImages());
-
-        //Testing categories
-        $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
-        $this->assertCount(\count($categories), $product->getTaxons());
-        foreach ($product->getTaxons() as $taxon) {
-            $this->assertContains($taxon->getCode(), $categories);
-        }
-
-        //Testing simple variant
-        /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
-        $productVariant = $this->manager->getRepository(ProductVariant::class)->findOneBy(['code' => $product->getCode()]);
-        $this->assertNotNull($productVariant);
-
-        $this->assertEquals(1, $productVariant->getChannelPricings()->count());
-        foreach ($productVariant->getChannelPricings() as $channelPricing) {
-            $this->assertEquals(89900, $channelPricing->getPrice());
-            $this->assertEquals(89900, $channelPricing->getOriginalPrice());
-        }
+        $this->assertCount(1, $product->getChannels());
+        $channel = $this->manager->getRepository(Channel::class)->findOneBy(['code' => 'FASHION_WEB']);
+        $this->assertContains($channel, $product->getChannels());
     }
 
     private function importAttributes(): void

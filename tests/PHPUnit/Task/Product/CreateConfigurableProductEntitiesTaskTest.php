@@ -7,9 +7,6 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Product\Model\ProductOptionValueTranslation;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
@@ -47,7 +44,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $attributePayload = $this->importAttributes();
         $this->importAttributeOptions($attributePayload);
         $this->importProductModels();
-        $this->prepareProductConfiguration();
+        $this->createProductConfiguration();
 
         $this->manager->flush();
 
@@ -159,32 +156,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $categoryPipeline = self::$container->get(CategoryPipelineFactory::class)->create();
 
         $categoryPipeline->process($categoryPayload);
-    }
-
-    private function prepareProductConfiguration(): void
-    {
-        $productConfiguration = new ProductConfiguration();
-        $productConfiguration->setAkeneoPriceAttribute('price');
-        $this->manager->persist($productConfiguration);
-
-        $imageMapping = new ProductConfigurationImageMapping();
-        $imageMapping->setAkeneoAttribute('picture');
-        $imageMapping->setSyliusAttribute('main');
-        $imageMapping->setProductConfiguration($productConfiguration);
-        $this->manager->persist($imageMapping);
-        $productConfiguration->addProductImagesMapping($imageMapping);
-
-        $imageAttributes = ['picture', 'image'];
-
-        foreach ($imageAttributes as $imageAttribute) {
-            $akeneoImageAttribute = new ProductConfigurationAkeneoImageAttribute();
-            $akeneoImageAttribute->setAkeneoAttributes($imageAttribute);
-            $akeneoImageAttribute->setProductConfiguration($productConfiguration);
-            $this->manager->persist($akeneoImageAttribute);
-            $productConfiguration->addAkeneoImageAttribute($akeneoImageAttribute);
-        }
-
-        $this->manager->flush();
     }
 
     private function importProductModels(): void

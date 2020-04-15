@@ -21,8 +21,8 @@ final class ProductModelPipelineFactory extends AbstractPipelineFactory
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveProductModelsTask::class))
             ->pipe($this->taskProvider->get(AddOrUpdateProductModelTask::class))
-            ->pipe($this->taskProvider->get(AddFamilyVariationAxeTask::class))
             ->pipe($this->taskProvider->get(EnableDisableProductModelsTask::class))
+            ->pipe($this->taskProvider->get(AddFamilyVariationAxeTask::class))
         ;
     }
 }

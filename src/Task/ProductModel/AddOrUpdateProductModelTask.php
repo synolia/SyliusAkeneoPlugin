@@ -153,7 +153,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $attributes = $this->productAttributeRepository->findAll();
         /** @var AttributeInterface $attribute */
         foreach ($attributes as $attribute) {
-            $attributesMapping[$attribute->getCode()] = $attribute;
+            $attributesMapping[$attribute->getName()] = $attribute;
         }
 
         try {
