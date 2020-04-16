@@ -25,6 +25,7 @@ class Processor implements ProcessorInterface
             if (\is_object($stage)) {
                 $beforeEvent = new BeforeTaskEvent(\get_class($stage), $payload);
                 $this->dispatcher->dispatch($beforeEvent);
+                $payload = $beforeEvent->getPayload();
             }
 
             $payload = $stage($payload);
@@ -32,6 +33,7 @@ class Processor implements ProcessorInterface
             if (\is_object($stage)) {
                 $afterEvent = new AfterTaskEvent(\get_class($stage), $payload);
                 $this->dispatcher->dispatch($afterEvent);
+                $payload = $afterEvent->getPayload();
             }
         }
 
