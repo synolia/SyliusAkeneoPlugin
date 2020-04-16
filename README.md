@@ -10,16 +10,16 @@
 
 ## Features
 
-* Configure your Akeneo Account
-* Configure which data should be imported and how it will be imported.
-* Customize imports according to your business needs.
-* Launch imports through Cli or Back-Office
+* Configure your Akeneo Account - [Documentation](docs/CONFIGURE.md)
+* Configure which data should be imported and how it will be imported. - [Documentation](docs/CONFIGURE_DETAIL.md)
+* Customize imports according to your business needs. - [Documentation](docs/CUSTOMIZE.md)
+* Launch imports through Cli or Back-Office - [Documentation](docs/LAUNCH.md)
 
 ## Installation
 
 1. Add the bundle and dependencies in your composer.json :
 
-    ```shell script
+    ```shell
     composer require synolia/sylius-akeneo-plugin
     ```
    
@@ -46,7 +46,7 @@
    
 5. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
 
-    ```shell script
+    ```shell
     cp -R vendor/synolia/sylius-akeneo-plugin/Migrations/* src/Migrations
     bin/console doctrine:migrations:migrate
     ```

@@ -10,12 +10,28 @@ From the plugin root directory, run the following commands:
     
     $ (cd tests/Application && bin/console doctrine:database:create -e test)
     $ (cd tests/Application && bin/console doctrine:schema:create -e test)
+    
+    $ (cd assets && yarn install)
     ```
 
 To be able to setup the plugin database, remember to configure you database credentials 
 in `tests/Application/.env` and `tests/Application/.env.test`.
 
 ## Usage
+
+### Compilation of Assets
+
+If you change assets (js, scss, ...) in directory `assets/src` you need ton compile changes by using
+
+    ```bash
+    $ (cd assets && yarn build)
+    ```
+
+In dev mode, assets are compiled in tests/Application/public/bundles/synoliasyliusakeneoplugin in real time
+
+    ```bash
+    $ (cd assets && yarn dev)
+    ```
 
 ### Running code analyse and tests
 
