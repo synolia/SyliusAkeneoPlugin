@@ -11,127 +11,24 @@
         {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
         {{ form_row(form.websiteAttribute) }}
         {{ form_row(form.akeneoPriceAttribute) }}
-        <div class="ui segment">
-            <div id="default-tax" data-prototype="{{ form_row(form.defaultTax.vars.prototype)|e('html_attr') }}">
-                {{ form_row(form.defaultTax) }}
-            </div>
+        <div id="defaultTaxMappings" class="ui segment">
+            {{ form_row(form.defaultTax) }}
         </div>
-        <div class="ui segment">
-            <div id="configurable" data-prototype="{{ form_row(form.configurable.vars.prototype)|e('html_attr') }}">
-                {{ form_row(form.configurable) }}
-            </div>
+        <div id="configurableMappings" class="ui segment">
+            {{ form_row(form.configurable) }}
         </div>
-        {{ form_row(form.importMediaFiles) }}
-        <div class="ui segment">
-            <div id="akeneo-image-attributes" data-prototype="{{ form_row(form.akeneoImageAttributes.vars.prototype)|e('html_attr') }}">
-                {{ form_row(form.akeneoImageAttributes) }}
-            </div>
+        <div class="ui field">
+            {{ form_row(form.importMediaFiles) }}
         </div>
-        <div class="ui segment">
-            <div id="product-images-mapping" data-prototype="{{ form_row(form.productImagesMapping.vars.prototype)|e('html_attr') }}">
-                {{ form_row(form.productImagesMapping) }}
-            </div>
+        <div id="akeneoImageAttributesMappings" class="ui segment">
+            {{ form_row(form.akeneoImageAttributes) }}
         </div>
-        {{ form_row(form.regenerateUrlRewrites) }}
+        <div id="productImagesMappings" class="ui segment">
+            {{ form_row(form.productImagesMapping) }}
+        </div>
+        <div class="ui field">
+            {{ form_row(form.regenerateUrlRewrites) }}
+        </div>
         {{ form_end(form) }}
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script
-            src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
-    <script>
-        function addTagForm($collectionHolder, $newLinkLi) {
-            // Get the data-prototype explained earlier
-            var prototype = $collectionHolder.data('prototype');
-
-            // get the new index
-            var index = $collectionHolder.data('index');
-
-            var newForm = prototype;
-            newForm = newForm.replace(/__name__/g, index);
-
-            // increase the index with one for the next item
-            $collectionHolder.data('index', index + 1);
-
-            // Display the form in the page in an div, before the "Add" link div
-            var $newFormLi = $('<div></div>').append(newForm);
-            $newLinkLi.before($newFormLi);
-        }
-
-        var collectionHolderDefaultTax,
-            collectionHolderConfiguration,
-            collectionHolderAkeneoImageAttributes,
-            collectionHolderProductImagesMapping
-        ;
-
-        var addButtonDefaultTax = jQuery(
-            '<button type="button" class="ui icon button">' +
-            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
-            '</button>'
-        );
-        var addButtonConfigurable = jQuery(
-            '<button type="button" class="ui icon button">' +
-            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
-            '</button>'
-        );
-        var addButtonAkeneoImageAttributes = jQuery(
-            '<button type="button" class="ui icon button">' +
-            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
-            '</button>'
-        );
-        var addButtonProductImagesMapping = jQuery(
-            '<button type="button" class="ui icon button">' +
-            '{{ 'sylius.ui.admin.akeneo.add'|trans }}' +
-            '</button>'
-        );
-        var newLinkLiDefaultTax = jQuery('<div></div>').append(addButtonDefaultTax);
-        var newLinkLiConfigurable = jQuery('<div></div>').append(addButtonConfigurable);
-        var newLinkLiAkeneoImageAttributes = jQuery('<div></div>').append(addButtonAkeneoImageAttributes);
-        var newLinkLiProductImagesMapping = jQuery('<div></div>').append(addButtonProductImagesMapping);
-
-        jQuery(document).ready(function() {
-            // Get the ul that holds the collection of tags
-            collectionHolderDefaultTax = jQuery('#default-tax');
-            collectionHolderConfiguration = jQuery('#configurable');
-            collectionHolderAkeneoImageAttributes = jQuery('#akeneo-image-attributes');
-            collectionHolderProductImagesMapping = jQuery('#product-images-mapping');
-
-            // add the "add a tag" anchor and li to the tags ul
-            collectionHolderDefaultTax.append(newLinkLiDefaultTax);
-            collectionHolderConfiguration.append(newLinkLiConfigurable);
-            collectionHolderAkeneoImageAttributes.append(newLinkLiAkeneoImageAttributes);
-            collectionHolderProductImagesMapping.append(newLinkLiProductImagesMapping);
-
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
-            collectionHolderDefaultTax.data('index', collectionHolderDefaultTax.find(':input').length);
-            collectionHolderConfiguration.data('index', collectionHolderConfiguration.find(':input').length);
-            collectionHolderAkeneoImageAttributes.data('index', collectionHolderAkeneoImageAttributes.find(':input').length);
-            collectionHolderProductImagesMapping.data('index', collectionHolderProductImagesMapping.find(':input').length);
-
-            addButtonDefaultTax.on('click', function(e) {
-                // add a new tag form (see next code block)
-                addTagForm(collectionHolderDefaultTax, newLinkLiDefaultTax);
-            });
-            addButtonConfigurable.on('click', function(e) {
-                // add a new tag form (see next code block)
-                addTagForm(collectionHolderConfiguration, newLinkLiConfigurable);
-            });
-            addButtonAkeneoImageAttributes.on('click', function(e) {
-                // add a new tag form (see next code block)
-                addTagForm(collectionHolderAkeneoImageAttributes, newLinkLiAkeneoImageAttributes);
-            });
-            addButtonProductImagesMapping.on('click', function(e) {
-                // add a new tag form (see next code block)
-                addTagForm(collectionHolderProductImagesMapping, newLinkLiProductImagesMapping);
-            });
-            jQuery('.delete').on('click', function(e) {
-                jQuery(this).parent().parent().remove();
-            });
-        });
-    </script>
 {% endblock %}

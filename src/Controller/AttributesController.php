@@ -81,8 +81,8 @@ final class AttributesController extends AbstractController
 
         $form = $this->createForm(
             AttributesTypeMappingType::class, [
-                AttributesTypeMappingType::TYPE_MAPPINGS_CODE => $attributeTypeMappings,
-                AttributesTypeMappingType::AKENEO_SYLIUS_MAPPINGS_CODE => $attributeAkeneoSyliusMappings,
+                AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE => $attributeTypeMappings,
+                AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE => $attributeAkeneoSyliusMappings,
                 'settings' => $settings,
             ],
         );
@@ -116,13 +116,13 @@ final class AttributesController extends AbstractController
         array $attributeAkeneoSyliusMappings
     ): void {
         foreach ($attributeTypeMappings as $attributeTypeMapping) {
-            if (false === \array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::TYPE_MAPPINGS_CODE], true)) {
+            if (false === \array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeTypeMapping);
             }
         }
 
         foreach ($attributeAkeneoSyliusMappings as $attributeAkeneoSyliusMapping) {
-            if (false === \array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
+            if (false === \array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeAkeneoSyliusMapping);
             }
         }
@@ -130,11 +130,11 @@ final class AttributesController extends AbstractController
 
     private function addMappedItemsFromFormRequest(array $attributes): void
     {
-        foreach ($attributes[AttributesTypeMappingType::TYPE_MAPPINGS_CODE] as $attributeTypeMapping) {
+        foreach ($attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE] as $attributeTypeMapping) {
             $this->entityManager->persist($attributeTypeMapping);
         }
 
-        foreach ($attributes[AttributesTypeMappingType::AKENEO_SYLIUS_MAPPINGS_CODE] as $attributeAkeneoSyliusMapping) {
+        foreach ($attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE] as $attributeAkeneoSyliusMapping) {
             $this->entityManager->persist($attributeAkeneoSyliusMapping);
         }
     }

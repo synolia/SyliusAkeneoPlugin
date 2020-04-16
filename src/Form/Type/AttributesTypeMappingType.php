@@ -12,9 +12,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AttributesTypeMappingType extends AbstractType
 {
-    public const TYPE_MAPPINGS_CODE = 'attributeTypeMappings';
+    public const ATTRIBUTE_TYPE_MAPPINGS_CODE = 'attributeType';
 
-    public const AKENEO_SYLIUS_MAPPINGS_CODE = 'attributeAkeneoSyliusMappings';
+    public const ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE = 'attributeAkeneoSylius';
 
     /**
      * {@inheritdoc}
@@ -25,7 +25,7 @@ final class AttributesTypeMappingType extends AbstractType
             ->add('settings', SettingsType::class, [
                 'data' => $options['data']['settings'],
             ])
-            ->add(self::TYPE_MAPPINGS_CODE, CollectionType::class, [
+            ->add(self::ATTRIBUTE_TYPE_MAPPINGS_CODE, CollectionType::class, [
                 'required' => false,
                 'entry_type' => AttributeTypeMappingType::class,
                 'entry_options' => ['label' => false],
@@ -34,7 +34,7 @@ final class AttributesTypeMappingType extends AbstractType
                 'by_reference' => false,
                 'label' => 'Attributes Types Mapping',
             ])
-            ->add(self::AKENEO_SYLIUS_MAPPINGS_CODE, CollectionType::class, [
+            ->add(self::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE, CollectionType::class, [
                 'required' => false,
                 'entry_type' => AttributeAkeneoSyliusMappingType::class,
                 'entry_options' => ['label' => false],

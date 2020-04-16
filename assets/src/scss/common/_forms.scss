@@ -1,0 +1,28 @@
+[id*=Mappings] {
+    margin: 0 0 1rem;
+
+    [data-form-collection=item] {
+        @media screen and (min-width: 60em) {
+            display: flex;
+            justify-content: flex-start;
+
+            & > div {
+                display: flex;
+                margin: 0 0 1rem;
+
+                &.field {
+                    display: block;
+                }
+
+                & > .field {
+                    margin-right: 1rem;
+
+                    & input,
+                    & select {
+                        min-width: 320px;
+                    }
+                }
+            }
+        }
+    }
+}
