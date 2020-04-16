@@ -9,6 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
@@ -24,12 +25,17 @@ final class RetrieveOptionsTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var ConfigurationProvider */
+    private $configurationProvider;
+
     public function __construct(
         AttributeTypeMatcher $attributeTypeMatcher,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ConfigurationProvider $configurationProvider
     ) {
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->logger = $akeneoLogger;
+        $this->configurationProvider = $configurationProvider;
     }
 
     /**
@@ -72,7 +78,10 @@ final class RetrieveOptionsTask implements AkeneoTaskInterface
         foreach ($attributeCodes as $attributeCode => $values) {
             $resources[$attributeCode] = [
                 'isMultiple' => $values['isMultiple'],
-                'resources' => $payload->getAkeneoPimClient()->getAttributeOptionApi()->all($attributeCode),
+                'resources' => $payload->getAkeneoPimClient()->getAttributeOptionApi()->all(
+                    $attributeCode,
+                    $this->configurationProvider->getConfiguration()->getPaginationSize()
+                ),
             ];
         }
         $optionsPayload->setResources($resources);

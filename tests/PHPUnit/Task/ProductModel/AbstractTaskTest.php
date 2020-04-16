@@ -47,18 +47,4 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         parent::tearDown();
     }
-
-    public function initializeApiConfiguration(): void
-    {
-        $this->apiConfiguration = new ApiConfiguration();
-        $this->apiConfiguration->setPaginationSize(100)
-            ->setBaseUrl('test')
-            ->setUsername('test')
-            ->setApiClientId('test')
-            ->setApiClientSecret('test')
-            ->setIsEnterprise(false)
-            ->setPassword('test')
-        ;
-        $this->manager->persist($this->apiConfiguration);
-    }
 }

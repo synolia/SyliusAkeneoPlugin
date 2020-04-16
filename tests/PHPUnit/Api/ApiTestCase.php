@@ -11,6 +11,7 @@ use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Webmozart\Assert\Assert;
 
 abstract class ApiTestCase extends KernelTestCase
@@ -43,6 +44,20 @@ abstract class ApiTestCase extends KernelTestCase
     {
         $this->server->stop();
         parent::tearDown();
+    }
+
+    public function initializeApiConfiguration(): void
+    {
+        $this->apiConfiguration = new ApiConfiguration();
+        $this->apiConfiguration->setPaginationSize(100)
+            ->setBaseUrl('test')
+            ->setUsername('test')
+            ->setApiClientId('test')
+            ->setApiClientSecret('test')
+            ->setIsEnterprise(false)
+            ->setPassword('test')
+        ;
+        $this->manager->persist($this->apiConfiguration);
     }
 
     protected function createClient(): AkeneoPimClientInterface
