@@ -19,6 +19,7 @@ use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
@@ -75,6 +76,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload */
     private $payload;
 
+    /** @var EntityRepository */
+    private $productConfigurationRepository;
+
     /** @var LoggerInterface */
     private $logger;
 
@@ -103,6 +107,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         ProductTaxonRepository $productTaxonAkeneoRepository,
         TaxonRepositoryInterface $taxonRepository,
         EntityRepository $productAttributeRepository,
+        EntityRepository $productConfigurationRepository,
         EntityRepository $productTranslationRepository,
         EntityRepository $productGroupRepository,
         FactoryInterface $productAttributeValueFactory,
@@ -126,6 +131,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
         $this->excludedAttributesProvider = $excludedAttributesProvider;
+        $this->productConfigurationRepository = $productConfigurationRepository;
     }
 
     /**
@@ -265,9 +271,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
         $product->setCode($resource['code']);
 
-        if ($product->getSlug() === null) {
-            $this->updateSlug($product, $resource);
-        }
+        $this->updateSlug($product, $resource);
 
         if (isset($resource['categories'][0])) {
             $taxon = $this->taxonRepository->findOneBy(['code' => $resource['categories'][0]]);
@@ -352,6 +356,12 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function updateSlug(ProductInterface $product, array $resource): void
     {
+        /** @var ProductConfiguration $configuration */
+        $configuration = $this->productConfigurationRepository->findOneBy([]);
+        if ($product->getId() !== null && $configuration !== null && $configuration->getRegenerateUrlRewrites() === false) {
+            return;
+        }
+
         $productTranslation = $this->productTranslationRepository->findOneBy(['name' => $resource['values']['name'][0]['data']]);
 
         if ($productTranslation !== null) {
