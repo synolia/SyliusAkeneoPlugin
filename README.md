@@ -4,90 +4,61 @@
     </a>
 </p>
 
-<h1 align="center">Plugin Skeleton</h1>
+<h1 align="center">Sylius Akeneo Plugin</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+<p align="center">This plugin allow you to import data from <a href="https://www.akeneo.com/" target="_blank">Akeneo PIM</a>.</p>
 
-## Documentation
+## Features
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+* Configure your Akeneo Account
+* Configure which data should be imported and how it will be imported.
+* Customize imports according to your business needs.
+* Launch imports through Cli or Back-Office
 
-## Quickstart Installation
+## Installation
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+1. Add the bundle and dependencies in your composer.json :
 
-2. From the plugin skeleton root directory, run the following commands:
-
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && bin/console assets:install public -e test)
+    ```shell script
+    composer require synolia/sylius-akeneo-plugin
+    ```
+   
+2. Enable the plugin in your `config/bundles.php` file by add
+   
+    ```php
+    Synolia\SyliusAkeneoPlugin\SynoliaSyliusAkeneoPlugin::class => ['all' => true],
+    ```
+   
+3. Import required config in your `config/packages/_sylius.yaml` file:
     
-    $ (cd tests/Application && bin/console doctrine:database:create -e test)
-    $ (cd tests/Application && bin/console doctrine:schema:create -e test)
+    ```yaml
+    imports:
+        - { resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/config.yaml" }
+    ```
+   
+4. Import routing in your `config/routes.yaml` file:
+
+    ```yaml
+    synolia_akeneo:
+        resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/routes.yaml"
+        prefix: /admin
+    ```
+   
+5. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
+
+    ```shell script
+    cp -R vendor/synolia/sylius-akeneo-plugin/Migrations/* src/Migrations
+    bin/console doctrine:migrations:migrate
     ```
 
-To be able to setup a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+## Development
 
-## Usage
+See [How to contribute](CONTRIBUTING.md).
 
-### Running plugin tests
+## License
 
-  - PHPUnit
+This library is under the MIT license.
 
-    ```bash
-    $ vendor/bin/phpunit
-    ```
+## Credits
 
-  - PHPSpec
-
-    ```bash
-    $ vendor/bin/phpspec run
-    ```
-
-  - Behat (non-JS scenarios)
-
-    ```bash
-    $ vendor/bin/behat --tags="~@javascript"
-    ```
-
-  - Behat (JS scenarios)
- 
-    1. Download [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
-    
-    2. Download [Selenium Standalone Server](https://www.seleniumhq.org/download/).
-    
-    2. Run Selenium server with previously downloaded Chromedriver:
-    
-        ```bash
-        $ java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone.jar
-        ```
-        
-    3. Run test application's webserver on `localhost:8080`:
-    
-        ```bash
-        $ (cd tests/Application && bin/console server:run localhost:8080 -d public -e test)
-        ```
-    
-    4. Run Behat:
-    
-        ```bash
-        $ vendor/bin/behat --tags="@javascript"
-        ```
-
-### Opening Sylius with your plugin
-
-- Using `test` environment:
-
-    ```bash
-    $ (cd tests/Application && bin/console sylius:fixtures:load -e test)
-    $ (cd tests/Application && bin/console server:run -d public -e test)
-    ```
-    
-- Using `dev` environment:
-
-    ```bash
-    $ (cd tests/Application && bin/console sylius:fixtures:load -e dev)
-    $ (cd tests/Application && bin/console server:run -d public -e dev)
-    ```
+Developed by [Synolia](https://synolia.com/).
