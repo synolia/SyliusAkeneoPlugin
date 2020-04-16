@@ -43,6 +43,7 @@
         "sebastian/phpcpd": "^4.1",
         "seld/jsonlint": "^1.7",
         "sensiolabs/security-checker": "^6.0",
+        "slevomat/coding-standard": "6.2.0",
         "sylius-labs/coding-standard": "^3.1",
         "symfony/browser-kit": "^3.4|^4.3",
         "symfony/debug-bundle": "^3.4|^4.3",
@@ -51,7 +52,6 @@
         "symfony/web-profiler-bundle": "^3.4|^4.3",
         "symfony/web-server-bundle": "^3.4|^4.3",
         "symplify/easy-coding-standard": "^7.2",
-        "symplify/package-builder": "7.2.4",
         "webmozart/assert": "^1.6"
     },
     "prefer-stable": true,
