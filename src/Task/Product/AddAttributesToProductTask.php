@@ -45,16 +45,26 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeRepository;
 
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productTranslationRepository;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productTranslationFactory;
+
     public function __construct(
         RepositoryInterface $productAttributeValueRepository,
         RepositoryInterface $productAttributeRepository,
+        RepositoryInterface $productTranslationRepository,
         FactoryInterface $productAttributeValueFactory,
+        FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
         LocaleContextInterface $localeContext,
         ProductAttributeValueValueBuilder $attributeValueValueBuilder
     ) {
         $this->productAttributeValueRepository = $productAttributeValueRepository;
+        $this->productTranslationRepository = $productTranslationRepository;
         $this->productAttributeValueFactory = $productAttributeValueFactory;
+        $this->productTranslationFactory = $productTranslationFactory;
         $this->productSlugGenerator = $productSlugGenerator;
         $this->localeContext = $localeContext;
         $this->attributeValueValueBuilder = $attributeValueValueBuilder;
@@ -77,7 +87,8 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $this->processProductTranslationAttributes(
             $payload->getProduct(),
             $productTranslationPropertyAttributesByLocale,
-            $payload->getResource()['identifier']
+            $payload->getResource()['identifier'] ?? $payload->getResource()['code'],
+            $payload->getResource()
         );
 
         foreach ($payload->getResource()['values'] as $attributeName => $translations) {
@@ -142,15 +153,24 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     private function processProductTranslationAttributes(
         ProductInterface $product,
         array $translations,
-        string $identifier
+        string $identifier,
+        array $resource
     ): void {
         foreach ($translations as $locale => $translation) {
-            //Skip uncomplete translation
-            if (!isset($translation['name'])) {
-                continue;
+            $productName = $this->findAttributeValueForLocale($resource, 'name', $locale);
+
+            if (null === $productName) {
+                throw new \LogicException(\sprintf(
+                    'Could not find required attribute "%s" for product "%s".',
+                    'name',
+                    $resource['identifier'],
+                ));
             }
 
-            $productTranslation = $product->getTranslation($locale);
+            $productTranslation = $this->productTranslationRepository->findOneBy([
+                'translatable' => $product,
+                'locale' => $locale,
+            ]);
 
             if (!$productTranslation instanceof ProductTranslationInterface) {
                 $productTranslation = new ProductTranslation();
@@ -158,9 +178,43 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
                 $product->addTranslation($productTranslation);
             }
 
-            $productTranslation->setName($translation['name']);
+            $productTranslation->setName($productName);
+
+            if (isset($translation['description'])) {
+                $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $locale));
+            }
+
+            if (isset($translation['meta_keywords'])) {
+                $productTranslation->setMetaKeywords($this->findAttributeValueForLocale($resource, 'meta_keywords', $locale));
+            }
+
+            if (isset($translation['meta_description'])) {
+                $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $locale));
+            }
+
             //Multiple product has the same name
-            $productTranslation->setSlug($identifier . '-' . $this->productSlugGenerator->generate($translation['name']));
+            $productTranslation->setSlug($identifier . '-' . $this->productSlugGenerator->generate($productName));
         }
+    }
+
+    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
+    {
+        if (!isset($resource['values'][$attributeCode])) {
+            return null;
+        }
+
+        foreach ($resource['values'][$attributeCode] as $translation) {
+            if (null === $translation['locale']) {
+                return $translation['data'];
+            }
+
+            if ($locale !== $translation['locale']) {
+                continue;
+            }
+
+            return $translation['data'];
+        }
+
+        return null;
     }
 }
