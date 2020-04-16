@@ -9,7 +9,8 @@ use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
-use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFiltersRulesType;
+use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
+use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 
 final class ProductFilter
@@ -51,7 +52,7 @@ final class ProductFilter
         }
 
         $queryParameters = [];
-        if ($productFilterRules->getMode() === ProductFiltersRulesType::PRODUCT_FILTER_MODE_SIMPLE) {
+        if ($productFilterRules->getMode() === ProductFilterRuleSimpleType::MODE) {
             $queryParameters = new SearchBuilder();
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
@@ -67,7 +68,7 @@ final class ProductFilter
             $queryParameters = $queryParameters->getFilters();
         }
 
-        if ($productFilterRules->getMode() === ProductFiltersRulesType::PRODUCT_FILTER_MODE_ADVANCED && !empty($productFilterRules->getAdvancedFilter())) {
+        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
             $query = json_decode($productFilterRules->getAdvancedFilter(), true);
             $invalideArrayKey = array_diff_key($query, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
             foreach (array_keys($invalideArrayKey) as $value) {
@@ -97,7 +98,7 @@ final class ProductFilter
         }
 
         $queryParameters = [];
-        if ($productFilterRules->getMode() === ProductFiltersRulesType::PRODUCT_FILTER_MODE_SIMPLE) {
+        if ($productFilterRules->getMode() === ProductFilterRuleSimpleType::MODE) {
             $queryParameters = new SearchBuilder();
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
@@ -115,7 +116,7 @@ final class ProductFilter
             $queryParameters = $queryParameters->getFilters();
         }
 
-        if ($productFilterRules->getMode() === ProductFiltersRulesType::PRODUCT_FILTER_MODE_ADVANCED && !empty($productFilterRules->getAdvancedFilter())) {
+        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
             $queryParameters = json_decode($productFilterRules->getAdvancedFilter(), true);
         }
 
@@ -216,8 +217,7 @@ final class ProductFilter
                     $completenessValue,
                     [
                         'locales' => $locales,
-                        //TODO dynamic scope
-                        'scope' => 'ecommerce',
+                        'scope' => $productFilterRules->getChannel(),
                     ]
                 );
             }
@@ -233,8 +233,7 @@ final class ProductFilter
                     $completenessValue,
                     [
                         'locales' => $productFilterRules->getLocales(),
-                        //TODO dynamic scope
-                        'scope' => 'ecommerce',
+                        'scope' => $productFilterRules->getChannel(),
                     ]
                 );
             }

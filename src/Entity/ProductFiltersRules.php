@@ -88,6 +88,12 @@ class ProductFiltersRules implements ResourceInterface
      */
     private $families = [];
 
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $channel = '';
+
     public function __construct()
     {
         $this->updatedBefore = new \DateTime();
@@ -265,6 +271,18 @@ class ProductFiltersRules implements ResourceInterface
         unset($this->families[array_search($family, $this->families)]);
 
         $this->families = array_values($this->families);
+
+        return $this;
+    }
+
+    public function getChannel(): string
+    {
+        return $this->channel;
+    }
+
+    public function setChannel(string $channel): self
+    {
+        $this->channel = $channel;
 
         return $this;
     }

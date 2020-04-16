@@ -35,6 +35,7 @@ final class FamiliesChoiceType extends AbstractType
         $resolver->setDefaults([
             'multiple' => true,
             'choices' => $families,
+            'required' => false,
         ]);
     }
 

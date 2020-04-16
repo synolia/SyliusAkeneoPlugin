@@ -46,6 +46,7 @@ final class ProductFilterTest extends ApiTestCase
         $this->productFiltersRules
             ->setCompletenessType(Operator::EQUAL)
             ->setCompletenessValue('100')
+            ->setChannel('ecommerce')
             ->addFamily('shoes')
             ->addLocale('en_US')
             ->setUpdatedAfter(new \DateTime('2020-04-04'))

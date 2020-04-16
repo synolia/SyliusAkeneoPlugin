@@ -58,8 +58,7 @@ abstract class AbstractTaskTest extends ApiTestCase
             ->setApiClientSecret('test')
             ->setIsEnterprise(false)
             ->setPassword('test')
-            ->setChannel('test');
-
+        ;
         $this->manager->persist($this->apiConfiguration);
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 
-class ApiConfigurationChannelType extends AbstractType
+final class ChannelChoiceType extends AbstractType
 {
     /** @var ChannelApiInterface */
     private $channelApi;
@@ -31,7 +31,7 @@ class ApiConfigurationChannelType extends AbstractType
         $resolver->setDefaults(['choices' => $channel]);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

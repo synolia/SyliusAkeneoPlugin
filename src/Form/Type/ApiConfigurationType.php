@@ -29,7 +29,6 @@ final class ApiConfigurationType extends AbstractType
             ->add('isEnterprise', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('channel', ApiConfigurationChannelType::class)
             ->add('testCredentials', SubmitType::class, [
                 'attr' => ['class' => 'ui secondary button'],
             ])

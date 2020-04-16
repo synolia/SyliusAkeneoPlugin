@@ -39,7 +39,6 @@ final class EntityObjectToArrayTransformerTest extends KernelTestCase
             'pagination_size' => 100,
             'username' => null,
             'password' => null,
-            'channel' => null,
         ];
 
         Assert::assertEquals($expected, $result);
