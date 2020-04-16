@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 
-abstract class AbstractPipelineFactory
+abstract class AbstractPipelineFactory implements PipelineFactoryInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     protected $taskProvider;

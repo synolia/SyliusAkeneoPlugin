@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task;
 
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class DummyTask implements AkeneoTaskInterface
 {

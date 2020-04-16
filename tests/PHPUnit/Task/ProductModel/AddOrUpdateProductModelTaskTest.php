@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;

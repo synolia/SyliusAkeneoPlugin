@@ -15,7 +15,7 @@ use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-final class ProductOptionManager
+final class ProductOptionManager implements ProductOptionManagerInterface
 {
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;

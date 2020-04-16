@@ -20,7 +20,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;

@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 
 final class FullImportPipelineFactory extends AbstractPipelineFactory
 {
-    public function createFullImportPipeline(): PipelineInterface
+    public function create(): PipelineInterface
     {
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 

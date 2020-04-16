@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\Page;
 use Doctrine\Common\Collections\Collection;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 

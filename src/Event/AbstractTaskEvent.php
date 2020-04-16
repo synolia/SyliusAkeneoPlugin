@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 abstract class AbstractTaskEvent extends Event
 {

@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Payload;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
@@ -32,7 +31,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         return $this->outputInterface;
     }
 
-    public function setOutputInterface(OutputInterface $outputInterface): self
+    public function setOutputInterface(OutputInterface $outputInterface): PipelinePayloadInterface
     {
         $this->outputInterface = $outputInterface;
 

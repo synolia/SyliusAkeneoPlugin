@@ -11,7 +11,7 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductAttribute;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
