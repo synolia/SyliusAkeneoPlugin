@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Synolia\SyliusAkeneoPlugin\Model\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductRepository;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
