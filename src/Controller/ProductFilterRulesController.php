@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -69,18 +70,24 @@ final class ProductFilterRulesController extends AbstractController
         $advancedForm->handleRequest($request);
 
         if ($simpleForm->isSubmitted() && $simpleForm->isValid()) {
-            $this->entityManager->persist($simpleForm->getData());
-            $this->entityManager->flush();
+            $this->update($simpleForm);
         }
 
         if ($advancedForm->isSubmitted() && $advancedForm->isValid()) {
-            $this->entityManager->persist($advancedForm->getData());
-            $this->entityManager->flush();
+            $this->update($advancedForm);
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/filters_configuration.html.twig', [
             'simple_form' => $simpleForm->createView(),
             'advanced_form' => $advancedForm->createView(),
         ]);
+    }
+
+    private function update(FormInterface $form): void
+    {
+        $this->entityManager->persist($form->getData());
+        $this->entityManager->flush();
+
+        $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
     }
 }

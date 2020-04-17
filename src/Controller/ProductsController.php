@@ -66,13 +66,13 @@ final class ProductsController extends AbstractController
             /** @var ProductConfiguration $productConfigurationData */
             $productConfigurationData = $form->getData();
 
-            $this->removeElements($productConfiguration->getDefaultTax(), $productConfigurationData->getDefaultTax());
-            $this->removeElements($productConfiguration->getConfigurable(), $productConfigurationData->getConfigurable());
             $this->removeElements($productConfiguration->getAkeneoImageAttributes(), $productConfigurationData->getAkeneoImageAttributes());
             $this->removeElements($productConfiguration->getProductImagesMapping(), $productConfigurationData->getProductImagesMapping());
 
             $this->entityManager->persist($form->getData());
             $this->entityManager->flush();
+
+            $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig', [

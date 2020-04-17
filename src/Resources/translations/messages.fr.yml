@@ -11,6 +11,8 @@ sylius:
                 save: Enregistrer
                 api_configuration:
                     api_configuration: Configurer l'API
+                    attributes_configuration: Configuration des attribues
+                import_referential_attributes: Importer des attributs référentiels
                 product_filter_rules:
                     product_filter_rules: Règle filtre des produits
                     mode: Mode
@@ -24,7 +26,7 @@ sylius:
                     updated_mode: Mode de mise à jour
                     updated_before: Mise à jour avant
                     updated_after: Mise à jour après
-                    updated: Mise à jour
+                    updated: Mise à jour depuis N jours
                     families: Familles
                     no_condition: Pas de condition
                     enabled: Actif

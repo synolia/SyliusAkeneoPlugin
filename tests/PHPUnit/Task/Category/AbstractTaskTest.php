@@ -58,7 +58,6 @@ abstract class AbstractTaskTest extends ApiTestCase
     protected function buildBasicConfiguration(): CategoryConfiguration
     {
         $categoryConfiguration = new CategoryConfiguration();
-        $categoryConfiguration->setEmptyLocalReplaceBy('fr_FR'); //To be deleted, use default Sylius locale
         $categoryConfiguration->setRootCategory('master');
         $categoryConfiguration->setMainCategory('master'); //To be deleted
         $categoryConfiguration->setActiveNewCategories(true); //To be deleted
