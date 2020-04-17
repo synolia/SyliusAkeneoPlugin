@@ -28,6 +28,10 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager = self::$container->get('doctrine')->getManager();
         $this->manager->beginTransaction();
 
+        $this->initializeApiConfiguration();
+
+        $this->manager->flush();
+
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
 
