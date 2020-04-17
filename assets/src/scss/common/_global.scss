@@ -6,3 +6,7 @@
     @include brand();
 }
 
+.hidden {
+    display: none;
+    visibility: hidden;
+}

@@ -1,8 +1,12 @@
+#switchForm + label {
+    cursor: pointer;
+}
+
 [id*=Mappings] {
     margin: 0 0 1rem;
 
-    [data-form-collection=item] {
-        @media screen and (min-width: 60em) {
+    @media screen and (min-width: 60em) {
+        [data-form-collection=item] {
             display: flex;
             justify-content: flex-start;
 
