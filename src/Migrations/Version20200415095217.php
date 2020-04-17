@@ -24,10 +24,6 @@ final class Version20200415095217 extends AbstractMigration
 
         $this->addSql('ALTER TABLE akeneo_api_configuration DROP channel');
         $this->addSql('
-            ALTER TABLE akeneo_api_configuration_product
-            ADD akeneoPriceAttribute VARCHAR(255) DEFAULT NULL
-        ');
-        $this->addSql('
             ALTER TABLE akeneo_api_product_filters_rules
             ADD channel VARCHAR(255) NOT NULL,
             CHANGE completenessType completenessType VARCHAR(255) NOT NULL, 
@@ -46,9 +42,6 @@ final class Version20200415095217 extends AbstractMigration
 
         $this->addSql('ALTER TABLE akeneo_api_configuration 
             ADD channel VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`
-        ');
-        $this->addSql('
-            ALTER TABLE akeneo_api_configuration_product DROP akeneoPriceAttribute
         ');
         $this->addSql('
             ALTER TABLE akeneo_api_product_filters_rules DROP channel, 
