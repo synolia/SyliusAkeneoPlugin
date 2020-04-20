@@ -137,6 +137,16 @@
           "supplier_zaro"
         ],
         "values": {
+          "enabled_channels": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": [
+                "FASHION_WEB",
+                "fake_channel"
+              ]
+            }
+          ],
           "supplier": [
             {
               "locale": null,

@@ -15,7 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoriesConfiguration */
+    /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration */
     private $categoryConfiguration;
 
     protected function setUp(): void

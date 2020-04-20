@@ -15,6 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
@@ -45,18 +46,23 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
+    private $excludedAttributesProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeRepository,
         FactoryInterface $productAttributeFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ExcludedAttributesProvider $excludedAttributesProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productAttributeFactory = $productAttributeFactory;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->logger = $akeneoLogger;
+        $this->excludedAttributesProvider = $excludedAttributesProvider;
     }
 
     /**
@@ -76,9 +82,16 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         }
 
         try {
+            $excludesAttributes = $this->excludedAttributesProvider->getExcludedAttributes();
+
             $this->entityManager->beginTransaction();
 
             foreach ($payload->getResources() as $resource) {
+                //Do not import attributes that must not be used as attribute in Sylius
+                if (\in_array($resource['code'], $excludesAttributes, true)) {
+                    continue;
+                }
+
                 try {
                     $attributeType = $this->attributeTypeMatcher->match($resource['type']);
 

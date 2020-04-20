@@ -28,6 +28,16 @@
                 "groups": [],
                 "parent": null,
                 "values": {
+                    "enabled_channels": [
+                        {
+                            "locale": "en_US",
+                            "scope": null,
+                            "data": [
+                                "FASHION_WEB",
+                                "fake_channel"
+                            ]
+                        }
+                    ],
                     "price": [
                         {
                             "locale": null,

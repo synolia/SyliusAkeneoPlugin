@@ -36,6 +36,12 @@ class ProductConfiguration implements ResourceInterface
     private $akeneoPriceAttribute;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $akeneoEnabledChannelsAttribute;
+
+    /**
      * @var array|null
      * @ORM\Column(type="array", nullable=true)
      */
@@ -286,6 +292,18 @@ class ProductConfiguration implements ResourceInterface
     public function setAkeneoPriceAttribute(?string $akeneoPriceAttribute): self
     {
         $this->akeneoPriceAttribute = $akeneoPriceAttribute;
+
+        return $this;
+    }
+
+    public function getAkeneoEnabledChannelsAttribute(): ?string
+    {
+        return $this->akeneoEnabledChannelsAttribute;
+    }
+
+    public function setAkeneoEnabledChannelsAttribute(?string $akeneoEnabledChannelsAttribute): self
+    {
+        $this->akeneoEnabledChannelsAttribute = $akeneoEnabledChannelsAttribute;
 
         return $this;
     }
