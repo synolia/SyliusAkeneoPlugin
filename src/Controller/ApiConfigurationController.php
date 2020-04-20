@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Controller;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
 
@@ -32,16 +31,21 @@ final class ApiConfigurationController extends AbstractController
     /** @var FlashBagInterface */
     private $flashBag;
 
+    /** @var ClientFactory */
+    private $clientFactory;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $apiConfigurationRepository,
         FlashBagInterface $flashBag,
+        ClientFactory $clientFactory,
         TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->flashBag = $flashBag;
         $this->translator = $translator;
+        $this->clientFactory = $clientFactory;
     }
 
     public function __invoke(Request $request): Response
@@ -61,7 +65,7 @@ final class ApiConfigurationController extends AbstractController
             $testCredentialsButton = $form->get('testCredentials');
 
             try {
-                $client = $this->connect($apiConfiguration);
+                $client = $this->clientFactory->authenticatedByPassword($apiConfiguration);
                 $client->getCategoryApi()->all(self::PAGING_SIZE);
 
                 $apiConfiguration->setToken($client->getToken() ?? '');
@@ -82,17 +86,5 @@ final class ApiConfigurationController extends AbstractController
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/api_configuration.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    private function connect(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface
-    {
-        $clientBuilder = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
-
-        return $clientBuilder->buildAuthenticatedByPassword(
-            $apiConfiguration->getApiClientId() ?? '',
-            $apiConfiguration->getApiClientSecret() ?? '',
-            $apiConfiguration->getUsername() ?? '',
-            $apiConfiguration->getPassword() ?? '',
-        );
     }
 }
