@@ -33,7 +33,6 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ])
             ->add('locales', LocalesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.locales',
-                'multiple' => true,
             ])
             ->add('completeness_value', TextType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value',
