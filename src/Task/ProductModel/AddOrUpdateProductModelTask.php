@@ -8,15 +8,11 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Attribute\Model\AttributeInterface;
-use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
-use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
-use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
@@ -24,11 +20,12 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 /**
@@ -46,22 +43,10 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     private $productFactory;
 
     /** @var FactoryInterface */
-    private $productAttributeValueFactory;
-
-    /** @var FactoryInterface */
     private $productTaxonFactory;
 
     /** @var TaxonRepositoryInterface */
     private $taxonRepository;
-
-    /** @var EntityRepository */
-    private $productAttributeRepository;
-
-    /** @var SlugGeneratorInterface */
-    private $slugGenerator;
-
-    /** @var EntityRepository */
-    private $productTranslationRepository;
 
     /** @var ProductTaxonRepository */
     private $productTaxonRepository;
@@ -93,39 +78,26 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
-    private $excludedAttributesProvider;
-
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
         ProductRepositoryInterface $productRepository,
         ProductTaxonRepository $productTaxonAkeneoRepository,
         TaxonRepositoryInterface $taxonRepository,
-        EntityRepository $productAttributeRepository,
-        EntityRepository $productTranslationRepository,
         EntityRepository $productGroupRepository,
-        FactoryInterface $productAttributeValueFactory,
         FactoryInterface $productTaxonFactory,
-        SlugGeneratorInterface $slugGenerator,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $akeneoLogger,
-        ExcludedAttributesProvider $excludedAttributesProvider
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
-        $this->productAttributeValueFactory = $productAttributeValueFactory;
         $this->productTaxonFactory = $productTaxonFactory;
         $this->productRepository = $productRepository;
         $this->productTaxonRepository = $productTaxonAkeneoRepository;
-        $this->productAttributeRepository = $productAttributeRepository;
-        $this->productTranslationRepository = $productTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taxonRepository = $taxonRepository;
-        $this->slugGenerator = $slugGenerator;
         $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
-        $this->excludedAttributesProvider = $excludedAttributesProvider;
     }
 
     /**
@@ -149,13 +121,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             $productsMapping[$product->getCode()] = $product;
         }
 
-        $attributesMapping = [];
-        $attributes = $this->productAttributeRepository->findAll();
-        /** @var AttributeInterface $attribute */
-        foreach ($attributes as $attribute) {
-            $attributesMapping[$attribute->getName()] = $attribute;
-        }
-
         try {
             $this->entityManager->beginTransaction();
 
@@ -175,7 +140,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         try {
             $this->entityManager->beginTransaction();
             foreach ($payload->getResources() as $resource) {
-                $this->process($resource, $productsMapping, $attributesMapping);
+                $this->process($resource, $productsMapping);
             }
 
             $this->entityManager->flush();
@@ -192,14 +157,14 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $payload;
     }
 
-    private function process(array $resource, array $productsMapping, array $attributesMapping): void
+    private function process(array $resource, array $productsMapping): void
     {
         if (!isset($resource['values']['name']) && $resource['parent'] === null) {
             return;
         }
 
         if (isset($productsMapping[$resource['code']])) {
-            $this->addOrUpdate($resource, $productsMapping[$resource['code']], $attributesMapping);
+            $this->addOrUpdate($resource, $productsMapping[$resource['code']]);
             ++$this->updateCount;
             $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $productsMapping[$resource['code']]));
 
@@ -209,7 +174,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         /** @var ProductInterface $newProduct */
         $newProduct = $this->productFactory->createNew();
 
-        $product = $this->addOrUpdate($resource, $newProduct, $attributesMapping);
+        $product = $this->addOrUpdate($resource, $newProduct);
 
         if ($product === null) {
             return;
@@ -242,7 +207,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
     }
 
-    private function addOrUpdate(array $resource, ProductInterface $product, array $attributesMapping): ?ProductInterface
+    private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
         if (!$productGroup instanceof ProductGroup) {
@@ -260,14 +225,10 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
         $productTaxons = $this->updateTaxon($resource, $product);
         $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
-        $this->updateAttributes($resource, $product, $attributesMapping);
+        $this->updateAttributes($resource, $product);
         $this->updateImages($resource, $product);
 
         $product->setCode($resource['code']);
-
-        if ($product->getSlug() === null) {
-            $this->updateSlug($product, $resource);
-        }
 
         if (isset($resource['categories'][0])) {
             $taxon = $this->taxonRepository->findOneBy(['code' => $resource['categories'][0]]);
@@ -321,61 +282,15 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $productTaxons;
     }
 
-    private function updateAttributes(array $resource, ProductInterface $product, array $attributesMapping): void
+    private function updateAttributes(array $resource, ProductInterface $product): void
     {
-        foreach ($product->getAttributes() as $attribute) {
-            $product->removeAttribute($attribute);
-        }
-
-        foreach ($resource['values'] as $attribute => $value) {
-            //Do not import attributes that must not be used as attribute in Sylius
-            if (\in_array($attribute, $this->excludedAttributesProvider->getExcludedAttributes(), true)) {
-                continue;
-            }
-
-            $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
-            if (in_array($setter, get_class_methods($product))) {
-                $product->$setter($value[0]['data']);
-
-                continue;
-            }
-            if (!isset($attributesMapping[$attribute])) {
-                continue;
-            }
-            /** @var AttributeValueInterface $attributeValue */
-            $attributeValue = $this->productAttributeValueFactory->createNew();
-            $attributeValue->setAttribute($attributesMapping[$attribute]);
-            $attributeValue->setValue($value[0]['data']);
-            $product->addAttribute($attributeValue);
-        }
-    }
-
-    private function updateSlug(ProductInterface $product, array $resource): void
-    {
-        $productTranslation = $this->productTranslationRepository->findOneBy(['name' => $resource['values']['name'][0]['data']]);
-
-        if ($productTranslation !== null) {
-            $product->setSlug($this->slugGenerator->generate(
-                $resource['values']['variation_name'][0]['data'] ?? $resource['values']['erp_name'][0]['data']
-            ));
-
-            return;
-        }
-
-        foreach ($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions() as $entityInsertion) {
-            if (!$entityInsertion instanceof ProductTranslationInterface) {
-                continue;
-            }
-            if ($entityInsertion->getSlug() === $this->slugGenerator->generate($resource['values']['name'][0]['data'])) {
-                $product->setSlug($this->slugGenerator->generate(
-                    $resource['values']['variation_name'][0]['data'] ?? $resource['values']['erp_name'][0]['data']
-                ));
-
-                return;
-            }
-        }
-
-        $product->setSlug($this->slugGenerator->generate($resource['values']['name'][0]['data']));
+        $productResourcePayload = new ProductResourcePayload($this->payload->getAkeneoPimClient());
+        $productResourcePayload
+            ->setProduct($product)
+            ->setResource($resource)
+        ;
+        $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
+        $addAttributesToProductTask->__invoke($productResourcePayload);
     }
 
     private function removeUnusedProductTaxons(array $productTaxonIds, array $productTaxons): void

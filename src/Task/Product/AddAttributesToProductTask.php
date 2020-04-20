@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslation;
@@ -15,6 +16,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -51,6 +53,9 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productTranslationFactory;
 
+    /** @var EntityRepository */
+    private $productConfigurationRepository;
+
     public function __construct(
         RepositoryInterface $productAttributeValueRepository,
         RepositoryInterface $productAttributeRepository,
@@ -59,7 +64,8 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
         LocaleContextInterface $localeContext,
-        ProductAttributeValueValueBuilder $attributeValueValueBuilder
+        ProductAttributeValueValueBuilder $attributeValueValueBuilder,
+        EntityRepository $productConfigurationRepository
     ) {
         $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->productTranslationRepository = $productTranslationRepository;
@@ -69,6 +75,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $this->localeContext = $localeContext;
         $this->attributeValueValueBuilder = $attributeValueValueBuilder;
         $this->productAttributeRepository = $productAttributeRepository;
+        $this->productConfigurationRepository = $productConfigurationRepository;
     }
 
     /**
@@ -190,6 +197,14 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
 
             if (isset($translation['meta_description'])) {
                 $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $locale));
+            }
+
+            /** @var ProductConfiguration $configuration */
+            $configuration = $this->productConfigurationRepository->findOneBy([]);
+            if ($product->getId() !== null && $configuration !== null && $configuration->getRegenerateUrlRewrites() === false) {
+                // no regenerate slug if config disable it
+
+                continue;
             }
 
             //Multiple product has the same name
