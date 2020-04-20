@@ -46,12 +46,6 @@ class CategoryConfiguration implements ResourceInterface
      */
     private $rootCategory;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $emptyLocalReplaceBy;
-
     public function getId(): int
     {
         return $this->id;
@@ -101,18 +95,6 @@ class CategoryConfiguration implements ResourceInterface
     public function setRootCategory(string $rootCategory): self
     {
         $this->rootCategory = $rootCategory;
-
-        return $this;
-    }
-
-    public function getEmptyLocalReplaceBy(): ?string
-    {
-        return $this->emptyLocalReplaceBy;
-    }
-
-    public function setEmptyLocalReplaceBy(string $emptyLocalReplaceBy): self
-    {
-        $this->emptyLocalReplaceBy = $emptyLocalReplaceBy;
 
         return $this;
     }

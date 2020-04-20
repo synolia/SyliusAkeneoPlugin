@@ -48,28 +48,6 @@ class ProductConfiguration implements ResourceInterface
     private $attributeMapping;
 
     /**
-     * @var Collection
-     * @ORM\OneToMany(
-     *     targetEntity="ProductConfigurationDefaultTax",
-     *     mappedBy="productConfiguration",
-     *     orphanRemoval=true,
-     *     cascade={"persist"}
-     * )
-     */
-    private $defaultTax;
-
-    /**
-     * @var Collection
-     * @ORM\OneToMany(
-     *     targetEntity="ProductConfigurationAttribute",
-     *     mappedBy="productConfiguration",
-     *     orphanRemoval=true,
-     *     cascade={"persist"}
-     * )
-     */
-    private $configurable;
-
-    /**
      * @var bool|null
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -105,8 +83,6 @@ class ProductConfiguration implements ResourceInterface
 
     public function __construct()
     {
-        $this->defaultTax = new ArrayCollection();
-        $this->configurable = new ArrayCollection();
         $this->akeneoImageAttributes = new ArrayCollection();
         $this->productImagesMapping = new ArrayCollection();
     }
@@ -136,66 +112,6 @@ class ProductConfiguration implements ResourceInterface
     public function setAttributeMapping(?array $attributeMapping): self
     {
         $this->attributeMapping = $attributeMapping;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ProductConfigurationDefaultTax[]
-     */
-    public function getDefaultTax(): Collection
-    {
-        return $this->defaultTax;
-    }
-
-    public function addDefaultTax(ProductConfigurationDefaultTax $defaultTax): self
-    {
-        if (!$this->defaultTax->contains($defaultTax)) {
-            $this->defaultTax[] = $defaultTax;
-            $defaultTax->setProductConfiguration($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDefaultTax(ProductConfigurationDefaultTax $defaultTax): self
-    {
-        if ($this->defaultTax->contains($defaultTax)) {
-            $this->defaultTax->removeElement($defaultTax);
-            if ($defaultTax->getProductConfiguration() === $this) {
-                $defaultTax->setProductConfiguration(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ProductConfigurationAttribute[]
-     */
-    public function getConfigurable(): Collection
-    {
-        return $this->configurable;
-    }
-
-    public function addConfigurable(ProductConfigurationAttribute $configurable): self
-    {
-        if (!$this->configurable->contains($configurable)) {
-            $this->configurable[] = $configurable;
-            $configurable->setProductConfiguration($this);
-        }
-
-        return $this;
-    }
-
-    public function removeConfigurable(ProductConfigurationAttribute $configurable): self
-    {
-        if ($this->configurable->contains($configurable)) {
-            $this->configurable->removeElement($configurable);
-            if ($configurable->getProductConfiguration() === $this) {
-                $configurable->setProductConfiguration(null);
-            }
-        }
 
         return $this;
     }

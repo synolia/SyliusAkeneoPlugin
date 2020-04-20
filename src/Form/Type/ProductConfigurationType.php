@@ -13,10 +13,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductConfigurationType extends AbstractType
 {
-    public const DEFAULT_TAX_MAPPINGS_CODE = 'defaultTax';
-
-    public const CONFIGURABLE_MAPPINGS_CODE = 'configurable';
-
     public const AKENEO_IMAGE_ATTRIBUTES_MAPPINGS_CODE = 'akeneoImageAttributes';
 
     public const PRODUCT_IMAGES_MAPPINGS_CODE = 'productImagesMapping';
@@ -30,23 +26,6 @@ final class ProductConfigurationType extends AbstractType
             ->add('websiteAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.website_attribute'])
             ->add('akeneoPriceAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_price_attribute'])
             ->add('akeneoEnabledChannelsAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_enabled_channels_attribute'])
-            ->add(self::DEFAULT_TAX_MAPPINGS_CODE, CollectionType::class, [
-                'required' => true,
-                'entry_type' => ProductDefaultTaxType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'error_bubbling' => false,
-            ])
-            ->add(self::CONFIGURABLE_MAPPINGS_CODE, CollectionType::class, [
-                'required' => true,
-                'entry_type' => ProductAttributesType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-            ])
             ->add('importMediaFiles', CheckboxType::class, [
                 'label' => 'sylius.ui.admin.akeneo.products.import_media_files',
             ])
@@ -68,6 +47,7 @@ final class ProductConfigurationType extends AbstractType
             ])
             ->add('regenerateUrlRewrites', CheckboxType::class, [
                 'label' => 'sylius.ui.admin.akeneo.products.regenerate_url_rewrites',
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'sylius.ui.admin.akeneo.submit',

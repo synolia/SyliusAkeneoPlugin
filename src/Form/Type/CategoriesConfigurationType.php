@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class CategoriesConfigurationType extends AbstractType
@@ -25,14 +24,11 @@ final class CategoriesConfigurationType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.categories.categories',
                 'multiple' => true,
             ])
-            ->add('main_category', TextType::class, [
+            ->add('main_category', CategoriesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.categories.main_category',
             ])
-            ->add('root_category', TextType::class, [
+            ->add('root_category', CategoriesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.categories.root_category',
-            ])
-            ->add('empty_local_replace_by', TextType::class, [
-                'label' => 'sylius.ui.admin.akeneo.categories.empty_local_replace_by',
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'ui icon primary button'],

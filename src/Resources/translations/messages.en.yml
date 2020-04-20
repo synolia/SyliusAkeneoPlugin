@@ -11,6 +11,8 @@ sylius:
                 save: Save
                 api_configuration:
                     api_configuration: Api configuration
+                    attributes_configuration: Attributes Configuration
+                import_referential_attributes: Import Referential Attributes
                 product_filter_rules:
                     product_filter_rules: Product filter rules
                     mode: Mode
@@ -24,7 +26,7 @@ sylius:
                     updated_mode: Update mode
                     updated_before: Updated before
                     updated_after: Updated After
-                    updated: Updated
+                    updated: Updated since X days
                     families: Families
                     no_condition: No condition
                     enabled: Enabled

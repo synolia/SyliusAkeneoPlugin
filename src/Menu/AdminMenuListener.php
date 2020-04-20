@@ -55,13 +55,5 @@ final class AdminMenuListener
             ->setLabel('sylius.ui.admin.akeneo.attributes.attributes')
             ->setLabelAttribute('icon', 'configure')
         ;
-
-        $newSubmenu->addChild('sylius_admin_akeneo_medias', [
-                'route' => 'sylius_akeneo_connector_medias',
-            ])
-            ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.medias.medias')
-            ->setLabelAttribute('icon', 'image')
-        ;
     }
 }
