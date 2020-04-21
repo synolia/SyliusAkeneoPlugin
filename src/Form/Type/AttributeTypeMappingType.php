@@ -19,7 +19,7 @@ final class AttributeTypeMappingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('akeneo_attribute', TextType::class)
+            ->add('akeneo_attribute_type', TextType::class)
             ->add('attribute_type', AttributeTypeChoiceType::class)
         ;
     }

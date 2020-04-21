@@ -8,7 +8,7 @@ use Sylius\Component\Attribute\AttributeType\IntegerAttributeType;
 
 final class IntegerAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    private const SUPPORTED_TYPES = ['pim_catalog_number', 'pim_catalog_price_collection'];
+    private const SUPPORTED_TYPES = ['pim_catalog_number'];
 
     public function getType(): string
     {
