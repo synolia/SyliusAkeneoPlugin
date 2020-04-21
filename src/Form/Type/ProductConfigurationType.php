@@ -23,7 +23,6 @@ final class ProductConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('websiteAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.website_attribute'])
             ->add('akeneoPriceAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_price_attribute'])
             ->add('akeneoEnabledChannelsAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_enabled_channels_attribute'])
             ->add('importMediaFiles', CheckboxType::class, [

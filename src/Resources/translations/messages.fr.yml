@@ -53,7 +53,6 @@ sylius:
                 products:
                     title: Produits
                     subtitle: Configuration des produits
-                    website_attribute: Attribue du site
                     akeneo_price_attribute: Attribue Akeneo du prix
                     akeneo_enabled_channels_attribute: Attribue Akeneo des channels actifs
                     attribute: Attribue

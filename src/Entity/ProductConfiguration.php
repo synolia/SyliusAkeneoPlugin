@@ -27,12 +27,6 @@ class ProductConfiguration implements ResourceInterface
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $websiteAttribute;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $akeneoPriceAttribute;
 
     /**
@@ -90,18 +84,6 @@ class ProductConfiguration implements ResourceInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWebsiteAttribute(): ?string
-    {
-        return $this->websiteAttribute;
-    }
-
-    public function setWebsiteAttribute(?string $websiteAttribute): self
-    {
-        $this->websiteAttribute = $websiteAttribute;
-
-        return $this;
     }
 
     public function getAttributeMapping(): ?array
