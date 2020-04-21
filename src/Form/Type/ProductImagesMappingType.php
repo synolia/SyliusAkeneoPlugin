@@ -19,7 +19,7 @@ final class ProductImagesMappingType extends AbstractType
     {
         $builder
             ->add('syliusAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.sylius_attribute'])
-            ->add('akeneoAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attribute'])
+            ->add('akeneoAttribute', AttributeCodeChoiceType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attribute'])
         ;
     }
 

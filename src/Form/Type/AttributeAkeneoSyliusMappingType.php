@@ -22,7 +22,7 @@ final class AttributeAkeneoSyliusMappingType extends AbstractType
     {
         $builder
             ->add('akeneo_attribute', TextType::class)
-            ->add('sylius_attribute', TextType::class)
+            ->add('sylius_attribute', AttributeCodeChoiceType::class)
             ->add('part_of_model', ChoiceType::class, [
                 'choices' => [
                     'none' => null,
