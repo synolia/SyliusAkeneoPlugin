@@ -70,13 +70,11 @@ const Admin = {
    */
   toggleFields() {
     const self = this;
-    $(`
-      ${this.options.locale.selector}, 
-      ${this.options.after.selector},
-      ${this.options.since.selector}
-    `)
-      .parent(".field")
-      .addClass("hidden");
+    const toHide = [this.options.after.selector, this.options.since.selector];
+    if (!$(this.options.locale.selector + ">option:selected").length) {
+      toHide.push(self.options.locale.selector);
+    }
+    $(`${toHide.join()}`).parent(".field").addClass("hidden");
     for (let k in this.options) {
       $(this.options[k].trigger).on("change", function () {
         self.options[k].values.includes($(this).val())
