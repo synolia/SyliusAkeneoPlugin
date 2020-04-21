@@ -15,12 +15,12 @@
             <label for="switchForm">Advanced</label>
         </div>
         <div class="ui segment togglable">
-            {{ form_start(simple_form, {'attr': {'class': 'ui loadable form'}}) }}
+            {{ form_start(simple_form, {'attr': {'class': 'ui form'}}) }}
             {{ form_row(simple_form) }}
             {{ form_end(simple_form) }}
         </div>
         <div class="ui segment togglable" style="display: none;">
-            {{ form_start(advanced_form, {'attr': {'class': 'ui loadable form'}}) }}
+            {{ form_start(advanced_form, {'attr': {'class': 'ui form'}}) }}
             {{ form_row(advanced_form) }}
             {{ form_end(advanced_form) }}
         </div>

@@ -48,7 +48,7 @@ final class LocalesChoiceType extends AbstractType
             $localesCode[$locale['code']] = $locale['code'];
         }
 
-        $resolver->setDefaults(['choices' => $localesCode]);
+        $resolver->setDefaults(['choices' => $localesCode, 'multiple' => true, 'required' => false]);
     }
 
     public function getParent()
