@@ -10,9 +10,10 @@
 {% block content %}
     {{ headers.default('sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans, 'cogs') }}
     <div class="ui segment">
-        <div class="ui slider checkbox">
+        <div class="ui toggle checkbox switch">
+            <span>Standard mode</span>
             <input id="switchForm" name="switchForm" type="checkbox">
-            <label for="switchForm">Advanced</label>
+            <label for="switchForm" class="muted">Advanced mode</label>
         </div>
         <div class="ui segment togglable">
             {{ form_start(simple_form, {'attr': {'class': 'ui form'}}) }}

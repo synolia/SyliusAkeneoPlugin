@@ -1,3 +1,17 @@
+.ui.toggle.switch {
+    display: inline-flex;
+
+    input {
+        width: 100%;
+    }
+
+    & > span {
+        cursor: pointer;
+        padding-top: .15em;
+        padding-right: 1rem;
+    }
+}
+
 #switchForm + label {
     cursor: pointer;
 }

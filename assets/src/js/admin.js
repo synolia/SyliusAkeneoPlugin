@@ -59,6 +59,9 @@ const Admin = {
   toggleForms() {
     this.trigger.removeClass("hidden");
     this.trigger.on("click", function () {
+      $(this).is(":checked")
+        ? $(".switch > span").addClass("muted")
+        : $(".switch > span").removeClass("muted");
       $(".togglable").toggle();
     });
   },
