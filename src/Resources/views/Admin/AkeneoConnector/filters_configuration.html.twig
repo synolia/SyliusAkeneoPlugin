@@ -5,10 +5,14 @@
 
 {% import '@SyliusUi/Macro/headers.html.twig' as headers %}
 
-{% block title %}{{ 'sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans }} {{ parent() }}{% endblock %}
+{% block title %}{{ 'sylius.ui.admin.akeneo.product_filter_rules.title'|trans }} {{ parent() }}{% endblock %}
 
 {% block content %}
-    {{ headers.default('sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans, 'cogs') }}
+    {{ headers.default(
+        'sylius.ui.admin.akeneo.product_filter_rules.title'|trans,
+        'cogs',
+        'sylius.ui.admin.akeneo.product_filter_rules.subtitle'|trans
+    ) }}
     {% block breadcrumb %}
         {% set breadcrumbs = breadcrumbs|merge([
             { label: 'sylius.ui.admin.akeneo.product_filter_rules.title'|trans }

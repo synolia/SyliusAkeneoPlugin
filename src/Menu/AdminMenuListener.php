@@ -20,7 +20,7 @@ final class AdminMenuListener
                 'route' => 'sylius_akeneo_connector_api_configuration',
             ])
             ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.api_configuration.api_configuration')
+            ->setLabel('sylius.ui.admin.akeneo.api_configuration.title')
             ->setLabelAttribute('icon', 'cogs')
         ;
 
@@ -28,7 +28,7 @@ final class AdminMenuListener
                 'route' => 'sylius_akeneo_connector_product_filter_rules',
             ])
             ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules')
+            ->setLabel('sylius.ui.admin.akeneo.product_filter_rules.title')
             ->setLabelAttribute('icon', 'sync alternate')
         ;
 
@@ -36,7 +36,7 @@ final class AdminMenuListener
                 'route' => 'sylius_akeneo_connector_categories',
             ])
             ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.categories.categories')
+            ->setLabel('sylius.ui.admin.akeneo.categories.title')
             ->setLabelAttribute('icon', 'configure')
         ;
 
@@ -44,7 +44,7 @@ final class AdminMenuListener
                 'route' => 'sylius_akeneo_connector_products',
             ])
             ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.products.products')
+            ->setLabel('sylius.ui.admin.akeneo.products.title')
             ->setLabelAttribute('icon', 'configure')
         ;
 
@@ -52,7 +52,7 @@ final class AdminMenuListener
                 'route' => 'sylius_akeneo_connector_attributes',
             ])
             ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.attributes.attributes')
+            ->setLabel('sylius.ui.admin.akeneo.attributes.title')
             ->setLabelAttribute('icon', 'configure')
         ;
     }

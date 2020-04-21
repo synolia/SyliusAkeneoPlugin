@@ -10,11 +10,12 @@ sylius:
                 yes: Yes
                 save: Save
                 api_configuration:
-                    api_configuration: Api configuration
-                    attributes_configuration: Attributes Configuration
+                    title: Api configuration
+                    subtitle: Configure Akeneo API Informations
                 import_referential_attributes: Import Referential Attributes
                 product_filter_rules:
-                    product_filter_rules: Product filter rules
+                    title: Product filter rules
+                    subtitle: Configure Akeneo product filter rules
                     mode: Mode
                     simple: Simple
                     advanced: Advanced
@@ -43,13 +44,15 @@ sylius:
                     between: Between
                     since_last_x_days: Since last x days
                 categories:
-                    categories: Categories
+                    title: Categories
+                    subtitle: Categories configuration
                     activate_new_categories: Activate new categories
                     main_category: Main category
                     root_category: Root category
                     empty_local_replace_by: Replace empty local by
                 products:
-                    products: Products
+                    title: Products
+                    subtitle: Products configuration
                     website_attribute: Website attribute
                     akeneo_price_attribute: Akeneo price attribute
                     akeneo_enabled_channels_attribute: Akeneo enabled channels attribute
@@ -61,7 +64,8 @@ sylius:
                     akeneo_attribute: Akeneo attributes
                     regenerate_url_rewrites: Regenerate url rewrites
                 attributes:
-                    attributes: Attributes
+                    title: Attributes
+                    subtitle: Attributes configuration
                 medias:
                     medias: Medias
 akeneo:
