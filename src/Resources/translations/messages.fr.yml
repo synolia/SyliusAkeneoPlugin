@@ -14,7 +14,7 @@ sylius:
                     subtitle: Configuration des informations d'API Akeneo
                 import_referential_attributes: Importer des attributs référentiels
                 product_filter_rules:
-                    title: Règles de filtre produits
+                    title: Règles de filtre produit
                     subtitle: Configuration des règles de filtre produit
                     mode: Mode
                     simple: Simple
