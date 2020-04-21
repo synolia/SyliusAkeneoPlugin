@@ -19,7 +19,7 @@ final class ProductFilter
 
     private const ALL_COMPLETE = 'ALL COMPLETE';
 
-    private const FULL_COMPLETE = '100';
+    private const FULL_COMPLETE = 100;
 
     private const API_DATETIME_FORMAT = 'Y-m-d H:i:s';
 
@@ -204,8 +204,8 @@ final class ProductFilter
         ProductFiltersRules $productFilterRules,
         SearchBuilder $queryParameters,
         array $locales,
-        string $completeness = null,
-        string $completenessValue = null
+        ?string $completeness = null,
+        ?int $completenessValue = null
     ): SearchBuilder {
         $completenessType = $productFilterRules->getCompletenessType();
 

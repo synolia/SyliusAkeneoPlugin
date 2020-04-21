@@ -42,10 +42,15 @@ final class ProductFilterTest extends ApiTestCase
         $this->manager->beginTransaction();
         $this->localeRepository = self::$container->get('sylius.repository.locale');
         $this->productFilter = self::$container->get(ProductFilter::class);
-        $this->productFiltersRules = new ProductFiltersRules();
+
+        $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
+        if (!$this->productFiltersRules instanceof ProductFiltersRules) {
+            $this->productFiltersRules = new ProductFiltersRules();
+            $this->manager->persist($this->productFiltersRules);
+        }
         $this->productFiltersRules
             ->setCompletenessType(Operator::EQUAL)
-            ->setCompletenessValue('100')
+            ->setCompletenessValue(100)
             ->setChannel('ecommerce')
             ->addFamily('shoes')
             ->addLocale('en_US')
@@ -105,7 +110,7 @@ final class ProductFilterTest extends ApiTestCase
         Assert::assertEquals($expect, $result->getFilters());
 
         $this->productFiltersRules->setUpdatedMode(Operator::SINCE_LAST_N_DAYS);
-        $this->productFiltersRules->setUpdated('4');
+        $this->productFiltersRules->setUpdated(4);
         $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
         Assert::assertInstanceOf(SearchBuilder::class, $result);
         $expect = [
@@ -204,7 +209,7 @@ final class ProductFilterTest extends ApiTestCase
         $payload = new ProductModelPayload($this->createClient());
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
-            '{"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=", "value":  "100", "locales":["en_US"], "scope": "ecommerce"}]}'
+            '{"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=", "value":  100, "locales":["en_US"], "scope": "ecommerce"}]}'
         );
 
         $this->manager->persist($this->productFiltersRules);
@@ -235,7 +240,7 @@ final class ProductFilterTest extends ApiTestCase
             'completeness' => [
                 [
                     'operator' => Operator::EQUAL,
-                    'value' => '100',
+                    'value' => 100,
                     'locales' => ['en_US'],
                     'scope' => 'ecommerce',
                 ],

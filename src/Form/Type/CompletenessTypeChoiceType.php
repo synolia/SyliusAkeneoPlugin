@@ -14,7 +14,6 @@ final class CompletenessTypeChoiceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $completenessType = [
-            'sylius.ui.admin.akeneo.product_filter_rules.no_condition' => null,
             'sylius.ui.admin.akeneo.product_filter_rules.lower_than' => Operator::LOWER_THAN,
             'sylius.ui.admin.akeneo.product_filter_rules.greater_than' => Operator::GREATER_THAN,
             'sylius.ui.admin.akeneo.product_filter_rules.greater_or_equals_than' => Operator::GREATER_THAN_OR_EQUAL,

@@ -34,10 +34,10 @@ class ProductFiltersRules implements ResourceInterface
     private $advancedFilter;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $completenessType = '';
+    private $completenessType;
 
     /**
      * @var array
@@ -46,10 +46,10 @@ class ProductFiltersRules implements ResourceInterface
     private $locales = [];
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
+     * @var int
+     * @ORM\Column(type="integer")
      */
-    private $completenessValue = '';
+    private $completenessValue;
 
     /**
      * @var string|null
@@ -77,8 +77,8 @@ class ProductFiltersRules implements ResourceInterface
     private $updatedAfter;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var int|null
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $updated;
 
@@ -129,12 +129,12 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getCompletenessType(): string
+    public function getCompletenessType(): ?string
     {
         return $this->completenessType;
     }
 
-    public function setCompletenessType(string $completenessType): self
+    public function setCompletenessType(?string $completenessType): self
     {
         $this->completenessType = $completenessType;
 
@@ -172,12 +172,12 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getCompletenessValue(): string
+    public function getCompletenessValue(): ?int
     {
         return $this->completenessValue;
     }
 
-    public function setCompletenessValue(string $completenessValue): self
+    public function setCompletenessValue(int $completenessValue): self
     {
         $this->completenessValue = $completenessValue;
 
@@ -232,12 +232,12 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getUpdated(): ?string
+    public function getUpdated(): ?int
     {
         return $this->updated;
     }
 
-    public function setUpdated(?string $updated): self
+    public function setUpdated(?int $updated): self
     {
         $this->updated = $updated;
 
