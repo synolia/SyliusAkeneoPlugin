@@ -47,7 +47,6 @@ sylius:
                     title: Categories
                     subtitle: Categories configuration
                     categories_to_exclude: Categories to exclude
-                    activate_new_categories: Activate new categories
                     main_category: Main category
                     root_category: Root category
                     empty_local_replace_by: Replace empty local by
