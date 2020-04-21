@@ -6,6 +6,12 @@
 
 {% block content %}
     {{ headers.default('sylius.ui.admin.akeneo.categories.categories'|trans, 'cogs') }}
+    {% block breadcrumb %}
+        {% set breadcrumbs = breadcrumbs|merge([
+            { label: 'sylius.ui.admin.akeneo.categories.title'|trans }
+        ]) %}
+        {{ parent() }}
+    {% endblock %}
     {{ form_start(form, {'attr': {'class': 'ui loadable form'}}) }}
     <div class="ui segment">
         {{ form_row(form) }}

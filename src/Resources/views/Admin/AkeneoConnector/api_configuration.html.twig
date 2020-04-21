@@ -6,6 +6,12 @@
 
 {% block content %}
     {{ headers.default('sylius.ui.admin.akeneo.api_configuration.api_configuration'|trans, 'cogs') }}
+    {% block breadcrumb %}
+        {% set breadcrumbs = breadcrumbs|merge([
+            { label: 'sylius.ui.admin.akeneo.api_configuration.title'|trans }
+        ]) %}
+        {{ parent() }}
+    {% endblock %}
     <div class="ui segment">
         {{ form_start(form, {'attr': {'class': 'ui form'}}) }}
         <div class="ui segment">

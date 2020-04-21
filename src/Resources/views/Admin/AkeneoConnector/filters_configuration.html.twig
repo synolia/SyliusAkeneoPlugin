@@ -9,6 +9,12 @@
 
 {% block content %}
     {{ headers.default('sylius.ui.admin.akeneo.product_filter_rules.product_filter_rules'|trans, 'cogs') }}
+    {% block breadcrumb %}
+        {% set breadcrumbs = breadcrumbs|merge([
+            { label: 'sylius.ui.admin.akeneo.product_filter_rules.title'|trans }
+        ]) %}
+        {{ parent() }}
+    {% endblock %}
     <div class="ui segment">
         <div class="ui slider checkbox">
             <input id="switchForm" name="switchForm" type="checkbox">
