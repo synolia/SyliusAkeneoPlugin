@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ApiConfigurationType extends AbstractType
 {
@@ -25,7 +26,12 @@ final class ApiConfigurationType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('apiClientId', TextType::class)
             ->add('apiClientSecret', TextType::class)
-            ->add('paginationSize', IntegerType::class)
+            ->add('paginationSize', IntegerType::class, [
+                'attr' => [
+                    'min' => ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
+                    'max' => ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
+                ],
+            ])
             ->add('isEnterprise', CheckboxType::class, [
                 'required' => false,
             ])

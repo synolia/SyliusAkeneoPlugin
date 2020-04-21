@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -13,6 +14,10 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  */
 class ApiConfiguration implements ResourceInterface
 {
+    public const MIN_AKENEO_PAGINATION_SIZE = 1;
+
+    public const MAX_AKENEO_PAGINATION_SIZE = 100;
+
     public const DEFAULT_PAGINATION_SIZE = 100;
 
     /**
@@ -56,6 +61,10 @@ class ApiConfiguration implements ResourceInterface
     /**
      * @var int
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
+     *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
+     * )
      */
     private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
