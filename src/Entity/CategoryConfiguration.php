@@ -32,12 +32,6 @@ class CategoryConfiguration implements ResourceInterface
      * @var string
      * @ORM\Column(type="string")
      */
-    private $mainCategory;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
     private $rootCategory;
 
     public function getId(): int
@@ -53,18 +47,6 @@ class CategoryConfiguration implements ResourceInterface
     public function setNotImportCategories(array $notImportCategories): self
     {
         $this->notImportCategories = $notImportCategories;
-
-        return $this;
-    }
-
-    public function getMainCategory(): ?string
-    {
-        return $this->mainCategory;
-    }
-
-    public function setMainCategory(string $mainCategory): self
-    {
-        $this->mainCategory = $mainCategory;
 
         return $this;
     }
