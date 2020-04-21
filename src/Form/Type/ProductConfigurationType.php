@@ -50,7 +50,7 @@ final class ProductConfigurationType extends AbstractType
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.admin.akeneo.submit',
+                'label' => 'sylius.ui.admin.akeneo.save',
                 'attr' => [
                     'class' => 'ui icon button primary',
                 ],
