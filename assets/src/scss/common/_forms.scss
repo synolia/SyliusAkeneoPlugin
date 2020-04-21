@@ -16,6 +16,10 @@
     cursor: pointer;
 }
 
+form[name=api_configuration] .ui.pointing.below.label:before {
+    left: 20px;
+}
+
 [id*=Mappings] {
     margin: 0 0 1rem;
 

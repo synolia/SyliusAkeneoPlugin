@@ -21,11 +21,21 @@ final class ApiConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('baseUrl', TextType::class)
-            ->add('username', TextType::class)
-            ->add('password', PasswordType::class)
-            ->add('apiClientId', TextType::class)
-            ->add('apiClientSecret', TextType::class)
+            ->add('baseUrl', TextType::class, [
+                'label' => 'sylius.ui.admin.akeneo.api_configuration.base_url',
+            ])
+            ->add('username', TextType::class, [
+                'label' => 'sylius.ui.admin.akeneo.api_configuration.username',
+            ])
+            ->add('password', PasswordType::class, [
+                'label' => 'sylius.ui.admin.akeneo.api_configuration.password',
+            ])
+            ->add('apiClientId', TextType::class, [
+                'label' => 'sylius.ui.admin.akeneo.api_configuration.client_id',
+            ])
+            ->add('apiClientSecret', TextType::class, [
+                'label' => 'sylius.ui.admin.akeneo.api_configuration.client_secret',
+            ])
             ->add('paginationSize', IntegerType::class, [
                 'attr' => [
                     'min' => ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
@@ -34,6 +44,7 @@ final class ApiConfigurationType extends AbstractType
             ])
             ->add('isEnterprise', CheckboxType::class, [
                 'required' => false,
+                'label' => 'sylius.ui.admin.akeneo.api_configuration.is_enterprise',
             ])
             ->add('testCredentials', SubmitType::class, [
                 'attr' => ['class' => 'ui secondary button'],

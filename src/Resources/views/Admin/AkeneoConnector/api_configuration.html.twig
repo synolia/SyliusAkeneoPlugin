@@ -20,6 +20,7 @@
         {{ form_start(form, {'attr': {'class': 'ui form'}}) }}
         <div class="ui segment">
             {{ form_row(form.baseUrl) }}
+            <div class="ui pointing below label" style="display: none;">{{ 'sylius.ui.admin.akeneo.api_configuration.user_help'|trans }}</div>
             {{ form_row(form.username) }}
             {{ form_row(form.password) }}
             {{ form_row(form.apiClientId) }}
@@ -27,6 +28,7 @@
             {{ form_row(form.testCredentials) }}
         </div>
         <div class="ui segment">
+            <div class="ui pointing below label" style="display: none;">{{ 'sylius.ui.admin.akeneo.api_configuration.pagination'|trans }}</div>
             {{ form_row(form.paginationSize) }}
             <div class="ui toggle checkbox">
                 {{ form_widget(form.isEnterprise) }}

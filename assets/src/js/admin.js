@@ -39,6 +39,9 @@ const Admin = {
   initialize() {
     $(document).ready(() => {
       this.copyrights();
+      if (window.location.href.includes("/api/configuration")) {
+        this.toggleTooltip();
+      }
       if (window.location.href.includes("/product_filter/rules")) {
         this.toggleForms();
         this.toggleFields();
@@ -82,6 +85,14 @@ const Admin = {
           : $(self.options[k].selector).parent(".field").addClass("hidden");
       });
     }
+  },
+  toggleTooltip() {
+    $("#api_configuration_username, #api_configuration_paginationSize").on(
+      "click",
+      function () {
+        $(this).parent(".field").siblings(".pointing").show();
+      }
+    );
   },
 };
 
