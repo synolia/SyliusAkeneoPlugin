@@ -10,7 +10,12 @@ const Form = {
     locale: {
       trigger: "#product_filter_rule_simple_completeness_type",
       selector: "#product_filter_rule_simple_locales",
-      values: ["6", "7", "8", "9"],
+      values: [
+        "GREATER THAN ON ALL LOCALES",
+        "GREATER OR EQUALS THAN ON ALL LOCALES",
+        "LOWER THAN ON ALL LOCALES",
+        "LOWER OR EQUALS THAN ON ALL LOCALES",
+      ],
     },
     before: {
       trigger: "#product_filter_rule_simple_updated_mode",
