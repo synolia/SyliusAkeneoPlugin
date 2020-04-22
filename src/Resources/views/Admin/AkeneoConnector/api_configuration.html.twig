@@ -38,3 +38,8 @@
         {{ form_end(form) }}
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/js/tooltip.js'} %}
+{% endblock %}

@@ -1,9 +1,4 @@
-// Assuming jQuery is already loaded in the back office
-const Admin = {
-  /**
-   * {Array}
-   */
-  organizations: ["synolia", "akeneo"],
+const Form = {
   /**
    * {jQuery}
    */
@@ -36,25 +31,9 @@ const Admin = {
   /**
    * @return {void}
    */
-  initialize() {
-    $(document).ready(() => {
-      this.copyrights();
-      if (window.location.href.includes("/api/configuration")) {
-        this.toggleTooltip();
-      }
-      if (window.location.href.includes("/product_filter/rules")) {
-        this.toggleForms();
-        this.toggleFields();
-      }
-    });
-  },
-  /**
-   * @return {void}
-   */
-  copyrights() {
-    for (let i = 0; i < this.organizations.length; i++) {
-      $(`a[href*=${this.organizations[i]}]`).addClass(this.organizations[i]);
-    }
+  load() {
+    this.toggleForms();
+    this.toggleFields();
   },
   /**
    * @return {void}
@@ -86,14 +65,6 @@ const Admin = {
       });
     }
   },
-  toggleTooltip() {
-    $("#api_configuration_username, #api_configuration_paginationSize").on(
-      "click",
-      function () {
-        $(this).parent(".field").siblings(".pointing").show();
-      }
-    );
-  },
 };
 
-export default Admin;
+Form.load();

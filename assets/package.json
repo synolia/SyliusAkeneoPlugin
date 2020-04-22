@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "parcel build src/index.js --out-dir ../src/Resources/public --out-file main.js --no-source-maps",
-    "dev": "parcel watch src/index.js --out-dir ../tests/Application/public/bundles/synoliasyliusakeneoplugin --out-file main.js --no-hmr",
+    "build": "parcel build src/index.js src/js/form.js src/js/tooltip.js --out-dir ../src/Resources/public --out-file main.js --no-source-maps",
+    "dev": "parcel watch src/index.js src/js/form.js src/js/tooltip.js --out-dir ../tests/Application/public/bundles/synoliasyliusakeneoplugin --out-file main.js --no-hmr",
     "eslint": "eslint -c .eslintrc ./",
     "fix-eslint": "eslint -c .eslintrc ./ --fix"
   },

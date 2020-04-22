@@ -1,4 +1,4 @@
-import Admin from "./js/admin";
+import Common from "./js/common";
 import "./scss/index.scss";
 
-Admin.initialize();
+Common.load();
