@@ -1,9 +1,4 @@
-// Assuming jQuery is already loaded in the back office
-const Admin = {
-  /**
-   * {Array}
-   */
-  organizations: ["synolia", "akeneo"],
+const Form = {
   /**
    * {jQuery}
    */
@@ -36,22 +31,9 @@ const Admin = {
   /**
    * @return {void}
    */
-  initialize() {
-    $(document).ready(() => {
-      this.copyrights();
-      if (window.location.href.includes("/product_filter/rules")) {
-        this.toggleForms();
-        this.toggleFields();
-      }
-    });
-  },
-  /**
-   * @return {void}
-   */
-  copyrights() {
-    for (let i = 0; i < this.organizations.length; i++) {
-      $(`a[href*=${this.organizations[i]}]`).addClass(this.organizations[i]);
-    }
+  load() {
+    this.toggleForms();
+    this.toggleFields();
   },
   /**
    * @return {void}
@@ -74,15 +56,21 @@ const Admin = {
     if (!$(this.options.locale.selector + ">option:selected").length) {
       toHide.push(self.options.locale.selector);
     }
-    $(`${toHide.join()}`).parent(".field").addClass("hidden");
+    if ($(`${toHide.join()}`).length) {
+      $(`${toHide.join()}`).parent(".field").addClass("hidden");
+    }
     for (let k in this.options) {
-      $(this.options[k].trigger).on("change", function () {
-        self.options[k].values.includes($(this).val())
-          ? $(self.options[k].selector).parent(".field").removeClass("hidden")
-          : $(self.options[k].selector).parent(".field").addClass("hidden");
-      });
+      if ($(this.options[k].trigger).length) {
+        $(this.options[k].trigger).on("change", function () {
+          self.options[k].values.includes($(this).val())
+            ? $(self.options[k].selector).parent(".field").removeClass("hidden")
+            : $(self.options[k].selector).parent(".field").addClass("hidden");
+        });
+      }
     }
   },
 };
 
-export default Admin;
+$(document).ready(() => {
+  Form.load();
+});

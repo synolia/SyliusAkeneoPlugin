@@ -17,7 +17,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/main.css'} %}
+    <link rel="stylesheet" href="{{ asset('bundles/synoliasyliusakeneoplugin/main.css') }}">
 {% endblock %}
 
 {% block footer %}
@@ -26,5 +26,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/main.js'} %}
+    <script src="{{ asset('bundles/synoliasyliusakeneoplugin/main.js') }}"></script>
 {% endblock %}

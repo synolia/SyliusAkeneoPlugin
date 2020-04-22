@@ -12,6 +12,14 @@ sylius:
                 api_configuration:
                     title: Api configuration
                     subtitle: Configure Akeneo API Informations
+                    base_url: Akeneo base URL
+                    username: Akeneo username
+                    user_help: This user must have permissions to list
+                    password: Akeneo password
+                    client_id: Akeneo API client ID
+                    client_secret: Akeneo API client Secret
+                    pagination: Between 1 and 100
+                    is_enterprise: Is Akeneo enterprise edition
                 import_referential_attributes: Import Referential Attributes
                 product_filter_rules:
                     title: Product filter rules

@@ -37,3 +37,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/synoliasyliusakeneoplugin/js/form.js') }}"></script>
+{% endblock %}
