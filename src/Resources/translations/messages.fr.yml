@@ -44,7 +44,7 @@ sylius:
                     between: Entre
                     since_last_x_days: Depuis x jours
                 categories:
-                    title: Categories
+                    title: Catégories
                     subtitle: Configuration des catégories
                     categories_to_exclude: Catégories à exclure
                     activate_new_categories: Activation des nouvelles catégories
