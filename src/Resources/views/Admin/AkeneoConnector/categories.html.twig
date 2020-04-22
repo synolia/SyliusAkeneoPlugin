@@ -2,10 +2,14 @@
 
 {% import '@SyliusUi/Macro/headers.html.twig' as headers %}
 
-{% block title %}{{ 'sylius.ui.admin.akeneo.categories.categories'|trans }} {{ parent() }}{% endblock %}
+{% block title %}{{ 'sylius.ui.admin.akeneo.categories.title'|trans }} {{ parent() }}{% endblock %}
 
 {% block content %}
-    {{ headers.default('sylius.ui.admin.akeneo.categories.categories'|trans, 'cogs') }}
+    {{ headers.default(
+        'sylius.ui.admin.akeneo.categories.title'|trans,
+        'cogs',
+        'sylius.ui.admin.akeneo.categories.subtitle'|trans
+    ) }}
     {% block breadcrumb %}
         {% set breadcrumbs = breadcrumbs|merge([
             { label: 'sylius.ui.admin.akeneo.categories.title'|trans }
