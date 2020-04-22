@@ -9,13 +9,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class ProductFilterRuleSimpleType extends AbstractType
 {
     public const MODE = 'simple';
+
+    private const MIN_COMPLETENESS = 0;
+
+    private const MAX_COMPLETENESS = 100;
 
     /**
      * {@inheritdoc}
@@ -30,12 +35,20 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ->add('channel', ChannelChoiceType::class)
             ->add('completeness_type', CompletenessTypeChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type',
+                'placeholder' => 'sylius.ui.admin.akeneo.product_filter_rules.no_condition',
+                'required' => false,
             ])
             ->add('locales', LocalesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.locales',
             ])
-            ->add('completeness_value', TextType::class, [
+            ->add('completeness_value', IntegerType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value',
+                'constraints' => [
+                    new Assert\Range([
+                        'min' => self::MIN_COMPLETENESS,
+                        'max' => self::MAX_COMPLETENESS,
+                    ]),
+                ],
             ])
             ->add('status', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.status',
@@ -56,11 +69,13 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ])
             ->add('updated_before', DateType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated_before',
+                'widget' => 'single_text',
             ])
             ->add('updated_after', DateType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated_after',
+                'widget' => 'single_text',
             ])
-            ->add('updated', TextType::class, [
+            ->add('updated', IntegerType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated',
                 'required' => false,
             ])
