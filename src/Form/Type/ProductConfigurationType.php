@@ -8,7 +8,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductConfigurationType extends AbstractType
@@ -23,8 +22,12 @@ final class ProductConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('akeneoPriceAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_price_attribute'])
-            ->add('akeneoEnabledChannelsAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_enabled_channels_attribute'])
+            ->add('akeneoPriceAttribute', AttributeCodeChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.akeneo_price_attribute',
+            ])
+            ->add('akeneoEnabledChannelsAttribute', AttributeCodeChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.akeneo_enabled_channels_attribute',
+            ])
             ->add('importMediaFiles', CheckboxType::class, [
                 'label' => 'sylius.ui.admin.akeneo.products.import_media_files',
             ])
