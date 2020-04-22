@@ -1,23 +1,29 @@
 const Tooltip = {
   /**
+   * {Array}
+   */
+  selectors: [
+    "#api_configuration_username",
+    "#api_configuration_paginationSize",
+  ],
+  /**
    * @return {void}
    */
   load() {
-    this.toggleTooltip(
-      "#api_configuration_username",
-      "#api_configuration_paginationSize"
-    );
+    this.toggleTooltip();
   },
   /**
-   * @param {string} selectors
+   * @return {void}
    */
-  toggleTooltip(...selectors) {
-    if ($(selectors.join()).length) {
-      $(selectors.join()).on("click", function () {
+  toggleTooltip() {
+    if ($(this.selectors.join()).length) {
+      $(this.selectors.join()).on("click", function () {
         $(this).parent(".field").siblings(".pointing").show();
       });
     }
   },
 };
 
-Tooltip.load();
+$(document).ready(() => {
+  Tooltip.load();
+});

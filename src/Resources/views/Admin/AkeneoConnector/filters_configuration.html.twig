@@ -40,5 +40,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/js/form.js'} %}
+    <script src="{{ asset('bundles/synoliasyliusakeneoplugin/js/form.js') }}"></script>
 {% endblock %}

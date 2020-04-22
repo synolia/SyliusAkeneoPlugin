@@ -14,7 +14,7 @@ sylius:
                     subtitle: Configuration des informations d'API Akeneo
                     base_url: URL base Akeneo
                     username: Nom d'utilisateur Akeneo
-                    user_help: Cet utilisateur doit pouvoir lister
+                    user_help: Cet utilisateur doit disposer des permissions de listage
                     password: Mot de passe Akeneo
                     client_id: Akeneo API client ID
                     client_secret: Akeneo API client Secret

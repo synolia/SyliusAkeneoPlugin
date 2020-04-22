@@ -41,5 +41,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/synoliasyliusakeneoplugin/js/tooltip.js'} %}
+    <script src="{{ asset('bundles/synoliasyliusakeneoplugin/js/tooltip.js') }}"></script>
 {% endblock %}

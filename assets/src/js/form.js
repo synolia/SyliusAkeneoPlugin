@@ -56,15 +56,21 @@ const Form = {
     if (!$(this.options.locale.selector + ">option:selected").length) {
       toHide.push(self.options.locale.selector);
     }
-    $(`${toHide.join()}`).parent(".field").addClass("hidden");
+    if ($(`${toHide.join()}`).length) {
+      $(`${toHide.join()}`).parent(".field").addClass("hidden");
+    }
     for (let k in this.options) {
-      $(this.options[k].trigger).on("change", function () {
-        self.options[k].values.includes($(this).val())
-          ? $(self.options[k].selector).parent(".field").removeClass("hidden")
-          : $(self.options[k].selector).parent(".field").addClass("hidden");
-      });
+      if ($(this.options[k].trigger).length) {
+        $(this.options[k].trigger).on("change", function () {
+          self.options[k].values.includes($(this).val())
+            ? $(self.options[k].selector).parent(".field").removeClass("hidden")
+            : $(self.options[k].selector).parent(".field").addClass("hidden");
+        });
+      }
     }
   },
 };
 
-Form.load();
+$(document).ready(() => {
+  Form.load();
+});
