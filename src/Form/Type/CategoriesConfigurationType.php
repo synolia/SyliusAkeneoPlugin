@@ -20,9 +20,6 @@ final class CategoriesConfigurationType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.categories.categories_to_exclude',
                 'multiple' => true,
             ])
-            ->add('main_category', CategoriesChoiceType::class, [
-                'label' => 'sylius.ui.admin.akeneo.categories.main_category',
-            ])
             ->add('root_category', CategoriesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.categories.root_category',
             ])
