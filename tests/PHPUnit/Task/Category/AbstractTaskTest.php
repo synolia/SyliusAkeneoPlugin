@@ -59,8 +59,6 @@ abstract class AbstractTaskTest extends ApiTestCase
     {
         $categoryConfiguration = new CategoryConfiguration();
         $categoryConfiguration->setRootCategory('master');
-        $categoryConfiguration->setMainCategory('master'); //To be deleted
-        $categoryConfiguration->setActiveNewCategories(true); //To be deleted
         $this->manager->persist($categoryConfiguration);
 
         return $categoryConfiguration;

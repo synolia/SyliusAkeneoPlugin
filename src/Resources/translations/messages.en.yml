@@ -47,14 +47,12 @@ sylius:
                     title: Categories
                     subtitle: Categories configuration
                     categories_to_exclude: Categories to exclude
-                    activate_new_categories: Activate new categories
                     main_category: Main category
                     root_category: Root category
                     empty_local_replace_by: Replace empty local by
                 products:
                     title: Products
                     subtitle: Products configuration
-                    website_attribute: Website attribute
                     akeneo_price_attribute: Akeneo price attribute
                     akeneo_enabled_channels_attribute: Akeneo enabled channels attribute
                     attribute: Attribute

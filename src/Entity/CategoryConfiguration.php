@@ -23,22 +23,10 @@ class CategoryConfiguration implements ResourceInterface
     private $id;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $activeNewCategories;
-
-    /**
      * @var array
      * @ORM\Column(type="array")
      */
     private $notImportCategories;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $mainCategory;
 
     /**
      * @var string
@@ -51,18 +39,6 @@ class CategoryConfiguration implements ResourceInterface
         return $this->id;
     }
 
-    public function isActiveNewCategories(): ?bool
-    {
-        return $this->activeNewCategories;
-    }
-
-    public function setActiveNewCategories(bool $activeNewCategories): self
-    {
-        $this->activeNewCategories = $activeNewCategories;
-
-        return $this;
-    }
-
     public function getNotImportCategories(): ?array
     {
         return $this->notImportCategories;
@@ -71,18 +47,6 @@ class CategoryConfiguration implements ResourceInterface
     public function setNotImportCategories(array $notImportCategories): self
     {
         $this->notImportCategories = $notImportCategories;
-
-        return $this;
-    }
-
-    public function getMainCategory(): ?string
-    {
-        return $this->mainCategory;
-    }
-
-    public function setMainCategory(string $mainCategory): self
-    {
-        $this->mainCategory = $mainCategory;
 
         return $this;
     }
