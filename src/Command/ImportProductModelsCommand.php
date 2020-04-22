@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
-use Allocine\Twigcs\Console\ContainerAwareCommand;
 use League\Pipeline\Pipeline;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 
-final class ImportProductModelsCommand extends ContainerAwareCommand
+final class ImportProductModelsCommand extends Command
 {
     use LockableTrait;
 
