@@ -21,7 +21,7 @@ final class CategoriesConfigurationType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.categories.activate_new_categories',
             ])
             ->add('not_import_categories', CategoriesChoiceType::class, [
-                'label' => 'sylius.ui.admin.akeneo.categories.categories',
+                'label' => 'sylius.ui.admin.akeneo.categories.categories_to_exclude',
                 'multiple' => true,
             ])
             ->add('main_category', CategoriesChoiceType::class, [
