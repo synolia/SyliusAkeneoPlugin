@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductOption;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
@@ -33,16 +34,21 @@ final class DeleteTask implements AkeneoTaskInterface
     /** @var int */
     private $deleteCount = 0;
 
+    /** @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface */
+    private $parameterBag;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeAkeneoRepository,
         ProductOptionRepository $productOptionAkeneoRepository,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ParameterBagInterface $parameterBag
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeAkeneoRepository;
         $this->productOptionRepository = $productOptionAkeneoRepository;
         $this->logger = $akeneoLogger;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -85,9 +91,14 @@ final class DeleteTask implements AkeneoTaskInterface
         $attributeCodes = $this->productAttributeRepository->getAllAttributeCodes();
         $removedOptionIds = $this->productOptionRepository->getRemovedOptionIds($attributeCodes);
 
+        $productOptionClass = $this->parameterBag->get('sylius.model.product_option.class');
+        if (!class_exists($productOptionClass)) {
+            throw new \LogicException('ProductOption class does not exists.');
+        }
+
         foreach ($removedOptionIds as $removedOptionId) {
             /** @var ProductOption $referenceEntity */
-            $referenceEntity = $this->entityManager->getReference(ProductOption::class, $removedOptionId);
+            $referenceEntity = $this->entityManager->getReference($productOptionClass, $removedOptionId);
             if (null !== $referenceEntity) {
                 $this->entityManager->remove($referenceEntity);
                 $this->logger->info(Messages::hasBeenDeleted($this->type, (string) $referenceEntity->getCode()));

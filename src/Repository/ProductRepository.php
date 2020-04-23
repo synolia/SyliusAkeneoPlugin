@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Sylius\Component\Core\Model\Product;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($registry, $parameterBag->get('sylius.model.product.class'));
     }
 
     public function findProductsUsingCategories(array $ids): iterable

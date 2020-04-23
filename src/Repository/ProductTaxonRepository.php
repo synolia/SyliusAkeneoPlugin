@@ -7,14 +7,14 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductTaxon;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ProductTaxonRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, ProductTaxon::class);
+        parent::__construct($registry, $parameterBag->get('sylius.model.product_taxon.class'));
     }
 
     public function getProductTaxonIds(ProductInterface $product): array

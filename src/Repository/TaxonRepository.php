@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Sylius\Component\Core\Model\Taxon;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class TaxonRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, Taxon::class);
+        parent::__construct($registry, $parameterBag->get('sylius.model.taxon.class'));
     }
 
     public function getMissingCategoriesIds(array $codes): iterable

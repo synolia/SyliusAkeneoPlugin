@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Sylius\Component\Product\Model\ProductAttribute;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ProductAttributeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, ProductAttribute::class);
+        parent::__construct($registry, $parameterBag->get('sylius.model.product_attribute.class'));
     }
 
     /**
