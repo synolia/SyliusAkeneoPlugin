@@ -22,4 +22,3 @@ parameters:
 
     ignoreErrors:
         # ignore false positive
-        - '#Unable to resolve the template type T in call to method Doctrine\\ORM\\EntityManagerInterface::getReference\(\)#'

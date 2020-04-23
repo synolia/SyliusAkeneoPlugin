@@ -115,9 +115,14 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             $product->setMainTaxon(null);
         }
 
+        $taxonClass = $this->parameterBag->get('sylius.model.taxon.class');
+        if (!class_exists($taxonClass)) {
+            throw new \LogicException('Taxon class does not exists.');
+        }
+
         foreach ($taxonIds as $taxonId) {
             /** @var TaxonInterface $taxon */
-            $taxon = $this->entityManager->getReference($this->parameterBag->get('sylius.model.taxon.class'), $taxonId);
+            $taxon = $this->entityManager->getReference($taxonClass, $taxonId);
             if (!$taxon instanceof TaxonInterface) {
                 continue;
             }

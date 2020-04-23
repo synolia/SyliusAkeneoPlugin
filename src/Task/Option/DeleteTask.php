@@ -91,9 +91,14 @@ final class DeleteTask implements AkeneoTaskInterface
         $attributeCodes = $this->productAttributeRepository->getAllAttributeCodes();
         $removedOptionIds = $this->productOptionRepository->getRemovedOptionIds($attributeCodes);
 
+        $productOptionClass = $this->parameterBag->get('sylius.model.product_option.class');
+        if (!class_exists($productOptionClass)) {
+            throw new \LogicException('ProductOption class does not exists.');
+        }
+
         foreach ($removedOptionIds as $removedOptionId) {
             /** @var ProductOption $referenceEntity */
-            $referenceEntity = $this->entityManager->getReference($this->parameterBag->get('sylius.model.product_option.class'), $removedOptionId);
+            $referenceEntity = $this->entityManager->getReference($productOptionClass, $removedOptionId);
             if (null !== $referenceEntity) {
                 $this->entityManager->remove($referenceEntity);
                 $this->logger->info(Messages::hasBeenDeleted($this->type, (string) $referenceEntity->getCode()));
