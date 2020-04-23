@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -36,16 +37,21 @@ final class DeleteEntityTask implements AkeneoTaskInterface
     /** @var int */
     private $deleteCount = 0;
 
+    /** @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface */
+    private $parameterBag;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductRepository $productAkeneoRepository,
         TaxonRepository $taxonAkeneoRepository,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ParameterBagInterface $parameterBag
     ) {
         $this->entityManager = $entityManager;
         $this->productRepository = $productAkeneoRepository;
         $this->taxonRepository = $taxonAkeneoRepository;
         $this->logger = $akeneoLogger;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -96,6 +102,11 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             return $data['id'];
         }, $taxonIdsArray);
 
+        //Avoid having same ID multiple times
+        $taxonIds = \array_unique($taxonIds);
+        //Sort descending order of taxon ID to delete childs first
+        \rsort($taxonIds);
+
         //unset main taxon from products
         $products = $this->productRepository->findProductsUsingCategories($taxonIds);
 
@@ -104,14 +115,9 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             $product->setMainTaxon(null);
         }
 
-        //Avoid having same ID multiple times
-        $taxonIds = \array_unique($taxonIds);
-        //Sort descending order of taxon ID to delete childs first
-        \rsort($taxonIds);
-
         foreach ($taxonIds as $taxonId) {
             /** @var TaxonInterface $taxon */
-            $taxon = $this->entityManager->getReference(Taxon::class, $taxonId);
+            $taxon = $this->entityManager->getReference($this->parameterBag->get('sylius.model.taxon.class'), $taxonId);
             if (!$taxon instanceof TaxonInterface) {
                 continue;
             }

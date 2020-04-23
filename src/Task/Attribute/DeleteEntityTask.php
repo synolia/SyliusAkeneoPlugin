@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
-use Sylius\Component\Product\Model\ProductAttribute;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -32,14 +32,19 @@ final class DeleteEntityTask implements AkeneoTaskInterface
     /** @var int */
     private $deleteCount = 0;
 
+    /** @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface */
+    private $parameterBag;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeAkeneoRepository,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ParameterBagInterface $parameterBag
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeAkeneoRepository = $productAttributeAkeneoRepository;
         $this->logger = $akeneoLogger;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -94,7 +99,7 @@ final class DeleteEntityTask implements AkeneoTaskInterface
 
         foreach ($attributesIds as $attributeId) {
             /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
-            $attribute = $this->entityManager->getReference(ProductAttribute::class, $attributeId);
+            $attribute = $this->entityManager->getReference($this->parameterBag->get('sylius.model.product_attribute.class'), $attributeId);
             if (!$attribute instanceof AttributeInterface) {
                 continue;
             }
