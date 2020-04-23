@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Sylius\Component\Core\Model\Channel;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ChannelRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, Channel::class);
+        parent::__construct($registry, $parameterBag->get('sylius.model.channel.class'));
     }
 
     public function findByCurrencyCode(string $currencyCode): iterable
