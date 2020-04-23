@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category;
 
-use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\DeleteEntityTask;
@@ -14,12 +13,22 @@ final class DeleteTaskTest extends AbstractTaskTest
 {
     public function testRemoveCategories(): void
     {
-        $taxonRepository = self::$container->get('sylius.repository.taxon');
-        $categoryTaxon = $taxonRepository->findOneBy(['code' => 'category']);
+        /**
+         * mugs is part of Sylius fixtures and Akeneo fixtures
+         * and category is the parent of mugs so category should not be removed
+         */
+        $categoriesNotDeleted = ['category', 'mugs'];
 
-        if (!$categoryTaxon instanceof TaxonInterface) {
-            $this->markTestSkipped('Parent category not found.');
-        }
+        $taxonRepository = self::$container->get('sylius.repository.taxon');
+        $queryBuilder = $this->manager->createQueryBuilder();
+        $categoriesToDelete = $queryBuilder
+            ->select('taxon')
+            ->from(self::$container->getParameter('sylius.model.taxon.class'), 'taxon')
+            ->where('taxon.code NOT IN (:taxons)')
+            ->setParameter('taxons', $categoriesNotDeleted)
+            ->getQuery()
+            ->getResult()
+        ;
 
         $initialPayload = new CategoryPayload($this->createClient());
         /** @var RetrieveCategoriesTask $retrieveTask */
@@ -34,7 +43,14 @@ final class DeleteTaskTest extends AbstractTaskTest
         $removeTask = $this->taskProvider->get(DeleteEntityTask::class);
         $removeTask->__invoke($categoryPayload);
 
-        $categoryTaxon = $taxonRepository->findOneBy(['code' => 'category']);
-        $this->assertNull($categoryTaxon);
+        foreach ($categoriesNotDeleted as $category) {
+            $categoryEntity = $taxonRepository->findOneBy(['code' => $category]);
+            $this->assertNotNull($categoryEntity);
+        }
+
+        foreach ($categoriesToDelete as $category) {
+            $categoryEntity = $taxonRepository->findOneBy(['code' => $category]);
+            $this->assertNull($categoryEntity);
+        }
     }
 }
