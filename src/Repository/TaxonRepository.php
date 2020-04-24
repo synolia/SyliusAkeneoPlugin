@@ -19,7 +19,10 @@ final class TaxonRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->select('t.id')
+            ->join('t.parent', 'parent', 'with', 'parent.id = t.parent')
+            ->join('t.root', 'root', 'with', 'root.id = t.root')
             ->where('t.code NOT IN (:codes)')
+            ->andWhere('parent.code NOT IN (:codes) OR root.code NOT IN (:codes)')
             ->setParameter('codes', $codes)
             ->getQuery()
             ->getResult()

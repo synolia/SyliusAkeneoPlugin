@@ -68,20 +68,22 @@ final class DeleteEntityTask implements AkeneoTaskInterface
         }
 
         /** To be used for categories removal */
-        $codes = [];
+        $taxonCodes = [];
 
         try {
+            foreach ($payload->getResources() as $resource) {
+                $taxonCodes[] = $resource['code'];
+            }
+            $taxonIds = $this->getTaxonIdsFromTaxonCodes($taxonCodes);
+
             $this->entityManager->beginTransaction();
 
-            foreach ($payload->getResources() as $resource) {
-                $codes[] = $resource['code'];
-            }
-
-            $this->removeUnusedCategories($codes);
-            $this->logger->notice(Messages::countOfDeleted($payload->getType(), $this->deleteCount));
+            $this->dissociateProductsFromToBeRemovedCategories($taxonIds);
+            $this->removeUnusedCategories($taxonIds);
 
             $this->entityManager->flush();
             $this->entityManager->commit();
+            $this->logger->notice(Messages::countOfDeleted($payload->getType(), $this->deleteCount));
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
@@ -92,32 +94,11 @@ final class DeleteEntityTask implements AkeneoTaskInterface
         return $payload;
     }
 
-    private function removeUnusedCategories(array $codes): void
+    private function removeUnusedCategories(array $taxonIds): void
     {
-        /** @var array $taxonIdsArray */
-        $taxonIdsArray = $this->taxonRepository->getMissingCategoriesIds($codes);
-
-        /** @var array $taxonIds */
-        $taxonIds = \array_map(function (array $data) {
-            return $data['id'];
-        }, $taxonIdsArray);
-
-        //Avoid having same ID multiple times
-        $taxonIds = \array_unique($taxonIds);
-        //Sort descending order of taxon ID to delete childs first
-        \rsort($taxonIds);
-
-        //unset main taxon from products
-        $products = $this->productRepository->findProductsUsingCategories($taxonIds);
-
-        /** @var Product $product */
-        foreach ($products as $product) {
-            $product->setMainTaxon(null);
-        }
-
         $taxonClass = $this->parameterBag->get('sylius.model.taxon.class');
         if (!class_exists($taxonClass)) {
-            throw new \LogicException('Taxon class does not exists.');
+            throw new \LogicException('Taxon class not found.');
         }
 
         foreach ($taxonIds as $taxonId) {
@@ -131,5 +112,33 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             $this->logger->info(Messages::hasBeenDeleted($this->type, (string) $taxon->getCode()));
             ++$this->deleteCount;
         }
+    }
+
+    private function dissociateProductsFromToBeRemovedCategories(array $taxonIds): void
+    {
+        //unset main taxon from products
+        $products = $this->productRepository->findProductsUsingCategories($taxonIds);
+
+        /** @var Product $product */
+        foreach ($products as $product) {
+            $product->setMainTaxon(null);
+        }
+    }
+
+    private function getTaxonIdsFromTaxonCodes(array $taxonCodes): array
+    {
+        /** @var array $taxonIdsArray */
+        $taxonIdsArray = $this->taxonRepository->getMissingCategoriesIds($taxonCodes);
+
+        $taxonIds = \array_map(function (array $data) {
+            return $data['id'];
+        }, $taxonIdsArray);
+
+        //Avoid having same ID multiple times
+        $taxonIds = \array_unique($taxonIds);
+        //Sort descending order of taxon ID to delete childs first
+        \rsort($taxonIds);
+
+        return $taxonIds;
     }
 }

@@ -6,9 +6,11 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Core\Model\Taxon;
+use Sylius\Component\Core\Model\TaxonInterface;
+use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
-use Sylius\Component\Taxonomy\Model\TaxonInterface;
+use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -38,15 +40,25 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $taxonTranslationRepository;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $taxonTranslationFactory;
+
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
         TaxonRepository $taxonAkeneoRepository,
+        RepositoryInterface $taxonTranslationRepository,
+        FactoryInterface $taxonTranslationFactory,
         LoggerInterface $akeneoLogger
     ) {
         $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
         $this->taxonRepository = $taxonAkeneoRepository;
+        $this->taxonTranslationRepository = $taxonTranslationRepository;
+        $this->taxonTranslationFactory = $taxonTranslationFactory;
         $this->logger = $akeneoLogger;
     }
 
@@ -67,7 +79,6 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             $this->entityManager->beginTransaction();
 
             foreach ($payload->getResources() as $resource) {
-                /** @var \Sylius\Component\Core\Model\TaxonInterface $taxon */
                 $taxon = $this->getOrCreateEntity($resource['code']);
 
                 $taxons[$resource['code']] = $taxon;
@@ -75,18 +86,28 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 if (null !== $resource['parent']) {
                     $parent = $taxons[$resource['parent']] ?? null;
 
-                    if (!$parent instanceof Taxon) {
+                    if (!$parent instanceof TaxonInterface) {
                         continue;
                     }
-
                     $taxon->setParent($parent);
                 }
 
                 foreach ($resource['labels'] as $locale => $label) {
-                    $taxon->setCurrentLocale($locale);
-                    $taxon->setFallbackLocale($locale);
-                    $taxon->setName($label);
-                    $taxon->setSlug($resource['code']);
+                    $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
+                        'translatable' => $taxon,
+                        'locale' => $locale,
+                    ]);
+
+                    if (!$taxonTranslation instanceof TaxonTranslationInterface) {
+                        /** @var \Sylius\Component\Taxonomy\Model\TaxonTranslationInterface $taxonTranslation */
+                        $taxonTranslation = $this->taxonTranslationFactory->createNew();
+                        $taxonTranslation->setLocale($locale);
+                        $taxonTranslation->setTranslatable($taxon);
+                        $this->entityManager->persist($taxonTranslation);
+                    }
+
+                    $taxonTranslation->setName($label);
+                    $taxonTranslation->setSlug($resource['code']);
                 }
             }
 
