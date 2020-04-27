@@ -28,15 +28,20 @@ sylius:
                     simple: Simple
                     advanced: Avancé
                     advanced_filter: Filtre avancé
+                    channel: Channel Akeneo
                     completeness_type: Type de complétude
+                    completeness_type_help: Choix du type de complétude d'un produit Akeneo
                     locales: Locales
                     completeness_value: Valeur de complétude
+                    completeness_value_help: Entrer la valeur de complétude d'un produit Akeneo à importer (compris entre 0 et 100)
                     status: Statut
+                    status_help: Définir le statut du produit Akeneo a importer
                     updated_mode: Mode de mise à jour
                     updated_before: Mise à jour avant
                     updated_after: Mise à jour après
                     updated: Mise à jour depuis N jours
-                    families: Familles
+                    families: Familles produit à exclure
+                    families_help: Selectionner les familles à exclure du produit
                     no_condition: Pas de condition
                     enabled: Actif
                     disabled: Inactif
@@ -62,13 +67,13 @@ sylius:
                     title: Produits
                     subtitle: Configuration des produits
                     akeneo_price_attribute: Attribue Akeneo du prix
-                    akeneo_enabled_channels_attribute: Attribue Akeneo des channels actifs
-                    attribute: Attribue
+                    akeneo_enabled_channels_attribute: Attribut Akeneo des channels actifs
+                    attribute: Attribut
                     value: Valeur
                     import_media_files: Import de média
-                    akeneo_attributes: Attribue Akeneo
-                    sylius_attribute: Attribue Sylius
-                    akeneo_attribute: Attribue Akeneo
+                    akeneo_attributes: Attributs Akeneo
+                    sylius_attribute: Attribut Sylius
+                    akeneo_attribute: Attribut Akeneo
                     regenerate_url_rewrites: Regenerate url rewrites
                 attributes:
                     title: Attributs
