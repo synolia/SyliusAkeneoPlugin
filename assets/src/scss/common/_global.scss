@@ -1,11 +1,3 @@
-.synolia {
-    @include brand(18, $magenta-pink);
-}
-
-.akeneo {
-    @include brand();
-}
-
 .muted {
     color: rgba(0, 0, 0, .4);
 }

@@ -18,6 +18,8 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle
 {
     use SyliusPluginTrait;
 
+    public const VERSION = '0.1.0';
+
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
