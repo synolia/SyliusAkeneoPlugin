@@ -34,12 +34,6 @@ class AttributeAkeneoSyliusMapping implements ResourceInterface
     private $syliusAttribute;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $partOfModel;
-
-    /**
      * {@inheritdoc}
      */
     public function getId(): ?int
@@ -67,18 +61,6 @@ class AttributeAkeneoSyliusMapping implements ResourceInterface
     public function setSyliusAttribute(string $syliusAttribute): self
     {
         $this->syliusAttribute = $syliusAttribute;
-
-        return $this;
-    }
-
-    public function getPartOfModel(): ?string
-    {
-        return $this->partOfModel;
-    }
-
-    public function setPartOfModel(?string $partOfModel): self
-    {
-        $this->partOfModel = $partOfModel;
 
         return $this;
     }

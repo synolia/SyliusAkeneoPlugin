@@ -24,9 +24,9 @@ final class AttributesTypeMappingType extends AbstractType
         $builder
             ->add('settings', SettingsType::class, [
                 'data' => $options['data']['settings'],
+                'required' => false,
             ])
             ->add(self::ATTRIBUTE_TYPE_MAPPINGS_CODE, CollectionType::class, [
-                'required' => false,
                 'entry_type' => AttributeTypeMappingType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
@@ -35,7 +35,6 @@ final class AttributesTypeMappingType extends AbstractType
                 'label' => 'Attributes Types Mapping',
             ])
             ->add(self::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE, CollectionType::class, [
-                'required' => false,
                 'entry_type' => AttributeAkeneoSyliusMappingType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
