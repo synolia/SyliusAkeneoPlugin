@@ -12,7 +12,9 @@
     }
 }
 
-#switchForm + label {
+#switchForm + label,
+#product_configuration_importMediaFiles + label {
+    @extend .muted;
     cursor: pointer;
 }
 
