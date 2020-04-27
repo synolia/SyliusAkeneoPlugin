@@ -23,10 +23,10 @@
         <div class="ui field">
             {{ form_row(form.importMediaFiles) }}
         </div>
-        <div id="akeneoImageAttributesMappings" class="ui segment">
+        <div id="akeneoImageAttributesMappings" class="ui segment togglable" style="display: none;">
             {{ form_row(form.akeneoImageAttributes) }}
         </div>
-        <div id="productImagesMappings" class="ui segment">
+        <div id="productImagesMappings" class="ui segment togglable" style="display: none;">
             {{ form_row(form.productImagesMapping) }}
         </div>
         <div class="ui field">
@@ -34,4 +34,9 @@
         </div>
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/synoliasyliusakeneoplugin/js/form.js') }}"></script>
 {% endblock %}

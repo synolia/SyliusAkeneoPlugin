@@ -2,7 +2,9 @@ const Form = {
   /**
    * {jQuery}
    */
-  trigger: $("#switchForm, #switchForm + label"),
+  trigger: $(
+    "#switchForm, #switchForm + label, #product_configuration_importMediaFiles, #product_configuration_importMediaFiles + label"
+  ),
   /**
    * {Object}
    */
@@ -45,12 +47,14 @@ const Form = {
    */
   toggleForms() {
     this.trigger.removeClass("hidden");
-    this.trigger.on("click", function () {
-      $(this).is(":checked")
-        ? $(".switch > span").addClass("muted")
-        : $(".switch > span").removeClass("muted");
-      $(".togglable").toggle();
-    });
+    if (this.trigger.length) {
+      this.trigger.on("click", function () {
+        $(this).is(":checked")
+          ? $(".switch > span").addClass("muted")
+          : $(".switch > span").removeClass("muted");
+        $(".togglable").toggle();
+      });
+    }
   },
   /**
    * @return {void}
