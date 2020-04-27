@@ -51,7 +51,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var ProductTaxonRepository */
     private $productTaxonRepository;
 
-    /** @var EntityRepository */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
     private $productGroupRepository;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
@@ -78,6 +78,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /**
+     * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
@@ -214,7 +217,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             return null;
         }
 
-        $productGroup->addProduct($product);
+        if ($this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
+            $productGroup->addProduct($product);
+        }
 
         $productTaxonIds = [];
         if ($product->getId() !== null) {

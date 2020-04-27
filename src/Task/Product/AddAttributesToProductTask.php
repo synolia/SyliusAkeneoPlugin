@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductTranslation;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
@@ -180,7 +179,8 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
             ]);
 
             if (!$productTranslation instanceof ProductTranslationInterface) {
-                $productTranslation = new ProductTranslation();
+                /** @var ProductTranslationInterface $productTranslation */
+                $productTranslation = $this->productTranslationFactory->createNew();
                 $productTranslation->setLocale($locale);
                 $product->addTranslation($productTranslation);
             }
