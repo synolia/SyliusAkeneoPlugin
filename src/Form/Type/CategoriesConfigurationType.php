@@ -18,6 +18,7 @@ final class CategoriesConfigurationType extends AbstractType
         $builder
             ->add('not_import_categories', CategoriesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.categories.categories_to_exclude',
+                'required' => false,
                 'multiple' => true,
             ])
             ->add('root_category', CategoriesChoiceType::class, [
