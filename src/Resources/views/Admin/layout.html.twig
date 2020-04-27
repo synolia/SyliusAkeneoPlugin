@@ -21,7 +21,8 @@
 {% endblock %}
 
 {% block footer %}
-    {{ 'sylius.ui.powered_by'|trans }} <a href="https://www.synolia.com" target="_blank">{% include '@SynoliaSyliusAkeneoPlugin/Admin/includes/_synolia.svg.twig' %} <span>Synolia</span></a> & <a href="https://www.akeneo.com/" target="_blank">{% include '@SynoliaSyliusAkeneoPlugin/Admin/includes/_akeneo.svg.twig' %} <span>Akeneo</span></a>.
+    {{ parent() }}
+    <div>Plugin version : {{ constant('Synolia\\SyliusAkeneoPlugin\\SynoliaSyliusAkeneoPlugin::VERSION') }}</div>
 {% endblock %}
 
 {% block javascripts %}
