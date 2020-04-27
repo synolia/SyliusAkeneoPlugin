@@ -28,15 +28,20 @@ sylius:
                     simple: Simple
                     advanced: Advanced
                     advanced_filter: Advanced filter
+                    channel: Akeneo channel
                     completeness_type: Completeness type
+                    completeness_type_help: Choose type for Akeneo’s product completeness
                     locales: Locales
                     completeness_value: Completeness value
+                    completeness_value_help: Enter the completeness value for Akeneo’s product to be imported (between 0 and 100 only)
                     status: Status
+                    status_help: Defines the status of Akeneo’s product to be imported
                     updated_mode: Update mode
                     updated_before: Updated before
                     updated_after: Updated After
                     updated: Updated since X days
-                    families: Families
+                    families: Product families to exclude
+                    families_help: Select families you want to exclude from product
                     no_condition: No condition
                     enabled: Enabled
                     disabled: Disabled

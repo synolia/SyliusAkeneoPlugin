@@ -32,7 +32,9 @@ final class ProductFilterRuleSimpleType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.mode',
                 'data' => self::MODE,
             ])
-            ->add('channel', ChannelChoiceType::class)
+            ->add('channel', ChannelChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.channel',
+            ])
             ->add('completeness_type', CompletenessTypeChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type',
                 'placeholder' => 'sylius.ui.admin.akeneo.product_filter_rules.no_condition',

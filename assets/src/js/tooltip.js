@@ -5,6 +5,10 @@ const Tooltip = {
   selectors: [
     "#api_configuration_username",
     "#api_configuration_paginationSize",
+    "#product_filter_rule_simple_completeness_type",
+    "#product_filter_rule_simple_completeness_value",
+    "#product_filter_rule_simple_status",
+    "#product_filter_rule_simple_families",
   ],
   /**
    * @return {void}
