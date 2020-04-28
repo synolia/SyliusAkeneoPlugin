@@ -127,7 +127,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         try {
             $this->entityManager->beginTransaction();
 
-            $this->createProductGroup($payload->getResources());
+            $this->createProductGroups($payload->getResources());
 
             $this->entityManager->flush();
             $this->entityManager->commit();
@@ -189,35 +189,39 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->entityManager->persist($product);
     }
 
-    private function createProductGroup(ResourceCursorInterface $resources): void
+    private function createGroupForCode(string $code): void
+    {
+        if ($this->productGroupRepository->findOneBy(['productParent' => $code])) {
+            ++$this->groupAlreadyExistCount;
+            $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', $code));
+
+            return;
+        }
+
+        $productGroup = new ProductGroup();
+        $productGroup->setProductParent($code);
+        $this->entityManager->persist($productGroup);
+
+        ++$this->groupCreateCount;
+        $this->logger->info(Messages::hasBeenCreated('ProductGroup', $code));
+    }
+
+    private function createProductGroups(ResourceCursorInterface $resources): void
     {
         foreach ($resources as $resource) {
             if ($resource['parent'] !== null) {
-                continue;
+                $this->createGroupForCode($resource['parent']);
             }
-            if ($resource['code'] !== null && $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]) !== null) {
-                ++$this->groupAlreadyExistCount;
-                $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', (string) $resource['code']));
-
-                continue;
+            if ($resource['code'] !== null) {
+                $this->createGroupForCode($resource['code']);
             }
-            $productGroup = new ProductGroup();
-            $productGroup->setProductParent($resource['code']);
-            $this->entityManager->persist($productGroup);
-
-            ++$this->groupCreateCount;
-            $this->logger->info(Messages::hasBeenCreated('ProductGroup', (string) $resource['code']));
         }
     }
 
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
-        if (!$productGroup instanceof ProductGroup) {
-            return null;
-        }
-
-        if ($this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
+        if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
             $productGroup->addProduct($product);
         }
 
