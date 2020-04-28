@@ -23,10 +23,10 @@
         <div class="ui field">
             {{ form_row(form.importMediaFiles) }}
         </div>
-        <div id="akeneoImageAttributesMappings" class="ui segment togglable" style="display: none;">
+        <div id="akeneoImageAttributesMappings" class="ui segment togglable" style="display: {{ form.importMediaFiles.vars.data is same as(true) ? 'block' : 'none' }};">
             {{ form_row(form.akeneoImageAttributes) }}
         </div>
-        <div id="productImagesMappings" class="ui segment togglable" style="display: none;">
+        <div id="productImagesMappings" class="ui segment togglable" style="display: {{ form.importMediaFiles.vars.data is same as(true) ? 'block' : 'none' }};">
             {{ form_row(form.productImagesMapping) }}
         </div>
         <div class="ui field">
