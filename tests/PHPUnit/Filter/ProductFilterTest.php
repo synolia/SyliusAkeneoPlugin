@@ -251,9 +251,6 @@ final class ProductFilterTest extends ApiTestCase
 
     public function testGetLocalesFilter(): void
     {
-        /** @var ProductFiltersRules $productFilterRules */
-        $productFilterRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
-
         $allLocales = $this->localeRepository->findAll();
         if (!empty($allLocales)) {
             /** @var Locale $locale */
@@ -277,7 +274,7 @@ final class ProductFilterTest extends ApiTestCase
 
         $payload = new ProductModelPayload($this->createClient());
 
-        $results = $method->invoke($this->productFilter, $productFilterRules, $payload);
+        $results = $method->invoke($this->productFilter, $this->productFiltersRules, $payload);
         Assert::assertIsArray($results);
         Assert::assertNotEmpty($results);
         foreach ($results as $result) {
