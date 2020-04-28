@@ -19,6 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 final class AddAttributesToProductTask implements AkeneoTaskInterface
 {
@@ -55,9 +56,13 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     /** @var EntityRepository */
     private $productConfigurationRepository;
 
+    /** @var AkeneoAttributeToSyliusAttributeTransformer */
+    private $akeneoAttributeToSyliusAttributeTransformer;
+
     public function __construct(
         RepositoryInterface $productAttributeValueRepository,
         RepositoryInterface $productAttributeRepository,
+        AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         RepositoryInterface $productTranslationRepository,
         FactoryInterface $productAttributeValueFactory,
         FactoryInterface $productTranslationFactory,
@@ -75,6 +80,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $this->attributeValueValueBuilder = $attributeValueValueBuilder;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
     }
 
     /**
@@ -98,6 +104,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         );
 
         foreach ($payload->getResource()['values'] as $attributeName => $translations) {
+            $attributeName = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeName);
             if (\in_array($this->caseConverter->denormalize($attributeName), $this->productProperties, true)) {
                 continue;
             }
