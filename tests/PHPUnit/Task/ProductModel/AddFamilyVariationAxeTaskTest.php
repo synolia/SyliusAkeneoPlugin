@@ -42,9 +42,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
-            new ResponseStack(
-                new Response($this->getFileContent('product_models_caelus.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('product_models_caelus.json'), [], HttpResponse::HTTP_OK)
         );
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }

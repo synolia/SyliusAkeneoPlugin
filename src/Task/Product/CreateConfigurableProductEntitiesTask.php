@@ -118,7 +118,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                     continue;
                 }
 
-                $productGroup = $this->productGroupRepository->getProductGroupByProductCode($productModel->getCode());
+                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
 
                 if (!$productGroup instanceof ProductGroup) {
                     continue;
@@ -166,6 +166,12 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
             //We cannot create the variant if the option does not exists
             if (!$productOption instanceof ProductOptionInterface) {
+                $this->logger->warning(\sprintf(
+                    'Skipped ProductVariant "%s" creation because ProductOption "%s" does not exists.',
+                    $variantCode,
+                    $attributeCode
+                ));
+
                 continue;
             }
 

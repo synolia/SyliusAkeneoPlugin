@@ -13,6 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class AddProductGroupsTask implements AkeneoTaskInterface
@@ -35,12 +36,17 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
+    private $configurationProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
+        ConfigurationProvider $configurationProvider,
         EntityRepository $productGroupRepository,
         LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
+        $this->configurationProvider = $configurationProvider;
         $this->productGroupRepository = $productGroupRepository;
         $this->logger = $akeneoLogger;
     }
@@ -54,12 +60,17 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
         $this->type = 'ProductGroups';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        if (!$payload->getResources() instanceof ResourceCursorInterface) {
+        $unfilteredResources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
+            $this->configurationProvider->getConfiguration()->getPaginationSize(),
+        );
+        $payload->setModelResources($unfilteredResources);
+
+        if (!$payload->getModelResources() instanceof ResourceCursorInterface) {
             throw new NoProductModelResourcesException('No resource found.');
         }
 
         try {
-            foreach ($payload->getResources() as $resource) {
+            foreach ($payload->getModelResources() as $resource) {
                 $this->entityManager->beginTransaction();
                 $this->createProductGroups($resource);
 
