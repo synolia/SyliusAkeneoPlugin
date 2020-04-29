@@ -16,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddFamilyVariationAxeTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddProductGroupsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 
 final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
@@ -39,6 +39,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
                 new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK)
             )
         );
+
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
             new ResponseStack(
@@ -56,18 +57,16 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
         $productsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
 
-        $addOrUpdateProductModelsTask = $this->taskProvider->get(AddOrUpdateProductModelTask::class);
-        $familyVariantPayload = $addOrUpdateProductModelsTask->__invoke($productsPayload);
-        Assert::assertInstanceOf(PipelinePayloadInterface::class, $familyVariantPayload);
-
-        /** @var AddFamilyVariationAxeTask $addFamilyVariationAxes */
-        $addFamilyVariationAxes = $this->taskProvider->get(AddFamilyVariationAxeTask::class);
-        $productModelPayload = $addFamilyVariationAxes->__invoke($familyVariantPayload);
-        Assert::assertInstanceOf(PipelinePayloadInterface::class, $productModelPayload);
-
+        $addProductGroupsTask = $this->taskProvider->get(AddProductGroupsTask::class);
+        $productGroupsPayload = $addProductGroupsTask->__invoke($productsPayload);
         /** @var ProductGroup $productGroup */
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'caelus']);
         Assert::assertInstanceOf(ProductGroup::class, $productGroup);
+
+        /** @var AddFamilyVariationAxeTask $addFamilyVariationAxes */
+        $addFamilyVariationAxes = $this->taskProvider->get(AddFamilyVariationAxeTask::class);
+        $productModelPayload = $addFamilyVariationAxes->__invoke($productGroupsPayload);
+        Assert::assertInstanceOf(PipelinePayloadInterface::class, $productModelPayload);
         Assert::assertNotEmpty($productGroup->getVariationAxes());
 
         $this->server->setResponseOfPath(
@@ -76,7 +75,6 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
                 new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK)
             )
         );
-
         $familyVariant = $productsPayload->getAkeneoPimClient()->getFamilyVariantApi()->get('clothing', 'clothing_color_size');
         foreach ($familyVariant['variant_attribute_sets'] as $key => $variantAttributeSet) {
             if (count($familyVariant['variant_attribute_sets']) !== $variantAttributeSet['level']) {

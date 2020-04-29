@@ -9,7 +9,6 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
-use donatj\MockWebServer\ResponseStack;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Webmozart\Assert\Assert;
@@ -34,9 +33,7 @@ abstract class ApiTestCase extends KernelTestCase
 
         $this->server->setResponseOfPath(
             '/' . AuthenticationApi::TOKEN_URI,
-            new ResponseStack(
-                new Response($this->getAuthenticatedJson())
-            )
+            new Response($this->getAuthenticatedJson())
         );
     }
 

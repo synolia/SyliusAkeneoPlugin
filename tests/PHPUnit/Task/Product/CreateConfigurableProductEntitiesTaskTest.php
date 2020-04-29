@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
-use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Product\Model\ProductOptionValueTranslation;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
