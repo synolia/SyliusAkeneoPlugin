@@ -6,7 +6,6 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use donatj\MockWebServer\Response;
-use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
@@ -32,9 +31,7 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
-            new ResponseStack(
-                new Response($this->getFileContent('product_models.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('product_models.json'), [], HttpResponse::HTTP_OK)
         );
     }
 

@@ -55,8 +55,12 @@ final class RetrieveOptionsTask implements AkeneoTaskInterface
                     continue;
                 }
                 $compatibleAttributes[$resource['code']] = ['isMultiple' => $attributeTypeMatcher->isMultiple($resource['type'])];
-            } catch (UnsupportedAttributeTypeException $unsuportedAttributeTypeException) {
-                $this->logger->warning($unsuportedAttributeTypeException->getMessage());
+            } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
+                $this->logger->warning(\sprintf(
+                    '%s: %s',
+                    $resource['code'],
+                    $unsupportedAttributeTypeException->getMessage()
+                ));
 
                 continue;
             }

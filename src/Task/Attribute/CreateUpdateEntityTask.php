@@ -104,7 +104,11 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                         $attribute->setName($label);
                     }
                 } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-                    $this->logger->warning($unsupportedAttributeTypeException->getMessage());
+                    $this->logger->warning(\sprintf(
+                        '%s: %s',
+                        $resource['code'],
+                        $unsupportedAttributeTypeException->getMessage()
+                    ));
 
                     continue;
                 }

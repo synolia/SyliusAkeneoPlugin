@@ -51,13 +51,13 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
         $this->type = 'FamilyVariationAxe';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        if (!$payload->getResources() instanceof ResourceCursorInterface) {
+        if (!$payload->getModelResources() instanceof ResourceCursorInterface) {
             throw new NoProductModelResourcesException('No resource found.');
         }
 
         try {
             $this->entityManager->beginTransaction();
-            foreach ($payload->getResources() as $resource) {
+            foreach ($payload->getModelResources() as $resource) {
                 $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
                 if (!$productGroup instanceof ProductGroup) {
                     continue;
