@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Doctrine\Common\Collections\Collection;
 use Psr\Log\LoggerInterface;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -21,10 +22,17 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
     /** @var ConfigurationProvider */
     private $configurationProvider;
 
-    public function __construct(LoggerInterface $akeneoLogger, ConfigurationProvider $configurationProvider)
-    {
+    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilter */
+    private $productFilter;
+
+    public function __construct(
+        LoggerInterface $akeneoLogger,
+        ConfigurationProvider $configurationProvider,
+        ProductFilter $productFilter
+    ) {
         $this->logger = $akeneoLogger;
         $this->configurationProvider = $configurationProvider;
+        $this->productFilter = $productFilter;
     }
 
     /**
@@ -39,10 +47,13 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
+        $queryParameters = $this->productFilter->getProductFilters($payload);
+
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
             $this->configurationProvider->getConfiguration()->getPaginationSize(),
-            true
+            true,
+            ['search' => $queryParameters]
         );
 
         if (!$resources instanceof Page) {

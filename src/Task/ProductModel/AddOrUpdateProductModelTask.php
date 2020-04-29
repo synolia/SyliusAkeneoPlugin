@@ -33,6 +33,8 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
  */
 final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
+    private const ONE_VARIATION_AXIS = 1;
+
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -68,12 +70,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     /** @var int */
     private $createCount = 0;
-
-    /** @var int */
-    private $groupAlreadyExistCount = 0;
-
-    /** @var int */
-    private $groupCreateCount = 0;
 
     /** @var string */
     private $type;
@@ -126,22 +122,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
         try {
             $this->entityManager->beginTransaction();
-
-            $this->createProductGroup($payload->getResources());
-
-            $this->entityManager->flush();
-            $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
-            $this->entityManager->rollback();
-            $this->logger->warning($throwable->getMessage());
-
-            throw $throwable;
-        }
-
-        $this->logger->notice(Messages::countCreateAndExist('ProductGroup', $this->groupCreateCount, $this->groupAlreadyExistCount));
-
-        try {
-            $this->entityManager->beginTransaction();
             foreach ($payload->getResources() as $resource) {
                 $this->process($resource, $productsMapping);
             }
@@ -189,35 +169,18 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->entityManager->persist($product);
     }
 
-    private function createProductGroup(ResourceCursorInterface $resources): void
-    {
-        foreach ($resources as $resource) {
-            if ($resource['parent'] !== null) {
-                continue;
-            }
-            if ($resource['code'] !== null && $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]) !== null) {
-                ++$this->groupAlreadyExistCount;
-                $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', (string) $resource['code']));
-
-                continue;
-            }
-            $productGroup = new ProductGroup();
-            $productGroup->setProductParent($resource['code']);
-            $this->entityManager->persist($productGroup);
-
-            ++$this->groupCreateCount;
-            $this->logger->info(Messages::hasBeenCreated('ProductGroup', (string) $resource['code']));
-        }
-    }
-
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
-        if (!$productGroup instanceof ProductGroup) {
+        $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
+        $numberOfVariationAxis = isset($payloadProductGroup['variant_attribute_sets']) ? \count($payloadProductGroup['variant_attribute_sets']) : 0;
+
+        if (null === $resource['parent'] && $numberOfVariationAxis > self::ONE_VARIATION_AXIS) {
             return null;
         }
 
-        if ($this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+
+        if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
             $productGroup->addProduct($product);
         }
 

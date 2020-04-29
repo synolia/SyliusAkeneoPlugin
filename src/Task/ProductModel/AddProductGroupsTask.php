@@ -15,7 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
+final class AddProductGroupsTask implements AkeneoTaskInterface
 {
     /** @var EntityManagerInterface */
     private $entityManager;
@@ -27,7 +27,10 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
     private $logger;
 
     /** @var int */
-    private $itemCount = 0;
+    private $groupAlreadyExistCount = 0;
+
+    /** @var int */
+    private $groupCreateCount = 0;
 
     /** @var string */
     private $type;
@@ -48,7 +51,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         $this->logger->debug(self::class);
-        $this->type = 'FamilyVariationAxe';
+        $this->type = 'ProductGroups';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         if (!$payload->getResources() instanceof ResourceCursorInterface) {
@@ -56,30 +59,13 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
         }
 
         try {
-            $this->entityManager->beginTransaction();
             foreach ($payload->getResources() as $resource) {
-                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
-                if (!$productGroup instanceof ProductGroup) {
-                    continue;
-                }
+                $this->entityManager->beginTransaction();
+                $this->createProductGroups($resource);
 
-                $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
-
-                foreach ($payloadProductGroup['variant_attribute_sets'] as $variantAttributeSet) {
-                    if (count($payloadProductGroup['variant_attribute_sets']) !== $variantAttributeSet['level']) {
-                        continue;
-                    }
-
-                    foreach ($variantAttributeSet['axes'] as $axe) {
-                        $productGroup->addVariationAxe($axe);
-                        ++$this->itemCount;
-                        $this->logger->info(Messages::setVariationAxeToFamily($this->type, $resource['family'], $axe));
-                    }
-                }
+                $this->entityManager->flush();
+                $this->entityManager->commit();
             }
-
-            $this->entityManager->flush();
-            $this->entityManager->commit();
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
@@ -87,8 +73,35 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
             throw $throwable;
         }
 
-        $this->logger->notice(Messages::countItems($this->type, $this->itemCount));
+        $this->logger->notice(Messages::countCreateAndExist('ProductGroup', $this->groupCreateCount, $this->groupAlreadyExistCount));
 
         return $payload;
+    }
+
+    private function createGroupForCode(string $code): void
+    {
+        if ($this->productGroupRepository->findOneBy(['productParent' => $code])) {
+            ++$this->groupAlreadyExistCount;
+            $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', $code));
+
+            return;
+        }
+
+        $productGroup = new ProductGroup();
+        $productGroup->setProductParent($code);
+        $this->entityManager->persist($productGroup);
+
+        ++$this->groupCreateCount;
+        $this->logger->info(Messages::hasBeenCreated('ProductGroup', $code));
+    }
+
+    private function createProductGroups(array $resource): void
+    {
+        if ($resource['parent'] !== null) {
+            $this->createGroupForCode($resource['parent']);
+        }
+        if ($resource['code'] !== null) {
+            $this->createGroupForCode($resource['code']);
+        }
     }
 }

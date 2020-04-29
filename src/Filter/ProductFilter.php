@@ -11,7 +11,7 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
-use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class ProductFilter
 {
@@ -43,7 +43,7 @@ final class ProductFilter
         $this->localeRepository = $localeRepository;
     }
 
-    public function getProductModelFilters(ProductModelPayload $payload): array
+    public function getProductModelFilters(PipelinePayloadInterface $payload): array
     {
         /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
@@ -57,7 +57,7 @@ final class ProductFilter
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
-            $locales = $this->getLocales($payload);
+            $locales = $this->getLocales($productFilterRules, $payload);
             $completeness = self::AT_LEAST_COMPLETE;
             if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
                 $completeness = self::ALL_COMPLETE;
@@ -89,7 +89,7 @@ final class ProductFilter
         return $queryParameters;
     }
 
-    public function getProductFilters(ProductModelPayload $payload): array
+    public function getProductFilters(PipelinePayloadInterface $payload): array
     {
         /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
@@ -103,7 +103,7 @@ final class ProductFilter
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
-            $locales = $this->getLocales($payload);
+            $locales = $this->getLocales($productFilterRules, $payload);
 
             $this->getCompletenessFilter(
                 $productFilterRules,
@@ -123,8 +123,13 @@ final class ProductFilter
         return $queryParameters;
     }
 
-    private function getLocales(ProductModelPayload $payload): array
+    private function getLocales(ProductFiltersRules $productFilterRules, PipelinePayloadInterface $payload): array
     {
+        $filteredLocales = $productFilterRules->getLocales();
+        if (\count($filteredLocales) > 0) {
+            return $filteredLocales;
+        }
+
         $apiLocales = $payload->getAkeneoPimClient()->getLocaleApi()->all();
         $resultLocales = $this->localeRepository->findAll();
 

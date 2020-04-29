@@ -274,7 +274,7 @@ final class ProductFilterTest extends ApiTestCase
 
         $payload = new ProductModelPayload($this->createClient());
 
-        $results = $method->invoke($this->productFilter, $payload);
+        $results = $method->invoke($this->productFilter, $this->productFiltersRules, $payload);
         Assert::assertIsArray($results);
         Assert::assertNotEmpty($results);
         foreach ($results as $result) {
