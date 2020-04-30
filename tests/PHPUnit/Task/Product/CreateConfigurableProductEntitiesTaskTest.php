@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
+use Akeneo\Pim\ApiClient\Search\Operator;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Product\Model\ProductOptionValueTranslation;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -39,6 +42,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     public function testCreateConfigurableProductsTask(): void
     {
         $this->createConfiguration();
+        $this->createProductFiltersConfiguration();
         $this->importCategories();
         $attributePayload = $this->importAttributes();
         $this->importAttributeOptions($attributePayload);
@@ -165,5 +169,28 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $productModelPipeline = self::$container->get(ProductModelPipelineFactory::class)->create();
 
         $productModelPipeline->process($productModelPayload);
+    }
+
+    private function createProductFiltersConfiguration()
+    {
+        $this->productFilter = self::$container->get(ProductFilter::class);
+
+        $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
+        if (!$this->productFiltersRules instanceof ProductFiltersRules) {
+            $this->productFiltersRules = new ProductFiltersRules();
+            $this->manager->persist($this->productFiltersRules);
+        }
+        $this->productFiltersRules
+            ->setMode('simple')
+            ->setCompletenessType(Operator::EQUAL)
+            ->setCompletenessValue(100)
+            ->setChannel('ecommerce')
+            ->addFamily('shoes')
+            ->addLocale('en_US')
+            ->setUpdatedAfter(new \DateTime('2020-04-04'))
+            ->setUpdatedBefore(new \DateTime('2020-04-04'))
+        ;
+
+        $this->manager->flush();
     }
 }

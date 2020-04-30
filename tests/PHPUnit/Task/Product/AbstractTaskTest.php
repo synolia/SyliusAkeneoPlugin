@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
@@ -90,6 +91,10 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, '6/3/5/c/635cbfe306a1c13867fe7671c110ee3333fcba13_bag.jpg'),
             new Response($this->getFileContent('product_1111111171.jpg'), [], HttpResponse::HTTP_OK)
+        );
+        $this->server->setResponseOfPath(
+            '/' . sprintf(LocaleApi::LOCALES_URI),
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
     }
 

@@ -54,6 +54,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var string */
     private $type;
 
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productOptionValueFactory;
+
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -72,7 +75,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        FactoryInterface $productOptionValueFactory
     ) {
         parent::__construct(
             $entityManager,
@@ -92,6 +96,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
+        $this->productOptionValueFactory = $productOptionValueFactory;
     }
 
     /**
@@ -152,6 +157,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         array $attributes,
         array $variationAxes
     ): void {
+        $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
+
         foreach ($attributes as $attributeCode => $values) {
             /*
              * Skip attributes that aren't variation axes.
@@ -179,8 +186,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 $productModel->addOption($productOption);
             }
 
-            $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
-
             $this->setProductOptionValues($productVariant, $productOption, $values);
             $this->updateImages($payload, $attributes, $productVariant);
             $this->setProductPrices($productVariant, $attributes);
@@ -203,14 +208,28 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         array $values
     ): void {
         foreach ($values as $optionValue) {
+            $value = $code = $optionValue['data'];
+            if (\is_array($optionValue['data'])) {
+                $code = ProductOptionManager::getOptionValueCodeFromProductOption(
+                    $productOption,
+                    \implode('_', $code)
+                );
+                $value = \implode(' ', $value);
+            }
             $productOptionValue = $this->productOptionValueRepository->findOneBy([
                 'option' => $productOption,
-                'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, $optionValue['data']),
+                'code' => $code,
             ]);
 
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
-                continue;
+                /** @var \Sylius\Component\Product\Model\ProductOptionValue $productOptionValue */
+                $productOptionValue = $this->productOptionValueFactory->createNew();
+                $productOptionValue->setOption($productOption);
+                $productOptionValue->setCode($code);
+                $this->entityManager->persist($productOptionValue);
             }
+
+            $productOptionValue->setValue($value);
 
             //Product variant already have this value
             if (!$productVariant->hasOptionValue($productOptionValue)) {

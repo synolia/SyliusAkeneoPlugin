@@ -13,6 +13,7 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\BooleanAttributeTypeMatcher
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DateAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\IntegerAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MetricAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
@@ -78,11 +79,11 @@ final class AttributeTypeMatcherTest extends KernelTestCase
         yield ['pim_catalog_simpleselect', SelectAttributeTypeMatcher::class];
         yield ['pim_catalog_multiselect', SelectAttributeTypeMatcher::class];
         yield ['pim_catalog_date', DateAttributeTypeMatcher::class];
+        yield ['pim_catalog_metric', MetricAttributeTypeMatcher::class];
     }
 
     public function unsupportedAttributeTypeDataProvider(): \Generator
     {
-        yield ['pim_catalog_metric'];
         yield ['pim_catalog_price_collection'];
         yield ['pim_catalog_image'];
         yield ['pim_catalog_file'];

@@ -8,7 +8,14 @@ services:
         autoconfigure: true
         public: true
 
-    Synolia\SyliusAkeneoPlugin\Transformer\EntityObjectToArrayTransformer: ~
     test.serialize.akeneo: '@Symfony\Component\Serializer\SerializerInterface'
     Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\BeforeTaskSubscriber: ~
     Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\AfterTaskSubscriber: ~
+
+    Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory:
+        arguments:
+          $mockServerHost: '%env(MOCK_SERVER_HOST)%'
+          $mockServerPort: '%env(MOCK_SERVER_PORT)%'
+
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+        factory: ['@Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory', 'createFromApiCredentials']
