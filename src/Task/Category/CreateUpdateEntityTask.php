@@ -93,6 +93,10 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 }
 
                 foreach ($resource['labels'] as $locale => $label) {
+                    if (null === $label) {
+                        continue;
+                    }
+
                     $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
                         'translatable' => $taxon,
                         'locale' => $locale,
