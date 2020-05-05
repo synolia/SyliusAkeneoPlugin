@@ -28,27 +28,24 @@ final class AkeneoAttributeDataProvider
      */
     public function getData(string $attributeCode, $attributeValues, string $locale, string $scope): string
     {
-        if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode)) {
-            return $this->transformResponse($attributeValues);
-        }
-
-        if (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-           !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+        if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
+            (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
+            !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode))) {
             return $this->transformResponse($attributeValues[0]['data']);
         }
 
         if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-          !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+            !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
             return $this->getByScope($attributeValues, $scope);
         }
 
         if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-           $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+            $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
             return $this->getByLocaleAndScope($attributeValues, $locale, $scope);
         }
 
         if (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-           $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+            $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
             return $this->getByLocale($attributeValues, $locale);
         }
 
@@ -100,9 +97,9 @@ final class AkeneoAttributeDataProvider
     private function transformResponse($data): string
     {
         if (\is_array($data)) {
-            return implode(' ', $data);
+            return \trim(implode(' ', $data));
         }
 
-        return $data;
+        return \trim((string) $data);
     }
 }

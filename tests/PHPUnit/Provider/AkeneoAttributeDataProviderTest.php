@@ -35,9 +35,27 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function uniqueAttributeDataProvider(): \Generator
     {
-        yield ['value', 'ean', \json_decode('"value"', true), 'fr_FR', 'ecommerce'];
-        yield ['value', 'sku', \json_decode('"value"', true), 'en_US', 'ecommerce'];
-        yield ['value', 'sku', \json_decode('"value"', true), '', ''];
+        yield ['1234567890142', 'ean', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "1234567890142"
+            }
+          ]', true), 'fr_FR', 'ecommerce'];
+        yield ['1234567890142', 'sku', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "1234567890142"
+            }
+          ]', true), 'en_US', 'ecommerce'];
+        yield ['1234567890142', 'sku', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "1234567890142"
+            }
+          ]', true), '', ''];
     }
 
     /** @dataProvider nonUniqueNonLocalizableNonScopableAttributeDataProvider */

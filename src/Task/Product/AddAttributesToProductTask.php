@@ -16,8 +16,12 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
@@ -59,6 +63,12 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     /** @var AkeneoAttributeToSyliusAttributeTransformer */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    private $akeneoAttributeDataProvider;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
+    private $productFiltersRulesRepository;
+
     public function __construct(
         RepositoryInterface $productAttributeValueRepository,
         RepositoryInterface $productAttributeRepository,
@@ -69,7 +79,9 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         SlugGeneratorInterface $productSlugGenerator,
         LocaleContextInterface $localeContext,
         ProductAttributeValueValueBuilder $attributeValueValueBuilder,
-        EntityRepository $productConfigurationRepository
+        EntityRepository $productConfigurationRepository,
+        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        ProductFiltersRulesRepository $productFiltersRulesRepository
     ) {
         $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->productTranslationRepository = $productTranslationRepository;
@@ -81,6 +93,8 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
+        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
+        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
     }
 
     /**
@@ -91,6 +105,14 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         if (!$payload instanceof ProductResourcePayload) {
             return $payload;
         }
+
+        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        $filters = $this->productFiltersRulesRepository->findOneBy([]);
+        if (!$filters instanceof ProductFiltersRules) {
+            throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
+        }
+        $scope = $filters->getChannel();
+
         $this->productProperties = ['name', 'slug', 'description', 'metaDescription'];
         $this->caseConverter = new CamelCaseToSnakeCaseNameConverter();
 
@@ -103,14 +125,14 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
             $payload->getResource()
         );
 
-        foreach ($payload->getResource()['values'] as $attributeName => $translations) {
-            $attributeName = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeName);
-            if (\in_array($this->caseConverter->denormalize($attributeName), $this->productProperties, true)) {
+        foreach ($payload->getResource()['values'] as $attributeCode => $translations) {
+            $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
+            if (\in_array($this->caseConverter->denormalize($transformedAttributeCode), $this->productProperties, true)) {
                 continue;
             }
 
             /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
-            $attribute = $this->productAttributeRepository->findOneBy(['code' => $attributeName]);
+            $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
             if (!$attribute instanceof AttributeInterface || null === $attribute->getType()) {
                 continue;
             }
@@ -133,10 +155,9 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
 
                 $attributeValue->setLocaleCode($translation['locale'] ?? $this->localeContext->getLocaleCode());
                 $attributeValue->setAttribute($attribute);
-
                 $attributeValueValue = $this->attributeValueValueBuilder->build(
                     $attribute->getType(),
-                    $translation['data']
+                    $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $translation['locale'] ?? $this->localeContext->getLocaleCode(), $scope)
                 );
                 $attributeValue->setValue($attributeValueValue);
                 $payload->getProduct()->addAttribute($attributeValue);

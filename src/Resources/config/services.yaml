@@ -65,3 +65,6 @@ services:
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
+
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+        factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']

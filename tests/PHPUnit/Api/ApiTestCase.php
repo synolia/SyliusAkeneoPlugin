@@ -28,9 +28,8 @@ abstract class ApiTestCase extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->server = new MockWebServer();
+        $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
-
         $this->server->setResponseOfPath(
             '/' . AuthenticationApi::TOKEN_URI,
             new Response($this->getAuthenticatedJson())

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
@@ -104,7 +105,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         ProductOptionInterface $productOption,
         string $optionValueCode
     ): string {
-        return \sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode);
+        return \strtolower(\sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode));
     }
 
     private function updateTranslationsFromAttribute(ProductOptionInterface $productOption, AttributeInterface $attribute): void
@@ -149,6 +150,10 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     private function updateProductOptionValues(ProductOptionInterface $productOption, AttributeInterface $attribute): void
     {
+        if ($attribute->getType() !== SelectAttributeType::TYPE) {
+            return;
+        }
+
         $productOptionValuesMapping = [];
         $productOptionValueCodes = \array_keys($attribute->getConfiguration()['choices']);
         foreach ($productOptionValueCodes as $productOptionValueCode) {
