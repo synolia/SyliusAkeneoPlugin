@@ -62,7 +62,10 @@ const Form = {
   toggleFields() {
     const self = this;
     const toHide = [this.options.after.selector, this.options.since.selector];
-    if (!$(this.options.locale.selector + ">option:selected").length) {
+    if (
+      !$(this.options.locale.selector + ">option:selected").length ||
+      !this.options.locale.values.includes($(this.options.locale.trigger).val())
+    ) {
       toHide.push(self.options.locale.selector);
     }
     if ($(`${toHide.join()}`).length) {
