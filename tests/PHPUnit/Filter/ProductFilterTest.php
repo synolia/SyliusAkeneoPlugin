@@ -206,7 +206,6 @@ final class ProductFilterTest extends ApiTestCase
 
     public function testGetFilterWithAdvancedMode(): void
     {
-        $payload = new ProductModelPayload($this->createClient());
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
             '{"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=", "value":  100, "locales":["en_US"], "scope": "ecommerce"}]}'
@@ -215,7 +214,7 @@ final class ProductFilterTest extends ApiTestCase
         $this->manager->persist($this->productFiltersRules);
         $this->manager->flush();
 
-        $result = $this->productFilter->getProductModelFilters($payload);
+        $result = $this->productFilter->getProductModelFilters();
         Assert::assertIsArray($result);
         $expect = [
             'completeness' => [
@@ -228,7 +227,7 @@ final class ProductFilterTest extends ApiTestCase
         ];
         Assert::assertEquals($expect, $result);
 
-        $result = $this->productFilter->getProductFilters($payload);
+        $result = $this->productFilter->getProductFilters();
         Assert::assertIsArray($result);
         $expect = [
             'enabled' => [

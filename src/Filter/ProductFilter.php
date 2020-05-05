@@ -7,11 +7,10 @@ namespace Synolia\SyliusAkeneoPlugin\Filter;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Locale\Model\LocaleInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
-use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductFilter
 {
@@ -34,16 +33,16 @@ final class ProductFilter
     /** @var EntityRepository */
     private $productFiltersRulesRepository;
 
-    /** @var EntityRepository */
-    private $localeRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
 
-    public function __construct(EntityRepository $productFiltersRulesRepository, EntityRepository $localeRepository)
+    public function __construct(EntityRepository $productFiltersRulesRepository, SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
     {
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
-        $this->localeRepository = $localeRepository;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
-    public function getProductModelFilters(PipelinePayloadInterface $payload): array
+    public function getProductModelFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
@@ -57,7 +56,7 @@ final class ProductFilter
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
-            $locales = $this->getLocales($productFilterRules, $payload);
+            $locales = $this->getLocales($productFilterRules);
             $completeness = self::AT_LEAST_COMPLETE;
             if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
                 $completeness = self::ALL_COMPLETE;
@@ -89,7 +88,7 @@ final class ProductFilter
         return $queryParameters;
     }
 
-    public function getProductFilters(PipelinePayloadInterface $payload): array
+    public function getProductFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
@@ -103,7 +102,7 @@ final class ProductFilter
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
-            $locales = $this->getLocales($productFilterRules, $payload);
+            $locales = $this->getLocales($productFilterRules);
 
             $this->getCompletenessFilter(
                 $productFilterRules,
@@ -123,35 +122,14 @@ final class ProductFilter
         return $queryParameters;
     }
 
-    private function getLocales(ProductFiltersRules $productFilterRules, PipelinePayloadInterface $payload): array
+    private function getLocales(ProductFiltersRules $productFilterRules): array
     {
         $filteredLocales = $productFilterRules->getLocales();
         if (\count($filteredLocales) > 0) {
             return $filteredLocales;
         }
 
-        $apiLocales = $payload->getAkeneoPimClient()->getLocaleApi()->all();
-        $resultLocales = $this->localeRepository->findAll();
-
-        if (empty($apiLocales) || empty($resultLocales)) {
-            return [];
-        }
-
-        $locales = [];
-        /** @var LocaleInterface $locale */
-        foreach ($resultLocales as $locale) {
-            $locales[] = $locale->getCode();
-        }
-
-        $localesCode = [];
-        foreach ($apiLocales as $apiLocale) {
-            if (!in_array($apiLocale['code'], $locales) || $apiLocale['enabled'] === false) {
-                continue;
-            }
-            $localesCode[] = $apiLocale['code'];
-        }
-
-        return $localesCode;
+        return $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
     }
 
     private function getUpdatedFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
