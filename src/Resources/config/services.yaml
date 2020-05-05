@@ -68,3 +68,4 @@ services:
 
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
+        lazy: true
