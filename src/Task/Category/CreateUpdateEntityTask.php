@@ -83,14 +83,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                 $taxons[$resource['code']] = $taxon;
 
-                if (null !== $resource['parent']) {
-                    $parent = $taxons[$resource['parent']] ?? null;
-
-                    if (!$parent instanceof TaxonInterface) {
-                        continue;
-                    }
-                    $taxon->setParent($parent);
-                }
+                $this->assignParent($taxon, $taxons, $resource);
 
                 foreach ($resource['labels'] as $locale => $label) {
                     $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
@@ -123,6 +116,20 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
+    }
+
+    private function assignParent(TaxonInterface $taxon, array $taxons, array $resource): void
+    {
+        if (null === $resource['parent']) {
+            return;
+        }
+
+        $parent = $taxons[$resource['parent']] ?? null;
+
+        if (!$parent instanceof TaxonInterface) {
+            return;
+        }
+        $taxon->setParent($parent);
     }
 
     private function getOrCreateEntity(string $code): TaxonInterface
