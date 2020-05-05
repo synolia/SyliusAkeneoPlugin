@@ -47,7 +47,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
-        $queryParameters = $this->productFilter->getProductFilters($payload);
+        $queryParameters = $this->productFilter->getProductFilters();
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
