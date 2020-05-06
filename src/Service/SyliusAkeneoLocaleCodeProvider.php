@@ -30,7 +30,7 @@ final class SyliusAkeneoLocaleCodeProvider
             if ($apiLocale['enabled'] === false || !in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
                 continue;
             }
-            $localesCode[] = $apiLocale['code'];
+            $localesCode[$apiLocale['code']] = $apiLocale['code'];
         }
 
         return $localesCode;

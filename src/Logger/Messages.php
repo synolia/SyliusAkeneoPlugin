@@ -93,4 +93,9 @@ final class Messages
     {
         return sprintf('You must configure %s to %s', $config, $for);
     }
+
+    public static function totalExcludedFromImport(string $type, int $value): string
+    {
+        return \sprintf('Total %s excluded from import %d', $type, $value);
+    }
 }

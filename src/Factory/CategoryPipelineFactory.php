@@ -8,7 +8,6 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Category\DeleteEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
 final class CategoryPipelineFactory extends AbstractPipelineFactory
@@ -19,7 +18,6 @@ final class CategoryPipelineFactory extends AbstractPipelineFactory
 
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveCategoriesTask::class))
-            ->pipe($this->taskProvider->get(DeleteEntityTask::class))
             ->pipe($this->taskProvider->get(CreateUpdateEntityTask::class))
         ;
     }

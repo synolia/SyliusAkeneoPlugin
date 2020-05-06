@@ -16,13 +16,15 @@ final class CategoriesConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('root_categories', CategoriesChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.categories.root_categories',
+                'multiple' => true,
+                'required' => false,
+            ])
             ->add('not_import_categories', CategoriesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.categories.categories_to_exclude',
                 'required' => false,
                 'multiple' => true,
-            ])
-            ->add('root_category', CategoriesChoiceType::class, [
-                'label' => 'sylius.ui.admin.akeneo.categories.root_category',
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'ui icon primary button'],
