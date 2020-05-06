@@ -22,13 +22,13 @@ class AttributeTypeMapping implements ResourceInterface
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(type="string", unique=true)
      */
     private $akeneoAttributeType;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(type="string")
      */
     private $attributeType;
@@ -41,7 +41,7 @@ class AttributeTypeMapping implements ResourceInterface
         return $this->id;
     }
 
-    public function getAkeneoAttributeType(): string
+    public function getAkeneoAttributeType(): ?string
     {
         return $this->akeneoAttributeType;
     }
@@ -53,7 +53,7 @@ class AttributeTypeMapping implements ResourceInterface
         return $this;
     }
 
-    public function getAttributeType(): string
+    public function getAttributeType(): ?string
     {
         return $this->attributeType;
     }

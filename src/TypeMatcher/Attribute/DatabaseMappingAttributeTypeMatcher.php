@@ -26,6 +26,10 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
             throw new \LogicException('Method support() must be called fist or the type is not supported.');
         }
 
+        if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
+            throw new \LogicException('Attribute Type cannot be null.');
+        }
+
         return $this->storedAttributeTypeMapping->getAttributeType();
     }
 
