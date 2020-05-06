@@ -96,7 +96,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     public function testGetCategoriesWithRootCategory(): void
     {
-        $this->categoryConfiguration->setRootCategory('clothes');
+        $this->categoryConfiguration->setRootCategories(['clothes']);
         $this->manager->flush();
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
@@ -129,7 +129,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     public function testGetCategoriesWithRootCategoryAndExistingExclusion(): void
     {
-        $this->categoryConfiguration->setRootCategory('clothes');
+        $this->categoryConfiguration->setRootCategories(['clothes']);
         $this->categoryConfiguration->setNotImportCategories(['clothes_accessories']);
         $this->manager->flush();
 

@@ -58,7 +58,7 @@ abstract class AbstractTaskTest extends ApiTestCase
     protected function buildBasicConfiguration(): CategoryConfiguration
     {
         $categoryConfiguration = new CategoryConfiguration();
-        $categoryConfiguration->setRootCategory('master');
+        $categoryConfiguration->setRootCategories(['master']);
         $this->manager->persist($categoryConfiguration);
 
         return $categoryConfiguration;

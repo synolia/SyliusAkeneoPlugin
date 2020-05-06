@@ -77,7 +77,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
     public function testCreateCategoriesWithRootAndExclusions(): void
     {
-        $this->categoryConfiguration->setRootCategory('clothes');
+        $this->categoryConfiguration->setRootCategories(['clothes']);
         $this->categoryConfiguration->setNotImportCategories(['clothes_accessories']);
         $this->manager->flush();
 

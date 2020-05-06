@@ -61,7 +61,7 @@ sylius:
                     subtitle: Configuration des catégories
                     categories_to_exclude: Catégories à exclure
                     main_category: Catégorie principal
-                    root_category: Catégorie racine
+                    root_categories: Catégories racines de Sylius
                     empty_local_replace_by: Remplacer la locale vide par
                 products:
                     title: Produits

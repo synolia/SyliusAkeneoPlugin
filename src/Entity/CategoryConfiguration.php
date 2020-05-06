@@ -23,27 +23,33 @@ class CategoryConfiguration implements ResourceInterface
     private $id;
 
     /**
-     * @var array
+     * @var array<string>
      * @ORM\Column(type="array")
      */
-    private $notImportCategories;
+    private $notImportCategories = [];
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @var array<string>
+     * @ORM\Column(type="array")
      */
-    private $rootCategory;
+    private $rootCategories = [];
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getNotImportCategories(): ?array
+    /**
+     * @return array<string>
+     */
+    public function getNotImportCategories(): array
     {
         return $this->notImportCategories;
     }
 
+    /**
+     * @param array<string> $notImportCategories
+     */
     public function setNotImportCategories(array $notImportCategories): self
     {
         $this->notImportCategories = $notImportCategories;
@@ -51,14 +57,20 @@ class CategoryConfiguration implements ResourceInterface
         return $this;
     }
 
-    public function getRootCategory(): ?string
+    /**
+     * @return array<string>
+     */
+    public function getRootCategories(): array
     {
-        return $this->rootCategory;
+        return $this->rootCategories;
     }
 
-    public function setRootCategory(string $rootCategory): self
+    /**
+     * @param array<string> $rootCategories
+     */
+    public function setRootCategories(array $rootCategories): self
     {
-        $this->rootCategory = $rootCategory;
+        $this->rootCategories = $rootCategories;
 
         return $this;
     }

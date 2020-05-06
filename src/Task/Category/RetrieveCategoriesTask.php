@@ -65,6 +65,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         //Only keep category of the root category
         foreach ($categories as $key => $category) {
             if (!\in_array($category['code'], $keptCategories, true)) {
+                $this->logger->info(\sprintf('%s: %s is not inside selected root categories and will be excluded', $payload->getType(), $category['code']));
                 unset($categories[$key]);
             }
         }
@@ -72,9 +73,12 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         //Remove excluded categories from kept categories
         foreach ($categories as $key => $category) {
             if (\in_array($category['code'], $excludedCategories, true)) {
+                $this->logger->info(\sprintf('%s: %s is explicitly excluded from configuration', $payload->getType(), $category['code']));
                 unset($categories[$key]);
             }
         }
+
+        $this->logger->info(Messages::totalExcludedFromImport($payload->getType(), count($excludedCategories)));
 
         $this->logger->info(Messages::totalToImport($payload->getType(), count($categories)));
 
@@ -140,19 +144,20 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     private function excludeNotInRootCategory(CategoryConfiguration $configuration, array &$categoriesTree): array
     {
         $keptCategories = [];
-        if (null === $configuration->getRootCategory()) {
+        if (0 === \count($configuration->getRootCategories())) {
             return $keptCategories;
         }
 
-        $rootCategory = $configuration->getRootCategory();
-        $rootNode = $this->findParentNode($rootCategory, $categoriesTree);
+        foreach ($configuration->getRootCategories() as $rootCategory) {
+            $rootNode = $this->findParentNode($rootCategory, $categoriesTree);
 
-        if (!is_array($rootNode)) {
-            return $keptCategories;
+            if (!is_array($rootNode)) {
+                return $keptCategories;
+            }
+
+            $this->getChildCodesFromParent($rootNode, $keptCategories);
+            $keptCategories = array_unique($keptCategories);
         }
-
-        $this->getChildCodesFromParent($rootNode, $keptCategories);
-        $keptCategories = array_unique($keptCategories);
 
         return $keptCategories;
     }
@@ -160,7 +165,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     private function excludeNotImportedCategories(CategoryConfiguration $configuration, array &$categoriesTree): array
     {
         $excludedCategories = [];
-        if (null === $configuration->getNotImportCategories()) {
+        if (0 === \count($configuration->getNotImportCategories())) {
             return $excludedCategories;
         }
 
