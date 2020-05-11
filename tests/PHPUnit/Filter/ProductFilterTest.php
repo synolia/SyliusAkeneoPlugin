@@ -152,7 +152,7 @@ final class ProductFilterTest extends ApiTestCase
         $expect = [
             'family' => [
                 [
-                    'operator' => Operator::IN,
+                    'operator' => Operator::NOT_IN,
                     'value' => ['shoes'],
                 ],
             ],
@@ -259,5 +259,75 @@ final class ProductFilterTest extends ApiTestCase
             ],
         ];
         Assert::assertEquals($expect, $result);
+    }
+
+    public function testGetLocalesFilter(): void
+    {
+        $allLocales = $this->localeRepository->findAll();
+        if (!empty($allLocales)) {
+            /** @var Locale $locale */
+            foreach ($allLocales as $locale) {
+                $locales[] = $locale->getCode();
+            }
+        }
+        if (!in_array('en_US', $locales)) {
+            $locale = new Locale();
+            $locale->setCode('en_US');
+
+            $this->manager->persist($locale);
+            $this->manager->flush();
+
+            $locales = [$locale->getCode()];
+        }
+
+        $reflectionClass = new \ReflectionClass($this->productFilter);
+        $method = $reflectionClass->getMethod('getLocales');
+        $method->setAccessible(true);
+
+        $payload = new ProductModelPayload($this->createClient());
+
+        $results = $method->invoke($this->productFilter, $this->productFiltersRules, $payload);
+        Assert::assertIsArray($results);
+        Assert::assertNotEmpty($results);
+        foreach ($results as $result) {
+            Assert::assertContains($result, $locales);
+        }
+    }
+
+    public function testGetStatusFilter(): void
+    {
+        $reflectionClass = new \ReflectionClass($this->productFilter);
+        $method = $reflectionClass->getMethod('getStatus');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
+        Assert::assertInstanceOf(SearchBuilder::class, $result);
+        Assert::assertEquals([], $result->getFilters());
+
+        $this->productFiltersRules->setStatus(true);
+        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
+        Assert::assertInstanceOf(SearchBuilder::class, $result);
+        $expect = [
+            'enabled' => [
+                [
+                    'operator' => Operator::EQUAL,
+                    'value' => true,
+                ],
+            ],
+        ];
+        Assert::assertEquals($expect, $result->getFilters());
+
+        $this->productFiltersRules->setStatus(false);
+        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
+        Assert::assertInstanceOf(SearchBuilder::class, $result);
+        $expect = [
+            'enabled' => [
+                [
+                    'operator' => Operator::EQUAL,
+                    'value' => false,
+                ],
+            ],
+        ];
+        Assert::assertEquals($expect, $result->getFilters());
     }
 }

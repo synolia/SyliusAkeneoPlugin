@@ -109,6 +109,7 @@ final class ProductFilter
                 $productFilterRules->getCompletenessValue()
             );
             $queryParameters = $this->getFamiliesFilter($productFilterRules, $queryParameters);
+            $queryParameters = $this->getStatus($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
@@ -118,6 +119,20 @@ final class ProductFilter
         }
 
         return $queryParameters;
+    }
+
+    private function getStatus(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
+    {
+        $status = $productFilterRules->getStatus();
+        if ($status === null) {
+            return $queryParameters;
+        }
+
+        return $queryParameters->addFilter(
+            'enabled',
+            Operator::EQUAL,
+            $status
+        );
     }
 
     private function getUpdatedFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
@@ -166,7 +181,7 @@ final class ProductFilter
 
         return $queryParameters->addFilter(
             'family',
-            Operator::IN,
+            Operator::NOT_IN,
             $productFilterRules->getFamilies()
         );
     }

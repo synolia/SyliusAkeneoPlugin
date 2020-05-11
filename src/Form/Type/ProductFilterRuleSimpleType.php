@@ -54,8 +54,8 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.status',
+                'placeholder' => 'sylius.ui.admin.akeneo.product_filter_rules.no_condition',
                 'choices' => [
-                    'sylius.ui.admin.akeneo.product_filter_rules.no_condition' => null,
                     'sylius.ui.admin.akeneo.product_filter_rules.enabled' => true,
                     'sylius.ui.admin.akeneo.product_filter_rules.disabled' => false,
                 ],

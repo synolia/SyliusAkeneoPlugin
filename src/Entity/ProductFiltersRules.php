@@ -52,8 +52,8 @@ class ProductFiltersRules implements ResourceInterface
     private $completenessValue;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var bool|null
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $status;
 
@@ -184,12 +184,12 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 
