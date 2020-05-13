@@ -44,7 +44,7 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->configurationProvider->getConfiguration()->getPaginationSize(),
-            ['search' => $queryParameters]
+            $queryParameters
         );
 
         $noCodeCount = 0;

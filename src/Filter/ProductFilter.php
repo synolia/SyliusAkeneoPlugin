@@ -64,6 +64,7 @@ final class ProductFilter
 
             $queryParameters = $this->getFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
+            $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
         if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
@@ -109,6 +110,7 @@ final class ProductFilter
             );
             $queryParameters = $this->getFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
+            $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
         if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {

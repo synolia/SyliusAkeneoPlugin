@@ -50,11 +50,14 @@ final class ProductFilterTest extends ApiTestCase
             ->setCompletenessType(Operator::EQUAL)
             ->setCompletenessValue(100)
             ->setChannel('ecommerce')
+            ->setMode('simple')
             ->addFamily('shoes')
             ->addLocale('en_US')
             ->setUpdatedAfter(new \DateTime('2020-04-04'))
             ->setUpdatedBefore(new \DateTime('2020-04-04'))
         ;
+
+        $this->manager->flush();
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
@@ -199,6 +202,19 @@ final class ProductFilterTest extends ApiTestCase
             ],
         ];
         Assert::assertEquals($expect, $result->getFilters());
+    }
+
+    public function testGetScopeFilter(): void
+    {
+        $result = $this->productFilter->getProductFilters();
+        Assert::assertIsArray($result);
+        Assert::assertArrayHasKey('scope', $result);
+        Assert::assertSame('ecommerce', $result['scope']);
+
+        $result = $this->productFilter->getProductModelFilters();
+        Assert::assertIsArray($result);
+        Assert::assertArrayHasKey('scope', $result);
+        Assert::assertSame('ecommerce', $result['scope']);
     }
 
     public function testGetFilterWithAdvancedMode(): void
