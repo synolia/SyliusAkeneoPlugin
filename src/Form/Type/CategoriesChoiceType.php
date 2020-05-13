@@ -42,7 +42,8 @@ final class CategoriesChoiceType extends AbstractType
         $categoryApi = $this->categoryApi->all();
         foreach ($categoryApi as $item) {
             if (isset($item['labels'][$locale->getCode()])) {
-                $categories[$item['labels'][$locale->getCode()]] = $item['code'];
+                $label = sprintf('%s - %s', $item['labels'][$locale->getCode()], $item['code']);
+                $categories[$label] = $item['code'];
 
                 continue;
             }
