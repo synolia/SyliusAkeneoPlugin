@@ -56,12 +56,11 @@ final class ProductFilter
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
-            $locales = $this->getLocales($productFilterRules);
             $completeness = self::AT_LEAST_COMPLETE;
             if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
                 $completeness = self::ALL_COMPLETE;
             }
-            $this->getCompletenessFilter($productFilterRules, $queryParameters, $locales, $completeness);
+            $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
 
             $queryParameters = $this->getFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
@@ -102,12 +101,9 @@ final class ProductFilter
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
-            $locales = $this->getLocales($productFilterRules);
-
             $this->getCompletenessFilter(
                 $productFilterRules,
                 $queryParameters,
-                $locales,
                 $productFilterRules->getCompletenessType(),
                 $productFilterRules->getCompletenessValue()
             );
@@ -120,16 +116,6 @@ final class ProductFilter
         }
 
         return $queryParameters;
-    }
-
-    private function getLocales(ProductFiltersRules $productFilterRules): array
-    {
-        $filteredLocales = $productFilterRules->getLocales();
-        if (\count($filteredLocales) > 0) {
-            return $filteredLocales;
-        }
-
-        return $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
     }
 
     private function getUpdatedFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
@@ -186,41 +172,42 @@ final class ProductFilter
     private function getCompletenessFilter(
         ProductFiltersRules $productFilterRules,
         SearchBuilder $queryParameters,
-        array $locales,
-        ?string $completeness = null,
+        ?string $completeness,
         ?int $completenessValue = null
     ): SearchBuilder {
         $completenessType = $productFilterRules->getCompletenessType();
-
-        if ($completenessType !== null && !empty($locales)) {
-            if ($completeness !== null) {
-                $queryParameters->addFilter(
-                    'completeness',
-                    $completeness,
-                    $completenessValue,
-                    [
-                        'locales' => $locales,
-                        'scope' => $productFilterRules->getChannel(),
-                    ]
-                );
-            }
-            if (in_array($completenessType, [
-                Operator::LOWER_THAN_ON_ALL_LOCALES,
-                Operator::GREATER_THAN_ON_ALL_LOCALES,
-                Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
-                Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
-            ])) {
-                $queryParameters->addFilter(
-                    'completeness',
-                    $completenessType,
-                    $completenessValue,
-                    [
-                        'locales' => $productFilterRules->getLocales(),
-                        'scope' => $productFilterRules->getChannel(),
-                    ]
-                );
-            }
+        if ($completeness === null || $completenessType === null) {
+            return $queryParameters;
         }
+
+        if (in_array($completenessType, [
+            Operator::LOWER_THAN_ON_ALL_LOCALES,
+            Operator::GREATER_THAN_ON_ALL_LOCALES,
+            Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
+            Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
+        ])) {
+            $queryParameters->addFilter(
+                'completeness',
+                $completeness,
+                $completenessValue,
+                [
+                    'locales' => $productFilterRules->getLocales(),
+                    'scope' => $productFilterRules->getChannel(),
+                ]
+            );
+
+            return $queryParameters;
+        }
+
+        $queryParameters->addFilter(
+            'completeness',
+            $completeness,
+            $completenessValue,
+            [
+                'locales' => [],
+                'scope' => $productFilterRules->getChannel(),
+            ]
+        );
 
         return $queryParameters;
     }

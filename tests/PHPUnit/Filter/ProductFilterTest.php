@@ -11,11 +11,9 @@ use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Locale\Model\Locale;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
-use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 final class ProductFilterTest extends ApiTestCase
@@ -169,7 +167,6 @@ final class ProductFilterTest extends ApiTestCase
             $this->productFilter,
             $this->productFiltersRules,
             new SearchBuilder(),
-            ['en_US'],
             self::COMPLETENESS_ALL_COMPLETE
         );
         Assert::assertInstanceOf(SearchBuilder::class, $result);
@@ -177,7 +174,7 @@ final class ProductFilterTest extends ApiTestCase
             'completeness' => [
                 [
                     'operator' => self::COMPLETENESS_ALL_COMPLETE,
-                    'locales' => ['en_US'],
+                    'locales' => [],
                     'scope' => 'ecommerce',
                 ],
             ],
@@ -189,7 +186,7 @@ final class ProductFilterTest extends ApiTestCase
             $this->productFilter,
             $this->productFiltersRules,
             new SearchBuilder(),
-            ['test']
+            Operator::GREATER_THAN_ON_ALL_LOCALES
         );
         Assert::assertInstanceOf(SearchBuilder::class, $result);
         $expect = [
@@ -246,38 +243,5 @@ final class ProductFilterTest extends ApiTestCase
             ],
         ];
         Assert::assertEquals($expect, $result);
-    }
-
-    public function testGetLocalesFilter(): void
-    {
-        $allLocales = $this->localeRepository->findAll();
-        if (!empty($allLocales)) {
-            /** @var Locale $locale */
-            foreach ($allLocales as $locale) {
-                $locales[] = $locale->getCode();
-            }
-        }
-        if (!in_array('en_US', $locales)) {
-            $locale = new Locale();
-            $locale->setCode('en_US');
-
-            $this->manager->persist($locale);
-            $this->manager->flush();
-
-            $locales = [$locale->getCode()];
-        }
-
-        $reflectionClass = new \ReflectionClass($this->productFilter);
-        $method = $reflectionClass->getMethod('getLocales');
-        $method->setAccessible(true);
-
-        $payload = new ProductModelPayload($this->createClient());
-
-        $results = $method->invoke($this->productFilter, $this->productFiltersRules, $payload);
-        Assert::assertIsArray($results);
-        Assert::assertNotEmpty($results);
-        foreach ($results as $result) {
-            Assert::assertContains($result, $locales);
-        }
     }
 }
