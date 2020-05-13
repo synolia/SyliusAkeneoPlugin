@@ -52,8 +52,8 @@ class ProductFiltersRules implements ResourceInterface
     private $completenessValue;
 
     /**
-     * @var bool|null
-     * @ORM\Column(type="boolean", nullable=true)
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
 
@@ -86,7 +86,7 @@ class ProductFiltersRules implements ResourceInterface
      * @var array
      * @ORM\Column(type="array")
      */
-    private $families = [];
+    private $excludeFamilies = [];
 
     /**
      * @var string
@@ -184,12 +184,12 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(?bool $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 
@@ -244,33 +244,33 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getFamilies(): array
+    public function getExcludeFamilies(): array
     {
-        return $this->families;
+        return $this->excludeFamilies;
     }
 
-    public function addFamily(string $family): self
+    public function addExcludeFamily(string $excludeFamily): self
     {
-        if (in_array($family, $this->families)) {
+        if (in_array($excludeFamily, $this->excludeFamilies)) {
             return $this;
         }
 
-        $this->families[] = $family;
+        $this->excludeFamilies[] = $excludeFamily;
 
-        $this->families = array_values($this->families);
+        $this->excludeFamilies = array_values($this->excludeFamilies);
 
         return $this;
     }
 
-    public function removeFamily(string $family): self
+    public function removeExcludeFamily(string $excludeFamily): self
     {
-        if (!in_array($family, $this->families)) {
+        if (!in_array($excludeFamily, $this->excludeFamilies)) {
             return $this;
         }
 
-        unset($this->families[array_search($family, $this->families)]);
+        unset($this->excludeFamilies[array_search($excludeFamily, $this->excludeFamilies)]);
 
-        $this->families = array_values($this->families);
+        $this->excludeFamilies = array_values($this->excludeFamilies);
 
         return $this;
     }

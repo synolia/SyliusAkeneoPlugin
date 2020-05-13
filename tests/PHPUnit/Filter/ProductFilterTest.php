@@ -13,6 +13,7 @@ use PHPUnit\Framework\Assert;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
@@ -51,8 +52,10 @@ final class ProductFilterTest extends ApiTestCase
             ->setCompletenessValue(100)
             ->setChannel('ecommerce')
             ->setMode('simple')
-            ->addFamily('shoes')
+            ->addExcludeFamily('shoes')
             ->addLocale('en_US')
+            ->setMode('simple')
+            ->setStatus(ProductFilterStatusEnum::NO_CONDITION)
             ->setUpdatedAfter(new \DateTime('2020-04-04'))
             ->setUpdatedBefore(new \DateTime('2020-04-04'))
         ;
@@ -143,21 +146,16 @@ final class ProductFilterTest extends ApiTestCase
 
     public function testGetFamiliesFilter(): void
     {
-        $reflectionClass = new \ReflectionClass($this->productFilter);
-        $method = $reflectionClass->getMethod('getFamiliesFilter');
-        $method->setAccessible(true);
-
-        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
-        Assert::assertInstanceOf(SearchBuilder::class, $result);
+        $result = $this->productFilter->getProductFilters();
+        Assert::assertIsArray($result['search']);
+        Assert::assertArrayHasKey('family', $result['search']);
         $expect = [
-            'family' => [
-                [
-                    'operator' => Operator::NOT_IN,
-                    'value' => ['shoes'],
-                ],
+            [
+                'operator' => Operator::NOT_IN,
+                'value' => ['shoes'],
             ],
         ];
-        Assert::assertEquals($expect, $result->getFilters());
+        Assert::assertEquals($expect, $result['search']['family']);
     }
 
     public function testGetCompletenessFilter(): void
@@ -261,73 +259,60 @@ final class ProductFilterTest extends ApiTestCase
         Assert::assertEquals($expect, $result);
     }
 
-    public function testGetLocalesFilter(): void
+    public function testDontApplyStatusFilterWhenRulesStatusIsNull(): void
     {
-        $allLocales = $this->localeRepository->findAll();
-        if (!empty($allLocales)) {
-            /** @var Locale $locale */
-            foreach ($allLocales as $locale) {
-                $locales[] = $locale->getCode();
-            }
-        }
-        if (!in_array('en_US', $locales)) {
-            $locale = new Locale();
-            $locale->setCode('en_US');
+        $result = $this->productFilter->getProductFilters();
+        Assert::assertIsArray($result);
+        Assert::assertArrayNotHasKey('enabled', $result);
 
-            $this->manager->persist($locale);
-            $this->manager->flush();
-
-            $locales = [$locale->getCode()];
-        }
-
-        $reflectionClass = new \ReflectionClass($this->productFilter);
-        $method = $reflectionClass->getMethod('getLocales');
-        $method->setAccessible(true);
-
-        $payload = new ProductModelPayload($this->createClient());
-
-        $results = $method->invoke($this->productFilter, $this->productFiltersRules, $payload);
-        Assert::assertIsArray($results);
-        Assert::assertNotEmpty($results);
-        foreach ($results as $result) {
-            Assert::assertContains($result, $locales);
-        }
+        $result = $this->productFilter->getProductModelFilters();
+        Assert::assertIsArray($result);
+        Assert::assertArrayNotHasKey('enabled', $result);
     }
 
-    public function testGetStatusFilter(): void
+    public function testFilterEnabledProductWhenRulesStatusIsTrue(): void
     {
-        $reflectionClass = new \ReflectionClass($this->productFilter);
-        $method = $reflectionClass->getMethod('getStatus');
-        $method->setAccessible(true);
+        $this->productFiltersRules
+            ->setStatus(ProductFilterStatusEnum::ENABLED)
+        ;
+        $this->manager->flush();
 
-        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
-        Assert::assertInstanceOf(SearchBuilder::class, $result);
-        Assert::assertEquals([], $result->getFilters());
-
-        $this->productFiltersRules->setStatus(true);
-        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
-        Assert::assertInstanceOf(SearchBuilder::class, $result);
+        $result = $this->productFilter->getProductFilters();
+        Assert::assertIsArray($result['search']);
+        Assert::assertArrayHasKey('enabled', $result['search']);
         $expect = [
-            'enabled' => [
-                [
-                    'operator' => Operator::EQUAL,
-                    'value' => true,
-                ],
+            [
+                'operator' => Operator::EQUAL,
+                'value' => true,
             ],
         ];
-        Assert::assertEquals($expect, $result->getFilters());
+        Assert::assertEquals($expect, $result['search']['enabled']);
 
-        $this->productFiltersRules->setStatus(false);
-        $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
-        Assert::assertInstanceOf(SearchBuilder::class, $result);
+        $result = $this->productFilter->getProductModelFilters();
+        Assert::assertIsArray($result['search']);
+        Assert::assertArrayNotHasKey('enabled', $result['search']);
+    }
+
+    public function testFilterDisabledProductWhenRulesStatusIsFalse(): void
+    {
+        $this->productFiltersRules
+            ->setStatus(ProductFilterStatusEnum::DISABLED)
+        ;
+        $this->manager->flush();
+
+        $result = $this->productFilter->getProductFilters();
+        Assert::assertIsArray($result['search']);
+        Assert::assertArrayHasKey('enabled', $result['search']);
         $expect = [
-            'enabled' => [
-                [
-                    'operator' => Operator::EQUAL,
-                    'value' => false,
-                ],
+            [
+                'operator' => Operator::EQUAL,
+                'value' => false,
             ],
         ];
-        Assert::assertEquals($expect, $result->getFilters());
+        Assert::assertEquals($expect, $result['search']['enabled']);
+
+        $result = $this->productFilter->getProductModelFilters();
+        Assert::assertIsArray($result['search']);
+        Assert::assertArrayNotHasKey('enabled', $result['search']);
     }
 }

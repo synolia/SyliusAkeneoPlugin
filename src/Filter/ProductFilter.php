@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -62,7 +63,7 @@ final class ProductFilter
             }
             $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
 
-            $queryParameters = $this->getFamiliesFilter($productFilterRules, $queryParameters);
+            $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
@@ -108,7 +109,7 @@ final class ProductFilter
                 $productFilterRules->getCompletenessType(),
                 $productFilterRules->getCompletenessValue()
             );
-            $queryParameters = $this->getFamiliesFilter($productFilterRules, $queryParameters);
+            $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $this->getStatus($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
@@ -124,14 +125,14 @@ final class ProductFilter
     private function getStatus(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
     {
         $status = $productFilterRules->getStatus();
-        if ($status === null) {
+        if ($status === ProductFilterStatusEnum::NO_CONDITION) {
             return $queryParameters;
         }
 
         return $queryParameters->addFilter(
             'enabled',
             Operator::EQUAL,
-            $status
+            $status === ProductFilterStatusEnum::ENABLED
         );
     }
 
@@ -173,16 +174,16 @@ final class ProductFilter
         return $queryParameters;
     }
 
-    private function getFamiliesFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
+    private function getExcludeFamiliesFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
     {
-        if (empty($productFilterRules->getFamilies())) {
+        if (empty($productFilterRules->getExcludeFamilies())) {
             return $queryParameters;
         }
 
         return $queryParameters->addFilter(
             'family',
             Operator::NOT_IN,
-            $productFilterRules->getFamilies()
+            $productFilterRules->getExcludeFamilies()
         );
     }
 
