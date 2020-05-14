@@ -53,6 +53,7 @@
             {{ form_end(simple_form) }}
         </div>
         <div class="ui segment togglable" style="display: none;">
+            <span class="ui pointing below label" style="display: none;">{{ 'sylius.ui.admin.akeneo.product_filter_rules.families_help'|trans }}</span>
             {{ form_start(advanced_form, {'attr': {'class': 'ui form'}}) }}
             {{ form_row(advanced_form.mode) }}
             {{ form_row(advanced_form.advanced_filter) }}

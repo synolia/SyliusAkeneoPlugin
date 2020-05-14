@@ -28,6 +28,8 @@ sylius:
                     simple: Simple
                     advanced: Avancé
                     advanced_filter: Filtre avancé
+                    advanced_help: Le filtre avancé sert à configurer la query pour l'appel /api/rest/v1/products,
+                        le connecteur s'occupe de convertir la query pour l'adapter sur l'appel des produits model
                     channel: Channel Akeneo
                     completeness_type: Type de complétude
                     completeness_type_help: Choix du type de complétude d'un produit Akeneo

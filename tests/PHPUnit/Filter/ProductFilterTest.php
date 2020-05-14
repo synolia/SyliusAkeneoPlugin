@@ -215,46 +215,60 @@ final class ProductFilterTest extends ApiTestCase
         Assert::assertSame('ecommerce', $result['scope']);
     }
 
-    public function testGetFilterWithAdvancedMode(): void
+    public function testGetProductModelFilterWithAdvancedMode(): void
     {
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
-            '{"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=", "value":  100, "locales":["en_US"], "scope": "ecommerce"}]}'
+            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce'
         );
 
-        $this->manager->persist($this->productFiltersRules);
         $this->manager->flush();
 
         $result = $this->productFilter->getProductModelFilters();
         Assert::assertIsArray($result);
         $expect = [
-            'completeness' => [
-                [
-                    'operator' => self::COMPLETENESS_ALL_COMPLETE,
-                    'locales' => ['en_US'],
-                    'scope' => 'ecommerce',
+            'search' => [
+                'completeness' => [
+                    [
+                        'operator' => self::COMPLETENESS_ALL_COMPLETE,
+                        'locales' => ['en_US'],
+                        'scope' => 'ecommerce',
+                    ],
                 ],
             ],
+            'scope' => 'ecommerce',
         ];
         Assert::assertEquals($expect, $result);
+    }
 
+    public function testGetProductFilterWithAdvancedMode(): void
+    {
+        $this->productFiltersRules->setMode('advanced');
+        $this->productFiltersRules->setAdvancedFilter(
+            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce'
+        );
+
+        $this->manager->flush();
         $result = $this->productFilter->getProductFilters();
         Assert::assertIsArray($result);
         $expect = [
-            'enabled' => [
-                [
-                    'operator' => Operator::EQUAL,
-                    'value' => true,
+            'search' => [
+                'enabled' => [
+                    [
+                        'operator' => Operator::EQUAL,
+                        'value' => true,
+                    ],
+                ],
+                'completeness' => [
+                    [
+                        'operator' => Operator::EQUAL,
+                        'value' => 100,
+                        'locales' => ['en_US'],
+                        'scope' => 'ecommerce',
+                    ],
                 ],
             ],
-            'completeness' => [
-                [
-                    'operator' => Operator::EQUAL,
-                    'value' => 100,
-                    'locales' => ['en_US'],
-                    'scope' => 'ecommerce',
-                ],
-            ],
+            'scope' => 'ecommerce',
         ];
         Assert::assertEquals($expect, $result);
     }

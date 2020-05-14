@@ -6,6 +6,9 @@
 
 You can configure filters to select which products will be imported.
 
+You can also configure filters as advanced mode, with this, you can create your own query for
+this request /api/rest/v1/products
+
 ## Categories
 
     BO > Akeneo > Categories
