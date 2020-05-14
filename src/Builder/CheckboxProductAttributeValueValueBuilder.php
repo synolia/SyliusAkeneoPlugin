@@ -6,11 +6,11 @@ namespace Synolia\SyliusAkeneoPlugin\Builder;
 
 use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 
-final class CheckboxeProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class CheckboxProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     public function support(string $attributeType): bool
     {
-        return $attributeType === ProductAttributeValueInterface::STORAGE_BOOLEAN;
+        return $attributeType === ProductAttributeValueInterface::STORAGE_BOOLEAN || $attributeType === 'checkbox';
     }
 
     /**

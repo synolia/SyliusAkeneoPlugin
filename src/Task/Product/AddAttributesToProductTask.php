@@ -130,7 +130,6 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
             if (\in_array($this->caseConverter->denormalize($transformedAttributeCode), $this->productProperties, true)) {
                 continue;
             }
-
             /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
             $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
             if (!$attribute instanceof AttributeInterface || null === $attribute->getType()) {
@@ -157,7 +156,13 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
                 $attributeValue->setAttribute($attribute);
                 $attributeValueValue = $this->attributeValueValueBuilder->build(
                     $attribute->getType(),
-                    $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $translation['locale'] ?? $this->localeContext->getLocaleCode(), $scope)
+                    $this->akeneoAttributeDataProvider->getData(
+                        $attributeCode,
+                        $translations,
+                        $translation['locale'] ?? $this->localeContext->getLocaleCode(),
+                        $scope,
+                        $attribute->getType()
+                    )
                 );
                 $attributeValue->setValue($attributeValueValue);
                 $payload->getProduct()->addAttribute($attributeValue);
