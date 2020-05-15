@@ -82,7 +82,7 @@ final class ProductFilterRuleSimpleType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated',
                 'required' => false,
             ])
-            ->add('families', FamiliesChoiceType::class, [
+            ->add('exclude_families', FamiliesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
             ])
             ->add('submit', SubmitType::class, [
