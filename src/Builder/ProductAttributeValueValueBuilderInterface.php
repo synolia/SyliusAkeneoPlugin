@@ -8,7 +8,7 @@ interface ProductAttributeValueValueBuilderInterface
 {
     public const TAG_ID = 'sylius.akeneo.attribute_value_value_builder';
 
-    public function support(string $attributeType): bool;
+    public function support(string $attributeCode): bool;
 
     /**
      * @param mixed $value

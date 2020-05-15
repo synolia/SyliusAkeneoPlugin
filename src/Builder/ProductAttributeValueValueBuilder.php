@@ -19,11 +19,11 @@ final class ProductAttributeValueValueBuilder
      *
      * @return mixed|null
      */
-    public function build(string $attributeType, $value)
+    public function build(string $attributeCode, $value)
     {
         /** @var \Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
-            if ($attributeValueBuilder->support($attributeType)) {
+            if ($attributeValueBuilder->support($attributeCode)) {
                 return $attributeValueBuilder->build($value);
             }
         }
@@ -31,10 +31,10 @@ final class ProductAttributeValueValueBuilder
         return null;
     }
 
-    public function hasSupportedBuilder(string $attributeType): bool
+    public function hasSupportedBuilder(string $attributeCode): bool
     {
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
-            if ($attributeValueBuilder->support($attributeType)) {
+            if ($attributeValueBuilder->support($attributeCode)) {
                 return true;
             }
         }

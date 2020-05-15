@@ -4,14 +4,35 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder;
 
-use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
-use Sylius\Component\Product\Model\ProductAttributeValueInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class SelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    public function support(string $attributeType): bool
+    /**
+     * @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider
+     */
+    private $akeneoAttributePropertiesProvider;
+    /**
+     * @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher
+     */
+    private $attributeTypeMatcher;
+
+    public function __construct(
+        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        AttributeTypeMatcher $attributeTypeMatcher
+    ) {
+        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
+        $this->attributeTypeMatcher = $attributeTypeMatcher;
+    }
+
+    public function support(string $attributeCode): bool
     {
-        return $attributeType === ProductAttributeValueInterface::STORAGE_JSON || $attributeType === SelectAttributeType::TYPE;
+        $akeneoAttributeType = $this->akeneoAttributePropertiesProvider->getType($attributeCode);
+        $typeMatcher = $this->attributeTypeMatcher->match($akeneoAttributeType);
+
+        return $typeMatcher instanceof SelectAttributeTypeMatcher && !$typeMatcher->isMultiple($akeneoAttributeType);
     }
 
     /**
@@ -19,10 +40,6 @@ final class SelectProductAttributeValueValueBuilder implements ProductAttributeV
      */
     public function build($value)
     {
-        if (is_array($value)) {
-            return $value;
-        }
-
         return [$value];
     }
 }

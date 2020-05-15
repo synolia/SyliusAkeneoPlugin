@@ -6,10 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\Builder;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
-final class TextProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class MultiSelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /**
      * @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider
@@ -30,10 +29,10 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
 
     public function support(string $attributeCode): bool
     {
-        $typeMatcher = $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode));
+        $akeneoAttributeType = $this->akeneoAttributePropertiesProvider->getType($attributeCode);
+        $typeMatcher = $this->attributeTypeMatcher->match($akeneoAttributeType);
 
-        return $typeMatcher instanceof TextAttributeTypeMatcher ||
-            $typeMatcher instanceof TextareaAttributeTypeMatcher;
+        return $typeMatcher instanceof SelectAttributeTypeMatcher && $typeMatcher->isMultiple($akeneoAttributeType);
     }
 
     /**
@@ -41,6 +40,6 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
      */
     public function build($value)
     {
-        return \trim((string) $value);
+        return $value;
     }
 }

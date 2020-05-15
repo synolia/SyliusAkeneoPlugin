@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder;
 
+use Symfony\Component\Intl\Exception\MethodNotImplementedException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTypeMatcher;
 
-final class TextProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class DatabaseProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /**
      * @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider
@@ -30,10 +30,7 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
 
     public function support(string $attributeCode): bool
     {
-        $typeMatcher = $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode));
-
-        return $typeMatcher instanceof TextAttributeTypeMatcher ||
-            $typeMatcher instanceof TextareaAttributeTypeMatcher;
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof DatabaseMappingAttributeTypeMatcher;
     }
 
     /**
@@ -41,6 +38,7 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
      */
     public function build($value)
     {
-        return \trim((string) $value);
+        //TODO: foreach Sylius attribute types, call the right Builder to return the value
+        throw new MethodNotImplementedException('');
     }
 }

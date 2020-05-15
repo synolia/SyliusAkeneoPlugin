@@ -29,6 +29,11 @@ final class AkeneoAttributePropertiesProvider
         return $this;
     }
 
+    public function isLocalizable(string $attributeCode): bool
+    {
+        return (isset($this->getProperties($attributeCode)['localizable'])) ? (bool) $this->getProperties($attributeCode)['localizable'] : false;
+    }
+
     public function getProperties(string $attributeCode): array
     {
         if (isset($this->attributes[$attributeCode])) {
@@ -48,11 +53,6 @@ final class AkeneoAttributePropertiesProvider
         return $this->attributes[$attributeCode];
     }
 
-    public function isLocalizable(string $attributeCode): bool
-    {
-        return (isset($this->getProperties($attributeCode)['localizable'])) ? (bool) $this->getProperties($attributeCode)['localizable'] : false;
-    }
-
     public function isUnique(string $attributeCode): bool
     {
         return (isset($this->getProperties($attributeCode)['unique'])) ? (bool) $this->getProperties($attributeCode)['unique'] : false;
@@ -63,11 +63,6 @@ final class AkeneoAttributePropertiesProvider
         return (isset($this->getProperties($attributeCode)['scopable'])) ? (bool) $this->getProperties($attributeCode)['scopable'] : false;
     }
 
-    public function getLabels(string $attributeCode): array
-    {
-        return (isset($this->getProperties($attributeCode)['labels'])) ? $this->getProperties($attributeCode)['labels'] : [];
-    }
-
     public function getLabel(string $attributeCode, ?string $locale): string
     {
         $labels = $this->getLabels($attributeCode);
@@ -76,6 +71,11 @@ final class AkeneoAttributePropertiesProvider
         }
 
         return $labels[$locale];
+    }
+
+    public function getLabels(string $attributeCode): array
+    {
+        return (isset($this->getProperties($attributeCode)['labels'])) ? $this->getProperties($attributeCode)['labels'] : [];
     }
 
     public function getType(string $attributeCode): string
