@@ -185,7 +185,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             ->setCompletenessType(Operator::EQUAL)
             ->setCompletenessValue(100)
             ->setChannel('ecommerce')
-            ->addFamily('shoes')
+            ->addExcludeFamily('shoes')
             ->addLocale('en_US')
             ->setUpdatedAfter(new \DateTime('2020-04-04'))
             ->setUpdatedBefore(new \DateTime('2020-04-04'))

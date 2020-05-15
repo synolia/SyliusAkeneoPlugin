@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 
 final class ProductFilterRuleSimpleType extends AbstractType
 {
@@ -55,9 +56,9 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ->add('status', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.status',
                 'choices' => [
-                    'sylius.ui.admin.akeneo.product_filter_rules.no_condition' => null,
-                    'sylius.ui.admin.akeneo.product_filter_rules.enabled' => true,
-                    'sylius.ui.admin.akeneo.product_filter_rules.disabled' => false,
+                    'sylius.ui.admin.akeneo.product_filter_rules.no_condition' => ProductFilterStatusEnum::NO_CONDITION,
+                    'sylius.ui.admin.akeneo.product_filter_rules.enabled' => ProductFilterStatusEnum::ENABLED,
+                    'sylius.ui.admin.akeneo.product_filter_rules.disabled' => ProductFilterStatusEnum::DISABLED,
                 ],
             ])
             ->add('updated_mode', ChoiceType::class, [
