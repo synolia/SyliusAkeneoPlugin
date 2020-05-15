@@ -53,7 +53,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
             $this->configurationProvider->getConfiguration()->getPaginationSize(),
             true,
-            ['search' => $queryParameters]
+            $queryParameters
         );
 
         if (!$resources instanceof Page) {
