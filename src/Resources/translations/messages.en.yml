@@ -28,6 +28,8 @@ sylius:
                     simple: Simple
                     advanced: Advanced
                     advanced_filter: Advanced filter
+                    advanced_help: The advanced filter is use to configure the request /api/rest/v1/products query,
+                        the plugin adapt the query to the products models request
                     channel: Akeneo channel
                     completeness_type: Completeness type
                     completeness_type_help: Choose type for Akeneo’s product completeness

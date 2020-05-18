@@ -24,11 +24,11 @@ final class ProductFilter
     private const API_DATETIME_FORMAT = 'Y-m-d H:i:s';
 
     private const AVAILABLE_PRODUCT_MODEL_QUERIES = [
-        'updated' => [],
-        'completeness' => [],
-        'categories' => [],
-        'family' => [],
-        'created' => [],
+        'updated',
+        'completeness',
+        'categories',
+        'family',
+        'created',
     ];
 
     /** @var EntityRepository */
@@ -69,21 +69,7 @@ final class ProductFilter
         }
 
         if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
-            $query = json_decode($productFilterRules->getAdvancedFilter(), true);
-            $invalideArrayKey = array_diff_key($query, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
-            foreach (array_keys($invalideArrayKey) as $value) {
-                unset($query[$value]);
-            }
-
-            if (isset($query['completeness'][0]['value'])) {
-                $query['completeness'][0]['operator'] = self::AT_LEAST_COMPLETE;
-                if ($query['completeness'][0]['value'] === self::FULL_COMPLETE) {
-                    $query['completeness'][0]['operator'] = self::ALL_COMPLETE;
-                }
-                unset($query['completeness'][0]['value']);
-            }
-
-            return $query;
+            return $this->getAdvancedFilter($productFilterRules, true);
         }
 
         return $queryParameters;
@@ -116,7 +102,7 @@ final class ProductFilter
         }
 
         if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
-            $queryParameters = json_decode($productFilterRules->getAdvancedFilter(), true);
+            return $this->getAdvancedFilter($productFilterRules);
         }
 
         return $queryParameters;
@@ -134,6 +120,49 @@ final class ProductFilter
             Operator::EQUAL,
             $status === ProductFilterStatusEnum::ENABLED
         );
+    }
+
+    private function getAdvancedFilter(ProductFiltersRules $productFilterRules, bool $isProductModelFilter = false): array
+    {
+        if ($productFilterRules->getAdvancedFilter() === null) {
+            return [];
+        }
+
+        parse_str($productFilterRules->getAdvancedFilter(), $advancedFilter);
+        if (!array_key_exists('search', $advancedFilter)) {
+            return $advancedFilter;
+        }
+
+        $advancedFilter['search'] = json_decode($advancedFilter['search'], true);
+        if ($isProductModelFilter === true) {
+            return $this->getProductModelAdvancedFilter($advancedFilter);
+        }
+
+        return $advancedFilter;
+    }
+
+    private function getProductModelCompletenessTypeAdvancedFilter(array $filter): array
+    {
+        $filter['search']['completeness'][0]['operator'] = self::AT_LEAST_COMPLETE;
+        if ($filter['search']['completeness'][0]['value'] === self::FULL_COMPLETE) {
+            $filter['search']['completeness'][0]['operator'] = self::ALL_COMPLETE;
+        }
+        unset($filter['search']['completeness'][0]['value']);
+
+        return $filter;
+    }
+
+    private function getProductModelAdvancedFilter(array $advancedFilter): array
+    {
+        $advancedFilter['search'] = array_filter($advancedFilter['search'], static function (string $key): bool {
+            return in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
+        }, \ARRAY_FILTER_USE_KEY);
+
+        if (array_key_exists('completeness', $advancedFilter['search']) && is_array($advancedFilter['search']['completeness'])) {
+            $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);
+        }
+
+        return $advancedFilter;
     }
 
     private function getUpdatedFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
