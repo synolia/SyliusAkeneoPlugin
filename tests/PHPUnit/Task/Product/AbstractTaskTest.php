@@ -19,6 +19,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
@@ -31,6 +33,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager = self::$container->get('doctrine')->getManager();
 
         $this->initializeApiConfiguration();
+        $this->createProductFiltersConfiguration();
 
         $this->manager->flush();
 
@@ -72,6 +75,16 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'size'),
             new Response($this->getFileContent('attribute_options_size.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'maximum_print_size'),
+            new Response($this->getFileContent('attribute_options_maximum_print_size.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'multifunction_functions'),
+            new Response($this->getFileContent('attribute_options_multifunction_functions.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
@@ -153,5 +166,15 @@ abstract class AbstractTaskTest extends ApiTestCase
         }
 
         $this->manager->flush();
+    }
+
+    private function createProductFiltersConfiguration(): void
+    {
+        $productFilters = new ProductFiltersRules();
+        $productFilters->setMode(ProductFilterRuleAdvancedType::MODE)
+            ->setAdvancedFilter('')
+            ->setCompletenessValue(0)
+        ;
+        $this->manager->persist($productFilters);
     }
 }

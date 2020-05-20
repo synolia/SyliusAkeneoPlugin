@@ -1,0 +1,132 @@
+{
+    "_links": {
+        "self": {
+            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes/multifunctional_functions"
+                    }
+                },
+                "code": "multifunctional_functions",
+                "type": "pim_catalog_multiselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 16,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Functies all-in-one",
+                    "en_US": "All-in-one functions",
+                    "fr_FR": "Fonctions tout-en-un"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/maximum_print_size"
+                    }
+                },
+                "code": "maximum_print_size",
+                "type": "pim_catalog_simpleselect",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 5,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Maximale Druckgröße",
+                    "en_US": "Maximum print size",
+                    "fr_FR": "Format d’impression maximale"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/color_scanning"
+                    }
+                },
+                "code": "color_scanning",
+                "type": "pim_catalog_boolean",
+                "group": "technical",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 3,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "de_DE": "Farbscannen",
+                    "en_US": "Color scanning",
+                    "fr_FR": "Numérisation couleur"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
+            }
+        ]
+    }
+}

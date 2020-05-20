@@ -1,0 +1,90 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/copy"
+                    }
+                },
+                "code": "copy",
+                "attribute": "multifunctional_functions",
+                "sort_order": 1,
+                "labels": {
+                    "de_DE": "copy",
+                    "en_US": "copy",
+                    "fr_FR": "copy"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/fax"
+                    }
+                },
+                "code": "fax",
+                "attribute": "multifunctional_functions",
+                "sort_order": 2,
+                "labels": {
+                    "de_DE": "fax",
+                    "en_US": "fax",
+                    "fr_FR": "fax"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/n"
+                    }
+                },
+                "code": "n",
+                "attribute": "multifunctional_functions",
+                "sort_order": 3,
+                "labels": {
+                    "de_DE": "N",
+                    "en_US": "N",
+                    "fr_FR": "N"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/print"
+                    }
+                },
+                "code": "print",
+                "attribute": "multifunctional_functions",
+                "sort_order": 4,
+                "labels": {
+                    "de_DE": "print",
+                    "en_US": "print",
+                    "fr_FR": "print"
+                }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/scan"
+                    }
+                },
+                "code": "scan",
+                "attribute": "multifunctional_functions",
+                "sort_order": 5,
+                "labels": {
+                    "de_DE": "scan",
+                    "en_US": "scan",
+                    "fr_FR": "scan"
+                }
+            }
+        ]
+    }
+}
