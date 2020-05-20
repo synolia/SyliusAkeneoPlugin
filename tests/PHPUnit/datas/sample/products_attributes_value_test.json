@@ -1,0 +1,207 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://demo.akeneo.com/api/rest/v1/products?page=1&limit=1"
+    },
+    "first": {
+      "href": "https://demo.akeneo.com/api/rest/v1/products?page=1&limit=1"
+    }
+  },
+  "current_page": 3,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://demo.akeneo.com/api/rest/v1/product/11834327"
+          }
+        },
+        "identifier": "11834327",
+        "enabled": true,
+        "family": "multifunctionals",
+        "categories": [
+          "kyocera",
+          "multifunctionals",
+          "print_scan_sales"
+        ],
+        "groups": [],
+        "parent": null,
+        "values": {
+          "maximum_print_size": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "legal_216_x_356_mm_"
+            }
+          ],
+          "multifunctional_functions": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "copy",
+                "n",
+                "scan"
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Kyocera FS-1035MFP\/DP"
+            }
+          ],
+          "description": [
+            {
+              "locale": "de_DE",
+              "scope": "print",
+              "data": "- Geringste Druckkosten seiner Klasse\\n- Bis zu 35 Seiten A4 pro Minute (Druck\/Kopie)\\n- Bis zu 35 SW-Scans pro Minute bzw. 14 Farb-Scans pro Minute\\n- Erste Kopie bereits nach 6,9 Sekunden\\n- Integrierte Duplex-Funktionalität für beidseitiges Drucken, Kopieren und Scannen\\n- 300 Blatt Papierkapazität, maximal 800 Blatt\\n- Vertraulicher Druck mit persönlicher PIN-Code-Abfrage (Speichererweiterung erforderlich)\\n- Kostenstellenmanagement\\n- Einfache Authentifizierung mit optionalem USB-Kartenleser\\n- USB Host für direktes Drucken und Scannen ohne PC\\n\\nHöchste Effizienz und Zuverlässigkeit kombiniert mit vielfältigen Standardfunktionen macht dieses Multifunktionssystem zum idealen Partner für‘s Büro. Beachtlich sein Arbeitstempo mit enormen 35 Seiten\/Min. – und die integrierte Duplex-Einheit, die den Papierbedarf deutlich reduziert. Und: Für den digitalen Dokumentenfluss hat das System vielfältige Scan-Möglichkeiten an Bord."
+            },
+            {
+              "locale": "en_US",
+              "scope": "print",
+              "data": "- Up to 35 pages per minute in A4\\n- Time to first copy: 6.9 seconds\\n- Double sided print, copy and scan functionality as standard\\n- 50 sheet document processor scans double sided originals\\n- Up to 2 optional paper feeders for up to 800 sheets\\n- High security through SSL, IPsec and Private Print (requires additional memory) functionality\\n- Print from and scan to USB memory\\n- Exceptionally low printing costs in its class\\n- Automatic Power Off mode provides lowest power consumption\\n\\nThese compact A4 MFPs are perfect for every workgroup requesting a very productive document workflow. Printing, copying and scanning speeds of up to 35 pages, a fast first-print and copy time as well as the document processor for double sided originals and duplexoutput will increase your productivity. Excellent media flexibility and optional paper-feeders support your individual document output needs."
+            }
+          ],
+          "release_date": [
+            {
+              "locale": null,
+              "scope": "ecommerce",
+              "data": "2011-12-02T00:00:00+01:00"
+            }
+          ],
+          "color_scanning": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": true
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:43+01:00",
+        "updated": "2020-05-13T16:28:18+02:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://demo.akeneo.com/api/rest/v1/product/123456789"
+          }
+        },
+        "identifier": "123456789",
+        "enabled": true,
+        "family": "multifunctionals",
+        "categories": [
+          "kyocera",
+          "multifunctionals",
+          "print_scan_sales"
+        ],
+        "groups": [],
+        "parent": null,
+        "values": {
+          "maximum_print_size": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "legal_216_x_356_mm_"
+            }
+          ],
+          "multifunctional_functions": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "copy"
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Kyocera FS-1035MFP\/DP BIS"
+            }
+          ],
+          "description": [
+            {
+              "locale": "de_DE",
+              "scope": "print",
+              "data": "- Geringste Druckkosten seiner Klasse\\n- Bis zu 35 Seiten A4 pro Minute (Druck\/Kopie)\\n- Bis zu 35 SW-Scans pro Minute bzw. 14 Farb-Scans pro Minute\\n- Erste Kopie bereits nach 6,9 Sekunden\\n- Integrierte Duplex-Funktionalität für beidseitiges Drucken, Kopieren und Scannen\\n- 300 Blatt Papierkapazität, maximal 800 Blatt\\n- Vertraulicher Druck mit persönlicher PIN-Code-Abfrage (Speichererweiterung erforderlich)\\n- Kostenstellenmanagement\\n- Einfache Authentifizierung mit optionalem USB-Kartenleser\\n- USB Host für direktes Drucken und Scannen ohne PC\\n\\nHöchste Effizienz und Zuverlässigkeit kombiniert mit vielfältigen Standardfunktionen macht dieses Multifunktionssystem zum idealen Partner für‘s Büro. Beachtlich sein Arbeitstempo mit enormen 35 Seiten\/Min. – und die integrierte Duplex-Einheit, die den Papierbedarf deutlich reduziert. Und: Für den digitalen Dokumentenfluss hat das System vielfältige Scan-Möglichkeiten an Bord."
+            },
+            {
+              "locale": "en_US",
+              "scope": "print",
+              "data": "- Up to 35 pages per minute in A4\\n- Time to first copy: 6.9 seconds\\n- Double sided print, copy and scan functionality as standard\\n- 50 sheet document processor scans double sided originals\\n- Up to 2 optional paper feeders for up to 800 sheets\\n- High security through SSL, IPsec and Private Print (requires additional memory) functionality\\n- Print from and scan to USB memory\\n- Exceptionally low printing costs in its class\\n- Automatic Power Off mode provides lowest power consumption\\n\\nThese compact A4 MFPs are perfect for every workgroup requesting a very productive document workflow. Printing, copying and scanning speeds of up to 35 pages, a fast first-print and copy time as well as the document processor for double sided originals and duplexoutput will increase your productivity. Excellent media flexibility and optional paper-feeders support your individual document output needs."
+            }
+          ],
+          "release_date": [
+            {
+              "locale": null,
+              "scope": "ecommerce",
+              "data": "2011-12-02T00:00:00+01:00"
+            }
+          ],
+          "color_scanning": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": false
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:43+01:00",
+        "updated": "2020-05-13T16:28:18+02:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      }
+    ]
+  }
+}

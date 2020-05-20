@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
+use Akeneo\Pim\ApiClient\Api\AttributeApi;
+use Akeneo\Pim\ApiClient\Api\ProductApi;
+use donatj\MockWebServer\Response;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -97,6 +101,105 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
             $this->assertEquals(89900, $channelPricing->getPrice());
             $this->assertEquals(89900, $channelPricing->getOriginalPrice());
         }
+    }
+
+    public function testCreateSimpleProductsWithMultipleValuesInMultiSelectAndTrueCheckboxTask(): void
+    {
+        $this->initializeProductWithMultiSelectAndCheckbox();
+
+        $productPayload = new ProductPayload($this->client);
+
+        /** @var RetrieveProductsTask $retrieveProductsTask */
+        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProductPayload $productPayload */
+        $productPayload = $retrieveProductsTask->__invoke($productPayload);
+
+        $this->assertCount(2, $productPayload->getSimpleProductPayload()->getProducts());
+
+        /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
+        $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
+        $createSimpleProductEntitiesTask->__invoke($productPayload);
+
+        /** @var \Sylius\Component\Core\Model\ProductInterface $product */
+        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => '11834327']);
+        $this->assertNotNull($product);
+
+        //Testing product attribute translations inside models
+        $product->setCurrentLocale('en_US');
+        $this->assertEquals('Kyocera FS-1035MFP/DP', $product->getName());
+
+        $this->assertNotEmpty($product->getAttributes());
+        foreach ($product->getAttributes() as $attribute) {
+            if ($attribute->getCode() === 'maximum_print_size') {
+                $this->assertCount(1, $attribute->getValue());
+                $this->assertEquals('legal_216_x_356_mm_', $attribute->getValue()[0]);
+            }
+            if ($attribute->getCode() === 'multifunctional_functions') {
+                $this->assertCount(3, $attribute->getValue());
+                $this->assertEquals(['copy', 'n', 'scan'], $attribute->getValue());
+            }
+            if ($attribute->getCode() === 'color_scanning') {
+                $this->assertTrue($attribute->getValue());
+            }
+        }
+    }
+
+    public function testCreateSimpleProductsWithUniqueValueInMultiSelectAndFalseCheckboxTask(): void
+    {
+        $this->initializeProductWithMultiSelectAndCheckbox();
+
+        $productPayload = new ProductPayload($this->client);
+
+        /** @var RetrieveProductsTask $retrieveProductsTask */
+        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProductPayload $productPayload */
+        $productPayload = $retrieveProductsTask->__invoke($productPayload);
+
+        $this->assertCount(2, $productPayload->getSimpleProductPayload()->getProducts());
+
+        /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
+        $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
+        $createSimpleProductEntitiesTask->__invoke($productPayload);
+
+        /** @var \Sylius\Component\Core\Model\ProductInterface $product */
+        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => '123456789']);
+        $this->assertNotNull($product);
+
+        //Testing product attribute translations inside models
+        $product->setCurrentLocale('en_US');
+        $this->assertEquals('Kyocera FS-1035MFP/DP BIS', $product->getName());
+
+        $this->assertNotEmpty($product->getAttributes());
+        foreach ($product->getAttributes() as $attribute) {
+            if ($attribute->getCode() === 'maximum_print_size') {
+                $this->assertCount(1, $attribute->getValue());
+                $this->assertEquals('legal_216_x_356_mm_', $attribute->getValue()[0]);
+            }
+            if ($attribute->getCode() === 'multifunctional_functions') {
+                $this->assertCount(1, $attribute->getValue());
+                $this->assertEquals(['copy'], $attribute->getValue());
+            }
+            if ($attribute->getCode() === 'color_scanning') {
+                $this->assertFalse($attribute->getValue());
+            }
+        }
+    }
+
+    private function initializeProductWithMultiSelectAndCheckbox(): void
+    {
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ProductApi::PRODUCTS_URI),
+            new Response($this->getFileContent('products_attributes_value_test.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            new Response($this->getFileContent('attributes_for_products_attributes_value_test.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->createProductConfiguration();
+        $this->importCategories();
+        $this->importAttributes();
     }
 
     private function importAttributes(): void
