@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
+use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use donatj\MockWebServer\Response;
@@ -31,9 +32,15 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
-            new Response($this->getFileContent('product_models.json'), [], HttpResponse::HTTP_OK)
+            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK)
         );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
+            new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK)
+        );
+
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)

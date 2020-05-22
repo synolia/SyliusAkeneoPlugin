@@ -29,11 +29,13 @@ final class AkeneoAttributeDataProvider
     /**
      * @param mixed $attributeValues
      *
+     * @return mixed|null
+     *
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
      */
-    public function getData(string $attributeCode, $attributeValues, string $locale, string $scope): string
+    public function getData(string $attributeCode, $attributeValues, string $locale, string $scope)
     {
         if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
             (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
@@ -59,7 +61,10 @@ final class AkeneoAttributeDataProvider
         throw new TranslationNotFoundException();
     }
 
-    private function getByScope(string $attributeCode, array $attributeValues, string $scope): string
+    /**
+     * @return mixed|null
+     */
+    private function getByScope(string $attributeCode, array $attributeValues, string $scope)
     {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope) {
@@ -72,7 +77,10 @@ final class AkeneoAttributeDataProvider
         throw new MissingScopeException();
     }
 
-    private function getByLocaleAndScope(string $attributeCode, array $attributeValues, string $locale, string $scope): string
+    /**
+     * @return mixed|null
+     */
+    private function getByLocaleAndScope(string $attributeCode, array $attributeValues, string $locale, string $scope)
     {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope || $attributeValue['locale'] !== $locale) {
@@ -85,7 +93,10 @@ final class AkeneoAttributeDataProvider
         throw new MissingLocaleTranslationOrScopeException();
     }
 
-    private function getByLocale(string $attributeCode, array $attributeValues, string $locale): string
+    /**
+     * @return mixed|null
+     */
+    private function getByLocale(string $attributeCode, array $attributeValues, string $locale)
     {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['locale'] !== $locale) {

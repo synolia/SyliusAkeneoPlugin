@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
+use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
@@ -19,9 +20,11 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $akeneoPropertiesProvider = new AkeneoAttributePropertiesProvider($this->createClient());
+        /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
+        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->attributeDataProvider = new AkeneoAttributeDataProvider($akeneoPropertiesProvider);
+        $productAttributeValueValueBuilder = self::$container->get(ProductAttributeValueValueBuilder::class);
+        $this->attributeDataProvider = new AkeneoAttributeDataProvider($akeneoPropertiesProvider, $productAttributeValueValueBuilder);
     }
 
     /** @dataProvider uniqueAttributeDataProvider */
@@ -69,28 +72,28 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
     {
-        yield ['600', 'wash_temperature', \json_decode('[
+        yield [['600'], 'wash_temperature', \json_decode('[
             {
               "locale": null,
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['600', 'wash_temperature', \json_decode('[
+        yield [['600'], 'wash_temperature', \json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['600', 'wash_temperature', \json_decode('[
+        yield [['600'], 'wash_temperature', \json_decode('[
             {
               "locale": "fr_FR",
               "scope": "ecommerce",
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['600', 'wash_temperature', \json_decode('[
+        yield [['600'], 'wash_temperature', \json_decode('[
             {
               "locale": null,
               "scope": "ecommerce",
@@ -113,7 +116,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     public function testNonUniqueNonLocalizableScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
     {
         $this->assertEquals(
-            $expectedValue,
+            new \DateTime($expectedValue),
             $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
         );
     }

@@ -6,7 +6,6 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
-use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
@@ -30,10 +29,7 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-
-            new ResponseStack(
-                new Response($this->getAttributes(), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getAttributes(), [], HttpResponse::HTTP_OK)
         );
 
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);

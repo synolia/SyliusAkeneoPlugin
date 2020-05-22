@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
@@ -34,6 +35,9 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
+        /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
+        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
         $this->client = $this->createClient();
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);

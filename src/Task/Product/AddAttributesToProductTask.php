@@ -154,10 +154,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
 
                 $attributeValue->setLocaleCode($translation['locale'] ?? $this->localeContext->getLocaleCode());
                 $attributeValue->setAttribute($attribute);
-                $attributeValueValue = $this->attributeValueValueBuilder->build(
-                    $attributeCode,
-                    $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $translation['locale'] ?? $this->localeContext->getLocaleCode(), $scope)
-                );
+                $attributeValueValue = $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $translation['locale'] ?? $this->localeContext->getLocaleCode(), $scope);
                 $attributeValue->setValue($attributeValueValue);
                 $payload->getProduct()->addAttribute($attributeValue);
             }
