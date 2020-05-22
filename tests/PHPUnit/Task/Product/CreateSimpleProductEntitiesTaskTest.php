@@ -103,49 +103,32 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         }
     }
 
-    public function testCreateSimpleProductsWithMultipleValuesInMultiSelectAndTrueCheckboxTask(): void
+    public function createSimpleProductsWithMultiSelectCheckboxDataProvider(): \Generator
     {
-        $this->initializeProductWithMultiSelectAndCheckbox();
+        yield [
+            '11834327',
+            'legal_216_x_356_mm_',
+            ['copy', 'n', 'scan'],
+            true,
+        ];
 
-        $productPayload = new ProductPayload($this->client);
-
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
-        /** @var ProductPayload $productPayload */
-        $productPayload = $retrieveProductsTask->__invoke($productPayload);
-
-        $this->assertCount(2, $productPayload->getSimpleProductPayload()->getProducts());
-
-        /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
-        $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
-        $createSimpleProductEntitiesTask->__invoke($productPayload);
-
-        /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => '11834327']);
-        $this->assertNotNull($product);
-
-        //Testing product attribute translations inside models
-        $product->setCurrentLocale('en_US');
-        $this->assertEquals('Kyocera FS-1035MFP/DP', $product->getName());
-
-        $this->assertNotEmpty($product->getAttributes());
-        foreach ($product->getAttributes() as $attribute) {
-            if ($attribute->getCode() === 'maximum_print_size') {
-                $this->assertCount(1, $attribute->getValue());
-                $this->assertEquals('legal_216_x_356_mm_', $attribute->getValue()[0]);
-            }
-            if ($attribute->getCode() === 'multifunctional_functions') {
-                $this->assertCount(3, $attribute->getValue());
-                $this->assertEquals(['copy', 'n', 'scan'], $attribute->getValue());
-            }
-            if ($attribute->getCode() === 'color_scanning') {
-                $this->assertTrue($attribute->getValue());
-            }
-        }
+        yield [
+            '123456789',
+            'legal_216_x_356_mm_',
+            ['copy'],
+            false,
+        ];
     }
 
-    public function testCreateSimpleProductsWithUniqueValueInMultiSelectAndFalseCheckboxTask(): void
-    {
+    /**
+     * @dataProvider createSimpleProductsWithMultiSelectCheckboxDataProvider
+     */
+    public function testCreateSimpleProductsWithMultiSelectCheckboxTask(
+        string $productId,
+        string $selectValue,
+        array $multiSelectValue,
+        bool $checkboxValue
+    ): void {
         $this->initializeProductWithMultiSelectAndCheckbox();
 
         $productPayload = new ProductPayload($this->client);
@@ -162,25 +145,21 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => '123456789']);
+        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => $productId]);
         $this->assertNotNull($product);
-
-        //Testing product attribute translations inside models
-        $product->setCurrentLocale('en_US');
-        $this->assertEquals('Kyocera FS-1035MFP/DP BIS', $product->getName());
 
         $this->assertNotEmpty($product->getAttributes());
         foreach ($product->getAttributes() as $attribute) {
             if ($attribute->getCode() === 'maximum_print_size') {
                 $this->assertCount(1, $attribute->getValue());
-                $this->assertEquals('legal_216_x_356_mm_', $attribute->getValue()[0]);
+                $this->assertEquals($selectValue, $attribute->getValue()[0]);
             }
             if ($attribute->getCode() === 'multifunctional_functions') {
-                $this->assertCount(1, $attribute->getValue());
-                $this->assertEquals(['copy'], $attribute->getValue());
+                $this->assertGreaterThanOrEqual(1, $attribute->getValue());
+                $this->assertEquals($multiSelectValue, $attribute->getValue());
             }
             if ($attribute->getCode() === 'color_scanning') {
-                $this->assertFalse($attribute->getValue());
+                $this->assertEquals($checkboxValue, $attribute->getValue());
             }
         }
     }
