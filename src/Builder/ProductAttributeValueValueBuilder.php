@@ -31,6 +31,23 @@ final class ProductAttributeValueValueBuilder
         return null;
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function findBuilderByClassName(string $className)
+    {
+        /** @var \Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
+        foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
+            if (!$attributeValueBuilder instanceof $className) {
+                continue;
+            }
+
+            return $attributeValueBuilder;
+        }
+
+        return null;
+    }
+
     public function hasSupportedBuilder(string $attributeCode): bool
     {
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {

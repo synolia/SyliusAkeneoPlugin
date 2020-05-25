@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder;
 
-use Symfony\Component\Intl\Exception\MethodNotImplementedException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTypeMatcher;
@@ -17,12 +16,22 @@ final class DatabaseProductAttributeValueValueBuilder implements ProductAttribut
     /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
     private $attributeTypeMatcher;
 
+    /** @var DatabaseMappingAttributeTypeMatcher */
+    private $databaseMappingAttributeTypeMatcher;
+
+    /** @var ProductAttributeValueValueBuilder */
+    private $productAttributeValueValueBuilder;
+
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AttributeTypeMatcher $attributeTypeMatcher
+        AttributeTypeMatcher $attributeTypeMatcher,
+        DatabaseMappingAttributeTypeMatcher $databaseMappingAttributeTypeMatcher,
+        ProductAttributeValueValueBuilder $productAttributeValueValueBuilder
     ) {
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
+        $this->databaseMappingAttributeTypeMatcher = $databaseMappingAttributeTypeMatcher;
+        $this->productAttributeValueValueBuilder = $productAttributeValueValueBuilder;
     }
 
     public function support(string $attributeCode): bool
@@ -35,7 +44,9 @@ final class DatabaseProductAttributeValueValueBuilder implements ProductAttribut
      */
     public function build($value)
     {
-        //TODO: foreach Sylius attribute types, call the right Builder to return the value
-        throw new MethodNotImplementedException('');
+        $attributeType = $this->attributeTypeMatcher->match($this->databaseMappingAttributeTypeMatcher->getType());
+        $builder = $this->productAttributeValueValueBuilder->findBuilderByClassName($attributeType->getBuilder());
+
+        return $builder->build($value);
     }
 }

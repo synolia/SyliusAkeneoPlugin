@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\CheckboxAttributeType;
+use Synolia\SyliusAkeneoPlugin\Builder\BooleanProductAttributeValueValueBuilder;
 
 final class BooleanAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    private const SUPPORTED_TYPE = 'pim_catalog_boolean';
+    private const SUPPORTED_TYPE = ['pim_catalog_boolean', 'checkbox'];
 
     public function getType(): string
     {
@@ -17,6 +18,11 @@ final class BooleanAttributeTypeMatcher implements AttributeTypeMatcherInterface
 
     public function support(string $akeneoType): bool
     {
-        return $akeneoType === self::SUPPORTED_TYPE;
+        return \in_array($akeneoType, self::SUPPORTED_TYPE, true);
+    }
+
+    public function getBuilder(): string
+    {
+        return BooleanProductAttributeValueValueBuilder::class;
     }
 }

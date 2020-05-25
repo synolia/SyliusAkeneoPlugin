@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\TextareaAttributeType;
+use Synolia\SyliusAkeneoPlugin\Builder\TextProductAttributeValueValueBuilder;
 
 final class TextareaAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    private const SUPPORTED_TYPE = 'pim_catalog_textarea';
+    private const SUPPORTED_TYPE = ['pim_catalog_textarea', 'textarea'];
 
     public function getType(): string
     {
@@ -17,6 +18,11 @@ final class TextareaAttributeTypeMatcher implements AttributeTypeMatcherInterfac
 
     public function support(string $akeneoType): bool
     {
-        return $akeneoType === self::SUPPORTED_TYPE;
+        return \in_array($akeneoType, self::SUPPORTED_TYPE, true);
+    }
+
+    public function getBuilder(): string
+    {
+        return TextProductAttributeValueValueBuilder::class;
     }
 }

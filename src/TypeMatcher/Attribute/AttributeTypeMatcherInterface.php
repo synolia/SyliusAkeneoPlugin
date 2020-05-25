@@ -11,4 +11,6 @@ interface AttributeTypeMatcherInterface
     public function support(string $akeneoType): bool;
 
     public function getType(): string;
+
+    public function getBuilder(): string;
 }
