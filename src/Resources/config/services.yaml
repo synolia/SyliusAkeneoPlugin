@@ -69,3 +69,7 @@ services:
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
+
+    Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeChoiceType:
+        arguments:
+            - '%sylius.attribute.attribute_types%'
