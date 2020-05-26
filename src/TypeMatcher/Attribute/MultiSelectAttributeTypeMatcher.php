@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
-use Synolia\SyliusAkeneoPlugin\Builder\SelectProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\MultiSelectProductAttributeValueValueBuilder;
 
-final class SelectAttributeTypeMatcher implements AttributeTypeMatcherInterface
+final class MultiSelectAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    private const SUPPORTED_TYPES = ['pim_catalog_simpleselect', 'select'];
+    private const SUPPORTED_TYPES = ['pim_catalog_multiselect', 'multiselect'];
 
     public function getType(): string
     {
@@ -23,6 +23,6 @@ final class SelectAttributeTypeMatcher implements AttributeTypeMatcherInterface
 
     public function getBuilder(): string
     {
-        return SelectProductAttributeValueValueBuilder::class;
+        return MultiSelectProductAttributeValueValueBuilder::class;
     }
 }

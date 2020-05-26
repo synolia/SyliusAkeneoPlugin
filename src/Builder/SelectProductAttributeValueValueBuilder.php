@@ -26,10 +26,7 @@ final class SelectProductAttributeValueValueBuilder implements ProductAttributeV
 
     public function support(string $attributeCode): bool
     {
-        $akeneoAttributeType = $this->akeneoAttributePropertiesProvider->getType($attributeCode);
-        $typeMatcher = $this->attributeTypeMatcher->match($akeneoAttributeType);
-
-        return $typeMatcher instanceof SelectAttributeTypeMatcher && !$typeMatcher->isMultiple($akeneoAttributeType);
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof SelectAttributeTypeMatcher;
     }
 
     /**

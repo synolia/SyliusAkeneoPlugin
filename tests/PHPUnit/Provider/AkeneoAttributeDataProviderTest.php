@@ -27,91 +27,90 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
         $this->attributeDataProvider = new AkeneoAttributeDataProvider($akeneoPropertiesProvider, $productAttributeValueValueBuilder);
     }
 
-//    /** @dataProvider uniqueAttributeDataProvider */
-//    public function testUniqueValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
-//    {
-//        $this->assertEquals(
-//            $expectedValue,
-//            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
-//        );
-//    }
-//
-//    public function uniqueAttributeDataProvider(): \Generator
-//    {
-//        yield ['1234567890142', 'ean', \json_decode('[
-//            {
-//              "locale": null,
-//              "scope": null,
-//              "data": "1234567890142"
-//            }
-//          ]', true), 'fr_FR', 'ecommerce'];
-//        yield ['1234567890142', 'sku', \json_decode('[
-//            {
-//              "locale": null,
-//              "scope": null,
-//              "data": "1234567890142"
-//            }
-//          ]', true), 'en_US', 'ecommerce'];
-//        yield ['1234567890142', 'sku', \json_decode('[
-//            {
-//              "locale": null,
-//              "scope": null,
-//              "data": "1234567890142"
-//            }
-//          ]', true), '', ''];
-//    }
-//
-//    /** @dataProvider nonUniqueNonLocalizableNonScopableAttributeDataProvider */
-//    public function testNonUniqueNonLocalizableNonScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
-//    {
-//        $this->assertEquals(
-//            $expectedValue,
-//            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
-//        );
-//    }
-//
-//    public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
-//    {
-//        yield [['600'], 'wash_temperature', \json_decode('[
-//            {
-//              "locale": null,
-//              "scope": null,
-//              "data": "600"
-//            }
-//          ]', true), 'fr_FR', 'ecommerce'];
-//        yield [['600'], 'wash_temperature', \json_decode('[
-//            {
-//              "locale": "fr_FR",
-//              "scope": null,
-//              "data": "600"
-//            }
-//          ]', true), 'fr_FR', 'ecommerce'];
-//        yield [['600'], 'wash_temperature', \json_decode('[
-//            {
-//              "locale": "fr_FR",
-//              "scope": "ecommerce",
-//              "data": "600"
-//            }
-//          ]', true), 'fr_FR', 'ecommerce'];
-//        yield [['600'], 'wash_temperature', \json_decode('[
-//            {
-//              "locale": null,
-//              "scope": "ecommerce",
-//              "data": "600"
-//            }
-//          ]', true), 'fr_FR', 'ecommerce'];
-//        yield ['32 INCH', 'display_diagonal', \json_decode('[
-//            {
-//              "locale": null,
-//              "scope": null,
-//              "data": {
-//                "amount": 32,
-//                "unit": "INCH"
-//              }
-//            }
-//          ]', true), 'en_US', 'ecommerce'];
-//    }
-//
+    /** @dataProvider uniqueAttributeDataProvider */
+    public function testUniqueValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
+    {
+        $this->assertEquals(
+            $expectedValue,
+            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
+        );
+    }
+
+    public function uniqueAttributeDataProvider(): \Generator
+    {
+        yield ['1234567890142', 'ean', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "1234567890142"
+            }
+          ]', true), 'fr_FR', 'ecommerce'];
+        yield ['1234567890142', 'sku', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "1234567890142"
+            }
+          ]', true), 'en_US', 'ecommerce'];
+        yield ['1234567890142', 'sku', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "1234567890142"
+            }
+          ]', true), '', ''];
+    }
+
+    /** @dataProvider nonUniqueNonLocalizableNonScopableAttributeDataProvider */
+    public function testNonUniqueNonLocalizableNonScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
+    {
+        $this->assertEquals(
+            $expectedValue,
+            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
+        );
+    }
+
+    public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
+    {
+        yield [['600'], 'wash_temperature', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": "600"
+            }
+          ]', true), 'fr_FR', 'ecommerce'];
+        yield [['600'], 'wash_temperature', \json_decode('[
+            {
+              "locale": "fr_FR",
+              "scope": null,
+              "data": "600"
+            }
+          ]', true), 'fr_FR', 'ecommerce'];
+        yield [['600'], 'wash_temperature', \json_decode('[
+            {
+              "locale": "fr_FR",
+              "scope": "ecommerce",
+              "data": "600"
+            }
+          ]', true), 'fr_FR', 'ecommerce'];
+        yield [['600'], 'wash_temperature', \json_decode('[
+            {
+              "locale": null,
+              "scope": "ecommerce",
+              "data": "600"
+            }
+          ]', true), 'fr_FR', 'ecommerce'];
+        yield ['32 INCH', 'display_diagonal', \json_decode('[
+            {
+              "locale": null,
+              "scope": null,
+              "data": {
+                "amount": 32,
+                "unit": "INCH"
+              }
+            }
+          ]', true), 'en_US', 'ecommerce'];
+    }
 
     /** @dataProvider nonUniqueNonLocalizableScopableAttributeDataProvider */
     public function testNonUniqueNonLocalizableScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void

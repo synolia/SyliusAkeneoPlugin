@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Builder;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMatcher;
 
 final class MultiSelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
@@ -26,10 +26,7 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
 
     public function support(string $attributeCode): bool
     {
-        $akeneoAttributeType = $this->akeneoAttributePropertiesProvider->getType($attributeCode);
-        $typeMatcher = $this->attributeTypeMatcher->match($akeneoAttributeType);
-
-        return $typeMatcher instanceof SelectAttributeTypeMatcher && $typeMatcher->isMultiple($akeneoAttributeType);
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MultiSelectAttributeTypeMatcher;
     }
 
     /**
