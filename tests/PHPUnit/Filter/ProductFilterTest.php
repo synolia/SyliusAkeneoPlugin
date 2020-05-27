@@ -8,13 +8,13 @@ use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use donatj\MockWebServer\Response;
-use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
+use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 final class ProductFilterTest extends ApiTestCase
@@ -32,6 +32,9 @@ final class ProductFilterTest extends ApiTestCase
     /** @var EntityRepository */
     private $localeRepository;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -41,6 +44,7 @@ final class ProductFilterTest extends ApiTestCase
         $this->manager->beginTransaction();
         $this->localeRepository = self::$container->get('sylius.repository.locale');
         $this->productFilter = self::$container->get(ProductFilter::class);
+        $this->syliusAkeneoLocaleCodeProvider = self::$container->get(SyliusAkeneoLocaleCodeProvider::class);
 
         $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
         if (!$this->productFiltersRules instanceof ProductFiltersRules) {
@@ -64,9 +68,7 @@ final class ProductFilterTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new ResponseStack(
-                new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
     }
 
@@ -175,7 +177,7 @@ final class ProductFilterTest extends ApiTestCase
             'completeness' => [
                 [
                     'operator' => self::COMPLETENESS_ALL_COMPLETE,
-                    'locales' => [],
+                    'locales' => $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(),
                     'scope' => 'ecommerce',
                 ],
             ],

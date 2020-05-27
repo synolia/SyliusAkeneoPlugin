@@ -216,6 +216,20 @@ final class ProductFilter
         );
     }
 
+    private function getLocales(ProductFiltersRules $productFilterRules): array
+    {
+        if (in_array($productFilterRules->getCompletenessType(), [
+            Operator::LOWER_THAN_ON_ALL_LOCALES,
+            Operator::GREATER_THAN_ON_ALL_LOCALES,
+            Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
+            Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
+        ])) {
+            return $productFilterRules->getLocales();
+        }
+
+        return $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
+    }
+
     private function getCompletenessFilter(
         ProductFiltersRules $productFilterRules,
         SearchBuilder $queryParameters,
@@ -251,7 +265,7 @@ final class ProductFilter
             $completeness,
             $completenessValue,
             [
-                'locales' => [],
+                'locales' => in_array($completeness, [self::AT_LEAST_COMPLETE, self::ALL_COMPLETE]) ? $this->getLocales($productFilterRules) : [],
                 'scope' => $productFilterRules->getChannel(),
             ]
         );
