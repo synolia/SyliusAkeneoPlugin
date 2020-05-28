@@ -12,6 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class RetrieveOptionsTask implements AkeneoTaskInterface
@@ -51,10 +52,10 @@ final class RetrieveOptionsTask implements AkeneoTaskInterface
         foreach ($payload->getResources() as $resource) {
             try {
                 $attributeTypeMatcher = $this->attributeTypeMatcher->match($resource['type']);
-                if (!$attributeTypeMatcher instanceof SelectAttributeTypeMatcher) {
+                if (!$attributeTypeMatcher instanceof SelectAttributeTypeMatcher && !$attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher) {
                     continue;
                 }
-                $compatibleAttributes[$resource['code']] = ['isMultiple' => $attributeTypeMatcher->isMultiple($resource['type'])];
+                $compatibleAttributes[$resource['code']] = ['isMultiple' => $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher];
             } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
                 $this->logger->warning(\sprintf(
                     '%s: %s',

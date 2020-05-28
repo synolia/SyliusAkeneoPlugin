@@ -4,13 +4,33 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder;
 
-use Sylius\Component\Product\Model\ProductAttributeValueInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
 
 final class TextProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    public function support(string $attributeType): bool
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
+    private $akeneoAttributePropertiesProvider;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
+    private $attributeTypeMatcher;
+
+    public function __construct(
+        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        AttributeTypeMatcher $attributeTypeMatcher
+    ) {
+        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
+        $this->attributeTypeMatcher = $attributeTypeMatcher;
+    }
+
+    public function support(string $attributeCode): bool
     {
-        return $attributeType === ProductAttributeValueInterface::STORAGE_TEXT;
+        $typeMatcher = $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode));
+
+        return $typeMatcher instanceof TextAttributeTypeMatcher ||
+            $typeMatcher instanceof TextareaAttributeTypeMatcher;
     }
 
     /**
@@ -18,6 +38,6 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
      */
     public function build($value)
     {
-        return $value;
+        return \trim((string) $value);
     }
 }

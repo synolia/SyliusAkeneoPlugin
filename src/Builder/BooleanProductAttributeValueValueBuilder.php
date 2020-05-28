@@ -6,9 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\Builder;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\IntegerAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\BooleanAttributeTypeMatcher;
 
-final class IntegerProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class BooleanProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
@@ -26,7 +26,7 @@ final class IntegerProductAttributeValueValueBuilder implements ProductAttribute
 
     public function support(string $attributeCode): bool
     {
-        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof IntegerAttributeTypeMatcher;
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof BooleanAttributeTypeMatcher;
     }
 
     /**
@@ -34,6 +34,6 @@ final class IntegerProductAttributeValueValueBuilder implements ProductAttribute
      */
     public function build($value)
     {
-        return (int) $value;
+        return (bool) $value;
     }
 }

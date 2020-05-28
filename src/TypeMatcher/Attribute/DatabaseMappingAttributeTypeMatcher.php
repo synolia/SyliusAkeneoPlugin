@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Builder\DatabaseProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 
 final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherInterface
@@ -46,5 +47,10 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
         $this->storedAttributeTypeMapping = $attributeTypeMapping;
 
         return true;
+    }
+
+    public function getBuilder(): string
+    {
+        return DatabaseProductAttributeValueValueBuilder::class;
     }
 }

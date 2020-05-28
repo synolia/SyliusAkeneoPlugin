@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\Product;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\EnableDisableProductModelsTask;
@@ -21,6 +22,9 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
+        /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
+        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
