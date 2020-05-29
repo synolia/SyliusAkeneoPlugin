@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -63,7 +64,14 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                     continue;
                 }
 
-                $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
+                try {
+                    $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
+                } catch (NotFoundHttpException $e) {
+                    $this->logger->error(Messages::createOrUpdate($resource['code']));
+                    $this->logger->error(Messages::createOrUpdate($e->getMessage()));
+
+                    continue;
+                }
 
                 foreach ($payloadProductGroup['variant_attribute_sets'] as $variantAttributeSet) {
                     if (count($payloadProductGroup['variant_attribute_sets']) !== $variantAttributeSet['level']) {
