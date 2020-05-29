@@ -15,6 +15,15 @@
 * Customize imports according to your business needs. - [Documentation](docs/CUSTOMIZE.md)
 * Launch imports through Cli or Back-Office - [Documentation](docs/LAUNCH.md)
 
+## Requirements
+
+| | Version |
+| :--- | :--- |
+| PHP  | 7.3+ |
+| Sylius | 1.7+ |
+| Akeneo PIM  | 3.0+ |
+
+
 ## Installation
 
 1. Add the bundle and dependencies in your composer.json :
