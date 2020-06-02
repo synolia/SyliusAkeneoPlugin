@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -171,7 +172,14 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
-        $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
+        try {
+            $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
+        } catch (NotFoundHttpException $e) {
+            $this->logger->error(Messages::createOrUpdate($resource['code']));
+            $this->logger->error(Messages::createOrUpdate($e->getMessage()));
+
+            return null;
+        }
         $numberOfVariationAxis = isset($payloadProductGroup['variant_attribute_sets']) ? \count($payloadProductGroup['variant_attribute_sets']) : 0;
 
         if (null === $resource['parent'] && $numberOfVariationAxis > self::ONE_VARIATION_AXIS) {
@@ -184,12 +192,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             $productGroup->addProduct($product);
         }
 
-        $productTaxonIds = [];
-        if ($product->getId() !== null) {
-            $productTaxonIds = array_map(function ($productTaxonIds) {
-                return $productTaxonIds['id'];
-            }, $this->productTaxonRepository->getProductTaxonIds($product));
-        }
+        $productTaxonIds = $this->getProductTaxonIds($product);
 
         $productTaxons = $this->updateTaxon($resource, $product);
         $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
@@ -206,6 +209,18 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
 
         return $product;
+    }
+
+    private function getProductTaxonIds(ProductInterface $product): array
+    {
+        $productTaxonIds = [];
+        if ($product->getId() !== null) {
+            $productTaxonIds = array_map(function ($productTaxonIds) {
+                return $productTaxonIds['id'];
+            }, $this->productTaxonRepository->getProductTaxonIds($product));
+        }
+
+        return $productTaxonIds;
     }
 
     private function updateTaxon(array $resource, ProductInterface $product): array
