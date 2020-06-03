@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_color"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_color"
                     }
                 },
                 "code": "clothing_color",
@@ -42,7 +42,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_color_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_color_size"
                     }
                 },
                 "code": "clothing_color_size",
@@ -82,7 +82,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_colorsize"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_colorsize"
                     }
                 },
                 "code": "clothing_colorsize",
@@ -113,7 +113,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_material_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_material_size"
                     }
                 },
                 "code": "clothing_material_size",
@@ -153,7 +153,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing\/variants\/clothing_size"
                     }
                 },
                 "code": "clothing_size",

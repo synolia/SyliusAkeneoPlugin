@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+            "href": "http://akeneo.example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+            "href": "http://akeneo.example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes/multifunctional_functions"
+                        "href": "http://akeneo.example.com/api/rest/v1/attributes/multifunctional_functions"
                     }
                 },
                 "code": "multifunctional_functions",
@@ -52,7 +52,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/maximum_print_size"
+                        "href": "http://akeneo.example.com/api/rest/v1/maximum_print_size"
                     }
                 },
                 "code": "maximum_print_size",
@@ -91,7 +91,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/color_scanning"
+                        "href": "http://akeneo.example.com/api/rest/v1/color_scanning"
                     }
                 },
                 "code": "color_scanning",

@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+            "href": "http://akeneo.example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+            "href": "http://akeneo.example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/attributes/clothing_size"
+                        "href": "http://akeneo.example.com/api/rest/v1/attributes/clothing_size"
                     }
                 },
                 "code": "clothing_size",
@@ -52,7 +52,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection"
                     }
                 },
                 "code": "collection",
@@ -91,7 +91,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color"
                     }
                 },
                 "code": "color",
@@ -130,7 +130,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size"
                     }
                 },
                 "code": "size",

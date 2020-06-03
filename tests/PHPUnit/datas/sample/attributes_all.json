@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_exposure"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/auto_exposure"
                     }
                 },
                 "code": "auto_exposure",
@@ -52,7 +52,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_assist_beam"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/auto_focus_assist_beam"
                     }
                 },
                 "code": "auto_focus_assist_beam",
@@ -91,7 +91,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_lock"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/auto_focus_lock"
                     }
                 },
                 "code": "auto_focus_lock",
@@ -130,7 +130,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_modes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/auto_focus_modes"
                     }
                 },
                 "code": "auto_focus_modes",
@@ -169,7 +169,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/auto_focus_points"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/auto_focus_points"
                     }
                 },
                 "code": "auto_focus_points",
@@ -208,7 +208,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/brand"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/brand"
                     }
                 },
                 "code": "brand",
@@ -247,7 +247,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/camera_brand"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/camera_brand"
                     }
                 },
                 "code": "camera_brand",
@@ -286,7 +286,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/camera_model_name"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/camera_model_name"
                     }
                 },
                 "code": "camera_model_name",
@@ -325,7 +325,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/camera_type"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/camera_type"
                     }
                 },
                 "code": "camera_type",
@@ -364,7 +364,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/care_instructions"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/care_instructions"
                     }
                 },
                 "code": "care_instructions",
@@ -403,7 +403,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size"
                     }
                 },
                 "code": "clothing_size",
@@ -442,7 +442,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection"
                     }
                 },
                 "code": "collection",
@@ -481,7 +481,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color"
                     }
                 },
                 "code": "color",
@@ -520,7 +520,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color_scanning"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color_scanning"
                     }
                 },
                 "code": "color_scanning",
@@ -559,7 +559,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/composition"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/composition"
                     }
                 },
                 "code": "composition",
@@ -598,7 +598,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/container_material"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/container_material"
                     }
                 },
                 "code": "container_material",
@@ -637,7 +637,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/description"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/description"
                     }
                 },
                 "code": "description",
@@ -676,7 +676,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/display_color"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/display_color"
                     }
                 },
                 "code": "display_color",
@@ -715,7 +715,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/display_diagonal"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/display_diagonal"
                     }
                 },
                 "code": "display_diagonal",
@@ -754,7 +754,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/display_srgb"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/display_srgb"
                     }
                 },
                 "code": "display_srgb",
@@ -793,7 +793,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/ean"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/ean"
                     }
                 },
                 "code": "ean",
@@ -832,7 +832,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/erp_name"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/erp_name"
                     }
                 },
                 "code": "erp_name",
@@ -871,7 +871,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/eu_shoes_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/eu_shoes_size"
                     }
                 },
                 "code": "eu_shoes_size",
@@ -910,7 +910,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/focus"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/focus"
                     }
                 },
                 "code": "focus",
@@ -949,7 +949,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/focus_adjustement"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/focus_adjustement"
                     }
                 },
                 "code": "focus_adjustement",
@@ -988,7 +988,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/headphone_connectivity"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/headphone_connectivity"
                     }
                 },
                 "code": "headphone_connectivity",
@@ -1027,7 +1027,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/image"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/image"
                     }
                 },
                 "code": "image",
@@ -1070,7 +1070,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/image_resolutions"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/image_resolutions"
                     }
                 },
                 "code": "image_resolutions",
@@ -1109,7 +1109,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/image_stabilizer"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/image_stabilizer"
                     }
                 },
                 "code": "image_stabilizer",
@@ -1148,7 +1148,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/iso_sensitivity"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/iso_sensitivity"
                     }
                 },
                 "code": "iso_sensitivity",
@@ -1187,7 +1187,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/iso_sensitivity_max"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/iso_sensitivity_max"
                     }
                 },
                 "code": "iso_sensitivity_max",
@@ -1226,7 +1226,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/iso_sensitivity_min"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/iso_sensitivity_min"
                     }
                 },
                 "code": "iso_sensitivity_min",
@@ -1265,7 +1265,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/keywords"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/keywords"
                     }
                 },
                 "code": "keywords",
@@ -1304,7 +1304,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/lens_mount_interface"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/lens_mount_interface"
                     }
                 },
                 "code": "lens_mount_interface",
@@ -1343,7 +1343,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/light_exposure_corrections"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/light_exposure_corrections"
                     }
                 },
                 "code": "light_exposure_corrections",
@@ -1382,7 +1382,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/light_exposure_modes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/light_exposure_modes"
                     }
                 },
                 "code": "light_exposure_modes",
@@ -1421,7 +1421,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/light_metering"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/light_metering"
                     }
                 },
                 "code": "light_metering",
@@ -1460,7 +1460,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/main_color"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/main_color"
                     }
                 },
                 "code": "main_color",
@@ -1499,7 +1499,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/material"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/material"
                     }
                 },
                 "code": "material",
@@ -1538,7 +1538,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/max_image_resolution"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/max_image_resolution"
                     }
                 },
                 "code": "max_image_resolution",
@@ -1577,7 +1577,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_frame_rate"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_frame_rate"
                     }
                 },
                 "code": "maximum_frame_rate",
@@ -1616,7 +1616,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size"
                     }
                 },
                 "code": "maximum_print_size",
@@ -1655,7 +1655,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_scan_size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_scan_size"
                     }
                 },
                 "code": "maximum_scan_size",
@@ -1694,7 +1694,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_video_resolution"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_video_resolution"
                     }
                 },
                 "code": "maximum_video_resolution",
@@ -1733,7 +1733,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/meta_description"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/meta_description"
                     }
                 },
                 "code": "meta_description",
@@ -1772,7 +1772,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/meta_title"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/meta_title"
                     }
                 },
                 "code": "meta_title",
@@ -1811,7 +1811,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions"
                     }
                 },
                 "code": "multifunctional_functions",
@@ -1850,7 +1850,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/name"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/name"
                     }
                 },
                 "code": "name",
@@ -1889,7 +1889,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/notice"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/notice"
                     }
                 },
                 "code": "notice",
@@ -1930,7 +1930,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/optical_zoom"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/optical_zoom"
                     }
                 },
                 "code": "optical_zoom",
@@ -1969,7 +1969,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/pdf_description"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/pdf_description"
                     }
                 },
                 "code": "pdf_description",
@@ -2010,7 +2010,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/picture"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/picture"
                     }
                 },
                 "code": "picture",
@@ -2054,7 +2054,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/power_requirements"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/power_requirements"
                     }
                 },
                 "code": "power_requirements",
@@ -2093,7 +2093,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/price"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/price"
                     }
                 },
                 "code": "price",
@@ -2132,7 +2132,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/release_date"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/release_date"
                     }
                 },
                 "code": "release_date",
@@ -2171,7 +2171,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/response_time"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/response_time"
                     }
                 },
                 "code": "response_time",
@@ -2210,7 +2210,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/secondary_color"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/secondary_color"
                     }
                 },
                 "code": "secondary_color",
@@ -2249,7 +2249,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/sensor_type"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/sensor_type"
                     }
                 },
                 "code": "sensor_type",
@@ -2288,7 +2288,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/short_description"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/short_description"
                     }
                 },
                 "code": "short_description",
@@ -2327,7 +2327,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size"
                     }
                 },
                 "code": "size",
@@ -2366,7 +2366,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/sku"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/sku"
                     }
                 },
                 "code": "sku",
@@ -2405,7 +2405,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/snr"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/snr"
                     }
                 },
                 "code": "snr",
@@ -2444,7 +2444,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/sole_composition"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/sole_composition"
                     }
                 },
                 "code": "sole_composition",
@@ -2483,7 +2483,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/supplier"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/supplier"
                     }
                 },
                 "code": "supplier",
@@ -2522,7 +2522,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/supported_aspect_ratios"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/supported_aspect_ratios"
                     }
                 },
                 "code": "supported_aspect_ratios",
@@ -2561,7 +2561,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/supported_image_format"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/supported_image_format"
                     }
                 },
                 "code": "supported_image_format",
@@ -2600,7 +2600,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/thd"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/thd"
                     }
                 },
                 "code": "thd",
@@ -2639,7 +2639,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/top_composition"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/top_composition"
                     }
                 },
                 "code": "top_composition",
@@ -2678,7 +2678,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/total_megapixels"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/total_megapixels"
                     }
                 },
                 "code": "total_megapixels",
@@ -2717,7 +2717,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/tshirt_materials"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/tshirt_materials"
                     }
                 },
                 "code": "tshirt_materials",
@@ -2756,7 +2756,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/tshirt_style"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/tshirt_style"
                     }
                 },
                 "code": "tshirt_style",
@@ -2795,7 +2795,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/variation_description"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/variation_description"
                     }
                 },
                 "code": "variation_description",
@@ -2834,7 +2834,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/variation_image"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/variation_image"
                     }
                 },
                 "code": "variation_image",
@@ -2877,7 +2877,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/variation_name"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/variation_name"
                     }
                 },
                 "code": "variation_name",
@@ -2916,7 +2916,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/viewing_area"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/viewing_area"
                     }
                 },
                 "code": "viewing_area",
@@ -2955,7 +2955,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/wash_temperature"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/wash_temperature"
                     }
                 },
                 "code": "wash_temperature",
@@ -2994,7 +2994,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/weight"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/weight"
                     }
                 },
                 "code": "weight",

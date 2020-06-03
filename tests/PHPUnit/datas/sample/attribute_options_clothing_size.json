@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/l"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/l"
                     }
                 },
                 "code": "l",
@@ -28,7 +28,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/m"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/m"
                     }
                 },
                 "code": "m",
@@ -43,7 +43,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/s"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/s"
                     }
                 },
                 "code": "s",
@@ -58,7 +58,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xl"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xl"
                     }
                 },
                 "code": "xl",
@@ -73,7 +73,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xs"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xs"
                     }
                 },
                 "code": "xs",
@@ -88,7 +88,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xxl"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/clothing_size\/options\/xxl"
                     }
                 },
                 "code": "xxl",

@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master"
                     }
                 },
                 "code": "master",
@@ -27,7 +27,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/tvs_projectors"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/tvs_projectors"
                     }
                 },
                 "code": "tvs_projectors",
@@ -41,7 +41,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/pc_monitors"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/pc_monitors"
                     }
                 },
                 "code": "pc_monitors",
@@ -55,7 +55,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/led_tvs"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/led_tvs"
                     }
                 },
                 "code": "led_tvs",
@@ -69,7 +69,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/cameras"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/cameras"
                     }
                 },
                 "code": "cameras",
@@ -83,7 +83,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/digital_cameras"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/digital_cameras"
                     }
                 },
                 "code": "digital_cameras",
@@ -97,7 +97,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/camcorders"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/camcorders"
                     }
                 },
                 "code": "camcorders",
@@ -111,7 +111,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/webcams"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/webcams"
                     }
                 },
                 "code": "webcams",
@@ -125,7 +125,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/audio_video"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/audio_video"
                     }
                 },
                 "code": "audio_video",
@@ -139,7 +139,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/headphones"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/headphones"
                     }
                 },
                 "code": "headphones",
@@ -153,7 +153,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/mp3_players"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/mp3_players"
                     }
                 },
                 "code": "mp3_players",
@@ -167,7 +167,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/loudspeakers"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/loudspeakers"
                     }
                 },
                 "code": "loudspeakers",
@@ -181,7 +181,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/print_scan"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/print_scan"
                     }
                 },
                 "code": "print_scan",
@@ -195,7 +195,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/multifunctionals"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/multifunctionals"
                     }
                 },
                 "code": "multifunctionals",
@@ -209,7 +209,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/laser_led_printers"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/laser_led_printers"
                     }
                 },
                 "code": "laser_led_printers",
@@ -223,7 +223,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/scanners"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/scanners"
                     }
                 },
                 "code": "scanners",
@@ -237,7 +237,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/clothes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/clothes"
                     }
                 },
                 "code": "clothes",
@@ -251,7 +251,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/pants"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/pants"
                     }
                 },
                 "code": "pants",
@@ -265,7 +265,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/jeans"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/jeans"
                     }
                 },
                 "code": "jeans",
@@ -279,7 +279,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/shoes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/shoes"
                     }
                 },
                 "code": "shoes",
@@ -293,7 +293,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/clothes_accessories"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/clothes_accessories"
                     }
                 },
                 "code": "clothes_accessories",
@@ -307,7 +307,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/caps"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/caps"
                     }
                 },
                 "code": "caps",
@@ -321,7 +321,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/ties"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/ties"
                     }
                 },
                 "code": "ties",
@@ -335,7 +335,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/gloves"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/gloves"
                     }
                 },
                 "code": "gloves",
@@ -349,7 +349,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/belts"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/belts"
                     }
                 },
                 "code": "belts",
@@ -363,7 +363,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/sweat"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/sweat"
                     }
                 },
                 "code": "sweat",
@@ -377,7 +377,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/coats"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/coats"
                     }
                 },
                 "code": "coats",
@@ -391,7 +391,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/underwear"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/underwear"
                     }
                 },
                 "code": "underwear",
@@ -405,7 +405,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/office"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/office"
                     }
                 },
                 "code": "office",
@@ -419,7 +419,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/office_furnitures"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/office_furnitures"
                     }
                 },
                 "code": "office_furnitures",
@@ -433,7 +433,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/desk_chairs"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/desk_chairs"
                     }
                 },
                 "code": "desk_chairs",
@@ -447,7 +447,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/office_tables"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/office_tables"
                     }
                 },
                 "code": "office_tables",
@@ -461,7 +461,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/paper"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/paper"
                     }
                 },
                 "code": "paper",
@@ -475,7 +475,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/notebooks"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/notebooks"
                     }
                 },
                 "code": "notebooks",
@@ -489,7 +489,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/cards"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/cards"
                     }
                 },
                 "code": "cards",
@@ -503,7 +503,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/envelopes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/envelopes"
                     }
                 },
                 "code": "envelopes",
@@ -517,7 +517,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/desk_supplies"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/desk_supplies"
                     }
                 },
                 "code": "desk_supplies",
@@ -531,7 +531,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/markers"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/markers"
                     }
                 },
                 "code": "markers",
@@ -545,7 +545,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/erasers"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/erasers"
                     }
                 },
                 "code": "erasers",
@@ -559,7 +559,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/pens"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/pens"
                     }
                 },
                 "code": "pens",
@@ -573,7 +573,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/postit_notes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/postit_notes"
                     }
                 },
                 "code": "postit_notes",
@@ -583,7 +583,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/stamps"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/stamps"
                     }
                 },
                 "code": "stamps",
@@ -597,7 +597,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/adhesives"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/adhesives"
                     }
                 },
                 "code": "adhesives",
@@ -611,7 +611,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/goodies"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/goodies"
                     }
                 },
                 "code": "goodies",
@@ -625,7 +625,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/stickers"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/stickers"
                     }
                 },
                 "code": "stickers",
@@ -639,7 +639,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/casino_chips"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/casino_chips"
                     }
                 },
                 "code": "casino_chips",
@@ -653,7 +653,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/mugs"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/mugs"
                     }
                 },
                 "code": "mugs",
@@ -667,7 +667,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_accessories"
                     }
                 },
                 "code": "master_accessories",
@@ -681,7 +681,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_belts"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_accessories_belts"
                     }
                 },
                 "code": "master_accessories_belts",
@@ -695,7 +695,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_bags"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_accessories_bags"
                     }
                 },
                 "code": "master_accessories_bags",
@@ -709,7 +709,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_sunglasses"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_accessories_sunglasses"
                     }
                 },
                 "code": "master_accessories_sunglasses",
@@ -723,7 +723,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_hats"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_accessories_hats"
                     }
                 },
                 "code": "master_accessories_hats",
@@ -737,7 +737,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_accessories_scarves"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_accessories_scarves"
                     }
                 },
                 "code": "master_accessories_scarves",
@@ -751,7 +751,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men"
                     }
                 },
                 "code": "master_men",
@@ -765,7 +765,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_blazers"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men_blazers"
                     }
                 },
                 "code": "master_men_blazers",
@@ -779,7 +779,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_blazers_deals"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men_blazers_deals"
                     }
                 },
                 "code": "master_men_blazers_deals",
@@ -793,7 +793,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_pants"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men_pants"
                     }
                 },
                 "code": "master_men_pants",
@@ -807,7 +807,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_pants_shorts"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men_pants_shorts"
                     }
                 },
                 "code": "master_men_pants_shorts",
@@ -821,7 +821,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_pants_jeans"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men_pants_jeans"
                     }
                 },
                 "code": "master_men_pants_jeans",
@@ -835,7 +835,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_men_shoes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_men_shoes"
                     }
                 },
                 "code": "master_men_shoes",
@@ -849,7 +849,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/tshirts"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/tshirts"
                     }
                 },
                 "code": "tshirts",
@@ -863,7 +863,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_women"
                     }
                 },
                 "code": "master_women",
@@ -877,7 +877,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_blouses"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_women_blouses"
                     }
                 },
                 "code": "master_women_blouses",
@@ -891,7 +891,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_blouses_deals"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_women_blouses_deals"
                     }
                 },
                 "code": "master_women_blouses_deals",
@@ -905,7 +905,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_dresses"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_women_dresses"
                     }
                 },
                 "code": "master_women_dresses",
@@ -919,7 +919,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_shirts"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_women_shirts"
                     }
                 },
                 "code": "master_women_shirts",
@@ -933,7 +933,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/master_women_shoes"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/master_women_shoes"
                     }
                 },
                 "code": "master_women_shoes",
@@ -947,7 +947,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/sales"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/sales"
                     }
                 },
                 "code": "sales",
@@ -961,7 +961,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/brands"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/brands"
                     }
                 },
                 "code": "brands",
@@ -975,7 +975,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/3go"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/3go"
                     }
                 },
                 "code": "3go",
@@ -989,7 +989,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/3m"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/3m"
                     }
                 },
                 "code": "3m",
@@ -1003,7 +1003,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/a4tech"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/a4tech"
                     }
                 },
                 "code": "a4tech",
@@ -1017,7 +1017,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/aoc"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/aoc"
                     }
                 },
                 "code": "aoc",
@@ -1031,7 +1031,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/asus"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/asus"
                     }
                 },
                 "code": "asus",
@@ -1045,7 +1045,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/acer"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/acer"
                     }
                 },
                 "code": "acer",
@@ -1059,7 +1059,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/adapt"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/adapt"
                     }
                 },
                 "code": "adapt",
@@ -1073,7 +1073,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/approx"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/approx"
                     }
                 },
                 "code": "approx",
@@ -1087,7 +1087,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/avision"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/avision"
                     }
                 },
                 "code": "avision",
@@ -1101,7 +1101,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/belkin"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/belkin"
                     }
                 },
                 "code": "belkin",
@@ -1115,7 +1115,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/brother"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/brother"
                     }
                 },
                 "code": "brother",
@@ -1129,7 +1129,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/canon"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/canon"
                     }
                 },
                 "code": "canon",
@@ -1143,7 +1143,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/cisco"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/cisco"
                     }
                 },
                 "code": "cisco",
@@ -1157,7 +1157,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/conceptronic"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/conceptronic"
                     }
                 },
                 "code": "conceptronic",
@@ -1171,7 +1171,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/d_link"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/d_link"
                     }
                 },
                 "code": "d_link",
@@ -1185,7 +1185,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/dell"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/dell"
                     }
                 },
                 "code": "dell",
@@ -1199,7 +1199,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/dymo"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/dymo"
                     }
                 },
                 "code": "dymo",
@@ -1213,7 +1213,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/devolo"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/devolo"
                     }
                 },
                 "code": "devolo",
@@ -1227,7 +1227,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/dicota"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/dicota"
                     }
                 },
                 "code": "dicota",
@@ -1241,7 +1241,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/eminent"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/eminent"
                     }
                 },
                 "code": "eminent",
@@ -1255,7 +1255,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/emtec"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/emtec"
                     }
                 },
                 "code": "emtec",
@@ -1269,7 +1269,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/ewent"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/ewent"
                     }
                 },
                 "code": "ewent",
@@ -1283,7 +1283,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/fujifilm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/fujifilm"
                     }
                 },
                 "code": "fujifilm",
@@ -1297,7 +1297,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/fujitsu"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/fujitsu"
                     }
                 },
                 "code": "fujitsu",
@@ -1311,7 +1311,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/g_cube"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/g_cube"
                     }
                 },
                 "code": "g_cube",
@@ -1325,7 +1325,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/gear4"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/gear4"
                     }
                 },
                 "code": "gear4",
@@ -1339,7 +1339,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/gigabyte"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/gigabyte"
                     }
                 },
                 "code": "gigabyte",
@@ -1353,7 +1353,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/hp"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/hp"
                     }
                 },
                 "code": "hp",
@@ -1367,7 +1367,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/hamlet"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/hamlet"
                     }
                 },
                 "code": "hamlet",
@@ -1381,7 +1381,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/hiper"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/hiper"
                     }
                 },
                 "code": "hiper",
@@ -1395,7 +1395,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/categories\/ibm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/categories\/ibm"
                     }
                 },
                 "code": "ibm",

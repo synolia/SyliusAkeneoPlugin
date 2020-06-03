@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/black"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/black"
                     }
                 },
                 "code": "black",
@@ -28,7 +28,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/blue"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/blue"
                     }
                 },
                 "code": "blue",
@@ -43,7 +43,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/brown"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/brown"
                     }
                 },
                 "code": "brown",
@@ -58,7 +58,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/green"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/green"
                     }
                 },
                 "code": "green",
@@ -73,7 +73,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/grey"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/grey"
                     }
                 },
                 "code": "grey",
@@ -88,7 +88,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/orange"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/orange"
                     }
                 },
                 "code": "orange",
@@ -103,7 +103,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/pink"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/pink"
                     }
                 },
                 "code": "pink",
@@ -118,7 +118,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/red"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/red"
                     }
                 },
                 "code": "red",
@@ -133,7 +133,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/white"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/white"
                     }
                 },
                 "code": "white",
@@ -148,7 +148,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/color\/options\/yellow"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/color\/options\/yellow"
                     }
                 },
                 "code": "yellow",

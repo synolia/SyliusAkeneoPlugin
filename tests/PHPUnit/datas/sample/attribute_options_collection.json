@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/autumn_2016"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/autumn_2016"
                     }
                 },
                 "code": "autumn_2016",
@@ -28,7 +28,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/spring_2015"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/spring_2015"
                     }
                 },
                 "code": "spring_2015",
@@ -43,7 +43,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/spring_2016"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/spring_2016"
                     }
                 },
                 "code": "spring_2016",
@@ -58,7 +58,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/Spring2017"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/Spring2017"
                     }
                 },
                 "code": "Spring2017",
@@ -71,7 +71,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/summer_2016"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/summer_2016"
                     }
                 },
                 "code": "summer_2016",
@@ -86,7 +86,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/summer_2017"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/summer_2017"
                     }
                 },
                 "code": "summer_2017",
@@ -101,7 +101,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/collection\/options\/winter_2016"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/collection\/options\/winter_2016"
                     }
                 },
                 "code": "winter_2016",

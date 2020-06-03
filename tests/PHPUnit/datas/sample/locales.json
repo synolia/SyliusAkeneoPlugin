@@ -1,10 +1,10 @@
 {
   "_links": {
     "self": {
-      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales?page=1&limit=100&with_count=false"
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales?page=1&limit=100&with_count=false"
     },
     "first": {
-      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales?page=1&limit=100&with_count=false"
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales?page=1&limit=100&with_count=false"
     }
   },
   "current_page": 1,
@@ -13,7 +13,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/af_ZA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/af_ZA"
           }
         },
         "code": "af_ZA",
@@ -22,7 +22,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/am_ET"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/am_ET"
           }
         },
         "code": "am_ET",
@@ -31,7 +31,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_AE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_AE"
           }
         },
         "code": "ar_AE",
@@ -40,7 +40,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_BH"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_BH"
           }
         },
         "code": "ar_BH",
@@ -49,7 +49,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_DZ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_DZ"
           }
         },
         "code": "ar_DZ",
@@ -58,7 +58,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_EG"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_EG"
           }
         },
         "code": "ar_EG",
@@ -67,7 +67,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_IQ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_IQ"
           }
         },
         "code": "ar_IQ",
@@ -76,7 +76,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_JO"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_JO"
           }
         },
         "code": "ar_JO",
@@ -85,7 +85,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_KW"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_KW"
           }
         },
         "code": "ar_KW",
@@ -94,7 +94,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_LB"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_LB"
           }
         },
         "code": "ar_LB",
@@ -103,7 +103,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_LY"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_LY"
           }
         },
         "code": "ar_LY",
@@ -112,7 +112,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_MA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_MA"
           }
         },
         "code": "ar_MA",
@@ -121,7 +121,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_OM"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_OM"
           }
         },
         "code": "ar_OM",
@@ -130,7 +130,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_QA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_QA"
           }
         },
         "code": "ar_QA",
@@ -139,7 +139,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_SA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_SA"
           }
         },
         "code": "ar_SA",
@@ -148,7 +148,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_SY"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_SY"
           }
         },
         "code": "ar_SY",
@@ -157,7 +157,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_TN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_TN"
           }
         },
         "code": "ar_TN",
@@ -166,7 +166,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ar_YE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ar_YE"
           }
         },
         "code": "ar_YE",
@@ -175,7 +175,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/arn_CL"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/arn_CL"
           }
         },
         "code": "arn_CL",
@@ -184,7 +184,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/as_IN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/as_IN"
           }
         },
         "code": "as_IN",
@@ -193,7 +193,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/az_Cyrl_AZ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/az_Cyrl_AZ"
           }
         },
         "code": "az_Cyrl_AZ",
@@ -202,7 +202,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/az_Latn_AZ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/az_Latn_AZ"
           }
         },
         "code": "az_Latn_AZ",
@@ -211,7 +211,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ba_RU"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ba_RU"
           }
         },
         "code": "ba_RU",
@@ -220,7 +220,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/be_BY"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/be_BY"
           }
         },
         "code": "be_BY",
@@ -229,7 +229,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bg_BG"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/bg_BG"
           }
         },
         "code": "bg_BG",
@@ -238,7 +238,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bn_BD"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/bn_BD"
           }
         },
         "code": "bn_BD",
@@ -247,7 +247,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bn_IN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/bn_IN"
           }
         },
         "code": "bn_IN",
@@ -256,7 +256,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bo_CN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/bo_CN"
           }
         },
         "code": "bo_CN",
@@ -265,7 +265,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/br_FR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/br_FR"
           }
         },
         "code": "br_FR",
@@ -274,7 +274,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bs_Cyrl_BA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/bs_Cyrl_BA"
           }
         },
         "code": "bs_Cyrl_BA",
@@ -283,7 +283,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/bs_Latn_BA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/bs_Latn_BA"
           }
         },
         "code": "bs_Latn_BA",
@@ -292,7 +292,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ca_ES"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ca_ES"
           }
         },
         "code": "ca_ES",
@@ -301,7 +301,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/co_FR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/co_FR"
           }
         },
         "code": "co_FR",
@@ -310,7 +310,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/cs_CZ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/cs_CZ"
           }
         },
         "code": "cs_CZ",
@@ -319,7 +319,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/cy_GB"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/cy_GB"
           }
         },
         "code": "cy_GB",
@@ -328,7 +328,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/da_DK"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/da_DK"
           }
         },
         "code": "da_DK",
@@ -337,7 +337,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_AT"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/de_AT"
           }
         },
         "code": "de_AT",
@@ -346,7 +346,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_CH"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/de_CH"
           }
         },
         "code": "de_CH",
@@ -355,7 +355,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_DE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/de_DE"
           }
         },
         "code": "de_DE",
@@ -364,7 +364,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_LI"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/de_LI"
           }
         },
         "code": "de_LI",
@@ -373,7 +373,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/de_LU"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/de_LU"
           }
         },
         "code": "de_LU",
@@ -382,7 +382,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/dsb_DE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/dsb_DE"
           }
         },
         "code": "dsb_DE",
@@ -391,7 +391,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/dv_MV"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/dv_MV"
           }
         },
         "code": "dv_MV",
@@ -400,7 +400,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/el_GR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/el_GR"
           }
         },
         "code": "el_GR",
@@ -409,7 +409,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_029"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_029"
           }
         },
         "code": "en_029",
@@ -418,7 +418,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_AU"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_AU"
           }
         },
         "code": "en_AU",
@@ -427,7 +427,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_BZ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_BZ"
           }
         },
         "code": "en_BZ",
@@ -436,7 +436,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_CA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_CA"
           }
         },
         "code": "en_CA",
@@ -445,7 +445,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_GB"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_GB"
           }
         },
         "code": "en_GB",
@@ -454,7 +454,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_IE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_IE"
           }
         },
         "code": "en_IE",
@@ -463,7 +463,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_IN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_IN"
           }
         },
         "code": "en_IN",
@@ -472,7 +472,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_JM"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_JM"
           }
         },
         "code": "en_JM",
@@ -481,7 +481,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_MY"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_MY"
           }
         },
         "code": "en_MY",
@@ -490,7 +490,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_NZ"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_NZ"
           }
         },
         "code": "en_NZ",
@@ -499,7 +499,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_PH"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_PH"
           }
         },
         "code": "en_PH",
@@ -508,7 +508,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_SG"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_SG"
           }
         },
         "code": "en_SG",
@@ -517,7 +517,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_TT"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_TT"
           }
         },
         "code": "en_TT",
@@ -526,7 +526,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_US"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_US"
           }
         },
         "code": "en_US",
@@ -535,7 +535,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_ZA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_ZA"
           }
         },
         "code": "en_ZA",
@@ -544,7 +544,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/en_ZW"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/en_ZW"
           }
         },
         "code": "en_ZW",
@@ -553,7 +553,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_AR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_AR"
           }
         },
         "code": "es_AR",
@@ -562,7 +562,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_BO"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_BO"
           }
         },
         "code": "es_BO",
@@ -571,7 +571,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_CL"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_CL"
           }
         },
         "code": "es_CL",
@@ -580,7 +580,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_CO"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_CO"
           }
         },
         "code": "es_CO",
@@ -589,7 +589,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_CR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_CR"
           }
         },
         "code": "es_CR",
@@ -598,7 +598,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_DO"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_DO"
           }
         },
         "code": "es_DO",
@@ -607,7 +607,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_EC"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_EC"
           }
         },
         "code": "es_EC",
@@ -616,7 +616,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_ES"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_ES"
           }
         },
         "code": "es_ES",
@@ -625,7 +625,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_GT"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_GT"
           }
         },
         "code": "es_GT",
@@ -634,7 +634,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_HN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_HN"
           }
         },
         "code": "es_HN",
@@ -643,7 +643,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_MX"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_MX"
           }
         },
         "code": "es_MX",
@@ -652,7 +652,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_NI"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_NI"
           }
         },
         "code": "es_NI",
@@ -661,7 +661,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_PA"
           }
         },
         "code": "es_PA",
@@ -670,7 +670,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_PE"
           }
         },
         "code": "es_PE",
@@ -679,7 +679,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_PR"
           }
         },
         "code": "es_PR",
@@ -688,7 +688,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_PY"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_PY"
           }
         },
         "code": "es_PY",
@@ -697,7 +697,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_SV"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_SV"
           }
         },
         "code": "es_SV",
@@ -706,7 +706,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_US"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_US"
           }
         },
         "code": "es_US",
@@ -715,7 +715,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_UY"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_UY"
           }
         },
         "code": "es_UY",
@@ -724,7 +724,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/es_VE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/es_VE"
           }
         },
         "code": "es_VE",
@@ -733,7 +733,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/et_EE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/et_EE"
           }
         },
         "code": "et_EE",
@@ -742,7 +742,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/eu_ES"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/eu_ES"
           }
         },
         "code": "eu_ES",
@@ -751,7 +751,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fa_IR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fa_IR"
           }
         },
         "code": "fa_IR",
@@ -760,7 +760,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fi_FI"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fi_FI"
           }
         },
         "code": "fi_FI",
@@ -769,7 +769,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fil_PH"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fil_PH"
           }
         },
         "code": "fil_PH",
@@ -778,7 +778,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fo_FO"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fo_FO"
           }
         },
         "code": "fo_FO",
@@ -787,7 +787,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_BE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fr_BE"
           }
         },
         "code": "fr_BE",
@@ -796,7 +796,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_CA"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fr_CA"
           }
         },
         "code": "fr_CA",
@@ -805,7 +805,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_CH"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fr_CH"
           }
         },
         "code": "fr_CH",
@@ -814,7 +814,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_FR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fr_FR"
           }
         },
         "code": "fr_FR",
@@ -823,7 +823,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_LU"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fr_LU"
           }
         },
         "code": "fr_LU",
@@ -832,7 +832,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fr_MC"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fr_MC"
           }
         },
         "code": "fr_MC",
@@ -841,7 +841,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/fy_NL"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/fy_NL"
           }
         },
         "code": "fy_NL",
@@ -850,7 +850,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ga_IE"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ga_IE"
           }
         },
         "code": "ga_IE",
@@ -859,7 +859,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gd_GB"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/gd_GB"
           }
         },
         "code": "gd_GB",
@@ -868,7 +868,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gl_ES"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/gl_ES"
           }
         },
         "code": "gl_ES",
@@ -877,7 +877,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gsw_FR"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/gsw_FR"
           }
         },
         "code": "gsw_FR",
@@ -886,7 +886,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/gu_IN"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/gu_IN"
           }
         },
         "code": "gu_IN",
@@ -895,7 +895,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/ha_Latn_NG"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/ha_Latn_NG"
           }
         },
         "code": "ha_Latn_NG",
@@ -904,7 +904,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/locales\/he_IL"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/locales\/he_IL"
           }
         },
         "code": "he_IL",

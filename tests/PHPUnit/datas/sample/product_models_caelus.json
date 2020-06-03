@@ -1,10 +1,10 @@
 {
   "_links": {
     "self": {
-      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
     },
     "first": {
-      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
     }
   },
   "current_page": 1,
@@ -13,7 +13,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/caelus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/caelus"
           }
         },
         "code": "caelus",

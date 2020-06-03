@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/l"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/l"
                     }
                 },
                 "code": "l",
@@ -28,7 +28,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/m"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/m"
                     }
                 },
                 "code": "m",
@@ -43,7 +43,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/s"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/s"
                     }
                 },
                 "code": "s",
@@ -58,7 +58,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/u"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/u"
                     }
                 },
                 "code": "u",
@@ -73,7 +73,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xl"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/xl"
                     }
                 },
                 "code": "xl",
@@ -88,7 +88,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xs"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/xs"
                     }
                 },
                 "code": "xs",
@@ -103,7 +103,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xxl"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/xxl"
                     }
                 },
                 "code": "xxl",
@@ -118,7 +118,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xxs"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/xxs"
                     }
                 },
                 "code": "xxs",
@@ -133,7 +133,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/size\/options\/xxxl"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/size\/options\/xxxl"
                     }
                 },
                 "code": "xxxl",

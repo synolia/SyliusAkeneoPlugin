@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products?page=1"
+            "href": "http://akeneo.example.com/api/rest/v1/products?page=1"
         },
         "first": {
-            "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products?page=1"
+            "href": "http://akeneo.example.com/api/rest/v1/products?page=1"
         }
     },
     "current_page": 1,
@@ -14,7 +14,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111171"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111171"
                     }
                 },
                 "identifier": "1111111171",
@@ -75,7 +75,7 @@
                             "data": "6/3/5/c/635cbfe306a1c13867fe7671c110ee3333fcba13_bag.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/6/3/5/c/635cbfe306a1c13867fe7671c110ee3333fcba13_bag.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/6/3/5/c/635cbfe306a1c13867fe7671c110ee3333fcba13_bag.jpg/download"
                                 }
                             }
                         }
@@ -122,7 +122,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111130"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111130"
                     }
                 },
                 "identifier": "1111111130",
@@ -221,7 +221,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -233,7 +233,7 @@
                             "data": "5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
                                 }
                             }
                         }
@@ -287,7 +287,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111131"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111131"
                     }
                 },
                 "identifier": "1111111131",
@@ -386,7 +386,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -398,7 +398,7 @@
                             "data": "5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
                                 }
                             }
                         }
@@ -452,7 +452,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111119"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111119"
                     }
                 },
                 "identifier": "1111111119",
@@ -551,7 +551,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -605,7 +605,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111120"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111120"
                     }
                 },
                 "identifier": "1111111120",
@@ -704,7 +704,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -758,7 +758,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111121"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111121"
                     }
                 },
                 "identifier": "1111111121",
@@ -857,7 +857,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -911,7 +911,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111122"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111122"
                     }
                 },
                 "identifier": "1111111122",
@@ -1010,7 +1010,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1064,7 +1064,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111123"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111123"
                     }
                 },
                 "identifier": "1111111123",
@@ -1163,7 +1163,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1217,7 +1217,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111124"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111124"
                     }
                 },
                 "identifier": "1111111124",
@@ -1316,7 +1316,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1370,7 +1370,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111125"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111125"
                     }
                 },
                 "identifier": "1111111125",
@@ -1469,7 +1469,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1523,7 +1523,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111126"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111126"
                     }
                 },
                 "identifier": "1111111126",
@@ -1622,7 +1622,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1676,7 +1676,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111127"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111127"
                     }
                 },
                 "identifier": "1111111127",
@@ -1775,7 +1775,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1829,7 +1829,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111128"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111128"
                     }
                 },
                 "identifier": "1111111128",
@@ -1928,7 +1928,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1940,7 +1940,7 @@
                             "data": "5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
                                 }
                             }
                         }
@@ -1994,7 +1994,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/products/1111111129"
+                        "href": "http://akeneo.example.com/api/rest/v1/products/1111111129"
                     }
                 },
                 "identifier": "1111111129",
@@ -2093,7 +2093,7 @@
                             "data": "3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/3/b/b/7/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg/download"
                                 }
                             }
                         }
@@ -2105,7 +2105,7 @@
                             "data": "5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg",
                             "_links": {
                                 "download": {
-                                    "href": "http://web--akeneo3-standard-ee--p72.soap01.synocloud.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
+                                    "href": "http://akeneo.example.com/api/rest/v1/media-files/5/1/2/b/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg/download"
                                 }
                             }
                         }

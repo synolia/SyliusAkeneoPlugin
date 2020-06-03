@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/210_x_1219_mm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/210_x_1219_mm"
                     }
                 },
                 "code": "210_x_1219_mm",
@@ -28,7 +28,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/215_x_355_mm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/215_x_355_mm"
                     }
                 },
                 "code": "215_x_355_mm",
@@ -43,7 +43,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/216_x_406_4_mm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/216_x_406_4_mm"
                     }
                 },
                 "code": "216_x_406_4_mm",
@@ -58,7 +58,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/216_x_432_mm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/216_x_432_mm"
                     }
                 },
                 "code": "216_x_432_mm",
@@ -73,7 +73,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/297_x_432_mm"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/297_x_432_mm"
                     }
                 },
                 "code": "297_x_432_mm",
@@ -88,7 +88,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/a3_297_x_420_mm_"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/a3_297_x_420_mm_"
                     }
                 },
                 "code": "a3_297_x_420_mm_",
@@ -103,7 +103,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/a4_210_x_297_mm_"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/a4_210_x_297_mm_"
                     }
                 },
                 "code": "a4_210_x_297_mm_",
@@ -118,7 +118,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/a4_letter_216_x_297_mm_"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/a4_letter_216_x_297_mm_"
                     }
                 },
                 "code": "a4_letter_216_x_297_mm_",
@@ -133,7 +133,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/din_a3_310_x_437_mm_"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/din_a3_310_x_437_mm_"
                     }
                 },
                 "code": "din_a3_310_x_437_mm_",
@@ -148,7 +148,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/legal_216_x_356_mm_"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/maximum_print_size\/options\/legal_216_x_356_mm_"
                     }
                 },
                 "code": "legal_216_x_356_mm_",

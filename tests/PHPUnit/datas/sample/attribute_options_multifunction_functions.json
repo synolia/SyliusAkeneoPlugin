@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options?page=1&limit=100&with_count=false"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options?page=1&limit=100&with_count=false"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options?page=1&limit=100&with_count=false"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/copy"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/copy"
                     }
                 },
                 "code": "copy",
@@ -28,7 +28,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/fax"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/fax"
                     }
                 },
                 "code": "fax",
@@ -43,7 +43,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/n"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/n"
                     }
                 },
                 "code": "n",
@@ -58,7 +58,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/print"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/print"
                     }
                 },
                 "code": "print",
@@ -73,7 +73,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/scan"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/multifunctional_functions\/options\/scan"
                     }
                 },
                 "code": "scan",

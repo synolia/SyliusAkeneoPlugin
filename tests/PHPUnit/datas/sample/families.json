@@ -1,10 +1,10 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families?page=1&limit=100&with_count=false&search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3A%22clothing%22%7D%5D%7D"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families?page=1&limit=100&with_count=false&search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3A%22clothing%22%7D%5D%7D"
         },
         "first": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families?page=1&limit=100&with_count=false&search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3A%22clothing%22%7D%5D%7D"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families?page=1&limit=100&with_count=false&search=%7B%22code%22%3A%5B%7B%22operator%22%3A%22%3D%22%2C%22value%22%3A%22clothing%22%7D%5D%7D"
         }
     },
     "current_page": 1,
@@ -13,7 +13,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/families\/clothing"
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/families\/clothing"
                     }
                 },
                 "code": "clothing",

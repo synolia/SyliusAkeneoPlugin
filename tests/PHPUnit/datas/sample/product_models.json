@@ -1,10 +1,10 @@
 {
   "_links": {
     "self": {
-      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
     },
     "first": {
-      "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models?page=1&with_count=false&pagination_type=page&limit=100"
     }
   },
   "current_page": 1,
@@ -13,7 +13,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/amor"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/amor"
           }
         },
         "code": "amor",
@@ -113,7 +113,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/brooksblue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/brooksblue"
           }
         },
         "code": "brooksblue",
@@ -200,7 +200,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/brookspink"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/brookspink"
           }
         },
         "code": "brookspink",
@@ -287,7 +287,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/caelus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/caelus"
           }
         },
         "code": "caelus",
@@ -387,7 +387,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/climbingshoe"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/climbingshoe"
           }
         },
         "code": "climbingshoe",
@@ -449,7 +449,7 @@
               "data": "9\/5\/b\/e\/95be5d36f626cb3a9e4a03729389b60392886d3a_climbingshoe.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/9\/5\/b\/e\/95be5d36f626cb3a9e4a03729389b60392886d3a_climbingshoe.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/9\/5\/b\/e\/95be5d36f626cb3a9e4a03729389b60392886d3a_climbingshoe.jpg\/download"
                 }
               }
             }
@@ -486,7 +486,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/converseblack"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/converseblack"
           }
         },
         "code": "converseblack",
@@ -549,7 +549,7 @@
               "data": "4\/8\/3\/f\/483f093ec30fd59dd6ab32f9655be602d7350194_feet_1842328_960_720.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/4\/8\/3\/f\/483f093ec30fd59dd6ab32f9655be602d7350194_feet_1842328_960_720.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/4\/8\/3\/f\/483f093ec30fd59dd6ab32f9655be602d7350194_feet_1842328_960_720.jpg\/download"
                 }
               }
             }
@@ -586,7 +586,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/conversered"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/conversered"
           }
         },
         "code": "conversered",
@@ -649,7 +649,7 @@
               "data": "7\/d\/9\/6\/7d9657c74186c2726e8ea3b94ba8af25da698783_converse_932667_960_720.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/7\/d\/9\/6\/7d9657c74186c2726e8ea3b94ba8af25da698783_converse_932667_960_720.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/7\/d\/9\/6\/7d9657c74186c2726e8ea3b94ba8af25da698783_converse_932667_960_720.jpg\/download"
                 }
               }
             }
@@ -686,7 +686,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/derby"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/derby"
           }
         },
         "code": "derby",
@@ -773,7 +773,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/diana"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/diana"
           }
         },
         "code": "diana",
@@ -849,7 +849,7 @@
               "data": "a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg\/download"
                 }
               }
             }
@@ -886,7 +886,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/dionysos"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/dionysos"
           }
         },
         "code": "dionysos",
@@ -970,7 +970,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/dressshoe"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/dressshoe"
           }
         },
         "code": "dressshoe",
@@ -1015,7 +1015,7 @@
               "data": "7\/d\/9\/8\/7d982f9728aa2f380db35803218a6f56d2ea1275_dressshoe.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/7\/d\/9\/8\/7d982f9728aa2f380db35803218a6f56d2ea1275_dressshoe.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/7\/d\/9\/8\/7d982f9728aa2f380db35803218a6f56d2ea1275_dressshoe.jpg\/download"
                 }
               }
             }
@@ -1052,7 +1052,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/aphrodite"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/aphrodite"
           }
         },
         "code": "aphrodite",
@@ -1153,7 +1153,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/elegance"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/elegance"
           }
         },
         "code": "elegance",
@@ -1208,7 +1208,7 @@
               "data": "d\/7\/0\/e\/d70ea61e92582b39bf61ee7f94d9bc74f687a07e_elegance.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/d\/7\/0\/e\/d70ea61e92582b39bf61ee7f94d9bc74f687a07e_elegance.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/d\/7\/0\/e\/d70ea61e92582b39bf61ee7f94d9bc74f687a07e_elegance.jpg\/download"
                 }
               }
             }
@@ -1245,7 +1245,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/eris"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/eris"
           }
         },
         "code": "eris",
@@ -1346,7 +1346,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/galesh"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/galesh"
           }
         },
         "code": "galesh",
@@ -1433,7 +1433,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hades"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hades"
           }
         },
         "code": "hades",
@@ -1534,7 +1534,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hefaistos"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hefaistos"
           }
         },
         "code": "hefaistos",
@@ -1634,7 +1634,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hera"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hera"
           }
         },
         "code": "hera",
@@ -1735,7 +1735,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hermes"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hermes"
           }
         },
         "code": "hermes",
@@ -1835,7 +1835,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hestia"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hestia"
           }
         },
         "code": "hestia",
@@ -1935,7 +1935,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/jack"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/jack"
           }
         },
         "code": "jack",
@@ -2001,7 +2001,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/jellyshoes"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/jellyshoes"
           }
         },
         "code": "jellyshoes",
@@ -2087,7 +2087,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/apollon"
           }
         },
         "code": "apollon",
@@ -2162,7 +2162,7 @@
               "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
                 }
               }
             }
@@ -2199,7 +2199,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/juno"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/juno"
           }
         },
         "code": "juno",
@@ -2300,7 +2300,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/minerva"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/minerva"
           }
         },
         "code": "minerva",
@@ -2400,7 +2400,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/moccasin"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/moccasin"
           }
         },
         "code": "moccasin",
@@ -2487,7 +2487,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/plain"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/plain"
           }
         },
         "code": "plain",
@@ -2553,7 +2553,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/portunus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/portunus"
           }
         },
         "code": "portunus",
@@ -2654,7 +2654,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/poseidon"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/poseidon"
           }
         },
         "code": "poseidon",
@@ -2755,7 +2755,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/quirinus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/quirinus"
           }
         },
         "code": "quirinus",
@@ -2855,7 +2855,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/samtv"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/samtv"
           }
         },
         "code": "samtv",
@@ -2912,7 +2912,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/securitas"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/securitas"
           }
         },
         "code": "securitas",
@@ -3013,7 +3013,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/stilleto"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/stilleto"
           }
         },
         "code": "stilleto",
@@ -3074,7 +3074,7 @@
               "data": "2\/9\/c\/7\/29c7dd2c3e78271e2c34cddb7c40d0aedb1f2321_stilleto.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/2\/9\/c\/7\/29c7dd2c3e78271e2c34cddb7c40d0aedb1f2321_stilleto.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/2\/9\/c\/7\/29c7dd2c3e78271e2c34cddb7c40d0aedb1f2321_stilleto.jpg\/download"
                 }
               }
             }
@@ -3111,7 +3111,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/ares"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/ares"
           }
         },
         "code": "ares",
@@ -3212,7 +3212,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/stock"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/stock"
           }
         },
         "code": "stock",
@@ -3292,7 +3292,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/terminus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/terminus"
           }
         },
         "code": "terminus",
@@ -3367,7 +3367,7 @@
               "data": "2\/6\/9\/5\/2695db880bc95df0753de5e3c4391f9a541d1ee3_terminus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/2\/6\/9\/5\/2695db880bc95df0753de5e3c4391f9a541d1ee3_terminus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/2\/6\/9\/5\/2695db880bc95df0753de5e3c4391f9a541d1ee3_terminus.jpg\/download"
                 }
               }
             }
@@ -3404,7 +3404,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/venus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/venus"
           }
         },
         "code": "venus",
@@ -3504,7 +3504,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/vulcanus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/vulcanus"
           }
         },
         "code": "vulcanus",
@@ -3605,7 +3605,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/zeus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/zeus"
           }
         },
         "code": "zeus",
@@ -3705,7 +3705,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-biker-jacket"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-biker-jacket"
           }
         },
         "code": "model-biker-jacket",
@@ -3771,7 +3771,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-braided-hat"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-braided-hat"
           }
         },
         "code": "model-braided-hat",
@@ -3833,7 +3833,7 @@
               "data": "8\/9\/3\/1\/89314f18134c466569ae34369739ce950a271d6a_braided_hat.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/9\/3\/1\/89314f18134c466569ae34369739ce950a271d6a_braided_hat.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/9\/3\/1\/89314f18134c466569ae34369739ce950a271d6a_braided_hat.jpg\/download"
                 }
               }
             }
@@ -3870,7 +3870,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-running-shoes"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-running-shoes"
           }
         },
         "code": "model-running-shoes",
@@ -3943,7 +3943,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-tshirt-divided"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-tshirt-divided"
           }
         },
         "code": "model-tshirt-divided",
@@ -4042,7 +4042,7 @@
               "data": "8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
                 }
               }
             }
@@ -4079,7 +4079,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-tshirt-unique-color-kurt"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-tshirt-unique-color-kurt"
           }
         },
         "code": "model-tshirt-unique-color-kurt",
@@ -4159,7 +4159,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/artemis"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/artemis"
           }
         },
         "code": "artemis",
@@ -4235,7 +4235,7 @@
               "data": "b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg\/download"
                 }
               }
             }
@@ -4272,7 +4272,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-tshirt-unique-size"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-tshirt-unique-size"
           }
         },
         "code": "model-tshirt-unique-size",
@@ -4327,7 +4327,7 @@
               "data": "8\/2\/d\/d\/82dd830eaccb8ef585041283e01addb4a792c06e_unique_size.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/2\/d\/d\/82dd830eaccb8ef585041283e01addb4a792c06e_unique_size.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/2\/d\/d\/82dd830eaccb8ef585041283e01addb4a792c06e_unique_size.jpg\/download"
                 }
               }
             }
@@ -4364,7 +4364,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon_blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/apollon_blue"
           }
         },
         "code": "apollon_blue",
@@ -4463,7 +4463,7 @@
               "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
                 }
               }
             }
@@ -4500,7 +4500,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon_pink"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/apollon_pink"
           }
         },
         "code": "apollon_pink",
@@ -4589,7 +4589,7 @@
               "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
                 }
               }
             }
@@ -4626,7 +4626,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon_red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/apollon_red"
           }
         },
         "code": "apollon_red",
@@ -4715,7 +4715,7 @@
               "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
                 }
               }
             }
@@ -4752,7 +4752,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/apollon_yellow"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/apollon_yellow"
           }
         },
         "code": "apollon_yellow",
@@ -4841,7 +4841,7 @@
               "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
                 }
               }
             }
@@ -4853,7 +4853,7 @@
               "data": "5\/1\/2\/b\/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/5\/1\/2\/b\/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/5\/1\/2\/b\/512be46e764becbbf0becd4a669a080d1ca94c40_apollon.jpg\/download"
                 }
               }
             }
@@ -4890,7 +4890,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/ares_blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/ares_blue"
           }
         },
         "code": "ares_blue",
@@ -5005,7 +5005,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/ares_pink"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/ares_pink"
           }
         },
         "code": "ares_pink",
@@ -5120,7 +5120,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/ares_yellow"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/ares_yellow"
           }
         },
         "code": "ares_yellow",
@@ -5235,7 +5235,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/artemis_blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/artemis_blue"
           }
         },
         "code": "artemis_blue",
@@ -5325,7 +5325,7 @@
               "data": "b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg\/download"
                 }
               }
             }
@@ -5337,7 +5337,7 @@
               "data": "0\/1\/b\/9\/01b9dd80dfe9fa97e91cdd34374cd3f3dad2a597_artemis.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/0\/1\/b\/9\/01b9dd80dfe9fa97e91cdd34374cd3f3dad2a597_artemis.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/0\/1\/b\/9\/01b9dd80dfe9fa97e91cdd34374cd3f3dad2a597_artemis.jpg\/download"
                 }
               }
             }
@@ -5374,7 +5374,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/artemis_red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/artemis_red"
           }
         },
         "code": "artemis_red",
@@ -5464,7 +5464,7 @@
               "data": "b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/b\/d\/7\/e\/bd7e5e594682a38ff0931b199502db34c6b7ec9f_artemis.jpg\/download"
                 }
               }
             }
@@ -5501,7 +5501,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/athena"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/athena"
           }
         },
         "code": "athena",
@@ -5576,7 +5576,7 @@
               "data": "c\/1\/f\/d\/c1fda65a32eab41075169bd37795dfcf07a515fe_athena.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/c\/1\/f\/d\/c1fda65a32eab41075169bd37795dfcf07a515fe_athena.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/c\/1\/f\/d\/c1fda65a32eab41075169bd37795dfcf07a515fe_athena.jpg\/download"
                 }
               }
             }
@@ -5613,7 +5613,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/bacchus_blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/bacchus_blue"
           }
         },
         "code": "bacchus_blue",
@@ -5702,7 +5702,7 @@
               "data": "8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
                 }
               }
             }
@@ -5714,7 +5714,7 @@
               "data": "f\/8\/9\/a\/f89a09cd3088dd0aec715469abaf585b83193aaa_bacchus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/f\/8\/9\/a\/f89a09cd3088dd0aec715469abaf585b83193aaa_bacchus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/f\/8\/9\/a\/f89a09cd3088dd0aec715469abaf585b83193aaa_bacchus.jpg\/download"
                 }
               }
             }
@@ -5751,7 +5751,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/bacchus_orange"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/bacchus_orange"
           }
         },
         "code": "bacchus_orange",
@@ -5840,7 +5840,7 @@
               "data": "8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
                 }
               }
             }
@@ -5877,7 +5877,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/bacchus_pink"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/bacchus_pink"
           }
         },
         "code": "bacchus_pink",
@@ -5966,7 +5966,7 @@
               "data": "8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
                 }
               }
             }
@@ -6003,7 +6003,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/bacchus_yellow"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/bacchus_yellow"
           }
         },
         "code": "bacchus_yellow",
@@ -6092,7 +6092,7 @@
               "data": "8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
                 }
               }
             }
@@ -6129,7 +6129,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/caelus_blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/caelus_blue"
           }
         },
         "code": "caelus_blue",
@@ -6243,7 +6243,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/caelus_red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/caelus_red"
           }
         },
         "code": "caelus_red",
@@ -6357,7 +6357,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/diana_pink"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/diana_pink"
           }
         },
         "code": "diana_pink",
@@ -6447,7 +6447,7 @@
               "data": "a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg\/download"
                 }
               }
             }
@@ -6459,7 +6459,7 @@
               "data": "6\/1\/8\/6\/6186b507992767ddb282e7241c2a1222f9ad6e55_diana2.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/6\/1\/8\/6\/6186b507992767ddb282e7241c2a1222f9ad6e55_diana2.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/6\/1\/8\/6\/6186b507992767ddb282e7241c2a1222f9ad6e55_diana2.jpg\/download"
                 }
               }
             }
@@ -6496,7 +6496,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/diana_red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/diana_red"
           }
         },
         "code": "diana_red",
@@ -6586,7 +6586,7 @@
               "data": "a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/a\/e\/a\/1\/aea1fa4b23be0c0b331e621c982c1befc44fe7a2_diana2.jpg\/download"
                 }
               }
             }
@@ -6623,7 +6623,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hades_blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hades_blue"
           }
         },
         "code": "hades_blue",
@@ -6738,7 +6738,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/hades_red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/hades_red"
           }
         },
         "code": "hades_red",
@@ -6853,7 +6853,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/aurora"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/aurora"
           }
         },
         "code": "aurora",
@@ -6954,7 +6954,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/jack_brown"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/jack_brown"
           }
         },
         "code": "jack_brown",
@@ -7009,7 +7009,7 @@
               "data": "0\/0\/9\/4\/00942476cfb62921d4be317d03229813c89b55a4_t_shirt_marron.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/0\/0\/9\/4\/00942476cfb62921d4be317d03229813c89b55a4_t_shirt_marron.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/0\/0\/9\/4\/00942476cfb62921d4be317d03229813c89b55a4_t_shirt_marron.png\/download"
                 }
               }
             }
@@ -7046,7 +7046,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/jack_green"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/jack_green"
           }
         },
         "code": "jack_green",
@@ -7101,7 +7101,7 @@
               "data": "3\/2\/1\/8\/3218928f8793bdcac948d2978b2652a1f7161350_t_shirt_green.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/3\/2\/1\/8\/3218928f8793bdcac948d2978b2652a1f7161350_t_shirt_green.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/2\/1\/8\/3218928f8793bdcac948d2978b2652a1f7161350_t_shirt_green.jpg\/download"
                 }
               }
             }
@@ -7138,7 +7138,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/plain_red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/plain_red"
           }
         },
         "code": "plain_red",
@@ -7193,7 +7193,7 @@
               "data": "7\/c\/7\/0\/7c70004cbfeb2976a7bb5eaf736fbc9cea9582bb_plain_red.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/7\/c\/7\/0\/7c70004cbfeb2976a7bb5eaf736fbc9cea9582bb_plain_red.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/7\/c\/7\/0\/7c70004cbfeb2976a7bb5eaf736fbc9cea9582bb_plain_red.jpg\/download"
                 }
               }
             }
@@ -7230,7 +7230,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/plain_white"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/plain_white"
           }
         },
         "code": "plain_white",
@@ -7310,7 +7310,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-biker-jacket-leather"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-biker-jacket-leather"
           }
         },
         "code": "model-biker-jacket-leather",
@@ -7397,7 +7397,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-biker-jacket-polyester"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-biker-jacket-polyester"
           }
         },
         "code": "model-biker-jacket-polyester",
@@ -7484,7 +7484,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-running-shoes-l"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-running-shoes-l"
           }
         },
         "code": "model-running-shoes-l",
@@ -7571,7 +7571,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-running-shoes-m"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-running-shoes-m"
           }
         },
         "code": "model-running-shoes-m",
@@ -7658,7 +7658,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-running-shoes-s"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-running-shoes-s"
           }
         },
         "code": "model-running-shoes-s",
@@ -7745,7 +7745,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-tshirt-divided-blue"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-tshirt-divided-blue"
           }
         },
         "code": "model-tshirt-divided-blue",
@@ -7877,7 +7877,7 @@
               "data": "8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
                 }
               }
             }
@@ -7889,7 +7889,7 @@
               "data": "a\/5\/7\/7\/a577c14b902f56980e5023641502332a7ddfcbfc_blue.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/a\/5\/7\/7\/a577c14b902f56980e5023641502332a7ddfcbfc_blue.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/a\/5\/7\/7\/a577c14b902f56980e5023641502332a7ddfcbfc_blue.png\/download"
                 }
               }
             }
@@ -7926,7 +7926,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/bacchus"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/bacchus"
           }
         },
         "code": "bacchus",
@@ -8001,7 +8001,7 @@
               "data": "8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/6\/c\/b\/86cbb08bd964f3d822082708381d023b5794cedd_bacchus.jpg\/download"
                 }
               }
             }
@@ -8038,7 +8038,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-tshirt-divided-grey"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-tshirt-divided-grey"
           }
         },
         "code": "model-tshirt-divided-grey",
@@ -8170,7 +8170,7 @@
               "data": "8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
                 }
               }
             }
@@ -8182,7 +8182,7 @@
               "data": "5\/f\/c\/7\/5fc7040714a840ded611e36b4e0540bc1e591157_grey.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/5\/f\/c\/7\/5fc7040714a840ded611e36b4e0540bc1e591157_grey.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/5\/f\/c\/7\/5fc7040714a840ded611e36b4e0540bc1e591157_grey.png\/download"
                 }
               }
             }
@@ -8219,7 +8219,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/model-tshirt-divided-red"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/model-tshirt-divided-red"
           }
         },
         "code": "model-tshirt-divided-red",
@@ -8351,7 +8351,7 @@
               "data": "8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/8\/e\/7\/7\/8e77a43afec56346edccccd81e00941850edd7ce_red.png\/download"
                 }
               }
             }
@@ -8363,7 +8363,7 @@
               "data": "9\/6\/c\/b\/96cbeff1dbf09a19edca628b94a79b458252a919_red.png",
               "_links": {
                 "download": {
-                  "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/media-files\/9\/6\/c\/b\/96cbeff1dbf09a19edca628b94a79b458252a919_red.png\/download"
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/9\/6\/c\/b\/96cbeff1dbf09a19edca628b94a79b458252a919_red.png\/download"
                 }
               }
             }
@@ -8400,7 +8400,7 @@
       {
         "_links": {
           "self": {
-            "href": "http:\/\/web--akeneo3-standard-ee--p72.soap01.synocloud.com\/api\/rest\/v1\/product-models\/brogueshoe"
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/brogueshoe"
           }
         },
         "code": "brogueshoe",
