@@ -1,21 +1,4 @@
 imports:
     - { resource: "../../Behat/Resources/services.xml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
-
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: true
-
-    test.serialize.akeneo: '@Symfony\Component\Serializer\SerializerInterface'
-    Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\BeforeTaskSubscriber: ~
-    Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\AfterTaskSubscriber: ~
-
-    Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory:
-        arguments:
-          $mockServerHost: '%env(MOCK_SERVER_HOST)%'
-          $mockServerPort: '%env(MOCK_SERVER_PORT)%'
-
-    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
-        factory: ['@Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory', 'createFromApiCredentials']
+    - { resource: "packages/test/akeneo.yaml" }
