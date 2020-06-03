@@ -61,17 +61,21 @@ const Form = {
    */
   toggleFields() {
     const self = this;
-    const toHide = [this.options.after.selector, this.options.since.selector];
-    if (
-      !$(this.options.locale.selector + ">option:selected").length ||
-      !this.options.locale.values.includes($(this.options.locale.trigger).val())
-    ) {
-      toHide.push(self.options.locale.selector);
-    }
-    if ($(`${toHide.join()}`).length) {
-      $(`${toHide.join()}`).parent(".field").addClass("hidden");
-    }
+    const toHide = [
+      this.options.locale.selector,
+      this.options.before.selector,
+      this.options.after.selector,
+      this.options.since.selector,
+    ];
+
     for (let k in this.options) {
+      if (this.options[k].values.includes($(this.options[k].trigger).val())) {
+        let index = toHide.indexOf(this.options[k].selector);
+        if (index !== -1) {
+          toHide.splice(index, 1);
+        }
+      }
+
       if ($(this.options[k].trigger).length) {
         $(this.options[k].trigger).on("change", function () {
           self.options[k].values.includes($(this).val())
@@ -79,6 +83,10 @@ const Form = {
             : $(self.options[k].selector).parent(".field").addClass("hidden");
         });
       }
+    }
+
+    if ($(`${toHide.join()}`).length) {
+      $(`${toHide.join()}`).parent(".field").addClass("hidden");
     }
   },
 };
