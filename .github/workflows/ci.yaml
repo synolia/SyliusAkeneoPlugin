@@ -129,12 +129,35 @@ jobs:
 
       - name: Composer - Install plugin
         working-directory: ./sylius
-        run: composer req "${{ env.package-name }}:*" --prefer-source
+        run: composer req "${{ env.package-name }}:*" --prefer-source --no-scripts
+
+      #TODO Remove after use Symfony Flex
+      - name: Sylius - Config package
+        working-directory: ./sylius
+        run: |
+          sed -i '/];/i\    Synolia\\SyliusAkeneoPlugin\\SynoliaSyliusAkeneoPlugin::class => ["all" => true],' config/bundles.php
+          cat config/bundles.php
+
+      #TODO Remove after use Symfony Flex
+      - name: Sylius - Get services from Plugin
+        working-directory: ./sylius
+        run: cp vendor/${{ env.package-name }}/akeneo_services.yaml config/packages/akeneo.yaml
+
+      - name: Sylius - Get routes from Plugin
+        working-directory: ./sylius
+        run: cp vendor/${{ env.package-name }}/tests/Application/config/routes.yaml config/routes/akeneo.yaml
+
+      - name: Sylius - Get migrations from Plugin
+        working-directory: ./sylius
+        run: cp -R vendor/${{ env.package-name }}/src/Migrations/* src/Migrations
 
       - name: Sylius - Get test services from Plugin
         working-directory: ./sylius
-        run: |
-          cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
+        run: cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
+
+      - name: Sylius - Cache clear
+        working-directory: ./sylius
+        run: php bin/console c:c
 
       - name: Sylius - Init database
         working-directory: ./sylius

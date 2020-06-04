@@ -4,6 +4,9 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
+    autoload_files:
+        - ../tests/Application/config/bootstrap.php
+
     excludes_analyse:
         # Makes PHPStan crash
         - ../src/Configuration/SettingConfiguration.php
