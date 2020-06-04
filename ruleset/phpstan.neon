@@ -3,10 +3,9 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
-
-    autoload_files:
+    bootstrapFiles:
         - ../tests/Application/config/bootstrap.php
-
+        - ../vendor/autoload.php
     excludes_analyse:
         # Makes PHPStan crash
         - ../src/Configuration/SettingConfiguration.php

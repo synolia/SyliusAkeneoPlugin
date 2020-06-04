@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="synolia_sylius_akeneo_plugin.page.admin.api_configuration.update" class="Tests\Synolia\SyliusAkeneoPlugin\Behat\Page\Admin\ApiConfiguration\UpdatePage" parent="sylius.behat.page.admin.crud.update" public="true">
+            <argument type="string">sylius_akeneo_connector_api_configuration</argument>
+        </service>
+    </services>
+</container>
