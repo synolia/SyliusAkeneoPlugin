@@ -10,11 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200323105355 extends AbstractMigration
+final class Version20200605081308 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Akeneo plugin migration';
+        return 'Akeneo plugin tables';
     }
 
     public function up(Schema $schema): void
@@ -22,52 +22,31 @@ final class Version20200323105355 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE akeneo_api_configuration_product_attribute (
-          id INT AUTO_INCREMENT NOT NULL, 
-          attribute VARCHAR(255) NOT NULL, 
-          value VARCHAR(255) NOT NULL, 
-          productConfiguration_id INT NOT NULL, 
-          INDEX IDX_5D32E2132B9CB4D4 (productConfiguration_id), 
-          PRIMARY KEY(id)
-        ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_api_configuration_product (
           id INT AUTO_INCREMENT NOT NULL, 
-          websiteAttribute VARCHAR(255) DEFAULT NULL, 
+          akeneoPriceAttribute VARCHAR(255) DEFAULT NULL, 
+          akeneoEnabledChannelsAttribute VARCHAR(255) DEFAULT NULL, 
           attributeMapping LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', 
           importMediaFiles TINYINT(1) DEFAULT NULL, 
           regenerateUrlRewrites TINYINT(1) DEFAULT NULL, 
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE akeneo_api_configuration_product_default_tax (
+        $this->addSql('CREATE TABLE akeneo_attribute_akeneo_sylius_mapping (
           id INT AUTO_INCREMENT NOT NULL, 
-          website VARCHAR(255) NOT NULL, 
-          taxClass VARCHAR(255) NOT NULL, 
-          productConfiguration_id INT NOT NULL, 
-          INDEX IDX_48F06B4A2B9CB4D4 (productConfiguration_id), 
-          PRIMARY KEY(id)
-        ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE akeneo_api_configuration_website_mapping (
-          id INT AUTO_INCREMENT NOT NULL, 
-          channel_id INT DEFAULT NULL, 
-          akeneoChannel VARCHAR(255) NOT NULL, 
-          apiConfiguration_id INT DEFAULT NULL, 
-          INDEX IDX_70E428A2352A8960 (apiConfiguration_id), 
-          INDEX IDX_70E428A272F5A1AA (channel_id), 
-          PRIMARY KEY(id)
-        ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE akeneo_api_configuration_categories (
-          id INT AUTO_INCREMENT NOT NULL, 
-          activeNewCategories TINYINT(1) NOT NULL, 
-          notImportCategories LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', 
-          mainCategory VARCHAR(255) NOT NULL, 
-          rootCategory VARCHAR(255) NOT NULL, 
-          emptyLocalReplaceBy VARCHAR(255) NOT NULL, 
+          akeneoAttribute VARCHAR(255) NOT NULL, 
+          syliusAttribute VARCHAR(255) NOT NULL, 
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_settings (
           id INT AUTO_INCREMENT NOT NULL, 
           name VARCHAR(255) NOT NULL, 
           value VARCHAR(255) DEFAULT NULL, 
+          PRIMARY KEY(id)
+        ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE akeneo_api_configuration_categories (
+          id INT AUTO_INCREMENT NOT NULL, 
+          notImportCategories LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', 
+          rootCategories LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', 
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_api_configuration_product_images_mapping (
@@ -80,8 +59,9 @@ final class Version20200323105355 extends AbstractMigration
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_attribute_type_mapping (
           id INT AUTO_INCREMENT NOT NULL, 
-          akeneoAttribute VARCHAR(255) NOT NULL, 
+          akeneoAttributeType VARCHAR(255) NOT NULL, 
           attributeType VARCHAR(255) NOT NULL, 
+          UNIQUE INDEX UNIQ_FF5E270FA2851109 (akeneoAttributeType), 
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_api_configuration (
@@ -102,14 +82,15 @@ final class Version20200323105355 extends AbstractMigration
           mode VARCHAR(255) NOT NULL, 
           advancedFilter VARCHAR(255) DEFAULT NULL, 
           completenessType VARCHAR(255) DEFAULT NULL, 
-          locales VARCHAR(255) NOT NULL, 
-          completenessValue VARCHAR(255) DEFAULT NULL, 
+          locales LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', 
+          completenessValue INT NOT NULL, 
           status VARCHAR(255) DEFAULT NULL, 
           updatedMode VARCHAR(255) DEFAULT NULL, 
-          updatedBefore DATETIME DEFAULT NULL, 
-          updatedAfter DATETIME DEFAULT NULL, 
-          updated VARCHAR(255) DEFAULT NULL, 
-          families VARCHAR(255) DEFAULT NULL, 
+          updatedBefore DATETIME NOT NULL, 
+          updatedAfter DATETIME NOT NULL, 
+          updated INT DEFAULT NULL, 
+          excludeFamilies LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', 
+          channel VARCHAR(255) NOT NULL, 
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_product_group (
@@ -134,22 +115,6 @@ final class Version20200323105355 extends AbstractMigration
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE 
-          akeneo_api_configuration_product_attribute 
-        ADD 
-          CONSTRAINT FK_5D32E2132B9CB4D4 FOREIGN KEY (productConfiguration_id) REFERENCES akeneo_api_configuration_product (id)');
-        $this->addSql('ALTER TABLE 
-          akeneo_api_configuration_product_default_tax 
-        ADD 
-          CONSTRAINT FK_48F06B4A2B9CB4D4 FOREIGN KEY (productConfiguration_id) REFERENCES akeneo_api_configuration_product (id)');
-        $this->addSql('ALTER TABLE 
-          akeneo_api_configuration_website_mapping 
-        ADD 
-          CONSTRAINT FK_70E428A2352A8960 FOREIGN KEY (apiConfiguration_id) REFERENCES akeneo_api_configuration (id)');
-        $this->addSql('ALTER TABLE 
-          akeneo_api_configuration_website_mapping 
-        ADD 
-          CONSTRAINT FK_70E428A272F5A1AA FOREIGN KEY (channel_id) REFERENCES sylius_channel (id)');
-        $this->addSql('ALTER TABLE 
           akeneo_api_configuration_product_images_mapping 
         ADD 
           CONSTRAINT FK_A39A907D2B9CB4D4 FOREIGN KEY (productConfiguration_id) REFERENCES akeneo_api_configuration_product (id)');
@@ -172,8 +137,6 @@ final class Version20200323105355 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE akeneo_api_configuration_product_attribute DROP FOREIGN KEY FK_5D32E2132B9CB4D4');
-        $this->addSql('ALTER TABLE akeneo_api_configuration_product_default_tax DROP FOREIGN KEY FK_48F06B4A2B9CB4D4');
         $this->addSql('ALTER TABLE 
           akeneo_api_configuration_product_images_mapping 
         DROP 
@@ -182,14 +145,11 @@ final class Version20200323105355 extends AbstractMigration
           akeneo_api_configuration_product_akeneo_image_attribute 
         DROP 
           FOREIGN KEY FK_739EBA822B9CB4D4');
-        $this->addSql('ALTER TABLE akeneo_api_configuration_website_mapping DROP FOREIGN KEY FK_70E428A2352A8960');
         $this->addSql('ALTER TABLE akeneo_productgroup_product DROP FOREIGN KEY FK_15F96A1C5BC5238A');
-        $this->addSql('DROP TABLE akeneo_api_configuration_product_attribute');
         $this->addSql('DROP TABLE akeneo_api_configuration_product');
-        $this->addSql('DROP TABLE akeneo_api_configuration_product_default_tax');
-        $this->addSql('DROP TABLE akeneo_api_configuration_website_mapping');
-        $this->addSql('DROP TABLE akeneo_api_configuration_categories');
+        $this->addSql('DROP TABLE akeneo_attribute_akeneo_sylius_mapping');
         $this->addSql('DROP TABLE akeneo_settings');
+        $this->addSql('DROP TABLE akeneo_api_configuration_categories');
         $this->addSql('DROP TABLE akeneo_api_configuration_product_images_mapping');
         $this->addSql('DROP TABLE akeneo_attribute_type_mapping');
         $this->addSql('DROP TABLE akeneo_api_configuration');
