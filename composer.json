@@ -3,7 +3,7 @@
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin", "akeneo", "connector"],
     "description": "Akeneo connector for Sylius.",
-    "license": "MIT",
+    "license": "EUPL",
     "require": {
         "php": "^7.3",
         "akeneo/api-php-client": "^4.0",
