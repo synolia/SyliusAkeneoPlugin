@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
+use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
@@ -104,7 +105,18 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     }
 
                     $taxonTranslation->setName($label);
-                    $taxonTranslation->setSlug($resource['code']);
+                    $slug = Transliterator::transliterate(
+                        \str_replace(
+                            '\'',
+                            '-',
+                            \sprintf(
+                                '%s-%s',
+                                $resource['code'],
+                                $label
+                            )
+                        )
+                    );
+                    $taxonTranslation->setSlug($slug ?? $resource['code']);
                 }
             }
 
