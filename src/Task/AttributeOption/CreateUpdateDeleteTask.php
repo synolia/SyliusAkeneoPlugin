@@ -12,6 +12,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 final class CreateUpdateDeleteTask implements AkeneoTaskInterface
 {
@@ -33,14 +34,19 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var AkeneoAttributeToSyliusAttributeTransformer */
+    private $akeneoAttributeToSyliusAttributeTransformer;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeRepository,
+        AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->logger = $akeneoLogger;
+        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
     }
 
     /**
@@ -78,7 +84,8 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
         ResourceCursorInterface $options,
         bool $isMultiple
     ): void {
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $attributeCode]);
+        $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
+        $attribute = $this->productAttributeRepository->findOneBy(['code' => $code]);
 
         if (!$attribute instanceof AttributeInterface) {
             return;
