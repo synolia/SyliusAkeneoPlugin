@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
-use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -25,6 +24,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
+use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
@@ -75,6 +75,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var string */
     private $type;
 
+    /** @var FamilyRetriever */
+    private $familyRetriever;
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
      */
@@ -87,6 +90,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         EntityRepository $productGroupRepository,
         FactoryInterface $productTaxonFactory,
         AkeneoTaskProvider $taskProvider,
+        FamilyRetriever $familyRetriever,
         LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
@@ -95,6 +99,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->productRepository = $productRepository;
         $this->productTaxonRepository = $productTaxonAkeneoRepository;
         $this->productGroupRepository = $productGroupRepository;
+        $this->familyRetriever = $familyRetriever;
         $this->taxonRepository = $taxonRepository;
         $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
@@ -172,14 +177,22 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
-        try {
-            $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get($resource['family'], $resource['family_variant']);
-        } catch (NotFoundHttpException $e) {
-            $this->logger->error(Messages::createOrUpdate($resource['code']));
-            $this->logger->error(Messages::createOrUpdate($e->getMessage()));
+        $family = null;
+        if (!isset($resource['family'])) {
+            try {
+                $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
+            } catch (\LogicException $exception) {
+                $this->logger->warning($exception->getMessage());
 
-            return null;
+                return null;
+            }
         }
+
+        $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
+            $family ? $family : $resource['family'],
+            $resource['family_variant']
+        );
+
         $numberOfVariationAxis = isset($payloadProductGroup['variant_attribute_sets']) ? \count($payloadProductGroup['variant_attribute_sets']) : 0;
 
         if (null === $resource['parent'] && $numberOfVariationAxis > self::ONE_VARIATION_AXIS) {
@@ -200,15 +213,19 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->updateImages($resource, $product);
 
         $product->setCode($resource['code']);
+        $this->setMainTaxon($resource, $product);
 
+        return $product;
+    }
+
+    private function setMainTaxon(array $resource, ProductInterface $product): void
+    {
         if (isset($resource['categories'][0])) {
             $taxon = $this->taxonRepository->findOneBy(['code' => $resource['categories'][0]]);
             if ($taxon instanceof TaxonInterface) {
                 $product->setMainTaxon($taxon);
             }
         }
-
-        return $product;
     }
 
     private function getProductTaxonIds(ProductInterface $product): array
