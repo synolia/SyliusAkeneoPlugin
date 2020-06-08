@@ -84,7 +84,7 @@ final class Messages
         return sprintf('%s "%s" already exist', $type, $code);
     }
 
-    public static function setVariationAxeToFamily(string $type, string $entity, string $axe): string
+    public static function setVariationAxeToFamily(string $type, string $axe, ?string $entity = ''): string
     {
         return sprintf('%s "%s" has variant axe "%s"', $type, $entity, $axe);
     }

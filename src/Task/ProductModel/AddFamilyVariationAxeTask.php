@@ -80,7 +80,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                     }
                 }
                 $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
-                    $family ? $family : $resource['family'],
+                    $family ?: $resource['family'],
                     $resource['family_variant']
                 );
 
@@ -92,7 +92,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                     foreach ($variantAttributeSet['axes'] as $axe) {
                         $productGroup->addVariationAxe($axe);
                         ++$this->itemCount;
-                        $this->logger->info(Messages::setVariationAxeToFamily($this->type, $resource['family'], $axe));
+                        $this->logger->info(Messages::setVariationAxeToFamily($this->type, $axe, $family));
                     }
                 }
             }
