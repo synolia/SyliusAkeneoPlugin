@@ -15,7 +15,7 @@
         "symfony/lock": "^3.4|^4.3",
         "symfony/property-access": "^3.4|^4.3",
         "symfony/property-info": "^3.4|^4.3",
-        "symfony/serializer": "^3.4|^4.3"
+        "symfony/serializer": "^3.4|^4.3|^5.0"
     },
     "require-dev": {
         "behat/behat": "^3.4",
