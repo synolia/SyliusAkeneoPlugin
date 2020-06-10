@@ -61,6 +61,8 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
             throw new NoProductModelResourcesException('No resource found.');
         }
 
+        $familiesVariantPayloads = [];
+
         try {
             $this->entityManager->beginTransaction();
             foreach ($payload->getModelResources() as $resource) {
@@ -79,20 +81,30 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                         continue;
                     }
                 }
-                $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
-                    $family ? $family : $resource['family'],
-                    $resource['family_variant']
-                );
 
-                foreach ($payloadProductGroup['variant_attribute_sets'] as $variantAttributeSet) {
-                    if (count($payloadProductGroup['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+                if (!isset($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']])) {
+                    $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
+                        $family ?: $resource['family'],
+                        $resource['family_variant']
+                    );
+
+                    $familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']] = $payloadProductGroup;
+                }
+
+                foreach ($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
+                    if (count($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
                         continue;
                     }
 
                     foreach ($variantAttributeSet['axes'] as $axe) {
                         $productGroup->addVariationAxe($axe);
                         ++$this->itemCount;
-                        $this->logger->info(Messages::setVariationAxeToFamily($this->type, $resource['family'], $axe));
+                        $this->logger->info(\sprintf(
+                            'Added axe "%s" to product group "%s" for family "%s"',
+                            $axe,
+                            $productGroup->getProductParent(),
+                            $family ?: $resource['family']
+                        ));
                     }
                 }
             }

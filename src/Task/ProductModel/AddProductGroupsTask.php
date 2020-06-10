@@ -39,6 +39,9 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
     private $configurationProvider;
 
+    /** @var array */
+    private $productGroupsMapping;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ConfigurationProvider $configurationProvider,
@@ -59,6 +62,7 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->type = 'ProductGroups';
         $this->logger->notice(Messages::createOrUpdate($this->type));
+        $this->productGroupsMapping = [];
 
         $unfilteredResources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->configurationProvider->getConfiguration()->getPaginationSize(),
@@ -70,13 +74,13 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
         }
 
         try {
+            $this->entityManager->beginTransaction();
             foreach ($payload->getModelResources() as $resource) {
-                $this->entityManager->beginTransaction();
                 $this->createProductGroups($resource);
-
-                $this->entityManager->flush();
-                $this->entityManager->commit();
             }
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
@@ -91,6 +95,10 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
 
     private function createGroupForCode(string $code): void
     {
+        if (isset($this->productGroupsMapping[$code])) {
+            return;
+        }
+
         if ($this->productGroupRepository->findOneBy(['productParent' => $code])) {
             ++$this->groupAlreadyExistCount;
             $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', $code));
@@ -101,6 +109,7 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
         $productGroup = new ProductGroup();
         $productGroup->setProductParent($code);
         $this->entityManager->persist($productGroup);
+        $this->productGroupsMapping[$code] = $productGroup;
 
         ++$this->groupCreateCount;
         $this->logger->info(Messages::hasBeenCreated('ProductGroup', $code));
