@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Service;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -40,6 +41,29 @@ final class SyliusAkeneoLocaleCodeProvider
         }
 
         return $this->localesCode;
+    }
+
+    /**
+     * @param array|string $data
+     */
+    public function isLocaleDataTranslation(AttributeInterface $attribute, $data, string $locale): bool
+    {
+        if (isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
+            return true;
+        }
+
+        if (is_array($data) && $data['locale'] === $locale) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isActiveLocale(string $locale): bool
+    {
+        $locales = $this->getUsedLocalesOnBothPlatforms();
+
+        return in_array($locale, $locales, true);
     }
 
     private function getUsedLocalesOnAkeneo(): ResourceCursorInterface

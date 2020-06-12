@@ -24,6 +24,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 final class AddAttributesToProductTask implements AkeneoTaskInterface
@@ -162,7 +163,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         string $attributeCode,
         string $scope
     ): void {
-        if ($translation['locale'] !== null && $this->isActiveLocale($translation['locale']) === false) {
+        if ($translation['locale'] !== null && $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale']) === false) {
             return;
         }
 
@@ -213,7 +214,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $localeTranslations = [];
         if (count($translations) > 1) {
             foreach ($translations as $translation) {
-                if ($this->isLocaleDataTranslation($attribute, $translation, $locale) === false) {
+                if ($this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, $translation, $locale) === false) {
                     continue;
                 }
                 $localeTranslations[] = $translation;
@@ -227,7 +228,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         }
 
         if (!is_array($translations[0]['data'])) {
-            $isLocaleDataValues = $this->isLocaleDataTranslation($attribute, $translations[0]['data'], $locale);
+            $isLocaleDataValues = $this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, CreateUpdateDeleteTask::AKENEO_PREFIX . $translations[0]['data'], $locale);
             if ($isLocaleDataValues === false) {
                 return null;
             }
@@ -237,7 +238,8 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
 
         $datas = [];
         foreach ($translations[0]['data'] as $data) {
-            if ($this->isLocaleDataTranslation($attribute, $data, $locale) === false) {
+            $data = CreateUpdateDeleteTask::AKENEO_PREFIX . $data;
+            if ($this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, $data, $locale) === false) {
                 continue;
             }
             $datas[] = $data;
@@ -246,29 +248,6 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $translations[0]['data'] = $datas;
 
         return $translations;
-    }
-
-    /**
-     * @param array|string $data
-     */
-    private function isLocaleDataTranslation(AttributeInterface $attribute, $data, string $locale): bool
-    {
-        if (isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
-            return true;
-        }
-
-        if (is_array($data) && $data['locale'] === $locale) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function isActiveLocale(string $locale): bool
-    {
-        $locales = $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
-
-        return in_array($locale, $locales) ? true : false;
     }
 
     private function getProductTranslationPropertyByLocale(array $attributes): array
