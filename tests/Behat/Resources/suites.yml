@@ -1,4 +1,3 @@
-# Put your Behat suites definitions here
-
-default:
-    suites:
+imports:
+    - suites/cli/akeneo_import_categories.yml
+    - suites/ui/managing_api_configuration.yml

@@ -31,30 +31,35 @@ class ApiConfiguration implements ResourceInterface
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="synolia_sylius_akeneo_plugin.base_url.not_blank")
      */
     private $baseUrl;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $apiClientId;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $apiClientSecret;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank
      */
     private $token;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank
      */
     private $refreshToken;
 
@@ -77,12 +82,14 @@ class ApiConfiguration implements ResourceInterface
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $username;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $password;
 

@@ -1,0 +1,3 @@
+synolia_sylius_akeneo_plugin:
+    base_url:
+        not_blank: Akeneo base URL cannot be blank.

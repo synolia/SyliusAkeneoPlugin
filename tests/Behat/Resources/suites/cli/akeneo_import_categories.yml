@@ -1,0 +1,7 @@
+default:
+    suites:
+        cli_akeneo_import_categories:
+            contexts:
+                - synolia_sylius_akeneo_plugin.behat.context.cli.akeneo_import_categories
+            filters:
+                tags: "@akeneo_import_categories && @cli"
