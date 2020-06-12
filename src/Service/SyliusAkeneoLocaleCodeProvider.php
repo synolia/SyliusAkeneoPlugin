@@ -17,6 +17,9 @@ final class SyliusAkeneoLocaleCodeProvider
     /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
     private $akeneoPimClient;
 
+    /** @var array<string> */
+    private $localesCode = [];
+
     public function __construct(AkeneoPimClientInterface $akeneoPimClient, RepositoryInterface $channelRepository)
     {
         $this->akeneoPimClient = $akeneoPimClient;
@@ -25,15 +28,18 @@ final class SyliusAkeneoLocaleCodeProvider
 
     public function getUsedLocalesOnBothPlatforms(): array
     {
-        $localesCode = [];
+        if ($this->localesCode !== []) {
+            return $this->localesCode;
+        }
+
         foreach ($this->getUsedLocalesOnAkeneo() as $apiLocale) {
             if ($apiLocale['enabled'] === false || !in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
                 continue;
             }
-            $localesCode[$apiLocale['code']] = $apiLocale['code'];
+            $this->localesCode[$apiLocale['code']] = $apiLocale['code'];
         }
 
-        return $localesCode;
+        return $this->localesCode;
     }
 
     private function getUsedLocalesOnAkeneo(): ResourceCursorInterface
