@@ -11,6 +11,7 @@
         "http-interop/http-factory-guzzle": "^1.0",
         "league/pipeline": "^1.0",
         "php-http/guzzle6-adapter": "^2.0",
+        "psr/event-dispatcher": "^1.0",
         "sylius/sylius": "^1.7.0",
         "symfony/lock": "^3.4|^4.3|^5.0",
         "symfony/property-access": "^3.4|^4.3|^5.0",
