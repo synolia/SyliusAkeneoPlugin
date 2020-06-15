@@ -6,11 +6,15 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{Controller,DependencyInjection,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
+        exclude: '../../{Controller,DependencyInjection,Fixture,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
+
+    Synolia\SyliusAkeneoPlugin\Fixture\:
+        resource: '../../Fixture'
+        tags: ['sylius_fixtures.fixture']
 
     Synolia\SyliusAkeneoPlugin\Menu\AdminMenuListener:
         tags:
