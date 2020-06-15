@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -18,21 +19,27 @@ class ApiConfigurationFixture extends AbstractFixture
     /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
     private $clientFactory;
 
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $apiConfigurationFactory;
+
     public function __construct(
         ClientFactory $clientFactory,
-        ObjectManager $objectManager
+        ObjectManager $objectManager,
+        FactoryInterface $apiConfigurationFactory
     ) {
         $this->clientFactory = $clientFactory;
         $this->objectManager = $objectManager;
+        $this->apiConfigurationFactory = $apiConfigurationFactory;
     }
 
     public function load(array $options): void
     {
-        $apiConfiguration = new ApiConfiguration();
+        /** @var ApiConfiguration $apiConfiguration */
+        $apiConfiguration = $this->apiConfigurationFactory->createNew();
         $apiConfiguration->setBaseUrl($options['base_url']);
         $apiConfiguration->setApiClientId($options['api_client_id']);
         $apiConfiguration->setApiClientSecret($options['api_client_secret']);
-        $apiConfiguration->setUsername($options['user_name']);
+        $apiConfiguration->setUsername($options['username']);
         $apiConfiguration->setPassword($options['password']);
         $apiConfiguration->setPaginationSize($options['pagination_size']);
         $apiConfiguration->setIsEnterprise($options['is_enterprise']);
@@ -60,7 +67,7 @@ class ApiConfigurationFixture extends AbstractFixture
         $optionsNode
             ->children()
                 ->scalarNode('base_url')->end()
-                ->scalarNode('user_name')->end()
+                ->scalarNode('username')->end()
                 ->scalarNode('password')->end()
                 ->scalarNode('api_client_id')->end()
                 ->scalarNode('api_client_secret')->end()
