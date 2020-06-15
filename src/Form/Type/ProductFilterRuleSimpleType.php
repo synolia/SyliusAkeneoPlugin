@@ -19,9 +19,9 @@ final class ProductFilterRuleSimpleType extends AbstractType
 {
     public const MODE = 'simple';
 
-    private const MIN_COMPLETENESS = 0;
+    public const MIN_COMPLETENESS = 0;
 
-    private const MAX_COMPLETENESS = 100;
+    public const MAX_COMPLETENESS = 100;
 
     /**
      * {@inheritdoc}

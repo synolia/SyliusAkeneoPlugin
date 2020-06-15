@@ -24,6 +24,14 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration
                 repository: Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository
+        akeneo.product_image_attribute_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute
+        akeneo.product_image_mapping_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping
         akeneo.product_group:
             driver: doctrine/orm
             classes:
@@ -33,7 +41,7 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\Setting
-        sylius.product_filters_rules:
+        akeneo.product_filters_rules:
             driver: doctrine/orm
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules
