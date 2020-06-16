@@ -187,6 +187,10 @@ jobs:
         working-directory: ./sylius
         run: yarn install && yarn build
 
+      - name: Sylius - Change Namespace
+        working-directory: ./sylius
+        run: find src -type f -name '*.php' -exec sed -i 's#namespace Tests\\Application#namespace App#g' {} \;
+
       - name: Sylius - Cache clear
         working-directory: ./sylius
         run: php bin/console c:c -e test

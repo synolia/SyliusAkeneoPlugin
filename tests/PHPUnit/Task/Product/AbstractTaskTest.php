@@ -30,12 +30,8 @@ abstract class AbstractTaskTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
-
         $this->initializeApiConfiguration();
         $this->createProductFiltersConfiguration();
-
-        $this->manager->flush();
 
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
@@ -176,5 +172,6 @@ abstract class AbstractTaskTest extends ApiTestCase
             ->setCompletenessValue(0)
         ;
         $this->manager->persist($productFilters);
+        $this->manager->flush();
     }
 }

@@ -28,6 +28,8 @@ abstract class ApiTestCase extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
+        $this->manager = self::$container->get('doctrine')->getManager();
+
         $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
         $this->server->setResponseOfPath(
@@ -54,6 +56,7 @@ abstract class ApiTestCase extends KernelTestCase
             ->setPassword('test')
         ;
         $this->manager->persist($this->apiConfiguration);
+        $this->manager->flush();
     }
 
     protected function createClient(): AkeneoPimClientInterface
