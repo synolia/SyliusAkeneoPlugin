@@ -139,6 +139,14 @@ jobs:
         working-directory: ./sylius
         run: composer req "${{ env.package-name }}:*" --prefer-source --no-scripts
 
+      - name: Composer - Install mock-webserver
+        working-directory: ./sylius
+        run: composer req --dev donatj/mock-webserver:^2.1
+
+      - name: Composer - Install PHPUnit 8.5
+        working-directory: ./sylius
+        run: wget https://phar.phpunit.de/phpunit-8.5.phar
+
       #TODO Remove after use Symfony Flex
       - name: Sylius - Config package
         working-directory: ./sylius
@@ -182,6 +190,22 @@ jobs:
       - name: Sylius - Cache clear
         working-directory: ./sylius
         run: php bin/console c:c -e test
+
+      - name: Mock-webserver - Configure
+        working-directory: ./sylius
+        run: echo -e "\nMOCK_SERVER_HOST=localhost\nMOCK_SERVER_PORT=8987\n" >> .env.test
+
+      - name: PHPUnit - Configure
+        working-directory: ./sylius
+        run: |
+            cp vendor/${{ env.package-name }}/phpunit.xml.dist phpunit.xml
+            sed -i "s#tests/Application/config/bootstrap.php#config/bootstrap.php#g" phpunit.xml
+            sed -i "s#<directory>tests</directory>#<directory>./vendor/${{ env.package-name }}</directory>#g" phpunit.xml
+            sed -i "s#/tests/Application/Kernel.php#src/Kernel.php#g" phpunit.xml
+
+      - name: PHPunit
+        working-directory: ./sylius
+        run: php phpunit-8.5.phar
 
       - name: Behat - Configure display
         working-directory: ./sylius
