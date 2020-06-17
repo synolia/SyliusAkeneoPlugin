@@ -127,8 +127,8 @@ class AbstractCreateProductEntities
             $channelPricing = $this->channelPricingFactory->createNew();
         }
 
-        $channelPricing->setOriginalPrice((int) ($amount * self::PRICE_CENTS));
-        $channelPricing->setPrice((int) ($amount * self::PRICE_CENTS));
+        $channelPricing->setOriginalPrice(((int) round($amount * self::PRICE_CENTS)));
+        $channelPricing->setPrice(((int) round($amount * self::PRICE_CENTS)));
         $channelPricing->setProductVariant($productVariant);
         $channelPricing->setChannelCode($channel->getCode());
 
