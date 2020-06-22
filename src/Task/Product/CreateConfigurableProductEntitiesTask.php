@@ -111,10 +111,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->type = 'ConfigurableProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        foreach ($payload->getConfigurableProductPayload()->getProducts() as $configurableProductItem) {
-            try {
-                $this->entityManager->beginTransaction();
-
+        try {
+            $this->entityManager->beginTransaction();
+            foreach ($payload->getConfigurableProductPayload()->getProducts() as $configurableProductItem) {
                 /** @var ProductInterface $productModel */
                 $productModel = $this->productRepository->findOneBy(['code' => $configurableProductItem['parent']]);
 
@@ -136,13 +135,12 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 }
 
                 $this->processVariations($payload, $configurableProductItem['identifier'], $productModel, $configurableProductItem['values'], $variationAxes);
-
                 $this->entityManager->flush();
-                $this->entityManager->commit();
-            } catch (\Throwable $throwable) {
-                $this->entityManager->rollback();
-                $this->logger->warning($throwable->getMessage());
             }
+            $this->entityManager->commit();
+        } catch (\Throwable $throwable) {
+            $this->entityManager->rollback();
+            $this->logger->warning($throwable->getMessage());
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
