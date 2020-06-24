@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 
@@ -110,14 +111,14 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         yield [
             '11834327',
-            'legal_216_x_356_mm_',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'legal_216_x_356_mm_',
             ['copy', 'n', 'scan'],
             true,
         ];
 
         yield [
             '123456789',
-            'legal_216_x_356_mm_',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'legal_216_x_356_mm_',
             ['copy'],
             false,
         ];

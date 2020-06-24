@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
 final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
@@ -72,28 +73,28 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
     {
-        yield [['600'], 'wash_temperature', \json_decode('[
+        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
             {
               "locale": null,
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [['600'], 'wash_temperature', \json_decode('[
+        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [['600'], 'wash_temperature', \json_decode('[
+        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
             {
               "locale": "fr_FR",
               "scope": "ecommerce",
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [['600'], 'wash_temperature', \json_decode('[
+        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
             {
               "locale": null,
               "scope": "ecommerce",

@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
+use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
@@ -53,7 +54,11 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
     private $excludedAttributesProvider;
 
+    /** @var SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
+
     public function __construct(
+        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeRepository,
         AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
@@ -69,6 +74,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger = $akeneoLogger;
         $this->excludedAttributesProvider = $excludedAttributesProvider;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     /**
@@ -104,11 +110,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
                     $attribute = $this->getOrCreateEntity($resource, $attributeType);
 
-                    foreach ($resource['labels'] as $locale => $label) {
-                        $attribute->setCurrentLocale($locale);
-                        $attribute->setFallbackLocale($locale);
-                        $attribute->setName($label);
-                    }
+                    $this->setAttributeTranslations($resource['labels'], $attribute);
                 } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
                     $this->logger->warning(\sprintf(
                         '%s: %s',
@@ -133,6 +135,23 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
+    }
+
+    private function setAttributeTranslations(array $labels, AttributeInterface $attribute): void
+    {
+        foreach ($labels as $locale => $label) {
+            if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
+                continue;
+            }
+
+            if (!is_string($locale)) {
+                continue;
+            }
+
+            $attribute->setCurrentLocale($locale);
+            $attribute->setFallbackLocale($locale);
+            $attribute->setName($label);
+        }
     }
 
     private function getOrCreateEntity(array $resource, AttributeTypeMatcherInterface $attributeType): AttributeInterface

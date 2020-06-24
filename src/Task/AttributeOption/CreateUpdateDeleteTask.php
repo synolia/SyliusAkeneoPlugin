@@ -11,11 +11,14 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 final class CreateUpdateDeleteTask implements AkeneoTaskInterface
 {
+    public const AKENEO_PREFIX = 'akeneo-';
+
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
 
@@ -37,16 +40,21 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
     /** @var AkeneoAttributeToSyliusAttributeTransformer */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
+    /** @var SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeRepository,
         AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
+        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->logger = $akeneoLogger;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     /**
@@ -102,8 +110,20 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
         $choices = [];
         foreach ($options as $option) {
             foreach ($option['labels'] as $locale => $label) {
-                $choices[$option['code']][$locale] = $label;
+                if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
+                    continue;
+                }
+                if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && $this->getUnusedLocale($option['labels']) !== []) {
+                    $choices[self::AKENEO_PREFIX . $option['code']] = $this->getUnusedLocale($option['labels']);
+                }
+                $choices[self::AKENEO_PREFIX . $option['code']][$locale] = $label;
             }
+        }
+
+        if ($choices === []) {
+            $this->entityManager->remove($attribute);
+
+            return;
         }
 
         if (isset($attribute->getConfiguration()['choices'])) {
@@ -120,5 +140,19 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
             'min' => null,
             'max' => null,
         ]);
+    }
+
+    private function getUnusedLocale(array $labels): array
+    {
+        $localeDiff = array_diff($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), array_keys($labels));
+        if ($localeDiff === []) {
+            return [];
+        }
+
+        foreach ($localeDiff as $locale) {
+            $localeUnused[$locale] = ' ';
+        }
+
+        return $localeUnused;
     }
 }
