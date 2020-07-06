@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
+use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
-use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
@@ -18,13 +19,13 @@ use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\LocaleAttributeTranslationPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
+use Synolia\SyliusAkeneoPlugin\Task\Attribute\LocaleAttributeTranslationTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 final class AddAttributesToProductTask implements AkeneoTaskInterface
@@ -34,12 +35,6 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
 
     /** @var \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter */
     private $caseConverter;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeValueRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productAttributeValueFactory;
 
     /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
     private $productSlugGenerator;
@@ -65,33 +60,33 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     /** @var AkeneoAttributeToSyliusAttributeTransformer */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
-    private $akeneoAttributeDataProvider;
-
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
     private $productFiltersRulesRepository;
 
-    /** @var SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    /** @var LoggerInterface */
+    private $akeneoLogger;
+
+    /** @var ProductFactoryInterface */
+    private $productFactory;
+
+    /** @var AkeneoTaskProvider */
+    private $taskProvider;
 
     public function __construct(
-        RepositoryInterface $productAttributeValueRepository,
+        LoggerInterface $akeneoLogger,
         RepositoryInterface $productAttributeRepository,
         AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         RepositoryInterface $productTranslationRepository,
-        FactoryInterface $productAttributeValueFactory,
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
         LocaleContextInterface $localeContext,
         ProductAttributeValueValueBuilder $attributeValueValueBuilder,
         EntityRepository $productConfigurationRepository,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
         ProductFiltersRulesRepository $productFiltersRulesRepository,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider
+        ProductFactoryInterface $productFactory,
+        AkeneoTaskProvider $taskProvider
     ) {
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->productTranslationRepository = $productTranslationRepository;
-        $this->productAttributeValueFactory = $productAttributeValueFactory;
         $this->productTranslationFactory = $productTranslationFactory;
         $this->productSlugGenerator = $productSlugGenerator;
         $this->localeContext = $localeContext;
@@ -99,9 +94,10 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
+        $this->akeneoLogger = $akeneoLogger;
+        $this->productFactory = $productFactory;
+        $this->taskProvider = $taskProvider;
     }
 
     /**
@@ -109,7 +105,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        if (!$payload instanceof ProductResourcePayload) {
+        if (!$payload instanceof ProductResourcePayload || $payload->getProduct() === null) {
             return $payload;
         }
 
@@ -125,12 +121,20 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
 
         $productTranslationPropertyAttributesByLocale = $this->getProductTranslationPropertyByLocale($payload->getResource()['values']);
 
-        $this->processProductTranslationAttributes(
-            $payload->getProduct(),
-            $productTranslationPropertyAttributesByLocale,
-            $payload->getResource()['identifier'] ?? $payload->getResource()['code'],
-            $payload->getResource()
-        );
+        try {
+            $this->processProductTranslationAttributes(
+                $payload->getProduct(),
+                $productTranslationPropertyAttributesByLocale,
+                $payload->getResource()['identifier'] ?? $payload->getResource()['code'],
+                $payload->getResource()
+            );
+        } catch (\LogicException $e) {
+            $this->akeneoLogger->alert($e->getMessage());
+
+            $payload->setProduct(null);
+
+            return $payload;
+        }
 
         foreach ($payload->getResource()['values'] as $attributeCode => $translations) {
             $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
@@ -147,107 +151,10 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
                 continue;
             }
 
-            foreach ($translations as $translation) {
-                $this->setAttributeTranslations($payload, $attribute, $translations, $translation, $attributeCode, $scope);
-            }
+            $this->setAttributeTranslations($payload, $translations, $attribute, $attributeCode, $scope);
         }
 
         return $payload;
-    }
-
-    private function setAttributeTranslations(
-        ProductResourcePayload $payload,
-        AttributeInterface $attribute,
-        array $translations,
-        array $translation,
-        string $attributeCode,
-        string $scope
-    ): void {
-        if ($translation['locale'] !== null && $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale']) === false) {
-            return;
-        }
-
-        if ($translation['locale'] === null) {
-            foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
-                $this->setAttributeTranslation($payload, $attribute, $translations, $locale, $attributeCode, $scope);
-            }
-
-            return;
-        }
-
-        $this->setAttributeTranslation($payload, $attribute, $translations, $translation['locale'], $attributeCode, $scope);
-    }
-
-    private function setAttributeTranslation(
-        ProductResourcePayload $payload,
-        AttributeInterface $attribute,
-        array $translations,
-        string $locale,
-        string $attributeCode,
-        string $scope
-    ): void {
-        $attributeValue = $this->productAttributeValueRepository->findOneBy([
-            'subject' => $payload->getProduct(),
-            'attribute' => $attribute,
-            'localeCode' => $locale,
-        ]);
-
-        if (!$attributeValue instanceof ProductAttributeValueInterface) {
-            /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $attributeValue */
-            $attributeValue = $this->productAttributeValueFactory->createNew();
-        }
-
-        $localeValues = $this->getLocaleTranslations($attribute, $translations, $locale);
-        if ($localeValues === null) {
-            return;
-        }
-
-        $attributeValue->setLocaleCode($locale);
-        $attributeValue->setAttribute($attribute);
-        $attributeValueValue = $this->akeneoAttributeDataProvider->getData($attributeCode, $localeValues, $locale, $scope);
-        $attributeValue->setValue($attributeValueValue);
-        $payload->getProduct()->addAttribute($attributeValue);
-    }
-
-    private function getLocaleTranslations(AttributeInterface $attribute, array $translations, string $locale): ?array
-    {
-        $localeTranslations = [];
-        if (count($translations) > 1) {
-            foreach ($translations as $translation) {
-                if ($this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, $translation, $locale) === false) {
-                    continue;
-                }
-                $localeTranslations[] = $translation;
-            }
-
-            return $localeTranslations;
-        }
-
-        if ($attribute->getConfiguration() === []) {
-            return $translations;
-        }
-
-        if (!is_array($translations[0]['data'])) {
-            $isLocaleDataValues = $this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, CreateUpdateDeleteTask::AKENEO_PREFIX . $translations[0]['data'], $locale);
-            if ($isLocaleDataValues === false) {
-                return null;
-            }
-
-            return $translations;
-        }
-
-        $datas = [];
-        foreach ($translations[0]['data'] as $data) {
-            $data = CreateUpdateDeleteTask::AKENEO_PREFIX . $data;
-            if ($this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, $data, $locale) === false) {
-                continue;
-            }
-            $datas[] = $data;
-        }
-
-        $translations[0]['data'] = $datas;
-
-        return $translations;
     }
 
     private function getProductTranslationPropertyByLocale(array $attributes): array
@@ -280,7 +187,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
                 throw new \LogicException(\sprintf(
                     'Could not find required attribute "%s" for product "%s".',
                     'name',
-                    $resource['identifier'],
+                    $resource['identifier'] ?? $resource['code'],
                 ));
             }
 
@@ -342,5 +249,30 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         }
 
         return null;
+    }
+
+    private function setAttributeTranslations(
+        ProductResourcePayload $payload,
+        array $translations,
+        AttributeInterface $attribute,
+        string $attributeCode,
+        string $scope
+    ): void {
+        foreach ($translations as $translation) {
+            if (!$payload->getProduct() instanceof ProductInterface) {
+                return;
+            }
+
+            $localeAttributeTranslationPayload = new LocaleAttributeTranslationPayload($payload->getAkeneoPimClient());
+            $localeAttributeTranslationPayload
+                ->setProduct($payload->getProduct())
+                ->setAttribute($attribute)
+                ->setTranslations($translations)
+                ->setTranslation($translation)
+                ->setAttributeCode($attributeCode)
+                ->setScope($scope);
+            $localeAttributeTranslationTask = $this->taskProvider->get(LocaleAttributeTranslationTask::class);
+            $localeAttributeTranslationTask->__invoke($localeAttributeTranslationPayload);
+        }
     }
 }

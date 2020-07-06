@@ -188,6 +188,11 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             }
         }
 
+        $productResourcePayload = $this->updateAttributes($resource, $product);
+        if ($productResourcePayload->getProduct() === null) {
+            return null;
+        }
+
         $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
             $family ? $family : $resource['family'],
             $resource['family_variant']
@@ -199,23 +204,28 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             return null;
         }
 
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
-
-        if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
-            $productGroup->addProduct($product);
-        }
+        $this->addProductGroup($resource, $product);
 
         $productTaxonIds = $this->getProductTaxonIds($product);
 
         $productTaxons = $this->updateTaxon($resource, $product);
         $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
-        $this->updateAttributes($resource, $product);
+
         $this->updateImages($resource, $product);
 
         $product->setCode($resource['code']);
         $this->setMainTaxon($resource, $product);
 
         return $product;
+    }
+
+    private function addProductGroup(array $resource, ProductInterface $product): void
+    {
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+
+        if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
+            $productGroup->addProduct($product);
+        }
     }
 
     private function setMainTaxon(array $resource, ProductInterface $product): void
@@ -282,7 +292,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $productTaxons;
     }
 
-    private function updateAttributes(array $resource, ProductInterface $product): void
+    private function updateAttributes(array $resource, ProductInterface $product): ProductResourcePayload
     {
         $productResourcePayload = new ProductResourcePayload($this->payload->getAkeneoPimClient());
         $productResourcePayload
@@ -291,6 +301,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         ;
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);
+
+        return $productResourcePayload;
     }
 
     private function removeUnusedProductTaxons(array $productTaxonIds, array $productTaxons): void

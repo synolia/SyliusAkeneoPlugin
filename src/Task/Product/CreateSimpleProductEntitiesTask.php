@@ -85,7 +85,12 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                 $product = $this->getOrCreateEntity($simpleProductItem);
                 $productVariant = $this->getOrCreateSimpleVariant($product);
                 $this->linkCategoriesToProduct($payload, $product, $simpleProductItem['categories']);
-                $this->insertAttributesToProduct($payload, $product, $simpleProductItem);
+
+                $productResourcePayload = $this->insertAttributesToProduct($payload, $product, $simpleProductItem);
+                if ($productResourcePayload->getProduct() === null) {
+                    continue;
+                }
+
                 $this->updateImages($payload, $simpleProductItem, $product);
                 $this->setProductPrices($productVariant, $simpleProductItem['values']);
 
@@ -153,7 +158,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         PipelinePayloadInterface $payload,
         ProductInterface $product,
         array $resource
-    ): void {
+    ): ProductResourcePayload {
         $productResourcePayload = new ProductResourcePayload($payload->getAkeneoPimClient());
         $productResourcePayload
             ->setProduct($product)
@@ -161,6 +166,8 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         ;
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);
+
+        return $productResourcePayload;
     }
 
     /**
