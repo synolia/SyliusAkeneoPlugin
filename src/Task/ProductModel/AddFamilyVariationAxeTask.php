@@ -57,6 +57,15 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
         $this->type = 'FamilyVariationAxe';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
+        $this->addFamilyVariationAxe($payload);
+
+        $this->logger->notice(Messages::countItems($this->type, $this->itemCount));
+
+        return $payload;
+    }
+
+    private function addFamilyVariationAxe(ProductModelPayload $payload): void
+    {
         if (!$payload->getModelResources() instanceof ResourceCursorInterface) {
             throw new NoProductModelResourcesException('No resource found.');
         }
@@ -91,22 +100,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                     $familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']] = $payloadProductGroup;
                 }
 
-                foreach ($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
-                    if (count($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
-                        continue;
-                    }
-
-                    foreach ($variantAttributeSet['axes'] as $axe) {
-                        $productGroup->addVariationAxe($axe);
-                        ++$this->itemCount;
-                        $this->logger->info(\sprintf(
-                            'Added axe "%s" to product group "%s" for family "%s"',
-                            $axe,
-                            $productGroup->getProductParent(),
-                            $family ?: $resource['family']
-                        ));
-                    }
-                }
+                $this->addAxes($familiesVariantPayloads[$family ?: $resource['family']], $family, $resource, $productGroup);
             }
 
             $this->entityManager->flush();
@@ -117,9 +111,29 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
 
             throw $throwable;
         }
+    }
 
-        $this->logger->notice(Messages::countItems($this->type, $this->itemCount));
+    private function addAxes(
+        array $familiesVariantPayloads,
+        ?string $family,
+        array $resource,
+        ProductGroup $productGroup
+    ): void {
+        foreach ($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
+            if (count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+                continue;
+            }
 
-        return $payload;
+            foreach ($variantAttributeSet['axes'] as $axe) {
+                $productGroup->addVariationAxe($axe);
+                ++$this->itemCount;
+                $this->logger->info(\sprintf(
+                    'Added axe "%s" to product group "%s" for family "%s"',
+                    $axe,
+                    $productGroup->getProductParent(),
+                    $family ?: $resource['family']
+                ));
+            }
+        }
     }
 }

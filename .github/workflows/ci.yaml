@@ -155,10 +155,6 @@ jobs:
         working-directory: ./sylius
         run: cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
 
-      - name: Sylius - Cache clear
-        working-directory: ./sylius
-        run: php bin/console c:c
-
       - name: Sylius - Init database
         working-directory: ./sylius
         run: php bin/console doctrine:database:create --if-not-exists
@@ -174,6 +170,10 @@ jobs:
       - name: Sylius - Assets
         working-directory: ./sylius
         run: yarn install && yarn build
+
+      - name: Sylius - Cache clear
+        working-directory: ./sylius
+        run: php bin/console c:c -e test
 
       - name: Behat - Configure display
         working-directory: ./sylius
