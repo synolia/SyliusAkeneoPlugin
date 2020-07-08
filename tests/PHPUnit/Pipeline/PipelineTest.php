@@ -11,8 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Event\BeforeTaskEvent;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\DummyTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\DummyTask;
 
 class PipelineTest extends ApiTestCase
 {
