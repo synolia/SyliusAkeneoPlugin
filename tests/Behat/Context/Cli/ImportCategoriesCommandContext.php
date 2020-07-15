@@ -9,6 +9,7 @@ use Sylius\Bundle\CoreBundle\Command\SetupCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Throwable;
 use Webmozart\Assert\Assert;
 
 final class ImportCategoriesCommandContext implements Context
@@ -16,16 +17,10 @@ final class ImportCategoriesCommandContext implements Context
     /** @var KernelInterface */
     private $kernel;
 
-    /** @var Application */
-    private $application;
-
     /** @var CommandTester */
     private $tester;
 
-    /** @var SetupCommand */
-    private $command;
-
-    /** @var \Exception|\Throwable */
+    /** @var Throwable */
     private $exception;
 
     public function __construct(
@@ -39,15 +34,15 @@ final class ImportCategoriesCommandContext implements Context
      */
     public function iRunAkeneoImportCategoriesCommand(): void
     {
-        $this->application = new Application($this->kernel);
-        $this->application->add(new SetupCommand());
+        $application = new Application($this->kernel);
+        $application->add(new SetupCommand());
 
-        $this->command = $this->application->find('akeneo:import:categories');
-        $this->tester = new CommandTester($this->command);
+        $command = $application->find('akeneo:import:categories');
+        $this->tester = new CommandTester($command);
 
         try {
             $this->tester->execute(['command' => 'akeneo:import:categories']);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $this->exception = $exception;
         }
     }
@@ -63,8 +58,8 @@ final class ImportCategoriesCommandContext implements Context
     /**
      * @Then I should get an exception :message
      */
-    public function iShouldGetAnException(string $message)
+    public function iShouldGetAnException(string $message): void
     {
-        Assert::contains($this->exception, $message);
+        Assert::contains($this->exception->getMessage(), $message);
     }
 }

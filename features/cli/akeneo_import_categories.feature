@@ -6,4 +6,4 @@ Feature: Import categories from Akeneo
 
     Scenario: Import categories without config
         When I run akeneo import categories command
-        Then I should get an exception "Exception: The API is not configured in the admin section."
+        Then I should get an exception "The API is not configured in the admin section."

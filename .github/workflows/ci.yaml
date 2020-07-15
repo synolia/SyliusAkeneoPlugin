@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         php: [7.3, 7.4]
-        prefer: ['']
+        prefer:  ['--prefer-lowest', '']
 
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
         run: composer config -g github-oauth.github.com ${{ github.token }}
 
       - name: Composer - Update dependencies
-        run: composer update ${{ matrix.prefer }} --no-progress --no-scripts
+        run: composer update ${{ matrix.prefer }} --no-progress
 
       - name: ECS - Run
         run: if [ -f ruleset/easy-coding-standard.yml ]; then vendor/bin/ecs check src/ tests/Behat/ --no-progress-bar -c ruleset/easy-coding-standard.yml ; else echo Ecs ruleset file does not exist, skipping step ; fi
@@ -113,7 +113,7 @@ jobs:
         run: composer config -g github-oauth.github.com ${{ github.token }}
 
       - name: Composer - Install Sylius-Standard
-        run: composer create-project --no-scripts --no-progress sylius/sylius-standard sylius "${{ matrix.sylius }}"
+        run: composer create-project --no-progress sylius/sylius-standard sylius "${{ matrix.sylius }}"
 
       - name: Composer - Add path repository
         working-directory: ./sylius
@@ -155,10 +155,6 @@ jobs:
         working-directory: ./sylius
         run: cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
 
-      - name: Sylius - Cache clear
-        working-directory: ./sylius
-        run: php bin/console c:c
-
       - name: Sylius - Init database
         working-directory: ./sylius
         run: php bin/console doctrine:database:create --if-not-exists
@@ -174,6 +170,10 @@ jobs:
       - name: Sylius - Assets
         working-directory: ./sylius
         run: yarn install && yarn build
+
+      - name: Sylius - Cache clear
+        working-directory: ./sylius
+        run: php bin/console c:c -e test
 
       - name: Behat - Configure display
         working-directory: ./sylius
