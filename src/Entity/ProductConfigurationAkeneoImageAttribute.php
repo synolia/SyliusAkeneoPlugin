@@ -32,7 +32,7 @@ class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
 
     /**
      * @var ProductConfiguration|null
-     * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="defaultTax")
+     * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="akeneoImageAttributes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $productConfiguration;
