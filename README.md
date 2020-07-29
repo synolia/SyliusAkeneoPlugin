@@ -66,7 +66,7 @@ See [How to contribute](CONTRIBUTING.md).
 
 ## License
 
-This library is under the MIT license.
+This library is under the [EUPL-1.2 license](LICENSE).
 
 ## Credits
 
