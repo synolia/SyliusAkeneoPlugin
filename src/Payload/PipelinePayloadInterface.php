@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 interface PipelinePayloadInterface
 {
-    public function getAkeneoPimClient(): AkeneoPimClientInterface;
+    public function getAkeneoPimClient(): AkeneoPimEnterpriseClientInterface;
 
     public function getOutputInterface(): OutputInterface;
 

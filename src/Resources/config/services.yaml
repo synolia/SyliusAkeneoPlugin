@@ -77,3 +77,28 @@ services:
     Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeChoiceType:
         arguments:
             - '%sylius.attribute.attribute_types%'
+
+    sylius.attribute_type.reference_entity:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'Select', form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\SelectAttributeType', configuration_form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\SelectAttributeConfigurationType' }
+
+    sylius.attribute_type.reference_entity_select_sub_attribute:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntitySelectSubAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity_select_sub_attribute', label: 'Select', form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\SelectAttributeType', configuration_form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\SelectAttributeConfigurationType' }
+
+    sylius.attribute_type.reference_entity_text_sub_attribute:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityTextSubAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity_text_sub_attribute', label: 'Text', form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextAttributeType', configuration_form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\TextAttributeConfigurationType' }
+
+    sylius.attribute_type.reference_entity_number_sub_attribute:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityTextSubAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity_number_sub_attribute', label: 'Text', form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextAttributeType', configuration_form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\TextAttributeConfigurationType' }
+
+    sylius.attribute_type.reference_entity_image_sub_attribute:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityTextSubAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity_image_sub_attribute', label: 'Text', form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextAttributeType', configuration_form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\TextAttributeConfigurationType' }

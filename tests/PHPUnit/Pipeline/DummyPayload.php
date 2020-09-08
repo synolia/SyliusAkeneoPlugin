@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Pipeline;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class DummyPayload implements PipelinePayloadInterface
 {
-    /** @var AkeneoPimClientInterface */
+    /** @var AkeneoPimEnterpriseClientInterface */
     private $akeneoPimClient;
 
     /** @var array */
     private $logs = [];
 
-    public function __construct(AkeneoPimClientInterface $akeneoPimClient)
+    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
         $this->akeneoPimClient = $akeneoPimClient;
     }
 
-    public function getAkeneoPimClient(): AkeneoPimClientInterface
+    public function getAkeneoPimClient(): AkeneoPimEnterpriseClientInterface
     {
         return $this->akeneoPimClient;
     }
