@@ -33,7 +33,7 @@ This attribute must be of type **pim_catalog_price_collection** in Akeneo.
 
 ### Akeneo Type to Sylius Type Mapping
 
-![media/Untitled%204.png](media/sylius_enabled_channels.png)
+![Sylius Enabled Channels](media/sylius_enabled_channels.png)
 
 Allows you to select the attribute that will be used to obtain information on which channels the products will be activated on.
 This attribute must be of type **pim_catalog_multiselect**.
