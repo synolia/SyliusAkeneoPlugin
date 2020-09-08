@@ -8,7 +8,6 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\DeleteEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
 final class AttributePipelineFactory extends AbstractPipelineFactory
@@ -20,7 +19,6 @@ final class AttributePipelineFactory extends AbstractPipelineFactory
         return $pipeline
             ->pipe($this->taskProvider->get(RetrieveAttributesTask::class))
             ->pipe($this->taskProvider->get(CreateUpdateEntityTask::class))
-            ->pipe($this->taskProvider->get(DeleteEntityTask::class))
         ;
     }
 }

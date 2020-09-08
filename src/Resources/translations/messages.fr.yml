@@ -82,6 +82,10 @@ sylius:
                     subtitle: Configuration des attributs
                 medias:
                     medias: Médias
+        reference_entity_text_sub_attribute: 'Texte'
+        reference_entity_select_sub_attribute: 'Select'
+        reference_entity_image_sub_attribute: 'Image'
+        reference_entity: 'Entité référentielle'
 akeneo:
     ui:
         admin:

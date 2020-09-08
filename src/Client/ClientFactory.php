@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Client;
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Exception\HttpException;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -28,7 +30,7 @@ final class ClientFactory
         $this->apiConfigurationRepository = $apiConfigurationRepository;
     }
 
-    public function createFromApiCredentials(): AkeneoPimClientInterface
+    public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
     {
         /** @var ApiConfiguration|null $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
@@ -37,7 +39,7 @@ final class ClientFactory
             throw new \Exception('The API is not configured in the admin section.');
         }
 
-        $clientBuilder = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
+        $clientBuilder = new AkeneoPimEnterpriseClientBuilder($apiConfiguration->getBaseUrl() ?? '');
 
         $client = $clientBuilder->buildAuthenticatedByToken(
             $apiConfiguration->getApiClientId() ?? '',
