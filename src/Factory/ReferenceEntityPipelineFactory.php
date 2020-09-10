@@ -27,7 +27,6 @@ final class ReferenceEntityPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(RetrieveReferenceEntityAttributesTask::class))
             ->pipe($this->taskProvider->get(CreateUpdateReferenceEntityAttributeSubAttributesTask::class))
             ->pipe($this->taskProvider->get(CreateUpdateReferenceEntityAttributeSubAttributeOptionsTaskTask::class))
-            //->pipe($this->taskProvider->get(DeleteEntityTask::class))
         ;
     }
 }
