@@ -62,4 +62,14 @@ final class ProductAttributeRepository extends ServiceEntityRepository
             return $data['code'];
         }, $attributeCodesResult);
     }
+
+    public function getAttributesForReferenceEntity(string $referenceEntityCode): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.code LIKE :like')
+            ->setParameter('like', \sprintf('%s_%s', $referenceEntityCode, '%'))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

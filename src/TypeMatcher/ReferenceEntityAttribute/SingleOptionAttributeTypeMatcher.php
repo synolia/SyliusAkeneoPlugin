@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute;
 
-use Synolia\SyliusAkeneoPlugin\Builder\SelectProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute\SelectProductReferenceEntityAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntitySelectSubAttributeType;
 
 final class SingleOptionAttributeTypeMatcher implements ReferenceEntityAttributeTypeMatcherInterface
@@ -23,6 +23,6 @@ final class SingleOptionAttributeTypeMatcher implements ReferenceEntityAttribute
 
     public function getBuilder(): string
     {
-        return SelectProductAttributeValueValueBuilder::class;
+        return SelectProductReferenceEntityAttributeValueValueBuilder::class;
     }
 }

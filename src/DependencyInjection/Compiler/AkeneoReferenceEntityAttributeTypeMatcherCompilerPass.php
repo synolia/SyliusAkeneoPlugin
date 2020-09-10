@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
 
-final class AkeneoReferenceentityAttributeTypeMatcherCompilerPass implements CompilerPassInterface
+final class AkeneoReferenceEntityAttributeTypeMatcherCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

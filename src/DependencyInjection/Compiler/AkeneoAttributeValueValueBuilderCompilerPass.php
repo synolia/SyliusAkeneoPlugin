@@ -7,8 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
-use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface;
 
 final class AkeneoAttributeValueValueBuilderCompilerPass implements CompilerPassInterface
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute;
 
-use Synolia\SyliusAkeneoPlugin\Builder\TextProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute\TextProductReferenceEntityAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityNumberSubAttributeType;
 
 final class NumberAttributeTypeMatcher implements ReferenceEntityAttributeTypeMatcherInterface
@@ -23,6 +23,6 @@ final class NumberAttributeTypeMatcher implements ReferenceEntityAttributeTypeMa
 
     public function getBuilder(): string
     {
-        return TextProductAttributeValueValueBuilder::class;
+        return TextProductReferenceEntityAttributeValueValueBuilder::class;
     }
 }

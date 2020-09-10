@@ -27,6 +27,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\AddReferenceEntityAttributesToProductTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 /**
@@ -300,6 +301,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             ->setResource($resource)
         ;
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
+        $addAttributesToProductTask->__invoke($productResourcePayload);
+
+        $addAttributesToProductTask = $this->taskProvider->get(AddReferenceEntityAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);
 
         return $productResourcePayload;
