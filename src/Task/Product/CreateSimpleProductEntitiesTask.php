@@ -180,6 +180,9 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);
 
+        $addAttributesToProductTask = $this->taskProvider->get(AddReferenceEntityAttributesToProductTask::class);
+        $addAttributesToProductTask->__invoke($productResourcePayload);
+
         return $productResourcePayload;
     }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\DateAttributeType;
-use Synolia\SyliusAkeneoPlugin\Builder\DateProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\DateProductAttributeValueValueBuilder;
 
 final class DateAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
