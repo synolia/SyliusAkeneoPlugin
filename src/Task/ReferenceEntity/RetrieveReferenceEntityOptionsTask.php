@@ -116,7 +116,6 @@ final class RetrieveReferenceEntityOptionsTask implements AkeneoTaskInterface
                         continue;
                     }
 
-                    //TODO: find attribute using his code
                     /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
                     $attribute = $this->getOrCreateEntity($resource, $attributeType);
 
