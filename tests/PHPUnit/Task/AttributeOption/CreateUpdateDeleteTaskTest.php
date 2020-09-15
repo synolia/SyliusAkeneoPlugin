@@ -8,6 +8,7 @@ use Sylius\Component\Product\Model\ProductAttribute;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\AbstractAttributeOptionTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
@@ -58,16 +59,16 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
     private function assertProductAttributeChoices(ProductAttribute $productAttribute): void
     {
         $expectedChoiceCodes = [
-            'black',
-            'blue',
-            'brown',
-            'green',
-            'grey',
-            'orange',
-            'pink',
-            'red',
-            'white',
-            'yellow',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'blue',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'brown',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'green',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'grey',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'orange',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'pink',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'red',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
+            AbstractAttributeOptionTask::AKENEO_PREFIX . 'yellow',
         ];
         /** @var array $choices */
         $choices = $productAttribute->getConfiguration()['choices'];
@@ -86,7 +87,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
     private function assertProductAttributeChoicesTranslations(ProductAttribute $productAttribute): void
     {
-        $blackChoice = $productAttribute->getConfiguration()['choices']['black'];
+        $blackChoice = $productAttribute->getConfiguration()['choices'][AbstractAttributeOptionTask::AKENEO_PREFIX . 'black'];
 
         $this->assertEquals('Noir', $blackChoice['fr_FR']);
         $this->assertEquals('Black', $blackChoice['en_US']);

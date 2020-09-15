@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ReferenceEntity;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
+use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
@@ -54,11 +57,20 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function getAttributes(): string
     {
-        return $this->getFileContent('attributes_all.json');
+        return $this->getFileContent('reference_entity_attributes_all.json');
     }
 
     protected function getLocales(): string
     {
         return $this->getFileContent('locales.json');
+    }
+
+    protected function getAttributesPayload(): PipelinePayloadInterface
+    {
+        $retrieveAttributePayload = new AttributePayload($this->createClient());
+
+        $task = $this->taskProvider->get(RetrieveAttributesTask::class);
+
+        return $task->__invoke($retrieveAttributePayload);
     }
 }

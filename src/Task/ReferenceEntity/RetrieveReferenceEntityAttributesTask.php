@@ -81,7 +81,7 @@ final class RetrieveReferenceEntityAttributesTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        if (null === $payload->getResources() || 0 === \count($payload->getResources())) {
+        if (null === $payload->getResources()) {
             throw new NoAttributeResourcesException('No resource found.');
         }
 

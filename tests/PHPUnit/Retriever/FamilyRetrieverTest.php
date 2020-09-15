@@ -21,7 +21,9 @@ final class FamilyRetrieverTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
+        $this->manager = self::$container->get('doctrine')->getManager();
         $this->familyRetriever = self::$container->get(FamilyRetriever::class);
+
         $this->server->setResponseOfPath(
             '/' . FamilyApi::FAMILIES_URI,
             new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
@@ -30,6 +32,18 @@ final class FamilyRetrieverTest extends ApiTestCase
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
+
+        $this->initializeApiConfiguration();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->manager->close();
+        $this->manager = null;
+
+        $this->server->stop();
+
+        parent::tearDown();
     }
 
     public function testGetFamilyCode(): void

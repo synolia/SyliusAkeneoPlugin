@@ -5,17 +5,26 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeApi;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeOptionApi;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
+use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductAttributeValueRepository;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Factory\ReferenceEntityPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\ReferenceEntity\ReferenceEntityOptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
@@ -53,9 +62,15 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
     public function testCreateSimpleProductsTask(): void
     {
+        /** @var ProductAttributeRepository $productAttributeRepository */
+        $productAttributeRepository = self::$container->get(ProductAttributeRepository::class);
+        /** @var ProductAttributeValueRepository $productAttributeValueRepository */
+        $productAttributeValueRepository = self::$container->get('sylius.repository.product_attribute_value');
+
         $this->createProductConfiguration();
         $this->importCategories();
         $this->importAttributes();
+        $this->importReferenceEntities();
 
         $productPayload = new ProductPayload($this->client);
 
@@ -100,11 +115,32 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $productVariant = $this->manager->getRepository(ProductVariant::class)->findOneBy(['code' => $product->getCode()]);
         $this->assertNotNull($productVariant);
 
-        $this->assertEquals(1, $productVariant->getChannelPricings()->count());
+        $this->assertEquals(self::$container->get('sylius.repository.channel')->count([]), $productVariant->getChannelPricings()->count());
         foreach ($productVariant->getChannelPricings() as $channelPricing) {
             $this->assertEquals(89900, $channelPricing->getPrice());
             $this->assertEquals(89900, $channelPricing->getOriginalPrice());
         }
+
+        /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttribute */
+        $referenceEntityAttribute = $productAttributeRepository->findOneBy(['code' => 'test_entite_couleur']);
+
+        /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttributeValue */
+        $referenceEntityAttributeValue = $productAttributeValueRepository->findOneBy([
+            'subject' => $product,
+            'attribute' => $referenceEntityAttribute,
+            'localeCode' => 'fr_FR',
+        ]);
+        $this->assertNotNull($referenceEntityAttributeValue);
+        $this->assertSame('akeneo-noir', $referenceEntityAttributeValue->getValue()[0]);
+
+        /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttributeValue */
+        $referenceEntityAttributeValue = $productAttributeValueRepository->findOneBy([
+            'subject' => $product,
+            'attribute' => $referenceEntityAttribute,
+            'localeCode' => 'fr_FR',
+        ]);
+        $this->assertNotNull($referenceEntityAttributeValue);
+        $this->assertSame('akeneo-noir', $referenceEntityAttributeValue->getValue()[0]);
     }
 
     public function createSimpleProductsWithMultiSelectCheckboxDataProvider(): \Generator
@@ -214,5 +250,47 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
             $category->setName($categoryCode);
         }
         $this->manager->flush();
+    }
+
+    private function importReferenceEntities()
+    {
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            new Response($this->getFileContent('reference_entity_attributes_all.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(LocaleApi::LOCALES_URI),
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
+            new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityAttributeApi::REFERENCE_ENTITY_ATTRIBUTES_URI, 'couleur'),
+            new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityAttributeOptionApi::REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI, 'couleur', 'filtre_couleur_1'),
+            new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'couleur', 'noir'),
+            new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $factory = self::$container->get(ReferenceEntityPipelineFactory::class);
+
+        /** @var \League\Pipeline\Pipeline $referenceEntityPipeline */
+        $referenceEntityPipeline = $factory->create();
+
+        /** @var \Synolia\SyliusAkeneoPlugin\Payload\ReferenceEntity\ReferenceEntityOptionsPayload $referenceEntityPayload */
+        $referenceEntityPayload = new ReferenceEntityOptionsPayload(self::$container->get(AkeneoPimEnterpriseClientInterface::class));
+        $referenceEntityPipeline->process($referenceEntityPayload);
     }
 }
