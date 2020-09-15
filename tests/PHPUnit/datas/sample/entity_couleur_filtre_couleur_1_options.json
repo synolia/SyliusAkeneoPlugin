@@ -1,0 +1,22 @@
+[
+  {
+    "code": "bleu",
+    "labels": {
+      "en_GB": "Blue",
+      "en_US": "Blue",
+      "es_ES": "Azul",
+      "fr_FR": "Bleu",
+      "it_IT": "Blu"
+    }
+  },
+  {
+    "code": "noir",
+    "labels": {
+      "en_GB": "Black",
+      "en_US": "Black",
+      "es_ES": "Negro",
+      "fr_FR": "Noir",
+      "it_IT": "Nero"
+    }
+  }
+]

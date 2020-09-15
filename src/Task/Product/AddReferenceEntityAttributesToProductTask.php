@@ -11,7 +11,6 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
-use Sylius\Component\Product\Repository\ProductAttributeValueRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
@@ -79,9 +78,6 @@ final class AddReferenceEntityAttributesToProductTask implements AkeneoTaskInter
     /** @var AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
 
-    /** @var ProductAttributeValueRepositoryInterface */
-    private $productAttributeValueRepository;
-
     /** @var AkeneoReferenceEntityAttributePropertiesProvider */
     private $akeneoReferenceEntityAttributePropertiesProvider;
 
@@ -99,7 +95,6 @@ final class AddReferenceEntityAttributesToProductTask implements AkeneoTaskInter
         ProductFactoryInterface $productFactory,
         AkeneoTaskProvider $taskProvider,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        ProductAttributeValueRepositoryInterface $productAttributeValueRepository,
         AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider
     ) {
         $this->productTranslationRepository = $productTranslationRepository;
@@ -115,14 +110,10 @@ final class AddReferenceEntityAttributesToProductTask implements AkeneoTaskInter
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->akeneoReferenceEntityAttributePropertiesProvider = $akeneoReferenceEntityAttributePropertiesProvider;
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface $payload
-     *
-     * @return \Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
