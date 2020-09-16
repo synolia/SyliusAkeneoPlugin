@@ -28,10 +28,11 @@ final class SelectProductReferenceEntityAttributeValueValueBuilder implements Pr
     public function support(string $referenceEntityCode, string $subAttributeCode): bool
     {
         return $this->referenceEntityAttributeTypeMatcher->match(
-                $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
-                    $referenceEntityCode,
-                    $subAttributeCode)
-            ) instanceof SingleOptionAttributeTypeMatcher;
+            $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
+                $referenceEntityCode,
+                $subAttributeCode
+            )
+        ) instanceof SingleOptionAttributeTypeMatcher;
     }
 
     /**
