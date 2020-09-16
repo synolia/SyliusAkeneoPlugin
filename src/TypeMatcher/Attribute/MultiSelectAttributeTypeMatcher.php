@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
-use Synolia\SyliusAkeneoPlugin\Builder\MultiSelectProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\MultiSelectProductAttributeValueValueBuilder;
 
 final class MultiSelectAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {

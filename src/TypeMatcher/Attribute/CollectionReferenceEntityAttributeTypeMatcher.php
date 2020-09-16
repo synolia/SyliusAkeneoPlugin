@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
-use Synolia\SyliusAkeneoPlugin\Builder\CollectionReferenceEntityAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\CollectionReferenceEntityAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
 
 final class CollectionReferenceEntityAttributeTypeMatcher implements AttributeTypeMatcherInterface

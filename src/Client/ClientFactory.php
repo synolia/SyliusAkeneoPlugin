@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Client;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
@@ -53,9 +51,9 @@ final class ClientFactory
         return $client;
     }
 
-    public function authenticatedByPassword(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface
+    public function authenticatedByPassword(ApiConfiguration $apiConfiguration): AkeneoPimEnterpriseClientInterface
     {
-        $client = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
+        $client = new AkeneoPimEnterpriseClientBuilder($apiConfiguration->getBaseUrl() ?? '');
 
         return $client->buildAuthenticatedByPassword(
             $apiConfiguration->getApiClientId() ?? '',
@@ -66,7 +64,7 @@ final class ClientFactory
     }
 
     private function updateApiconfigurationCredentials(
-        AkeneoPimClientInterface $client,
+        AkeneoPimEnterpriseClientInterface $client,
         ApiConfiguration $apiConfiguration
     ): void {
         try {

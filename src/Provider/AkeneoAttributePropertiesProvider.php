@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
 final class AkeneoAttributePropertiesProvider
 {
@@ -14,10 +14,10 @@ final class AkeneoAttributePropertiesProvider
     /** @var array */
     private $attributes = [];
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
+    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     private $client;
 
-    public function __construct(AkeneoPimClientInterface $akeneoPimClient)
+    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
         $this->client = $akeneoPimClient;
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\IntegerAttributeType;
-use Synolia\SyliusAkeneoPlugin\Builder\IntegerProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\IntegerProductAttributeValueValueBuilder;
 
 final class IntegerAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
