@@ -27,10 +27,11 @@ final class TextProductReferenceEntityAttributeValueValueBuilder implements Prod
     public function support(string $referenceEntityCode, string $subAttributeCode): bool
     {
         return $this->referenceEntityAttributeTypeMatcher->match(
-                $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
-                    $referenceEntityCode,
-                    $subAttributeCode)
-            ) instanceof TextAttributeTypeMatcher;
+            $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
+                $referenceEntityCode,
+                $subAttributeCode
+            )
+        ) instanceof TextAttributeTypeMatcher;
     }
 
     /**

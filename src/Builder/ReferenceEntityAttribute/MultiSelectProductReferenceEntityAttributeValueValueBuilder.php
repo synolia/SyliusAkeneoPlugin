@@ -29,7 +29,8 @@ final class MultiSelectProductReferenceEntityAttributeValueValueBuilder implemen
         return $this->referenceEntityAttributeTypeMatcher->match(
             $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
                 $referenceEntityCode,
-                $subAttributeCode)
+                $subAttributeCode
+            )
         ) instanceof MultipleOptionAttributeTypeMatcher;
     }
 

@@ -41,10 +41,11 @@ final class ImageProductReferenceEntityAttributeValueValueBuilder implements Pro
     public function support(string $referenceEntityCode, string $subAttributeCode): bool
     {
         return $this->referenceEntityAttributeTypeMatcher->match(
-                $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
-                    $referenceEntityCode,
-                    $subAttributeCode)
-            ) instanceof ImageAttributeTypeMatcher;
+            $this->akeneoReferenceEntityAttributePropertiesProvider->getType(
+                $referenceEntityCode,
+                $subAttributeCode
+            )
+        ) instanceof ImageAttributeTypeMatcher;
     }
 
     /**
