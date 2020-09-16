@@ -28,6 +28,13 @@
                 "groups": [],
                 "parent": null,
                 "values": {
+                    "test_entite_couleur": [
+                        {
+                            "locale": null,
+                            "scope": null,
+                            "data": "noir"
+                        }
+                    ],
                     "enabled_channels": [
                         {
                             "locale": "en_US",
