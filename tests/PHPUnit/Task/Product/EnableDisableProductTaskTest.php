@@ -97,10 +97,12 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
             $category = $this->manager->getRepository(Taxon::class)->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
-                $category = new Taxon();
+                /** @var Taxon $category */
+                $category = self::$container->get('sylius.factory.taxon')->createNew();
                 $this->manager->persist($category);
             }
             $category->setCurrentLocale('en_US');
+            $category->setFallbackLocale('en_US');
             $category->setCode($categoryCode);
             $category->setSlug($categoryCode);
             $category->setName($categoryCode);

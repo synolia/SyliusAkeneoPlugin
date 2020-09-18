@@ -122,25 +122,15 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         }
 
         /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttribute */
-        $referenceEntityAttribute = $productAttributeRepository->findOneBy(['code' => 'test_entite_couleur']);
-
-        /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttributeValue */
-        $referenceEntityAttributeValue = $productAttributeValueRepository->findOneBy([
+        $referenceEntityAttribute = $productAttributeRepository->findOneBy(['code' => 'test_entite_couleur_filtre_couleur_1']);
+        /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntitySubAttributeValue */
+        $referenceEntitySubAttributeValue = $productAttributeValueRepository->findOneBy([
             'subject' => $product,
             'attribute' => $referenceEntityAttribute,
             'localeCode' => 'fr_FR',
         ]);
-        $this->assertNotNull($referenceEntityAttributeValue);
-        $this->assertSame('akeneo-noir', $referenceEntityAttributeValue->getValue()[0]);
-
-        /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttributeValue */
-        $referenceEntityAttributeValue = $productAttributeValueRepository->findOneBy([
-            'subject' => $product,
-            'attribute' => $referenceEntityAttribute,
-            'localeCode' => 'fr_FR',
-        ]);
-        $this->assertNotNull($referenceEntityAttributeValue);
-        $this->assertSame('akeneo-noir', $referenceEntityAttributeValue->getValue()[0]);
+        $this->assertNotNull($referenceEntitySubAttributeValue);
+        $this->assertSame('akeneo-noir', $referenceEntitySubAttributeValue->getValue()[0]);
     }
 
     public function createSimpleProductsWithMultiSelectCheckboxDataProvider(): \Generator
@@ -241,10 +231,12 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
             $category = $this->manager->getRepository(Taxon::class)->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
-                $category = new Taxon();
+                /** @var Taxon $category */
+                $category = self::$container->get('sylius.factory.taxon')->createNew();
                 $this->manager->persist($category);
             }
             $category->setCurrentLocale('en_US');
+            $category->setFallbackLocale('en_US');
             $category->setCode($categoryCode);
             $category->setSlug($categoryCode);
             $category->setName($categoryCode);

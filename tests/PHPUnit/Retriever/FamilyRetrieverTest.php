@@ -34,6 +34,7 @@ final class FamilyRetrieverTest extends ApiTestCase
         );
 
         $this->initializeApiConfiguration();
+        $this->manager->flush();
     }
 
     protected function tearDown(): void

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
+use League\Pipeline\Pipeline;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Product\Model\ProductOptionValueTranslation;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
+use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -50,6 +52,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $this->importCategories();
         $attributePayload = $this->importAttributes();
         $this->importAttributeOptions($attributePayload);
+        $this->importFamillies();
         $this->importProductModels();
         $this->createProductConfiguration();
 
@@ -196,5 +199,14 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         ;
 
         $this->manager->flush();
+    }
+
+    private function importFamillies()
+    {
+        /** @var Pipeline $familyPipeline */
+        $familyPipeline = self::$container->get(FamilyPipelineFactory::class)->create();
+
+        $productModelPayload = new ProductModelPayload($this->client);
+        $familyPipeline->process($productModelPayload);
     }
 }
