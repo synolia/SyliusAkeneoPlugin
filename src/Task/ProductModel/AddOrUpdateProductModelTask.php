@@ -126,19 +126,18 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             $productsMapping[$product->getCode()] = $product;
         }
 
-        try {
-            $this->entityManager->beginTransaction();
-            foreach ($payload->getResources() as $resource) {
+        foreach ($payload->getResources() as $resource) {
+            try {
+                $this->entityManager->beginTransaction();
+
                 $this->process($resource, $productsMapping);
+
+                $this->entityManager->flush();
+                $this->entityManager->commit();
+            } catch (\Throwable $throwable) {
+                $this->entityManager->rollback();
+                $this->logger->warning($throwable->getMessage());
             }
-
-            $this->entityManager->flush();
-            $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
-            $this->entityManager->rollback();
-            $this->logger->warning($throwable->getMessage());
-
-            throw $throwable;
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
