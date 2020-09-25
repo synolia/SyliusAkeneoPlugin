@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Akeneo\Pim\ApiClient\Pagination\Page;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
@@ -25,14 +26,19 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilter */
     private $productFilter;
 
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
+
     public function __construct(
         LoggerInterface $akeneoLogger,
         ConfigurationProvider $configurationProvider,
-        ProductFilter $productFilter
+        ProductFilter $productFilter,
+        EntityManagerInterface $entityManager
     ) {
         $this->logger = $akeneoLogger;
         $this->configurationProvider = $configurationProvider;
         $this->productFilter = $productFilter;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -62,15 +68,21 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
         }
 
         $itemCount = 0;
-
         while (
             ($resources instanceof Page && $resources->hasNextPage()) ||
             ($resources instanceof Page && !$resources->hasPreviousPage()) ||
             $resources instanceof Page
         ) {
-            foreach ($resources->getItems() as $item) {
-                $this->handleSimpleProduct($payload->getSimpleProductPayload()->getProducts(), $item);
-                $this->handleConfigurableProduct($payload->getConfigurableProductPayload()->getProducts(), $item);
+            foreach ($resources->getItems() as $key => $item) {
+                $sql = \sprintf(
+                    'INSERT INTO `%s` (`values`, `is_simple`) VALUES (:values, :is_simple);',
+                    ProductPayload::TEMP_AKENEO_TABLE_NAME,
+                );
+                $stmt = $this->entityManager->getConnection()->prepare($sql);
+                $stmt->bindValue('values', \json_encode($item));
+                $stmt->bindValue('is_simple', $item['parent'] === null, ParameterType::BOOLEAN);
+                $stmt->execute();
+
                 ++$itemCount;
             }
 
@@ -80,23 +92,5 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
         $this->logger->info(Messages::totalToImport($payload->getType(), $itemCount));
 
         return $payload;
-    }
-
-    private function handleSimpleProduct(Collection $products, array $item): void
-    {
-        if ($item['parent'] !== null) {
-            return;
-        }
-
-        $products->add($item);
-    }
-
-    private function handleConfigurableProduct(Collection $products, array $item): void
-    {
-        if ($item['parent'] === null) {
-            return;
-        }
-
-        $products->add($item);
     }
 }

@@ -10,6 +10,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductPayload extends AbstractPayload
 {
+    public const TEMP_AKENEO_TABLE_NAME = 'tmp_akeneo_products';
+
+    public const SELECT_PAGINATION_SIZE = 100;
+
     /** @var \Akeneo\Pim\ApiClient\Pagination\Page|ResourceCursorInterface|null */
     private $resources;
 
