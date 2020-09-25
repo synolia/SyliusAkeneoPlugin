@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 final class AkeneoAttributePropertiesProvider
 {
     /** @var bool */
-    private $loadsAllAttributesAtOnce = false;
+    private $loadsAllAttributesAtOnce = true;
 
     /** @var array */
     private $attributes = [];
