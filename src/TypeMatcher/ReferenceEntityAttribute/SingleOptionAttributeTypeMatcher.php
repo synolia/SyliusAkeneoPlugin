@@ -25,4 +25,9 @@ final class SingleOptionAttributeTypeMatcher implements ReferenceEntityAttribute
     {
         return SelectProductReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getStorageType(): string
+    {
+        return 'json';
+    }
 }

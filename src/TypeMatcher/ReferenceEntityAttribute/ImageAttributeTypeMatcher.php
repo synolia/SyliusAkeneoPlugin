@@ -25,4 +25,9 @@ final class ImageAttributeTypeMatcher implements ReferenceEntityAttributeTypeMat
     {
         return TextProductReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getStorageType(): string
+    {
+        return 'text';
+    }
 }

@@ -12,6 +12,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
 
 abstract class AbstractAttributeTask
@@ -56,6 +57,16 @@ abstract class AbstractAttributeTask
 
     protected function setAttributeTranslations(array $labels, AttributeInterface $attribute): void
     {
+        if (empty($labels)) {
+            foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
+                $attribute->setCurrentLocale($locale);
+                $attribute->setFallbackLocale($locale);
+                $attribute->setName(\sprintf('[%s]', $attribute->getCode()));
+            }
+
+            return;
+        }
+
         foreach ($labels as $locale => $label) {
             if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
                 continue;
@@ -82,6 +93,11 @@ abstract class AbstractAttributeTask
             }
             /** @var AttributeInterface $attribute */
             $attribute = $this->productAttributeFactory->createTyped($attributeType->getType());
+
+            if ($attributeType instanceof ReferenceEntityAttributeTypeMatcherInterface) {
+                $attribute->setStorageType($attributeType->getStorageType());
+            }
+
             $attribute->setCode($attributeCode);
             $this->entityManager->persist($attribute);
             ++$this->createCount;
