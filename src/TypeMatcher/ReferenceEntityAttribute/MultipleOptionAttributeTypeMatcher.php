@@ -25,4 +25,9 @@ final class MultipleOptionAttributeTypeMatcher implements ReferenceEntityAttribu
     {
         return SelectProductReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getStorageType(): string
+    {
+        return 'json';
+    }
 }

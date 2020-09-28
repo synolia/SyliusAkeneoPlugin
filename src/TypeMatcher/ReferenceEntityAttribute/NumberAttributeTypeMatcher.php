@@ -25,4 +25,9 @@ final class NumberAttributeTypeMatcher implements ReferenceEntityAttributeTypeMa
     {
         return TextProductReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getStorageType(): string
+    {
+        return 'integer';
+    }
 }

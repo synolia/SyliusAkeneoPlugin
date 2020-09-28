@@ -25,4 +25,9 @@ final class TextAttributeTypeMatcher implements ReferenceEntityAttributeTypeMatc
     {
         return TextProductReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getStorageType(): string
+    {
+        return self::SUPPORTED_TYPE;
+    }
 }
