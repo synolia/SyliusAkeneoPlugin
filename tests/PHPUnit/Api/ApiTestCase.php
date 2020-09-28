@@ -23,11 +23,15 @@ abstract class ApiTestCase extends KernelTestCase
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $manager;
 
+    /** @var ApiConfiguration */
+    protected $apiConfiguration;
+
     protected function setUp(): void
     {
         parent::setUp();
         self::bootKernel();
 
+        $this->manager = self::$container->get('doctrine')->getManager();
         $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
         $this->server->setResponseOfPath(

@@ -80,6 +80,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         $processedCount = 0;
+        $totalItemsCount = $this->countTotalProducts(true);
 
         $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, 0);
         $query->execute();
@@ -109,7 +110,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             }
 
             $processedCount += \count($results);
-            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $this->countTotalProducts(true)));
+            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
             $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
             $query->execute();
         }

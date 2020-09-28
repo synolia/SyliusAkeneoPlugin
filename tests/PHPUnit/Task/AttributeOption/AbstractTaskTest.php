@@ -6,8 +6,8 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\AttributeOption;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use donatj\MockWebServer\Response;
-use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
@@ -26,31 +26,28 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
+            '/' . sprintf(LocaleApi::LOCALES_URI),
+            new Response($this->getLocales(), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new ResponseStack(
-                new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
-            new ResponseStack(
-                new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
-            new ResponseStack(
-                new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
-            new ResponseStack(
-                new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
         );
     }
 
@@ -63,5 +60,10 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->stop();
 
         parent::tearDown();
+    }
+
+    protected function getLocales(): string
+    {
+        return $this->getFileContent('locales.json');
     }
 }

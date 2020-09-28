@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddFamilyVariationAxeTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddProductGroupsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
 
 final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
 {
@@ -48,6 +49,9 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
     public function testAddOrUpdateProductModelTask(): void
     {
         $productModelPayload = new ProductModelPayload($this->createClient());
+
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $productModelPayload = $setupProductModelsTask->__invoke($productModelPayload);
 
         /** @var RetrieveProductModelsTask $retrieveProductModelsTask */
         $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);

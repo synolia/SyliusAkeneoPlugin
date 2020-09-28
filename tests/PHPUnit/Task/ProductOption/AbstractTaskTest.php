@@ -9,7 +9,6 @@ use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use donatj\MockWebServer\Response;
-use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
@@ -25,44 +24,32 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new ResponseStack(
-                new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
-            new ResponseStack(
-                new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
-            new ResponseStack(
-                new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
-            new ResponseStack(
-                new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . FamilyApi::FAMILIES_URI,
-            new ResponseStack(
-                new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
-            new ResponseStack(
-                new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
-            )
+            new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
     }
 

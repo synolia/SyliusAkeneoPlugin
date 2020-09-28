@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
 final class RetrieveProductModelsTask implements AkeneoTaskInterface
 {
@@ -39,7 +36,7 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
         ConfigurationProvider $configurationProvider,
         LoggerInterface $logger,
         AkeneoTaskProvider $taskProvider,
-    EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager
     ) {
         $this->productFilter = $productFilter;
         $this->logger = $logger;
@@ -71,12 +68,11 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
                 ++$noCodeCount;
             }
             $sql = \sprintf(
-                'INSERT INTO `%s` (`values`, `is_simple`) VALUES (:values, :is_simple);',
-                ProductPayload::TEMP_AKENEO_TABLE_NAME,
+                'INSERT INTO `%s` (`values`) VALUES (:values);',
+                ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
             );
             $stmt = $this->entityManager->getConnection()->prepare($sql);
             $stmt->bindValue('values', \json_encode($item));
-            $stmt->bindValue('is_simple', $item['parent'] === null, ParameterType::BOOLEAN);
             $stmt->execute();
         }
 

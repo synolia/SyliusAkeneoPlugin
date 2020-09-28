@@ -21,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
 final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 {
@@ -59,12 +60,15 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         $productPayload = new ProductPayload($this->client);
 
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $productPayload = $setupProductModelsTask->__invoke($productPayload);
+
         /** @var RetrieveProductsTask $retrieveProductsTask */
         $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        $this->assertCount(1, $productPayload->getSimpleProductPayload()->getProducts());
+        $this->assertSame(1, $this->countTotalProducts(true));
 
         /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
         $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
@@ -100,7 +104,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $productVariant = $this->manager->getRepository(ProductVariant::class)->findOneBy(['code' => $product->getCode()]);
         $this->assertNotNull($productVariant);
 
-        $this->assertEquals(1, $productVariant->getChannelPricings()->count());
+        $this->assertEquals(self::$container->get('sylius.repository.channel')->count([]), $productVariant->getChannelPricings()->count());
         foreach ($productVariant->getChannelPricings() as $channelPricing) {
             $this->assertEquals(89900, $channelPricing->getPrice());
             $this->assertEquals(89900, $channelPricing->getOriginalPrice());
@@ -137,12 +141,15 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         $productPayload = new ProductPayload($this->client);
 
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $productPayload = $setupProductModelsTask->__invoke($productPayload);
+
         /** @var RetrieveProductsTask $retrieveProductsTask */
         $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        $this->assertCount(2, $productPayload->getSimpleProductPayload()->getProducts());
+        $this->assertSame(2, $this->countTotalProducts(true));
 
         /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
         $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
@@ -205,10 +212,12 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
             $category = $this->manager->getRepository(Taxon::class)->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
-                $category = new Taxon();
+                /** @var Taxon $category */
+                $category = self::$container->get('sylius.factory.taxon')->createNew();
                 $this->manager->persist($category);
             }
             $category->setCurrentLocale('en_US');
+            $category->setFallbackLocale('en_US');
             $category->setCode($categoryCode);
             $category->setSlug($categoryCode);
             $category->setName($categoryCode);

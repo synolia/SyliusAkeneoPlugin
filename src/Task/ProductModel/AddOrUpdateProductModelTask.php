@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
@@ -123,8 +124,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
 
         $processedCount = 0;
+        $totalItemsCount = $this->countTotalProducts();
 
-        $query = $this->prepareSelectQuery(ProductPayload::SELECT_PAGINATION_SIZE, 0);
+        $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
         $query->execute();
 
         while ($results = $query->fetchAll()) {
@@ -146,8 +148,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             }
 
             $processedCount += \count($results);
-            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $this->countTotalProducts()));
-            $query = $this->prepareSelectQuery(ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
+            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
+            $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
             $query->execute();
         }
 
@@ -243,10 +245,68 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
 
         $this->addProductGroup($resource, $product);
+        $productTaxonIds = $this->getProductTaxonIds($product);
+        $productTaxons = $this->updateTaxon($resource, $product);
+        $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
+        $this->updateImages($resource, $product);
         $product->setCode($resource['code']);
         $this->setMainTaxon($resource, $product);
 
         return $product;
+    }
+
+    private function getProductTaxonIds(ProductInterface $product): array
+    {
+        $productTaxonIds = [];
+        if ($product->getId() !== null) {
+            $productTaxonIds = array_map(function ($productTaxonIds) {
+                return $productTaxonIds['id'];
+            }, $this->productTaxonRepository->getProductTaxonIds($product));
+        }
+
+        return $productTaxonIds;
+    }
+
+    private function updateTaxon(array $resource, ProductInterface $product): array
+    {
+        $productTaxons = [];
+        $checkProductTaxons = $this->productTaxonRepository->findBy(['product' => $product]);
+        foreach ($resource['categories'] as $category) {
+            /** @var ProductTaxonInterface $productTaxon */
+            $productTaxon = $this->productTaxonFactory->createNew();
+            $productTaxon->setPosition(0);
+            $productTaxon->setProduct($product);
+            $taxon = $this->taxonRepository->findOneBy(['code' => $category]);
+            if (!$taxon instanceof TaxonInterface) {
+                continue;
+            }
+
+            $productTaxon->setTaxon($taxon);
+
+            foreach ($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions() as $entityInsertion) {
+                if (!$entityInsertion instanceof ProductTaxonInterface) {
+                    continue;
+                }
+                if ($entityInsertion->getProduct() === $product && $entityInsertion->getTaxon() === $taxon) {
+                    continue 2;
+                }
+            }
+
+            /** @var ProductTaxonInterface $checkProductTaxon */
+            foreach ($checkProductTaxons as $checkProductTaxon) {
+                if ($productTaxon->getTaxon() === $checkProductTaxon->getTaxon()
+                    && $productTaxon->getProduct() === $checkProductTaxon->getProduct()
+                ) {
+                    $productTaxons[] = $checkProductTaxon->getId();
+
+                    continue 2;
+                }
+            }
+
+            $this->entityManager->persist($productTaxon);
+        }
+
+        return $productTaxons;
     }
 
     private function addProductGroup(array $resource, ProductInterface $product): void

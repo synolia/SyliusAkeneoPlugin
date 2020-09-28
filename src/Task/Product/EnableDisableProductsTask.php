@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
+use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -23,14 +26,19 @@ final class EnableDisableProductsTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
     private $productChannelEnabler;
 
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
+
     public function __construct(
         ProductRepository $productRepository,
         LoggerInterface $akeneoLogger,
-        ProductChannelEnabler $productChannelEnabler
+        ProductChannelEnabler $productChannelEnabler,
+        EntityManagerInterface $entityManager
     ) {
         $this->productRepository = $productRepository;
         $this->logger = $akeneoLogger;
         $this->productChannelEnabler = $productChannelEnabler;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -42,21 +50,53 @@ final class EnableDisableProductsTask implements AkeneoTaskInterface
             return $payload;
         }
 
-        foreach ($payload->getSimpleProductPayload()->getProducts() as $resource) {
-            try {
-                /** @var ProductInterface $product */
-                $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
+        $processedCount = 0;
+        $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, 0);
+        $query->execute();
 
-                if (!$product instanceof ProductInterface) {
-                    continue;
+        while ($results = $query->fetchAll()) {
+            foreach ($results as $result) {
+                $resource = \json_decode($result['values'], true);
+
+                try {
+                    /** @var ProductInterface $product */
+                    $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
+
+                    if (!$product instanceof ProductInterface) {
+                        continue;
+                    }
+
+                    $this->productChannelEnabler->enableChannelForProduct($product, $resource);
+                } catch (\Throwable $throwable) {
+                    $this->logger->warning($throwable->getMessage());
                 }
-
-                $this->productChannelEnabler->enableChannelForProduct($product, $resource);
-            } catch (\Throwable $throwable) {
-                $this->logger->warning($throwable->getMessage());
             }
+
+            $processedCount += \count($results);
+            $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
+            $query->execute();
         }
 
         return $payload;
+    }
+
+    private function prepareSelectQuery(
+        bool $isSimple,
+        int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
+        int $offset = 0
+    ): Statement {
+        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+            'SELECT `values` 
+             FROM `%s` 
+             WHERE is_simple = :is_simple
+             LIMIT :limit
+             OFFSET :offset',
+            ProductPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
+        $query->bindValue('limit', $limit, ParameterType::INTEGER);
+        $query->bindValue('offset', $offset, ParameterType::INTEGER);
+
+        return $query;
     }
 }
