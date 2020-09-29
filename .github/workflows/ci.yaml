@@ -22,6 +22,9 @@ jobs:
         php: [7.3, 7.4]
         prefer:  ['--prefer-lowest', '']
 
+    env:
+      APP_ENV: test
+
     steps:
       - uses: actions/checkout@v2
 
@@ -74,6 +77,20 @@ jobs:
       - name: Checks security issues - Run
         if: matrix.prefer == ''
         run: php tests/Application/bin/console security:check
+
+      - name: Sylius - Init database
+        run: |
+          echo "DATABASE_URL=mysql://root@127.0.0.1/synolia_sylius_akeneo_plugin_%kernel.environment%?serverVersion=5.5" >> .env.test
+          php tests/Application/bin/console doctrine:database:create --if-not-exists
+
+      - name: Sylius - Update database schema
+        run: php tests/Application/bin/console doctrine:migr:migr -n
+
+      - name: Sylius - Install
+        run: php tests/Application/bin/console sylius:install -n -s default
+
+      - name: PHPunit
+        run: vendor/bin/phpunit
 
   sylius:
     name: Behat (PHP ${{ matrix.php }} Sylius ${{ matrix.sylius }})
@@ -159,6 +176,7 @@ jobs:
         working-directory: ./sylius
         run: |
           cp vendor/${{ env.package-name }}/tests/Application/config/packages/akeneo.yaml config/packages/akeneo.yaml
+
       - name: Sylius - Get datas from Plugin
         working-directory: ./sylius
         run: |
@@ -212,9 +230,6 @@ jobs:
           sed -i "s#tests/Application/config/bootstrap.php#config/bootstrap.php#g" phpunit.xml
           sed -i "s#<directory>tests</directory>#<directory>./vendor/${{ env.package-name }}/tests</directory>#g" phpunit.xml
           sed -i "s#/tests/Application/Kernel.php#src/Kernel.php#g" phpunit.xml
-      - name: PHPunit
-        working-directory: ./sylius
-        run: php phpunit-8.5.phar
 
       - name: Behat - Configure display
         working-directory: ./sylius
