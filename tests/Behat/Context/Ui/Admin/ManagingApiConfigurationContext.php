@@ -21,9 +21,9 @@ final class ManagingApiConfigurationContext implements Context
     /**
      * @Given I want to configure the akeneo api
      */
-    public function iWantToCreateANewPayPlugPaymentMethod(): void
+    public function iWantToConfigureTheAkeneoApi(): void
     {
-        $this->updatePage->open(['factory' => 'payplug']);
+        $this->updatePage->open();
     }
 
     /**
@@ -43,18 +43,11 @@ final class ManagingApiConfigurationContext implements Context
     }
 
     /**
-     * @Then I should be notified that :fields fields cannot be blank
+     * @Then I should be notified that fields cannot be blank
      */
-    public function iShouldBeNotifiedThatCannotBeBlank(string $fields): void
+    public function iShouldBeNotifiedThatCannotBeBlank(): void
     {
-        $fields = explode(',', $fields);
-
-        foreach ($fields as $field) {
-            Assert::true($this->updatePage->containsErrorWithMessage(sprintf(
-                '%s cannot be blank.',
-                trim($field)
-            )));
-        }
+        Assert::true($this->updatePage->containsErrorWithMessage('This value should not be blank.'));
     }
 
     /**

@@ -12,4 +12,4 @@ Feature: Adding configuration to Akeneo API
     Scenario: Configure Akeneo API credentials
         Given I want to configure the akeneo api
         And I save my changes
-        Then I should be notified that "Akeneo base URL" fields cannot be blank
+        Then I should be notified that fields cannot be blank
