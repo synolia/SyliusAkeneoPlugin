@@ -111,36 +111,66 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->type = 'ConfigurableProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        try {
-            $this->entityManager->beginTransaction();
-            foreach ($payload->getConfigurableProductPayload()->getProducts() as $configurableProductItem) {
-                /** @var ProductInterface $productModel */
-                $productModel = $this->productRepository->findOneBy(['code' => $configurableProductItem['parent']]);
+        $processedCount = 0;
+        $totalItemsCount = $this->countTotalProducts(false);
 
-                //Skip product variant import if it does not have a parent model on Sylius
-                if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
-                    continue;
+        $query = $this->prepareSelectQuery(false, ProductPayload::SELECT_PAGINATION_SIZE, 0);
+        $query->execute();
+
+        while ($results = $query->fetchAll()) {
+            foreach ($results as $result) {
+                $resource = \json_decode($result['values'], true);
+
+                try {
+                    /** @var ProductInterface $productModel */
+                    $productModel = $this->productRepository->findOneBy(['code' => $resource['parent']]);
+
+                    //Skip product variant import if it does not have a parent model on Sylius
+                    if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
+                        $this->logger->warning(\sprintf(
+                            'Skipped product "%s" because model "%s" does not exists.',
+                            $resource['identifier'],
+                            $resource['parent'],
+                        ));
+
+                        continue;
+                    }
+
+                    $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
+
+                    if (!$productGroup instanceof ProductGroup) {
+                        $this->logger->warning(\sprintf(
+                            'Skipped product "%s" because model "%s" does not exists as group.',
+                            $resource['identifier'],
+                            $resource['parent'],
+                        ));
+
+                        continue;
+                    }
+
+                    $variationAxes = $productGroup->getVariationAxes();
+
+                    if (\count($variationAxes) === 0) {
+                        $this->logger->warning(\sprintf(
+                            'Skipped product "%s" because group has no variation axis.',
+                            $resource['identifier'],
+                        ));
+
+                        continue;
+                    }
+
+                    $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
+                    $this->entityManager->flush();
+                    $this->entityManager->clear();
+                } catch (\Throwable $throwable) {
+                    $this->logger->warning($throwable->getMessage());
                 }
-
-                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
-
-                if (!$productGroup instanceof ProductGroup) {
-                    continue;
-                }
-
-                $variationAxes = $productGroup->getVariationAxes();
-
-                if (\count($variationAxes) === 0) {
-                    continue;
-                }
-
-                $this->processVariations($payload, $configurableProductItem['identifier'], $productModel, $configurableProductItem['values'], $variationAxes);
-                $this->entityManager->flush();
             }
-            $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
-            $this->entityManager->rollback();
-            $this->logger->warning($throwable->getMessage());
+
+            $processedCount += \count($results);
+            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
+            $query = $this->prepareSelectQuery(false, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
+            $query->execute();
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));

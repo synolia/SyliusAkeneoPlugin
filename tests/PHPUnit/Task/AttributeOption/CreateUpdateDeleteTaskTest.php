@@ -58,16 +58,16 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
     private function assertProductAttributeChoices(ProductAttribute $productAttribute): void
     {
         $expectedChoiceCodes = [
-            'black',
-            'blue',
-            'brown',
-            'green',
-            'grey',
-            'orange',
-            'pink',
-            'red',
-            'white',
-            'yellow',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'black',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'blue',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'brown',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'green',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'grey',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'orange',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'pink',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'red',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'white',
+            CreateUpdateDeleteTask::AKENEO_PREFIX . 'yellow',
         ];
         /** @var array $choices */
         $choices = $productAttribute->getConfiguration()['choices'];
@@ -86,7 +86,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
     private function assertProductAttributeChoicesTranslations(ProductAttribute $productAttribute): void
     {
-        $blackChoice = $productAttribute->getConfiguration()['choices']['black'];
+        $blackChoice = $productAttribute->getConfiguration()['choices'][CreateUpdateDeleteTask::AKENEO_PREFIX . 'black'];
 
         $this->assertEquals('Noir', $blackChoice['fr_FR']);
         $this->assertEquals('Black', $blackChoice['en_US']);

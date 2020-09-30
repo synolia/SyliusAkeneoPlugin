@@ -31,7 +31,7 @@ class ApiConfiguration implements ResourceInterface
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="synolia_sylius_akeneo_plugin.base_url.not_blank")
+     * @Assert\NotBlank
      */
     private $baseUrl;
 

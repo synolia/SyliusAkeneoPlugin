@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -16,6 +18,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 
 class AbstractCreateProductEntities
@@ -109,6 +112,38 @@ class AbstractCreateProductEntities
 
             return;
         }
+    }
+
+    protected function countTotalProducts(bool $isSimple): int
+    {
+        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+            'SELECT count(id) FROM `%s` WHERE is_simple = :is_simple',
+            ProductPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
+        $query->execute();
+
+        return (int) \current($query->fetch());
+    }
+
+    protected function prepareSelectQuery(
+        bool $isSimple,
+        int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
+        int $offset = 0
+    ): Statement {
+        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+            'SELECT `values` 
+             FROM `%s` 
+             WHERE is_simple = :is_simple
+             LIMIT :limit
+             OFFSET :offset',
+            ProductPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
+        $query->bindValue('limit', $limit, ParameterType::INTEGER);
+        $query->bindValue('offset', $offset, ParameterType::INTEGER);
+
+        return $query;
     }
 
     private function addPriceToChannel(

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
@@ -32,6 +33,11 @@ abstract class AbstractTaskTest extends ApiTestCase
             new Response($this->getAttributes(), [], HttpResponse::HTTP_OK)
         );
 
+        $this->server->setResponseOfPath(
+            '/' . sprintf(LocaleApi::LOCALES_URI),
+            new Response($this->getLocales(), [], HttpResponse::HTTP_OK)
+        );
+
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
     }
 
@@ -49,5 +55,10 @@ abstract class AbstractTaskTest extends ApiTestCase
     protected function getAttributes(): string
     {
         return $this->getFileContent('attributes_all.json');
+    }
+
+    protected function getLocales(): string
+    {
+        return $this->getFileContent('locales.json');
     }
 }

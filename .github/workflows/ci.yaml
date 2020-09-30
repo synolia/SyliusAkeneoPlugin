@@ -20,7 +20,10 @@ jobs:
       fail-fast: false
       matrix:
         php: [7.3, 7.4]
-        prefer:  ['--prefer-lowest', '']
+        prefer:  ['']
+
+    env:
+      APP_ENV: test
 
     steps:
       - uses: actions/checkout@v2
@@ -74,6 +77,32 @@ jobs:
       - name: Checks security issues - Run
         if: matrix.prefer == ''
         run: php tests/Application/bin/console security:check
+
+      - name: Sylius - Init database
+        run: |
+          php tests/Application/bin/console doctrine:database:create --if-not-exists
+
+      - name: Sylius - Update database schema
+        run: php tests/Application/bin/console doctrine:schema:update --force
+
+      - name: PHP - Setup timezone
+        run: |
+          echo "date.timezone=UTC" >> /tmp/timezone.ini; \
+          sudo mv /tmp/timezone.ini /etc/php/${{ matrix.php }}/cli/conf.d/timezone.ini
+
+      - name: Sylius - Install
+        run: php tests/Application/bin/console sylius:install -n -s default
+
+      - name: PHPunit
+        run: vendor/bin/phpunit
+
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
 
   sylius:
     name: Behat (PHP ${{ matrix.php }} Sylius ${{ matrix.sylius }})
@@ -137,7 +166,15 @@ jobs:
 
       - name: Composer - Install plugin
         working-directory: ./sylius
-        run: composer req "${{ env.package-name }}:*" --prefer-source --no-scripts
+        run: composer req "${{ env.package-name }}:*" --prefer-source  --no-scripts
+
+      - name: Composer - Install mock-webserver
+        working-directory: ./sylius
+        run: composer req --dev donatj/mock-webserver:^2.1
+
+      - name: Composer - Install PHPUnit 8.5
+        working-directory: ./sylius
+        run: wget https://phar.phpunit.de/phpunit-8.5.phar
 
       #TODO Remove after use Symfony Flex
       - name: Sylius - Config package
@@ -149,7 +186,14 @@ jobs:
       #TODO Remove after use Symfony Flex
       - name: Sylius - Get services from Plugin
         working-directory: ./sylius
-        run: cp vendor/${{ env.package-name }}/akeneo_services.yaml config/packages/akeneo.yaml
+        run: |
+          cp vendor/${{ env.package-name }}/tests/Application/config/packages/akeneo.yaml config/packages/akeneo.yaml
+
+      - name: Sylius - Get datas from Plugin
+        working-directory: ./sylius
+        run: |
+          cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
+          cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/sylius_fixtures.yaml config/packages/test/sylius_fixtures.yaml
 
       - name: Sylius - Get routes from Plugin
         working-directory: ./sylius
@@ -179,9 +223,25 @@ jobs:
         working-directory: ./sylius
         run: yarn install && yarn build
 
+      - name: Sylius - Change Namespace
+        working-directory: ./sylius
+        run: find src -type f -name '*.php' -exec sed -i 's#namespace Tests\\Application#namespace App#g' {} \;
+
       - name: Sylius - Cache clear
         working-directory: ./sylius
-        run: php bin/console c:c -e test
+        run: php bin/console c:c
+
+      - name: Mock-webserver - Configure
+        working-directory: ./sylius
+        run: echo -e "\nMOCK_SERVER_HOST=localhost\nMOCK_SERVER_PORT=8987\n" >> .env.test
+
+      - name: PHPUnit - Configure
+        working-directory: ./sylius
+        run: |
+          cp vendor/${{ env.package-name }}/phpunit.xml.dist phpunit.xml
+          sed -i "s#tests/Application/config/bootstrap.php#config/bootstrap.php#g" phpunit.xml
+          sed -i "s#<directory>tests</directory>#<directory>./vendor/${{ env.package-name }}/tests</directory>#g" phpunit.xml
+          sed -i "s#/tests/Application/Kernel.php#src/Kernel.php#g" phpunit.xml
 
       - name: Behat - Configure display
         working-directory: ./sylius

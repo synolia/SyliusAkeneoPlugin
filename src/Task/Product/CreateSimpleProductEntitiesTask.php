@@ -79,27 +79,40 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->type = 'SimpleProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        foreach ($payload->getSimpleProductPayload()->getProducts() as $simpleProductItem) {
-            try {
-                $this->entityManager->beginTransaction();
-                $product = $this->getOrCreateEntity($simpleProductItem);
-                $productVariant = $this->getOrCreateSimpleVariant($product);
-                $this->linkCategoriesToProduct($payload, $product, $simpleProductItem['categories']);
+        $processedCount = 0;
+        $totalItemsCount = $this->countTotalProducts(true);
 
-                $productResourcePayload = $this->insertAttributesToProduct($payload, $product, $simpleProductItem);
-                if ($productResourcePayload->getProduct() === null) {
-                    continue;
+        $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, 0);
+        $query->execute();
+
+        while ($results = $query->fetchAll()) {
+            foreach ($results as $result) {
+                $resource = \json_decode($result['values'], true);
+
+                try {
+                    $product = $this->getOrCreateEntity($resource);
+                    $productVariant = $this->getOrCreateSimpleVariant($product);
+                    $this->linkCategoriesToProduct($payload, $product, $resource['categories']);
+
+                    $productResourcePayload = $this->insertAttributesToProduct($payload, $product, $resource);
+                    if ($productResourcePayload->getProduct() === null) {
+                        continue;
+                    }
+
+                    $this->updateImages($payload, $resource, $product);
+                    $this->setProductPrices($productVariant, $resource['values']);
+
+                    $this->entityManager->flush();
+                    $this->entityManager->clear();
+                } catch (\Throwable $throwable) {
+                    $this->logger->warning($throwable->getMessage());
                 }
-
-                $this->updateImages($payload, $simpleProductItem, $product);
-                $this->setProductPrices($productVariant, $simpleProductItem['values']);
-
-                $this->entityManager->flush();
-                $this->entityManager->commit();
-            } catch (\Throwable $throwable) {
-                $this->entityManager->rollback();
-                $this->logger->warning($throwable->getMessage());
             }
+
+            $processedCount += \count($results);
+            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
+            $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
+            $query->execute();
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));

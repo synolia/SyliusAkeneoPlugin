@@ -7,12 +7,16 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Statement;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
@@ -24,8 +28,6 @@ abstract class AbstractTaskTest extends ApiTestCase
     {
         parent::setUp();
         self::bootKernel();
-
-        $this->manager = self::$container->get('doctrine')->getManager();
 
         $this->initializeApiConfiguration();
 
@@ -84,5 +86,33 @@ abstract class AbstractTaskTest extends ApiTestCase
         }
 
         $this->manager->flush();
+    }
+
+    protected function countTotalProducts(): int
+    {
+        $query = $this->manager->getConnection()->prepare(\sprintf(
+            'SELECT count(id) FROM `%s`',
+            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->execute();
+
+        return (int) \current($query->fetch());
+    }
+
+    protected function prepareSelectQuery(
+        int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
+        int $offset = 0
+    ): Statement {
+        $query = $this->manager->getConnection()->prepare(\sprintf(
+            'SELECT `values` 
+             FROM `%s` 
+             LIMIT :limit
+             OFFSET :offset',
+            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('limit', $limit, ParameterType::INTEGER);
+        $query->bindValue('offset', $offset, ParameterType::INTEGER);
+
+        return $query;
     }
 }

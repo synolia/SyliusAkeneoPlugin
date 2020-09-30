@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use PHPUnit\Framework\Assert;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 
 final class RetrieveProductModelTaskTest extends AbstractTaskTest
 {
+    private const NUMBER_OF_IMPORTED_MODELS = 3;
+
     /** @var AkeneoTaskProvider */
     private $taskProvider;
 
@@ -29,7 +29,8 @@ final class RetrieveProductModelTaskTest extends AbstractTaskTest
 
         /** @var RetrieveProductModelsTask $retrieveProductModelsTask */
         $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
-        $productModelPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
-        Assert::assertContainsOnlyInstancesOf(ResourceCursorInterface::class, [$productModelPayload->getResources()]);
+        $retrieveProductModelsTask->__invoke($productModelPayload);
+
+        $this->assertSame(self::NUMBER_OF_IMPORTED_MODELS, $this->countTotalProducts());
     }
 }

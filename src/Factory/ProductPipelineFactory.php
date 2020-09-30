@@ -11,6 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTas
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
 
 final class ProductPipelineFactory extends AbstractPipelineFactory
 {
@@ -19,10 +21,12 @@ final class ProductPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
+            ->pipe($this->taskProvider->get(SetupProductTask::class))
             ->pipe($this->taskProvider->get(RetrieveProductsTask::class))
             ->pipe($this->taskProvider->get(CreateSimpleProductEntitiesTask::class))
             ->pipe($this->taskProvider->get(EnableDisableProductsTask::class))
             ->pipe($this->taskProvider->get(CreateConfigurableProductEntitiesTask::class))
+            ->pipe($this->taskProvider->get(TearDownProductTask::class))
         ;
     }
 }

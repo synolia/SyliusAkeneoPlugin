@@ -13,6 +13,8 @@ use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Statement;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -21,6 +23,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
+use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
@@ -166,6 +169,38 @@ abstract class AbstractTaskTest extends ApiTestCase
         }
 
         $this->manager->flush();
+    }
+
+    protected function countTotalProducts(bool $isSimple): int
+    {
+        $query = $this->manager->getConnection()->prepare(\sprintf(
+            'SELECT count(id) FROM `%s` WHERE is_simple = :is_simple',
+            ProductPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
+        $query->execute();
+
+        return (int) \current($query->fetch());
+    }
+
+    protected function prepareSelectQuery(
+        bool $isSimple,
+        int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
+        int $offset = 0
+    ): Statement {
+        $query = $this->manager->getConnection()->prepare(\sprintf(
+            'SELECT `values` 
+             FROM `%s` 
+             WHERE is_simple = :is_simple
+             LIMIT :limit
+             OFFSET :offset',
+            ProductPayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
+        $query->bindValue('limit', $limit, ParameterType::INTEGER);
+        $query->bindValue('offset', $offset, ParameterType::INTEGER);
+
+        return $query;
     }
 
     private function createProductFiltersConfiguration(): void

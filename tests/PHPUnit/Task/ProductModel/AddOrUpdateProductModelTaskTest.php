@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
 
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 {
@@ -49,17 +50,32 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 
         $productModelPayload = new ProductModelPayload($this->createClient());
 
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $productModelPayload = $setupProductModelsTask->__invoke($productModelPayload);
+
         /** @var RetrieveProductModelsTask $retrieveProductModelsTask */
         $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
         $optionsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
 
-        foreach ($optionsPayload->getResources() as $resource) {
-            if ($resource['parent'] === null) {
-                continue;
-            }
-            $productBase = $resource;
+        $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
+        $query->execute();
+        $processedCount = 0;
 
-            break;
+        while ($results = $query->fetchAll()) {
+            foreach ($results as $result) {
+                $resource = \json_decode($result['values'], true);
+
+                if ($resource['parent'] === null) {
+                    continue;
+                }
+                $productBase = $resource;
+
+                break;
+            }
+
+            $processedCount += \count($results);
+            $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
+            $query->execute();
         }
 
         /** @var AddOrUpdateProductModelTask $addOrUpdateProductModelsTask */

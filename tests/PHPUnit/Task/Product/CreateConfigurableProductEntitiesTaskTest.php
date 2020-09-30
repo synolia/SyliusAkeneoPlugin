@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
+use League\Pipeline\Pipeline;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Product\Model\ProductOptionValueTranslation;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
+use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -22,6 +24,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 {
@@ -50,6 +53,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $this->importCategories();
         $attributePayload = $this->importAttributes();
         $this->importAttributeOptions($attributePayload);
+        $this->importFamillies();
         $this->importProductModels();
         $this->createProductConfiguration();
 
@@ -57,12 +61,15 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
         $productPayload = new ProductPayload($this->client);
 
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $productPayload = $setupProductModelsTask->__invoke($productPayload);
+
         /** @var RetrieveProductsTask $retrieveProductsTask */
         $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        $this->assertCount(13, $productPayload->getConfigurableProductPayload()->getProducts());
+        $this->assertSame(13, $this->countTotalProducts(false));
 
         /** @var CreateConfigurableProductEntitiesTask $createConfigurableProductEntitiesTask */
         $createConfigurableProductEntitiesTask = $this->taskProvider->get(CreateConfigurableProductEntitiesTask::class);
@@ -173,6 +180,15 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $productModelPipeline = self::$container->get(ProductModelPipelineFactory::class)->create();
 
         $productModelPipeline->process($productModelPayload);
+    }
+
+    private function importFamillies()
+    {
+        /** @var Pipeline $familyPipeline */
+        $familyPipeline = self::$container->get(FamilyPipelineFactory::class)->create();
+
+        $productModelPayload = new ProductModelPayload($this->client);
+        $familyPipeline->process($productModelPayload);
     }
 
     private function createProductFiltersConfiguration()
