@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
 
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
@@ -27,7 +27,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
 
     public function support(string $attributeCode): bool
     {
-        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof SelectAttributeTypeMatcher;
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof ReferenceEntityAttributeTypeMatcher;
     }
 
     /**

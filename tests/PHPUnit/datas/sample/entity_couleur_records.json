@@ -15,6 +15,42 @@
             "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities\/couleur\/records\/beige"
           }
         },
+        "code": "noir",
+        "values": {
+          "label": [
+            {
+              "locale": "fr_FR",
+              "channel": null,
+              "data": "NOIR"
+            }
+          ],
+          "image": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "6\/c\/2\/c\/6c2c7564de5ace5453320217cc6bec7d96e4fc3b_beige.png",
+              "_links": {
+                "download": {
+                  "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities-media-files\/6\/c\/2\/c\/6c2c7564de5ace5453320217cc6bec7d96e4fc3b_beige.png"
+                }
+              }
+            }
+          ],
+          "filtre_couleur_1": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "noir_galaxy"
+            }
+          ]
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities\/couleur\/records\/beige"
+          }
+        },
         "code": "beige",
         "values": {
           "label": [
