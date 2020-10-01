@@ -161,7 +161,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
                     $this->entityManager->flush();
-                    $this->entityManager->clear();
                 } catch (\Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
                 }

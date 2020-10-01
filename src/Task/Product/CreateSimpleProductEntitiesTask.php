@@ -103,7 +103,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                     $this->setProductPrices($productVariant, $resource['values']);
 
                     $this->entityManager->flush();
-                    $this->entityManager->clear();
                 } catch (\Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
                 }
