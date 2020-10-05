@@ -36,7 +36,7 @@ final class Messages
 
     public static function removalNoLongerExist(string $type): string
     {
-        return \sprintf('Removal of %s which no longer exists.', $type);
+        return \sprintf('Removal of %s which no longer exist.', $type);
     }
 
     public static function countOfDeleted(string $type, int $value): string
