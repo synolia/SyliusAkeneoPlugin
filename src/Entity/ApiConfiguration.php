@@ -52,14 +52,12 @@ class ApiConfiguration implements ResourceInterface
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank
      */
     private $token;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank
      */
     private $refreshToken;
 
