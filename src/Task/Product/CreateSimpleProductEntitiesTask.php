@@ -7,18 +7,26 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Product\Factory\ProductFactory;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
+use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
+use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
@@ -38,6 +46,30 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var string */
     private $type;
 
+    /** @var ProductPayload */
+    private $payload;
+
+    /** @var string */
+    private $scope;
+
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productTranslationRepository;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productTranslationFactory;
+
+    /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
+    private $productSlugGenerator;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
+    private $productFiltersRulesRepository;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    private $akeneoAttributeDataProvider;
+
     public function __construct(
         RepositoryInterface $productRepository,
         ChannelRepository $channelRepository,
@@ -50,7 +82,13 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         FactoryInterface $channelPricingFactory,
         EntityManagerInterface $entityManager,
         AkeneoTaskProvider $taskProvider,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ProductFiltersRulesRepository $productFiltersRulesRepository,
+        RepositoryInterface $productTranslationRepository,
+        FactoryInterface $productTranslationFactory,
+        SlugGeneratorInterface $productSlugGenerator,
+        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        AkeneoAttributeDataProvider $akeneoAttributeDataProvider
     ) {
         parent::__construct(
             $entityManager,
@@ -67,6 +105,12 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
+        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
+        $this->productTranslationRepository = $productTranslationRepository;
+        $this->productTranslationFactory = $productTranslationFactory;
+        $this->productSlugGenerator = $productSlugGenerator;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
+        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -75,9 +119,17 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             return $payload;
         }
 
+        $this->payload = $payload;
         $this->logger->debug(self::class);
         $this->type = 'SimpleProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
+
+        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        $filters = $this->productFiltersRulesRepository->findOneBy([]);
+        if (!$filters instanceof ProductFiltersRules) {
+            throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
+        }
+        $this->scope = $filters->getChannel();
 
         $processedCount = 0;
         $totalItemsCount = $this->countTotalProducts(true);
@@ -91,6 +143,13 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
                 try {
                     $product = $this->getOrCreateEntity($resource);
+
+                    $this->updateProductRequirementsForActiveLocales(
+                        $product,
+                        $resource['family'],
+                        $resource
+                    );
+
                     $productVariant = $this->getOrCreateSimpleVariant($product);
                     $this->linkCategoriesToProduct($payload, $product, $resource['categories']);
 
@@ -150,6 +209,84 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         return $product;
     }
 
+    private function updateProductRequirementsForActiveLocales(
+        ProductInterface $product,
+        string $familyCode,
+        array $resource
+    ): void {
+        $missingNameTranslationCount = 0;
+        $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $key => $usedLocalesOnBothPlatform) {
+            $productName = $this->akeneoAttributeDataProvider->getData(
+                $familyResource['attribute_as_label'],
+                $resource['values'][$familyResource['attribute_as_label']],
+                $usedLocalesOnBothPlatform,
+                $this->scope
+            );
+
+            if (null === $productName) {
+                $productName = \sprintf('[%s]', $product->getCode());
+                ++$missingNameTranslationCount;
+            }
+
+            $productTranslation = $this->productTranslationRepository->findOneBy([
+                'translatable' => $product,
+                'locale' => $usedLocalesOnBothPlatform,
+            ]);
+
+            if (!$productTranslation instanceof ProductTranslationInterface) {
+                /** @var ProductTranslationInterface $productTranslation */
+                $productTranslation = $this->productTranslationFactory->createNew();
+                $productTranslation->setLocale($usedLocalesOnBothPlatform);
+                $product->addTranslation($productTranslation);
+            }
+
+            $productTranslation->setName($productName);
+
+            if (isset($translation['description'])) {
+                $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $usedLocalesOnBothPlatform));
+            }
+
+            if (isset($translation['meta_keywords'])) {
+                $productTranslation->setMetaKeywords($this->findAttributeValueForLocale($resource, 'meta_keywords', $usedLocalesOnBothPlatform));
+            }
+
+            if (isset($translation['meta_description'])) {
+                $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $usedLocalesOnBothPlatform));
+            }
+
+            /** @var ProductConfiguration $configuration */
+            $configuration = $this->productConfigurationRepository->findOneBy([]);
+            if ($product->getId() !== null &&
+                $productTranslation->getSlug() !== null &&
+                $configuration !== null &&
+                $configuration->getRegenerateUrlRewrites() === false) {
+                // no regenerate slug if config disable it
+
+                continue;
+            }
+
+            if ($missingNameTranslationCount > 0) {
+                //Multiple product has the same name
+                $productTranslation->setSlug(\sprintf(
+                    '%s-%s-%d',
+                    $resource['code'] ?? $resource['identifier'],
+                    $this->productSlugGenerator->generate($productName),
+                    $missingNameTranslationCount
+                ));
+
+                continue;
+            }
+
+            //Multiple product has the same name
+            $productTranslation->setSlug(\sprintf(
+                '%s-%s',
+                $resource['code'] ?? $resource['identifier'],
+                $this->productSlugGenerator->generate($productName)
+            ));
+        }
+    }
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
      */
@@ -164,6 +301,27 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $addProductCategoriesTask->__invoke($productCategoriesPayload);
     }
 
+    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
+    {
+        if (!isset($resource['values'][$attributeCode])) {
+            return null;
+        }
+
+        foreach ($resource['values'][$attributeCode] as $translation) {
+            if (null === $translation['locale']) {
+                return $translation['data'];
+            }
+
+            if ($locale !== $translation['locale']) {
+                continue;
+            }
+
+            return $translation['data'];
+        }
+
+        return null;
+    }
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
      */
@@ -176,6 +334,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $productResourcePayload
             ->setProduct($product)
             ->setResource($resource)
+            ->setScope($this->scope)
         ;
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);

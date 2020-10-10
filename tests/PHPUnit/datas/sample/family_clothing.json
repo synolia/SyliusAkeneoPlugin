@@ -1,0 +1,45 @@
+{
+  "code": "clothing",
+  "attributes": [
+    "Sylius_enabled",
+    "code_ean",
+    "composition",
+    "coton_bio",
+    "couleur_nom",
+    "sku",
+    "tag_collection_creation",
+    "tag_new",
+    "tag_saison",
+    "taille",
+    "test_entite_couleur",
+    "titre_produit"
+  ],
+  "attribute_as_label": "name",
+  "attribute_as_image": "assets",
+  "attribute_requirements": {
+    "ecommerce": [
+      "code_ean",
+      "composition",
+      "coton_bio",
+      "couleur_nom",
+      "description",
+      "name",
+      "prix_vente_final",
+      "prix_vente_ht",
+      "sku",
+      "tag_collection_creation",
+      "tag_new"
+    ],
+    "mobile": [
+      "sku"
+    ]
+  },
+  "labels": {
+    "en_US": "Clothings",
+    "fr_FR": "Clothings",
+    "de_DE": "Clothings",
+    "en_GB": "Clothings",
+    "es_ES": "Clothings",
+    "it_IT": "Clothings"
+  }
+}

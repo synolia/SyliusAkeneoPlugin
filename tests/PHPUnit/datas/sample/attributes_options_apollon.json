@@ -165,6 +165,44 @@
                 },
                 "auto_option_sorting": null,
                 "is_read_only": false
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/name"
+                    }
+                },
+                "code": "name",
+                "type": "pim_catalog_text",
+                "group": "information_general",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": null,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 5,
+                "localizable": false,
+                "scopable": false,
+                "labels": {
+                    "en_US": "Name",
+                    "fr_FR": "nom"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": null
             }
         ]
     }

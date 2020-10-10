@@ -112,6 +112,11 @@ abstract class AbstractTaskTest extends ApiTestCase
             '/' . sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(FamilyApi::FAMILY_URI, 'clothing'),
+            new Response($this->getFileContent('family_clothing.json'), [], HttpResponse::HTTP_OK)
+        );
     }
 
     protected function tearDown(): void

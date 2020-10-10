@@ -53,7 +53,7 @@ class AbstractCreateProductEntities
     protected $logger;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productConfigurationRepository;
+    protected $productConfigurationRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
