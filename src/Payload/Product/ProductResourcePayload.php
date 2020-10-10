@@ -15,6 +15,12 @@ final class ProductResourcePayload extends AbstractPayload
     /** @var array */
     private $resource;
 
+    /** @var array */
+    private $family;
+
+    /** @var string */
+    private $scope;
+
     public function getProduct(): ?ProductInterface
     {
         return $this->product;
@@ -35,6 +41,40 @@ final class ProductResourcePayload extends AbstractPayload
     public function setResource(array $resource): self
     {
         $this->resource = $resource;
+
+        return $this;
+    }
+
+    public function getFamily(): array
+    {
+        return $this->family;
+    }
+
+    public function setFamily(array $family): self
+    {
+        $this->family = $family;
+
+        return $this;
+    }
+
+    public function getProductNameAttribute(): string
+    {
+        return $this->family['attribute_as_label'];
+    }
+
+    public function getProductMainImageAttribute(): string
+    {
+        return $this->family['attribute_as_image'];
+    }
+
+    public function getScope(): string
+    {
+        return $this->scope;
+    }
+
+    public function setScope(string $scope): self
+    {
+        $this->scope = $scope;
 
         return $this;
     }
