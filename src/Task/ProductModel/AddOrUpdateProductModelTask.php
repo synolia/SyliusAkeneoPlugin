@@ -174,8 +174,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         int $offset = 0
     ): Statement {
         $query = $this->entityManager->getConnection()->prepare(\sprintf(
-            'SELECT `values` 
-             FROM `%s` 
+            'SELECT `values`
+             FROM `%s`
              LIMIT :limit
              OFFSET :offset',
             ProductModelPayload::TEMP_AKENEO_TABLE_NAME
@@ -188,10 +188,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function process(array $resource, array $productsMapping): void
     {
-        if (!isset($resource['values']['name']) && $resource['parent'] === null) {
-            return;
-        }
-
         if (isset($productsMapping[$resource['code']])) {
             $this->addOrUpdate($resource, $productsMapping[$resource['code']]);
             ++$this->updateCount;
@@ -217,10 +213,10 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
-        $family = null;
+        $familyCode = null;
         if (!isset($resource['family'])) {
             try {
-                $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
+                $familyCode = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
             } catch (\LogicException $exception) {
                 $this->logger->warning($exception->getMessage());
 
@@ -228,19 +224,19 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             }
         }
 
-        $productResourcePayload = $this->updateAttributes($resource, $product);
-        if ($productResourcePayload->getProduct() === null) {
-            return null;
-        }
-
         $payloadProductGroup = $this->payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
-            $family ? $family : $resource['family'],
+            $familyCode ? $familyCode : $resource['family'],
             $resource['family_variant']
         );
 
         $numberOfVariationAxis = isset($payloadProductGroup['variant_attribute_sets']) ? \count($payloadProductGroup['variant_attribute_sets']) : 0;
 
         if (null === $resource['parent'] && $numberOfVariationAxis > self::ONE_VARIATION_AXIS) {
+            return null;
+        }
+
+        $productResourcePayload = $this->updateAttributes($resource, $product);
+        if ($productResourcePayload->getProduct() === null) {
             return null;
         }
 
