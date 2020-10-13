@@ -29,7 +29,7 @@
 1. Add the bundle and dependencies in your composer.json :
 
     ```shell
-    composer require synolia/sylius-akeneo-plugin
+    composer require synolia/sylius-akeneo-plugin --no-scripts
     ```
    
 2. Enable the plugin in your `config/bundles.php` file by add
@@ -58,6 +58,12 @@
     ```shell
     cp -R vendor/synolia/sylius-akeneo-plugin/src/Migrations/* src/Migrations
     bin/console doctrine:migrations:migrate
+    ```
+   
+6. Clear cache
+
+    ```shell
+    bin/console cache:clear
     ```
 
 ## Development
