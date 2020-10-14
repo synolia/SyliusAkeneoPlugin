@@ -139,18 +139,16 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
     private function setAttributeTranslations(array $labels, AttributeInterface $attribute): void
     {
-        foreach ($labels as $locale => $label) {
-            if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
+            $attribute->setCurrentLocale($usedLocalesOnBothPlatform);
+            $attribute->setFallbackLocale($usedLocalesOnBothPlatform);
+
+            if (!isset($labels[$usedLocalesOnBothPlatform])) {
+                $attribute->setName(\sprintf('[%s]', $attribute->getCode()));
                 continue;
             }
 
-            if (!is_string($locale)) {
-                continue;
-            }
-
-            $attribute->setCurrentLocale($locale);
-            $attribute->setFallbackLocale($locale);
-            $attribute->setName($label);
+            $attribute->setName($labels[$usedLocalesOnBothPlatform]);
         }
     }
 
