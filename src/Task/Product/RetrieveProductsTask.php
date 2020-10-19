@@ -73,7 +73,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
             ($resources instanceof Page && !$resources->hasPreviousPage()) ||
             $resources instanceof Page
         ) {
-            foreach ($resources->getItems() as $key => $item) {
+            foreach ($resources->getItems() as $item) {
                 $sql = \sprintf(
                     'INSERT INTO `%s` (`values`, `is_simple`) VALUES (:values, :is_simple);',
                     ProductPayload::TEMP_AKENEO_TABLE_NAME,

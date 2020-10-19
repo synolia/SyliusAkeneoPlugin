@@ -41,6 +41,9 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ *
+ * @todo Need refacto
  */
 final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
@@ -114,6 +117,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -265,6 +269,11 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->entityManager->persist($product);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
+     * @todo Need refacto
+     */
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
         $familyCode = null;
@@ -316,6 +325,11 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $product;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
+     * @todo Need refacto
+     */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,
         string $familyCode,
@@ -323,7 +337,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     ): void {
         $missingNameTranslationCount = 0;
         $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
-        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $key => $usedLocalesOnBothPlatform) {
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
             $productName = $this->akeneoAttributeDataProvider->getData(
                 $familyResource['attribute_as_label'],
                 $resource['values'][$familyResource['attribute_as_label']],
@@ -336,19 +350,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
                 ++$missingNameTranslationCount;
             }
 
-            $productTranslation = $this->productTranslationRepository->findOneBy([
-                'translatable' => $product,
-                'locale' => $usedLocalesOnBothPlatform,
-            ]);
-
-            if (!$productTranslation instanceof ProductTranslationInterface) {
-                /** @var ProductTranslationInterface $productTranslation */
-                $productTranslation = $this->productTranslationFactory->createNew();
-                $productTranslation->setLocale($usedLocalesOnBothPlatform);
-                $product->addTranslation($productTranslation);
-            }
-
-            $productTranslation->setName($productName);
+            $productTranslation = $this->setProductTranslation($product, $usedLocalesOnBothPlatform, $productName);
 
             if (isset($translation['description'])) {
                 $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $usedLocalesOnBothPlatform));
@@ -365,8 +367,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             /** @var ProductConfiguration $configuration */
             $configuration = $this->productConfigurationRepository->findOneBy([]);
             if ($product->getId() !== null &&
-                $productTranslation->getSlug() !== null &&
                 $configuration !== null &&
+                $productTranslation->getSlug() !== null &&
                 $configuration->getRegenerateUrlRewrites() === false) {
                 // no regenerate slug if config disable it
 
@@ -528,5 +530,24 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
 
         return null;
+    }
+
+    private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, ?string $productName): ProductTranslationInterface
+    {
+        $productTranslation = $this->productTranslationRepository->findOneBy([
+            'translatable' => $product,
+            'locale' => $usedLocalesOnBothPlatform,
+        ]);
+
+        if (!$productTranslation instanceof ProductTranslationInterface) {
+            /** @var ProductTranslationInterface $productTranslation */
+            $productTranslation = $this->productTranslationFactory->createNew();
+            $productTranslation->setLocale($usedLocalesOnBothPlatform);
+            $product->addTranslation($productTranslation);
+        }
+
+        $productTranslation->setName($productName);
+
+        return $productTranslation;
     }
 }

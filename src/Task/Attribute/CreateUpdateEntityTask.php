@@ -145,6 +145,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
             if (!isset($labels[$usedLocalesOnBothPlatform])) {
                 $attribute->setName(\sprintf('[%s]', $attribute->getCode()));
+
                 continue;
             }
 
