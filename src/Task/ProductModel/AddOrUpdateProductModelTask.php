@@ -11,21 +11,30 @@ use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
+use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
+use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
+use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
@@ -79,6 +88,30 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var FamilyRetriever */
     private $familyRetriever;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    private $akeneoAttributeDataProvider;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
+    private $productFiltersRulesRepository;
+
+    /** @var string */
+    private $scope;
+
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productTranslationRepository;
+
+    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
+    private $productConfigurationRepository;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productTranslationFactory;
+
+    /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
+    private $productSlugGenerator;
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
      */
@@ -92,7 +125,14 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         FactoryInterface $productTaxonFactory,
         AkeneoTaskProvider $taskProvider,
         FamilyRetriever $familyRetriever,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        ProductFiltersRulesRepository $productFiltersRulesRepository,
+        RepositoryInterface $productTranslationRepository,
+        EntityRepository $productConfigurationRepository,
+        FactoryInterface $productTranslationFactory,
+        SlugGeneratorInterface $productSlugGenerator
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
@@ -104,6 +144,13 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->taxonRepository = $taxonRepository;
         $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
+        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
+        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
+        $this->productTranslationRepository = $productTranslationRepository;
+        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->productTranslationFactory = $productTranslationFactory;
+        $this->productSlugGenerator = $productSlugGenerator;
     }
 
     /**
@@ -115,6 +162,13 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
         $this->payload = $payload;
+
+        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        $filters = $this->productFiltersRulesRepository->findOneBy([]);
+        if (!$filters instanceof ProductFiltersRules) {
+            throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
+        }
+        $this->scope = $filters->getChannel();
 
         $productsMapping = [];
         $products = $this->productRepository->findAll();
@@ -235,7 +289,18 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             return null;
         }
 
-        $productResourcePayload = $this->updateAttributes($resource, $product);
+        $this->updateProductRequirementsForActiveLocales(
+            $product,
+            $familyCode ? $familyCode : $resource['family'],
+            $resource
+        );
+
+        $productResourcePayload = $this->updateAttributes(
+            $resource,
+            $product,
+            $familyCode ? $familyCode : $resource['family'],
+            $this->scope,
+        );
         if ($productResourcePayload->getProduct() === null) {
             return null;
         }
@@ -249,6 +314,84 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->setMainTaxon($resource, $product);
 
         return $product;
+    }
+
+    private function updateProductRequirementsForActiveLocales(
+        ProductInterface $product,
+        string $familyCode,
+        array $resource
+    ): void {
+        $missingNameTranslationCount = 0;
+        $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $key => $usedLocalesOnBothPlatform) {
+            $productName = $this->akeneoAttributeDataProvider->getData(
+                $familyResource['attribute_as_label'],
+                $resource['values'][$familyResource['attribute_as_label']],
+                $usedLocalesOnBothPlatform,
+                $this->scope
+            );
+
+            if (null === $productName) {
+                $productName = \sprintf('[%s]', $product->getCode());
+                ++$missingNameTranslationCount;
+            }
+
+            $productTranslation = $this->productTranslationRepository->findOneBy([
+                'translatable' => $product,
+                'locale' => $usedLocalesOnBothPlatform,
+            ]);
+
+            if (!$productTranslation instanceof ProductTranslationInterface) {
+                /** @var ProductTranslationInterface $productTranslation */
+                $productTranslation = $this->productTranslationFactory->createNew();
+                $productTranslation->setLocale($usedLocalesOnBothPlatform);
+                $product->addTranslation($productTranslation);
+            }
+
+            $productTranslation->setName($productName);
+
+            if (isset($translation['description'])) {
+                $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $usedLocalesOnBothPlatform));
+            }
+
+            if (isset($translation['meta_keywords'])) {
+                $productTranslation->setMetaKeywords($this->findAttributeValueForLocale($resource, 'meta_keywords', $usedLocalesOnBothPlatform));
+            }
+
+            if (isset($translation['meta_description'])) {
+                $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $usedLocalesOnBothPlatform));
+            }
+
+            /** @var ProductConfiguration $configuration */
+            $configuration = $this->productConfigurationRepository->findOneBy([]);
+            if ($product->getId() !== null &&
+                $productTranslation->getSlug() !== null &&
+                $configuration !== null &&
+                $configuration->getRegenerateUrlRewrites() === false) {
+                // no regenerate slug if config disable it
+
+                continue;
+            }
+
+            if ($missingNameTranslationCount > 0) {
+                //Multiple product has the same name
+                $productTranslation->setSlug(\sprintf(
+                    '%s-%s-%d',
+                    $resource['code'],
+                    $this->productSlugGenerator->generate($productName),
+                    $missingNameTranslationCount
+                ));
+
+                continue;
+            }
+
+            //Multiple product has the same name
+            $productTranslation->setSlug(\sprintf(
+                '%s-%s',
+                $resource['code'],
+                $this->productSlugGenerator->generate($productName)
+            ));
+        }
     }
 
     private function getProductTaxonIds(ProductInterface $product): array
@@ -324,13 +467,22 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
     }
 
-    private function updateAttributes(array $resource, ProductInterface $product): ProductResourcePayload
-    {
+    private function updateAttributes(
+        array $resource,
+        ProductInterface $product,
+        string $familyCode,
+        string $scope
+    ): ProductResourcePayload {
+        $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
+
         $productResourcePayload = new ProductResourcePayload($this->payload->getAkeneoPimClient());
         $productResourcePayload
             ->setProduct($product)
             ->setResource($resource)
+            ->setFamily($familyResource)
+            ->setScope($scope)
         ;
+
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);
 
@@ -355,5 +507,26 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         ;
         $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
         $imageTask->__invoke($productMediaPayload);
+    }
+
+    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
+    {
+        if (!isset($resource['values'][$attributeCode])) {
+            return null;
+        }
+
+        foreach ($resource['values'][$attributeCode] as $translation) {
+            if (null === $translation['locale']) {
+                return $translation['data'];
+            }
+
+            if ($locale !== $translation['locale']) {
+                continue;
+            }
+
+            return $translation['data'];
+        }
+
+        return null;
     }
 }

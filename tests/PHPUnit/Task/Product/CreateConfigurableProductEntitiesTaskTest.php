@@ -208,8 +208,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             ->addExcludeFamily('shoes')
             ->addLocale('en_US')
             ->setUpdatedAfter(new \DateTime('2020-04-04'))
-            ->setUpdatedBefore(new \DateTime('2020-04-04'))
-        ;
+            ->setUpdatedBefore(new \DateTime('2020-04-04'));
 
         $this->manager->flush();
     }
