@@ -67,6 +67,9 @@ jobs:
       - name: PHPSpec - Run
         run: if [ -f phpspec.yml.dist ]; then vendor/bin/phpspec run ; else echo PHPSpec config file does not exist, skipping step ; fi
 
+      - name: PHPMD - Run
+        run: if [ -f ruleset/.php_md.xml ]; then vendor/bin/phpmd src ansi ruleset/.php_md.xml ; else echo PHPMD config file does not exist, skipping step ; fi
+
       - name: GrumPHP - Run
         run: (test -f grumphp.yml && vendor/bin/grumphp run) || echo Grumphp ruleset file does not exist, skipping step
 
