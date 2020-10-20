@@ -1,3 +1,8 @@
+[![License](https://img.shields.io/packagist/l/synolia/sylius-akeneo-plugin.svg)](https://github.com/synolia/SyliusAkeneoPlugin/blob/master/LICENSE)
+![Tests](https://github.com/synolia/SyliusAkeneoPlugin/workflows/CI/badge.svg?branch=master)
+[![Version](https://img.shields.io/packagist/v/synolia/sylius-akeneo-plugin.svg)](https://packagist.org/packages/synolia/sylius-akeneo-plugin)
+[![Total Downloads](https://poser.pugx.org/synolia/sylius-akeneo-plugin/downloads)](https://packagist.org/packages/synolia/sylius-akeneo-plugin)
+
 <p align="center">
     <a href="https://sylius.com" target="_blank">
         <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
