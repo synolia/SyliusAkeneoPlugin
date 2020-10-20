@@ -70,6 +70,9 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
     private $akeneoAttributeDataProvider;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         RepositoryInterface $productRepository,
         ChannelRepository $channelRepository,
@@ -209,6 +212,11 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         return $product;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
+     * @todo Need refacto
+     */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,
         string $familyCode,
@@ -216,7 +224,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     ): void {
         $missingNameTranslationCount = 0;
         $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
-        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $key => $usedLocalesOnBothPlatform) {
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
             $productName = $this->akeneoAttributeDataProvider->getData(
                 $familyResource['attribute_as_label'],
                 $resource['values'][$familyResource['attribute_as_label']],
