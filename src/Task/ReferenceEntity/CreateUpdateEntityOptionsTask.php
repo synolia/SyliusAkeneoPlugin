@@ -140,7 +140,7 @@ final class CreateUpdateEntityOptionsTask implements AkeneoTaskInterface
                 if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && $this->getUnusedLocale($option['values']['label']) !== []) {
                     $choices[self::AKENEO_PREFIX . $option['code']] = $this->getUnusedLocale($option['values']['label']);
                 }
-                $choices[self::AKENEO_PREFIX . $option['code']][$localeArray['locale']] = $localeArray['data'];
+                $choices[self::AKENEO_PREFIX . $option['code']][$localeArray['locale']] = $option['code'];
             }
         }
 
