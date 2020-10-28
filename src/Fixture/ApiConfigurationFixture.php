@@ -47,9 +47,6 @@ class ApiConfigurationFixture extends AbstractFixture
         $client = $this->clientFactory->authenticatedByPassword($apiConfiguration);
         $client->getCategoryApi()->all(1);
 
-        $apiConfiguration->setToken($client->getToken() ?? '');
-        $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
-
         $this->objectManager->persist($apiConfiguration);
         $this->objectManager->flush();
     }

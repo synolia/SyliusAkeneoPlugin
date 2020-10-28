@@ -50,20 +50,6 @@ class ApiConfiguration implements ResourceInterface
     private $apiClientSecret;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank
-     */
-    private $token;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank
-     */
-    private $refreshToken;
-
-    /**
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\Range(
@@ -142,30 +128,6 @@ class ApiConfiguration implements ResourceInterface
     public function setIsEnterprise(bool $isEnterprise): self
     {
         $this->isEnterprise = $isEnterprise;
-
-        return $this;
-    }
-
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    public function getRefreshToken(): ?string
-    {
-        return $this->refreshToken;
-    }
-
-    public function setRefreshToken(string $refreshToken): self
-    {
-        $this->refreshToken = $refreshToken;
 
         return $this;
     }

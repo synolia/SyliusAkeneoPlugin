@@ -68,9 +68,6 @@ final class ApiConfigurationController extends AbstractController
                 $client = $this->clientFactory->authenticatedByPassword($apiConfiguration);
                 $client->getCategoryApi()->all(self::PAGING_SIZE);
 
-                $apiConfiguration->setToken($client->getToken() ?? '');
-                $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
-
                 $this->entityManager->persist($apiConfiguration);
 
                 if (!$testCredentialsButton->isClicked()) {
