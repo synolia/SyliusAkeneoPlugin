@@ -352,18 +352,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
             $productTranslation = $this->setProductTranslation($product, $usedLocalesOnBothPlatform, $productName);
 
-            if (isset($translation['description'])) {
-                $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $usedLocalesOnBothPlatform));
-            }
-
-            if (isset($translation['meta_keywords'])) {
-                $productTranslation->setMetaKeywords($this->findAttributeValueForLocale($resource, 'meta_keywords', $usedLocalesOnBothPlatform));
-            }
-
-            if (isset($translation['meta_description'])) {
-                $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $usedLocalesOnBothPlatform));
-            }
-
             /** @var ProductConfiguration $configuration */
             $configuration = $this->productConfigurationRepository->findOneBy([]);
             if ($product->getId() !== null &&
