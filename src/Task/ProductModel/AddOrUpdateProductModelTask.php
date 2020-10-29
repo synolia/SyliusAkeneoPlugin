@@ -499,27 +499,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $imageTask->__invoke($productMediaPayload);
     }
 
-    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
-    {
-        if (!isset($resource['values'][$attributeCode])) {
-            return null;
-        }
-
-        foreach ($resource['values'][$attributeCode] as $translation) {
-            if (null === $translation['locale']) {
-                return $translation['data'];
-            }
-
-            if ($locale !== $translation['locale']) {
-                continue;
-            }
-
-            return $translation['data'];
-        }
-
-        return null;
-    }
-
     private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, ?string $productName): ProductTranslationInterface
     {
         $productTranslation = $this->productTranslationRepository->findOneBy([

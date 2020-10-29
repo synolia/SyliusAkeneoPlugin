@@ -297,27 +297,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $addProductCategoriesTask->__invoke($productCategoriesPayload);
     }
 
-    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
-    {
-        if (!isset($resource['values'][$attributeCode])) {
-            return null;
-        }
-
-        foreach ($resource['values'][$attributeCode] as $translation) {
-            if (null === $translation['locale']) {
-                return $translation['data'];
-            }
-
-            if ($locale !== $translation['locale']) {
-                continue;
-            }
-
-            return $translation['data'];
-        }
-
-        return null;
-    }
-
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
      */
