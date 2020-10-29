@@ -251,18 +251,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
             $productTranslation->setName($productName);
 
-            if (isset($translation['description'])) {
-                $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $usedLocalesOnBothPlatform));
-            }
-
-            if (isset($translation['meta_keywords'])) {
-                $productTranslation->setMetaKeywords($this->findAttributeValueForLocale($resource, 'meta_keywords', $usedLocalesOnBothPlatform));
-            }
-
-            if (isset($translation['meta_description'])) {
-                $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $usedLocalesOnBothPlatform));
-            }
-
             /** @var ProductConfiguration $configuration */
             $configuration = $this->productConfigurationRepository->findOneBy([]);
             if ($product->getId() !== null &&
@@ -307,27 +295,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         ;
         $addProductCategoriesTask = $this->taskProvider->get(AddProductToCategoriesTask::class);
         $addProductCategoriesTask->__invoke($productCategoriesPayload);
-    }
-
-    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
-    {
-        if (!isset($resource['values'][$attributeCode])) {
-            return null;
-        }
-
-        foreach ($resource['values'][$attributeCode] as $translation) {
-            if (null === $translation['locale']) {
-                return $translation['data'];
-            }
-
-            if ($locale !== $translation['locale']) {
-                continue;
-            }
-
-            return $translation['data'];
-        }
-
-        return null;
     }
 
     /**

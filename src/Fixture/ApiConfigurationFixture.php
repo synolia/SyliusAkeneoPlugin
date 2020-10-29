@@ -44,11 +44,8 @@ class ApiConfigurationFixture extends AbstractFixture
         $apiConfiguration->setPaginationSize($options['pagination_size']);
         $apiConfiguration->setIsEnterprise($options['is_enterprise']);
 
-        $client = $this->clientFactory->authenticatedByPassword($apiConfiguration);
+        $client = $this->clientFactory->authenticateByPassword($apiConfiguration);
         $client->getCategoryApi()->all(1);
-
-        $apiConfiguration->setToken($client->getToken() ?? '');
-        $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
 
         $this->objectManager->persist($apiConfiguration);
         $this->objectManager->flush();

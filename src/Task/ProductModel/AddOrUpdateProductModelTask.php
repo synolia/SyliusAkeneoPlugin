@@ -352,18 +352,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
             $productTranslation = $this->setProductTranslation($product, $usedLocalesOnBothPlatform, $productName);
 
-            if (isset($translation['description'])) {
-                $productTranslation->setDescription($this->findAttributeValueForLocale($resource, 'description', $usedLocalesOnBothPlatform));
-            }
-
-            if (isset($translation['meta_keywords'])) {
-                $productTranslation->setMetaKeywords($this->findAttributeValueForLocale($resource, 'meta_keywords', $usedLocalesOnBothPlatform));
-            }
-
-            if (isset($translation['meta_description'])) {
-                $productTranslation->setMetaDescription($this->findAttributeValueForLocale($resource, 'meta_description', $usedLocalesOnBothPlatform));
-            }
-
             /** @var ProductConfiguration $configuration */
             $configuration = $this->productConfigurationRepository->findOneBy([]);
             if ($product->getId() !== null &&
@@ -509,27 +497,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         ;
         $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
         $imageTask->__invoke($productMediaPayload);
-    }
-
-    private function findAttributeValueForLocale(array $resource, string $attributeCode, string $locale): ?string
-    {
-        if (!isset($resource['values'][$attributeCode])) {
-            return null;
-        }
-
-        foreach ($resource['values'][$attributeCode] as $translation) {
-            if (null === $translation['locale']) {
-                return $translation['data'];
-            }
-
-            if ($locale !== $translation['locale']) {
-                continue;
-            }
-
-            return $translation['data'];
-        }
-
-        return null;
     }
 
     private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, ?string $productName): ProductTranslationInterface
