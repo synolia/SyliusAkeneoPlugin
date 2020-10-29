@@ -6,25 +6,16 @@ namespace Synolia\SyliusAkeneoPlugin\Client;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
-use Akeneo\Pim\ApiClient\Exception\HttpException;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ClientFactory
 {
-    private const PAGING_SIZE = 1;
-
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $apiConfigurationRepository;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager, RepositoryInterface $apiConfigurationRepository)
+    public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
-        $this->entityManager = $entityManager;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
     }
 
@@ -37,21 +28,10 @@ final class ClientFactory
             throw new \Exception('The API is not configured in the admin section.');
         }
 
-        $clientBuilder = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
-
-        $client = $clientBuilder->buildAuthenticatedByToken(
-            $apiConfiguration->getApiClientId() ?? '',
-            $apiConfiguration->getApiClientSecret() ?? '',
-            $apiConfiguration->getToken() ?? '',
-            $apiConfiguration->getRefreshToken() ?? '',
-        );
-
-        $this->updateApiconfigurationCredentials($client, $apiConfiguration);
-
-        return $client;
+        return $this->authenticateByPassword($apiConfiguration);
     }
 
-    public function authenticatedByPassword(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface
+    public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface
     {
         $client = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
 
@@ -61,38 +41,5 @@ final class ClientFactory
             $apiConfiguration->getUsername() ?? '',
             $apiConfiguration->getPassword() ?? '',
         );
-    }
-
-    private function updateApiconfigurationCredentials(
-        AkeneoPimClientInterface $client,
-        ApiConfiguration $apiConfiguration
-    ): void {
-        try {
-            $client->getCategoryApi()->all(self::PAGING_SIZE);
-        } catch (HttpException $e) {
-            $client = $this->authenticatedByPassword($apiConfiguration);
-
-            $client->getCategoryApi()->all(self::PAGING_SIZE);
-            $apiConfiguration->setToken($client->getToken() ?? '');
-            $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
-
-            if (!$this->entityManager instanceof EntityManager) {
-                return;
-            }
-            $this->entityManager->flush($apiConfiguration);
-
-            return;
-        }
-        if ($client->getToken() === $apiConfiguration->getToken()) {
-            return;
-        }
-
-        $apiConfiguration->setToken($client->getToken() ?? '');
-        $apiConfiguration->setRefreshToken($client->getRefreshToken() ?? '');
-
-        if (!$this->entityManager instanceof EntityManager) {
-            return;
-        }
-        $this->entityManager->flush($apiConfiguration);
     }
 }
