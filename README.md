@@ -10,7 +10,11 @@
 </p>
 
 <h1 align="center">Sylius Akeneo Plugin</h1>
-
+<p align="center">
+    <a href="https://plugins.sylius.com/plugin/akeneo-plugin/"  target="_blank">
+        <img src="https://sylius.com/assets/badge-approved-by-sylius.png" width="100px" />
+    </a>
+</p>
 <p align="center">This plugin allow you to import data from <a href="https://www.akeneo.com/" target="_blank">Akeneo PIM</a>.</p>
 
 ## Features
