@@ -84,7 +84,7 @@ final class TaxonManager implements TaxonManagerInterface
     {
         $productTaxonIds = [];
         if ($product->getId() !== null) {
-            $productTaxonIds = array_map(function ($productTaxonIds) {
+            $productTaxonIds = array_map(static function ($productTaxonIds) {
                 return $productTaxonIds['id'];
             }, $this->productTaxonAkeneoRepository->getProductTaxonIds($product));
         }

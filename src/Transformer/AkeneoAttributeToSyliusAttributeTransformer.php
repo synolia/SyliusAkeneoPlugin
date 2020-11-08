@@ -22,7 +22,7 @@ final class AkeneoAttributeToSyliusAttributeTransformer
 
     public function transform(string $attribute): string
     {
-        if (count($this->attributeAkeneoSyliusMappings) === 0) {
+        if ($this->attributeAkeneoSyliusMappings === null) {
             $this->attributeAkeneoSyliusMappings = $this->attributeAkeneoSyliusMappingRepository->findAll();
         }
 

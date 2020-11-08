@@ -13,6 +13,7 @@ return [
     ],
 
     'remove' => [
+
         // Sylius entities use setters
         NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
         // Sylius use suffix for interface
@@ -21,6 +22,8 @@ return [
         SlevomatCodingStandard\Sniffs\Classes\SuperfluousExceptionNamingSniff::class,
         // Sylius use suffix for abstract
         SlevomatCodingStandard\Sniffs\Classes\SuperfluousAbstractClassNamingSniff::class,
+        // incompatible with Sylius coding standard
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff::class,
     ],
 
     'config' => [
@@ -30,13 +33,22 @@ return [
         ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff::class => [
             'maxLength' => 50,
         ],
+        ObjectCalisthenics\Sniffs\NamingConventions\ElementNameMinimalLengthSniff::class => [
+            'minLength' => 3,
+            'allowedShortNames' => ['id', 'io', 'up'],
+        ],
+        SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff::class => [
+            'exclude' => [
+                '*Type.php',
+            ],
+        ],
     ],
 
     'requirements' => [
-       'min-quality' => 80,
-       'min-complexity' => 80,
-       'min-architecture' => 80,
-       'min-style' => 80,
-       'disable-security-check' => false,
+        'min-quality' => 80,
+        'min-complexity' => 80,
+        'min-architecture' => 80,
+        'min-style' => 80,
+        'disable-security-check' => false,
     ],
 ];

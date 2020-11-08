@@ -74,9 +74,7 @@ jobs:
         run: (test -f grumphp.yml && vendor/bin/grumphp run) || echo Grumphp ruleset file does not exist, skipping step
 
       - name: PHP Insights - Run
-        uses: stefanzweifel/phpinsights-action@v1.1.1
-        with:
-          args: --min-quality=80 --min-complexity=70 --min-architecture=80 --min-style=80 -n --ansi --format=github-action
+        run: php -d memory_limit=-1 vendor/bin/phpinsights analyse --min-quality=80 --min-complexity=70 --min-architecture=80 --min-style=80 -n --ansi --format=github-action
 
       - name: Doctrine Schema Validate - Run
         if: matrix.prefer == ''

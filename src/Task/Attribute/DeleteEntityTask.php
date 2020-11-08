@@ -100,7 +100,7 @@ final class DeleteEntityTask implements AkeneoTaskInterface
         $attributesIdsArray = $this->productAttributeAkeneoRepository->getMissingAttributesIds($attributeCodes);
 
         /** @var array $attributesIds */
-        $attributesIds = \array_map(function (array $data) {
+        $attributesIds = \array_map(static function (array $data) {
             return $data['id'];
         }, $attributesIdsArray);
 

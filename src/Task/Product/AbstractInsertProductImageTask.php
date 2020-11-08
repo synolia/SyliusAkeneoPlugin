@@ -61,7 +61,7 @@ abstract class AbstractInsertProductImageTask
         }
 
         foreach ($payload->getAttributes() as $attributeCode => $images) {
-            if (\in_array($attributeCode, array_map(function ($imageAttribute) {
+            if (\in_array($attributeCode, array_map(static function ($imageAttribute) {
                 return $imageAttribute->getAkeneoAttributes();
             }, $imageAttributes->toArray()), true)) {
                 foreach ($images as $image) {
