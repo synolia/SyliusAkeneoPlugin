@@ -25,7 +25,7 @@ return [
 
     'config' => [
         NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class => [
-            'maxComplexity' => 15,
+            'maxComplexity' => 30,
         ],
         ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff::class => [
             'maxLength' => 50,

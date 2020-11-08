@@ -186,8 +186,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
     /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @todo Need refacto
      */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,

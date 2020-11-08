@@ -10,40 +10,34 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Manager\ImageManager;
+use Synolia\SyliusAkeneoPlugin\Manager\TaxonManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
-use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- *
- * @todo Need refacto
  */
 final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
@@ -57,15 +51,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     /** @var ProductFactoryInterface */
     private $productFactory;
-
-    /** @var FactoryInterface */
-    private $productTaxonFactory;
-
-    /** @var TaxonRepositoryInterface */
-    private $taxonRepository;
-
-    /** @var ProductTaxonRepository */
-    private $productTaxonRepository;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
     private $productGroupRepository;
@@ -115,6 +100,12 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
     private $productSlugGenerator;
 
+    /** @var TaxonManagerInterface */
+    private $taxonManager;
+
+    /** @var ImageManager */
+    private $imageManager;
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -123,10 +114,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
         ProductRepositoryInterface $productRepository,
-        ProductTaxonRepository $productTaxonAkeneoRepository,
-        TaxonRepositoryInterface $taxonRepository,
         EntityRepository $productGroupRepository,
-        FactoryInterface $productTaxonFactory,
         AkeneoTaskProvider $taskProvider,
         FamilyRetriever $familyRetriever,
         LoggerInterface $akeneoLogger,
@@ -136,16 +124,15 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         RepositoryInterface $productTranslationRepository,
         EntityRepository $productConfigurationRepository,
         FactoryInterface $productTranslationFactory,
-        SlugGeneratorInterface $productSlugGenerator
+        SlugGeneratorInterface $productSlugGenerator,
+        TaxonManagerInterface $taxonManager,
+        ImageManager $imageManager
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
-        $this->productTaxonFactory = $productTaxonFactory;
         $this->productRepository = $productRepository;
-        $this->productTaxonRepository = $productTaxonAkeneoRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->familyRetriever = $familyRetriever;
-        $this->taxonRepository = $taxonRepository;
         $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
@@ -155,6 +142,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->productTranslationFactory = $productTranslationFactory;
         $this->productSlugGenerator = $productSlugGenerator;
+        $this->taxonManager = $taxonManager;
+        $this->imageManager = $imageManager;
     }
 
     /**
@@ -256,8 +245,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @todo Need refacto
      */
     private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
     {
@@ -300,20 +287,18 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
 
         $this->addProductGroup($resource, $product);
-        $productTaxonIds = $this->getProductTaxonIds($product);
-        $productTaxons = $this->updateTaxon($resource, $product);
-        $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
-        $this->updateImages($resource, $product);
+        $productTaxonIds = $this->taxonManager->getProductTaxonIds($product);
+        $productTaxons = $this->taxonManager->updateTaxon($resource, $product);
+        $this->taxonManager->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
+        $this->imageManager->updateImages($resource, $product);
         $product->setCode($resource['code']);
-        $this->setMainTaxon($resource, $product);
+        $this->taxonManager->setMainTaxon($resource, $product);
 
         return $product;
     }
 
     /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @todo Need refacto
      */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,
@@ -369,76 +354,12 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
     }
 
-    private function getProductTaxonIds(ProductInterface $product): array
-    {
-        $productTaxonIds = [];
-        if ($product->getId() !== null) {
-            $productTaxonIds = array_map(function ($productTaxonIds) {
-                return $productTaxonIds['id'];
-            }, $this->productTaxonRepository->getProductTaxonIds($product));
-        }
-
-        return $productTaxonIds;
-    }
-
-    private function updateTaxon(array $resource, ProductInterface $product): array
-    {
-        $productTaxons = [];
-        $checkProductTaxons = $this->productTaxonRepository->findBy(['product' => $product]);
-        foreach ($resource['categories'] as $category) {
-            /** @var ProductTaxonInterface $productTaxon */
-            $productTaxon = $this->productTaxonFactory->createNew();
-            $productTaxon->setPosition(0);
-            $productTaxon->setProduct($product);
-            $taxon = $this->taxonRepository->findOneBy(['code' => $category]);
-            if (!$taxon instanceof TaxonInterface) {
-                continue;
-            }
-
-            $productTaxon->setTaxon($taxon);
-
-            foreach ($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions() as $entityInsertion) {
-                if (!$entityInsertion instanceof ProductTaxonInterface) {
-                    continue;
-                }
-                if ($entityInsertion->getProduct() === $product && $entityInsertion->getTaxon() === $taxon) {
-                    continue 2;
-                }
-            }
-
-            /** @var ProductTaxonInterface $checkProductTaxon */
-            foreach ($checkProductTaxons as $checkProductTaxon) {
-                if ($productTaxon->getTaxon() === $checkProductTaxon->getTaxon()
-                    && $productTaxon->getProduct() === $checkProductTaxon->getProduct()
-                ) {
-                    $productTaxons[] = $checkProductTaxon->getId();
-
-                    continue 2;
-                }
-            }
-
-            $this->entityManager->persist($productTaxon);
-        }
-
-        return $productTaxons;
-    }
-
     private function addProductGroup(array $resource, ProductInterface $product): void
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
 
         if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
             $productGroup->addProduct($product);
-        }
-    }
-
-    private function setMainTaxon(array $resource, ProductInterface $product): void
-    {
-        if (isset($resource['categories'][0])) {
-            $taxon = $this->taxonRepository->findOneBy(['code' => $resource['categories'][0]]);
-            if ($taxon instanceof TaxonInterface) {
-                $product->setMainTaxon($taxon);
-            }
         }
     }
 
@@ -462,27 +383,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $addAttributesToProductTask->__invoke($productResourcePayload);
 
         return $productResourcePayload;
-    }
-
-    private function removeUnusedProductTaxons(array $productTaxonIds, array $productTaxons): void
-    {
-        $diffs = array_diff($productTaxonIds, $productTaxons);
-        if (count($diffs) > 0) {
-            foreach ($diffs as $diff) {
-                $this->productTaxonRepository->removeProductTaxonById($diff);
-            }
-        }
-    }
-
-    private function updateImages(array $resource, ProductInterface $product): void
-    {
-        $productMediaPayload = new ProductMediaPayload($this->payload->getAkeneoPimClient());
-        $productMediaPayload
-            ->setProduct($product)
-            ->setAttributes($resource['values'])
-        ;
-        $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
-        $imageTask->__invoke($productMediaPayload);
     }
 
     private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, ?string $productName): ProductTranslationInterface

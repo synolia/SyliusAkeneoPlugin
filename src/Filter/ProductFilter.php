@@ -53,19 +53,7 @@ final class ProductFilter
 
         $queryParameters = [];
         if ($productFilterRules->getMode() === ProductFilterRuleSimpleType::MODE) {
-            $queryParameters = new SearchBuilder();
-
-            $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
-
-            $completeness = self::AT_LEAST_COMPLETE;
-            if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
-                $completeness = self::ALL_COMPLETE;
-            }
-            $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
-
-            $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
-            $queryParameters = $queryParameters->getFilters();
-            $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
+            $queryParameters = $this->getSimpleQueryParameters($productFilterRules);
         }
 
         if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
@@ -271,5 +259,19 @@ final class ProductFilter
         );
 
         return $queryParameters;
+    }
+
+    private function getSimpleQueryParameters(ProductFiltersRules $productFilterRules): array
+    {
+        $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
+
+        $completeness = self::AT_LEAST_COMPLETE;
+        if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
+            $completeness = self::ALL_COMPLETE;
+        }
+        $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
+        $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
+
+        return ['search' => $queryParameters->getFilters(), 'scope' => $productFilterRules->getChannel()];
     }
 }
