@@ -11,9 +11,6 @@ use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 
 final class SettingsType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $entries = \array_keys($options['data']);
@@ -43,7 +40,7 @@ final class SettingsType extends AbstractType
             $fieldOptions['translation_domain'] = 'messages';
 
             // Choices I18n
-            if (!empty($fieldOptions['choices'])) {
+            if (\is_array($fieldOptions['choices']) && count($fieldOptions['choices']) > 0) {
                 $fieldOptions['choices'] = \array_map(
                     static function ($label) use ($fieldOptions) {
                         return $fieldOptions['label'] . '_choices.' . $label;
@@ -55,9 +52,6 @@ final class SettingsType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -66,9 +60,6 @@ final class SettingsType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix(): string
     {
         return 'settings_management';

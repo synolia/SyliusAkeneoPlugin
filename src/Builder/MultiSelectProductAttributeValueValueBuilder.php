@@ -29,9 +29,6 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MultiSelectAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return $value;

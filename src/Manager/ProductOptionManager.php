@@ -79,10 +79,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface
     {
-        /** @var ProductOptionInterface|null $productOption */
-        $productOption = $this->productOptionRepository->findOneBy(['code' => $attribute->getCode()]);
-
-        return $productOption;
+        return $this->productOptionRepository->findOneBy(['code' => $attribute->getCode()]);
     }
 
     public function createProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface

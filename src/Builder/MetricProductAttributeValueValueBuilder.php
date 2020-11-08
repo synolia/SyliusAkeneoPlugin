@@ -29,9 +29,6 @@ final class MetricProductAttributeValueValueBuilder implements ProductAttributeV
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MetricAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return \trim(implode(' ', $value));

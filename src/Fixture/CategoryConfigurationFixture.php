@@ -36,9 +36,6 @@ class CategoryConfigurationFixture extends AbstractFixture
         $this->objectManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'akeneo_category_configuration';

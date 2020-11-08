@@ -36,7 +36,7 @@ final class ImportCategoriesCommand extends Command
         CategoryPipelineFactory $categoryPipelineFactory,
         ClientFactory $clientFactory,
         LoggerInterface $akeneoLogger,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->categoryPipelineFactory = $categoryPipelineFactory;
@@ -49,9 +49,6 @@ final class ImportCategoriesCommand extends Command
         $this->setDescription(self::DESCRIPTION);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

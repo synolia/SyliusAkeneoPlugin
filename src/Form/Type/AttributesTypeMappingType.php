@@ -16,9 +16,6 @@ final class AttributesTypeMappingType extends AbstractType
 
     public const ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE = 'attributeAkeneoSylius';
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

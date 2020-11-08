@@ -12,7 +12,7 @@ final class ProductFiltersRulesRepository extends EntityRepository
     public function getProductFiltersRules(): ?ProductFiltersRules
     {
         $productfiltersRules = $this->findAll();
-        if (empty($productfiltersRules)) {
+        if (count($productfiltersRules) === 0) {
             return null;
         }
 

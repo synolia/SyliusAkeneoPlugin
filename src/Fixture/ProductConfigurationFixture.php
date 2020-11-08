@@ -64,9 +64,6 @@ class ProductConfigurationFixture extends AbstractFixture
         $this->objectManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'akeneo_product_configuration';

@@ -51,9 +51,6 @@ class ApiConfigurationFixture extends AbstractFixture
         $this->objectManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'akeneo_api_configuration';

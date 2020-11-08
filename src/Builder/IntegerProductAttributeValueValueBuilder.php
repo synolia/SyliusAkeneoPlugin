@@ -29,9 +29,6 @@ final class IntegerProductAttributeValueValueBuilder implements ProductAttribute
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof IntegerAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return (int) $value;

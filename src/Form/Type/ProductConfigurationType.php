@@ -16,9 +16,6 @@ final class ProductConfigurationType extends AbstractType
 
     public const PRODUCT_IMAGES_MAPPINGS_CODE = 'productImagesMapping';
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

@@ -64,7 +64,7 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
         $this->taskProvider->get(SetupProductTask::class)->__invoke($payload);
 
         foreach ($resources as $item) {
-            if (empty($item['code'])) {
+            if ($item['code'] === '' || $item['code'] === null) {
                 ++$noCodeCount;
             }
             $sql = \sprintf(
@@ -81,8 +81,6 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
             $this->logger->warning(Messages::noCodeToImport($payload->getType(), $noCodeCount));
         }
 
-        $payload = new ProductModelPayload($payload->getAkeneoPimClient());
-
-        return $payload;
+        return new ProductModelPayload($payload->getAkeneoPimClient());
     }
 }

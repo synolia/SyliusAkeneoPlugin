@@ -188,22 +188,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $query->execute();
 
         while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
-
-                try {
-                    $this->entityManager->beginTransaction();
-                    $this->process($resource, $productsMapping);
-
-                    $this->entityManager->flush();
-                    $this->entityManager->commit();
-
-                    \gc_collect_cycles();
-                } catch (\Throwable $throwable) {
-                    $this->entityManager->rollback();
-                    $this->logger->warning($throwable->getMessage());
-                }
-            }
+            $this->batchProcess($results, $productsMapping);
 
             $processedCount += \count($results);
             $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
@@ -481,7 +466,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function removeUnusedProductTaxons(array $productTaxonIds, array $productTaxons): void
     {
-        if (!empty($diffs = array_diff($productTaxonIds, $productTaxons))) {
+        $diffs = array_diff($productTaxonIds, $productTaxons);
+        if (count($diffs) > 0) {
             foreach ($diffs as $diff) {
                 $this->productTaxonRepository->removeProductTaxonById($diff);
             }
@@ -516,5 +502,25 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $productTranslation->setName($productName);
 
         return $productTranslation;
+    }
+
+    private function batchProcess(array $results, array $productsMapping): void
+    {
+        foreach ($results as $result) {
+            $resource = \json_decode($result['values'], true);
+
+            try {
+                $this->entityManager->beginTransaction();
+                $this->process($resource, $productsMapping);
+
+                $this->entityManager->flush();
+                $this->entityManager->commit();
+
+                \gc_collect_cycles();
+            } catch (\Throwable $throwable) {
+                $this->entityManager->rollback();
+                $this->logger->warning($throwable->getMessage());
+            }
+        }
     }
 }

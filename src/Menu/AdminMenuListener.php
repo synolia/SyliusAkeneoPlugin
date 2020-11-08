@@ -16,7 +16,8 @@ final class AdminMenuListener
         /** @var ItemInterface $newSubmenu */
         $newSubmenu = $menu->addChild('akeneo');
 
-        $newSubmenu->addChild('sylius_admin_akeneo_api_configuration', [
+        $newSubmenu->addChild('sylius_admin_akeneo_api_configuration',
+            [
                 'route' => 'sylius_akeneo_connector_api_configuration',
             ])
             ->setAttribute('type', 'link')
@@ -24,7 +25,8 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'cogs')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_product_filter_rules', [
+        $newSubmenu->addChild('sylius_admin_akeneo_product_filter_rules',
+            [
                 'route' => 'sylius_akeneo_connector_product_filter_rules',
             ])
             ->setAttribute('type', 'link')
@@ -32,7 +34,8 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'sync alternate')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_categories', [
+        $newSubmenu->addChild('sylius_admin_akeneo_categories',
+            [
                 'route' => 'sylius_akeneo_connector_categories',
             ])
             ->setAttribute('type', 'link')
@@ -40,7 +43,8 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'configure')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_products', [
+        $newSubmenu->addChild('sylius_admin_akeneo_products',
+            [
                 'route' => 'sylius_akeneo_connector_products',
             ])
             ->setAttribute('type', 'link')
@@ -48,7 +52,8 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'configure')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_attributes', [
+        $newSubmenu->addChild('sylius_admin_akeneo_attributes',
+            [
                 'route' => 'sylius_akeneo_connector_attributes',
             ])
             ->setAttribute('type', 'link')

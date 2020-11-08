@@ -33,9 +33,6 @@ class AttributeAkeneoSyliusMapping implements ResourceInterface
      */
     private $syliusAttribute;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId(): ?int
     {
         return $this->id;

@@ -33,9 +33,6 @@ class AttributeTypeMapping implements ResourceInterface
      */
     private $attributeType;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId(): ?int
     {
         return $this->id;

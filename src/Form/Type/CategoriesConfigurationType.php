@@ -10,9 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class CategoriesConfigurationType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

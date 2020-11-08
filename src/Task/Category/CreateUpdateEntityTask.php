@@ -78,6 +78,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
         try {
             $this->entityManager->beginTransaction();
+            $taxons = [];
 
             foreach ($payload->getResources() as $resource) {
                 $taxon = $this->getOrCreateEntity($resource['code']);

@@ -37,7 +37,7 @@ final class ImportProductModelsCommand extends Command
         ProductModelPipelineFactory $productModelPipelineFactory,
         ClientFactory $clientFactory,
         LoggerInterface $akeneoLogger,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->productModelPipelineFactory = $productModelPipelineFactory;
@@ -50,9 +50,6 @@ final class ImportProductModelsCommand extends Command
         $this->setDescription(self::DESCRIPTION);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

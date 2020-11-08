@@ -41,7 +41,7 @@ final class ImportAttributesCommand extends Command
         AttributeOptionPipelineFactory $attributeOptionPipelineFactory,
         ClientFactory $clientFactory,
         LoggerInterface $akeneoLogger,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->attributePipelineFactory = $attributePipelineFactory;
@@ -55,9 +55,6 @@ final class ImportAttributesCommand extends Command
         $this->setDescription(self::DESCRIPTION);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

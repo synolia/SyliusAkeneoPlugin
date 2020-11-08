@@ -49,7 +49,7 @@ final class AttributeCodeChoiceType extends AbstractType
 
         $attributes = [];
         foreach ($attributePayload->getResources() as $attributeResource) {
-            $attributes[($attributeResource['labels'][$this->localeContext->getLocaleCode()]) ?? \current($attributeResource['labels'])] = $attributeResource['code'];
+            $attributes[$attributeResource['labels'][$this->localeContext->getLocaleCode()] ?? \current($attributeResource['labels'])] = $attributeResource['code'];
         }
 
         $resolver->setDefaults([

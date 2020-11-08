@@ -14,9 +14,6 @@ final class ProductFilterRuleAdvancedType extends AbstractType
 {
     public const MODE = 'advanced';
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

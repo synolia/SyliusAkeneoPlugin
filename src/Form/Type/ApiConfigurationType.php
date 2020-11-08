@@ -15,9 +15,6 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ApiConfigurationType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

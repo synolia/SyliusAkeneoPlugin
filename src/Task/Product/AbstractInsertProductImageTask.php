@@ -108,6 +108,6 @@ class AbstractInsertProductImageTask
         /** @var ProductConfigurationImageMapping|null $mapping */
         $mapping = $repository->findOneBy(['akeneoAttribute' => $attributeCode]);
 
-        return ($mapping instanceof ProductConfigurationImageMapping) ? $mapping->getSyliusAttribute() : null;
+        return $mapping instanceof ProductConfigurationImageMapping ? $mapping->getSyliusAttribute() : null;
     }
 }

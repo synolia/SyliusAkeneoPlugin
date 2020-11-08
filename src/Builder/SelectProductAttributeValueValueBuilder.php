@@ -30,9 +30,6 @@ final class SelectProductAttributeValueValueBuilder implements ProductAttributeV
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof SelectAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return [CreateUpdateDeleteTask::AKENEO_PREFIX . $value];
