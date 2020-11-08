@@ -184,9 +184,6 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         return $product;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,
         string $familyCode,

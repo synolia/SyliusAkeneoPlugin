@@ -11,6 +11,9 @@ use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 
 final class SettingsType extends AbstractType
 {
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $entries = \array_keys($options['data']);

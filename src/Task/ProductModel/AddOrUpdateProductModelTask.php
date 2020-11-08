@@ -37,7 +37,6 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
@@ -297,9 +296,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $product;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,
         string $familyCode,

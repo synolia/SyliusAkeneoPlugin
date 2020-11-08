@@ -23,6 +23,9 @@ final class ProductFilterRuleSimpleType extends AbstractType
 
     public const MAX_COMPLETENESS = 100;
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

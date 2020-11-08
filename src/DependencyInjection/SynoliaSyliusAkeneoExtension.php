@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function load(array $config, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));

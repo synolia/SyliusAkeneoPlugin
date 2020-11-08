@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
@@ -54,8 +55,9 @@ final class ImportFamiliesCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ) {
+        $io = new SymfonyStyle($input, $output);
         if (!$this->lock()) {
-            $output->writeln(Messages::commandAlreadyRunning());
+            $io->error(Messages::commandAlreadyRunning());
 
             return 0;
         }

@@ -263,6 +263,7 @@ final class ProductFilter
 
     private function getSimpleQueryParameters(ProductFiltersRules $productFilterRules): array
     {
+        $queryParameters = new SearchBuilder();
         $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
         $completeness = self::AT_LEAST_COMPLETE;
