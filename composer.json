@@ -36,6 +36,7 @@
         "j13k/yaml-lint": "^1.1",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "lakion/mink-debug-extension": "^1.2.3",
+        "nunomaduro/phpinsights": "^1.14",
         "phpmd/phpmd": "^2.8",
         "phpro/grumphp": "^0.17.2",
         "phpspec/phpspec": "^6.1",
