@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
-class ProductFilterConfigurationFixture extends AbstractFixture
+final class ProductFilterConfigurationFixture extends AbstractFixture
 {
     /** @var \Doctrine\Common\Persistence\ObjectManager */
     private $objectManager;

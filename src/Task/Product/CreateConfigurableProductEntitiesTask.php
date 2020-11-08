@@ -118,54 +118,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $query->execute();
 
         while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
-
-                try {
-                    /** @var ProductInterface $productModel */
-                    $productModel = $this->productRepository->findOneBy(['code' => $resource['parent']]);
-
-                    //Skip product variant import if it does not have a parent model on Sylius
-                    if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
-                        $this->logger->warning(\sprintf(
-                            'Skipped product "%s" because model "%s" does not exists.',
-                            $resource['identifier'],
-                            $resource['parent'],
-                        ));
-
-                        continue;
-                    }
-
-                    $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
-
-                    if (!$productGroup instanceof ProductGroup) {
-                        $this->logger->warning(\sprintf(
-                            'Skipped product "%s" because model "%s" does not exists as group.',
-                            $resource['identifier'],
-                            $resource['parent'],
-                        ));
-
-                        continue;
-                    }
-
-                    $variationAxes = $productGroup->getVariationAxes();
-
-                    if (\count($variationAxes) === 0) {
-                        $this->logger->warning(\sprintf(
-                            'Skipped product "%s" because group has no variation axis.',
-                            $resource['identifier'],
-                        ));
-
-                        continue;
-                    }
-
-                    $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
-                    $this->entityManager->flush();
-                    $this->entityManager->clear();
-                } catch (\Throwable $throwable) {
-                    $this->logger->warning($throwable->getMessage());
-                }
-            }
+            $this->processByPage($results, $payload);
 
             $processedCount += \count($results);
             $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
@@ -264,27 +217,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 $productVariant->addOptionValue($productOptionValue);
             }
 
-            foreach ($this->getLocales() as $locale) {
-                /** @var \Sylius\Component\Product\Model\ProductOptionValueTranslationInterface $productOptionValueTranslation */
-                $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
-                    'translatable' => $productOptionValue,
-                    'locale' => $locale,
-                ]);
-
-                if (!$productOptionValueTranslation instanceof ProductOptionValueTranslationInterface) {
-                    continue;
-                }
-
-                $productVariantTranslation = $productVariant->getTranslation($locale);
-
-                if (!$productVariantTranslation instanceof ProductVariantTranslationInterface) {
-                    $productVariantTranslation = new ProductVariantTranslation();
-                    $productVariantTranslation->setLocale($locale);
-                    $productVariant->addTranslation($productVariantTranslation);
-                }
-
-                $productVariantTranslation->setName($productOptionValueTranslation->getValue());
-            }
+            $this->setProductOptionValuesByLocale($productOptionValue, $productVariant);
         }
     }
 
@@ -320,5 +253,84 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $productVariant->getCode()));
 
         return $productVariant;
+    }
+
+    private function setProductOptionValuesByLocale(
+        ProductOptionValueInterface $productOptionValue,
+        ProductVariantInterface $productVariant
+    ): void {
+        foreach ($this->getLocales() as $locale) {
+            /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
+            $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
+                'translatable' => $productOptionValue,
+                'locale' => $locale,
+            ]);
+
+            if (!$productOptionValueTranslation instanceof ProductOptionValueTranslationInterface) {
+                continue;
+            }
+
+            $productVariantTranslation = $productVariant->getTranslation($locale);
+
+            if (!$productVariantTranslation instanceof ProductVariantTranslationInterface) {
+                $productVariantTranslation = new ProductVariantTranslation();
+                $productVariantTranslation->setLocale($locale);
+                $productVariant->addTranslation($productVariantTranslation);
+            }
+
+            $productVariantTranslation->setName($productOptionValueTranslation->getValue());
+        }
+    }
+
+    private function processByPage(array $results, ProductPayload $payload): void
+    {
+        foreach ($results as $result) {
+            $resource = \json_decode($result['values'], true);
+
+            try {
+                /** @var ProductInterface $productModel */
+                $productModel = $this->productRepository->findOneBy(['code' => $resource['parent']]);
+
+                //Skip product variant import if it does not have a parent model on Sylius
+                if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
+                    $this->logger->warning(\sprintf(
+                        'Skipped product "%s" because model "%s" does not exists.',
+                        $resource['identifier'],
+                        $resource['parent'],
+                    ));
+
+                    continue;
+                }
+
+                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
+
+                if (!$productGroup instanceof ProductGroup) {
+                    $this->logger->warning(\sprintf(
+                        'Skipped product "%s" because model "%s" does not exists as group.',
+                        $resource['identifier'],
+                        $resource['parent'],
+                    ));
+
+                    continue;
+                }
+
+                $variationAxes = $productGroup->getVariationAxes();
+
+                if (\count($variationAxes) === 0) {
+                    $this->logger->warning(\sprintf(
+                        'Skipped product "%s" because group has no variation axis.',
+                        $resource['identifier'],
+                    ));
+
+                    continue;
+                }
+
+                $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
+                $this->entityManager->flush();
+                $this->entityManager->clear();
+            } catch (\Throwable $throwable) {
+                $this->logger->warning($throwable->getMessage());
+            }
+        }
     }
 }

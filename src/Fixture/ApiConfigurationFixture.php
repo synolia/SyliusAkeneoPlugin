@@ -11,7 +11,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
-class ApiConfigurationFixture extends AbstractFixture
+final class ApiConfigurationFixture extends AbstractFixture
 {
     /** @var \Doctrine\Common\Persistence\ObjectManager */
     private $objectManager;

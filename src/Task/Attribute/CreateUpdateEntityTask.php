@@ -14,6 +14,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -21,6 +22,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
+use Webmozart\Assert\Assert;
 
 final class CreateUpdateEntityTask implements AkeneoTaskInterface
 {
@@ -98,29 +100,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
             $this->entityManager->beginTransaction();
 
-            foreach ($payload->getResources() as $resource) {
-                //Do not import attributes that must not be used as attribute in Sylius
-                if (\in_array($resource['code'], $excludesAttributes, true)) {
-                    continue;
-                }
-
-                try {
-                    $attributeType = $this->attributeTypeMatcher->match($resource['type']);
-
-                    /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
-                    $attribute = $this->getOrCreateEntity($resource, $attributeType);
-
-                    $this->setAttributeTranslations($resource['labels'], $attribute);
-                } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-                    $this->logger->warning(\sprintf(
-                        '%s: %s',
-                        $resource['code'],
-                        $unsupportedAttributeTypeException->getMessage()
-                    ));
-
-                    continue;
-                }
-            }
+            $this->processAttribute($payload, $excludesAttributes);
 
             $this->entityManager->flush();
 
@@ -177,5 +157,34 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));
 
         return $attribute;
+    }
+
+    private function processAttribute(AttributePayload $payload, array $excludesAttributes): void
+    {
+        Assert::isInstanceOf($payload->getResources(), ResourceCursorInterface::class);
+
+        foreach ($payload->getResources() as $resource) {
+            //Do not import attributes that must not be used as attribute in Sylius
+            if (\in_array($resource['code'], $excludesAttributes, true)) {
+                continue;
+            }
+
+            try {
+                $attributeType = $this->attributeTypeMatcher->match($resource['type']);
+
+                /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
+                $attribute = $this->getOrCreateEntity($resource, $attributeType);
+
+                $this->setAttributeTranslations($resource['labels'], $attribute);
+            } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
+                $this->logger->warning(\sprintf(
+                    '%s: %s',
+                    $resource['code'],
+                    $unsupportedAttributeTypeException->getMessage()
+                ));
+
+                continue;
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayloadInterface;
 
-class AbstractInsertProductImageTask
+abstract class AbstractInsertProductImageTask
 {
     /** @var \Sylius\Component\Core\Uploader\ImageUploaderInterface */
     protected $imageUploader;

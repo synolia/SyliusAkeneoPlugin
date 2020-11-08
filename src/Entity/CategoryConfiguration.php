@@ -9,10 +9,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="CategoryConfigurationRepository")
-
  * @ORM\Table("akeneo_api_configuration_categories")
  */
-class CategoryConfiguration implements ResourceInterface
+final class CategoryConfiguration implements ResourceInterface
 {
     /**
      * @var int

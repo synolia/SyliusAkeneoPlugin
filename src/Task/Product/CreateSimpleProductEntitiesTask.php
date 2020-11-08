@@ -141,35 +141,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $query->execute();
 
         while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
-
-                try {
-                    $product = $this->getOrCreateEntity($resource);
-
-                    $this->updateProductRequirementsForActiveLocales(
-                        $product,
-                        $resource['family'],
-                        $resource
-                    );
-
-                    $productVariant = $this->getOrCreateSimpleVariant($product);
-                    $this->linkCategoriesToProduct($payload, $product, $resource['categories']);
-
-                    $productResourcePayload = $this->insertAttributesToProduct($payload, $product, $resource);
-                    if ($productResourcePayload->getProduct() === null) {
-                        continue;
-                    }
-
-                    $this->updateImages($payload, $resource, $product);
-                    $this->setProductPrices($productVariant, $resource['values']);
-
-                    $this->entityManager->flush();
-                    $this->entityManager->clear();
-                } catch (\Throwable $throwable) {
-                    $this->logger->warning($throwable->getMessage());
-                }
-            }
+            $this->processByPage($results);
 
             $processedCount += \count($results);
             $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
@@ -237,17 +209,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                 ++$missingNameTranslationCount;
             }
 
-            $productTranslation = $this->productTranslationRepository->findOneBy([
-                'translatable' => $product,
-                'locale' => $usedLocalesOnBothPlatform,
-            ]);
-
-            if (!$productTranslation instanceof ProductTranslationInterface) {
-                /** @var ProductTranslationInterface $productTranslation */
-                $productTranslation = $this->productTranslationFactory->createNew();
-                $productTranslation->setLocale($usedLocalesOnBothPlatform);
-                $product->addTranslation($productTranslation);
-            }
+            $productTranslation = $this->getProductTranslation($product, $usedLocalesOnBothPlatform);
 
             $productTranslation->setName($productName);
 
@@ -329,5 +291,55 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         ;
         $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
         $imageTask->__invoke($productMediaPayload);
+    }
+
+    private function processByPage(array $results): void
+    {
+        foreach ($results as $result) {
+            $resource = \json_decode($result['values'], true);
+
+            try {
+                $product = $this->getOrCreateEntity($resource);
+
+                $this->updateProductRequirementsForActiveLocales(
+                    $product,
+                    $resource['family'],
+                    $resource
+                );
+
+                $productVariant = $this->getOrCreateSimpleVariant($product);
+                $this->linkCategoriesToProduct($this->payload, $product, $resource['categories']);
+
+                $productResourcePayload = $this->insertAttributesToProduct($this->payload, $product, $resource);
+                if ($productResourcePayload->getProduct() === null) {
+                    continue;
+                }
+
+                $this->updateImages($this->payload, $resource, $product);
+                $this->setProductPrices($productVariant, $resource['values']);
+
+                $this->entityManager->flush();
+                $this->entityManager->clear();
+            } catch (\Throwable $throwable) {
+                $this->logger->warning($throwable->getMessage());
+            }
+        }
+    }
+
+    private function getProductTranslation(ProductInterface $product, string $locale): ProductTranslationInterface
+    {
+        $productTranslation = $this->productTranslationRepository->findOneBy([
+            'translatable' => $product,
+            'locale' => $locale,
+        ]);
+
+        if (!$productTranslation instanceof ProductTranslationInterface) {
+            /** @var ProductTranslationInterface $productTranslation */
+            $productTranslation = $this->productTranslationFactory->createNew();
+            $productTranslation->setLocale($locale);
+            $product->addTranslation($productTranslation);
+        }
+
+        return $productTranslation;
     }
 }

@@ -33,13 +33,38 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ->add('channel', ChannelChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.channel',
             ])
+            ->add('locales', LocalesChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.locales',
+            ]);
+        $this->completenessForm($builder);
+        $builder
+            ->add('status', ChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.status',
+                'choices' => [
+                    'sylius.ui.admin.akeneo.product_filter_rules.no_condition' => ProductFilterStatusEnum::NO_CONDITION,
+                    'sylius.ui.admin.akeneo.product_filter_rules.enabled' => ProductFilterStatusEnum::ENABLED,
+                    'sylius.ui.admin.akeneo.product_filter_rules.disabled' => ProductFilterStatusEnum::DISABLED,
+                ],
+            ]);
+        $this->updatedForm($builder);
+        $builder
+            ->add('exclude_families', FamiliesChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'sylius.ui.save',
+                'attr' => ['class' => 'ui primary button'],
+            ])
+        ;
+    }
+
+    private function completenessForm(FormBuilderInterface $builder): void
+    {
+        $builder
             ->add('completeness_type', CompletenessTypeChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type',
                 'placeholder' => 'sylius.ui.admin.akeneo.product_filter_rules.no_condition',
                 'required' => false,
-            ])
-            ->add('locales', LocalesChoiceType::class, [
-                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.locales',
             ])
             ->add('completeness_value', IntegerType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value',
@@ -49,15 +74,12 @@ final class ProductFilterRuleSimpleType extends AbstractType
                         'max' => self::MAX_COMPLETENESS,
                     ]),
                 ],
-            ])
-            ->add('status', ChoiceType::class, [
-                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.status',
-                'choices' => [
-                    'sylius.ui.admin.akeneo.product_filter_rules.no_condition' => ProductFilterStatusEnum::NO_CONDITION,
-                    'sylius.ui.admin.akeneo.product_filter_rules.enabled' => ProductFilterStatusEnum::ENABLED,
-                    'sylius.ui.admin.akeneo.product_filter_rules.disabled' => ProductFilterStatusEnum::DISABLED,
-                ],
-            ])
+            ]);
+    }
+
+    private function updatedForm(FormBuilderInterface $builder): void
+    {
+        $builder
             ->add('updated_mode', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated_mode',
                 'choices' => [
@@ -78,14 +100,6 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ->add('updated', IntegerType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated',
                 'required' => false,
-            ])
-            ->add('exclude_families', FamiliesChoiceType::class, [
-                'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
-            ])
-        ;
+            ]);
     }
 }

@@ -11,7 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository")
  * @ORM\Table("akeneo_api_product_filters_rules")
  */
-class ProductFiltersRules implements ResourceInterface
+final class ProductFiltersRules implements ResourceInterface
 {
     /**
      * @var int

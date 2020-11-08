@@ -81,44 +81,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             $taxons = [];
 
             foreach ($payload->getResources() as $resource) {
-                $taxon = $this->getOrCreateEntity($resource['code']);
-
-                $taxons[$resource['code']] = $taxon;
-
-                $this->assignParent($taxon, $taxons, $resource);
-
-                foreach ($resource['labels'] as $locale => $label) {
-                    if (null === $label) {
-                        continue;
-                    }
-
-                    $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
-                        'translatable' => $taxon,
-                        'locale' => $locale,
-                    ]);
-
-                    if (!$taxonTranslation instanceof TaxonTranslationInterface) {
-                        /** @var \Sylius\Component\Taxonomy\Model\TaxonTranslationInterface $taxonTranslation */
-                        $taxonTranslation = $this->taxonTranslationFactory->createNew();
-                        $taxonTranslation->setLocale($locale);
-                        $taxonTranslation->setTranslatable($taxon);
-                        $this->entityManager->persist($taxonTranslation);
-                    }
-
-                    $taxonTranslation->setName($label);
-                    $slug = Transliterator::transliterate(
-                        \str_replace(
-                            '\'',
-                            '-',
-                            \sprintf(
-                                '%s-%s',
-                                $resource['code'],
-                                $label
-                            )
-                        )
-                    );
-                    $taxonTranslation->setSlug($slug ?? $resource['code']);
-                }
+                $this->processTaxon($resource, $taxons);
             }
 
             $this->entityManager->flush();
@@ -169,5 +132,47 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $taxon->getCode()));
 
         return $taxon;
+    }
+
+    private function processTaxon(array $resource, array $taxons): void
+    {
+        $taxon = $this->getOrCreateEntity($resource['code']);
+
+        $taxons[$resource['code']] = $taxon;
+
+        $this->assignParent($taxon, $taxons, $resource);
+
+        foreach ($resource['labels'] as $locale => $label) {
+            if (null === $label) {
+                continue;
+            }
+
+            $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
+                'translatable' => $taxon,
+                'locale' => $locale,
+            ]);
+
+            if (!$taxonTranslation instanceof TaxonTranslationInterface) {
+                /** @var \Sylius\Component\Taxonomy\Model\TaxonTranslationInterface $taxonTranslation */
+                $taxonTranslation = $this->taxonTranslationFactory->createNew();
+                $taxonTranslation->setLocale($locale);
+                $taxonTranslation->setTranslatable($taxon);
+                $this->entityManager->persist($taxonTranslation);
+            }
+
+            $taxonTranslation->setName($label);
+            $slug = Transliterator::transliterate(
+                \str_replace(
+                    '\'',
+                    '-',
+                    \sprintf(
+                        '%s-%s',
+                        $resource['code'],
+                        $label
+                    )
+                )
+            );
+            $taxonTranslation->setSlug($slug ?? $resource['code']);
+        }
     }
 }
