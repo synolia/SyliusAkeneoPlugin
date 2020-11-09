@@ -11,44 +11,53 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository")
+ *
  * @ORM\Table("akeneo_api_configuration_product")
  */
 final class ProductConfiguration implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $akeneoPriceAttribute;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $akeneoEnabledChannelsAttribute;
 
     /**
      * @var array|null
+     *
      * @ORM\Column(type="array", nullable=true)
      */
     private $attributeMapping;
 
     /**
      * @var bool|null
+     *
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $importMediaFiles;
 
     /**
      * @var Collection
+     *
      * @ORM\OneToMany(
      *     targetEntity="ProductConfigurationAkeneoImageAttribute",
      *     mappedBy="productConfiguration",
@@ -60,6 +69,7 @@ final class ProductConfiguration implements ResourceInterface
 
     /**
      * @var Collection
+     *
      * @ORM\OneToMany(
      *     targetEntity="ProductConfigurationImageMapping",
      *     mappedBy="productConfiguration",
@@ -71,6 +81,7 @@ final class ProductConfiguration implements ResourceInterface
 
     /**
      * @var bool|null
+     *
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $regenerateUrlRewrites;

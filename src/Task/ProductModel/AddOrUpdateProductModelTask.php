@@ -107,6 +107,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

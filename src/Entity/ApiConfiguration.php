@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("akeneo_api_configuration")
  */
 final class ApiConfiguration implements ResourceInterface
@@ -22,36 +23,47 @@ final class ApiConfiguration implements ResourceInterface
 
     /**
      * @var int
+     *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private $baseUrl;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private $apiClientId;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private $apiClientSecret;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Assert\Range(
      *      min = ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
      *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
@@ -61,20 +73,25 @@ final class ApiConfiguration implements ResourceInterface
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     private $isEnterprise;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private $username;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private $password;

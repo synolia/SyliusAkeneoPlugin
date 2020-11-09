@@ -9,62 +9,74 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository")
+ *
  * @ORM\Table("akeneo_api_product_filters_rules")
  */
 final class ProductFiltersRules implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $mode;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $advancedFilter;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $completenessType;
 
     /**
      * @var array
+     *
      * @ORM\Column(type="array")
      */
     private $locales = [];
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
      */
     private $completenessValue;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $updatedMode;
 
     /**
      * @var \DateTimeInterface
+     *
      * @ORM\Column(type="datetime")
      */
     private $updatedBefore;
@@ -78,18 +90,21 @@ final class ProductFiltersRules implements ResourceInterface
 
     /**
      * @var int|null
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $updated;
 
     /**
      * @var array
+     *
      * @ORM\Column(type="array")
      */
     private $excludeFamilies = [];
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $channel = '';
