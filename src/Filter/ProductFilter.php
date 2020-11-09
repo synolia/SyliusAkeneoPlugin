@@ -56,7 +56,7 @@ final class ProductFilter
             $queryParameters = $this->getSimpleQueryParameters($productFilterRules);
         }
 
-        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
+        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && $productFilterRules->getAdvancedFilter() !== null) {
             return $this->getAdvancedFilter($productFilterRules, true);
         }
 
@@ -89,7 +89,7 @@ final class ProductFilter
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
-        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
+        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && $productFilterRules->getAdvancedFilter() !== null) {
             return $this->getAdvancedFilter($productFilterRules);
         }
 
@@ -193,7 +193,7 @@ final class ProductFilter
 
     private function getExcludeFamiliesFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
     {
-        if (empty($productFilterRules->getExcludeFamilies())) {
+        if (count($productFilterRules->getExcludeFamilies()) === 0) {
             return $queryParameters;
         }
 

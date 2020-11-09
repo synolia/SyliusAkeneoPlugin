@@ -55,25 +55,10 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
         $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
         $query->execute();
 
-        while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+        while ($products = $query->fetchAll()) {
+            $this->enableProducts($products);
 
-                try {
-                    /** @var ProductInterface $product */
-                    $product = $this->productRepository->findOneBy(['code' => $resource['code']]);
-
-                    if (!$product instanceof ProductInterface) {
-                        continue;
-                    }
-
-                    $this->productChannelEnabler->enableChannelForProduct($product, $resource);
-                } catch (\Throwable $throwable) {
-                    $this->logger->warning($throwable->getMessage());
-                }
-            }
-
-            $processedCount += \count($results);
+            $processedCount += \count($products);
             $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
             $query->execute();
         }
@@ -96,5 +81,25 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
         $query->bindValue('offset', $offset, ParameterType::INTEGER);
 
         return $query;
+    }
+
+    private function enableProducts(array $products): void
+    {
+        foreach ($products as $product) {
+            $resource = \json_decode($product['values'], true);
+
+            try {
+                /** @var ProductInterface $product */
+                $product = $this->productRepository->findOneBy(['code' => $resource['code']]);
+
+                if (!$product instanceof ProductInterface) {
+                    continue;
+                }
+
+                $this->productChannelEnabler->enableChannelForProduct($product, $resource);
+            } catch (\Throwable $throwable) {
+                $this->logger->warning($throwable->getMessage());
+            }
+        }
     }
 }

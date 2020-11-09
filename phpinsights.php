@@ -47,6 +47,9 @@ return [
             'absoluteLineLimit' => 140,
             'ignoreComments' => false,
         ],
+        ObjectCalisthenics\Sniffs\Metrics\MaxNestingLevelSniff::class => [
+            'maxNestingLevel' => 3,
+        ],
     ],
 
     'requirements' => [
