@@ -338,12 +338,16 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $missingNameTranslationCount = 0;
         $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
         foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
-            $productName = $this->akeneoAttributeDataProvider->getData(
-                $familyResource['attribute_as_label'],
-                $resource['values'][$familyResource['attribute_as_label']],
-                $usedLocalesOnBothPlatform,
-                $this->scope
-            );
+            $productName = null;
+
+            if (isset($resource['values'][$familyResource['attribute_as_label']])) {
+                $productName = $this->akeneoAttributeDataProvider->getData(
+                    $familyResource['attribute_as_label'],
+                    $resource['values'][$familyResource['attribute_as_label']],
+                    $usedLocalesOnBothPlatform,
+                    $this->scope
+                );
+            }
 
             if (null === $productName) {
                 $productName = \sprintf('[%s]', $product->getCode());

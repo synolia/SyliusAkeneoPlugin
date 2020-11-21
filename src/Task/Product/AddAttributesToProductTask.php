@@ -52,7 +52,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
         }
 
         foreach ($payload->getResource()['values'] as $attributeCode => $translations) {
-            $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
+            $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $attributeCode);
 
             /** @var AttributeInterface $attribute */
             $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
@@ -60,11 +60,11 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
                 continue;
             }
 
-            if (!$this->attributeValueValueBuilder->hasSupportedBuilder($attributeCode)) {
+            if (!$this->attributeValueValueBuilder->hasSupportedBuilder((string) $attributeCode)) {
                 continue;
             }
 
-            $this->setAttributeTranslations($payload, $translations, $attribute, $attributeCode, $payload->getScope());
+            $this->setAttributeTranslations($payload, $translations, $attribute, (string) $attributeCode, $payload->getScope());
         }
 
         return $payload;
