@@ -1,6 +1,4 @@
-parameters:
-    git_dir: .
-    bin_dir: vendor/bin
+grumphp:
     ascii:
         failed: ~
         succeeded: ~
@@ -17,9 +15,10 @@ parameters:
             triggered_by: [php, twig, js]
         jsonlint:
             detect_key_conflicts: true
-        phpcpd:
-            directory:
-                - src
+#        temporary deactivation due to issue https://github.com/sebastianbergmann/phpcpd/issues/188
+#        phpcpd:
+#            directory:
+#                - src
         phplint:
             exclude: ['vendor']
             triggered_by: ['php']
@@ -32,14 +31,12 @@ parameters:
         yamllint: ~
         ecs:
             config: 'ruleset/easy-coding-standard.yml'
-            whitelist_patterns:
+            paths:
                 - src
                 - spec
                 - tests/Behat
                 - tests/PHPUnit
             no-progress-bar: true
-        phpmnd:
-            directory: src
         twigcs:
             path: 'src/'
             severity: error

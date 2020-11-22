@@ -13,14 +13,13 @@ on:
 jobs:
 
   php:
-    name: PHP ${{ matrix.php }} ${{ matrix.prefer }}
+    name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         php: [7.3, 7.4]
-        prefer:  ['']
 
     env:
       APP_ENV: test
@@ -39,15 +38,12 @@ jobs:
         id: cache-composer
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-php.${{ matrix.php }}-prefer.${{ matrix.prefer }}-${{ github.sha }}
-          restore-keys: composer-php.${{ matrix.php }}-prefer.${{ matrix.prefer }}-
+          key: composer-php.${{ matrix.php }}-${{ github.sha }}
+          restore-keys: composer-php.${{ matrix.php }}-
 
       - name: Composer - Create cache directory
         run: mkdir -p /home/runner/.composer/cache
         if: steps.cache-composer.outputs.cache-hit != 'true'
-
-      - name: Composer - Self Update
-        run: sudo composer self-update --1
 
       - name: Composer - Validate composer.json and composer.lock
         run: composer validate --strict
@@ -56,7 +52,7 @@ jobs:
         run: composer config -g github-oauth.github.com ${{ github.token }}
 
       - name: Composer - Update dependencies
-        run: composer update ${{ matrix.prefer }} --no-progress
+        run: composer update --no-progress
 
       - name: ECS - Run
         run: if [ -f ruleset/easy-coding-standard.yml ]; then vendor/bin/ecs check src/ tests/Behat/ --no-progress-bar -c ruleset/easy-coding-standard.yml ; else echo Ecs ruleset file does not exist, skipping step ; fi
@@ -74,11 +70,9 @@ jobs:
         run: (test -f grumphp.yml && vendor/bin/grumphp run) || echo Grumphp ruleset file does not exist, skipping step
 
       - name: Doctrine Schema Validate - Run
-        if: matrix.prefer == ''
         run: php tests/Application/bin/console doctrine:schema:validate --skip-sync
 
       - name: Checks security issues - Run
-        if: matrix.prefer == ''
         run: php tests/Application/bin/console security:check
 
       - name: Sylius - Init database
