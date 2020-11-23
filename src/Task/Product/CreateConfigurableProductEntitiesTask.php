@@ -13,7 +13,6 @@ use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
-use Sylius\Component\Product\Model\ProductVariantTranslation;
 use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -27,6 +26,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 
 final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
 {
@@ -42,8 +42,17 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productOptionValueTranslationRepository;
 
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $productVariantTranslationRepository;
+
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productOptionValueFactory;
+
+    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
+    private $productVariantTranslationFactory;
 
     /** @var int */
     private $updateCount = 0;
@@ -53,9 +62,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
     /** @var string */
     private $type;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -76,7 +82,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         FactoryInterface $channelPricingFactory,
         AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
-        FactoryInterface $productOptionValueFactory
+        FactoryInterface $productOptionValueFactory,
+        RepositoryInterface $productVariantTranslationRepository,
+        FactoryInterface $productVariantTranslationFactory
     ) {
         parent::__construct(
             $entityManager,
@@ -97,6 +105,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
         $this->productOptionValueFactory = $productOptionValueFactory;
+        $this->productVariantTranslationRepository = $productVariantTranslationRepository;
+        $this->productVariantTranslationFactory = $productVariantTranslationFactory;
     }
 
     /**
@@ -236,25 +246,23 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         array $values
     ): void {
         foreach ($values as $optionValue) {
-            $value = $code = $optionValue['data'];
-            if (\is_array($optionValue['data'])) {
-                $code = ProductOptionManager::getOptionValueCodeFromProductOption(
-                    $productOption,
-                    \implode('_', $code)
-                );
-                $value = \implode(' ', $value);
-            }
+            $code = $this->getCode($productOption, $optionValue['data']);
+            $value = $this->getValue($optionValue['data']);
+
             $productOptionValue = $this->productOptionValueRepository->findOneBy([
                 'option' => $productOption,
                 'code' => $code,
             ]);
 
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
-                /** @var \Sylius\Component\Product\Model\ProductOptionValue $productOptionValue */
-                $productOptionValue = $this->productOptionValueFactory->createNew();
-                $productOptionValue->setOption($productOption);
-                $productOptionValue->setCode($code);
-                $this->entityManager->persist($productOptionValue);
+                $this->logger->warning(\sprintf(
+                    'Skipped variant value %s for option %s on variant %s because ProductOptionValue does not exist.',
+                    $value,
+                    $productOption->getCode(),
+                    $productVariant->getCode(),
+                ));
+
+                return;
             }
 
             $productOptionValue->setValue($value);
@@ -275,17 +283,53 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                     continue;
                 }
 
-                $productVariantTranslation = $productVariant->getTranslation($locale);
+                $productVariantTranslation = $this->productVariantTranslationRepository->findOneBy([
+                    'translatable' => $productVariant,
+                    'locale' => $locale,
+                ]);
 
                 if (!$productVariantTranslation instanceof ProductVariantTranslationInterface) {
-                    $productVariantTranslation = new ProductVariantTranslation();
+                    /** @var ProductVariantTranslationInterface $productVariantTranslation */
+                    $productVariantTranslation = $this->productVariantTranslationFactory->createNew();
+                    $this->entityManager->persist($productVariantTranslation);
                     $productVariantTranslation->setLocale($locale);
+                    $productVariantTranslation->setTranslatable($productVariant);
                     $productVariant->addTranslation($productVariantTranslation);
                 }
 
                 $productVariantTranslation->setName($productOptionValueTranslation->getValue());
             }
         }
+    }
+
+    /**
+     * @param array|string $data
+     */
+    private function getCode(ProductOptionInterface $productOption, $data): string
+    {
+        if (!\is_array($data)) {
+            return ProductOptionManager::getOptionValueCodeFromProductOption(
+                $productOption,
+                CreateUpdateDeleteTask::AKENEO_PREFIX . $data
+            );
+        }
+
+        return ProductOptionManager::getOptionValueCodeFromProductOption(
+            $productOption,
+            CreateUpdateDeleteTask::AKENEO_PREFIX . \implode('_', $data)
+        );
+    }
+
+    /**
+     * @param array|string $data
+     */
+    private function getValue($data): string
+    {
+        if (!\is_array($data)) {
+            return $data;
+        }
+
+        return \implode(' ', $data);
     }
 
     private function updateImages(ProductPayload $payload, array $resource, ProductVariantInterface $productVariant): void
