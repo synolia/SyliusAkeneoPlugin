@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
@@ -51,6 +52,9 @@ final class ProductOptionManager implements ProductOptionManagerInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeTranslationRepository;
 
+    /** @var \Psr\Log\LoggerInterface */
+    private $akeneoLogger;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeTranslationRepository,
@@ -62,7 +66,8 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         FactoryInterface $productOptionValueFactory,
         FactoryInterface $productOptionValueTranslationFactory,
         FactoryInterface $productOptionTranslationFactory,
-        FactoryInterface $productOptionFactory
+        FactoryInterface $productOptionFactory,
+        LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productOptionRepository = $productOptionRepository;
@@ -75,6 +80,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         $this->productOptionTranslationRepository = $productOptionTranslationRepository;
         $this->productOptionTranslationFactory = $productOptionTranslationFactory;
         $this->productAttributeTranslationRepository = $productAttributeTranslationRepository;
+        $this->akeneoLogger = $akeneoLogger;
     }
 
     public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface
@@ -191,6 +197,16 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         $translations = $attribute->getConfiguration()['choices'][$productOptionValueCode];
 
         foreach ($translations as $locale => $translation) {
+            if (null === $translation) {
+                $translation = \sprintf('[%s]', $productOptionValueCode);
+                $this->akeneoLogger->warning(\sprintf(
+                    'Missing translation on choice "%s" for option %s, defaulted to "%s"',
+                    $productOptionValueCode,
+                    $attribute->getCode(),
+                    $translation,
+                ));
+            }
+
             $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
                 'locale' => $locale,
                 'translatable' => $productOptionValue,

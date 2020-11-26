@@ -48,11 +48,11 @@ final class SyliusAkeneoLocaleCodeProvider
      */
     public function isLocaleDataTranslation(AttributeInterface $attribute, $data, string $locale): bool
     {
-        if (isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
-            return true;
+        if (is_array($data)) {
+            return $data['locale'] === $locale;
         }
 
-        if (is_array($data) && $data['locale'] === $locale) {
+        if (isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
             return true;
         }
 

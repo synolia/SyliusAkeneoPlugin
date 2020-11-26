@@ -75,7 +75,7 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             $this->entityManager->beginTransaction();
 
             foreach ($payload->getResources() as $resource) {
-                $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
+                $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $resource['code']);
                 $attributeCodes[] = $code;
             }
 

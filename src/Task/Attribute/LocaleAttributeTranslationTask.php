@@ -13,7 +13,6 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 
 final class LocaleAttributeTranslationTask implements AkeneoTaskInterface
 {
@@ -101,56 +100,10 @@ final class LocaleAttributeTranslationTask implements AkeneoTaskInterface
             $attributeValue = $this->productAttributeValueFactory->createNew();
         }
 
-        $localeValues = $this->getLocaleTranslations($attribute, $translations, $locale);
-        if ($localeValues === null) {
-            return;
-        }
-
         $attributeValue->setLocaleCode($locale);
         $attributeValue->setAttribute($attribute);
-        $attributeValueValue = $this->akeneoAttributeDataProvider->getData($attributeCode, $localeValues, $locale, $scope);
+        $attributeValueValue = $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $locale, $scope);
         $attributeValue->setValue($attributeValueValue);
         $payload->getProduct()->addAttribute($attributeValue);
-    }
-
-    private function getLocaleTranslations(AttributeInterface $attribute, array $translations, string $locale): ?array
-    {
-        $localeTranslations = [];
-        if (count($translations) > 1) {
-            foreach ($translations as $translation) {
-                if ($this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, $translation, $locale) === false) {
-                    continue;
-                }
-                $localeTranslations[] = $translation;
-            }
-
-            return $localeTranslations;
-        }
-
-        if ($attribute->getConfiguration() === []) {
-            return $translations;
-        }
-
-        if (!is_array($translations[0]['data'])) {
-            $isLocaleDataValues = $this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, CreateUpdateDeleteTask::AKENEO_PREFIX . $translations[0]['data'], $locale);
-            if ($isLocaleDataValues === false) {
-                return null;
-            }
-
-            return $translations;
-        }
-
-        $datas = [];
-        foreach ($translations[0]['data'] as $data) {
-            $data = CreateUpdateDeleteTask::AKENEO_PREFIX . $data;
-            if ($this->syliusAkeneoLocaleCodeProvider->isLocaleDataTranslation($attribute, $data, $locale) === false) {
-                continue;
-            }
-            $datas[] = $data;
-        }
-
-        $translations[0]['data'] = $datas;
-
-        return $translations;
     }
 }

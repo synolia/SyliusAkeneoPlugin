@@ -70,7 +70,7 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
             $this->entityManager->beginTransaction();
 
             foreach ($payload->getResources() as $attributeCode => $optionResources) {
-                $this->processByAttribute($attributeCode, $optionResources['resources'], $optionResources['isMultiple']);
+                $this->processByAttribute((string) $attributeCode, $optionResources['resources'], $optionResources['isMultiple']);
             }
 
             $this->entityManager->flush();

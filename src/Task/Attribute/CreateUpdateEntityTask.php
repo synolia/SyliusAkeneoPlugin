@@ -155,7 +155,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
     private function getOrCreateEntity(array $resource, AttributeTypeMatcherInterface $attributeType): AttributeInterface
     {
-        $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
+        $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $resource['code']);
         /** @var AttributeInterface $attribute */
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $code]);
 
