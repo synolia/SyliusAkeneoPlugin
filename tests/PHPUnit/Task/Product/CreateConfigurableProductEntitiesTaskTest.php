@@ -128,7 +128,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                     'locale' => 'en_US',
                 ]);
                 $this->assertEquals(
-                    \strtoupper($productToTest['attributes']['size']),
+                    $productToTest['attributes']['size'],
                     $productOptionValueTranslation->getValue()
                 );
             }
