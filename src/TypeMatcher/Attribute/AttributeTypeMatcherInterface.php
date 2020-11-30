@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
-interface AttributeTypeMatcherInterface
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
+
+interface AttributeTypeMatcherInterface extends TypeMatcherInterface
 {
     public const TAG_ID = 'sylius.akeneo.type_matcher';
-
-    public function support(string $akeneoType): bool;
-
-    public function getType(): string;
-
-    public function getBuilder(): string;
 }

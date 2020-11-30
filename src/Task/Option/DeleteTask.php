@@ -93,7 +93,7 @@ final class DeleteTask implements AkeneoTaskInterface
 
         $productOptionClass = $this->parameterBag->get('sylius.model.product_option.class');
         if (!class_exists($productOptionClass)) {
-            throw new \LogicException('ProductOption class does not exists.');
+            throw new \LogicException('ProductOption class does not exist.');
         }
 
         foreach ($removedOptionIds as $removedOptionId) {

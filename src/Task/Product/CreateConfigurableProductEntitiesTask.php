@@ -138,7 +138,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                     //Skip product variant import if it does not have a parent model on Sylius
                     if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
                         $this->logger->warning(\sprintf(
-                            'Skipped product "%s" because model "%s" does not exists.',
+                            'Skipped product "%s" because model "%s" does not exist.',
                             $resource['identifier'],
                             $resource['parent'],
                         ));
@@ -150,7 +150,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     if (!$productGroup instanceof ProductGroup) {
                         $this->logger->warning(\sprintf(
-                            'Skipped product "%s" because model "%s" does not exists as group.',
+                            'Skipped product "%s" because model "%s" does not exist as group.',
                             $resource['identifier'],
                             $resource['parent'],
                         ));
@@ -171,7 +171,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
                     $this->entityManager->flush();
-                    $this->entityManager->clear();
                 } catch (\Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
                 }
@@ -209,10 +208,10 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             /** @var ProductOptionInterface $productOption */
             $productOption = $this->productOptionRepository->findOneBy(['code' => $attributeCode]);
 
-            //We cannot create the variant if the option does not exists
+            //We cannot create the variant if the option does not exist
             if (!$productOption instanceof ProductOptionInterface) {
                 $this->logger->warning(\sprintf(
-                    'Skipped ProductVariant "%s" creation because ProductOption "%s" does not exists.',
+                    'Skipped ProductVariant "%s" creation because ProductOption "%s" does not exist.',
                     $variantCode,
                     $attributeCode
                 ));

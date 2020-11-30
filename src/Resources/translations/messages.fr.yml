@@ -82,6 +82,7 @@ sylius:
                     subtitle: Configuration des attributs
                 medias:
                     medias: Médias
+        reference_entity: 'Entité référentielle'
 akeneo:
     ui:
         admin:

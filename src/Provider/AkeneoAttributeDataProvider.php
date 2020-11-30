@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
-use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
@@ -15,7 +15,7 @@ final class AkeneoAttributeDataProvider
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertyProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder */
+    /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder */
     private $productAttributeValueValueBuilder;
 
     public function __construct(

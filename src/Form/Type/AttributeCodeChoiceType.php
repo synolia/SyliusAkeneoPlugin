@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,7 +17,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
 final class AttributeCodeChoiceType extends AbstractType
 {
-    /** @var AkeneoPimClientInterface */
+    /** @var AkeneoPimEnterpriseClientInterface */
     private $akeneoPimClient;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */

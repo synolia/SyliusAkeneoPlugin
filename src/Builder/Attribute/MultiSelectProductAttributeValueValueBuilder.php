@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Builder;
+namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMatcher;
 
-final class TextProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class MultiSelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
@@ -27,17 +27,18 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
 
     public function support(string $attributeCode): bool
     {
-        $typeMatcher = $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode));
-
-        return $typeMatcher instanceof TextAttributeTypeMatcher ||
-            $typeMatcher instanceof TextareaAttributeTypeMatcher;
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MultiSelectAttributeTypeMatcher;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function build($value)
+    public function build(string $attributeCode, $values)
     {
-        return \trim((string) $value);
+        foreach ($values as $key => $value) {
+            $values[$key] = CreateUpdateDeleteTask::AKENEO_PREFIX . $value;
+        }
+
+        return $values;
     }
 }

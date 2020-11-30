@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Builder;
+namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\CollectionReferenceEntityAttributeTypeMatcher;
 
-final class SelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class CollectionReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
@@ -27,14 +26,14 @@ final class SelectProductAttributeValueValueBuilder implements ProductAttributeV
 
     public function support(string $attributeCode): bool
     {
-        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof SelectAttributeTypeMatcher;
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof CollectionReferenceEntityAttributeTypeMatcher;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function build($value)
+    public function build(string $attributeCode, $value)
     {
-        return [CreateUpdateDeleteTask::AKENEO_PREFIX . $value];
+        return $value;
     }
 }

@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
+    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     protected $akeneoPimClient;
 
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     protected $outputInterface;
 
-    public function __construct(AkeneoPimClientInterface $akeneoPimClient)
+    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
         $this->akeneoPimClient = $akeneoPimClient;
     }
 
-    public function getAkeneoPimClient(): AkeneoPimClientInterface
+    public function getAkeneoPimClient(): AkeneoPimEnterpriseClientInterface
     {
         return $this->akeneoPimClient;
     }

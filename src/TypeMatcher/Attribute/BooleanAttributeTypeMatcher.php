@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\CheckboxAttributeType;
-use Synolia\SyliusAkeneoPlugin\Builder\BooleanProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\BooleanProductAttributeValueValueBuilder;
 
 final class BooleanAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {

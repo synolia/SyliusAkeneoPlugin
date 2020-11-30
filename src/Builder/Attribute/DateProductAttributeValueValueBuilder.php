@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Builder;
+namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
@@ -32,7 +32,7 @@ final class DateProductAttributeValueValueBuilder implements ProductAttributeVal
     /**
      * {@inheritdoc}
      */
-    public function build($value)
+    public function build(string $attributeCode, $value)
     {
         return \DateTime::createFromFormat(\DateTime::W3C, $value);
     }
