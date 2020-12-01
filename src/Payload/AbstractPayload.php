@@ -42,7 +42,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     {
         try {
             return \mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
-        } catch (\ReflectionException $e) {
+        } catch (\ReflectionException $exception) {
             return '';
         }
     }

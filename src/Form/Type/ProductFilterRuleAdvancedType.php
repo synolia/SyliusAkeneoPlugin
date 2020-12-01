@@ -15,7 +15,7 @@ final class ProductFilterRuleAdvancedType extends AbstractType
     public const MODE = 'advanced';
 
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

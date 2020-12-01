@@ -38,7 +38,7 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
 
         $noCodeCount = 0;
         foreach ($resources as $resource) {
-            if (empty($resource['code'])) {
+            if ($resource['code'] === null || $resource['code'] === '') {
                 ++$noCodeCount;
             }
         }

@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 final class AttributeTypeMappingType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

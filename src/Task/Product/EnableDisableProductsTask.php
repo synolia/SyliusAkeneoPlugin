@@ -55,22 +55,7 @@ final class EnableDisableProductsTask implements AkeneoTaskInterface
         $query->execute();
 
         while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
-
-                try {
-                    /** @var ProductInterface $product */
-                    $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
-
-                    if (!$product instanceof ProductInterface) {
-                        continue;
-                    }
-
-                    $this->productChannelEnabler->enableChannelForProduct($product, $resource);
-                } catch (\Throwable $throwable) {
-                    $this->logger->warning($throwable->getMessage());
-                }
-            }
+            $this->enableProducts($results);
 
             $processedCount += \count($results);
             $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
@@ -98,5 +83,25 @@ final class EnableDisableProductsTask implements AkeneoTaskInterface
         $query->bindValue('offset', $offset, ParameterType::INTEGER);
 
         return $query;
+    }
+
+    private function enableProducts(array $results): void
+    {
+        foreach ($results as $result) {
+            $resource = \json_decode($result['values'], true);
+
+            try {
+                /** @var ProductInterface $product */
+                $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
+
+                if (!$product instanceof ProductInterface) {
+                    continue;
+                }
+
+                $this->productChannelEnabler->enableChannelForProduct($product, $resource);
+            } catch (\Throwable $throwable) {
+                $this->logger->warning($throwable->getMessage());
+            }
+        }
     }
 }

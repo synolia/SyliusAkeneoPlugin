@@ -29,9 +29,6 @@ final class BooleanProductAttributeValueValueBuilder implements ProductAttribute
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof BooleanAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return (bool) $value;

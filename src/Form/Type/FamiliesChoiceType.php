@@ -23,9 +23,6 @@ final class FamiliesChoiceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $familiesResult = $this->akeneoPimClient->getFamilyApi()->all();
-        if (empty($familiesResult)) {
-            return;
-        }
 
         $families = [];
         foreach ($familiesResult as $family) {

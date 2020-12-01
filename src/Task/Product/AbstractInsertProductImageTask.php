@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayloadInterface;
 
-class AbstractInsertProductImageTask
+abstract class AbstractInsertProductImageTask
 {
     /** @var \Sylius\Component\Core\Uploader\ImageUploaderInterface */
     protected $imageUploader;
@@ -61,29 +61,11 @@ class AbstractInsertProductImageTask
         }
 
         foreach ($payload->getAttributes() as $attributeCode => $images) {
-            if (\in_array($attributeCode, array_map(function ($imageAttribute) {
+            if (\in_array($attributeCode, array_map(static function ($imageAttribute) {
                 return $imageAttribute->getAkeneoAttributes();
             }, $imageAttributes->toArray()), true)) {
                 foreach ($images as $image) {
-                    try {
-                        $imageResponse = $payload->getAkeneoPimClient()->getProductMediaFileApi()->download($image['data']);
-                        $imageName = \basename($image['data']);
-                        $imagePath = \sys_get_temp_dir() . '/' . $imageName;
-                        \file_put_contents($imagePath, $imageResponse->getBody()->getContents());
-                        $uploadedImage = new UploadedFile($imagePath, $imageName);
-
-                        /** @var ImageInterface $productImage */
-                        $productImage = $this->productImageFactory->createNew();
-                        $productImage->setFile($uploadedImage);
-                        $productImage->setType($this->getFileType((string) $attributeCode));
-                        $this->imageUploader->upload($productImage);
-
-                        $object->addImage($productImage);
-
-                        \unlink($imagePath);
-                    } catch (\Throwable $throwable) {
-                        $this->logger->warning($throwable->getMessage());
-                    }
+                    $this->downloadImage($payload, $image, $attributeCode, $object);
                 }
             }
         }
@@ -108,6 +90,36 @@ class AbstractInsertProductImageTask
         /** @var ProductConfigurationImageMapping|null $mapping */
         $mapping = $repository->findOneBy(['akeneoAttribute' => $attributeCode]);
 
-        return ($mapping instanceof ProductConfigurationImageMapping) ? $mapping->getSyliusAttribute() : null;
+        return $mapping instanceof ProductConfigurationImageMapping ? $mapping->getSyliusAttribute() : null;
+    }
+
+    /**
+     * @param ProductInterface|ProductVariantInterface $product
+     */
+    private function downloadImage(
+        ProductMediaPayloadInterface $payload,
+        string $image,
+        int $attributeCode,
+        $product
+    ): void {
+        try {
+            $imageResponse = $payload->getAkeneoPimClient()->getProductMediaFileApi()->download($image);
+            $imageName = \basename($image);
+            $imagePath = \sys_get_temp_dir() . '/' . $imageName;
+            \file_put_contents($imagePath, $imageResponse->getBody()->getContents());
+            $uploadedImage = new UploadedFile($imagePath, $imageName);
+
+            /** @var ImageInterface $productImage */
+            $productImage = $this->productImageFactory->createNew();
+            $productImage->setFile($uploadedImage);
+            $productImage->setType($this->getFileType((string) $attributeCode));
+            $this->imageUploader->upload($productImage);
+
+            $product->addImage($productImage);
+
+            \unlink($imagePath);
+        } catch (\Throwable $throwable) {
+            $this->logger->warning($throwable->getMessage());
+        }
     }
 }

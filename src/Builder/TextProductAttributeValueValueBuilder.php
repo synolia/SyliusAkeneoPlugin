@@ -33,9 +33,6 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
             $typeMatcher instanceof TextareaAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return \trim((string) $value);

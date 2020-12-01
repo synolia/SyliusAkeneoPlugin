@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 final class SettingsType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -24,26 +24,14 @@ final class SettingsType extends AbstractType
             $fieldType = $configuration['type'];
             $fieldOptions = $configuration['options'];
             $fieldOptions['constraints'] = $configuration['constraints'] ?? [];
-
-            // Validator constraints
-            if (!empty($fieldOptions['constraints']) && \is_array($fieldOptions['constraints'])) {
-                $constraints = [];
-                foreach ($fieldOptions['constraints'] as $class => $constraintOptions) {
-                    if (!\class_exists($class)) {
-                        throw new \InvalidArgumentException(\sprintf('Constraint class "%s" not found', $class));
-                    }
-                    $constraints[] = new $class($constraintOptions);
-                }
-
-                $fieldOptions['constraints'] = $constraints;
-            }
+            $fieldOptions = $this->contraintsValidator($fieldOptions);
 
             // Label I18n
             $fieldOptions['label'] = 'sylius.ui.admin.akeneo.' . $name;
             $fieldOptions['translation_domain'] = 'messages';
 
             // Choices I18n
-            if (!empty($fieldOptions['choices'])) {
+            if (\is_array($fieldOptions['choices']) && count($fieldOptions['choices']) > 0) {
                 $fieldOptions['choices'] = \array_map(
                     static function ($label) use ($fieldOptions) {
                         return $fieldOptions['label'] . '_choices.' . $label;
@@ -55,9 +43,6 @@ final class SettingsType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -66,11 +51,25 @@ final class SettingsType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix(): string
     {
         return 'settings_management';
+    }
+
+    private function contraintsValidator(array $fieldOptions): array
+    {
+        if (\is_array($fieldOptions['constraints']) && count($fieldOptions['constraints']) > 0) {
+            $constraints = [];
+            foreach ($fieldOptions['constraints'] as $class => $constraintOptions) {
+                if (!\class_exists($class)) {
+                    throw new \InvalidArgumentException(\sprintf('Constraint class "%s" not found', $class));
+                }
+                $constraints[] = new $class($constraintOptions);
+            }
+
+            $fieldOptions['constraints'] = $constraints;
+        }
+
+        return $fieldOptions;
     }
 }

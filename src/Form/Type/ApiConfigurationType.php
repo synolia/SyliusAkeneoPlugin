@@ -16,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 final class ApiConfigurationType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 final class CategoriesConfigurationType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -148,7 +148,7 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
         if ($localeDiff === []) {
             return [];
         }
-
+        $localeUnused = [];
         foreach ($localeDiff as $locale) {
             $localeUnused[$locale] = ' ';
         }

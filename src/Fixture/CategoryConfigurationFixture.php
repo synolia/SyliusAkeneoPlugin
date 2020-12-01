@@ -9,7 +9,7 @@ use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class CategoryConfigurationFixture extends AbstractFixture
+final class CategoryConfigurationFixture extends AbstractFixture
 {
     /** @var \Doctrine\Common\Persistence\ObjectManager */
     private $objectManager;
@@ -36,9 +36,6 @@ class CategoryConfigurationFixture extends AbstractFixture
         $this->objectManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'akeneo_category_configuration';

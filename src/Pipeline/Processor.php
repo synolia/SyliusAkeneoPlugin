@@ -9,10 +9,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\AfterTaskEvent;
 use Synolia\SyliusAkeneoPlugin\Event\BeforeTaskEvent;
 
-class Processor implements ProcessorInterface
+final class Processor implements ProcessorInterface
 {
     /** @var EventDispatcherInterface */
-    protected $dispatcher;
+    private $dispatcher;
 
     public function __construct(EventDispatcherInterface $dispatcher)
     {

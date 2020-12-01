@@ -29,9 +29,6 @@ final class DateProductAttributeValueValueBuilder implements ProductAttributeVal
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof DateAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         return \DateTime::createFromFormat(\DateTime::W3C, $value);

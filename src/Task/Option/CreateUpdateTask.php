@@ -127,7 +127,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
         foreach ($familyVariants as $familyVariant) {
             //Sort array of variant attribute sets by level DESC
-            \usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
+            \usort($familyVariant['variant_attribute_sets'], static function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
                 return $leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level'];
             });
 

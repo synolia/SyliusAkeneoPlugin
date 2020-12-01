@@ -39,9 +39,6 @@ final class DatabaseProductAttributeValueValueBuilder implements ProductAttribut
         return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof DatabaseMappingAttributeTypeMatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build($value)
     {
         $attributeType = $this->attributeTypeMatcher->match($this->databaseMappingAttributeTypeMatcher->getType());

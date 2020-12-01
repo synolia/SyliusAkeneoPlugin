@@ -53,22 +53,10 @@ final class ProductFilter
 
         $queryParameters = [];
         if ($productFilterRules->getMode() === ProductFilterRuleSimpleType::MODE) {
-            $queryParameters = new SearchBuilder();
-
-            $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
-
-            $completeness = self::AT_LEAST_COMPLETE;
-            if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
-                $completeness = self::ALL_COMPLETE;
-            }
-            $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
-
-            $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
-            $queryParameters = $queryParameters->getFilters();
-            $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
+            $queryParameters = $this->getSimpleQueryParameters($productFilterRules);
         }
 
-        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
+        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && $productFilterRules->getAdvancedFilter() !== null) {
             return $this->getAdvancedFilter($productFilterRules, true);
         }
 
@@ -101,7 +89,7 @@ final class ProductFilter
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
-        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
+        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && $productFilterRules->getAdvancedFilter() !== null) {
             return $this->getAdvancedFilter($productFilterRules);
         }
 
@@ -205,7 +193,7 @@ final class ProductFilter
 
     private function getExcludeFamiliesFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
     {
-        if (empty($productFilterRules->getExcludeFamilies())) {
+        if (count($productFilterRules->getExcludeFamilies()) === 0) {
             return $queryParameters;
         }
 
@@ -271,5 +259,20 @@ final class ProductFilter
         );
 
         return $queryParameters;
+    }
+
+    private function getSimpleQueryParameters(ProductFiltersRules $productFilterRules): array
+    {
+        $queryParameters = new SearchBuilder();
+        $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
+
+        $completeness = self::AT_LEAST_COMPLETE;
+        if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
+            $completeness = self::ALL_COMPLETE;
+        }
+        $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
+        $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
+
+        return ['search' => $queryParameters->getFilters(), 'scope' => $productFilterRules->getChannel()];
     }
 }

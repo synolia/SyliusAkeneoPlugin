@@ -9,33 +9,36 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("akeneo_attribute_akeneo_sylius_mapping")
  */
-class AttributeAkeneoSyliusMapping implements ResourceInterface
+final class AttributeAkeneoSyliusMapping implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $akeneoAttribute;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $syliusAttribute;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId(): ?int
     {
         return $this->id;

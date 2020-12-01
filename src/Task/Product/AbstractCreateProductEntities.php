@@ -21,7 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 
-class AbstractCreateProductEntities
+abstract class AbstractCreateProductEntities
 {
     private const PRICE_CENTS = 100;
 

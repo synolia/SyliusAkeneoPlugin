@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-class SetupProductTask implements AkeneoTaskInterface
+final class SetupProductTask implements AkeneoTaskInterface
 {
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;

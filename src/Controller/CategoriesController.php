@@ -74,7 +74,8 @@ final class CategoriesController extends AbstractController
             $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
         }
 
-        return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/categories.html.twig', [
+        return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/categories.html.twig',
+            [
                 'form' => $form->createView(),
             ]
         );

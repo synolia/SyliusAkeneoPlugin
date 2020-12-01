@@ -15,6 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Webmozart\Assert\Assert;
 
 final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
 {
@@ -74,34 +75,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
 
         try {
             $this->entityManager->beginTransaction();
-            foreach ($payload->getModelResources() as $resource) {
-                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
-                if (!$productGroup instanceof ProductGroup) {
-                    continue;
-                }
-
-                $family = null;
-                if (!isset($resource['family'])) {
-                    try {
-                        $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
-                    } catch (\LogicException $exception) {
-                        $this->logger->warning($exception->getMessage());
-
-                        continue;
-                    }
-                }
-
-                if (!isset($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']])) {
-                    $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
-                        $family ?: $resource['family'],
-                        $resource['family_variant']
-                    );
-
-                    $familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']] = $payloadProductGroup;
-                }
-
-                $this->addAxes($familiesVariantPayloads[$family ?: $resource['family']], $family, $resource, $productGroup);
-            }
+            $this->processProductModel($payload, $familiesVariantPayloads);
 
             $this->entityManager->flush();
             $this->entityManager->commit();
@@ -134,6 +108,39 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                     $family ?: $resource['family']
                 ));
             }
+        }
+    }
+
+    private function processProductModel(ProductModelPayload $payload, array $familiesVariantPayloads): void
+    {
+        Assert::isInstanceOf($payload->getModelResources(), ResourceCursorInterface::class);
+        foreach ($payload->getModelResources() as $resource) {
+            $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
+            if (!$productGroup instanceof ProductGroup) {
+                continue;
+            }
+
+            $family = null;
+            if (!isset($resource['family'])) {
+                try {
+                    $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
+                } catch (\LogicException $exception) {
+                    $this->logger->warning($exception->getMessage());
+
+                    continue;
+                }
+            }
+
+            if (!isset($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']])) {
+                $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
+                    $family ?: $resource['family'],
+                    $resource['family_variant']
+                );
+
+                $familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']] = $payloadProductGroup;
+            }
+
+            $this->addAxes($familiesVariantPayloads[$family ?: $resource['family']], $family, $resource, $productGroup);
         }
     }
 }
