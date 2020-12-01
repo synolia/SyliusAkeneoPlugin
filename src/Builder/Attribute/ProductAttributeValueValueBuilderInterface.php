@@ -15,5 +15,5 @@ interface ProductAttributeValueValueBuilderInterface
      *
      * @return mixed
      */
-    public function build(string $attributeCode, $value);
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value);
 }

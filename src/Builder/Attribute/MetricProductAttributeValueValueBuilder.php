@@ -32,7 +32,7 @@ final class MetricProductAttributeValueValueBuilder implements ProductAttributeV
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         return \trim(implode(' ', $value));
     }

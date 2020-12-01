@@ -33,7 +33,7 @@ final class SelectProductAttributeValueValueBuilder implements ProductAttributeV
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         return [CreateUpdateDeleteTask::AKENEO_PREFIX . $value];
     }

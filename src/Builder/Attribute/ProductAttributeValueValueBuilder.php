@@ -19,12 +19,12 @@ final class ProductAttributeValueValueBuilder
      *
      * @return mixed|null
      */
-    public function build(string $attributeCode, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if ($attributeValueBuilder->support($attributeCode)) {
-                return $attributeValueBuilder->build($attributeCode, $value);
+                return $attributeValueBuilder->build($attributeCode, $locale, $scope, $value);
             }
         }
 

@@ -133,7 +133,12 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         ]);
         $this->assertNotNull($referenceEntityAttributeValue);
 
-        $minifiedJson = preg_replace('/\s(?=([^"]*"[^"]*")*[^"]*$)/', '', $this->getFileContent('reference_entity_couleur_record_noir.json'));
+        $minifiedJson = \preg_replace(
+            '/\s(?=([^"]*"[^"]*")*[^"]*$)/',
+            '',
+            '{"code":"noir","values":{"label":"BLANC","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_blanc.png","filtre_couleur_1":"noir"}}'
+        );
+
         $this->assertSame(
             $minifiedJson,
             $referenceEntityAttributeValue->getValue()

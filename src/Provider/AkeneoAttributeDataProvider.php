@@ -40,7 +40,7 @@ final class AkeneoAttributeDataProvider
         if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
             (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
                 !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode))) {
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValues[0]['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValues[0]['data']);
         }
 
         if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
@@ -71,7 +71,7 @@ final class AkeneoAttributeDataProvider
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, null, $scope, $attributeValue['data']);
         }
 
         throw new MissingScopeException();
@@ -87,7 +87,7 @@ final class AkeneoAttributeDataProvider
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationOrScopeException();
@@ -103,7 +103,7 @@ final class AkeneoAttributeDataProvider
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, null, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationException();

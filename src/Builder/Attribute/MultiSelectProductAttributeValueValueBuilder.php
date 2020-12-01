@@ -33,7 +33,7 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, $values)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $values)
     {
         foreach ($values as $key => $value) {
             $values[$key] = CreateUpdateDeleteTask::AKENEO_PREFIX . $value;

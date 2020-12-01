@@ -32,7 +32,7 @@ final class DateProductAttributeValueValueBuilder implements ProductAttributeVal
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         return \DateTime::createFromFormat(\DateTime::W3C, $value);
     }

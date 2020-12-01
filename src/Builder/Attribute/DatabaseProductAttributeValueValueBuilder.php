@@ -42,11 +42,11 @@ final class DatabaseProductAttributeValueValueBuilder implements ProductAttribut
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         $attributeType = $this->attributeTypeMatcher->match($this->databaseMappingAttributeTypeMatcher->getType());
         $builder = $this->productAttributeValueValueBuilder->findBuilderByClassName($attributeType->getBuilder());
 
-        return $builder->build($attributeCode, $value);
+        return $builder->build($attributeCode, $locale, $scope, $value);
     }
 }
