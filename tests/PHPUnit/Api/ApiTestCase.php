@@ -54,7 +54,7 @@ abstract class ApiTestCase extends KernelTestCase
             ->setUsername('test')
             ->setApiClientId('test')
             ->setApiClientSecret('test')
-            ->setIsEnterprise(false)
+            ->setIsEnterprise(true)
             ->setPassword('test')
         ;
         $this->manager->persist($this->apiConfiguration);

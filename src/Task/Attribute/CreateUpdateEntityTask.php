@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
@@ -18,6 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
 
 final class CreateUpdateEntityTask extends AbstractAttributeTask implements AkeneoTaskInterface
 {
@@ -30,6 +33,9 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
     private $excludedAttributesProvider;
 
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $apiConfigurationRepository;
+
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         EntityManagerInterface $entityManager,
@@ -38,7 +44,8 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
         FactoryInterface $productAttributeFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
-        ExcludedAttributesProvider $excludedAttributesProvider
+        ExcludedAttributesProvider $excludedAttributesProvider,
+        RepositoryInterface $apiConfigurationRepository
     ) {
         parent::__construct(
             $entityManager,
@@ -51,6 +58,7 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->excludedAttributesProvider = $excludedAttributesProvider;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
+        $this->apiConfigurationRepository = $apiConfigurationRepository;
     }
 
     /**
@@ -64,6 +72,13 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
+
+        /** @var ApiConfiguration|null $apiConfiguration */
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+
+        if (!$apiConfiguration instanceof ApiConfiguration) {
+            throw new ApiNotConfiguredException();
+        }
 
         if (!$payload->getResources() instanceof ResourceCursorInterface) {
             throw new NoAttributeResourcesException('No resource found.');
@@ -82,6 +97,11 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
 
                 try {
                     $attributeType = $this->attributeTypeMatcher->match($resource['type']);
+
+                    if ($attributeType instanceof ReferenceEntityAttributeTypeMatcher &&
+                        !$apiConfiguration->isEnterprise()) {
+                        continue;
+                    }
 
                     $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
 
