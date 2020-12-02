@@ -81,4 +81,4 @@ services:
     sylius.attribute_type.reference_entity:
         class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
         tags:
-            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'Text', form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextareaAttributeType', configuration_form_type: 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\TextAttributeConfigurationType' }
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'Text', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\ReferenceEntityAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\ReferenceEntityAttributeType' }

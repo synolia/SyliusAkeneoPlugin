@@ -99,9 +99,9 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
             }
         }
 
-        return \json_encode([
+        return [
             'code' => $records['code'],
-            'values' => $subAttributeValues,
-        ]);
+            'attributes' => $subAttributeValues,
+        ];
     }
 }
