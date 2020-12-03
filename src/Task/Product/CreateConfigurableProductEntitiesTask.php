@@ -265,8 +265,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 return;
             }
 
-            $productOptionValue->setValue($value);
-
             //Product variant already have this value
             if (!$productVariant->hasOptionValue($productOptionValue)) {
                 $productVariant->addOptionValue($productOptionValue);

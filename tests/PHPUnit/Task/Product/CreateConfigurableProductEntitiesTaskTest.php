@@ -80,7 +80,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 'code' => '1111111130',
                 'name' => 'Long gray suit jacket and matching pants unstructured Apollon yellow',
                 'attributes' => [
-                    'size' => 'xs',
+                    'size' => 'XS',
                 ],
                 'price' => 89900,
             ],
@@ -88,7 +88,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 'code' => '1111111131',
                 'name' => 'Long gray suit jacket and matching pants unstructured Apollon yellow',
                 'attributes' => [
-                    'size' => 'xl',
+                    'size' => 'XL',
                 ],
                 'price' => 89000,
             ],
@@ -96,7 +96,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 'code' => '1111111119',
                 'name' => 'Long gray suit jacket and matching pants unstructured Apollon blue',
                 'attributes' => [
-                    'size' => 'xxl',
+                    'size' => 'XXL',
                 ],
                 'price' => 76543,
             ],
