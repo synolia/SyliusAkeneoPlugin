@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
+use App\Entity\Product\Product;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
@@ -174,13 +175,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         }
         $this->scope = $filters->getChannel();
 
-        $productsMapping = [];
-        $products = $this->productRepository->findAll();
-        /** @var ProductInterface $product */
-        foreach ($products as $product) {
-            $productsMapping[$product->getCode()] = $product;
-        }
-
         $processedCount = 0;
         $totalItemsCount = $this->countTotalProducts();
 
@@ -193,11 +187,11 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
                 try {
                     $this->entityManager->beginTransaction();
-                    $this->process($resource, $productsMapping);
+                    $this->process($resource);
 
                     $this->entityManager->flush();
                     $this->entityManager->commit();
-
+                    $this->entityManager->clear();
                     \gc_collect_cycles();
                 } catch (\Throwable $throwable) {
                     $this->entityManager->rollback();
@@ -244,29 +238,31 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $query;
     }
 
-    private function process(array $resource, array $productsMapping): void
+    private function process(array $resource): void
     {
-        if (isset($productsMapping[$resource['code']])) {
-            $this->addOrUpdate($resource, $productsMapping[$resource['code']]);
-            ++$this->updateCount;
-            $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $productsMapping[$resource['code']]));
+        if ('' === $resource['code'] || null === $resource['code']) {
+            return;
+        }
+
+        $product = $this->productRepository->findOneByCode($resource['code']);
+
+        if (!$product instanceof ProductInterface) {
+            /** @var ProductInterface $product */
+            $product = $this->productFactory->createNew();
+            $product->setCode($resource['code']);
+
+            $this->entityManager->persist($product);
+            $this->addOrUpdate($product, $resource);
+
+            ++$this->createCount;
+            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $product->getCode()));
 
             return;
         }
 
-        /** @var ProductInterface $newProduct */
-        $newProduct = $this->productFactory->createNew();
-
-        $product = $this->addOrUpdate($resource, $newProduct);
-
-        if ($product === null) {
-            return;
-        }
-
-        ++$this->createCount;
-        $this->logger->info(Messages::hasBeenCreated($this->type, (string) $product->getCode()));
-
-        $this->entityManager->persist($product);
+        $this->addOrUpdate($product, $resource);
+        ++$this->updateCount;
+        $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $resource['code']));
     }
 
     /**
@@ -274,7 +270,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
      *
      * @todo Need refacto
      */
-    private function addOrUpdate(array $resource, ProductInterface $product): ?ProductInterface
+    private function addOrUpdate(ProductInterface $product, array $resource): void
     {
         $familyCode = null;
         if (!isset($resource['family'])) {
@@ -283,7 +279,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             } catch (\LogicException $exception) {
                 $this->logger->warning($exception->getMessage());
 
-                return null;
+                return;
             }
         }
 
@@ -295,7 +291,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $numberOfVariationAxis = isset($payloadProductGroup['variant_attribute_sets']) ? \count($payloadProductGroup['variant_attribute_sets']) : 0;
 
         if (null === $resource['parent'] && $numberOfVariationAxis > self::ONE_VARIATION_AXIS) {
-            return null;
+            return;
         }
 
         $this->updateProductRequirementsForActiveLocales(
@@ -304,25 +300,19 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             $resource
         );
 
-        $productResourcePayload = $this->updateAttributes(
+        $this->updateAttributes(
             $resource,
             $product,
             $familyCode ? $familyCode : $resource['family'],
             $this->scope,
         );
-        if ($productResourcePayload->getProduct() === null) {
-            return null;
-        }
 
         $this->addProductGroup($resource, $product);
         $productTaxonIds = $this->getProductTaxonIds($product);
         $productTaxons = $this->updateTaxon($resource, $product);
         $this->removeUnusedProductTaxons($productTaxonIds, $productTaxons);
         $this->updateImages($resource, $product);
-        $product->setCode($resource['code']);
         $this->setMainTaxon($resource, $product);
-
-        return $product;
     }
 
     /**
@@ -466,7 +456,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         ProductInterface $product,
         string $familyCode,
         string $scope
-    ): ProductResourcePayload {
+    ): void {
         $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
 
         $productResourcePayload = new ProductResourcePayload($this->payload->getAkeneoPimClient());
@@ -479,8 +469,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
         $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $addAttributesToProductTask->__invoke($productResourcePayload);
-
-        return $productResourcePayload;
     }
 
     private function removeUnusedProductTaxons(array $productTaxonIds, array $productTaxons): void
