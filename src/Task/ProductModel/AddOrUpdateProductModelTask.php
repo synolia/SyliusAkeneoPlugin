@@ -224,6 +224,13 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $payload;
     }
 
+    public function convert($size)
+    {
+        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
+
+        return @round($size / 1024 ** ($i = floor(log($size, 1024))), 2) . ' ' . $unit[$i];
+    }
+
     private function countTotalProducts(): int
     {
         $query = $this->entityManager->getConnection()->prepare(\sprintf(
