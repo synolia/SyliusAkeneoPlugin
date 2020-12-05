@@ -16,6 +16,9 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     protected $outputInterface;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration */
+    protected $apiConfiguration;
+
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
         $this->akeneoPimClient = $akeneoPimClient;
@@ -45,5 +48,17 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         } catch (\ReflectionException $e) {
             return '';
         }
+    }
+
+    public function getApiConfiguration(): \Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration
+    {
+        return $this->apiConfiguration;
+    }
+
+    public function setApiConfiguration(\Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration $apiConfiguration): self
+    {
+        $this->apiConfiguration = $apiConfiguration;
+
+        return $this;
     }
 }

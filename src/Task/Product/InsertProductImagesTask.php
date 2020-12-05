@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Sylius\Component\Core\Model\ProductInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
@@ -29,15 +28,7 @@ final class InsertProductImagesTask extends AbstractInsertProductImageTask imple
 
             $this->cleanImages($product);
 
-            $configuration = $this->productConfigurationRepository->findOneBy([]);
-
-            if (!$configuration instanceof ProductConfiguration) {
-                $this->logger->warning(Messages::noConfigurationSet('Product Images', 'Import images'));
-
-                return $payload;
-            }
-
-            $imageAttributes = $configuration->getAkeneoImageAttributes();
+            $imageAttributes = $payload->getProductConfiguration()->getAkeneoImageAttributes();
             if ($imageAttributes === null) {
                 $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 

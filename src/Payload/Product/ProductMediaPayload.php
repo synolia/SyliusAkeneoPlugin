@@ -9,6 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
 {
+    /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration */
+    private $productConfiguration;
+
     /** @var \Sylius\Component\Core\Model\ProductInterface */
     private $product;
 
@@ -37,5 +40,15 @@ final class ProductMediaPayload extends AbstractPayload implements ProductMediaP
         $this->attributes = $attributes;
 
         return $this;
+    }
+
+    public function getProductConfiguration(): \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration
+    {
+        return $this->productConfiguration;
+    }
+
+    public function setProductConfiguration(\Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration): void
+    {
+        $this->productConfiguration = $productConfiguration;
     }
 }
