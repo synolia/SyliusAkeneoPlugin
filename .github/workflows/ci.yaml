@@ -262,10 +262,6 @@ jobs:
           sed -i "s#<directory>tests</directory>#<directory>./vendor/${{ env.package-name }}/tests/PHPUnit</directory>#g" phpunit.xml
           sed -i "s#/tests/Application/AppKernel.php#src/Kernel.php#g" phpunit.xml
 
-      - name: PHPunit - Run
-        working-directory: ./sylius
-        run: php phpunit-8.5.phar
-
       - name: Behat - Config Suite
         working-directory: ./sylius
         run: |
@@ -297,10 +293,17 @@ jobs:
             /home/runner/.symfony/bin/symfony server:start --port=8080 --dir=public --allow-http --daemon
             sleep 10
             /home/runner/.symfony/bin/symfony server:status
+          id: end-of-setup-sylius
+
+      -   name: PHPunit - Run
+          working-directory: ./sylius
+          run: php phpunit-8.5.phar
+          if: always() && steps.end-of-setup.outcome == 'success'
 
       -   name: Run behat
           working-directory: ./sylius
           run: vendor/bin/behat --strict --no-interaction -f progress || vendor/bin/behat --strict -vvv --no-interaction --rerun
+          if: always() && steps.end-of-setup.outcome == 'success'
 
       -   uses: actions/upload-artifact@v2.1.4
           if: failure()
