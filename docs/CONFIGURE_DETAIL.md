@@ -71,6 +71,8 @@ This part allows you to manually map an Akeneo attribute to a Sylius attribute b
 ![Akeneo Attribute Code To Sylius Atribute Code](media/akeneo_attribute_to_sylius_code.png)
 ---
 
+Learn more about how reference entities are imported.
+
 Previous step: [Initial configuration](CONFIGURE.md)
 
 Next step: [Customization](CUSTOMIZE.md)
