@@ -106,7 +106,7 @@ jobs:
       fail-fast: false
       matrix:
         php: [7.3, 7.4]
-        sylius: ['1.7.*', '1.8.*']
+        sylius: ['1.7.*', '1.8.2']
         symfony: [4.4.*]
 
     env:
@@ -209,13 +209,13 @@ jobs:
       - name: Sylius - Fix payplug migration
         working-directory: ./sylius
         run: rm src/Migrations/Version20200907102535.php
-        if: matrix.sylius == '1.8.*' || matrix.sylius == 'dev-master'
+        if: matrix.sylius == '1.8.2' || matrix.sylius == 'dev-master'
 
       - name: Sylius - Migration config
         working-directory: ./sylius
         run: |
           echo '        'DoctrineMigrations': 'src/Migrations'' >> config/packages/doctrine_migrations.yaml
-        if: matrix.sylius == '1.8.*' || matrix.sylius == 'dev-master'
+        if: matrix.sylius == '1.8.2' || matrix.sylius == 'dev-master'
 
       - name: Sylius - Get test services from Plugin
         working-directory: ./sylius
