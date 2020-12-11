@@ -63,7 +63,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         if (null === $locale || null === $scope) {
-            throw new \LogicException('');
+            throw new \LogicException(sprintf('Locale and Scope are mandatory for %s reference entity.', $attributeCode));
         }
 
         $subAttributeValues = [];
