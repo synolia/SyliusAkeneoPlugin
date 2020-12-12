@@ -82,6 +82,7 @@ sylius:
                     subtitle: Attributes configuration
                 medias:
                     medias: Medias
+        reference_entity: 'Reference Entity'
 akeneo:
     ui:
         attribute_type_mappings: 'Akeneo Attribute Type Mappings'

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\TextAttributeType;
-use Synolia\SyliusAkeneoPlugin\Builder\MetricProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\MetricProductAttributeValueValueBuilder;
 
 final class MetricAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {

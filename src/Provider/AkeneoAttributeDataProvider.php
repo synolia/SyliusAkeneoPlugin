@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
-use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
@@ -15,7 +15,7 @@ final class AkeneoAttributeDataProvider
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertyProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder */
+    /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder */
     private $productAttributeValueValueBuilder;
 
     public function __construct(
@@ -40,7 +40,7 @@ final class AkeneoAttributeDataProvider
         if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
             (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
                 !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode))) {
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValues[0]['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValues[0]['data']);
         }
 
         if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
@@ -71,7 +71,7 @@ final class AkeneoAttributeDataProvider
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, null, $scope, $attributeValue['data']);
         }
 
         throw new MissingScopeException();
@@ -87,7 +87,7 @@ final class AkeneoAttributeDataProvider
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationOrScopeException();
@@ -103,7 +103,7 @@ final class AkeneoAttributeDataProvider
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, null, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationException();

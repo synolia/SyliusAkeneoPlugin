@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Builder;
+namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
 
-final class MultiSelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class TextProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
@@ -26,14 +27,17 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
 
     public function support(string $attributeCode): bool
     {
-        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MultiSelectAttributeTypeMatcher;
+        $typeMatcher = $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode));
+
+        return $typeMatcher instanceof TextAttributeTypeMatcher ||
+            $typeMatcher instanceof TextareaAttributeTypeMatcher;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function build($value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
-        return $value;
+        return \trim((string) $value);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
-use Synolia\SyliusAkeneoPlugin\Builder\ProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;

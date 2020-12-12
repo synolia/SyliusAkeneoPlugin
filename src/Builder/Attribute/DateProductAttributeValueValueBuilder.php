@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Builder;
+namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MetricAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DateAttributeTypeMatcher;
 
-final class MetricProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
+final class DateProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
@@ -26,14 +26,14 @@ final class MetricProductAttributeValueValueBuilder implements ProductAttributeV
 
     public function support(string $attributeCode): bool
     {
-        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MetricAttributeTypeMatcher;
+        return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof DateAttributeTypeMatcher;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function build($value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
-        return \trim(implode(' ', $value));
+        return \DateTime::createFromFormat(\DateTime::W3C, $value);
     }
 }

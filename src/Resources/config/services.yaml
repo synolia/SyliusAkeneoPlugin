@@ -70,10 +70,15 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
 
-    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+    Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
 
     Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeChoiceType:
         arguments:
             - '%sylius.attribute.attribute_types%'
+
+    sylius.attribute_type.reference_entity:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'Text', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\ReferenceEntityAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\ReferenceEntityAttributeType' }

@@ -12,6 +12,7 @@ If you don't have any client id, please take a look at [this page](https://api.a
 * Go to menu Akeneo > Api configuration
 * Set you credentials and save it (you can test it, if needed)
 * The pagination allows you to make larger or smaller requests for the recovery of Akeneo data. The maximum value is 100.
+* Check the box **Is Akeneo enterprise edition** if you are planning to use Akeneo Enterprise Edition features like importing reference entities.
 
 ![Api Configuration](media/api_configuration.png)
 ---

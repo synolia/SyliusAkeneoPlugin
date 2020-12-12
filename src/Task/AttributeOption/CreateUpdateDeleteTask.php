@@ -15,33 +15,13 @@ use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
-final class CreateUpdateDeleteTask implements AkeneoTaskInterface
+final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implements AkeneoTaskInterface
 {
-    public const AKENEO_PREFIX = 'akeneo-';
-
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
-
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var int */
-    private $updateCount = 0;
-
-    /** @var int */
-    private $createCount = 0;
-
-    /** @var string */
-    private $type;
-
     /** @var AkeneoAttributeToSyliusAttributeTransformer */
     private $akeneoAttributeToSyliusAttributeTransformer;
-
-    /** @var SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -50,11 +30,11 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger
     ) {
+        parent::__construct($entityManager, $akeneoLogger, $syliusAkeneoLocaleCodeProvider);
+
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
-        $this->logger = $akeneoLogger;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     /**
@@ -100,59 +80,5 @@ final class CreateUpdateDeleteTask implements AkeneoTaskInterface
         }
 
         $this->setAttributeChoices($attribute, $options, $isMultiple);
-    }
-
-    private function setAttributeChoices(
-        AttributeInterface $attribute,
-        ResourceCursorInterface $options,
-        bool $isMultiple
-    ): void {
-        $choices = [];
-        foreach ($options as $option) {
-            foreach ($option['labels'] as $locale => $label) {
-                if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
-                    continue;
-                }
-                if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && $this->getUnusedLocale($option['labels']) !== []) {
-                    $choices[self::AKENEO_PREFIX . $option['code']] = $this->getUnusedLocale($option['labels']);
-                }
-                $choices[self::AKENEO_PREFIX . $option['code']][$locale] = $label;
-            }
-        }
-
-        if ($choices === []) {
-            $this->entityManager->remove($attribute);
-
-            return;
-        }
-
-        if (isset($attribute->getConfiguration()['choices'])) {
-            ++$this->updateCount;
-            $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));
-        } else {
-            ++$this->createCount;
-            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $attribute->getCode()));
-        }
-
-        $attribute->setConfiguration([
-            'choices' => $choices,
-            'multiple' => $isMultiple,
-            'min' => null,
-            'max' => null,
-        ]);
-    }
-
-    private function getUnusedLocale(array $labels): array
-    {
-        $localeDiff = array_diff($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), array_keys($labels));
-        if ($localeDiff === []) {
-            return [];
-        }
-
-        foreach ($localeDiff as $locale) {
-            $localeUnused[$locale] = ' ';
-        }
-
-        return $localeUnused;
     }
 }

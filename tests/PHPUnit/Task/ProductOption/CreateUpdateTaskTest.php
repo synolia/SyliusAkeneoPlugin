@@ -13,6 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\AbstractAttributeOptionTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateTask;
@@ -88,16 +89,16 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     private function assertProductOptionValues(ProductOption $productOption): void
     {
         $expectedValueCodes = [
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'black',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'blue',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'brown',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'green',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'grey',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'orange',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'pink',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'red',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'white',
-            'color_' . CreateUpdateDeleteTask::AKENEO_PREFIX . 'yellow',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'blue',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'brown',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'green',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'grey',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'orange',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'pink',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'red',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
+            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'yellow',
         ];
         $values = $productOption->getValues();
 
@@ -123,7 +124,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $productOptionValue */
         $productOptionValue = $productOptionValueRepository->findOneBy([
-            'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, CreateUpdateDeleteTask::AKENEO_PREFIX . 'black'),
+            'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, AbstractAttributeOptionTask::AKENEO_PREFIX . 'black'),
             'option' => $productOption,
         ]);
 

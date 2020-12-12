@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 
@@ -13,7 +13,7 @@ final class FamilyRetriever
     /** @var array<string> */
     private $familiesByVariant = [];
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
+    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     private $akeneoPimClient;
 
     /** @var ConfigurationProvider */
@@ -23,7 +23,7 @@ final class FamilyRetriever
     private $logger;
 
     public function __construct(
-        AkeneoPimClientInterface $akeneoPimClient,
+        AkeneoPimEnterpriseClientInterface $akeneoPimClient,
         ConfigurationProvider $configurationProvider,
         LoggerInterface $logger
     ) {

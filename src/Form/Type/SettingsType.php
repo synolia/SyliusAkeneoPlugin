@@ -19,7 +19,7 @@ final class SettingsType extends AbstractType
         $entries = \array_keys($options['data']);
         foreach ($entries as $name) {
             $configuration = SettingType::AKENEO_SETTINGS[$name];
-            // If setting's value exists in data and setting isn't disabled
+            // If setting's value exist in data and setting isn't disabled
 
             $fieldType = $configuration['type'];
             $fieldOptions = $configuration['options'];
