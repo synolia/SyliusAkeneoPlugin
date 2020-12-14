@@ -21,63 +21,51 @@ class ApiConfiguration implements ResourceInterface
     public const DEFAULT_PAGINATION_SIZE = 100;
 
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $baseUrl;
+    private ?string $baseUrl = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $apiClientId;
+    private ?string $apiClientId = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $apiClientSecret;
+    private ?string $apiClientSecret = null;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      * @Assert\Range(
-     *      min = ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
-     *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
-     * )
+     *      min=ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE, max=ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE )
      */
-    private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
+    private int $paginationSize = self::DEFAULT_PAGINATION_SIZE;
+
+    /** @ORM\Column(type="boolean") */
+    private ?bool $isEnterprise = null;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $isEnterprise;
-
-    /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $username;
+    private ?string $username = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $password;
+    private ?string $password = null;
 
     public function getId(): ?int
     {

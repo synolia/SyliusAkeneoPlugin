@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute;
 
+use Webmozart\Assert\Assert;
+
 final class ProductReferenceEntityAttributeValueValueBuilder
 {
     /** @var array<ProductReferenceEntityAttributeValueValueBuilderInterface> */
-    private $referenceEntityAttributeValueBuilders;
+    private ?array $referenceEntityAttributeValueBuilders = null;
 
     public function addBuilder(ProductReferenceEntityAttributeValueValueBuilderInterface $attributeValueBuilder): void
     {
@@ -21,9 +23,11 @@ final class ProductReferenceEntityAttributeValueValueBuilder
      */
     public function build(string $referenceEntityCode, string $subAttributeCode, $value)
     {
-        /** @var ProductReferenceEntityAttributeValueValueBuilderInterface $referenceEntityAttributeValueBuilder */
+        Assert::isIterable($this->referenceEntityAttributeValueBuilders);
+
         foreach ($this->referenceEntityAttributeValueBuilders as $referenceEntityAttributeValueBuilder) {
-            if ($referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode)) {
+            $referenceEntityAttributeValueBuilderSupport = $referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode);
+            if ($referenceEntityAttributeValueBuilderSupport) {
                 return $referenceEntityAttributeValueBuilder->build($value);
             }
         }
@@ -36,7 +40,8 @@ final class ProductReferenceEntityAttributeValueValueBuilder
      */
     public function findBuilderByClassName(string $className)
     {
-        /** @var ProductReferenceEntityAttributeValueValueBuilderInterface $referenceEntityAttributeValueBuilder */
+        Assert::isIterable($this->referenceEntityAttributeValueBuilders);
+
         foreach ($this->referenceEntityAttributeValueBuilders as $referenceEntityAttributeValueBuilder) {
             if (!$referenceEntityAttributeValueBuilder instanceof $className) {
                 continue;
@@ -50,8 +55,11 @@ final class ProductReferenceEntityAttributeValueValueBuilder
 
     public function hasSupportedBuilder(string $referenceEntityCode, string $subAttributeCode): bool
     {
+        Assert::isIterable($this->referenceEntityAttributeValueBuilders);
+
         foreach ($this->referenceEntityAttributeValueBuilders as $referenceEntityAttributeValueBuilder) {
-            if ($referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode)) {
+            $referenceEntityAttributeValueBuilderSupport = $referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode);
+            if ($referenceEntityAttributeValueBuilderSupport) {
                 return true;
             }
         }

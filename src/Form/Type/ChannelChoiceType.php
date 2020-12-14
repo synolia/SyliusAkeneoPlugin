@@ -12,8 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 
 final class ChannelChoiceType extends AbstractType
 {
-    /** @var ChannelApiInterface */
-    private $channelApi;
+    private ChannelApiInterface $channelApi;
 
     public function __construct(ClientFactory $clientFactory)
     {

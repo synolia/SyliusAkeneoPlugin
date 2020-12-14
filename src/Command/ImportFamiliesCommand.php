@@ -24,14 +24,11 @@ final class ImportFamiliesCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:families';
 
-    /** @var FamilyPipelineFactory */
-    private $familyPipelineFactory;
+    private FamilyPipelineFactory $familyPipelineFactory;
 
-    /** @var ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         FamilyPipelineFactory $familyPipelineFactory,

@@ -14,24 +14,17 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class Setting implements ResourceInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $name;
+    /** @ORM\Column(type="string") */
+    private string $name;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $value;
+    /** @ORM\Column(type="string", nullable=true) */
+    private ?string $value = null;
 
     public function __construct(string $name)
     {

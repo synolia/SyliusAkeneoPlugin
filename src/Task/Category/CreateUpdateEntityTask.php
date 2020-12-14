@@ -14,38 +14,31 @@ use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class CreateUpdateEntityTask implements AkeneoTaskInterface
 {
-    /** @var \Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface */
-    private $taxonFactory;
+    private TaxonFactoryInterface $taxonFactory;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository */
-    private $taxonRepository;
+    private TaxonRepository $taxonRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $taxonTranslationRepository;
+    private RepositoryInterface $taxonTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $taxonTranslationFactory;
+    private FactoryInterface $taxonTranslationFactory;
 
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
@@ -64,7 +57,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $payload
+     * @param CategoryPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -122,7 +115,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 

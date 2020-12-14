@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Akeneo\Pim\ApiClient\Pagination\Page;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -17,17 +18,13 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveProductsTask implements AkeneoTaskInterface
 {
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilter */
-    private $productFilter;
+    private ProductFilter $productFilter;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         LoggerInterface $akeneoLogger,
@@ -42,7 +39,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
+     * @param ProductPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -56,7 +53,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
         $queryParameters = $this->productFilter->getProductFilters();
         $queryParameters['pagination_type'] = 'search_after';
 
-        /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
+        /** @var PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
             $this->configurationProvider->getConfiguration()->getPaginationSize(),
             true,

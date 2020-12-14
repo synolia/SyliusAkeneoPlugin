@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -14,25 +15,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
+use Throwable;
 
 final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;
 
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var EntityRepository */
-    private $apiConfigurationRepository;
+    private EntityRepository $apiConfigurationRepository;
 
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    /** @var FlashBagInterface */
-    private $flashBag;
+    private FlashBagInterface $flashBag;
 
-    /** @var ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -61,7 +58,7 @@ final class ApiConfigurationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var \Symfony\Component\Form\SubmitButton $testCredentialsButton */
+            /** @var SubmitButton $testCredentialsButton */
             $testCredentialsButton = $form->get('testCredentials');
 
             try {
@@ -75,7 +72,7 @@ final class ApiConfigurationController extends AbstractController
                 }
 
                 $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
-            } catch (\Throwable $throwable) {
+            } catch (Throwable $throwable) {
                 $this->flashBag->add('error', $throwable->getMessage());
             }
         }

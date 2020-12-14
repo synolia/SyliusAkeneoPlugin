@@ -13,14 +13,11 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 class ApiConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
-    private $objectManager;
+    private ObjectManager $objectManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $apiConfigurationFactory;
+    private FactoryInterface $apiConfigurationFactory;
 
     public function __construct(
         ClientFactory $clientFactory,

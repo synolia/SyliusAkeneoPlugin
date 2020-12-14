@@ -11,8 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Event\BeforeTaskEvent;
 
 class Processor implements ProcessorInterface
 {
-    /** @var EventDispatcherInterface */
-    protected $dispatcher;
+    protected EventDispatcherInterface $dispatcher;
 
     public function __construct(EventDispatcherInterface $dispatcher)
     {

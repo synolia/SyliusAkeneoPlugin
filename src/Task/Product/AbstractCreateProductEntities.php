@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
@@ -20,40 +21,31 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Throwable;
 
 class AbstractCreateProductEntities
 {
     private const PRICE_CENTS = 100;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productVariantRepository;
+    protected RepositoryInterface $productVariantRepository;
 
-    /** @var \Sylius\Component\Product\Factory\ProductVariantFactoryInterface */
-    protected $productVariantFactory;
+    protected ProductVariantFactoryInterface $productVariantFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productRepository;
+    protected RepositoryInterface $productRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository */
-    protected $channelRepository;
+    protected ChannelRepository $channelRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $channelPricingRepository;
+    protected RepositoryInterface $channelPricingRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    protected $channelPricingFactory;
+    protected FactoryInterface $channelPricingFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $localeRepository;
+    protected RepositoryInterface $localeRepository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productConfigurationRepository;
+    protected RepositoryInterface $productConfigurationRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -102,12 +94,12 @@ class AbstractCreateProductEntities
             $pricingAttribute = $this->getPriceAttributeData($attributes);
 
             foreach ($pricingAttribute as $price) {
-                /** @var \Sylius\Component\Core\Model\ChannelInterface $channel */
+                /** @var ChannelInterface $channel */
                 foreach ($this->channelRepository->findByCurrencyCode($price['currency']) as $channel) {
                     $this->addPriceToChannel((float) $price['amount'], $channel, $productVariant);
                 }
             }
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
 
             return;
@@ -151,14 +143,14 @@ class AbstractCreateProductEntities
         ChannelInterface $channel,
         ProductVariantInterface $productVariant
     ): void {
-        /** @var \Sylius\Component\Core\Model\ChannelPricingInterface $channelPricing */
+        /** @var ChannelPricingInterface $channelPricing */
         $channelPricing = $this->channelPricingRepository->findOneBy([
             'channelCode' => $channel->getCode(),
             'productVariant' => $productVariant,
         ]);
 
         if (!$channelPricing instanceof ChannelPricingInterface) {
-            /** @var \Sylius\Component\Core\Model\ChannelPricingInterface $channelPricing */
+            /** @var ChannelPricingInterface $channelPricing */
             $channelPricing = $this->channelPricingFactory->createNew();
         }
 
@@ -172,7 +164,7 @@ class AbstractCreateProductEntities
 
     private function getPriceAttributeData(array $attributes): array
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
+        /** @var ProductConfiguration|null $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
         if (!$productConfiguration instanceof ProductConfiguration) {
@@ -189,7 +181,7 @@ class AbstractCreateProductEntities
             }
 
             if (\count($attributeValue) === 0) {
-                throw new \LogicException('Price attribute is empty.');
+                throw new LogicException('Price attribute is empty.');
             }
 
             return \current($attributeValue)['data'];

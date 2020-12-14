@@ -8,20 +8,19 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveCategoriesTask implements AkeneoTaskInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository */
-    private $categoriesConfigurationRepository;
+    private CategoryConfigurationRepository $categoriesConfigurationRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository $categoriesConfigurationRepository
@@ -37,7 +36,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $payload
+     * @param CategoryPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -132,7 +131,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
             }
 
             $children = $this->buildTree($elements, $element['code']);
-            if ($children) {
+            if ($children !== []) {
                 $element['children'] = $children;
             }
             $branch[$element['code']] = $element;
@@ -144,7 +143,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     private function excludeNotInRootCategory(CategoryConfiguration $configuration, array &$categoriesTree): array
     {
         $keptCategories = [];
-        if (0 === \count($configuration->getRootCategories())) {
+        if ([] === $configuration->getRootCategories()) {
             return $keptCategories;
         }
 
@@ -165,7 +164,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     private function excludeNotImportedCategories(CategoryConfiguration $configuration, array &$categoriesTree): array
     {
         $excludedCategories = [];
-        if (0 === \count($configuration->getNotImportCategories())) {
+        if ([] === $configuration->getNotImportCategories()) {
             return $excludedCategories;
         }
 

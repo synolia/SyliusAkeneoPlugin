@@ -6,15 +6,14 @@ namespace Synolia\SyliusAkeneoPlugin\Payload;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    protected $akeneoPimClient;
+    protected AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
-    protected $outputInterface;
+    protected OutputInterface $outputInterface;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
@@ -42,7 +41,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     {
         try {
             return \mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return '';
         }
     }

@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -14,6 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -21,20 +23,17 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
+use Throwable;
 
 final class CreateUpdateEntityTask extends AbstractAttributeTask implements AkeneoTaskInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformer */
-    private $akeneoAttributeToSyliusAttributeTransformer;
+    private AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
-    private $excludedAttributesProvider;
+    private ExcludedAttributesProvider $excludedAttributesProvider;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
 
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -62,10 +61,10 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $payload
+     * @param AttributePayload $payload
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException
-     * @throws \Throwable
+     * @throws NoAttributeResourcesException
+     * @throws Throwable
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -105,7 +104,7 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
 
                     $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
 
-                    /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
+                    /** @var AttributeInterface $attribute */
                     $attribute = $this->getOrCreateEntity($code, $attributeType);
 
                     $this->setAttributeTranslations($resource['labels'], $attribute);
@@ -122,7 +121,7 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
             }
 
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 

@@ -11,8 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class TearDownProductTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {

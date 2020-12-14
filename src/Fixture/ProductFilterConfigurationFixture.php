@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use LogicException;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
 class ProductFilterConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
-    private $objectManager;
+    private ObjectManager $objectManager;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productFiltersRulesFactory;
+    private FactoryInterface $productFiltersRulesFactory;
 
     public function __construct(
         ObjectManager $objectManager,
@@ -32,14 +33,14 @@ class ProductFilterConfigurationFixture extends AbstractFixture
 
     public function load(array $options): void
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $productFilterRules */
+        /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesFactory->createNew();
 
-        $updatedBefore = \DateTime::createFromFormat($options['updated_before_format'], $options['updated_before']);
-        $updatedAfter = \DateTime::createFromFormat($options['updated_after_format'], $options['updated_after']);
+        $updatedBefore = DateTime::createFromFormat($options['updated_before_format'], $options['updated_before']);
+        $updatedAfter = DateTime::createFromFormat($options['updated_after_format'], $options['updated_after']);
 
         if (!$updatedBefore instanceof DateTimeInterface || !$updatedAfter instanceof DateTimeInterface) {
-            throw new \LogicException('Invalid updatedBefore or updatedAfter date format.');
+            throw new LogicException('Invalid updatedBefore or updatedAfter date format.');
         }
 
         $productFilterRules

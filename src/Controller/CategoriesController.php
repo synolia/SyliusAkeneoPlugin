@@ -18,20 +18,15 @@ use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 
 final class CategoriesController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var CategoryConfigurationRepository|RepositoryInterface */
-    private $categoriesConfigurationRepository;
+    private RepositoryInterface $categoriesConfigurationRepository;
 
-    /** @var RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
 
-    /** @var FlashBagInterface */
-    private $flashBag;
+    private FlashBagInterface $flashBag;
 
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(
         EntityManagerInterface $entityManager,

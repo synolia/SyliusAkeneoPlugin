@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Exceptions\DataTransformer;
 
-class ReferenceEntityTransformException extends \Exception
+use Exception;
+
+class ReferenceEntityTransformException extends Exception
 {
 }

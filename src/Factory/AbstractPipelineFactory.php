@@ -9,11 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 
 abstract class AbstractPipelineFactory implements PipelineFactoryInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    protected $taskProvider;
+    protected AkeneoTaskProvider $taskProvider;
 
-    /** @var EventDispatcherInterface */
-    protected $dispatcher;
+    protected EventDispatcherInterface $dispatcher;
 
     public function __construct(
         AkeneoTaskProvider $taskProvider,

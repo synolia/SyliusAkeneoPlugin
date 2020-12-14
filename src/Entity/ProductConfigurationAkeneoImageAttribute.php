@@ -15,27 +15,24 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @SerializedName("akeneo_attributes")
      *
-     * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $akeneoAttributes;
+    private ?string $akeneoAttributes = null;
 
     /**
-     * @var ProductConfiguration|null
      * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="akeneoImageAttributes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $productConfiguration;
+    private ?ProductConfiguration $productConfiguration = null;
 
     public function getId(): ?int
     {

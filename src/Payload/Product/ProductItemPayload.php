@@ -10,8 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductItemPayload extends AbstractPayload
 {
-    /** @var \Doctrine\Common\Collections\Collection */
-    private $products;
+    private ArrayCollection $products;
 
     public function getProducts(): Collection
     {

@@ -16,17 +16,13 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class LocaleAttributeTranslationTask implements AkeneoTaskInterface
 {
-    /** @var RepositoryInterface */
-    private $productAttributeValueRepository;
+    private RepositoryInterface $productAttributeValueRepository;
 
-    /** @var FactoryInterface */
-    private $productAttributeValueFactory;
+    private FactoryInterface $productAttributeValueFactory;
 
-    /** @var AkeneoAttributeDataProvider */
-    private $akeneoAttributeDataProvider;
+    private AkeneoAttributeDataProvider $akeneoAttributeDataProvider;
 
-    /** @var SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
     public function __construct(
         RepositoryInterface $productAttributeValueRepository,
@@ -66,7 +62,7 @@ final class LocaleAttributeTranslationTask implements AkeneoTaskInterface
         string $attributeCode,
         string $scope
     ): void {
-        if ($translation['locale'] !== null && $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale']) === false) {
+        if ($translation['locale'] !== null && !$this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
             return;
         }
 

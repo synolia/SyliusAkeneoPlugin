@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Factory\AttributeFactory;
 use Sylius\Component\Attribute\Model\AttributeInterface;
@@ -17,29 +18,21 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
 
 abstract class AbstractAttributeTask
 {
-    /** @var int */
-    protected $updateCount = 0;
+    protected int $updateCount = 0;
 
-    /** @var int */
-    protected $createCount = 0;
+    protected int $createCount = 0;
 
-    /** @var string */
-    protected $type;
+    protected string $type;
 
-    /** @var EntityManagerInterface */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    /** @var RepositoryInterface */
-    protected $productAttributeRepository;
+    protected RepositoryInterface $productAttributeRepository;
 
-    /** @var FactoryInterface */
-    protected $productAttributeFactory;
+    protected FactoryInterface $productAttributeFactory;
 
-    /** @var LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var SyliusAkeneoLocaleCodeProvider */
-    protected $syliusAkeneoLocaleCodeProvider;
+    protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -78,7 +71,7 @@ abstract class AbstractAttributeTask
 
         if (!$attribute instanceof AttributeInterface) {
             if (!$this->productAttributeFactory instanceof AttributeFactory) {
-                throw new \LogicException('Wrong Factory');
+                throw new LogicException('Wrong Factory');
             }
             /** @var AttributeInterface $attribute */
             $attribute = $this->productAttributeFactory->createTyped($attributeType->getType());

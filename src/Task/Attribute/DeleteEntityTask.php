@@ -6,38 +6,34 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
+use Throwable;
 
 final class DeleteEntityTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository */
-    private $productAttributeAkeneoRepository;
+    private ProductAttributeRepository $productAttributeAkeneoRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var int */
-    private $deleteCount = 0;
+    private int $deleteCount = 0;
 
-    /** @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface */
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformer */
-    private $akeneoAttributeToSyliusAttributeTransformer;
+    private AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -54,10 +50,10 @@ final class DeleteEntityTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $payload
+     * @param AttributePayload $payload
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException
-     * @throws \Throwable
+     * @throws NoAttributeResourcesException
+     * @throws Throwable
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -84,7 +80,7 @@ final class DeleteEntityTask implements AkeneoTaskInterface
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 
@@ -100,17 +96,15 @@ final class DeleteEntityTask implements AkeneoTaskInterface
         $attributesIdsArray = $this->productAttributeAkeneoRepository->getMissingAttributesIds($attributeCodes);
 
         /** @var array $attributesIds */
-        $attributesIds = \array_map(function (array $data) {
-            return $data['id'];
-        }, $attributesIdsArray);
+        $attributesIds = \array_map(fn (array $data) => $data['id'], $attributesIdsArray);
 
         $productAttributeClass = $this->parameterBag->get('sylius.model.product_attribute.class');
         if (!class_exists($productAttributeClass)) {
-            throw new \LogicException('ProductAttribute class does not exist.');
+            throw new LogicException('ProductAttribute class does not exist.');
         }
 
         foreach ($attributesIds as $attributeId) {
-            /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
+            /** @var AttributeInterface $attribute */
             $attribute = $this->entityManager->getReference($productAttributeClass, $attributeId);
             if (!$attribute instanceof AttributeInterface) {
                 continue;

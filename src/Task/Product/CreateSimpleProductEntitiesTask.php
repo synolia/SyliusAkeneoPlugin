@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
@@ -28,47 +29,35 @@ use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
 {
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productFactory;
+    private FactoryInterface $productFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var ProductPayload */
-    private $payload;
+    private ProductPayload $payload;
 
-    /** @var string */
-    private $scope;
+    private string $scope = '';
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productTranslationRepository;
+    private RepositoryInterface $productTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productTranslationFactory;
+    private FactoryInterface $productTranslationFactory;
 
-    /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
-    private $productSlugGenerator;
+    private SlugGeneratorInterface $productSlugGenerator;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
-    private $akeneoAttributeDataProvider;
+    private AkeneoAttributeDataProvider $akeneoAttributeDataProvider;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -127,7 +116,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->type = 'SimpleProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        /** @var ProductFiltersRules $filters */
         $filters = $this->productFiltersRulesRepository->findOneBy([]);
         if (!$filters instanceof ProductFiltersRules) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
@@ -165,7 +154,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                     $this->setProductPrices($productVariant, $resource['values']);
 
                     $this->entityManager->flush();
-                } catch (\Throwable $throwable) {
+                } catch (Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
                 }
             }
@@ -188,7 +177,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
         if (!$product instanceof ProductInterface) {
             if (!$this->productFactory instanceof ProductFactory) {
-                throw new \LogicException('Wrong Factory');
+                throw new LogicException('Wrong Factory');
             }
 
             if (null === $resource['parent']) {

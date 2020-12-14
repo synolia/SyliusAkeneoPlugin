@@ -13,11 +13,9 @@ final class ProductModelPayload extends AbstractPayload
 
     public const SELECT_PAGINATION_SIZE = 100;
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $resources;
+    private ?ResourceCursorInterface $resources = null;
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $modelResources;
+    private ?ResourceCursorInterface $modelResources = null;
 
     public function getResources(): ?ResourceCursorInterface
     {

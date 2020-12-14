@@ -24,14 +24,11 @@ final class ImportProductModelsCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:product-models';
 
-    /** @var ProductModelPipelineFactory */
-    private $productModelPipelineFactory;
+    private ProductModelPipelineFactory $productModelPipelineFactory;
 
-    /** @var ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         ProductModelPipelineFactory $productModelPipelineFactory,

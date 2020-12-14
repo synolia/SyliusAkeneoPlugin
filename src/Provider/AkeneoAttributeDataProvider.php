@@ -12,11 +12,9 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
 
 final class AkeneoAttributeDataProvider
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertyProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder */
-    private $productAttributeValueValueBuilder;
+    private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
@@ -31,9 +29,9 @@ final class AkeneoAttributeDataProvider
      *
      * @return mixed|null
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
+     * @throws MissingLocaleTranslationOrScopeException
+     * @throws MissingScopeException
+     * @throws MissingLocaleTranslationException
      */
     public function getData(string $attributeCode, $attributeValues, string $locale, string $scope)
     {
