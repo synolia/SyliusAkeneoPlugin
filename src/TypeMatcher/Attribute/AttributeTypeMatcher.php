@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
+use Webmozart\Assert\Assert;
 
 final class AttributeTypeMatcher
 {
     /** @var array<AttributeTypeMatcherInterface> */
-    private $typeMatchers;
+    private ?array $typeMatchers = null;
 
     public function addTypeMatcher(AttributeTypeMatcherInterface $typeMatcher): void
     {
@@ -18,6 +19,8 @@ final class AttributeTypeMatcher
 
     public function match(string $type): AttributeTypeMatcherInterface
     {
+        Assert::isIterable($this->typeMatchers);
+
         foreach ($this->typeMatchers as $typeMatcher) {
             if ($typeMatcher->support($type)) {
                 return $typeMatcher;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
+use League\Pipeline\Pipeline;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -24,17 +25,13 @@ final class ImportAttributesCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:attributes';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory */
-    private $attributePipelineFactory;
+    private AttributePipelineFactory $attributePipelineFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory */
-    private $attributeOptionPipelineFactory;
+    private AttributeOptionPipelineFactory $attributeOptionPipelineFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         AttributePipelineFactory $attributePipelineFactory,
@@ -69,14 +66,14 @@ final class ImportAttributesCommand extends Command
         }
 
         $this->logger->notice(self::$defaultName);
-        /** @var \League\Pipeline\Pipeline $attributePipeline */
+        /** @var Pipeline $attributePipeline */
         $attributePipeline = $this->attributePipelineFactory->create();
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $attributePayload */
+        /** @var AttributePayload $attributePayload */
         $attributePayload = new AttributePayload($this->clientFactory->createFromApiCredentials());
         $payload = $attributePipeline->process($attributePayload);
 
-        /** @var \League\Pipeline\Pipeline $optionPipeline */
+        /** @var Pipeline $optionPipeline */
         $optionPipeline = $this->attributeOptionPipelineFactory->create();
         $optionPipeline->process($payload);
 

@@ -14,23 +14,17 @@ abstract class AbstractAttributeOptionTask
 {
     public const AKENEO_PREFIX = 'akeneo-';
 
-    /** @var int */
-    protected $updateCount = 0;
+    protected int $updateCount = 0;
 
-    /** @var int */
-    protected $createCount = 0;
+    protected int $createCount = 0;
 
-    /** @var string */
-    protected $type;
+    protected string $type;
 
-    /** @var EntityManagerInterface */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    /** @var LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var SyliusAkeneoLocaleCodeProvider */
-    protected $syliusAkeneoLocaleCodeProvider;
+    protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,

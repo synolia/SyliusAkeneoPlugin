@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
+use LogicException;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\DatabaseProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 
 final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $attributeTypeMappingRepository;
+    private RepositoryInterface $attributeTypeMappingRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping */
-    private $storedAttributeTypeMapping;
+    private ?AttributeTypeMapping $storedAttributeTypeMapping = null;
 
     public function __construct(RepositoryInterface $attributeTypeMappingRepository)
     {
@@ -24,11 +23,11 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
     public function getType(): string
     {
         if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
+            throw new LogicException('Method support() must be called fist or the type is not supported.');
         }
 
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
-            throw new \LogicException('Attribute Type cannot be null.');
+            throw new LogicException('Attribute Type cannot be null.');
         }
 
         return $this->storedAttributeTypeMapping->getAttributeType();

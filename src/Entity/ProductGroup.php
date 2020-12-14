@@ -18,31 +18,24 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class ProductGroup implements ResourceInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
-     */
-    private $productParent;
+    /** @ORM\Column(type="string", length=255, nullable=false, unique=true) */
+    private ?string $productParent = null;
 
-    /**
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $variationAxes = [];
+    /** @ORM\Column(type="array") */
+    private array $variationAxes = [];
 
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\Product")
      * @JoinTable(name="akeneo_productgroup_product")
      */
-    private $products;
+    private Collection $products;
 
     public function __construct()
     {
@@ -61,7 +54,7 @@ class ProductGroup implements ResourceInterface
         return $this;
     }
 
-    public function getProductParent(): string
+    public function getProductParent(): ?string
     {
         return $this->productParent;
     }

@@ -8,14 +8,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 
 class CategoryConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
-    private $objectManager;
+    private ObjectManager $objectManager;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $categoriesConfigurationFactory;
+    private FactoryInterface $categoriesConfigurationFactory;
 
     public function __construct(
         ObjectManager $objectManager,
@@ -27,7 +26,7 @@ class CategoryConfigurationFixture extends AbstractFixture
 
     public function load(array $options): void
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration $categoryConfiguration */
+        /** @var CategoryConfiguration $categoryConfiguration */
         $categoryConfiguration = $this->categoriesConfigurationFactory->createNew();
         $categoryConfiguration->setRootCategories($options['root_categories_to_import']);
         $categoryConfiguration->setNotImportCategories($options['categories_to_exclude']);

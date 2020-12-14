@@ -9,11 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 abstract class AbstractTaskEvent extends Event
 {
-    /** @var string */
-    protected $task;
+    protected string $task;
 
-    /** @var PipelinePayloadInterface */
-    protected $payload;
+    protected PipelinePayloadInterface $payload;
 
     public function __construct(string $task, PipelinePayloadInterface $payload)
     {

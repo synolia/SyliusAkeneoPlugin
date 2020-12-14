@@ -17,17 +17,13 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class RetrieveOptionsTask implements AkeneoTaskInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
     public function __construct(
         AttributeTypeMatcher $attributeTypeMatcher,

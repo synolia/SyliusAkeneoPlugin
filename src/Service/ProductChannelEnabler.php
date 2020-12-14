@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -13,20 +14,17 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
+use Throwable;
 
 final class ProductChannelEnabler
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository */
-    private $channelRepository;
+    private ChannelRepository $channelRepository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository */
-    private $productConfigurationRepository;
+    private ProductConfigurationRepository $productConfigurationRepository;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         ChannelRepository $channelRepository,
@@ -71,7 +69,7 @@ final class ProductChannelEnabler
             }
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->rollback();
             }
@@ -82,7 +80,7 @@ final class ProductChannelEnabler
 
     public function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
+        /** @var ProductConfiguration|null $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
         if (!$productConfiguration instanceof ProductConfiguration) {
@@ -99,7 +97,7 @@ final class ProductChannelEnabler
             }
 
             if (\count($attributeValue) === 0) {
-                throw new \LogicException('Enabled channels attribute is empty.');
+                throw new LogicException('Enabled channels attribute is empty.');
             }
 
             return \current($attributeValue)['data'];

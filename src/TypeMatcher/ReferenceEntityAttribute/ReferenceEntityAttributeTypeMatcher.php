@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute;
 
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedReferenceEntityAttributeTypeException;
+use Webmozart\Assert\Assert;
 
 final class ReferenceEntityAttributeTypeMatcher
 {
     /** @var array<ReferenceEntityAttributeTypeMatcherInterface> */
-    private $typeMatchers;
+    private ?array $typeMatchers = null;
 
     public function addTypeMatcher(ReferenceEntityAttributeTypeMatcherInterface $typeMatcher): void
     {
@@ -18,6 +19,8 @@ final class ReferenceEntityAttributeTypeMatcher
 
     public function match(string $type): ReferenceEntityAttributeTypeMatcherInterface
     {
+        Assert::isIterable($this->typeMatchers);
+
         foreach ($this->typeMatchers as $typeMatcher) {
             if ($typeMatcher->support($type)) {
                 return $typeMatcher;

@@ -15,20 +15,17 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductRepository;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class EnableDisableProductModelsTask implements AkeneoTaskInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductRepository */
-    private $productRepository;
+    private ProductRepository $productRepository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
-    private $productChannelEnabler;
+    private ProductChannelEnabler $productChannelEnabler;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         ProductRepository $productRepository,
@@ -43,7 +40,7 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload $payload
+     * @param ProductModelPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -68,7 +65,7 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
                     }
 
                     $this->productChannelEnabler->enableChannelForProduct($product, $resource);
-                } catch (\Throwable $throwable) {
+                } catch (Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
                 }
             }

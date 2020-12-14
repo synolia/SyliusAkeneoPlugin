@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
+use LogicException;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class InsertProductImagesTask extends AbstractInsertProductImageTask implements AkeneoTaskInterface
 {
@@ -17,10 +19,10 @@ final class InsertProductImagesTask extends AbstractInsertProductImageTask imple
     {
         try {
             if (!$payload instanceof ProductMediaPayload) {
-                throw new \LogicException('Wrong payload provided.');
+                throw new LogicException('Wrong payload provided.');
             }
 
-            /** @var \Sylius\Component\Core\Model\ProductInterface $product */
+            /** @var ProductInterface $product */
             $product = $payload->getProduct();
 
             if (!$product instanceof ProductInterface) {
@@ -45,7 +47,7 @@ final class InsertProductImagesTask extends AbstractInsertProductImageTask imple
             }
 
             $this->addImage($payload, $product, $imageAttributes);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
         }
 

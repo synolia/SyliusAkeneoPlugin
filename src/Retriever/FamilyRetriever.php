@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Throwable;
 
 final class FamilyRetriever
 {
     /** @var array<string> */
-    private $familiesByVariant = [];
+    private array $familiesByVariant = [];
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,
@@ -57,10 +56,10 @@ final class FamilyRetriever
             if (array_key_exists($familyVariantCode, $this->familiesByVariant)) {
                 return $this->familiesByVariant[$familyVariantCode];
             }
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $this->logger->warning($exception->getMessage());
         }
 
-        throw new \LogicException(sprintf('Unable to find family for variant "%s"', $familyVariantCode));
+        throw new LogicException(sprintf('Unable to find family for variant "%s"', $familyVariantCode));
     }
 }

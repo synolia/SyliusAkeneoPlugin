@@ -7,19 +7,18 @@ namespace Synolia\SyliusAkeneoPlugin\Service;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class SyliusAkeneoLocaleCodeProvider
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $channelRepository;
+    private RepositoryInterface $channelRepository;
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
     /** @var array<string> */
-    private $localesCode = [];
+    private array $localesCode = [];
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient, RepositoryInterface $channelRepository)
     {
@@ -74,13 +73,11 @@ final class SyliusAkeneoLocaleCodeProvider
     private function getUsedLocalesOnSylius(): array
     {
         $locales = [];
-        /** @var \Sylius\Component\Core\Model\ChannelInterface $channel */
+        /** @var ChannelInterface $channel */
         foreach ($this->channelRepository->findAll() as $channel) {
             $locales = \array_unique(\array_merge($locales, $channel
                 ->getLocales()
-                ->map(function (LocaleInterface $locale) {
-                    return (string) $locale->getCode();
-                })
+                ->map(fn (LocaleInterface $locale) => (string) $locale->getCode())
                 ->toArray()))
             ;
         }

@@ -8,20 +8,19 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveCategoriesTask implements AkeneoTaskInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository */
-    private $categoriesConfigurationRepository;
+    private CategoryConfigurationRepository $categoriesConfigurationRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository $categoriesConfigurationRepository
@@ -37,7 +36,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $payload
+     * @param CategoryPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {

@@ -15,32 +15,25 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class AddProductGroupsTask implements AkeneoTaskInterface
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var EntityRepository */
-    private $productGroupRepository;
+    private EntityRepository $productGroupRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    private $groupAlreadyExistCount = 0;
+    private int $groupAlreadyExistCount = 0;
 
-    /** @var int */
-    private $groupCreateCount = 0;
+    private int $groupCreateCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var array */
-    private $productGroupsMapping;
+    private ?array $productGroupsMapping = null;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -81,7 +74,7 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Option;
 
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class OptionsPayload extends AbstractPayload
 {
-    /** @var array<\Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface> */
-    private $resources;
+    /** @var array<ResourceCursorInterface> */
+    private array $resources = [];
 
     public function getResources(): array
     {

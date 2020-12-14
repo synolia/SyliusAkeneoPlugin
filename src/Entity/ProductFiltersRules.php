@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -14,90 +16,52 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class ProductFiltersRules implements ResourceInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mode;
+    /** @ORM\Column(type="string", length=255) */
+    private ?string $mode = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $advancedFilter;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $advancedFilter = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $completenessType;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $completenessType = null;
 
-    /**
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $locales = [];
+    /** @ORM\Column(type="array") */
+    private array $locales = [];
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $completenessValue;
+    /** @ORM\Column(type="integer") */
+    private ?int $completenessValue = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $status;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $status = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $updatedMode;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $updatedMode = null;
 
-    /**
-     * @var \DateTimeInterface
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedBefore;
+    /** @ORM\Column(type="datetime") */
+    private DateTimeInterface $updatedBefore;
 
-    /**
-     * @var \DateTimeInterface
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAfter;
+    /** @ORM\Column(type="datetime") */
+    private DateTimeInterface $updatedAfter;
 
-    /**
-     * @var int|null
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $updated;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $updated = null;
 
-    /**
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $excludeFamilies = [];
+    /** @ORM\Column(type="array") */
+    private array $excludeFamilies = [];
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $channel = '';
+    /** @ORM\Column(type="string") */
+    private string $channel = '';
 
     public function __construct()
     {
-        $this->updatedBefore = new \DateTime();
-        $this->updatedAfter = new \DateTime();
+        $this->updatedBefore = new DateTime();
+        $this->updatedAfter = new DateTime();
     }
 
     public function getId(): ?int
@@ -208,24 +172,24 @@ class ProductFiltersRules implements ResourceInterface
         return $this;
     }
 
-    public function getUpdatedBefore(): \DateTimeInterface
+    public function getUpdatedBefore(): DateTimeInterface
     {
         return $this->updatedBefore;
     }
 
-    public function setUpdatedBefore(\DateTimeInterface $updatedBefore): self
+    public function setUpdatedBefore(DateTimeInterface $updatedBefore): self
     {
         $this->updatedBefore = $updatedBefore;
 
         return $this;
     }
 
-    public function getUpdatedAfter(): \DateTimeInterface
+    public function getUpdatedAfter(): DateTimeInterface
     {
         return $this->updatedAfter;
     }
 
-    public function setUpdatedAfter(\DateTimeInterface $updatedAfter): self
+    public function setUpdatedAfter(DateTimeInterface $updatedAfter): self
     {
         $this->updatedAfter = $updatedAfter;
 

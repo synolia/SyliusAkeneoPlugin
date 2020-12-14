@@ -9,11 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductCategoriesPayload extends AbstractPayload
 {
-    /** @var \Sylius\Component\Core\Model\ProductInterface */
-    private $product;
+    private ProductInterface $product;
 
-    /** @var array */
-    private $categories;
+    private array $categories = [];
 
     public function getProduct(): ProductInterface
     {

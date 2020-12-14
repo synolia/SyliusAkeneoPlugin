@@ -17,14 +17,11 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
 final class AttributeCodeChoiceType extends AbstractType
 {
-    /** @var AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $akeneoTaskProvider;
+    private AkeneoTaskProvider $akeneoTaskProvider;
 
-    /** @var \Sylius\Component\Locale\Context\LocaleContextInterface */
-    private $localeContext;
+    private LocaleContextInterface $localeContext;
 
     public function __construct(
         ClientFactory $clientFactory,

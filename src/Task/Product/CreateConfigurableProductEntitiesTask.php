@@ -27,41 +27,31 @@ use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
+use Throwable;
 
 final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductEntities implements AkeneoTaskInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionRepository;
+    private RepositoryInterface $productOptionRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueRepository;
+    private RepositoryInterface $productOptionValueRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
-    private $productGroupRepository;
+    private ProductGroupRepository $productGroupRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueTranslationRepository;
+    private RepositoryInterface $productOptionValueTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productVariantTranslationRepository;
+    private RepositoryInterface $productVariantTranslationRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
+    private FactoryInterface $productOptionValueFactory;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productVariantTranslationFactory;
+    private FactoryInterface $productVariantTranslationFactory;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -110,7 +100,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
+     * @param ProductPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -171,7 +161,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
                     $this->entityManager->flush();
-                } catch (\Throwable $throwable) {
+                } catch (Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
                 }
             }
@@ -270,7 +260,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             }
 
             foreach ($this->getLocales() as $locale) {
-                /** @var \Sylius\Component\Product\Model\ProductOptionValueTranslationInterface $productOptionValueTranslation */
+                /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
                 $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
                     'translatable' => $productOptionValue,
                     'locale' => $locale,

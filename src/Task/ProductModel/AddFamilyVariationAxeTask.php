@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
@@ -15,26 +16,21 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var EntityRepository */
-    private $productGroupRepository;
+    private EntityRepository $productGroupRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    private $itemCount = 0;
+    private int $itemCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var FamilyRetriever */
-    private $familyRetriever;
+    private FamilyRetriever $familyRetriever;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -84,7 +80,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
                 if (!isset($resource['family'])) {
                     try {
                         $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
-                    } catch (\LogicException $exception) {
+                    } catch (LogicException $exception) {
                         $this->logger->warning($exception->getMessage());
 
                         continue;
@@ -105,7 +101,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 

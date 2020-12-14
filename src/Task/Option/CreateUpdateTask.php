@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
@@ -16,33 +17,26 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 use Webmozart\Assert\Assert;
 
 final class CreateUpdateTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager */
-    private $productOptionManager;
+    private ProductOptionManager $productOptionManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository */
-    private $productAttributeRepository;
+    private ProductAttributeRepository $productAttributeRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -59,7 +53,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload $payload
+     * @param AbstractPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -68,7 +62,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         if (!$this->productAttributeRepository instanceof ProductAttributeRepository) {
-            throw new \LogicException('Wrong repository instance provided.');
+            throw new LogicException('Wrong repository instance provided.');
         }
 
         Assert::isInstanceOf($payload, OptionsPayload::class);
@@ -87,7 +81,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 
@@ -127,9 +121,10 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
         foreach ($familyVariants as $familyVariant) {
             //Sort array of variant attribute sets by level DESC
-            \usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
-                return $leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level'];
-            });
+            \usort(
+                $familyVariant['variant_attribute_sets'],
+                fn ($leftVariantAttributeSets, $rightVariantAttributeSets): int => $leftVariantAttributeSets['level'] - $rightVariantAttributeSets['level']
+            );
 
             //We only want to get the last variation set
             foreach ($familyVariant['variant_attribute_sets'][0]['axes'] as $axe) {

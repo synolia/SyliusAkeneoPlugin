@@ -12,11 +12,9 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class SetupProductTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
     public function __construct(EntityManagerInterface $entityManager, AkeneoTaskProvider $taskProvider)
     {

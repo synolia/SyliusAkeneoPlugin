@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
+use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
@@ -14,14 +15,12 @@ final class ProductPayload extends AbstractPayload
 
     public const SELECT_PAGINATION_SIZE = 100;
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\Page|ResourceCursorInterface|null */
+    /** @var Page|ResourceCursorInterface|null */
     private $resources;
 
-    /** @var ProductItemPayload */
-    private $simpleProductPayload;
+    private ProductItemPayload $simpleProductPayload;
 
-    /** @var ProductItemPayload */
-    private $configurableProductPayload;
+    private ProductItemPayload $configurableProductPayload;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
@@ -32,7 +31,7 @@ final class ProductPayload extends AbstractPayload
     }
 
     /**
-     * @return \Akeneo\Pim\ApiClient\Pagination\Page|\Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null
+     * @return Page|ResourceCursorInterface|null
      */
     public function getResources()
     {

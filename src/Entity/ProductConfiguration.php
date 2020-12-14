@@ -16,39 +16,25 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class ProductConfiguration implements ResourceInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
+
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $akeneoPriceAttribute = null;
+
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $akeneoEnabledChannelsAttribute = null;
+
+    /** @ORM\Column(type="array", nullable=true) */
+    private ?array $attributeMapping = null;
+
+    /** @ORM\Column(type="boolean", nullable=true) */
+    private ?bool $importMediaFiles = null;
 
     /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $akeneoPriceAttribute;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $akeneoEnabledChannelsAttribute;
-
-    /**
-     * @var array|null
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $attributeMapping;
-
-    /**
-     * @var bool|null
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $importMediaFiles;
-
-    /**
-     * @var Collection
      * @ORM\OneToMany(
      *     targetEntity="ProductConfigurationAkeneoImageAttribute",
      *     mappedBy="productConfiguration",
@@ -56,10 +42,9 @@ class ProductConfiguration implements ResourceInterface
      *     cascade={"persist"}
      * )
      */
-    private $akeneoImageAttributes;
+    private \Doctrine\Common\Collections\Collection $akeneoImageAttributes;
 
     /**
-     * @var Collection
      * @ORM\OneToMany(
      *     targetEntity="ProductConfigurationImageMapping",
      *     mappedBy="productConfiguration",
@@ -67,13 +52,10 @@ class ProductConfiguration implements ResourceInterface
      *     cascade={"persist"}
      * )
      */
-    private $productImagesMapping;
+    private \Doctrine\Common\Collections\Collection $productImagesMapping;
 
-    /**
-     * @var bool|null
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $regenerateUrlRewrites;
+    /** @ORM\Column(type="boolean", nullable=true) */
+    private ?bool $regenerateUrlRewrites = null;
 
     public function __construct()
     {

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
+use Webmozart\Assert\Assert;
+
 final class ProductAttributeValueValueBuilder
 {
-    /** @var array<\Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface> */
-    private $attributeValueBuilders;
+    /** @var array<ProductAttributeValueValueBuilderInterface> */
+    private ?array $attributeValueBuilders = null;
 
     public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void
     {
@@ -21,7 +23,8 @@ final class ProductAttributeValueValueBuilder
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
+        Assert::isIterable($this->attributeValueBuilders);
+
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if ($attributeValueBuilder->support($attributeCode)) {
                 return $attributeValueBuilder->build($attributeCode, $locale, $scope, $value);
@@ -36,7 +39,8 @@ final class ProductAttributeValueValueBuilder
      */
     public function findBuilderByClassName(string $className)
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
+        Assert::isIterable($this->attributeValueBuilders);
+
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if (!$attributeValueBuilder instanceof $className) {
                 continue;
@@ -50,6 +54,8 @@ final class ProductAttributeValueValueBuilder
 
     public function hasSupportedBuilder(string $attributeCode): bool
     {
+        Assert::isIterable($this->attributeValueBuilders);
+
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if ($attributeValueBuilder->support($attributeCode)) {
                 return true;

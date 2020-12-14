@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -32,12 +33,14 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
+use Throwable;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -49,71 +52,49 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 {
     private const ONE_VARIATION_AXIS = 1;
 
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var ProductRepositoryInterface */
-    private $productRepository;
+    private ProductRepositoryInterface $productRepository;
 
-    /** @var ProductFactoryInterface */
-    private $productFactory;
+    private ProductFactoryInterface $productFactory;
 
-    /** @var FactoryInterface */
-    private $productTaxonFactory;
+    private FactoryInterface $productTaxonFactory;
 
-    /** @var TaxonRepositoryInterface */
-    private $taxonRepository;
+    private TaxonRepositoryInterface $taxonRepository;
 
-    /** @var ProductTaxonRepository */
-    private $productTaxonRepository;
+    private ProductTaxonRepository $productTaxonRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
-    private $productGroupRepository;
+    private ProductGroupRepository $productGroupRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload */
-    private $payload;
+    private ProductModelPayload $payload;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type = '';
 
-    /** @var FamilyRetriever */
-    private $familyRetriever;
+    private FamilyRetriever $familyRetriever;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
-    private $akeneoAttributeDataProvider;
+    private AkeneoAttributeDataProvider $akeneoAttributeDataProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
-    /** @var string */
-    private $scope;
+    private string $scope = '';
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productTranslationRepository;
+    private RepositoryInterface $productTranslationRepository;
 
-    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
-    private $productConfigurationRepository;
+    private EntityRepository $productConfigurationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productTranslationFactory;
+    private FactoryInterface $productTranslationFactory;
 
-    /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
-    private $productSlugGenerator;
+    private SlugGeneratorInterface $productSlugGenerator;
 
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
@@ -167,7 +148,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::createOrUpdate($this->type));
         $this->payload = $payload;
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        /** @var ProductFiltersRules $filters */
         $filters = $this->productFiltersRulesRepository->findOneBy([]);
         if (!$filters instanceof ProductFiltersRules) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
@@ -199,7 +180,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
                     $this->entityManager->commit();
 
                     \gc_collect_cycles();
-                } catch (\Throwable $throwable) {
+                } catch (Throwable $throwable) {
                     $this->entityManager->rollback();
                     $this->logger->warning($throwable->getMessage());
                 }
@@ -280,7 +261,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         if (!isset($resource['family'])) {
             try {
                 $familyCode = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
-            } catch (\LogicException $exception) {
+            } catch (LogicException $exception) {
                 $this->logger->warning($exception->getMessage());
 
                 return null;
@@ -392,9 +373,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     {
         $productTaxonIds = [];
         if ($product->getId() !== null) {
-            $productTaxonIds = array_map(function ($productTaxonIds) {
-                return $productTaxonIds['id'];
-            }, $this->productTaxonRepository->getProductTaxonIds($product));
+            $productTaxonIds = array_map(fn ($productTaxonIds) => $productTaxonIds['id'], $this->productTaxonRepository->getProductTaxonIds($product));
         }
 
         return $productTaxonIds;

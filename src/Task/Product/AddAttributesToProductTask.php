@@ -18,17 +18,13 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
 
 final class AddAttributesToProductTask implements AkeneoTaskInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder */
-    private $attributeValueValueBuilder;
+    private ProductAttributeValueValueBuilder $attributeValueValueBuilder;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeRepository;
+    private RepositoryInterface $productAttributeRepository;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformer */
-    private $akeneoAttributeToSyliusAttributeTransformer;
+    private AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer;
 
-    /** @var AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
     public function __construct(
         RepositoryInterface $productAttributeRepository,
@@ -43,7 +39,7 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload $payload
+     * @param ProductResourcePayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {

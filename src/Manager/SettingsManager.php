@@ -10,8 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\Setting;
 
 final class SettingsManager implements SettingsManagerInterface
 {
-    /** @var \Doctrine\ORM\EntityManager */
-    private $entityManager;
+    private EntityManager $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {

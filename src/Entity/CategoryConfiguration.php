@@ -15,24 +15,23 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class CategoryConfiguration implements ResourceInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var array<string>
      * @ORM\Column(type="array")
      */
-    private $notImportCategories = [];
+    private array $notImportCategories = [];
 
     /**
      * @var array<string>
      * @ORM\Column(type="array")
      */
-    private $rootCategories = [];
+    private array $rootCategories = [];
 
     public function getId(): int
     {

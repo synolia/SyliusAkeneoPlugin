@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
+use League\Pipeline\Pipeline;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -23,14 +24,11 @@ final class ImportProductsCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:products';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\ProductPipelineFactory */
-    private $productPipelineFactory;
+    private ProductPipelineFactory $productPipelineFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         ProductPipelineFactory $productPipelineFactory,
@@ -63,10 +61,10 @@ final class ImportProductsCommand extends Command
         }
 
         $this->logger->notice(self::$defaultName);
-        /** @var \League\Pipeline\Pipeline $productPipeline */
+        /** @var Pipeline $productPipeline */
         $productPipeline = $this->productPipelineFactory->create();
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $productPayload */
+        /** @var ProductPayload $productPayload */
         $productPayload = new ProductPayload($this->clientFactory->createFromApiCredentials());
         $productPipeline->process($productPayload);
 

@@ -31,11 +31,9 @@ final class ProductFilter
         'created',
     ];
 
-    /** @var EntityRepository */
-    private $productFiltersRulesRepository;
+    private EntityRepository $productFiltersRulesRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
     public function __construct(EntityRepository $productFiltersRulesRepository, SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
     {
@@ -154,9 +152,7 @@ final class ProductFilter
 
     private function getProductModelAdvancedFilter(array $advancedFilter): array
     {
-        $advancedFilter['search'] = array_filter($advancedFilter['search'], static function (string $key): bool {
-            return in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
-        }, \ARRAY_FILTER_USE_KEY);
+        $advancedFilter['search'] = array_filter($advancedFilter['search'], static fn (string $key): bool => in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES), \ARRAY_FILTER_USE_KEY);
 
         if (array_key_exists('completeness', $advancedFilter['search']) && is_array($advancedFilter['search']['completeness'])) {
             $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);

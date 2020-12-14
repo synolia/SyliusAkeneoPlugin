@@ -9,8 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class AttributePayload extends AbstractPayload
 {
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $resources;
+    private ?ResourceCursorInterface $resources = null;
 
     public function getResources(): ?ResourceCursorInterface
     {

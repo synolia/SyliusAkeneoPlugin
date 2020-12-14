@@ -19,41 +19,29 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionRepository;
+    private RepositoryInterface $productOptionRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionFactory;
+    private FactoryInterface $productOptionFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $localeRepository;
+    private RepositoryInterface $localeRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueRepository;
+    private RepositoryInterface $productOptionValueRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
+    private FactoryInterface $productOptionValueFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueTranslationRepository;
+    private RepositoryInterface $productOptionValueTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueTranslationFactory;
+    private FactoryInterface $productOptionValueTranslationFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionTranslationRepository;
+    private RepositoryInterface $productOptionTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionTranslationFactory;
+    private FactoryInterface $productOptionTranslationFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeTranslationRepository;
+    private RepositoryInterface $productAttributeTranslationRepository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
     public function __construct(
         EntityManagerInterface $entityManager,

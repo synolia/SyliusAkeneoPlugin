@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
+use InvalidArgumentException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +31,7 @@ final class SettingsType extends AbstractType
                 $constraints = [];
                 foreach ($fieldOptions['constraints'] as $class => $constraintOptions) {
                     if (!\class_exists($class)) {
-                        throw new \InvalidArgumentException(\sprintf('Constraint class "%s" not found', $class));
+                        throw new InvalidArgumentException(\sprintf('Constraint class "%s" not found', $class));
                     }
                     $constraints[] = new $class($constraintOptions);
                 }
@@ -45,9 +46,7 @@ final class SettingsType extends AbstractType
             // Choices I18n
             if (!empty($fieldOptions['choices'])) {
                 $fieldOptions['choices'] = \array_map(
-                    static function ($label) use ($fieldOptions) {
-                        return $fieldOptions['label'] . '_choices.' . $label;
-                    },
+                    static fn ($label) => $fieldOptions['label'] . '_choices.' . $label,
                     \array_combine($fieldOptions['choices'], $fieldOptions['choices'])
                 );
             }

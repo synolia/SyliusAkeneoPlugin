@@ -16,20 +16,15 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveProductModelsTask implements AkeneoTaskInterface
 {
-    /** @var ProductFilter */
-    private $productFilter;
+    private ProductFilter $productFilter;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         ProductFilter $productFilter,

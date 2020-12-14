@@ -10,8 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 
 final class ExcludedAttributesProvider
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productConfigurationRepository;
+    private RepositoryInterface $productConfigurationRepository;
 
     public function __construct(RepositoryInterface $productConfigurationRepository)
     {
@@ -21,7 +20,7 @@ final class ExcludedAttributesProvider
     public function getExcludedAttributes(): array
     {
         $excludedAttributeCodes = [];
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
+        /** @var ProductConfiguration|null $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
         if (!$productConfiguration instanceof ProductConfiguration) {

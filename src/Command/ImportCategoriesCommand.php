@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
+use League\Pipeline\Pipeline;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -23,14 +24,11 @@ final class ImportCategoriesCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:categories';
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory */
-    private $categoryPipelineFactory;
+    private CategoryPipelineFactory $categoryPipelineFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
     public function __construct(
         CategoryPipelineFactory $categoryPipelineFactory,
@@ -63,10 +61,10 @@ final class ImportCategoriesCommand extends Command
         }
 
         $this->logger->notice(self::$defaultName);
-        /** @var \League\Pipeline\Pipeline $categoryPipeline */
+        /** @var Pipeline $categoryPipeline */
         $categoryPipeline = $this->categoryPipelineFactory->create();
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $categoryPayload */
+        /** @var CategoryPayload $categoryPayload */
         $categoryPayload = new CategoryPayload($this->clientFactory->createFromApiCredentials());
         $categoryPipeline->process($categoryPayload);
 

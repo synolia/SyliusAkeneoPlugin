@@ -10,18 +10,18 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
+use Throwable;
 
 final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implements AkeneoTaskInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeRepository;
+    private RepositoryInterface $productAttributeRepository;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformer */
-    private $akeneoAttributeToSyliusAttributeTransformer;
+    private AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -38,7 +38,7 @@ final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implement
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload $payload
+     * @param OptionsPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -55,7 +55,7 @@ final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implement
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 
