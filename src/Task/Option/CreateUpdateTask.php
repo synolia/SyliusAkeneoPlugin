@@ -10,7 +10,7 @@ use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
-use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
+use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -24,7 +24,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 {
     private EntityManagerInterface $entityManager;
 
-    private ProductOptionManager $productOptionManager;
+    private ProductOptionManagerInterface $productOptionManager;
 
     private ProductAttributeRepository $productAttributeRepository;
 
@@ -41,7 +41,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductAttributeRepository $productAttributeAkeneoRepository,
-        ProductOptionManager $productOptionManager,
+        ProductOptionManagerInterface $productOptionManager,
         ConfigurationProvider $configurationProvider,
         LoggerInterface $akeneoLogger
     ) {

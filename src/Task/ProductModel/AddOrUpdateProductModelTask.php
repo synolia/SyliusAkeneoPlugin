@@ -424,8 +424,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     private function addProductGroup(array $resource, ProductInterface $product): void
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+        $productGroupRepositoryIsProductInProductGroup = $this->productGroupRepository->isProductInProductGroup($product, $productGroup);
 
-        if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
+        if ($productGroup instanceof ProductGroup && $productGroupRepositoryIsProductInProductGroup === 0) {
             $productGroup->addProduct($product);
         }
     }

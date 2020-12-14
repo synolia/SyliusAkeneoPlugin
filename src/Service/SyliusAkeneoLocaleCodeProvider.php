@@ -51,11 +51,7 @@ final class SyliusAkeneoLocaleCodeProvider
             return $data['locale'] === $locale;
         }
 
-        if (isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
-            return true;
-        }
-
-        return false;
+        return isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data]);
     }
 
     public function isActiveLocale(string $locale): bool

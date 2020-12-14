@@ -76,8 +76,6 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
             $this->logger->warning(Messages::noCodeToImport($payload->getType(), $noCodeCount));
         }
 
-        $payload = new ProductModelPayload($payload->getAkeneoPimClient());
-
-        return $payload;
+        return new ProductModelPayload($payload->getAkeneoPimClient());
     }
 }

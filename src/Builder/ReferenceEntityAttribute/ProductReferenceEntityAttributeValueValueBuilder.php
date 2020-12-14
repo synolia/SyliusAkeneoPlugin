@@ -26,7 +26,8 @@ final class ProductReferenceEntityAttributeValueValueBuilder
         Assert::isIterable($this->referenceEntityAttributeValueBuilders);
 
         foreach ($this->referenceEntityAttributeValueBuilders as $referenceEntityAttributeValueBuilder) {
-            if ($referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode)) {
+            $referenceEntityAttributeValueBuilderSupport = $referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode);
+            if ($referenceEntityAttributeValueBuilderSupport) {
                 return $referenceEntityAttributeValueBuilder->build($value);
             }
         }
@@ -57,7 +58,8 @@ final class ProductReferenceEntityAttributeValueValueBuilder
         Assert::isIterable($this->referenceEntityAttributeValueBuilders);
 
         foreach ($this->referenceEntityAttributeValueBuilders as $referenceEntityAttributeValueBuilder) {
-            if ($referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode)) {
+            $referenceEntityAttributeValueBuilderSupport = $referenceEntityAttributeValueBuilder->support($referenceEntityCode, $subAttributeCode);
+            if ($referenceEntityAttributeValueBuilderSupport) {
                 return true;
             }
         }

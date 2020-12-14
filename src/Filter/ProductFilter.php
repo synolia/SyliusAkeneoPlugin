@@ -132,7 +132,7 @@ final class ProductFilter
         }
 
         $advancedFilter['search'] = json_decode($advancedFilter['search'], true);
-        if ($isProductModelFilter === true) {
+        if ($isProductModelFilter) {
             return $this->getProductModelAdvancedFilter($advancedFilter);
         }
 

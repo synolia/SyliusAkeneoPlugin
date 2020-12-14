@@ -150,7 +150,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     $variationAxes = $productGroup->getVariationAxes();
 
-                    if (\count($variationAxes) === 0) {
+                    if ($variationAxes === []) {
                         $this->logger->warning(\sprintf(
                             'Skipped product "%s" because group has no variation axis.',
                             $resource['identifier'],

@@ -131,7 +131,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
             }
 
             $children = $this->buildTree($elements, $element['code']);
-            if ($children) {
+            if ($children !== []) {
                 $element['children'] = $children;
             }
             $branch[$element['code']] = $element;
@@ -143,7 +143,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     private function excludeNotInRootCategory(CategoryConfiguration $configuration, array &$categoriesTree): array
     {
         $keptCategories = [];
-        if (0 === \count($configuration->getRootCategories())) {
+        if ([] === $configuration->getRootCategories()) {
             return $keptCategories;
         }
 
@@ -164,7 +164,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
     private function excludeNotImportedCategories(CategoryConfiguration $configuration, array &$categoriesTree): array
     {
         $excludedCategories = [];
-        if (0 === \count($configuration->getNotImportCategories())) {
+        if ([] === $configuration->getNotImportCategories()) {
             return $excludedCategories;
         }
 

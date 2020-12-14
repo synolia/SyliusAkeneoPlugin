@@ -26,7 +26,8 @@ final class ProductAttributeValueValueBuilder
         Assert::isIterable($this->attributeValueBuilders);
 
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
-            if ($attributeValueBuilder->support($attributeCode)) {
+            $attributeValueBuilderSupport = $attributeValueBuilder->support($attributeCode);
+            if ($attributeValueBuilderSupport) {
                 return $attributeValueBuilder->build($attributeCode, $locale, $scope, $value);
             }
         }
@@ -57,7 +58,8 @@ final class ProductAttributeValueValueBuilder
         Assert::isIterable($this->attributeValueBuilders);
 
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
-            if ($attributeValueBuilder->support($attributeCode)) {
+            $attributeValueBuilderSupport = $attributeValueBuilder->support($attributeCode);
+            if ($attributeValueBuilderSupport) {
                 return true;
             }
         }

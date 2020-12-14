@@ -22,7 +22,8 @@ final class ReferenceEntityAttributeTypeMatcher
         Assert::isIterable($this->typeMatchers);
 
         foreach ($this->typeMatchers as $typeMatcher) {
-            if ($typeMatcher->support($type)) {
+            $typeMatcherSupport = $typeMatcher->support($type);
+            if ($typeMatcherSupport) {
                 return $typeMatcher;
             }
         }

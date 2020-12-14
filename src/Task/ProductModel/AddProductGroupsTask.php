@@ -91,8 +91,9 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
         if (isset($this->productGroupsMapping[$code])) {
             return;
         }
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $code]);
 
-        if ($this->productGroupRepository->findOneBy(['productParent' => $code])) {
+        if ($productGroup) {
             ++$this->groupAlreadyExistCount;
             $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', $code));
 

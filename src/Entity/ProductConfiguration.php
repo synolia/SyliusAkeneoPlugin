@@ -42,7 +42,7 @@ class ProductConfiguration implements ResourceInterface
      *     cascade={"persist"}
      * )
      */
-    private \Doctrine\Common\Collections\Collection $akeneoImageAttributes;
+    private Collection $akeneoImageAttributes;
 
     /**
      * @ORM\OneToMany(
@@ -52,7 +52,7 @@ class ProductConfiguration implements ResourceInterface
      *     cascade={"persist"}
      * )
      */
-    private \Doctrine\Common\Collections\Collection $productImagesMapping;
+    private Collection $productImagesMapping;
 
     /** @ORM\Column(type="boolean", nullable=true) */
     private ?bool $regenerateUrlRewrites = null;

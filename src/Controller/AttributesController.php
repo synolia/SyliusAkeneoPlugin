@@ -68,7 +68,7 @@ final class AttributesController extends AbstractController
         $attributeAkeneoSyliusMappings = $this->attributeAkeneoSyliusMappingRepository->findAll();
 
         $settings = ['import_referential_attributes' => SettingType::AKENEO_SETTINGS['import_referential_attributes']];
-        foreach ($settings as $key => $value) {
+        foreach (array_keys($settings) as $key) {
             $settings[$key] = $this->settingsManager->get($key);
         }
 
@@ -109,13 +109,13 @@ final class AttributesController extends AbstractController
         array $attributeAkeneoSyliusMappings
     ): void {
         foreach ($attributeTypeMappings as $attributeTypeMapping) {
-            if (false === \array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
+            if (!in_array($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeTypeMapping);
             }
         }
 
         foreach ($attributeAkeneoSyliusMappings as $attributeAkeneoSyliusMapping) {
-            if (false === \array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
+            if (!in_array($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeAkeneoSyliusMapping);
             }
         }

@@ -62,7 +62,7 @@ final class LocaleAttributeTranslationTask implements AkeneoTaskInterface
         string $attributeCode,
         string $scope
     ): void {
-        if ($translation['locale'] !== null && $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale']) === false) {
+        if ($translation['locale'] !== null && !$this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
             return;
         }
 

@@ -13,6 +13,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Define what rule sets will be applied
     $parameters->set(Option::SETS, [
         SetList::PHP_74,
+        SetList::SYMFONY_CODE_QUALITY,
+        SetList::CODE_QUALITY,
+        SetList::CODE_QUALITY_STRICT,
+    ]);
+
+    // Exclude Doctrine migrations
+    $parameters->set(Option::PATHS, [
+        'src/',
     ]);
 
     // Exclude Doctrine migrations
