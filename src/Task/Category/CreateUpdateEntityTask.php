@@ -12,6 +12,9 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Synolia\SyliusAkeneoPlugin\Event\Category\AfterCreateTaxonEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeCreateTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -47,13 +50,17 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $taxonTranslationFactory;
 
+    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    private $dispatcher;
+
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
         TaxonRepository $taxonAkeneoRepository,
         RepositoryInterface $taxonTranslationRepository,
         FactoryInterface $taxonTranslationFactory,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
@@ -61,6 +68,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->taxonTranslationRepository = $taxonTranslationRepository;
         $this->taxonTranslationFactory = $taxonTranslationFactory;
         $this->logger = $akeneoLogger;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -76,10 +84,12 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             throw new NoCategoryResourcesException('No resource found.');
         }
 
-        try {
-            $this->entityManager->beginTransaction();
+        foreach ($payload->getResources() as $resource) {
+            try {
+                $this->dispatcher->dispatch(new BeforeCreateTaxonEvent($resource));
 
-            foreach ($payload->getResources() as $resource) {
+                $this->entityManager->beginTransaction();
+
                 $taxon = $this->getOrCreateEntity($resource['code']);
 
                 $taxons[$resource['code']] = $taxon;
@@ -118,15 +128,15 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     );
                     $taxonTranslation->setSlug($slug ?? $resource['code']);
                 }
+
+                $this->dispatcher->dispatch(new AfterCreateTaxonEvent($resource, $taxon));
+
+                $this->entityManager->flush();
+                $this->entityManager->commit();
+            } catch (\Throwable $throwable) {
+                $this->entityManager->rollback();
+                $this->logger->warning($throwable->getMessage());
             }
-
-            $this->entityManager->flush();
-            $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
-            $this->entityManager->rollback();
-            $this->logger->warning($throwable->getMessage());
-
-            throw $throwable;
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
