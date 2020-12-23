@@ -13,8 +13,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Event\Category\AfterCreateTaxonEvent;
-use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeCreateTaxonEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -86,7 +86,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
         foreach ($payload->getResources() as $resource) {
             try {
-                $this->dispatcher->dispatch(new BeforeCreateTaxonEvent($resource));
+                $this->dispatcher->dispatch(new BeforeProcessingTaxonEvent($resource));
 
                 $this->entityManager->beginTransaction();
 
@@ -129,7 +129,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     $taxonTranslation->setSlug($slug ?? $resource['code']);
                 }
 
-                $this->dispatcher->dispatch(new AfterCreateTaxonEvent($resource, $taxon));
+                $this->dispatcher->dispatch(new AfterProcessingTaxonEvent($resource, $taxon));
 
                 $this->entityManager->flush();
                 $this->entityManager->commit();
