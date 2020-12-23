@@ -95,7 +95,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
                     $value,
                     $locale,
                     $scope,
-                ), ['exception' => $exception]);
+                ));
             }
         }
 

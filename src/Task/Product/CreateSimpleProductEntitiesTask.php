@@ -70,6 +70,9 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
     private $akeneoAttributeDataProvider;
 
+    /** @var ProductConfiguration */
+    private $productConfiguration;
+
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -126,6 +129,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->logger->debug(self::class);
         $this->type = 'SimpleProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
+        $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
         $filters = $this->productFiltersRulesRepository->findOneBy([]);
@@ -254,12 +258,10 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
             $productTranslation->setName($productName);
 
-            /** @var ProductConfiguration $configuration */
-            $configuration = $this->productConfigurationRepository->findOneBy([]);
             if ($product->getId() !== null &&
                 $productTranslation->getSlug() !== null &&
-                $configuration !== null &&
-                $configuration->getRegenerateUrlRewrites() === false) {
+                $this->productConfiguration !== null &&
+                $this->productConfiguration->getRegenerateUrlRewrites() === false) {
                 // no regenerate slug if config disable it
 
                 continue;
@@ -333,6 +335,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $productMediaPayload
             ->setProduct($product)
             ->setAttributes($resource['values'])
+            ->setProductConfiguration($this->productConfiguration)
         ;
         $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
         $imageTask->__invoke($productMediaPayload);
