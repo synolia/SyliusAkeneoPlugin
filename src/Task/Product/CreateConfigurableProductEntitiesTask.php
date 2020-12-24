@@ -16,14 +16,19 @@ use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
@@ -63,6 +68,15 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var string */
     private $type;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
+    private $productFiltersRulesRepository;
+
+    /** @var string */
+    private $scope;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface */
+    private $akeneoAttributeProcessorProvider;
+
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -84,7 +98,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         LoggerInterface $akeneoLogger,
         FactoryInterface $productOptionValueFactory,
         RepositoryInterface $productVariantTranslationRepository,
-        FactoryInterface $productVariantTranslationFactory
+        FactoryInterface $productVariantTranslationFactory,
+        ProductFiltersRulesRepository $productFiltersRulesRepository,
+        AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider
     ) {
         parent::__construct(
             $entityManager,
@@ -107,6 +123,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueFactory = $productOptionValueFactory;
         $this->productVariantTranslationRepository = $productVariantTranslationRepository;
         $this->productVariantTranslationFactory = $productVariantTranslationFactory;
+        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
+        $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
     }
 
     /**
@@ -120,6 +138,12 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->logger->debug(self::class);
         $this->type = 'ConfigurableProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
+        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        $filters = $this->productFiltersRulesRepository->findOneBy([]);
+        if (!$filters instanceof ProductFiltersRules) {
+            throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
+        }
+        $this->scope = $filters->getChannel();
 
         $processedCount = 0;
         $totalItemsCount = $this->countTotalProducts(false);
@@ -195,8 +219,24 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         array $variationAxes
     ): void {
         $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
-
         foreach ($attributes as $attributeCode => $values) {
+            try {
+                $processor = $this->akeneoAttributeProcessorProvider->getProcessor($attributeCode, [
+                    'calledBy' => $this,
+                    'model' => $productVariant,
+                    'scope' => $this->scope,
+                    'data' => $values,
+                ]);
+                $processor->process($attributeCode, [
+                    'calledBy' => $this,
+                    'model' => $productVariant,
+                    'scope' => $this->scope,
+                    'data' => $values,
+                ]);
+            } catch (MissingAkeneoAttributeProcessorException $missingAkeneoAttributeProcessorException) {
+                $this->logger->debug($missingAkeneoAttributeProcessorException->getMessage());
+            }
+
             /*
              * Skip attributes that aren't variation axes.
              * Variation axes value will be created as option for the product
