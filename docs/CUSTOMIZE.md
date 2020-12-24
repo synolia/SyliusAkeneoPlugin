@@ -11,11 +11,17 @@ These events have two functions :
 
 The Event can modify the Payload which will then be used.
 
-## Writing your own logic
-### ProductAttribute 
-By default, we only use ProductAttributeAkeneoAttributeProcessor to insert attribute data to ProductAttributeValue entity but we provide other processors that you can enable by registering them:
+## Processing Akeneo attribute values
+
+By default, we only use `ProductAttributeAkeneoAttributeProcessor` to insert attribute value to the `ProductAttributeValue` entity, but we provide other processors that you can enable by registering them:
 
 ```yaml
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
     Synolia\SyliusAkeneoPlugin\Processor\ProductModelAkeneoAttributeProcessor:
         arguments:
             $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
@@ -45,12 +51,12 @@ By default, we only use ProductAttributeAkeneoAttributeProcessor to insert attri
             - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
 ```
 
-You can create your own logic by implementing the interface `Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface` and registering your service.
-i.e: 
-You have added a custom attribute named `externalId` for your ProductVariant to be able to map it to another service.
-You can crate a class `ProductVariantExternalIdAkeneoAttributeProcessor`
 
-The `$context` variable contains these values:
+###  Writing your own logic
+
+#### You can create your own logic by implementing the interface `Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface` and registering your service.
+
+The `$context` parameter contains these values:
 ```php
 [
     'calledBy' => $this, // The instance class who called the processor
@@ -59,6 +65,11 @@ The `$context` variable contains these values:
     'data' => $data, // The data passed to the processor (akeneo attribute values)
 ]
 ```
+
+*i.e:* 
+You have added a custom attribute named `externalId` on your ProductVariant entity to be able to map it to an external service.
+
+You can create a class `ProductVariantExternalIdAkeneoAttributeProcessor` that will take care of setting the proper value to your new property.
 
 ```php
 <?php
@@ -78,17 +89,16 @@ class ProductVariantExternalIdAkeneoAttributeProcessor implements AkeneoAttribut
             return false;
         }
         
-        //i.e: if externalId property is not present, return false...
+        // i.e: if externalId property is not present, return false...
         
         return true;
     }
     
     public function process(string $attributeCode,array $context = []) : void
     {
-        if(!$context['model'] instanceof \Sylius\Component\Core\Model\ProductVariantInterface) {
-            return;
-        }
-    
+        // i.e: here, you have to define your own logic based on the value you received and the attribute properties
+        // you can take a look at the \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder
+        // which is able to handle the data transformation based on the locale, scope and other properties of the attibute.
         $context['model']->setExternalId($context['data']);
     }
 }
@@ -97,6 +107,12 @@ class ProductVariantExternalIdAkeneoAttributeProcessor implements AkeneoAttribut
 And then register your service:
 
 ```yaml
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
     App\Processor\ProductVariantExternalIdAkeneoAttributeProcessor:
         tags:
             - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
