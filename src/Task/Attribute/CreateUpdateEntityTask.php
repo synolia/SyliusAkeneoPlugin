@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Sylius\Component\Attribute\Factory\AttributeFactory;
+use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -15,22 +17,48 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
 
-final class CreateUpdateEntityTask extends AbstractAttributeTask implements AkeneoTaskInterface
+final class CreateUpdateEntityTask implements AkeneoTaskInterface
 {
+    /** @var int */
+    private $updateCount = 0;
+
+    /** @var int */
+    private $createCount = 0;
+
+    /** @var string */
+    private $type;
+
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
+    /** @var RepositoryInterface */
+    private $productAttributeRepository;
+
+    /** @var FactoryInterface */
+    private $productAttributeFactory;
+
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var SyliusAkeneoLocaleCodeProvider */
+    private $syliusAkeneoLocaleCodeProvider;
+
     /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
     private $attributeTypeMatcher;
 
     /** @var AkeneoAttributeToSyliusAttributeTransformer */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProvider */
+    /** @var ExcludedAttributesProviderInterface */
     private $excludedAttributesProvider;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
@@ -44,21 +72,18 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
         FactoryInterface $productAttributeFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
-        ExcludedAttributesProvider $excludedAttributesProvider,
+        ExcludedAttributesProviderInterface $excludedAttributesProvider,
         RepositoryInterface $apiConfigurationRepository
     ) {
-        parent::__construct(
-            $entityManager,
-            $syliusAkeneoLocaleCodeProvider,
-            $productAttributeRepository,
-            $productAttributeFactory,
-            $akeneoLogger
-        );
-
+        $this->entityManager = $entityManager;
+        $this->productAttributeRepository = $productAttributeRepository;
+        $this->productAttributeFactory = $productAttributeFactory;
+        $this->logger = $akeneoLogger;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->excludedAttributesProvider = $excludedAttributesProvider;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     /**
@@ -132,5 +157,51 @@ final class CreateUpdateEntityTask extends AbstractAttributeTask implements Aken
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
+    }
+
+    private function setAttributeTranslations(array $labels, AttributeInterface $attribute): void
+    {
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
+            $attribute->setCurrentLocale($usedLocalesOnBothPlatform);
+            $attribute->setFallbackLocale($usedLocalesOnBothPlatform);
+
+            if (!isset($labels[$usedLocalesOnBothPlatform])) {
+                $attribute->setName(\sprintf('[%s]', $attribute->getCode()));
+
+                continue;
+            }
+
+            $attribute->setName($labels[$usedLocalesOnBothPlatform]);
+        }
+    }
+
+    private function getOrCreateEntity(string $attributeCode, TypeMatcherInterface $attributeType): AttributeInterface
+    {
+        /** @var AttributeInterface $attribute */
+        $attribute = $this->productAttributeRepository->findOneBy(['code' => $attributeCode]);
+
+        if (!$attribute instanceof AttributeInterface) {
+            if (!$this->productAttributeFactory instanceof AttributeFactory) {
+                throw new \LogicException('Wrong Factory');
+            }
+            /** @var AttributeInterface $attribute */
+            $attribute = $this->productAttributeFactory->createTyped($attributeType->getType());
+
+            if ($attributeType instanceof ReferenceEntityAttributeTypeMatcherInterface) {
+                $attribute->setStorageType($attributeType->getStorageType());
+            }
+
+            $attribute->setCode($attributeCode);
+            $this->entityManager->persist($attribute);
+            ++$this->createCount;
+            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $attribute->getCode()));
+
+            return $attribute;
+        }
+
+        ++$this->updateCount;
+        $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));
+
+        return $attribute;
     }
 }
