@@ -1,0 +1,40 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeAkeneoAttributeProcessor:
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
+
+#######################
+#### MORE EXAMPLES ####
+#######################
+#    Synolia\SyliusAkeneoPlugin\Processor\ProductModelAkeneoAttributeProcessor:
+#        arguments:
+#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+#            $model: '%sylius.model.product.class%'
+#        tags:
+#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
+#
+#    Synolia\SyliusAkeneoPlugin\Processor\ProductTranslationModelAkeneoAttributeProcessor:
+#        arguments:
+#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+#            $model: '%sylius.model.product_translation.class%'
+#        tags:
+#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
+#
+#    Synolia\SyliusAkeneoPlugin\Processor\ProductVariantModelAkeneoAttributeProcessor:
+#        arguments:
+#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+#            $model: '%sylius.model.product_variant.class%'
+#        tags:
+#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
+#
+#    Synolia\SyliusAkeneoPlugin\Processor\ProductVariantTranslationModelAkeneoAttributeProcessor:
+#        arguments:
+#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+#            $model: '%sylius.model.product_variant_translation.class%'
+#        tags:
+#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID }
