@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
-use Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute\ProductReferenceEntityAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
 
@@ -30,26 +30,26 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributeDataProvider */
     private $akeneoReferenceEntityAttributeDataProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute\ProductReferenceEntityAttributeValueValueBuilder */
-    private $referenceEntityAttributeValueValueBuilder;
-
     /** @var \Psr\Log\LoggerInterface */
     private $akeneoLogger;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface */
+    private $productRefEntityAttributeValueValueBuilderProvider;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         AkeneoReferenceEntityAttributeDataProvider $akeneoReferenceEntityAttributeDataProvider,
         AttributeTypeMatcher $attributeTypeMatcher,
         AkeneoPimEnterpriseClientInterface $client,
-        ProductReferenceEntityAttributeValueValueBuilder $referenceEntityAttributeValueValueBuilder,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider
     ) {
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->akeneoReferenceEntityAttributeDataProvider = $akeneoReferenceEntityAttributeDataProvider;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->client = $client;
-        $this->referenceEntityAttributeValueValueBuilder = $referenceEntityAttributeValueValueBuilder;
         $this->akeneoLogger = $akeneoLogger;
+        $this->productRefEntityAttributeValueValueBuilderProvider = $productRefEntityAttributeValueValueBuilderProvider;
     }
 
     public function support(string $attributeCode): bool
@@ -73,14 +73,32 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
             $value
         );
 
-        foreach ($records['values'] as $attributeCode => $attributeValue) {
+        foreach ($records['values'] as $subAttributeCode => $attributeValue) {
             try {
-                $subAttributeValues[$attributeCode] = $this->akeneoReferenceEntityAttributeDataProvider->getData(
+                $data = $this->akeneoReferenceEntityAttributeDataProvider->getData(
                     $referenceEntityAttributeProperties['reference_data_name'],
-                    $attributeCode,
+                    $subAttributeCode,
                     $attributeValue,
                     $locale,
                     $scope
+                );
+
+                $dataProcessor = $this->productRefEntityAttributeValueValueBuilderProvider->getProcessor(
+                    $attributeCode,
+                    $referenceEntityAttributeProperties['reference_data_name'],
+                    $subAttributeCode,
+                    $locale,
+                    $scope,
+                    $data
+                );
+
+                $subAttributeValues[$subAttributeCode] = $dataProcessor->getValue(
+                    $attributeCode,
+                    $referenceEntityAttributeProperties['reference_data_name'],
+                    $subAttributeCode,
+                    $locale,
+                    $scope,
+                    $data
                 );
             } catch (
                 MissingLocaleTranslationException |
@@ -90,7 +108,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
             ) {
                 $this->akeneoLogger->debug(\sprintf(
                     'Skipped attribute value "%s" for reference entity "%s" with value "%s" for locale "%s" and scope "%s"',
-                    $attributeCode,
+                    $subAttributeCode,
                     $referenceEntityAttributeProperties['reference_data_name'],
                     $value,
                     $locale,

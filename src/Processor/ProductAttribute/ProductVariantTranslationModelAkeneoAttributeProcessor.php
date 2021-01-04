@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Processor;
+namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 
-class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
+class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
     public function __construct(
         CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger,
         string $model
@@ -34,7 +34,7 @@ class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeP
 
     public static function getDefaultPriority(): int
     {
-        return 300;
+        return 0;
     }
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
@@ -53,7 +53,7 @@ class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeP
         string $locale,
         string $scope
     ): void {
-        if (!$model instanceof ProductInterface) {
+        if (!$model instanceof ProductVariantInterface) {
             return;
         }
 
@@ -64,10 +64,11 @@ class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeP
             $scope
         );
 
+        $translationModel = $model->getTranslation($locale);
         $reflectionMethod = new \ReflectionMethod(
-            $model,
+            $translationModel,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         );
-        $reflectionMethod->invoke($model, $attributeValueValue);
+        $reflectionMethod->invoke($translationModel, $attributeValueValue);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Processor;
+namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
@@ -11,13 +11,13 @@ use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     private $akeneoAttributeDataProvider;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
@@ -42,7 +42,7 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
     private $logger;
 
     public function __construct(
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         RepositoryInterface $productAttributeRepository,

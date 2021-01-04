@@ -27,7 +27,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
@@ -72,7 +72,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     private $akeneoAttributeDataProvider;
 
     /** @var ProductConfiguration */
@@ -102,7 +102,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         EventDispatcherInterface $dispatcher
     ) {
         parent::__construct(
