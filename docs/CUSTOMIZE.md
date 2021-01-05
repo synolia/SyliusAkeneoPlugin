@@ -11,6 +11,27 @@ These events have two functions :
 
 The Event can modify the Payload which will then be used.
 
+### Before/After processing events
+
+* **Before event** are sent before interracting with the Akeneo resource data.
+This allows you to make changes to the received data.
+* **After event** are sent after persisting objects and before flushing them.
+
+#### Taxon
+
+* Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent
+* Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent
+
+#### Product
+
+* Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent
+* Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent
+
+#### Product Variant
+
+* Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent
+* Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent
+
 ## Processing Akeneo attribute values
 
 By default, we only use `ProductAttributeAkeneoAttributeProcessor` to insert attribute value to the `ProductAttributeValue` entity, but we provide other processors that you can enable by registering them:
