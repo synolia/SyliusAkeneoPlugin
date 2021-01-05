@@ -6,6 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Event\Category;
 
 use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
-class BeforeCreateTaxonEvent extends AbstractResourceEvent
+class BeforeProcessingTaxonEvent extends AbstractResourceEvent
 {
 }
