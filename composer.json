@@ -50,7 +50,7 @@
         "sensiolabs/security-checker": "^6.0",
         "slevomat/coding-standard": "^6.3.2",
         "sylius-labs/coding-standard": "^3.1",
-        "sylius/sylius": "~1.7.0",
+        "sylius/sylius": "^1.7",
         "symfony/browser-kit": "^3.4|^4.3",
         "symfony/debug-bundle": "^3.4|^4.3",
         "symfony/dotenv": "^4.3",
