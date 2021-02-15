@@ -43,13 +43,13 @@ final class AddAttributesToProductTask implements AkeneoTaskInterface
             }
 
             try {
-                $processor = $this->akeneoAttributeProcessorProvider->getProcessor($attributeCode, [
+                $processor = $this->akeneoAttributeProcessorProvider->getProcessor((string) $attributeCode, [
                     'calledBy' => $this,
                     'model' => $payload->getProduct(),
                     'scope' => $payload->getScope(),
                     'data' => $translations,
                 ]);
-                $processor->process($attributeCode, [
+                $processor->process((string) $attributeCode, [
                     'calledBy' => $this,
                     'model' => $payload->getProduct(),
                     'scope' => $payload->getScope(),

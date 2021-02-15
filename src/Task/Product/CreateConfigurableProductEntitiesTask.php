@@ -240,13 +240,13 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
          **/
         foreach ($attributes as $attributeCode => $values) {
             try {
-                $processor = $this->akeneoAttributeProcessorProvider->getProcessor($attributeCode, [
+                $processor = $this->akeneoAttributeProcessorProvider->getProcessor((string) $attributeCode, [
                     'calledBy' => $this,
                     'model' => $productVariant,
                     'scope' => $this->scope,
                     'data' => $values,
                 ]);
-                $processor->process($attributeCode, [
+                $processor->process((string) $attributeCode, [
                     'calledBy' => $this,
                     'model' => $productVariant,
                     'scope' => $this->scope,
