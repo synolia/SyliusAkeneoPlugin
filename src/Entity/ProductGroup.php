@@ -38,6 +38,12 @@ class ProductGroup implements ResourceInterface
     private $variationAxes = [];
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $family = '';
+
+    /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\Product")
      * @JoinTable(name="akeneo_productgroup_product")
@@ -93,6 +99,18 @@ class ProductGroup implements ResourceInterface
 
         unset($this->variationAxes[array_search($variationAxe, $this->variationAxes)]);
 
+        return $this;
+    }
+
+    public function getFamily(): string
+    {
+        return $this->family;
+    }
+
+    public function setFamily(string $family): self
+    {
+        $this->family = $family;
+        
         return $this;
     }
 

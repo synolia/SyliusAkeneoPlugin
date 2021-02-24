@@ -13,6 +13,9 @@ use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 
 class FamilyVariationAxeProcessor
 {
+    /** @var AkeneoPimEnterpriseClientInterface */
+    private $akeneoPimEnterpriseClient;
+
     /** @var EntityRepository */
     private $productGroupRepository;
 
@@ -26,16 +29,18 @@ class FamilyVariationAxeProcessor
     public $itemCount = 0;
 
     public function __construct(
+        AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
         EntityRepository $productGroupRepository,
         FamilyRetriever $familyRetriever,
         LoggerInterface $akeneoLogger
     ) {
+        $this->akeneoPimEnterpriseClient = $akeneoPimEnterpriseClient;
         $this->productGroupRepository = $productGroupRepository;
         $this->familyRetriever = $familyRetriever;
         $this->logger = $akeneoLogger;
     }
 
-    public function process(AkeneoPimEnterpriseClientInterface $akeneoPimClient, array $resource, array $familiesVariantPayloads): array
+    public function process(array $resource, array $familiesVariantPayloads = []): array
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
         if (!$productGroup instanceof ProductGroup) {
@@ -54,7 +59,7 @@ class FamilyVariationAxeProcessor
         }
 
         if (!isset($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']])) {
-            $payloadProductGroup = $akeneoPimClient->getFamilyVariantApi()->get(
+            $payloadProductGroup = $this->akeneoPimEnterpriseClient->getFamilyVariantApi()->get(
                 $family ?: $resource['family'],
                 $resource['family_variant']
             );

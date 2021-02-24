@@ -8,7 +8,6 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -77,7 +76,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
             $familiesVariantPayloads = [];
             $this->entityManager->beginTransaction();
             foreach ($payload->getModelResources() as $resource) {
-                $familiesVariantPayloads = $this->familyVariationAxeProcessor->process($payload, $resource, $familiesVariantPayloads);
+                $familiesVariantPayloads = $this->familyVariationAxeProcessor->process($resource, $familiesVariantPayloads);
             }
 
             $this->entityManager->flush();
