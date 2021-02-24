@@ -46,7 +46,7 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
 
         if (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
             $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
-            return $this->getByLocale($attributeCode, $attributeValues, $locale);
+            return $this->getByLocale($attributeCode, $attributeValues, $locale, $scope);
         }
 
         throw new TranslationNotFoundException();
@@ -87,14 +87,14 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
     /**
      * @return mixed|null
      */
-    private function getByLocale(string $attributeCode, array $attributeValues, string $locale)
+    private function getByLocale(string $attributeCode, array $attributeValues, string $locale, ?string $scope = null)
     {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['locale'] !== $locale) {
                 continue;
             }
 
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, null, $attributeValue['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationException();
