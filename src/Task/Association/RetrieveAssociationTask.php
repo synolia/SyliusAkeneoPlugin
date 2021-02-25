@@ -9,15 +9,20 @@ use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class RetrieveAssociationTask implements AkeneoTaskInterface
 {
+    /** @var ConfigurationProvider */
+    private $configurationProvider;
+
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(ConfigurationProvider $configurationProvider, LoggerInterface $logger)
     {
+        $this->configurationProvider = $configurationProvider;
         $this->logger = $logger;
     }
 
@@ -30,7 +35,9 @@ class RetrieveAssociationTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
-        $resources = $payload->getAkeneoPimClient()->getAssociationTypeApi()->all();
+        $resources = $payload->getAkeneoPimClient()->getAssociationTypeApi()->listPerPage(
+            $this->configurationProvider->getConfiguration()->getPaginationSize()
+        );
 
         if (!$resources instanceof Page) {
             return $payload;
@@ -38,7 +45,7 @@ class RetrieveAssociationTask implements AkeneoTaskInterface
 
         $payload->setResources($resources);
 
-        $this->logger->info(Messages::totalToImport($payload->getType(), $resources->getCount()));
+        $this->logger->info(Messages::totalToImport($payload->getType(), count($resources->getItems())));
 
         return $payload;
     }

@@ -8,8 +8,7 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Task\Association\AddAssociationTypeTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddFamilyVariationAxeTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddProductGroupsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Association\RetrieveAssociationTask;
 
 final class AssociationTypePipelineFactory extends AbstractPipelineFactory
 {
@@ -18,8 +17,8 @@ final class AssociationTypePipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(AddAssociationsTask::class))
+            ->pipe($this->taskProvider->get(RetrieveAssociationTask::class))
             ->pipe($this->taskProvider->get(AddAssociationTypeTask::class))
-        ;
+            ;
     }
 }
