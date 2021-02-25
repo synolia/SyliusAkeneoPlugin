@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-class AddAssociationTypeTask implements AkeneoTaskInterface
+final class AddAssociationTypeTask implements AkeneoTaskInterface
 {
     /** @var FactoryInterface */
     private $productAssociationTypeFactory;

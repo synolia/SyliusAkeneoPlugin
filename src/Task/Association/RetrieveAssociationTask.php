@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-class RetrieveAssociationTask implements AkeneoTaskInterface
+final class RetrieveAssociationTask implements AkeneoTaskInterface
 {
     /** @var ConfigurationProvider */
     private $configurationProvider;
