@@ -166,10 +166,6 @@ jobs:
         working-directory: ./sylius
         run: composer req --dev donatj/mock-webserver:^2.1 --no-update
 
-      - name: Composer - Security Checker
-        working-directory: ./sylius
-        run: composer require sensiolabs/security-checker --no-update
-
       - name: Composer - Restrict Symfony version
         working-directory: ./sylius
         run: composer config extra.symfony.require "${{ matrix.symfony }}"
