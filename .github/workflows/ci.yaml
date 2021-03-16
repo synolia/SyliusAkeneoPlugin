@@ -60,7 +60,9 @@ jobs:
         run: composer config extra.symfony.require "${{ matrix.symfony }}"
 
       - name: Composer - Update dependencies
-        run: composer update --no-progress
+        run: |
+          composer req --no-update symfony/dependency-injection:v4.4.18
+          composer update --no-progress
         id: end-of-setup
 
       - name: ECS - Run
@@ -178,7 +180,9 @@ jobs:
 
       - name: Sylius - Update dependencies # need to update sylius version
         working-directory: ./sylius
-        run: composer update --no-progress --no-suggest --prefer-dist -n -o
+        run: |
+          composer req --no-update symfony/dependency-injection:v4.4.18
+          composer update --no-progress --no-suggest --prefer-dist -n -o
 
       - name: Sylius - Config package
         working-directory: ./sylius
