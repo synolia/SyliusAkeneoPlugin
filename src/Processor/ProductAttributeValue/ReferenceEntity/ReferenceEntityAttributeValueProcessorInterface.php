@@ -11,15 +11,7 @@ interface ReferenceEntityAttributeValueProcessorInterface
     public static function getDefaultPriority(): int;
 
     /**
-     * @param string $attributeCode
-     * @param string $referenceEntityCode
-     * @param string $subAttributeCode
-     * @param string $locale
-     * @param string $scope
      * @param mixed $value
-     * @param array $context
-     *
-     * @return bool
      */
     public function support(
         string $attributeCode,
@@ -32,13 +24,7 @@ interface ReferenceEntityAttributeValueProcessorInterface
     ): bool;
 
     /**
-     * @param string $attributeCode
-     * @param string $referenceEntityCode
-     * @param string $subAttributeCode
-     * @param string $locale
-     * @param string $scope
      * @param mixed $value
-     * @param array $context
      *
      * @return mixed
      */

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 class ApiConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
+    /** @var \Doctrine\Persistence\ObjectManager */
     private $objectManager;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */

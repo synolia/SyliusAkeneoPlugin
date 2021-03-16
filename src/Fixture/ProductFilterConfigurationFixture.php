@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
 use DateTimeInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -16,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
 class ProductFilterConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
+    /** @var \Doctrine\Persistence\ObjectManager */
     private $objectManager;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
