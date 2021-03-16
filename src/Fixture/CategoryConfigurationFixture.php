@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CategoryConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Persistence\ObjectManager */
-    private $objectManager;
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $categoriesConfigurationFactory;
 
     public function __construct(
-        ObjectManager $objectManager,
+        EntityManagerInterface $entityManager,
         FactoryInterface $categoriesConfigurationFactory
     ) {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
         $this->categoriesConfigurationFactory = $categoriesConfigurationFactory;
     }
 
@@ -32,8 +32,8 @@ class CategoryConfigurationFixture extends AbstractFixture
         $categoryConfiguration->setRootCategories($options['root_categories_to_import']);
         $categoryConfiguration->setNotImportCategories($options['categories_to_exclude']);
 
-        $this->objectManager->persist($categoryConfiguration);
-        $this->objectManager->flush();
+        $this->entityManager->persist($categoryConfiguration);
+        $this->entityManager->flush();
     }
 
     /**

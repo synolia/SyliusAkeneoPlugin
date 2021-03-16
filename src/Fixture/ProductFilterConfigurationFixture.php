@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
 use DateTimeInterface;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -16,17 +16,17 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
 class ProductFilterConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Persistence\ObjectManager */
-    private $objectManager;
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productFiltersRulesFactory;
 
     public function __construct(
-        ObjectManager $objectManager,
+        EntityManagerInterface $entityManager,
         FactoryInterface $productFiltersRulesFactory
     ) {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
         $this->productFiltersRulesFactory = $productFiltersRulesFactory;
     }
 
@@ -58,8 +58,8 @@ class ProductFilterConfigurationFixture extends AbstractFixture
             $productFilterRules->addLocale($locale);
         }
 
-        $this->objectManager->persist($productFilterRules);
-        $this->objectManager->flush();
+        $this->entityManager->persist($productFilterRules);
+        $this->entityManager->flush();
     }
 
     /**
