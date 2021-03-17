@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -13,8 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 class ApiConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
-    private $objectManager;
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
     private $clientFactory;
@@ -24,11 +24,11 @@ class ApiConfigurationFixture extends AbstractFixture
 
     public function __construct(
         ClientFactory $clientFactory,
-        ObjectManager $objectManager,
+        EntityManagerInterface $entityManager,
         FactoryInterface $apiConfigurationFactory
     ) {
         $this->clientFactory = $clientFactory;
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
         $this->apiConfigurationFactory = $apiConfigurationFactory;
     }
 
@@ -47,8 +47,8 @@ class ApiConfigurationFixture extends AbstractFixture
         $client = $this->clientFactory->authenticateByPassword($apiConfiguration);
         $client->getCategoryApi()->all(1);
 
-        $this->objectManager->persist($apiConfiguration);
-        $this->objectManager->flush();
+        $this->entityManager->persist($apiConfiguration);
+        $this->entityManager->flush();
     }
 
     /**

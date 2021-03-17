@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Processor;
+namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 interface AkeneoAttributeProcessorInterface
 {

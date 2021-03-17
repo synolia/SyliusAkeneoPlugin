@@ -6,6 +6,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
@@ -14,7 +15,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 {
     private const DEFAULT_SCOPE = 'ecommerce';
 
-    /** @var AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     private $attributeDataProvider;
 
     protected function setUp(): void

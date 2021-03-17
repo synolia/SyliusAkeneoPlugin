@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Processor;
+namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 
@@ -18,7 +18,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
     /** @var \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter */
     protected $camelCaseToSnakeCaseNameConverter;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     protected $akeneoAttributeDataProvider;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
@@ -36,7 +36,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
     public function __construct(
         CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger,
         string $model

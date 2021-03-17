@@ -77,7 +77,8 @@
 
 ## Development
 
-See [How to contribute](CONTRIBUTING.md).
+* See [How to contribute](CONTRIBUTING.md)
+* See [How to customize your import using processors](docs/customize/PROCESSORS.md)
 
 ## Akeneo Enterprise Edition
 

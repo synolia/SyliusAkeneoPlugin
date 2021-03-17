@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrSc
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 
-final class AkeneoAttributeDataProvider
+final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertyProvider;
@@ -26,15 +26,6 @@ final class AkeneoAttributeDataProvider
         $this->productAttributeValueValueBuilder = $productAttributeValueValueBuilder;
     }
 
-    /**
-     * @param mixed $attributeValues
-     *
-     * @return mixed|null
-     *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
-     */
     public function getData(string $attributeCode, $attributeValues, string $locale, string $scope)
     {
         if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||

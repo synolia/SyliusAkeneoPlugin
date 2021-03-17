@@ -32,7 +32,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
@@ -95,7 +95,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     private $akeneoAttributeDataProvider;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
@@ -146,7 +146,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         ProductFiltersRulesRepository $productFiltersRulesRepository,
         RepositoryInterface $productTranslationRepository,
         EntityRepository $productConfigurationRepository,

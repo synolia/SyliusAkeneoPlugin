@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
-use Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute\ProductReferenceEntityAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
@@ -15,15 +14,10 @@ final class AkeneoReferenceEntityAttributeDataProvider
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributePropertiesProvider */
     private $akeneoReferenceEntityAttributePropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\ReferenceEntityAttribute\ProductReferenceEntityAttributeValueValueBuilder */
-    private $productReferenceEntityAttributeValueValueBuilder;
-
     public function __construct(
-        AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider,
-        ProductReferenceEntityAttributeValueValueBuilder $productReferenceEntityAttributeValueValueBuilder
-    ) {
+        AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider)
+    {
         $this->akeneoReferenceEntityAttributePropertiesProvider = $akeneoReferenceEntityAttributePropertiesProvider;
-        $this->productReferenceEntityAttributeValueValueBuilder = $productReferenceEntityAttributeValueValueBuilder;
     }
 
     /**
@@ -34,28 +28,34 @@ final class AkeneoReferenceEntityAttributeDataProvider
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
+     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
      */
-    public function getData(string $referenceEntityCode, string $referenceEntityAttributeCode, $attributeValues, string $locale, string $scope)
-    {
+    public function getData(
+        string $referenceEntityCode,
+        string $referenceEntityAttributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope
+    ) {
         if ($this->akeneoReferenceEntityAttributePropertiesProvider->isUnique($referenceEntityCode, $referenceEntityAttributeCode) ||
             (!$this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
                 !$this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode))) {
-            return $this->productReferenceEntityAttributeValueValueBuilder->build($referenceEntityCode, $referenceEntityAttributeCode, $attributeValues[0]['data']);
+            return $attributeValues[0]['data'];
         }
 
         if ($this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
             !$this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode)) {
-            return $this->getByScope($referenceEntityCode, $referenceEntityAttributeCode, $attributeValues, $scope);
+            return $this->getByScope($attributeValues, $scope);
         }
 
         if ($this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
             $this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode)) {
-            return $this->getByLocaleAndScope($referenceEntityCode, $referenceEntityAttributeCode, $attributeValues, $locale, $scope);
+            return $this->getByLocaleAndScope($attributeValues, $locale, $scope);
         }
 
         if (!$this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
             $this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode)) {
-            return $this->getByLocale($referenceEntityCode, $referenceEntityAttributeCode, $attributeValues, $locale);
+            return $this->getByLocale($attributeValues, $locale);
         }
 
         throw new TranslationNotFoundException();
@@ -64,14 +64,16 @@ final class AkeneoReferenceEntityAttributeDataProvider
     /**
      * @return mixed|null
      */
-    private function getByScope(string $referenceEntityCode, string $referenceEntityAttributeCode, array $attributeValues, string $scope)
-    {
+    private function getByScope(
+        array $attributeValues,
+        string $scope
+    ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope) {
                 continue;
             }
 
-            return $this->productReferenceEntityAttributeValueValueBuilder->build($referenceEntityCode, $referenceEntityAttributeCode, $attributeValue['data']);
+            return $attributeValue['data'];
         }
 
         throw new MissingScopeException();
@@ -80,14 +82,17 @@ final class AkeneoReferenceEntityAttributeDataProvider
     /**
      * @return mixed|null
      */
-    private function getByLocaleAndScope(string $referenceEntityCode, string $referenceEntityAttributeCode, array $attributeValues, string $locale, string $scope)
-    {
+    private function getByLocaleAndScope(
+        array $attributeValues,
+        string $locale,
+        string $scope
+    ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope || $attributeValue['locale'] !== $locale) {
                 continue;
             }
 
-            return $this->productReferenceEntityAttributeValueValueBuilder->build($referenceEntityCode, $referenceEntityAttributeCode, $attributeValue['data']);
+            return $attributeValue['data'];
         }
 
         throw new MissingLocaleTranslationOrScopeException();
@@ -96,14 +101,16 @@ final class AkeneoReferenceEntityAttributeDataProvider
     /**
      * @return mixed|null
      */
-    private function getByLocale(string $referenceEntityCode, string $referenceEntityAttributeCode, array $attributeValues, string $locale)
-    {
+    private function getByLocale(
+        array $attributeValues,
+        string $locale
+    ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['locale'] !== $locale) {
                 continue;
             }
 
-            return $this->productReferenceEntityAttributeValueValueBuilder->build($referenceEntityCode, $referenceEntityAttributeCode, $attributeValue['data']);
+            return $attributeValue['data'];
         }
 
         throw new MissingLocaleTranslationException();

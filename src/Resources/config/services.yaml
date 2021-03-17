@@ -92,4 +92,9 @@ services:
     Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface:
         class: Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProvider
         arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\AkeneoAttributeProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+
+    Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProvider
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
