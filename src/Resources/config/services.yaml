@@ -1,3 +1,6 @@
+imports:
+    - { resource: "processors.yaml" }
+
 services:
     _defaults:
         autowire: true
@@ -6,7 +9,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{Controller,DependencyInjection,Fixture,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
+        exclude: '../../{Controller,DependencyInjection,Fixture,Model,Migrations,Payload,Processor,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../Controller'
@@ -82,3 +85,16 @@ services:
         class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
         tags:
             - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'Text', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\ReferenceEntityAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\ReferenceEntityAttributeType' }
+
+    serializer.name_converter.camel_case_to_snake_case:
+        class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
+
+    Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProvider
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+
+    Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProvider
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }

@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Event\Category;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
-class AfterCreateTaxonEvent extends AbstractResourceEvent
+class AfterProcessingTaxonEvent extends AbstractResourceEvent
 {
     /** @var \Sylius\Component\Core\Model\TaxonInterface */
     private $taxon;

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 
-final class ExcludedAttributesProvider
+class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
 {
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productConfigurationRepository;

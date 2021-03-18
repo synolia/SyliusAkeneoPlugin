@@ -13,8 +13,13 @@ use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
+use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -22,7 +27,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
@@ -67,11 +72,14 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     private $akeneoAttributeDataProvider;
 
     /** @var ProductConfiguration */
     private $productConfiguration;
+
+    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    private $dispatcher;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -94,7 +102,8 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+        EventDispatcherInterface $dispatcher
     ) {
         parent::__construct(
             $entityManager,
@@ -117,6 +126,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->productSlugGenerator = $productSlugGenerator;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
         $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
+        $this->dispatcher = $dispatcher;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -149,6 +159,8 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                 $resource = \json_decode($result['values'], true);
 
                 try {
+                    $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
+
                     $product = $this->getOrCreateEntity($resource);
 
                     $this->updateProductRequirementsForActiveLocales(
@@ -156,6 +168,8 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                         $resource['family'],
                         $resource
                     );
+
+                    $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $product));
 
                     $productVariant = $this->getOrCreateSimpleVariant($product);
                     $this->linkCategoriesToProduct($payload, $product, $resource['categories']);
@@ -167,6 +181,9 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
                     $this->updateImages($payload, $resource, $product);
                     $this->setProductPrices($productVariant, $resource['values']);
+
+                    $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+                    $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
 
                     $this->entityManager->flush();
                 } catch (\Throwable $throwable) {

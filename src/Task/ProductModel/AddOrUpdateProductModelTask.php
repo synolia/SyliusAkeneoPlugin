@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
-use App\Entity\Product\Product;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,9 +18,12 @@ use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -30,7 +32,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
@@ -93,7 +95,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider */
+    /** @var AkeneoAttributeDataProviderInterface */
     private $akeneoAttributeDataProvider;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
@@ -126,6 +128,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var \Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface */
     private $addProductCategoriesTask;
 
+    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    private $dispatcher;
+
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -141,13 +146,14 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeDataProvider $akeneoAttributeDataProvider,
+        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         ProductFiltersRulesRepository $productFiltersRulesRepository,
         RepositoryInterface $productTranslationRepository,
         EntityRepository $productConfigurationRepository,
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
-        AkeneoFamilyPropertiesProvider $akeneoFamilyPropertiesProvider
+        AkeneoFamilyPropertiesProvider $akeneoFamilyPropertiesProvider,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->entityManager = $entityManager;
         $this->productFactory = $productFactory;
@@ -166,6 +172,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->productTranslationFactory = $productTranslationFactory;
         $this->productSlugGenerator = $productSlugGenerator;
         $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -199,8 +206,12 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
                 $resource = \json_decode($result['values'], true);
 
                 try {
+                    $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
+
                     $this->entityManager->beginTransaction();
                     $product = $this->process($resource);
+
+                    $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
 
                     $this->entityManager->flush();
                     $this->entityManager->commit();
@@ -281,11 +292,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         return $product;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @todo Need refacto
-     */
     private function addOrUpdate(ProductInterface $product, array &$resource): void
     {
         if (!isset($resource['family'])) {

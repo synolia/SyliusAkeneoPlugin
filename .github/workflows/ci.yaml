@@ -2,11 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, develop]
     paths-ignore:
       - README.md
   pull_request:
-    branches: [master]
+    branches: [master, develop]
     paths-ignore:
       - README.md
 
@@ -60,7 +60,9 @@ jobs:
         run: composer config extra.symfony.require "${{ matrix.symfony }}"
 
       - name: Composer - Update dependencies
-        run: composer update --no-progress
+        run: |
+          composer req --no-update symfony/dependency-injection:v4.4.18
+          composer update --no-progress
         id: end-of-setup
 
       - name: ECS - Run
@@ -81,10 +83,6 @@ jobs:
 
       - name: GrumPHP - Run
         run: (test -f grumphp.yml && vendor/bin/grumphp run) || echo Grumphp ruleset file does not exist, skipping step
-        if: always() && steps.end-of-setup.outcome == 'success'
-
-      - name: Doctrine Schema Validate - Run
-        run: php tests/Application/bin/console doctrine:schema:validate --skip-sync
         if: always() && steps.end-of-setup.outcome == 'success'
 
       - name: Checks security issues - Run
@@ -168,17 +166,15 @@ jobs:
         working-directory: ./sylius
         run: composer req --dev donatj/mock-webserver:^2.1 --no-update
 
-      - name: Composer - Security Checker
-        working-directory: ./sylius
-        run: composer require sensiolabs/security-checker --no-update
-
       - name: Composer - Restrict Symfony version
         working-directory: ./sylius
         run: composer config extra.symfony.require "${{ matrix.symfony }}"
 
       - name: Sylius - Update dependencies # need to update sylius version
         working-directory: ./sylius
-        run: composer update --no-progress --no-suggest --prefer-dist -n -o
+        run: |
+          composer req --no-update symfony/dependency-injection:v4.4.18
+          composer update --no-progress --no-suggest --prefer-dist -n -o
 
       - name: Sylius - Config package
         working-directory: ./sylius
@@ -274,6 +270,10 @@ jobs:
         working-directory: ./sylius
         run: symfony server:start --port=8080 --dir=public --daemon
         id: end-of-setup-sylius
+
+      - name: Doctrine Schema Validate - Run
+        run: php tests/Application/bin/console doctrine:schema:validate --skip-sync
+        if: always() && steps.end-of-setup.outcome == 'success'
 
       - name: PHPunit - Run
         working-directory: ./sylius

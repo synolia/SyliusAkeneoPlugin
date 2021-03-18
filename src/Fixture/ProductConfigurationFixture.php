@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class ProductConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\Common\Persistence\ObjectManager */
-    private $objectManager;
+    /** @var \Doctrine\ORM\EntityManagerInterface */
+    private $entityManager;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productConfigurationFactory;
@@ -24,12 +24,12 @@ class ProductConfigurationFixture extends AbstractFixture
     private $productImageMappingConfigurationFactory;
 
     public function __construct(
-        ObjectManager $objectManager,
+        EntityManagerInterface $entityManager,
         FactoryInterface $productConfigurationFactory,
         FactoryInterface $productImageAttributeConfigurationFactory,
         FactoryInterface $productImageMappingConfigurationFactory
     ) {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
         $this->productConfigurationFactory = $productConfigurationFactory;
         $this->productImageAttributeConfigurationFactory = $productImageAttributeConfigurationFactory;
         $this->productImageMappingConfigurationFactory = $productImageMappingConfigurationFactory;
@@ -43,14 +43,14 @@ class ProductConfigurationFixture extends AbstractFixture
         $productConfiguration->setAkeneoPriceAttribute($options['akeneo_price_attribute']);
         $productConfiguration->setRegenerateUrlRewrites($options['regenerate_url']);
         $productConfiguration->setImportMediaFiles($options['import_media_files']);
-        $this->objectManager->persist($productConfiguration);
+        $this->entityManager->persist($productConfiguration);
 
         foreach ($options['images_attributes'] as $imagesAttribute) {
             /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute $productImageAttribute */
             $productImageAttribute = $this->productImageAttributeConfigurationFactory->createNew();
             $productImageAttribute->setAkeneoAttributes($imagesAttribute);
             $productConfiguration->addAkeneoImageAttribute($productImageAttribute);
-            $this->objectManager->persist($productImageAttribute);
+            $this->entityManager->persist($productImageAttribute);
         }
 
         foreach ($options['images_type_mapping'] as $imagesTypeMapping) {
@@ -61,7 +61,7 @@ class ProductConfigurationFixture extends AbstractFixture
             $productConfiguration->addProductImagesMapping($productImageMapping);
         }
 
-        $this->objectManager->flush();
+        $this->entityManager->flush();
     }
 
     /**
