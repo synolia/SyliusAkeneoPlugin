@@ -272,18 +272,18 @@ jobs:
         id: end-of-setup-sylius
 
       - name: Doctrine Schema Validate - Run
-        run: php tests/Application/bin/console doctrine:schema:validate --skip-sync
-        if: always() && steps.end-of-setup.outcome == 'success'
+        run: php bin/console doctrine:schema:validate --skip-sync
+        if: always() && steps.end-of-setup-sylius.outcome == 'success'
 
       - name: PHPunit - Run
         working-directory: ./sylius
         run: php phpunit-8.5.phar
-        if: always() && steps.end-of-setup.outcome == 'success'
+        if: always() && steps.end-of-setup-sylius.outcome == 'success'
 
       - name: Run behat
         working-directory: ./sylius
         run: vendor/bin/behat --strict --no-interaction -f progress || vendor/bin/behat --strict -vvv --no-interaction --rerun
-        if: always() && steps.end-of-setup.outcome == 'success'
+        if: always() && steps.end-of-setup-sylius.outcome == 'success'
 
       - uses: actions/upload-artifact@v2.1.4
         if: failure()
