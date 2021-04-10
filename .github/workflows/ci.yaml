@@ -60,7 +60,7 @@ jobs:
         id: end-of-setup
 
       - name: ECS - Run
-        run: if [ -f ruleset/easy-coding-standard.yml ]; then vendor/bin/ecs check src/ tests/Behat/ --no-progress-bar -c ruleset/easy-coding-standard.yml ; else echo Ecs ruleset file does not exist, skipping step ; fi
+        run: if [ -f ruleset/ecs.php ]; then vendor/bin/ecs check src/ tests/Behat/ --no-progress-bar -c ruleset/ecs.php ; else echo Ecs ruleset file does not exist, skipping step ; fi
         if: always() && steps.end-of-setup.outcome == 'success'
 
       - name: PHPStan - Run
