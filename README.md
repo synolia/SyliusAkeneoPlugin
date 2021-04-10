@@ -28,8 +28,8 @@
 
 | | Version |
 | :--- | :--- |
-| PHP  | 7.3+ |
-| Sylius | 1.7+ |
+| PHP  | 7.3, 7.4 |
+| Sylius | 1.8, 1.9 |
 | Akeneo PIM  | 3.0+ |
 
 
