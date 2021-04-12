@@ -27,15 +27,11 @@ grumphp:
         phpstan:
             level: ~
             configuration: 'ruleset/phpstan.neon'
-        securitychecker: ~
-        yamllint: ~
+        securitychecker_symfony: ~
+        yamllint:
+            parse_custom_tags: true
         ecs:
-            config: 'ruleset/easy-coding-standard.yml'
-            paths:
-                - src
-                - spec
-                - tests/Behat
-                - tests/PHPUnit
+            config: 'ruleset/ecs.php'
             no-progress-bar: true
         twigcs:
             path: 'src/'

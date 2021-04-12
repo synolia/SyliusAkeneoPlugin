@@ -206,8 +206,6 @@ jobs:
         run: |
           sed -i "s#vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml#vendor/${{ env.package-name }}/tests/Behat/Resources/suites.yml#g" behat.yml.dist
           sed -i "s#vendor/sylius/sylius/features#vendor/${{ env.package-name }}/features#g" behat.yml.dist
-          sed -i "s#@cli#@javascript#g" behat.yml.dist
-          echo '    - { resource: "../vendor/${{ env.package-name }}/tests/Behat/Resources/services.yml" }' >> config/services_test.yaml
 
       - name: Sylius - Set database config
         working-directory: ./sylius
