@@ -12,8 +12,6 @@ use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeOptionApi;
 use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductAttributeValueRepository;
-use Sylius\Component\Core\Model\Product;
-use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -87,7 +85,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => '1111111171']);
+        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
         $this->assertNotNull($product);
 
         //Testing product attribute translations inside models
@@ -113,7 +111,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         //Testing simple variant
         /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
-        $productVariant = $this->manager->getRepository(ProductVariant::class)->findOneBy(['code' => $product->getCode()]);
+        $productVariant = self::$container->get('sylius.repository.product_variant')->findOneBy(['code' => $product->getCode()]);
         $this->assertNotNull($productVariant);
 
         $this->assertEquals(self::$container->get('sylius.repository.channel')->count([]), $productVariant->getChannelPricings()->count());
@@ -188,7 +186,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => $productId]);
+        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => $productId]);
         $this->assertNotNull($product);
 
         $this->assertNotEmpty($product->getAttributes());
@@ -242,7 +240,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
 
         foreach ($categories as $categoryCode) {
-            $category = $this->manager->getRepository(Taxon::class)->findOneBy(['code' => $categoryCode]);
+            $category = self::$container->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
                 /** @var Taxon $category */

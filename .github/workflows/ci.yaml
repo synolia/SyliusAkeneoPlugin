@@ -214,7 +214,7 @@ jobs:
 
       - name: Sylius - Install
         working-directory: ./sylius
-        run: php bin/console sylius:install -n -s default
+        run: php bin/console sylius:install -n -s akeneo
 
       - name: Yarn - Get cache directory
         id: yarn-cache

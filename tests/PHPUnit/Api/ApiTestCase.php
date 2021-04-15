@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api;
 use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -31,7 +32,7 @@ abstract class ApiTestCase extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
+        $this->manager = self::$container->get(EntityManagerInterface::class);
         $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
         $this->server->setResponseOfPath(

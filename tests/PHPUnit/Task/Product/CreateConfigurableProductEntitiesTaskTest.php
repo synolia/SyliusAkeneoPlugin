@@ -102,9 +102,12 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             ],
         ];
 
+        $productVariantRepository = self::$container->get('sylius.repository.product_variant');
+        $productOptionValueTranslationRepository = self::$container->get('sylius.repository.product_option_value_translation');
+
         foreach ($productsToTest as $productToTest) {
             /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
-            $productVariant = $this->manager->getRepository(ProductVariant::class)->findOneBy(['code' => $productToTest['code']]);
+            $productVariant = $productVariantRepository->findOneBy(['code' => $productToTest['code']]);
             $this->assertNotNull($productVariant);
 
             //Testing product attribute translations inside models
@@ -123,7 +126,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 if (!'size_' . $productToTest['attributes']['size'] === $optionValue->getCode()) {
                     continue;
                 }
-                $productOptionValueTranslation = $this->manager->getRepository(ProductOptionValueTranslation::class)->findOneBy([
+                $productOptionValueTranslation = $productOptionValueTranslationRepository->findOneBy([
                     'translatable' => $optionValue,
                     'locale' => 'en_US',
                 ]);
@@ -137,6 +140,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             $this->assertCount(1, $productVariant->getImages());
 
             $this->assertEquals(1, $productVariant->getChannelPricings()->count());
+
             foreach ($productVariant->getChannelPricings() as $channelPricing) {
                 $this->assertEquals($productToTest['price'], $channelPricing->getPrice());
                 $this->assertEquals($productToTest['price'], $channelPricing->getOriginalPrice());
