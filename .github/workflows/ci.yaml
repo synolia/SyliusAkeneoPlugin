@@ -155,9 +155,9 @@ jobs:
           composer config minimum-stability "dev"
           composer config prefer-stable true
 
-      - name: Composer - Restrict Symfony version
-        working-directory: ./sylius
-        run: composer config extra.symfony.require "${{ matrix.symfony }}"
+#      - name: Composer - Restrict Symfony version
+#        working-directory: ./sylius
+#        run: composer config extra.symfony.require "${{ matrix.symfony }}"
 
       - name: Composer - Install plugin
         working-directory: ./sylius
