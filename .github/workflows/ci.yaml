@@ -197,10 +197,6 @@ jobs:
         working-directory: ./sylius
         run: cp vendor/${{ env.package-name }}/tests/Application/config/routes.yaml config/routes/akeneo.yaml
 
-      - name: Sylius - Get test services from Plugin
-        working-directory: ./sylius
-        run: cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
-
       - name: Behat - Config Suite
         working-directory: ./sylius
         run: |
