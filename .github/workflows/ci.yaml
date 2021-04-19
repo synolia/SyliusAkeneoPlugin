@@ -84,15 +84,20 @@ jobs:
         if: always() && steps.end-of-setup.outcome == 'success'
 
   sylius:
-    name: PHPUnit-Behat (PHP ${{ matrix.php }} Sylius ${{ matrix.sylius }})
+    name: PHPUnit-Behat (PHP ${{ matrix.php }} Sylius ${{ matrix.sylius }} Symfony ${{ matrix.symfony }})
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       matrix:
         php: [7.3, 7.4]
         sylius: [1.8.*, 1.9.*]
-        symfony: [4.4.*]
+        symfony: [^4.4, ^5.2]
         node: [10.x]
+        exclude:
+          - sylius: 1.8.*
+            symfony: ^5.2
+          - sylius: 1.9.*
+            symfony: ^4.4
 
     env:
       APP_ENV: test
@@ -155,9 +160,9 @@ jobs:
           composer config minimum-stability "dev"
           composer config prefer-stable true
 
-#      - name: Composer - Restrict Symfony version
-#        working-directory: ./sylius
-#        run: composer config extra.symfony.require "${{ matrix.symfony }}"
+      - name: Composer - Restrict Symfony version
+        working-directory: ./sylius
+        run: composer config extra.symfony.require "${{ matrix.symfony }}"
 
       - name: Composer - Install plugin
         working-directory: ./sylius
