@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\DependencyInjection;
 
+use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -12,6 +13,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExtensionInterface
 {
+    use PrependDoctrineMigrationsTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -39,5 +42,21 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $container->prependExtensionConfig('twig', [
             'paths' => $paths,
         ]);
+        $this->prependDoctrineMigrations($container);
+    }
+
+    protected function getMigrationsNamespace(): string
+    {
+        return 'Synolia\SyliusAkeneoPlugin\Migrations';
+    }
+
+    protected function getMigrationsDirectory(): string
+    {
+        return '@SynoliaSyliusAkeneoPlugin/Migrations';
+    }
+
+    protected function getNamespacesOfMigrationsExecutedBefore(): array
+    {
+        return ['Sylius\Bundle\CoreBundle\Migrations'];
     }
 }

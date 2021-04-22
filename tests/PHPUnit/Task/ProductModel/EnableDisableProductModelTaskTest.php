@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
-use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\Product;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
@@ -73,9 +72,9 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $enableDisableProductModelTask->__invoke($productModelPayload);
 
         /** @var Product $product */
-        $product = $this->manager->getRepository(Product::class)->findOneBy(['code' => $productBase['code']]);
+        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => $productBase['code']]);
         $this->assertCount(1, $product->getChannels());
-        $channel = $this->manager->getRepository(Channel::class)->findOneBy(['code' => 'FASHION_WEB']);
+        $channel = self::$container->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
         $this->assertContains($channel, $product->getChannels());
     }
 }

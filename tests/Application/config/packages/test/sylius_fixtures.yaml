@@ -1,21 +1,51 @@
 sylius_fixtures:
     suites:
-        default:
+        akeneo:
             listeners:
                 orm_purger: ~
                 logger: ~
             fixtures:
-                locale: ~
+                currency:
+                    options:
+                        currencies:
+                            - 'EUR'
+                            - 'USD'
+                locale:
+                    options:
+                        locales:
+                            - 'en_US'
+                            - 'fr_FR'
                 channel:
                     options:
                         custom:
-                            fr_web_store:
-                                name: "Boutique Web"
-                                code: "FR_WEB"
-                                locales:
-                                    - "fr_FR"
-                                    - "en_US"
+                            my_store:
+                                name: 'Default'
+                                code: 'FASHION_WEB'
+                                default_locale: 'en_US'
+                                base_currency: 'USD'
                                 currencies:
-                                    - "EUR"
+                                    - 'USD'
+                                locales:
+                                    - 'en_US'
+                                    - 'fr_FR'
                                 enabled: true
-                                hostname: null
+                                hostname: 'localhost'
+                shop_user:
+                    name: 'shop_user'
+                    options:
+                        custom:
+                            -   email: 'shop@example.com'
+                                first_name: 'John'
+                                last_name: 'Doe'
+                                password: 'sylius'
+                admin_user:
+                    name: 'admin_user'
+                    options:
+                        custom:
+                            -   email: 'sylius@example.com'
+                                username: 'sylius'
+                                password: 'sylius'
+                                enabled: true
+                                locale_code: 'fr_FR'
+                                first_name: 'John'
+                                last_name: 'Doe'

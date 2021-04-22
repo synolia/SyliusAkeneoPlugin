@@ -28,8 +28,8 @@
 
 | | Version |
 | :--- | :--- |
-| PHP  | 7.3+ |
-| Sylius | 1.7+ |
+| PHP  | 7.3, 7.4 |
+| Sylius | 1.8, 1.9 |
 | Akeneo PIM  | 3.0+ |
 
 
@@ -62,10 +62,9 @@
         prefix: /admin
     ```
    
-5. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
+5. Apply plugin migrations to your database:
 
     ```shell
-    cp -R vendor/synolia/sylius-akeneo-plugin/src/Migrations/* src/Migrations
     bin/console doctrine:migrations:migrate
     ```
    

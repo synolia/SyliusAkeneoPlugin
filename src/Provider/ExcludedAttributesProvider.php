@@ -39,7 +39,7 @@ class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
         if ($productConfiguration->getAkeneoImageAttributes() instanceof Collection &&
             $productConfiguration->getAkeneoImageAttributes()->count() > 0) {
             foreach ($productConfiguration->getAkeneoImageAttributes() as $akeneoImageAttribute) {
-                $excludedAttributeCodes[] = $akeneoImageAttribute;
+                $excludedAttributeCodes[] = $akeneoImageAttribute->getAkeneoAttributes();
             }
         }
 
