@@ -16,6 +16,10 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class EnableDisableProductTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */

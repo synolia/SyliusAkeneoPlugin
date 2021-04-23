@@ -360,10 +360,10 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
             /** @var ProductConfiguration $configuration */
             $configuration = $this->productConfigurationRepository->findOneBy([]);
-            if ($product->getId() !== null &&
-                $configuration !== null &&
-                $productTranslation->getSlug() !== null &&
-                $configuration->getRegenerateUrlRewrites() === false) {
+            if (null !== $product->getId() &&
+                null !== $configuration &&
+                null !== $productTranslation->getSlug() &&
+                false === $configuration->getRegenerateUrlRewrites()) {
                 // no regenerate slug if config disable it
 
                 continue;
@@ -406,7 +406,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
 
-        if ($productGroup instanceof ProductGroup && $this->productGroupRepository->isProductInProductGroup($product, $productGroup) === 0) {
+        if ($productGroup instanceof ProductGroup && 0 === $this->productGroupRepository->isProductInProductGroup($product, $productGroup)) {
             $productGroup->addProduct($product);
         }
     }

@@ -11,6 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\DeleteEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
     public function testNoAttributes(): void

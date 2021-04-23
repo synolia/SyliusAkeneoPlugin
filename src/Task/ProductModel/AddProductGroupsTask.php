@@ -117,10 +117,10 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
 
     private function createProductGroups(array $resource): void
     {
-        if ($resource['parent'] !== null) {
+        if (null !== $resource['parent']) {
             $this->createGroupForCode($resource['parent']);
         }
-        if ($resource['code'] !== null) {
+        if (null !== $resource['code']) {
             $this->createGroupForCode($resource['code']);
         }
     }

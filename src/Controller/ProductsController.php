@@ -85,7 +85,7 @@ final class ProductsController extends AbstractController
 
     private function removeElements(?Collection $productConfiguration, ?Collection $productConfigurationData): void
     {
-        if ($productConfiguration === null || $productConfigurationData === null) {
+        if (null === $productConfiguration || null === $productConfigurationData) {
             return;
         }
 

@@ -24,6 +24,10 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTas
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
@@ -210,7 +214,8 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             ->addExcludeFamily('shoes')
             ->addLocale('en_US')
             ->setUpdatedAfter(new \DateTime('2020-04-04'))
-            ->setUpdatedBefore(new \DateTime('2020-04-04'));
+            ->setUpdatedBefore(new \DateTime('2020-04-04'))
+        ;
 
         $this->manager->flush();
     }

@@ -102,11 +102,11 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
 
         foreach ($context['data'] as $translation) {
-            if ($translation['locale'] !== null && $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale']) === false) {
+            if (null !== $translation['locale'] && false === $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
                 continue;
             }
 
-            if ($translation['locale'] === null) {
+            if (null === $translation['locale']) {
                 foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
                     $this->setAttributeTranslation(
                         $context['model'],
