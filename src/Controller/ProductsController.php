@@ -76,14 +76,14 @@ final class ProductsController extends AbstractController
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig', [
-                'form' => $form->createView(),
-            ]
+            'form' => $form->createView(),
+        ]
         );
     }
 
     private function removeElements(?Collection $productConfiguration, ?Collection $productConfigurationData): void
     {
-        if ($productConfiguration === null || $productConfigurationData === null) {
+        if (null === $productConfiguration || null === $productConfigurationData) {
             return;
         }
 

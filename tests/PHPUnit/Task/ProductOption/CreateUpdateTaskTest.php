@@ -18,6 +18,10 @@ use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CreateUpdateTaskTest extends AbstractTaskTest
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */

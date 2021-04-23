@@ -13,6 +13,10 @@ use Synolia\SyliusAkeneoPlugin\Task\ProductModel\EnableDisableProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class EnableDisableProductModelTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
@@ -50,7 +54,7 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
             foreach ($results as $result) {
                 $resource = \json_decode($result['values'], true);
 
-                if ($resource['parent'] === null) {
+                if (null === $resource['parent']) {
                     continue;
                 }
                 $productBase = $resource;

@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class FamilyRetrieverTest extends ApiTestCase
 {
     /** @var FamilyRetriever */

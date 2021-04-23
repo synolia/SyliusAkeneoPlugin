@@ -7,6 +7,10 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class RetrieveAttributesTaskTest extends AbstractTaskTest
 {
     public function testGetAttributes(): void

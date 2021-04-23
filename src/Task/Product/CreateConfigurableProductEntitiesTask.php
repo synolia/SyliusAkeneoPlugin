@@ -194,7 +194,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     $variationAxes = $productGroup->getVariationAxes();
 
-                    if (\count($variationAxes) === 0) {
+                    if (0 === \count($variationAxes)) {
                         $this->logger->warning(\sprintf(
                             'Skipped product "%s" because group has no variation axis.',
                             $resource['identifier'],
@@ -232,12 +232,12 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     ): ProductVariantInterface {
         $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
 
-        /**
+        /*
          * TODO: In the future
          * Do not process attributes of the model
          * Add family and family_variant to the ProductGroup model for reference
          * Foreach attributes not in the last variation axis, remove them.
-         **/
+         */
         foreach ($attributes as $attributeCode => $values) {
             try {
                 $processor = $this->akeneoAttributeProcessorProvider->getProcessor((string) $attributeCode, [

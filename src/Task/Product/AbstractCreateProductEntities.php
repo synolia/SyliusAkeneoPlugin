@@ -188,7 +188,7 @@ class AbstractCreateProductEntities
                 continue;
             }
 
-            if (\count($attributeValue) === 0) {
+            if (0 === \count($attributeValue)) {
                 throw new \LogicException('Price attribute is empty.');
             }
 

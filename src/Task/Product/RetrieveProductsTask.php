@@ -80,7 +80,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
                 );
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
                 $stmt->bindValue('values', \json_encode($item));
-                $stmt->bindValue('is_simple', $item['parent'] === null, ParameterType::BOOLEAN);
+                $stmt->bindValue('is_simple', null === $item['parent'], ParameterType::BOOLEAN);
                 $stmt->execute();
 
                 ++$itemCount;

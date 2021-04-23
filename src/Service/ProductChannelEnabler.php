@@ -98,16 +98,13 @@ final class ProductChannelEnabler
                 continue;
             }
 
-            if (\count($attributeValue) === 0) {
+            if (0 === \count($attributeValue)) {
                 throw new \LogicException('Enabled channels attribute is empty.');
             }
 
             return \current($attributeValue)['data'];
         }
 
-        throw new NoAttributeResourcesException(\sprintf(
-            'Enabled channels attribute not found for product "%s".',
-            $product->getCode()
-        ));
+        throw new NoAttributeResourcesException(\sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
     }
 }

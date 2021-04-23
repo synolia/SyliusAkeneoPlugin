@@ -20,7 +20,7 @@ final class SettingsManager implements SettingsManagerInterface
     }
 
     /**
-     * Return setting value by its name
+     * Return setting value by its name.
      *
      * @param mixed|null $default Value to return if the setting is not set
      *

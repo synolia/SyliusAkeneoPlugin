@@ -6,8 +6,6 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
 use League\Pipeline\Pipeline;
-use Sylius\Component\Core\Model\ProductVariant;
-use Sylius\Component\Product\Model\ProductOptionValueTranslation;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
@@ -26,6 +24,10 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTas
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
@@ -212,7 +214,8 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             ->addExcludeFamily('shoes')
             ->addLocale('en_US')
             ->setUpdatedAfter(new \DateTime('2020-04-04'))
-            ->setUpdatedBefore(new \DateTime('2020-04-04'));
+            ->setUpdatedBefore(new \DateTime('2020-04-04'))
+        ;
 
         $this->manager->flush();
     }

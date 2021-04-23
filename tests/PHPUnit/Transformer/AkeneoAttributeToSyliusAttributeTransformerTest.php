@@ -9,6 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AkeneoAttributeToSyliusAttributeTransformerTest extends KernelTestCase
 {
     /** @var AkeneoAttributeToSyliusAttributeTransformer */

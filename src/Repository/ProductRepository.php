@@ -21,6 +21,7 @@ final class ProductRepository extends ServiceEntityRepository
             ->where('p.mainTaxon IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }
