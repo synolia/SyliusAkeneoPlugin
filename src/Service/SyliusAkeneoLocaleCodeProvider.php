@@ -29,12 +29,12 @@ final class SyliusAkeneoLocaleCodeProvider
 
     public function getUsedLocalesOnBothPlatforms(): array
     {
-        if ($this->localesCode !== []) {
+        if ([] !== $this->localesCode) {
             return $this->localesCode;
         }
 
         foreach ($this->getUsedLocalesOnAkeneo() as $apiLocale) {
-            if ($apiLocale['enabled'] === false || !in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
+            if (false === $apiLocale['enabled'] || !in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
                 continue;
             }
             $this->localesCode[$apiLocale['code']] = $apiLocale['code'];

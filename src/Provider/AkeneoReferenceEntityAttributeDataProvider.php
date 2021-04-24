@@ -23,12 +23,12 @@ final class AkeneoReferenceEntityAttributeDataProvider
     /**
      * @param mixed $attributeValues
      *
-     * @return mixed|null
-     *
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
      * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
+     *
+     * @return mixed|null
      */
     public function getData(
         string $referenceEntityCode,

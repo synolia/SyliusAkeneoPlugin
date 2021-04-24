@@ -59,7 +59,7 @@ final class ProductFilterRulesController extends AbstractController
         }
 
         $productFiltersRules = $this->productFiltersRulesRepository->getProductFiltersRules();
-        if ($productFiltersRules === null) {
+        if (null === $productFiltersRules) {
             $productFiltersRules = new ProductFiltersRules();
         }
 

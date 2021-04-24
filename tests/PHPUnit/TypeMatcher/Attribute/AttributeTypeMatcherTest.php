@@ -19,6 +19,10 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AttributeTypeMatcherTest extends KernelTestCase
 {
     private const FAKE_AKENEO_ATTRIBUTE_TYPE = 'my_fake_attribute_type';

@@ -45,7 +45,7 @@ abstract class AbstractAttributeOptionTask
     protected function getUnusedLocale(array $labels): array
     {
         $localeDiff = array_diff($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), array_keys($labels));
-        if ($localeDiff === []) {
+        if ([] === $localeDiff) {
             return [];
         }
 
@@ -67,14 +67,14 @@ abstract class AbstractAttributeOptionTask
                 if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
                     continue;
                 }
-                if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && $this->getUnusedLocale($option['labels']) !== []) {
+                if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && [] !== $this->getUnusedLocale($option['labels'])) {
                     $choices[self::AKENEO_PREFIX . $option['code']] = $this->getUnusedLocale($option['labels']);
                 }
                 $choices[self::AKENEO_PREFIX . $option['code']][$locale] = $label;
             }
         }
 
-        if ($choices === []) {
+        if ([] === $choices) {
             $this->entityManager->remove($attribute);
 
             return;

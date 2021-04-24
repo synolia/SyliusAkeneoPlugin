@@ -8,6 +8,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class RetrieveProductTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */

@@ -10,6 +10,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class RetrieveOptionsTaskTest extends AbstractTaskTest
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */

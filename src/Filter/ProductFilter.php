@@ -52,13 +52,13 @@ final class ProductFilter
         }
 
         $queryParameters = [];
-        if ($productFilterRules->getMode() === ProductFilterRuleSimpleType::MODE) {
+        if (ProductFilterRuleSimpleType::MODE === $productFilterRules->getMode()) {
             $queryParameters = new SearchBuilder();
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
 
             $completeness = self::AT_LEAST_COMPLETE;
-            if ($productFilterRules->getCompletenessValue() === self::FULL_COMPLETE) {
+            if (self::FULL_COMPLETE === $productFilterRules->getCompletenessValue()) {
                 $completeness = self::ALL_COMPLETE;
             }
             $this->getCompletenessFilter($productFilterRules, $queryParameters, $completeness);
@@ -68,7 +68,7 @@ final class ProductFilter
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
-        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
+        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
             return $this->getAdvancedFilter($productFilterRules, true);
         }
 
@@ -84,7 +84,7 @@ final class ProductFilter
         }
 
         $queryParameters = [];
-        if ($productFilterRules->getMode() === ProductFilterRuleSimpleType::MODE) {
+        if (ProductFilterRuleSimpleType::MODE === $productFilterRules->getMode()) {
             $queryParameters = new SearchBuilder();
 
             $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
@@ -101,7 +101,7 @@ final class ProductFilter
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
-        if ($productFilterRules->getMode() === ProductFilterRuleAdvancedType::MODE && !empty($productFilterRules->getAdvancedFilter())) {
+        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
             return $this->getAdvancedFilter($productFilterRules);
         }
 
@@ -111,20 +111,20 @@ final class ProductFilter
     private function getStatus(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
     {
         $status = $productFilterRules->getStatus();
-        if ($status === ProductFilterStatusEnum::NO_CONDITION) {
+        if (ProductFilterStatusEnum::NO_CONDITION === $status) {
             return $queryParameters;
         }
 
         return $queryParameters->addFilter(
             'enabled',
             Operator::EQUAL,
-            $status === ProductFilterStatusEnum::ENABLED
+            ProductFilterStatusEnum::ENABLED === $status
         );
     }
 
     private function getAdvancedFilter(ProductFiltersRules $productFilterRules, bool $isProductModelFilter = false): array
     {
-        if ($productFilterRules->getAdvancedFilter() === null) {
+        if (null === $productFilterRules->getAdvancedFilter()) {
             return [];
         }
 
@@ -134,7 +134,7 @@ final class ProductFilter
         }
 
         $advancedFilter['search'] = json_decode($advancedFilter['search'], true);
-        if ($isProductModelFilter === true) {
+        if (true === $isProductModelFilter) {
             return $this->getProductModelAdvancedFilter($advancedFilter);
         }
 
@@ -144,7 +144,7 @@ final class ProductFilter
     private function getProductModelCompletenessTypeAdvancedFilter(array $filter): array
     {
         $filter['search']['completeness'][0]['operator'] = self::AT_LEAST_COMPLETE;
-        if ($filter['search']['completeness'][0]['value'] === self::FULL_COMPLETE) {
+        if (self::FULL_COMPLETE === $filter['search']['completeness'][0]['value']) {
             $filter['search']['completeness'][0]['operator'] = self::ALL_COMPLETE;
         }
         unset($filter['search']['completeness'][0]['value']);
@@ -168,21 +168,21 @@ final class ProductFilter
     private function getUpdatedFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
     {
         $updatedMode = $productFilterRules->getUpdatedMode();
-        if ($updatedMode === Operator::GREATER_THAN) {
+        if (Operator::GREATER_THAN === $updatedMode) {
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
                 $productFilterRules->getUpdatedAfter()->format(self::API_DATETIME_FORMAT)
             );
         }
-        if ($updatedMode === Operator::LOWER_THAN) {
+        if (Operator::LOWER_THAN === $updatedMode) {
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
                 $productFilterRules->getUpdatedBefore()->format(self::API_DATETIME_FORMAT)
             );
         }
-        if ($updatedMode === Operator::BETWEEN) {
+        if (Operator::BETWEEN === $updatedMode) {
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
@@ -192,7 +192,7 @@ final class ProductFilter
                 ]
             );
         }
-        if ($updatedMode === Operator::SINCE_LAST_N_DAYS) {
+        if (Operator::SINCE_LAST_N_DAYS === $updatedMode) {
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
@@ -237,7 +237,7 @@ final class ProductFilter
         ?int $completenessValue = null
     ): SearchBuilder {
         $completenessType = $productFilterRules->getCompletenessType();
-        if ($completeness === null || $completenessType === null) {
+        if (null === $completeness || null === $completenessType) {
             return $queryParameters;
         }
 

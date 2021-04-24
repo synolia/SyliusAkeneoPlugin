@@ -18,7 +18,7 @@ final class MetricAttributeTypeMatcher implements AttributeTypeMatcherInterface
 
     public function support(string $akeneoType): bool
     {
-        return $akeneoType === self::SUPPORTED_TYPE;
+        return self::SUPPORTED_TYPE === $akeneoType;
     }
 
     public function getBuilder(): string

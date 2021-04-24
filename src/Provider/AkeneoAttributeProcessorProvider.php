@@ -30,9 +30,6 @@ final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessor
             }
         }
 
-        throw new MissingAkeneoAttributeProcessorException(\sprintf(
-            'Could not find an AkeneoAttributeProcessor for attribute %s',
-            $attributeCode
-        ));
+        throw new MissingAkeneoAttributeProcessorException(\sprintf('Could not find an AkeneoAttributeProcessor for attribute %s', $attributeCode));
     }
 }

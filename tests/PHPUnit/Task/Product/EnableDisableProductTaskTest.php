@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
-use Sylius\Component\Core\Model\Channel;
-use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -18,6 +16,10 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class EnableDisableProductTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */

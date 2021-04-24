@@ -7,6 +7,10 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */

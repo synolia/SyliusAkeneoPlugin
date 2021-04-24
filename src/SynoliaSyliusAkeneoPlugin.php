@@ -28,17 +28,21 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle
 
         $container
             ->registerForAutoconfiguration(AkeneoTaskInterface::class)
-            ->addTag(AkeneoTaskInterface::TAG_ID);
+            ->addTag(AkeneoTaskInterface::TAG_ID)
+        ;
         $container->addCompilerPass(new AkeneoTaskCompilerPass());
         $container
             ->registerForAutoconfiguration(AttributeTypeMatcherInterface::class)
-            ->addTag(AttributeTypeMatcherInterface::TAG_ID);
+            ->addTag(AttributeTypeMatcherInterface::TAG_ID)
+        ;
         $container
             ->registerForAutoconfiguration(ReferenceEntityAttributeTypeMatcherInterface::class)
-            ->addTag(ReferenceEntityAttributeTypeMatcherInterface::TAG_ID);
+            ->addTag(ReferenceEntityAttributeTypeMatcherInterface::TAG_ID)
+        ;
         $container
             ->registerForAutoconfiguration(ProductAttributeValueValueBuilderInterface::class)
-            ->addTag(ProductAttributeValueValueBuilderInterface::TAG_ID);
+            ->addTag(ProductAttributeValueValueBuilderInterface::TAG_ID)
+        ;
 
         $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());

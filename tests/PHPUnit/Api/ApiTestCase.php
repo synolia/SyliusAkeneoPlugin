@@ -93,11 +93,11 @@ abstract class ApiTestCase extends KernelTestCase
 
     protected function getAuthenticatedJson(): string
     {
-        return <<<JSON
-            {
-                "refresh_token" : "refresh-token",
-                "access_token" : "access-token"
-            }
-JSON;
+        return <<<'JSON'
+                        {
+                            "refresh_token" : "refresh-token",
+                            "access_token" : "access-token"
+                        }
+            JSON;
     }
 }

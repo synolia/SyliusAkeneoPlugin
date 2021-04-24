@@ -60,7 +60,7 @@ final class CategoriesController extends AbstractController
         if ($this->categoriesConfigurationRepository instanceof CategoryConfigurationRepository) {
             $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
         }
-        if ($categoriesConfigurations === null) {
+        if (null === $categoriesConfigurations) {
             $categoriesConfigurations = new CategoryConfiguration();
         }
 
@@ -75,8 +75,8 @@ final class CategoriesController extends AbstractController
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/categories.html.twig', [
-                'form' => $form->createView(),
-            ]
+            'form' => $form->createView(),
+        ]
         );
     }
 }

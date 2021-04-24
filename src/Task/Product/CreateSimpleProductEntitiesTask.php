@@ -175,7 +175,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
                     $this->linkCategoriesToProduct($payload, $product, $resource['categories']);
 
                     $productResourcePayload = $this->insertAttributesToProduct($payload, $product, $resource['family'], $resource);
-                    if ($productResourcePayload->getProduct() === null) {
+                    if (null === $productResourcePayload->getProduct()) {
                         continue;
                     }
 
@@ -275,10 +275,10 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
             $productTranslation->setName($productName);
 
-            if ($product->getId() !== null &&
-                $productTranslation->getSlug() !== null &&
-                $this->productConfiguration !== null &&
-                $this->productConfiguration->getRegenerateUrlRewrites() === false) {
+            if (null !== $product->getId() &&
+                null !== $productTranslation->getSlug() &&
+                null !== $this->productConfiguration &&
+                false === $this->productConfiguration->getRegenerateUrlRewrites()) {
                 // no regenerate slug if config disable it
 
                 continue;

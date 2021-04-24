@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Manager;
 interface SettingsManagerInterface
 {
     /**
-     * Return setting value by its name
+     * Return setting value by its name.
      *
      * @param mixed|null $default Value to return if the setting is not set
      *
@@ -21,7 +21,7 @@ interface SettingsManagerInterface
     public function set(string $name, $value): self;
 
     /**
-     * Clears setting value
+     * Clears setting value.
      */
     public function clear(string $name): self;
 }
