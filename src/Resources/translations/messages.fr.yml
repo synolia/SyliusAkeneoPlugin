@@ -83,6 +83,9 @@ sylius:
                 medias:
                     medias: Médias
         reference_entity: 'Entité référentielle'
+    form:
+        attribute_type:
+            reference_entity: 'Entité référentielle'
 akeneo:
     ui:
         admin:
