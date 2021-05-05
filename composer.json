@@ -75,7 +75,7 @@
         }
     },
     "scripts": {
-        "fix-ecs": "ecs check -c ruleset/ecs.php --fix --ansi --clear-cache  .",
+        "fix-ecs": "ecs check -c ruleset/ecs.php --fix --ansi --clear-cache",
         "patch" : "php bin/patch"
     }
 }
