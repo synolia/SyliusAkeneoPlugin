@@ -77,6 +77,12 @@ sylius:
                     sylius_attribute: Attribut Sylius
                     akeneo_attribute: Attribut Akeneo
                     regenerate_url_rewrites: Regenerate url rewrites
+                    enable_imported_products: Activer les produits à l'import
+                    enable_imported_products_help: Cocher cette case écrasera la configuration "Attribut Akeneo des channels actifs".
+                    enable_imported_products_channels: Canaux sur lesquelles les produits importés seront activés
+                    channels_checkboxes_priority: Si au moins une case est cochée, cela écrasera les informations de l'attribut défini dans la section "Attribut Akeneo des channels actifs".
+                    akeneo_enabled_channels_attribute_priority: Si ce champs est rempli, ne cochez pas de canaux dans la section du dessus.
+                    enabled_at_import_help: Si décoché, les produits ne seront pas activés automatiquement à l'import.
                 attributes:
                     title: Attributs
                     subtitle: Configuration des attributs
