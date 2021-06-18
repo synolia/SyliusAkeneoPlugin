@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductRepository;
-use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
+use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnablerInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class EnableDisableProductModelsTask implements AkeneoTaskInterface
@@ -24,7 +24,7 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
+    /** @var ProductChannelEnablerInterface */
     private $productChannelEnabler;
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
@@ -33,7 +33,7 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
     public function __construct(
         ProductRepository $productRepository,
         LoggerInterface $akeneoLogger,
-        ProductChannelEnabler $productChannelEnabler,
+        ProductChannelEnablerInterface $productChannelEnabler,
         EntityManagerInterface $entityManager
     ) {
         $this->productRepository = $productRepository;
