@@ -110,7 +110,7 @@ class ProductGroup implements ResourceInterface
     public function setFamily(string $family): self
     {
         $this->family = $family;
-        
+
         return $this;
     }
 

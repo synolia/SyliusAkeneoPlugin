@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\Page;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeTranslationInterface;
+use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
@@ -22,16 +23,21 @@ final class AddAssociationTypeTask implements AkeneoTaskInterface
     /** @var FactoryInterface */
     private $productAssociationTypeTranslationFactory;
 
+    /** @var ProductAssociationTypeRepositoryInterface */
+    private $productAssociationTypeRepository;
+
     /** @var EntityManagerInterface */
     private $entityManager;
 
     public function __construct(
         FactoryInterface $productAssociationTypeFactory,
         FactoryInterface $productAssociationTypeTranslationFactory,
+        ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->productAssociationTypeFactory = $productAssociationTypeFactory;
         $this->productAssociationTypeTranslationFactory = $productAssociationTypeTranslationFactory;
+        $this->productAssociationTypeRepository = $productAssociationTypeRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -47,15 +53,16 @@ final class AddAssociationTypeTask implements AkeneoTaskInterface
         }
 
         foreach ($resources->getItems() as $resource) {
-            $productAssociationType = $this->productAssociationTypeFactory->createNew();
+            $productAssociationType = $this->productAssociationTypeRepository->findOneBy(['code' => $resource['code']]);
             if (!$productAssociationType instanceof ProductAssociationTypeInterface) {
-                throw new \LogicException('Unknown error.');
+                /** @var ProductAssociationTypeInterface $productAssociationType */
+                $productAssociationType = $this->productAssociationTypeFactory->createNew();
+                $this->entityManager->persist($productAssociationType);
+
+                $productAssociationType->setCode($resource['code']);
             }
 
-            $productAssociationType->setCode($resource['code']);
             $this->addTranslations($resource, $productAssociationType);
-
-            $this->entityManager->persist($productAssociationType);
         }
 
         $this->entityManager->flush();

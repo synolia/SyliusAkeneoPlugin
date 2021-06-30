@@ -12,10 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
-use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 
 final class ImportAssociationTypeCommand extends Command
 {
@@ -58,7 +56,7 @@ final class ImportAssociationTypeCommand extends Command
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         if (!$this->lock()) {
             $output->writeln(Messages::commandAlreadyRunning());
 
