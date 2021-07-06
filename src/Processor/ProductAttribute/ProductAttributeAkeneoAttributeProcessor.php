@@ -89,7 +89,7 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
         $this->logger->debug(\sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
-            \get_class($this)
+            static::class
         ));
 
         if (!$context['model'] instanceof ProductInterface) {

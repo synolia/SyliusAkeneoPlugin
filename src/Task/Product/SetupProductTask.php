@@ -34,7 +34,8 @@ class SetupProductTask implements AkeneoTaskInterface
               `values` JSON NULL,
               `is_simple` TINYINT NOT NULL,
               PRIMARY KEY (`id`));',
-            ProductPayload::TEMP_AKENEO_TABLE_NAME);
+            ProductPayload::TEMP_AKENEO_TABLE_NAME
+        );
         $this->entityManager->getConnection()->exec($query);
 
         return $payload;

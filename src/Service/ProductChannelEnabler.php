@@ -32,7 +32,7 @@ final class ProductChannelEnabler
         ChannelRepository $channelRepository,
         ProductConfigurationRepository $productConfigurationRepository,
         LoggerInterface $akeneoLogger,
-    EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager
     ) {
         $this->channelRepository = $channelRepository;
         $this->productConfigurationRepository = $productConfigurationRepository;
