@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.3, 7.4]
+        php: [7.3, 7.4, 8.0]
         symfony: [4.4.*, 5.2.*]
 
     env:
@@ -89,15 +89,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.3, 7.4]
-        sylius: [1.8.*, 1.9.*]
+        php: [7.3, 7.4, 8.0]
+        sylius: [1.8.*, 1.9.*, 1.10.*]
         symfony: [^4.4, ^5.2]
         node: [10.x]
         exclude:
           - sylius: 1.8.*
             symfony: ^5.2
+          - sylius: 1.8.*
+            php: 8.0
           - sylius: 1.9.*
             symfony: ^4.4
+          - sylius: 1.9.*
+            php: 8.0
+          - sylius: 1.10.*
+            php: 7.3
 
     env:
       APP_ENV: test
