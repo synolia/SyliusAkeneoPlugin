@@ -13,6 +13,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         dirname(__DIR__, 1) . '/src',
         dirname(__DIR__, 1) . '/tests/Behat',
         dirname(__DIR__, 1) . '/tests/PHPUnit',
-        dirname(__DIR__, 1) . '/spec'
+        dirname(__DIR__, 1) . '/spec',
     ]);
 };
