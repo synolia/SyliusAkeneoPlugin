@@ -90,20 +90,20 @@ jobs:
       fail-fast: false
       matrix:
         php: [7.3, 7.4, 8.0]
-        sylius: [1.8.*, 1.9.*, 1.10.*]
-        symfony: [^4.4, ^5.2]
+        sylius: [1.8.0, 1.9.0, 1.10.0]
+        symfony: [4.4, 5.2]
         node: [10.x]
         exclude:
-          - sylius: 1.8.*
-            symfony: ^5.2
-          - sylius: 1.8.*
+          - sylius: 1.8.0
             php: 8.0
-          - sylius: 1.9.*
-            symfony: ^4.4
-          - sylius: 1.9.*
+          - sylius: 1.9.0
+            symfony: 4.4
+          - sylius: 1.9.0
             php: 8.0
-          - sylius: 1.10.*
+          - sylius: 1.10.0
             php: 7.3
+          - sylius: 1.10.0
+            symfony: 4.4
 
     env:
       APP_ENV: test
@@ -125,8 +125,6 @@ jobs:
           node-version: "${{ matrix.node }}"
 
       - uses: actions/checkout@v2
-        with:
-          path: plugin
 
       - name: Composer - Get Cache Directory
         id: composer-cache
@@ -144,84 +142,8 @@ jobs:
         run: mkdir -p /home/runner/.composer/cache
         if: steps.cache-composer.outputs.cache-hit != 'true'
 
-      - name: Composer - Self Update
-        run: sudo composer self-update --1
-        if: matrix.sylius == '1.7.*'
-
       - name: Composer - Github Auth
         run: composer config -g github-oauth.github.com ${{ github.token }}
-
-      - name: Composer - Install Sylius-Standard
-        run: composer create-project --no-progress sylius/sylius-standard sylius "${{ matrix.sylius }}"
-
-      - name: Composer - Add path repository
-        working-directory: ./sylius
-        run: |
-          composer config repositories.plugin '{"type": "path", "url": "../plugin/"}'
-
-      - name: Composer - Config
-        working-directory: ./sylius
-        run: |
-          composer config extra.symfony.allow-contrib true
-          composer config minimum-stability "dev"
-          composer config prefer-stable true
-
-      - name: Composer - Restrict Symfony version
-        working-directory: ./sylius
-        run: composer config extra.symfony.require "${{ matrix.symfony }}"
-
-      - name: Composer - Install plugin
-        working-directory: ./sylius
-        run: composer req "${{ env.package-name }}:*" --prefer-source --no-scripts
-
-      - name: Composer - Install mock-webserver
-        working-directory: ./sylius
-        run: composer req --dev donatj/mock-webserver:^2.1 --no-update
-
-      - name: Sylius - Update dependencies # need to update sylius version
-        working-directory: ./sylius
-        run: |
-          composer update --no-progress --no-scripts --prefer-dist
-          composer update --no-suggest -n -o
-
-      - name: Sylius - Run Symfony flex
-        working-directory: ./sylius
-        run: composer sync-recipes
-
-      - name: Sylius - Config package
-        working-directory: ./sylius
-        run: |
-          sed -i '/];/i\    Synolia\\SyliusAkeneoPlugin\\SynoliaSyliusAkeneoPlugin::class => ["all" => true],' config/bundles.php
-
-      - name: Sylius - Get services from Plugin
-        working-directory: ./sylius
-        run: |
-          cp vendor/${{ env.package-name }}/tests/Application/config/packages/akeneo.yaml config/packages/akeneo.yaml
-
-      - name: Sylius - Get datas from Plugin
-        working-directory: ./sylius
-        run: |
-          cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/akeneo.yaml config/packages/test/akeneo.yaml
-          cp vendor/${{ env.package-name }}/tests/Application/config/packages/test/sylius_fixtures.yaml config/packages/test/sylius_fixtures.yaml
-
-      - name: Sylius - Get routes from Plugin
-        working-directory: ./sylius
-        run: cp vendor/${{ env.package-name }}/tests/Application/config/routes.yaml config/routes/akeneo.yaml
-
-      - name: Behat - Config Suite
-        working-directory: ./sylius
-        run: |
-          sed -i "s#vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml#vendor/${{ env.package-name }}/tests/Behat/Resources/suites.yml#g" behat.yml.dist
-          sed -i "s#vendor/sylius/sylius/features#vendor/${{ env.package-name }}/features#g" behat.yml.dist
-
-      - name: Sylius - Set database config
-        working-directory: ./sylius
-        run: |
-          echo 'DATABASE_URL=mysql://root:@127.0.0.1:3306/akeneo_plugin_%kernel.environment%?serverVersion=mariadb-10.4.11' >> .env
-
-      - name: Sylius - Install
-        working-directory: ./sylius
-        run: php bin/console sylius:install -n -s akeneo
 
       - name: Yarn - Get cache directory
         id: yarn-cache
@@ -235,66 +157,39 @@ jobs:
           restore-keys: |
             node-${{ matrix.node }}-yarn-
 
-      - name: Sylius - Assets
-        working-directory: ./sylius
-        run: yarn install && yarn build
-
-      - name: Sylius - Change Namespace
-        working-directory: ./sylius
-        run: find src -type f -name '*.php' -exec sed -i 's#namespace Tests\\Application#namespace App#g' {} \;
-
-      - name: Sylius - Cache clear
-        working-directory: ./sylius
-        run: php bin/console c:c
-
-      - name: Mock-webserver - Configure
-        working-directory: ./sylius
-        run: echo -e "\nMOCK_SERVER_HOST=localhost\nMOCK_SERVER_PORT=8987\n" >> .env.test
-
-      - name: PHPUnit - Configure
-        working-directory: ./sylius
-        run: |
-          cp vendor/${{ env.package-name }}/phpunit.xml.dist phpunit.xml
-          sed -i "s#tests/Application/config/bootstrap.php#config/bootstrap.php#g" phpunit.xml
-          sed -i "s#<directory>tests</directory>#<directory>./vendor/${{ env.package-name }}/tests/PHPUnit</directory>#g" phpunit.xml
-          sed -i "s#/tests/Application/Kernel.php#src/Kernel.php#g" phpunit.xml
-
-      - name: Behat - Config Suite
-        working-directory: ./sylius
-        run: |
-          sed -i "s#vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml#vendor/${{ env.package-name }}/tests/Behat/Resources/suites.yml#g" behat.yml.dist
-          sed -i "s#vendor/sylius/sylius/features#vendor/${{ env.package-name }}/features#g" behat.yml.dist
-          echo '    - { resource: "../vendor/${{ env.package-name }}/tests/Behat/Resources/services.xml" }' >> config/services_test.yaml
+      - name: Install Sylius-Standard and Plugin
+        run: make install -e SYLIUS_VERSION=${{ matrix.sylius }} SYMFONY_VERSION=${{ matrix.symfony }}
 
       - name: Output PHP version for Symfony CLI
-        working-directory: ./sylius
+        working-directory: ./tests/Application
         run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
 
       - name: Install certificates
-        working-directory: ./sylius
+        working-directory: ./tests/Application
         run: symfony server:ca:install
 
       - name: Run Chrome headless
-        working-directory: ./sylius
+        working-directory: ./tests/Application
         run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' https://127.0.0.1 > /dev/null 2>&1 &
 
       - name: Run webserver
-        working-directory: ./sylius
+        working-directory: ./tests/Application
         run: symfony server:start --port=8080 --dir=public --daemon
         id: end-of-setup-sylius
 
       - name: Doctrine Schema Validate - Run
-        working-directory: ./sylius
+        working-directory: ./tests/Application
         run: php bin/console doctrine:schema:validate --skip-sync
         if: always() && steps.end-of-setup-sylius.outcome == 'success'
 
-      - name: PHPunit - Run
-        working-directory: ./sylius
-        run: vendor/bin/phpunit
-        if: always() && steps.end-of-setup-sylius.outcome == 'success'
+      - name: Run PHPUnit
+        run: make phpunit
+
+      - name: Configure Behat
+        run: make behat-configure
 
       - name: Run behat
-        working-directory: ./sylius
+        working-directory: ./tests/Application
         run: vendor/bin/behat --strict --no-interaction -f progress || vendor/bin/behat --strict -vvv --no-interaction --rerun
         if: always() && steps.end-of-setup-sylius.outcome == 'success'
 

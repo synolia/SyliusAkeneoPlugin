@@ -11,6 +11,7 @@ final class ProductFiltersRulesRepository extends EntityRepository
 {
     public function getProductFiltersRules(): ?ProductFiltersRules
     {
+        /** @var ProductFiltersRules[] $productfiltersRules */
         $productfiltersRules = $this->findAll();
         if (empty($productfiltersRules)) {
             return null;

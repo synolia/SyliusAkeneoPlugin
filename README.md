@@ -59,7 +59,7 @@
     ```yaml
     synolia_akeneo:
         resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/routes.yaml"
-        prefix: /admin
+        prefix: '/%sylius_admin.path_name%'
     ```
    
 5. Apply plugin migrations to your database:

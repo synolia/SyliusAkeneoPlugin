@@ -42,9 +42,9 @@
         "phpro/grumphp": "^1.1.0",
         "phpspec/phpspec": "^6.1",
         "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.12.32",
-        "phpstan/phpstan-doctrine": "^0.12.17",
-        "phpstan/phpstan-webmozart-assert": "^0.12.6",
+        "phpstan/phpstan": "0.12.91",
+        "phpstan/phpstan-doctrine": "0.12.41",
+        "phpstan/phpstan-webmozart-assert": "0.12.14",
         "phpunit/phpunit": "^9.0",
         "sebastian/phpcpd": "^6.0",
         "seld/jsonlint": "^1.7",
@@ -65,9 +65,6 @@
             "Synolia\\SyliusAkeneoPlugin\\": "src/",
             "Tests\\Synolia\\SyliusAkeneoPlugin\\": "tests/"
         }
-    },
-    "autoload-dev": {
-        "classmap": ["tests/Application/Kernel.php"]
     },
     "config": {
         "sort-packages": true
