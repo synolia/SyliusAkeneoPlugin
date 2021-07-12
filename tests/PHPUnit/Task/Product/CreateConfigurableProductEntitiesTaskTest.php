@@ -6,8 +6,6 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
 use League\Pipeline\Pipeline;
-use Sylius\Component\Core\Model\ProductVariant;
-use Sylius\Component\Product\Model\ProductOptionValueTranslation;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;

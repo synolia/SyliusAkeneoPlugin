@@ -1,0 +1,3 @@
+synolia_akeneo:
+    resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/routes.yaml"
+    prefix: '/%sylius_admin.path_name%'

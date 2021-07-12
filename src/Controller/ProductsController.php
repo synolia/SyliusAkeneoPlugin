@@ -75,7 +75,9 @@ final class ProductsController extends AbstractController
             $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
         }
 
-        return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig', [
+        return $this->render(
+            '@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig',
+            [
                 'form' => $form->createView(),
             ]
         );

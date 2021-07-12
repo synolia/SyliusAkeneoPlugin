@@ -15,10 +15,10 @@
             {{ error(form.vars.errors) }}
 
             {% if prototypes|default is iterable %}
-                {% for key, subPrototype in prototypes %}
+                {% for key, sub_prototype in prototypes %}
                     <input type="hidden" data-form-prototype="{{ key }}"
-                           value="{{ self.collection_item(subPrototype, allow_delete, button_delete_label, subPrototype.vars.name)|e }}"
-                           data-subprototype-name="{{ subPrototype.vars.name }}"
+                           value="{{ self.collection_item(sub_prototype, allow_delete, button_delete_label, sub_prototype.vars.name)|e }}"
+                           data-subprototype-name="{{ sub_prototype.vars.name }}"
                     />
                 {% endfor %}
             {% endif %}

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
-use Sylius\Component\Core\Model\Channel;
-use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;

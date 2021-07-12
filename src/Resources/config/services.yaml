@@ -73,6 +73,10 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
 
+    Synolia\SyliusAkeneoPlugin\Client\ClientFactory:
+        arguments:
+            - '@akeneo.repository.api_configuration'
+
     Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true

@@ -54,7 +54,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
         $this->logger->debug(\sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
-            \get_class($this)
+            static::class
         ));
 
         foreach ($context['data'] as $translation) {

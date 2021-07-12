@@ -1,3 +1,0 @@
-sylius_akeneo_admin:
-    resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/routes.yaml"
-    prefix: /admin
