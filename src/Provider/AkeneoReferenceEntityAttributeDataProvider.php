@@ -15,8 +15,8 @@ final class AkeneoReferenceEntityAttributeDataProvider
     private $akeneoReferenceEntityAttributePropertiesProvider;
 
     public function __construct(
-        AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider)
-    {
+        AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider
+    ) {
         $this->akeneoReferenceEntityAttributePropertiesProvider = $akeneoReferenceEntityAttributePropertiesProvider;
     }
 

@@ -36,4 +36,3 @@ grumphp:
         twigcs:
             path: 'src/'
             severity: error
-            ruleset: "Allocine\\Twigcs\\Ruleset\\Official"

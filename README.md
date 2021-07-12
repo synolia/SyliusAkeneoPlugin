@@ -28,8 +28,8 @@
 
 | | Version |
 | :--- | :--- |
-| PHP  | 7.3, 7.4 |
-| Sylius | 1.8, 1.9 |
+| PHP  | 7.3, 7.4, 8.0 |
+| Sylius | 1.8, 1.9, 1.10 |
 | Akeneo PIM  | 3.0+ |
 
 
@@ -59,7 +59,7 @@
     ```yaml
     synolia_akeneo:
         resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/routes.yaml"
-        prefix: /admin
+        prefix: '/%sylius_admin.path_name%'
     ```
    
 5. Apply plugin migrations to your database:

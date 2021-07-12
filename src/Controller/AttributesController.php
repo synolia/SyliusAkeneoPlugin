@@ -80,7 +80,8 @@ final class AttributesController extends AbstractController
         }
 
         $form = $this->createForm(
-            AttributesTypeMappingType::class, [
+            AttributesTypeMappingType::class,
+            [
                 AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE => $attributeTypeMappings,
                 AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE => $attributeAkeneoSyliusMappings,
                 'settings' => $settings,
