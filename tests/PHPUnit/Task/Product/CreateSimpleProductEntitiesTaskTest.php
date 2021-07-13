@@ -27,6 +27,10 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
@@ -191,15 +195,15 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         $this->assertNotEmpty($product->getAttributes());
         foreach ($product->getAttributes() as $attribute) {
-            if ($attribute->getCode() === 'maximum_print_size') {
+            if ('maximum_print_size' === $attribute->getCode()) {
                 $this->assertCount(1, $attribute->getValue());
                 $this->assertEquals($selectValue, $attribute->getValue()[0]);
             }
-            if ($attribute->getCode() === 'multifunctional_functions') {
+            if ('multifunctional_functions' === $attribute->getCode()) {
                 $this->assertGreaterThanOrEqual(1, $attribute->getValue());
                 $this->assertEquals($multiSelectValue, $attribute->getValue());
             }
-            if ($attribute->getCode() === 'color_scanning') {
+            if ('color_scanning' === $attribute->getCode()) {
                 $this->assertEquals($checkboxValue, $attribute->getValue());
             }
         }

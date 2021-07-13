@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 {
     private const CATEGORY_COUNT = 67;

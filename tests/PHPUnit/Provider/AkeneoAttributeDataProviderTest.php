@@ -11,6 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 {
     private const DEFAULT_SCOPE = 'ecommerce';

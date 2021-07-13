@@ -17,6 +17,10 @@ use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class ProductFilterTest extends ApiTestCase
 {
     private const API_DATETIME_FORMAT = 'Y-m-d H:i:s';

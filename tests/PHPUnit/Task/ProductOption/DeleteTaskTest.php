@@ -10,6 +10,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Option\DeleteTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class DeleteTaskTest extends AbstractTaskTest
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */

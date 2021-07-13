@@ -28,7 +28,7 @@ final class AkeneoAttributeToSyliusAttributeTransformer
 
         /** @var AttributeAkeneoSyliusMapping $attributeAkeneoSyliusMapping */
         foreach ($this->attributeAkeneoSyliusMappings as $attributeAkeneoSyliusMapping) {
-            if ($attributeAkeneoSyliusMapping->getAkeneoAttribute() !== $attribute || $attributeAkeneoSyliusMapping->getSyliusAttribute() === null) {
+            if ($attributeAkeneoSyliusMapping->getAkeneoAttribute() !== $attribute || null === $attributeAkeneoSyliusMapping->getSyliusAttribute()) {
                 continue;
             }
             $attribute = $attributeAkeneoSyliusMapping->getSyliusAttribute();

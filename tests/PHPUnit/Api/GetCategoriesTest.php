@@ -13,6 +13,10 @@ use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class GetCategoriesTest extends ApiTestCase
 {
     public function testGetCategories(): void

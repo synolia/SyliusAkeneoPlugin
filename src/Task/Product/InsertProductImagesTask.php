@@ -29,7 +29,7 @@ final class InsertProductImagesTask extends AbstractInsertProductImageTask imple
             $this->cleanImages($product);
 
             $imageAttributes = $payload->getProductConfiguration()->getAkeneoImageAttributes();
-            if ($imageAttributes === null) {
+            if (null === $imageAttributes) {
                 $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 
                 return $payload;

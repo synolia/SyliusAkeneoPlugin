@@ -20,6 +20,10 @@ use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */
@@ -65,7 +69,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
             foreach ($results as $result) {
                 $resource = \json_decode($result['values'], true);
 
-                if ($resource['parent'] === null) {
+                if (null === $resource['parent']) {
                     continue;
                 }
                 $productBase = $resource;

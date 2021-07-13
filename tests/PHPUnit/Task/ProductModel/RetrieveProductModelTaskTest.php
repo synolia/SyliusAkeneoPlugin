@@ -8,6 +8,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class RetrieveProductModelTaskTest extends AbstractTaskTest
 {
     private const NUMBER_OF_IMPORTED_MODELS = 3;

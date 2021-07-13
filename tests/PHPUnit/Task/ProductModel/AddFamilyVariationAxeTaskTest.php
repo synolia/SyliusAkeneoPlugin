@@ -20,6 +20,10 @@ use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddProductGroupsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
 {
     /** @var AkeneoTaskProvider */

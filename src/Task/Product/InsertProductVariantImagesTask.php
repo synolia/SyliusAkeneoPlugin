@@ -38,7 +38,7 @@ final class InsertProductVariantImagesTask extends AbstractInsertProductImageTas
 
             $imageAttributes = $this->configuration->getAkeneoImageAttributes();
 
-            if ($imageAttributes === null) {
+            if (null === $imageAttributes) {
                 return $payload;
             }
 

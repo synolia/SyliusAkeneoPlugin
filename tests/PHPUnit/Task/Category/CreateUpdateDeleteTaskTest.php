@@ -13,6 +13,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration */

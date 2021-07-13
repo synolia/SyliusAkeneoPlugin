@@ -60,7 +60,7 @@ final class CategoriesController extends AbstractController
         if ($this->categoriesConfigurationRepository instanceof CategoryConfigurationRepository) {
             $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
         }
-        if ($categoriesConfigurations === null) {
+        if (null === $categoriesConfigurations) {
             $categoriesConfigurations = new CategoryConfiguration();
         }
 

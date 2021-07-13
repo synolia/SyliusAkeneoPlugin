@@ -9,7 +9,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 /**
- * Class SettingConfiguration
+ * Class SettingConfiguration.
  */
 final class SettingConfiguration implements ConfigurationInterface
 {
