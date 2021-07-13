@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
+use Synolia\SyliusAkeneoPlugin\Task\Association\CreateProductAssociationTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
@@ -26,6 +27,7 @@ final class ProductPipelineFactory extends AbstractPipelineFactory
             ->pipe($this->taskProvider->get(CreateSimpleProductEntitiesTask::class))
             ->pipe($this->taskProvider->get(EnableDisableProductsTask::class))
             ->pipe($this->taskProvider->get(CreateConfigurableProductEntitiesTask::class))
+            ->pipe($this->taskProvider->get(CreateProductAssociationTask::class))
             ->pipe($this->taskProvider->get(TearDownProductTask::class))
         ;
     }

@@ -102,3 +102,5 @@ services:
         class: Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProvider
         arguments:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor: ~
