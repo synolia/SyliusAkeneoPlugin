@@ -8,11 +8,11 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductModelResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -24,28 +24,30 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
     /** @var EntityRepository */
     private $productGroupRepository;
 
+    /** @var FamilyRetriever */
+    private $familyRetriever;
+
+    /** @var FamilyVariationAxeProcessor */
+    private $familyVariationAxeProcessor;
+
     /** @var LoggerInterface */
     private $logger;
 
-    /** @var int */
-    private $itemCount = 0;
-
     /** @var string */
     private $type;
-
-    /** @var FamilyRetriever */
-    private $familyRetriever;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $productGroupRepository,
         FamilyRetriever $familyRetriever,
+        FamilyVariationAxeProcessor $familyVariationAxeProcessor,
         LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productGroupRepository = $productGroupRepository;
         $this->familyRetriever = $familyRetriever;
         $this->logger = $akeneoLogger;
+        $this->familyVariationAxeProcessor = $familyVariationAxeProcessor;
     }
 
     /**
@@ -59,7 +61,7 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
 
         $this->addFamilyVariationAxe($payload);
 
-        $this->logger->notice(Messages::countItems($this->type, $this->itemCount));
+        $this->logger->notice(Messages::countItems($this->type, $this->familyVariationAxeProcessor->itemCount));
 
         return $payload;
     }
@@ -70,37 +72,11 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
             throw new NoProductModelResourcesException('No resource found.');
         }
 
-        $familiesVariantPayloads = [];
-
         try {
+            $familiesVariantPayloads = [];
             $this->entityManager->beginTransaction();
             foreach ($payload->getModelResources() as $resource) {
-                $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
-                if (!$productGroup instanceof ProductGroup) {
-                    continue;
-                }
-
-                $family = null;
-                if (!isset($resource['family'])) {
-                    try {
-                        $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
-                    } catch (\LogicException $exception) {
-                        $this->logger->warning($exception->getMessage());
-
-                        continue;
-                    }
-                }
-
-                if (!isset($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']])) {
-                    $payloadProductGroup = $payload->getAkeneoPimClient()->getFamilyVariantApi()->get(
-                        $family ?: $resource['family'],
-                        $resource['family_variant']
-                    );
-
-                    $familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']] = $payloadProductGroup;
-                }
-
-                $this->addAxes($familiesVariantPayloads[$family ?: $resource['family']], $family, $resource, $productGroup);
+                $familiesVariantPayloads = $this->familyVariationAxeProcessor->process($resource, $familiesVariantPayloads);
             }
 
             $this->entityManager->flush();
@@ -110,30 +86,6 @@ final class AddFamilyVariationAxeTask implements AkeneoTaskInterface
             $this->logger->warning($throwable->getMessage());
 
             throw $throwable;
-        }
-    }
-
-    private function addAxes(
-        array $familiesVariantPayloads,
-        ?string $family,
-        array $resource,
-        ProductGroup $productGroup
-    ): void {
-        foreach ($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
-            if (count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
-                continue;
-            }
-
-            foreach ($variantAttributeSet['axes'] as $axe) {
-                $productGroup->addVariationAxe($axe);
-                ++$this->itemCount;
-                $this->logger->info(\sprintf(
-                    'Added axe "%s" to product group "%s" for family "%s"',
-                    $axe,
-                    $productGroup->getProductParent(),
-                    $family ?: $resource['family']
-                ));
-            }
         }
     }
 }

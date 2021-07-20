@@ -20,6 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -248,12 +249,18 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             $productName = null;
 
             if (isset($resource['values'][$familyResource['attribute_as_label']])) {
-                $productName = $this->akeneoAttributeDataProvider->getData(
-                    $familyResource['attribute_as_label'],
-                    $resource['values'][$familyResource['attribute_as_label']],
-                    $usedLocalesOnBothPlatform,
-                    $this->scope
-                );
+                try {
+                    $productName = $this->akeneoAttributeDataProvider->getData(
+                        $familyResource['attribute_as_label'],
+                        $resource['values'][$familyResource['attribute_as_label']],
+                        $usedLocalesOnBothPlatform,
+                        $this->scope
+                    );
+                } catch (MissingLocaleTranslationException $exception) {
+                    $this->logger->notice(sprintf('Missing locale for field %s.', $familyResource['attribute_as_label']));
+
+                    continue;
+                }
             }
 
             if (null === $productName) {
