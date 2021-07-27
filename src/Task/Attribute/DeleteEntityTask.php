@@ -104,6 +104,7 @@ final class DeleteEntityTask implements AkeneoTaskInterface
             return $data['id'];
         }, $attributesIdsArray);
 
+        /** @var class-string $productAttributeClass */
         $productAttributeClass = $this->parameterBag->get('sylius.model.product_attribute.class');
         if (!class_exists($productAttributeClass)) {
             throw new \LogicException('ProductAttribute class does not exist.');
