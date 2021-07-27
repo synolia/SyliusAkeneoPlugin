@@ -90,8 +90,6 @@ final class CreateUpdateTask implements AkeneoTaskInterface
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
-
-            throw $throwable;
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));

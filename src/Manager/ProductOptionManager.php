@@ -6,16 +6,15 @@ namespace Synolia\SyliusAkeneoPlugin\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionTranslationInterface;
-use Sylius\Component\Product\Model\ProductOptionValueInterface;
-use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
+use Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
@@ -32,18 +31,6 @@ final class ProductOptionManager implements ProductOptionManagerInterface
     private $localeRepository;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueTranslationRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueTranslationFactory;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productOptionTranslationRepository;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
@@ -52,6 +39,9 @@ final class ProductOptionManager implements ProductOptionManagerInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productAttributeTranslationRepository;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface */
+    private $optionValuesProcessorProvider;
+
     /** @var \Psr\Log\LoggerInterface */
     private $akeneoLogger;
 
@@ -59,27 +49,21 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeTranslationRepository,
         RepositoryInterface $productOptionRepository,
-        RepositoryInterface $productOptionValueRepository,
-        RepositoryInterface $productOptionValueTranslationRepository,
         RepositoryInterface $productOptionTranslationRepository,
         RepositoryInterface $localeRepository,
-        FactoryInterface $productOptionValueFactory,
-        FactoryInterface $productOptionValueTranslationFactory,
         FactoryInterface $productOptionTranslationFactory,
         FactoryInterface $productOptionFactory,
+        OptionValuesProcessorProviderInterface $optionValuesProcessorProvider,
         LoggerInterface $akeneoLogger
     ) {
         $this->entityManager = $entityManager;
         $this->productOptionRepository = $productOptionRepository;
-        $this->productOptionValueRepository = $productOptionValueRepository;
         $this->localeRepository = $localeRepository;
-        $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
-        $this->productOptionValueFactory = $productOptionValueFactory;
-        $this->productOptionValueTranslationFactory = $productOptionValueTranslationFactory;
         $this->productOptionFactory = $productOptionFactory;
         $this->productOptionTranslationRepository = $productOptionTranslationRepository;
         $this->productOptionTranslationFactory = $productOptionTranslationFactory;
         $this->productAttributeTranslationRepository = $productAttributeTranslationRepository;
+        $this->optionValuesProcessorProvider = $optionValuesProcessorProvider;
         $this->akeneoLogger = $akeneoLogger;
     }
 
@@ -153,72 +137,11 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     private function updateProductOptionValues(ProductOptionInterface $productOption, AttributeInterface $attribute): void
     {
-        if (SelectAttributeType::TYPE !== $attribute->getType()) {
-            return;
-        }
-
-        $productOptionValuesMapping = [];
-        $productOptionValueCodes = \array_keys($attribute->getConfiguration()['choices']);
-        foreach ($productOptionValueCodes as $productOptionValueCode) {
-            if (isset($productOptionValuesMapping[(string) $productOptionValueCode])) {
-                continue;
-            }
-
-            $productOptionValue = $this->productOptionValueRepository->findOneBy([
-                'code' => self::getOptionValueCodeFromProductOption($productOption, (string) $productOptionValueCode),
-                'option' => $productOption,
-            ]);
-
-            if (!$productOptionValue instanceof ProductOptionValueInterface) {
-                /** @var ProductOptionValueInterface $productOptionValue */
-                $productOptionValue = $this->productOptionValueFactory->createNew();
-                $productOptionValue->setCode(self::getOptionValueCodeFromProductOption($productOption, (string) $productOptionValueCode));
-                $productOptionValue->setOption($productOption);
-                $this->entityManager->persist($productOptionValue);
-            }
-
-            $this->updateProductOptionValueTranslations($productOptionValue, $attribute, (string) $productOptionValueCode);
-
-            $productOptionValuesMapping[(string) $productOptionValueCode] = [
-                'entity' => $productOptionValue,
-                'translations' => $attribute->getConfiguration()['choices'][$productOptionValueCode],
-            ];
-        }
-    }
-
-    private function updateProductOptionValueTranslations(
-        ProductOptionValueInterface $productOptionValue,
-        AttributeInterface $attribute,
-        string $productOptionValueCode
-    ): void {
-        $translations = $attribute->getConfiguration()['choices'][$productOptionValueCode];
-
-        foreach ($translations as $locale => $translation) {
-            if (null === $translation) {
-                $translation = \sprintf('[%s]', $productOptionValueCode);
-                $this->akeneoLogger->warning(\sprintf(
-                    'Missing translation on choice "%s" for option %s, defaulted to "%s"',
-                    $productOptionValueCode,
-                    $attribute->getCode(),
-                    $translation,
-                ));
-            }
-
-            $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
-                'locale' => $locale,
-                'translatable' => $productOptionValue,
-            ]);
-
-            if (!$productOptionValueTranslation instanceof ProductOptionValueTranslationInterface) {
-                /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
-                $productOptionValueTranslation = $this->productOptionValueTranslationFactory->createNew();
-                $productOptionValueTranslation->setTranslatable($productOptionValue);
-                $productOptionValueTranslation->setLocale($locale);
-
-                $this->entityManager->persist($productOptionValueTranslation);
-            }
-
-            $productOptionValueTranslation->setValue($translation);
+        try {
+            $processor = $this->optionValuesProcessorProvider->getProcessor($attribute, $productOption);
+            $processor->process($attribute, $productOption);
+        } catch (MissingProductOptionValuesProcessorException $missingProductOptionValuesProcessorException) {
+            $this->akeneoLogger->debug($missingProductOptionValuesProcessorException->getMessage());
         }
     }
 }
