@@ -13,27 +13,13 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
+use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
-class SelectOptionValuesProcessor implements OptionValuesProcessorInterface
+class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueTranslationRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueTranslationFactory;
-
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
-
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface */
+    private $attributeOptionValueDataTransformer;
 
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
@@ -41,14 +27,12 @@ class SelectOptionValuesProcessor implements OptionValuesProcessorInterface
         FactoryInterface $productOptionValueFactory,
         FactoryInterface $productOptionValueTranslationFactory,
         LoggerInterface $akeneoLogger,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
+        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer
     ) {
-        $this->productOptionValueRepository = $productOptionValueRepository;
-        $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
-        $this->productOptionValueFactory = $productOptionValueFactory;
-        $this->productOptionValueTranslationFactory = $productOptionValueTranslationFactory;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->entityManager = $entityManager;
+        parent::__construct($productOptionValueRepository, $productOptionValueTranslationRepository, $productOptionValueFactory, $productOptionValueTranslationFactory, $akeneoLogger, $entityManager, $productOptionValueDataTransformer);
+        $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
     }
 
     public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
@@ -70,16 +54,20 @@ class SelectOptionValuesProcessor implements OptionValuesProcessorInterface
                 continue;
             }
 
+            $transformedCode = $this->attributeOptionValueDataTransformer->reverseTransform((string) $productOptionValueCode);
+            $transformedCode = $this->productOptionValueDataTransformer->transform($productOption, $transformedCode);
+
             $productOptionValue = $this->productOptionValueRepository->findOneBy([
-                'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, (string) $productOptionValueCode),
+                'code' => $transformedCode,
                 'option' => $productOption,
             ]);
 
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
                 /** @var ProductOptionValueInterface $productOptionValue */
                 $productOptionValue = $this->productOptionValueFactory->createNew();
-                $productOptionValue->setCode(ProductOptionManager::getOptionValueCodeFromProductOption($productOption, (string) $productOptionValueCode));
-                $productOptionValue->setOption($productOption);
+                $productOptionValue->setCode($transformedCode);
+                $productOption->addValue($productOptionValue);
+
                 $this->entityManager->persist($productOptionValue);
             }
 
@@ -90,6 +78,7 @@ class SelectOptionValuesProcessor implements OptionValuesProcessorInterface
                 'translations' => $attribute->getConfiguration()['choices'][$productOptionValueCode],
             ];
         }
+        $this->entityManager->flush();
     }
 
     private function updateProductOptionValueTranslations(

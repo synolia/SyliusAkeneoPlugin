@@ -14,12 +14,15 @@ use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 use Webmozart\Assert\Assert;
 
-class ReferenceEntityOptionValuesProcessor implements OptionValuesProcessorInterface
+class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
     /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     private $client;
@@ -28,22 +31,7 @@ class ReferenceEntityOptionValuesProcessor implements OptionValuesProcessorInter
     private $akeneoAttributePropertiesProvider;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueTranslationRepository;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueTranslationFactory;
-
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
-
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private $apiConfigurationRepository;
 
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
@@ -53,16 +41,23 @@ class ReferenceEntityOptionValuesProcessor implements OptionValuesProcessorInter
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager,
         AkeneoPimEnterpriseClientInterface $client,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider
+        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        RepositoryInterface $apiConfigurationRepository,
+        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer
     ) {
-        $this->productOptionValueRepository = $productOptionValueRepository;
-        $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
-        $this->productOptionValueFactory = $productOptionValueFactory;
-        $this->productOptionValueTranslationFactory = $productOptionValueTranslationFactory;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->entityManager = $entityManager;
+        parent::__construct(
+            $productOptionValueRepository,
+            $productOptionValueTranslationRepository,
+            $productOptionValueFactory,
+            $productOptionValueTranslationFactory,
+            $akeneoLogger,
+            $entityManager,
+            $productOptionValueDataTransformer
+        );
+
         $this->client = $client;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
+        $this->apiConfigurationRepository = $apiConfigurationRepository;
     }
 
     public static function getDefaultPriority(): int
@@ -72,7 +67,19 @@ class ReferenceEntityOptionValuesProcessor implements OptionValuesProcessorInter
 
     public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
     {
-        return ReferenceEntityAttributeType::TYPE === $attribute->getType();
+        return ReferenceEntityAttributeType::TYPE === $attribute->getType() && $this->isEnterprise();
+    }
+
+    private function isEnterprise(): bool
+    {
+        /** @var ApiConfiguration|null $apiConfiguration */
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+
+        if (!$apiConfiguration instanceof ApiConfiguration) {
+            throw new ApiNotConfiguredException();
+        }
+
+        return $apiConfiguration->isEnterprise() ?? false;
     }
 
     public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void

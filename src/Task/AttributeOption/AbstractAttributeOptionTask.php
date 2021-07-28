@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
 
 abstract class AbstractAttributeOptionTask
 {
@@ -32,14 +33,19 @@ abstract class AbstractAttributeOptionTask
     /** @var SyliusAkeneoLocaleCodeProvider */
     protected $syliusAkeneoLocaleCodeProvider;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface */
+    private $attributeOptionValueDataTransformer;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider
+        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer
     ) {
         $this->entityManager = $entityManager;
         $this->logger = $akeneoLogger;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
+        $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
     }
 
     protected function getUnusedLocale(array $labels): array
@@ -63,14 +69,15 @@ abstract class AbstractAttributeOptionTask
     ): void {
         $choices = [];
         foreach ($options as $option) {
+            $transformedCode = $this->attributeOptionValueDataTransformer->transform($option['code']);
             foreach ($option['labels'] as $locale => $label) {
                 if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
                     continue;
                 }
-                if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && [] !== $this->getUnusedLocale($option['labels'])) {
-                    $choices[self::AKENEO_PREFIX . $option['code']] = $this->getUnusedLocale($option['labels']);
+                if (!isset($choices[$transformedCode]) && [] !== $this->getUnusedLocale($option['labels'])) {
+                    $choices[$transformedCode] = $this->getUnusedLocale($option['labels']);
                 }
-                $choices[self::AKENEO_PREFIX . $option['code']][$locale] = $label;
+                $choices[$transformedCode][$locale] = $label;
             }
         }
 
