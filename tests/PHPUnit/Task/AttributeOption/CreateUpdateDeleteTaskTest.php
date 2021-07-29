@@ -9,8 +9,6 @@ use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\AbstractAttributeOptionTask;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
 
 /**
  * @internal
@@ -32,16 +30,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
     {
         $attributesPayload = new AttributePayload($this->createClient());
 
-        $importAttributePipeline = self::$container->get(AttributePipelineFactory::class)->create();
-        $attributesPayload = $importAttributePipeline->process($attributesPayload);
-
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask $retrieveOptionsTask */
-        $retrieveOptionsTask = $this->taskProvider->get(RetrieveOptionsTask::class);
-        $optionsPayload = $retrieveOptionsTask->__invoke($attributesPayload);
-
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask $createUpdateDeleteTask */
-        $createUpdateDeleteTask = $this->taskProvider->get(CreateUpdateDeleteTask::class);
-        $createUpdateDeleteTask->__invoke($optionsPayload);
+        $importAttributePipeline = $this->getContainer()->get(AttributePipelineFactory::class)->create();
+        $importAttributePipeline->process($attributesPayload);
 
         /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository $attributeRepository */
         $attributeRepository = $this->getContainer()->get('sylius.repository.product_attribute');

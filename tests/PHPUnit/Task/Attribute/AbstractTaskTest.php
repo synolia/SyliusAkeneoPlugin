@@ -43,7 +43,9 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function tearDown(): void
     {
-        $this->manager->rollback();
+        if ($this->manager->getConnection()->isTransactionActive()) {
+            $this->manager->rollback();
+        }
         $this->manager->close();
         $this->manager = null;
 

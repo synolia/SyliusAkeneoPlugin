@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
+use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
 
 final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implements AkeneoTaskInterface
 {
@@ -28,9 +29,10 @@ final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implement
         RepositoryInterface $productAttributeRepository,
         AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer
     ) {
-        parent::__construct($entityManager, $akeneoLogger, $syliusAkeneoLocaleCodeProvider);
+        parent::__construct($entityManager, $akeneoLogger, $syliusAkeneoLocaleCodeProvider, $attributeOptionValueDataTransformer);
 
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
@@ -49,7 +51,7 @@ final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implement
         try {
             $this->entityManager->beginTransaction();
 
-            foreach ($payload->getResources() as $attributeCode => $optionResources) {
+            foreach ($payload->getSelectOptionsResources() as $attributeCode => $optionResources) {
                 $this->processByAttribute((string) $attributeCode, $optionResources['resources'], $optionResources['isMultiple']);
             }
 

@@ -10,13 +10,10 @@ use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\AbstractAttributeOptionTask;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask;
-use Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateTask;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
 /**
  * @internal
@@ -44,29 +41,24 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         $this->createConfiguration();
         $attributesPayload = new AttributePayload($this->createClient());
 
-        $importAttributePipeline = self::$container->get(AttributePipelineFactory::class)->create();
-        $attributesPayload = $importAttributePipeline->process($attributesPayload);
+        $importAttributePipeline = $this->getContainer()->get(AttributePipelineFactory::class)->create();
+        $importAttributePipeline->process($attributesPayload);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\RetrieveOptionsTask $retrieveOptionsTask */
-        $retrieveOptionsTask = $this->taskProvider->get(RetrieveOptionsTask::class);
-        $optionsPayload = $retrieveOptionsTask->__invoke($attributesPayload);
+        $productOptionRepository = $this->getContainer()->get('sylius.repository.product_option');
+        /** @var \Sylius\Component\Product\Model\ProductOptionInterface $colorProductOption */
+        $colorProductOption = $productOptionRepository->findOneBy(['code' => 'color']);
+        /** @var \Sylius\Component\Product\Model\ProductOptionInterface $colorProductOption */
+        $colorisProductOption = $productOptionRepository->findOneBy(['code' => 'coloris']);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask $createUpdateDeleteAttributeOptionTask */
-        $createUpdateDeleteAttributeOptionTask = $this->taskProvider->get(CreateUpdateDeleteTask::class);
-        $attributeOptionPayload = $createUpdateDeleteAttributeOptionTask->__invoke($optionsPayload);
+        $this->assertNotNull($colorProductOption);
+        $this->assertNotNull($colorisProductOption);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\Option\CreateUpdateTask $createUpdateOptionTask */
-        $createUpdateOptionTask = $this->taskProvider->get(CreateUpdateTask::class);
-        $createUpdateOptionTask->__invoke($attributeOptionPayload);
+        $this->assertColorProductOptionTranslations($colorProductOption);
+        $this->assertColorisProductOptionTranslations($colorisProductOption);
 
-        $productOptionRepository = self::$container->get('sylius.repository.product_option');
-        /** @var \Sylius\Component\Product\Model\ProductOptionInterface $productOption */
-        $productOption = $productOptionRepository->findOneBy(['code' => 'color']);
-
-        $this->assertNotNull($productOption);
-        $this->assertProductOptionTranslations($productOption);
-        $this->assertProductOptionValues($productOption);
-        $this->assertProductOptionValuesTranslations($productOption);
+        $this->assertProductOptionValuesTranslations($colorProductOption);
+        $this->assertColorProductOptionValues($colorProductOption);
+        $this->assertColorisProductOptionValues($colorisProductOption);
     }
 
     private function createConfiguration(): void
@@ -83,14 +75,21 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         $this->manager->flush();
     }
 
-    private function assertProductOptionTranslations(ProductOption $productOption): void
+    private function assertColorProductOptionTranslations(ProductOption $productOption): void
     {
         $this->manager->refresh($productOption);
         $this->assertEquals('Couleur', $productOption->getTranslation('fr_FR')->getName());
         $this->assertEquals('Color', $productOption->getTranslation('en_US')->getName());
     }
 
-    private function assertProductOptionValues(ProductOption $productOption): void
+    private function assertColorisProductOptionTranslations(ProductOption $productOption): void
+    {
+        $this->manager->refresh($productOption);
+        $this->assertEquals('Coloris', $productOption->getTranslation('fr_FR')->getName());
+        $this->assertEquals('[coloris]', $productOption->getTranslation('en_US')->getName());
+    }
+
+    private function assertColorProductOptionValues(ProductOption $productOption): void
     {
         $expectedValueCodes = [
             'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
@@ -119,8 +118,32 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         }
     }
 
+    private function assertColorisProductOptionValues(ProductOption $productOption): void
+    {
+        $expectedValueCodes = [
+            'coloris_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
+            'coloris_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
+        ];
+        $values = $productOption->getValues();
+
+        /** @var \Sylius\Component\Product\Model\ProductOptionValue $value */
+        foreach ($values as $value) {
+            $this->assertEquals(
+                true,
+                \in_array(
+                    $value->getCode(),
+                    $expectedValueCodes,
+                    true
+                )
+            );
+        }
+    }
+
     private function assertProductOptionValuesTranslations(ProductOption $productOption): void
     {
+        /** @var ProductOptionValueDataTransformerInterface $optionValueDataTransformer */
+        $optionValueDataTransformer = $this->getContainer()->get(ProductOptionValueDataTransformerInterface::class);
+
         /** @var \Sylius\Component\Resource\Repository\RepositoryInterface $productOptionValueRepository */
         $productOptionValueRepository = $this->getContainer()->get('sylius.repository.product_option_value');
         /** @var \Sylius\Component\Resource\Repository\RepositoryInterface $productOptionValueTranslationRepository */
@@ -128,7 +151,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $productOptionValue */
         $productOptionValue = $productOptionValueRepository->findOneBy([
-            'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, AbstractAttributeOptionTask::AKENEO_PREFIX . 'black'),
+            'code' => $optionValueDataTransformer->transform($productOption, 'black'),
             'option' => $productOption,
         ]);
 

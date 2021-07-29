@@ -6,11 +6,8 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
@@ -81,18 +78,6 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $this->assertCount(1, $product->getChannels());
         $channel = $this->getContainer()->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
         $this->assertContains($channel, $product->getChannels());
-    }
-
-    private function importAttributes(): void
-    {
-        $initialPayload = new AttributePayload($this->client);
-        /** @var RetrieveAttributesTask $retrieveTask */
-        $retrieveTask = $this->taskProvider->get(RetrieveAttributesTask::class);
-        $payload = $retrieveTask->__invoke($initialPayload);
-
-        /** @var CreateUpdateEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
-        $task->__invoke($payload);
     }
 
     private function importCategories(): void

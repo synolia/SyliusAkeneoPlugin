@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Factory\AttributeFactory;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterProcessingAttributeEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Attribute\BeforeProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
-use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -64,6 +70,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $apiConfigurationRepository;
 
+    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    private $dispatcher;
+
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         EntityManagerInterface $entityManager,
@@ -73,7 +82,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
         ExcludedAttributesProviderInterface $excludedAttributesProvider,
-        RepositoryInterface $apiConfigurationRepository
+        RepositoryInterface $apiConfigurationRepository,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
@@ -84,6 +94,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -105,48 +116,56 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             throw new ApiNotConfiguredException();
         }
 
-        if (!$payload->getResources() instanceof ResourceCursorInterface) {
-            throw new NoAttributeResourcesException('No resource found.');
-        }
-
         try {
             $excludesAttributes = $this->excludedAttributesProvider->getExcludedAttributes();
-
+            $isEnterprise = $apiConfiguration->isEnterprise() ?? false;
             $this->entityManager->beginTransaction();
 
-            foreach ($payload->getResources() as $resource) {
-                //Do not import attributes that must not be used as attribute in Sylius
-                if (\in_array($resource['code'], $excludesAttributes, true)) {
-                    continue;
-                }
+            $processedCount = 0;
+            $totalItemsCount = $this->count();
 
-                try {
-                    $attributeType = $this->attributeTypeMatcher->match($resource['type']);
+            $query = $this->prepareSelectQuery(AttributePayload::SELECT_PAGINATION_SIZE, 0);
+            $query->executeStatement();
 
-                    if ($attributeType instanceof ReferenceEntityAttributeTypeMatcher &&
-                        !$apiConfiguration->isEnterprise()) {
-                        continue;
+            while ($results = $query->fetchAll()) {
+                foreach ($results as $result) {
+                    $resource = \json_decode($result['values'], true);
+
+                    try {
+                        $this->dispatcher->dispatch(new BeforeProcessingAttributeEvent($resource));
+
+                        if (!$this->entityManager->getConnection()->isTransactionActive()) {
+                            $this->entityManager->beginTransaction();
+                        }
+                        $attribute = $this->process($excludesAttributes, $resource, $isEnterprise);
+
+                        $this->dispatcher->dispatch(new AfterProcessingAttributeEvent($resource, $attribute));
+
+                        $this->entityManager->flush();
+                        if ($this->entityManager->getConnection()->isTransactionActive()) {
+                            $this->entityManager->commit();
+                        }
+                        $this->entityManager->clear();
+
+                        unset($resource, $attribute);
+                    } catch (\Throwable $throwable) {
+                        if ($this->entityManager->getConnection()->isTransactionActive()) {
+                            $this->entityManager->rollback();
+                        }
+                        $this->logger->warning($throwable->getMessage());
                     }
-
-                    $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
-
-                    /** @var \Sylius\Component\Attribute\Model\AttributeInterface $attribute */
-                    $attribute = $this->getOrCreateEntity($code, $attributeType);
-
-                    $this->setAttributeTranslations($resource['labels'], $attribute);
-                    $this->entityManager->flush();
-                } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-                    $this->logger->warning(\sprintf(
-                        '%s: %s',
-                        $resource['code'],
-                        $unsupportedAttributeTypeException->getMessage()
-                    ));
-
-                    continue;
                 }
+
+                $processedCount += \count($results);
+                $this->logger->info(\sprintf('Processed %d attributes out of %d.', $processedCount, $totalItemsCount));
+                $query = $this->prepareSelectQuery(AttributePayload::SELECT_PAGINATION_SIZE, $processedCount);
+                $query->executeStatement();
             }
 
-            $this->entityManager->commit();
+            $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->commit();
+            }
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
@@ -157,6 +176,73 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
 
         return $payload;
+    }
+
+    private function process(array $excludesAttributes, array &$resource, bool $isEnterprise): AttributeInterface
+    {
+        //Do not import attributes that must not be used as attribute in Sylius
+        if (\in_array($resource['code'], $excludesAttributes, true)) {
+            throw new ExcludedAttributeException(\sprintf(
+                'Attribute "%s" is excluded by configuration.',
+                $resource['code']
+            ));
+        }
+
+        try {
+            $attributeType = $this->attributeTypeMatcher->match($resource['type']);
+
+            if ($attributeType instanceof ReferenceEntityAttributeTypeMatcher && !$isEnterprise) {
+                throw new InvalidAttributeException(\sprintf(
+                    'Attribute "%s" is of type ReferenceEntityAttributeTypeMatcher which is invalid.',
+                    $resource['code']
+                ));
+            }
+
+            $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
+
+            $attribute = $this->getOrCreateEntity($code, $attributeType);
+
+            $this->setAttributeTranslations($resource['labels'], $attribute);
+            $this->entityManager->flush();
+
+            return $attribute;
+        } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
+            $this->logger->warning(\sprintf(
+                '%s: %s',
+                $resource['code'],
+                $unsupportedAttributeTypeException->getMessage()
+            ));
+
+            throw $unsupportedAttributeTypeException;
+        }
+    }
+
+    private function count(): int
+    {
+        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+            'SELECT count(id) FROM `%s`',
+            AttributePayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->executeStatement();
+
+        return (int) \current($query->fetch());
+    }
+
+    private function prepareSelectQuery(
+        int $limit = AttributePayload::SELECT_PAGINATION_SIZE,
+        int $offset = 0
+    ): Statement {
+        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+            'SELECT `values`
+             FROM `%s`
+             LIMIT :limit
+             OFFSET :offset',
+            AttributePayload::TEMP_AKENEO_TABLE_NAME
+        ));
+        $query->bindValue('limit', $limit, ParameterType::INTEGER);
+        $query->bindValue('offset', $offset, ParameterType::INTEGER);
+
+        return $query;
     }
 
     private function setAttributeTranslations(array $labels, AttributeInterface $attribute): void

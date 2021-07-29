@@ -1,0 +1,48 @@
+{
+  "_links": {
+    "self": {
+      "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities\/coloris\/records"
+    },
+    "first": {
+      "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities\/coloris\/records"
+    }
+  },
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities\/coloris\/records\/black"
+          }
+        },
+        "code": "black",
+        "values": {
+          "label": [
+            {
+              "locale": "fr_FR",
+              "channel": null,
+              "data": "Black"
+            }
+          ]
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https:\/\/akeneo.example.com\/api\/rest\/v1\/reference-entities\/coloris\/records\/white"
+          }
+        },
+        "code": "white",
+        "values": {
+          "label": [
+            {
+              "locale": "fr_FR",
+              "channel": null,
+              "data": "White"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

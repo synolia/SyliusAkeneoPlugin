@@ -15,13 +15,10 @@ use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductAttributeValueRepository;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
@@ -227,18 +224,6 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $this->importReferenceEntities();
     }
 
-    private function importAttributes(): void
-    {
-        $initialPayload = new AttributePayload($this->client);
-        /** @var RetrieveAttributesTask $retrieveTask */
-        $retrieveTask = $this->taskProvider->get(RetrieveAttributesTask::class);
-        $payload = $retrieveTask->__invoke($initialPayload);
-
-        /** @var CreateUpdateEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
-        $task->__invoke($payload);
-    }
-
     private function importCategories(): void
     {
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
@@ -260,7 +245,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $this->manager->flush();
     }
 
-    private function importReferenceEntities()
+    private function importReferenceEntities(): void
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),

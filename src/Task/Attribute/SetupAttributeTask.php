@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
+namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-class SetupProductTask implements AkeneoTaskInterface
+class SetupAttributeTask implements AkeneoTaskInterface
 {
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
@@ -26,14 +26,14 @@ class SetupProductTask implements AkeneoTaskInterface
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $this->taskProvider->get(TearDownProductTask::class)->__invoke($payload);
+        $this->taskProvider->get(TearDownAttributeTask::class)->__invoke($payload);
 
         $query = \sprintf(
             'CREATE TABLE `%s` (
               `id` INT NOT NULL AUTO_INCREMENT,
               `values` JSON NULL,
               PRIMARY KEY (`id`));',
-            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+            AttributePayload::TEMP_AKENEO_TABLE_NAME
         );
         $this->entityManager->getConnection()->executeStatement($query);
 

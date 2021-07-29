@@ -13,6 +13,7 @@ use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use donatj\MockWebServer\Response;
@@ -22,7 +23,9 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
+use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
@@ -86,8 +89,8 @@ abstract class AbstractTaskTest extends ApiTestCase
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'multifunction_functions'),
-            new Response($this->getFileContent('attribute_options_multifunction_functions.json'), [], HttpResponse::HTTP_OK)
+            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'multifunctional_functions'),
+            new Response($this->getFileContent('attribute_options_multifunctional_functions.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
@@ -116,6 +119,16 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyApi::FAMILY_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'coloris'),
+            new Response($this->getFileContent('reference_entity_coloris_records.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
+            new Response($this->getFileContent('reference_entity_coloris_records.json'), [], HttpResponse::HTTP_OK)
         );
     }
 
@@ -216,5 +229,14 @@ abstract class AbstractTaskTest extends ApiTestCase
             ->setCompletenessValue(0)
         ;
         $this->manager->persist($productFilters);
+    }
+
+    protected function importAttributes(): void
+    {
+        $initialPayload = new AttributePayload($this->createClient());
+
+        /** @var \League\Pipeline\Pipeline $attributePipeline */
+        $attributePipeline = $this->getContainer()->get(AttributePipelineFactory::class)->create();
+        $attributePipeline->process($initialPayload);
     }
 }

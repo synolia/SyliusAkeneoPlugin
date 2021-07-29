@@ -7,15 +7,11 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use League\Pipeline\Pipeline;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
-use Synolia\SyliusAkeneoPlugin\Factory\AttributeOptionPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
-use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
@@ -53,8 +49,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $this->createConfiguration();
         $this->createProductFiltersConfiguration();
         $this->importCategories();
-        $attributePayload = $this->importAttributes();
-        $this->importAttributeOptions($attributePayload);
+        $this->importAttributes();
         $this->importFamillies();
         $this->importProductModels();
         $this->createProductConfiguration();
@@ -148,24 +143,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 $this->assertEquals($productToTest['price'], $channelPricing->getOriginalPrice());
             }
         }
-    }
-
-    private function importAttributes(): PipelinePayloadInterface
-    {
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $attributePayload */
-        $attributePayload = new AttributePayload($this->client);
-        /** @var \League\Pipeline\Pipeline $attributePipeline */
-        $attributePipeline = self::$container->get(AttributePipelineFactory::class)->create();
-
-        return $attributePipeline->process($attributePayload);
-    }
-
-    private function importAttributeOptions(PipelinePayloadInterface $payload): PipelinePayloadInterface
-    {
-        /** @var \League\Pipeline\Pipeline $optionPipeline */
-        $optionPipeline = self::$container->get(AttributeOptionPipelineFactory::class)->create();
-
-        return $optionPipeline->process($payload);
     }
 
     private function importCategories(): void
