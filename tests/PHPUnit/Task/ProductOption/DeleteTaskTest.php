@@ -23,7 +23,7 @@ final class DeleteTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
     }
 
     public function testDeleteOptionTask(): void
@@ -32,7 +32,7 @@ final class DeleteTaskTest extends AbstractTaskTest
         $optionsPayload = new OptionsPayload($this->createClient());
 
         /** @var \Sylius\Component\Resource\Factory\FactoryInterface $optionFactory */
-        $optionFactory = self::$container->get('sylius.factory.product_option');
+        $optionFactory = $this->getContainer()->get('sylius.factory.product_option');
         /** @var ProductOption $option */
         $option = $optionFactory->createNew();
         $option->setCode('fakeCode');
@@ -44,7 +44,7 @@ final class DeleteTaskTest extends AbstractTaskTest
         $deleteTask = $this->taskProvider->get(DeleteTask::class);
         $deleteTask->__invoke($optionsPayload);
 
-        $productOptionRepository = self::$container->get('sylius.repository.product_option');
+        $productOptionRepository = $this->getContainer()->get('sylius.repository.product_option');
         /** @var \Sylius\Component\Product\Model\ProductOptionInterface $productOption */
         $productOption = $productOptionRepository->findOneBy(['code' => 'fakeCode']);
         $this->assertNull($productOption);

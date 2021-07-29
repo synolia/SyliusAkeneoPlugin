@@ -25,7 +25,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
     }
 
     public function testCreateUpdateTask(): void
@@ -44,7 +44,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $createUpdateDeleteTask->__invoke($optionsPayload);
 
         /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository $attributeRepository */
-        $attributeRepository = self::$container->get('sylius.repository.product_attribute');
+        $attributeRepository = $this->getContainer()->get('sylius.repository.product_attribute');
+
         /** @var ProductAttribute $productAttribute */
         $productAttribute = $attributeRepository->findOneBy(['code' => 'color']);
         $this->assertNotNull($productAttribute);

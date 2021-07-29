@@ -31,7 +31,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
@@ -122,9 +122,9 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     private function assertProductOptionValuesTranslations(ProductOption $productOption): void
     {
         /** @var \Sylius\Component\Resource\Repository\RepositoryInterface $productOptionValueRepository */
-        $productOptionValueRepository = self::$container->get('sylius.repository.product_option_value');
+        $productOptionValueRepository = $this->getContainer()->get('sylius.repository.product_option_value');
         /** @var \Sylius\Component\Resource\Repository\RepositoryInterface $productOptionValueTranslationRepository */
-        $productOptionValueTranslationRepository = self::$container->get('sylius.repository.product_option_value_translation');
+        $productOptionValueTranslationRepository = $this->getContainer()->get('sylius.repository.product_option_value_translation');
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $productOptionValue */
         $productOptionValue = $productOptionValueRepository->findOneBy([

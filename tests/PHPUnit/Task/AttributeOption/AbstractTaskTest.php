@@ -18,7 +18,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
         $this->manager->beginTransaction();
 
         $this->initializeApiConfiguration();

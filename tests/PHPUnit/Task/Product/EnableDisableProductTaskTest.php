@@ -32,7 +32,7 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
         $this->client = $this->createClient();
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
@@ -76,10 +76,10 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $enableDisableProductTask->__invoke($simpleProductCreationPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
+        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
 
         $this->assertCount(1, $product->getChannels());
-        $channel = self::$container->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
+        $channel = $this->getContainer()->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
         $this->assertContains($channel, $product->getChannels());
     }
 
@@ -100,11 +100,11 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
 
         foreach ($categories as $categoryCode) {
-            $category = self::$container->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
+            $category = $this->getContainer()->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
                 /** @var Taxon $category */
-                $category = self::$container->get('sylius.factory.taxon')->createNew();
+                $category = $this->getContainer()->get('sylius.factory.taxon')->createNew();
                 $this->manager->persist($category);
             }
             $category->setCurrentLocale('en_US');

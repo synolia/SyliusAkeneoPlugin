@@ -43,9 +43,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
         $this->client = $this->createClient();
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
@@ -63,9 +63,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     public function testCreateSimpleProductsTask(): void
     {
         /** @var ProductAttributeRepository $productAttributeRepository */
-        $productAttributeRepository = self::$container->get(ProductAttributeRepository::class);
+        $productAttributeRepository = $this->getContainer()->get(ProductAttributeRepository::class);
         /** @var ProductAttributeValueRepository $productAttributeValueRepository */
-        $productAttributeValueRepository = self::$container->get('sylius.repository.product_attribute_value');
+        $productAttributeValueRepository = $this->getContainer()->get('sylius.repository.product_attribute_value');
 
         $this->createProductConfiguration();
         $this->importCategories();
@@ -89,7 +89,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
+        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
         $this->assertNotNull($product);
 
         //Testing product attribute translations inside models
@@ -115,10 +115,10 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         //Testing simple variant
         /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
-        $productVariant = self::$container->get('sylius.repository.product_variant')->findOneBy(['code' => $product->getCode()]);
+        $productVariant = $this->getContainer()->get('sylius.repository.product_variant')->findOneBy(['code' => $product->getCode()]);
         $this->assertNotNull($productVariant);
 
-        $this->assertEquals(self::$container->get('sylius.repository.channel')->count([]), $productVariant->getChannelPricings()->count());
+        $this->assertEquals($this->getContainer()->get('sylius.repository.channel')->count([]), $productVariant->getChannelPricings()->count());
         foreach ($productVariant->getChannelPricings() as $channelPricing) {
             $this->assertEquals(89900, $channelPricing->getPrice());
             $this->assertEquals(89900, $channelPricing->getOriginalPrice());
@@ -190,7 +190,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => $productId]);
+        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => $productId]);
         $this->assertNotNull($product);
 
         $this->assertNotEmpty($product->getAttributes());
@@ -244,11 +244,11 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
 
         foreach ($categories as $categoryCode) {
-            $category = self::$container->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
+            $category = $this->getContainer()->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
                 /** @var Taxon $category */
-                $category = self::$container->get('sylius.factory.taxon')->createNew();
+                $category = $this->getContainer()->get('sylius.factory.taxon')->createNew();
                 $this->manager->persist($category);
             }
             $category->setCurrentLocale('en_US');

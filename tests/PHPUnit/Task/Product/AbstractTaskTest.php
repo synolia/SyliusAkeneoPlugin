@@ -33,7 +33,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
 
         $this->initializeApiConfiguration();
         $this->createProductFiltersConfiguration();
@@ -183,7 +183,7 @@ abstract class AbstractTaskTest extends ApiTestCase
             ProductPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
-        $query->execute();
+        $query->executeStatement();
 
         return (int) \current($query->fetch());
     }

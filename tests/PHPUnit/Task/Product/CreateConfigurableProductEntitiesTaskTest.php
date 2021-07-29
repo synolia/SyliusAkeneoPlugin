@@ -41,9 +41,9 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         parent::setUp();
 
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
-        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
         $this->client = $this->createClient();
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
@@ -104,8 +104,8 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
             ],
         ];
 
-        $productVariantRepository = self::$container->get('sylius.repository.product_variant');
-        $productOptionValueTranslationRepository = self::$container->get('sylius.repository.product_option_value_translation');
+        $productVariantRepository = $this->getContainer()->get('sylius.repository.product_variant');
+        $productOptionValueTranslationRepository = $this->getContainer()->get('sylius.repository.product_option_value_translation');
 
         foreach ($productsToTest as $productToTest) {
             /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
@@ -173,7 +173,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         /** @var \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $categoryPayload */
         $categoryPayload = new CategoryPayload($this->client);
         /** @var \League\Pipeline\Pipeline $categoryPipeline */
-        $categoryPipeline = self::$container->get(CategoryPipelineFactory::class)->create();
+        $categoryPipeline = $this->getContainer()->get(CategoryPipelineFactory::class)->create();
 
         $categoryPipeline->process($categoryPayload);
     }
@@ -183,7 +183,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         /** @var \Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload $productModelPayload */
         $productModelPayload = new ProductModelPayload($this->client);
         /** @var \League\Pipeline\Pipeline $productModelPipeline */
-        $productModelPipeline = self::$container->get(ProductModelPipelineFactory::class)->create();
+        $productModelPipeline = $this->getContainer()->get(ProductModelPipelineFactory::class)->create();
 
         $productModelPipeline->process($productModelPayload);
     }
@@ -191,7 +191,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     private function importFamillies()
     {
         /** @var Pipeline $familyPipeline */
-        $familyPipeline = self::$container->get(FamilyPipelineFactory::class)->create();
+        $familyPipeline = $this->getContainer()->get(FamilyPipelineFactory::class)->create();
 
         $productModelPayload = new ProductModelPayload($this->client);
         $familyPipeline->process($productModelPayload);
@@ -199,7 +199,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
     private function createProductFiltersConfiguration()
     {
-        $this->productFilter = self::$container->get(ProductFilter::class);
+        $this->productFilter = $this->getContainer()->get(ProductFilter::class);
 
         $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
         if (!$this->productFiltersRules instanceof ProductFiltersRules) {
