@@ -8,6 +8,7 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
+use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
@@ -33,6 +34,9 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $apiConfigurationRepository;
 
+    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    private $localeRepository;
+
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
         RepositoryInterface $productOptionValueTranslationRepository,
@@ -43,7 +47,8 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         AkeneoPimEnterpriseClientInterface $client,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         RepositoryInterface $apiConfigurationRepository,
-        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer
+        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
+        RepositoryInterface $localeRepository
     ) {
         parent::__construct(
             $productOptionValueRepository,
@@ -58,6 +63,7 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         $this->client = $client;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->localeRepository = $localeRepository;
     }
 
     public static function getDefaultPriority(): int
@@ -114,8 +120,17 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         AttributeInterface $attribute,
         array $record
     ): void {
-        //Seems not to be customizable on Akeneo
-        $translations = $record['values']['label'];
+        //Seems not to be customizable on Akeneo, but can be removed
+        $translations = $record['values']['label'] ?? [];
+
+        if (0 === \count($translations)) {
+            foreach ($this->getLocales() as $locale) {
+                $translations[] = [
+                    'locale' => $locale,
+                    'data' => \sprintf('[%s]', $record['code']),
+                ];
+            }
+        }
 
         foreach ($translations as  $translation) {
             $locale = $translation['locale'];
@@ -145,6 +160,16 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
             }
 
             $productOptionValueTranslation->setValue($translation['data']);
+        }
+    }
+
+    private function getLocales(): iterable
+    {
+        /** @var LocaleInterface[] $locales */
+        $locales = $this->localeRepository->findAll();
+
+        foreach ($locales as $locale) {
+            yield $locale->getCode();
         }
     }
 }

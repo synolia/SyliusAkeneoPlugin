@@ -199,7 +199,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $totalItemsCount = $this->countTotalProducts();
 
         $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
-        $query->execute();
+        $query->executeStatement();
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
@@ -227,7 +227,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             $processedCount += \count($results);
             $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
             $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
-            $query->execute();
+            $query->executeStatement();
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
@@ -327,11 +327,6 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->updateImages($resource, $product);
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @todo Need refacto
-     */
     private function updateProductRequirementsForActiveLocales(
         ProductInterface $product,
         array &$resource
