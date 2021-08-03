@@ -101,6 +101,9 @@ final class DeleteTask implements AkeneoTaskInterface
             /** @var ProductOption $referenceEntity */
             $referenceEntity = $this->entityManager->getReference($productOptionClass, $removedOptionId);
             if (null !== $referenceEntity) {
+                foreach($referenceEntity->getValues() as $optionValue) {
+                    $this->entityManager->remove($optionValue);
+                }
                 $this->entityManager->remove($referenceEntity);
                 $this->logger->info(Messages::hasBeenDeleted($this->type, (string) $referenceEntity->getCode()));
                 ++$this->deleteCount;
