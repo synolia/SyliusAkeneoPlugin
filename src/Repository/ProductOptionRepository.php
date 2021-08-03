@@ -6,13 +6,25 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * @method ProductOption|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductOption|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductOption[]    findAll()
+ * @method ProductOption[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<ProductOption>
+ */
 final class ProductOptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, $parameterBag->get('sylius.model.product_option.class'));
+        /** @var class-string<ProductOption> $entityClass */
+        $entityClass = $parameterBag->get('sylius.model.product_option.class');
+
+        parent::__construct($registry, $entityClass);
     }
 
     public function getRemovedOptionIds(array $codes): array

@@ -45,8 +45,10 @@ final class AddProductToCategoriesTask implements AkeneoTaskInterface
             return $payload;
         }
 
-        foreach ($payload->getCategories() as $category) {
-            $taxon = $this->taxonRepository->findOneBy(['code' => $category]);
+        $taxonCodes = \array_unique($payload->getCategories());
+
+        foreach ($taxonCodes as $taxonCode) {
+            $taxon = $this->taxonRepository->findOneBy(['code' => $taxonCode]);
             if (!$taxon instanceof TaxonInterface) {
                 continue;
             }

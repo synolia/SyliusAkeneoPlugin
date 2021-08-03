@@ -6,13 +6,25 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sylius\Component\Product\Model\ProductAttributeInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * @method ProductAttributeInterface|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductAttributeInterface|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductAttributeInterface[]    findAll()
+ * @method ProductAttributeInterface[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<ProductAttributeInterface>
+ */
 final class ProductAttributeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, ParameterBagInterface $parameterBag)
     {
-        parent::__construct($registry, $parameterBag->get('sylius.model.product_attribute.class'));
+        /** @var class-string<ProductAttributeInterface> $entityClass */
+        $entityClass = $parameterBag->get('sylius.model.product_attribute.class');
+
+        parent::__construct($registry, $entityClass);
     }
 
     /**
