@@ -21,8 +21,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = $this->getContainer()->get('doctrine')->getManager();
-        $this->manager->beginTransaction();
+        $this->manager = self::$container->get('doctrine')->getManager();
 
         $this->initializeApiConfiguration();
 
@@ -43,13 +42,9 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function tearDown(): void
     {
-        if ($this->manager->getConnection()->isTransactionActive()) {
-            $this->manager->rollback();
-        }
+        $this->server->stop();
         $this->manager->close();
         $this->manager = null;
-
-        $this->server->stop();
 
         parent::tearDown();
     }

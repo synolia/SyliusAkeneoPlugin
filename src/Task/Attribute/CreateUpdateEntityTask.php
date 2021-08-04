@@ -167,7 +167,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 $this->entityManager->commit();
             }
         } catch (\Throwable $throwable) {
-            $this->entityManager->rollback();
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->rollback();
+            }
             $this->logger->warning($throwable->getMessage());
 
             throw $throwable;

@@ -51,9 +51,14 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         $productPayload = new ProductPayload($this->client);
 
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $productPayload = $setupProductModelsTask->__invoke($productPayload);
+
         /** @var RetrieveProductsTask $retrieveProductsTask */
         $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
+
         $this->assertInstanceOf(ProductPayload::class, $productPayload);
     }
 
