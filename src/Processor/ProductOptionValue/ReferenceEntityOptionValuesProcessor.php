@@ -24,6 +24,8 @@ use Webmozart\Assert\Assert;
 
 class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
+    private const AKENEO_PREFIX = 'akeneo-';
+
     /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     private $client;
 
@@ -84,14 +86,15 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 
         foreach ($records as $record) {
             $productOptionValue = $this->productOptionValueRepository->findOneBy([
-                'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, CreateUpdateDeleteTask::AKENEO_PREFIX . (string) $record['code']),
+                'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, self::AKENEO_PREFIX . (string) $record['code']),
                 'option' => $productOption,
             ]);
 
+            //TODO: use ProductOptionValueDataTransformer
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
                 /** @var ProductOptionValueInterface $productOptionValue */
                 $productOptionValue = $this->productOptionValueFactory->createNew();
-                $productOptionValue->setCode(ProductOptionManager::getOptionValueCodeFromProductOption($productOption, CreateUpdateDeleteTask::AKENEO_PREFIX . (string) $record['code']));
+                $productOptionValue->setCode(ProductOptionManager::getOptionValueCodeFromProductOption($productOption, self::AKENEO_PREFIX . (string) $record['code']));
                 $productOptionValue->setOption($productOption);
                 $this->entityManager->persist($productOptionValue);
             }

@@ -12,6 +12,9 @@ final class ConfigurationProvider
     /** @var RepositoryInterface */
     private $apiConfigurationRepository;
 
+    /** @var ApiConfiguration|null */
+    private $configuration;
+
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
         $this->apiConfigurationRepository = $apiConfigurationRepository;
@@ -19,13 +22,16 @@ final class ConfigurationProvider
 
     public function getConfiguration(): ApiConfiguration
     {
-        /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        if ($this->configuration instanceof ApiConfiguration) {
+            return $this->configuration;
+        }
 
-        if (!$apiConfiguration instanceof ApiConfiguration) {
+        $this->configuration = $this->apiConfigurationRepository->findOneBy([]);
+
+        if (!$this->configuration instanceof ApiConfiguration) {
             throw new \Exception('The API is not configured in the admin section.');
         }
 
-        return $apiConfiguration;
+        return $this->configuration;
     }
 }

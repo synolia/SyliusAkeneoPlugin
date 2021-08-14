@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
-use Akeneo\Pim\ApiClient\Pagination\Page;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -21,17 +19,10 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
     /** @var ConfigurationProvider */
     private $configurationProvider;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
-
-    public function __construct(
-        LoggerInterface $akeneoLogger,
-        ConfigurationProvider $configurationProvider,
-        EntityManagerInterface $entityManager
-    ) {
+    public function __construct(LoggerInterface $akeneoLogger, ConfigurationProvider $configurationProvider)
+    {
         $this->logger = $akeneoLogger;
         $this->configurationProvider = $configurationProvider;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -41,34 +32,24 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
     {
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
-
-        $resources = $payload->getAkeneoPimClient()->getAttributeApi()->listPerPage(
-            $this->configurationProvider->getConfiguration()->getPaginationSize(),
-            true,
+        $resources = $payload->getAkeneoPimClient()->getAttributeApi()->all(
+            $this->configurationProvider->getConfiguration()->getPaginationSize()
         );
 
-        $itemCount = 0;
-        while (
-            ($resources instanceof Page && $resources->hasNextPage()) ||
-            ($resources instanceof Page && !$resources->hasPreviousPage()) ||
-            $resources instanceof Page
-        ) {
-            foreach ($resources->getItems() as $item) {
-                $sql = \sprintf(
-                    'INSERT INTO `%s` (`values`) VALUES (:values);',
-                    AttributePayload::TEMP_AKENEO_TABLE_NAME,
-                );
-                $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->bindValue('values', \json_encode($item));
-                $stmt->execute();
-
-                ++$itemCount;
+        $noCodeCount = 0;
+        foreach ($resources as $resource) {
+            if (empty($resource['code'])) {
+                ++$noCodeCount;
             }
-
-            $resources = $resources->getNextPage();
         }
 
-        $this->logger->info(Messages::totalToImport($payload->getType(), $itemCount));
+        $this->logger->info(Messages::totalToImport($payload->getType(), $resources->key()));
+        if ($noCodeCount > 0) {
+            $this->logger->warning(Messages::noCodeToImport($payload->getType(), $noCodeCount));
+        }
+
+        $payload = new AttributePayload($payload->getAkeneoPimClient());
+        $payload->setResources($resources);
 
         return $payload;
     }

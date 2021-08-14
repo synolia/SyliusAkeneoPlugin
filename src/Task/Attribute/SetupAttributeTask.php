@@ -24,8 +24,20 @@ class SetupAttributeTask implements AkeneoTaskInterface
         $this->taskProvider = $taskProvider;
     }
 
+    /**
+     * @param AttributePayload $payload
+     */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        if ($payload->isContinue()) {
+            $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
+            $tableExist = $schemaManager->tablesExist([$payload::TEMP_AKENEO_TABLE_NAME]);
+
+            if (true === $tableExist) {
+                return $payload;
+            }
+        }
+
         $this->taskProvider->get(TearDownAttributeTask::class)->__invoke($payload);
 
         $query = \sprintf(

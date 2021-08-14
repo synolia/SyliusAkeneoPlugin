@@ -26,6 +26,15 @@ class SetupProductTask implements AkeneoTaskInterface
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        if ($payload->isContinue()) {
+            $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
+            $tableExist = $schemaManager->tablesExist([ProductPayload::TEMP_AKENEO_TABLE_NAME]);
+
+            if (true === $tableExist) {
+                return $payload;
+            }
+        }
+
         $this->taskProvider->get(TearDownProductTask::class)->__invoke($payload);
 
         $query = \sprintf(

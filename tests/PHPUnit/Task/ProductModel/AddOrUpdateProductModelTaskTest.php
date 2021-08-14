@@ -12,13 +12,12 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
-use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductModelTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\TearDownProductModelTask;
 
 /**
  * @internal
@@ -53,49 +52,28 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         $this->prepareConfiguration();
 
         $productModelPayload = new ProductModelPayload($this->createClient());
+        $productModelPayload->setProcessAsSoonAsPossible(false);
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupProductModelTask::class);
         $productModelPayload = $setupProductModelsTask->__invoke($productModelPayload);
 
-        /** @var RetrieveProductModelsTask $retrieveProductModelsTask */
-        $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
-        $optionsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
+        /** @var ProcessProductModelsTask $processProductModelsTask */
+        $processProductModelsTask = $this->taskProvider->get(ProcessProductModelsTask::class);
+        $productModelPayload = $processProductModelsTask->__invoke($productModelPayload);
 
-        $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
-        $query->executeStatement();
-        $processedCount = 0;
-
-        while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
-
-                if (null === $resource['parent']) {
-                    continue;
-                }
-                $productBase = $resource;
-
-                break;
-            }
-
-            $processedCount += \count($results);
-            $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
-            $query->executeStatement();
-        }
-
-        /** @var AddOrUpdateProductModelTask $addOrUpdateProductModelsTask */
-        $addOrUpdateProductModelsTask = $this->taskProvider->get(AddOrUpdateProductModelTask::class);
-        $result = $addOrUpdateProductModelsTask->__invoke($optionsPayload);
-        Assert::assertInstanceOf(PipelinePayloadInterface::class, $result);
+        /** @var TearDownProductModelTask $tearDownProductModelTask */
+        $tearDownProductModelTask = $this->taskProvider->get(TearDownProductModelTask::class);
+        $tearDownProductModelTask->__invoke($productModelPayload);
 
         /** @var Product $productFinal */
-        $productFinal = $this->productRepository->findOneBy(['code' => $productBase['code']]);
+        $productFinal = $this->productRepository->findOneBy(['code' => 'apollon_yellow']);
         Assert::assertInstanceOf(Product::class, $productFinal);
         $this->assertGreaterThan(0, $productFinal->getImages()->count());
         foreach ($productFinal->getImages() as $image) {
             $this->assertFileExists(self::$kernel->getProjectDir() . '/public/media/image/' . $image->getPath());
         }
 
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productBase['parent']]);
+        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'apollon']);
         Assert::assertInstanceOf(ProductGroup::class, $productGroup);
     }
 

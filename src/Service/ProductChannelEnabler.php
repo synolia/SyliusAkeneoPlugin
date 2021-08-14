@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -25,19 +24,14 @@ final class ProductChannelEnabler
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository */
     private $productConfigurationRepository;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
-
     public function __construct(
         ChannelRepository $channelRepository,
         ProductConfigurationRepository $productConfigurationRepository,
-        LoggerInterface $akeneoLogger,
-        EntityManagerInterface $entityManager
+        LoggerInterface $akeneoLogger
     ) {
         $this->channelRepository = $channelRepository;
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->logger = $akeneoLogger;
-        $this->entityManager = $entityManager;
     }
 
     public function enableChannelForProduct(ProductInterface $product, array $resource): void
@@ -45,38 +39,34 @@ final class ProductChannelEnabler
         try {
             $enabledChannels = $this->getEnabledChannelsAttributeData($product, $resource);
 
-            $this->entityManager->beginTransaction();
-
             //Disable the product for all channels
             $product->getChannels()->clear();
 
             foreach ($enabledChannels as $enabledChannel) {
                 $channel = $this->channelRepository->findOneBy(['code' => $enabledChannel]);
                 if (!$channel instanceof ChannelInterface) {
-                    $this->logger->warning(\sprintf(
-                        'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
-                        $enabledChannel,
-                        $product->getCode()
-                    ));
+                    $this->logger->info(
+                        \sprintf(
+                            'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
+                            $enabledChannel,
+                            $product->getCode()
+                        )
+                    );
 
                     continue;
                 }
 
                 $product->addChannel($channel);
-                $this->logger->info(\sprintf(
-                    'Enabled channel "%s" for product "%s"',
-                    $channel->getCode(),
-                    $product->getCode()
-                ));
+                $this->logger->info(
+                    \sprintf(
+                        'Enabled channel "%s" for product "%s"',
+                        $channel->getCode(),
+                        $product->getCode()
+                    )
+                );
             }
-            $this->entityManager->flush();
-            $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
-            if ($this->entityManager->getConnection()->isTransactionActive()) {
-                $this->entityManager->rollback();
-            }
-
-            throw $throwable;
+        } catch (NoAttributeResourcesException $noAttributeResourcesException) {
+            $this->logger->info($noAttributeResourcesException->getMessage());
         }
     }
 

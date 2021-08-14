@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,11 +13,11 @@ use Synolia\SyliusAkeneoPlugin\Factory\ProductPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 
-final class ImportProductsCommand extends Command
+final class ImportProductsCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    private const DESCRIPTION = 'Import Products from Akeneo PIM.';
+    protected static $defaultDescription = 'Import Products from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:products';
@@ -44,11 +43,6 @@ final class ImportProductsCommand extends Command
         $this->logger = $akeneoLogger;
     }
 
-    protected function configure(): void
-    {
-        $this->setDescription(self::DESCRIPTION);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -62,12 +56,13 @@ final class ImportProductsCommand extends Command
             return 0;
         }
 
+        $context = parent::createContext($input, $output);
+
         $this->logger->notice(self::$defaultName);
         /** @var \League\Pipeline\Pipeline $productPipeline */
         $productPipeline = $this->productPipelineFactory->create();
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $productPayload */
-        $productPayload = new ProductPayload($this->clientFactory->createFromApiCredentials());
+        $productPayload = new ProductPayload($this->clientFactory->createFromApiCredentials(), $context);
         $productPipeline->process($productPayload);
 
         $this->logger->notice(Messages::endOfCommand(self::$defaultName));

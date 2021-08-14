@@ -19,10 +19,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
 
 /**
  * @internal
@@ -54,8 +53,8 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProcessProductsTask $retrieveProductsTask */
+        $retrieveProductsTask = $this->taskProvider->get(ProcessProductsTask::class);
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
@@ -75,20 +74,19 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $this->importReferenceEntities();
 
         $productPayload = new ProductPayload($this->client);
+        $productPayload->setProcessAsSoonAsPossible(false);
 
         $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProcessProductsTask $processProductsTask */
+        $processProductsTask = $this->taskProvider->get(ProcessProductsTask::class);
         /** @var ProductPayload $productPayload */
-        $productPayload = $retrieveProductsTask->__invoke($productPayload);
+        $productPayload = $processProductsTask->__invoke($productPayload);
 
-        $this->assertSame(1, $this->countTotalProducts(true));
-
-        /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
-        $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
-        $createSimpleProductEntitiesTask->__invoke($productPayload);
+        /** @var TearDownProductTask $tearDownProductTask */
+        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
         $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
@@ -137,9 +135,17 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         ]);
         $this->assertNotNull($referenceEntityAttributeValue);
 
+        $expectedArray = \json_decode('{"code":"noir","attributes":{"label":"BLANC","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_blanc.png","filtre_couleur_1":"noir"}}', true);
+        $finalArray = $referenceEntityAttributeValue->getValue();
+
+        ksort($expectedArray);
+        ksort($expectedArray['attributes']);
+        ksort($finalArray);
+        ksort($finalArray['attributes']);
+
         $this->assertSame(
-            \json_decode('{"code":"noir","attributes":{"label":"BLANC","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_blanc.png","filtre_couleur_1":"noir"}}', true),
-            $referenceEntityAttributeValue->getValue()
+            $expectedArray,
+            $finalArray
         );
     }
 
@@ -147,19 +153,19 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         yield [
             '11834327',
-            CreateUpdateDeleteTask::AKENEO_PREFIX . 'legal_216_x_356_mm_',
+            'akeneo-legal_216_x_356_mm_',
             [
-                CreateUpdateDeleteTask::AKENEO_PREFIX . 'copy',
-                CreateUpdateDeleteTask::AKENEO_PREFIX . 'n',
-                CreateUpdateDeleteTask::AKENEO_PREFIX . 'scan',
+                'akeneo-copy',
+                'akeneo-n',
+                'akeneo-scan',
             ],
             true,
         ];
 
         yield [
             '123456789',
-            CreateUpdateDeleteTask::AKENEO_PREFIX . 'legal_216_x_356_mm_',
-            [CreateUpdateDeleteTask::AKENEO_PREFIX . 'copy'],
+            'akeneo-legal_216_x_356_mm_',
+            ['akeneo-copy'],
             false,
         ];
     }
@@ -176,20 +182,19 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $this->initializeProductWithMultiSelectAndCheckbox();
 
         $productPayload = new ProductPayload($this->client);
+        $productPayload->setProcessAsSoonAsPossible(false);
 
         $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProcessProductsTask $retrieveProductsTask */
+        $retrieveProductsTask = $this->taskProvider->get(ProcessProductsTask::class);
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        $this->assertSame(2, $this->countTotalProducts(true));
-
-        /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
-        $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
-        $createSimpleProductEntitiesTask->__invoke($productPayload);
+        /** @var TearDownProductTask $tearDownProductTask */
+        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
         $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => $productId]);

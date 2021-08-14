@@ -8,10 +8,9 @@ use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
 
 /**
  * @internal
@@ -34,16 +33,6 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
-    public function testRetrieveProductsTask(): void
-    {
-        $productPayload = new ProductPayload($this->client);
-
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
-        $productPayload = $retrieveProductsTask->__invoke($productPayload);
-        $this->assertInstanceOf(ProductPayload::class, $productPayload);
-    }
-
     public function testEnableDisableProduct(): void
     {
         $this->createProductConfiguration();
@@ -55,25 +44,20 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProcessProductsTask $retrieveProductsTask */
+        $retrieveProductsTask = $this->taskProvider->get(ProcessProductsTask::class);
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        $this->assertSame(1, $this->countTotalProducts(true));
-
-        /** @var CreateSimpleProductEntitiesTask $createSimpleProductEntitiesTask */
-        $createSimpleProductEntitiesTask = $this->taskProvider->get(CreateSimpleProductEntitiesTask::class);
-        $simpleProductCreationPayload = $createSimpleProductEntitiesTask->__invoke($productPayload);
+        /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask $tearDownProductTask */
+        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask->__invoke($productPayload);
 
         $this->manager->flush();
 
-        /** @var EnableDisableProductsTask $enableDisableProductTask */
-        $enableDisableProductTask = $this->taskProvider->get(EnableDisableProductsTask::class);
-        $enableDisableProductTask->__invoke($simpleProductCreationPayload);
-
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
         $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
+        $this->assertNotNull($product);
 
         $this->assertCount(1, $product->getChannels());
         $channel = $this->getContainer()->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);

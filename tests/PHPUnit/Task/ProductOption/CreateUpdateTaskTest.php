@@ -12,7 +12,6 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\AbstractAttributeOptionTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
 /**
@@ -92,16 +91,16 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     private function assertColorProductOptionValues(ProductOption $productOption): void
     {
         $expectedValueCodes = [
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'blue',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'brown',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'green',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'grey',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'orange',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'pink',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'red',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'yellow',
+            'color_akeneo-black',
+            'color_akeneo-blue',
+            'color_akeneo-brown',
+            'color_akeneo-green',
+            'color_akeneo-grey',
+            'color_akeneo-orange',
+            'color_akeneo-pink',
+            'color_akeneo-red',
+            'color_akeneo-white',
+            'color_akeneo-yellow',
         ];
         $values = $productOption->getValues();
 
@@ -121,8 +120,8 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     private function assertColorisProductOptionValues(ProductOption $productOption): void
     {
         $expectedValueCodes = [
-            'coloris_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
-            'coloris_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
+            'coloris_akeneo-black',
+            'coloris_akeneo-white',
         ];
         $values = $productOption->getValues();
 

@@ -27,6 +27,9 @@ class FamilyVariationAxeProcessor
     /** @var int */
     public $itemCount = 0;
 
+    /** @var array */
+    private $familyVariants;
+
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
         EntityRepository $productGroupRepository,
@@ -37,13 +40,14 @@ class FamilyVariationAxeProcessor
         $this->productGroupRepository = $productGroupRepository;
         $this->familyRetriever = $familyRetriever;
         $this->logger = $akeneoLogger;
+        $this->familyVariants = [];
     }
 
-    public function process(array $resource, array $familiesVariantPayloads = []): array
+    public function process(array $resource): void
     {
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
         if (!$productGroup instanceof ProductGroup) {
-            return $familiesVariantPayloads;
+            return;
         }
 
         $family = null;
@@ -53,22 +57,22 @@ class FamilyVariationAxeProcessor
             } catch (\LogicException $exception) {
                 $this->logger->warning($exception->getMessage());
 
-                return $familiesVariantPayloads;
+                return;
             }
         }
 
-        if (!isset($familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']])) {
+        $family = $family ?: $resource['family'];
+
+        if (!isset($this->familyVariants[$family][$resource['family_variant']])) {
             $payloadProductGroup = $this->akeneoPimEnterpriseClient->getFamilyVariantApi()->get(
-                $family ?: $resource['family'],
+                $family,
                 $resource['family_variant']
             );
 
-            $familiesVariantPayloads[$family ?: $resource['family']][$resource['family_variant']] = $payloadProductGroup;
+            $this->familyVariants[$family][$resource['family_variant']] = $payloadProductGroup;
         }
 
-        $this->addAxes($familiesVariantPayloads[$family ?: $resource['family']], $family, $resource, $productGroup);
-
-        return $familiesVariantPayloads;
+        $this->addAxes($this->familyVariants[$family], $family, $resource, $productGroup);
     }
 
     private function addAxes(
@@ -78,7 +82,7 @@ class FamilyVariationAxeProcessor
         ProductGroup $productGroup
     ): void {
         foreach ($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
-            if (count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+            if (\count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
                 continue;
             }
 

@@ -6,20 +6,20 @@ namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use League\Pipeline\Pipeline;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
-use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 
-final class ImportFamiliesCommand extends Command
+final class ImportFamiliesCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    private const DESCRIPTION = 'Import Families from Akeneo PIM.';
+    /** @var string */
+    protected static $defaultDescription = 'Import Families from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:families';
@@ -45,11 +45,6 @@ final class ImportFamiliesCommand extends Command
         $this->logger = $akeneoLogger;
     }
 
-    protected function configure(): void
-    {
-        $this->setDescription(self::DESCRIPTION);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -63,12 +58,14 @@ final class ImportFamiliesCommand extends Command
             return 0;
         }
 
+        $context = parent::createContext($input, $output);
+
         $this->logger->notice(self::$defaultName);
         /** @var Pipeline $familyPipeline */
         $familyPipeline = $this->familyPipelineFactory->create();
 
-        $productModelPayload = new ProductModelPayload($this->clientFactory->createFromApiCredentials());
-        $familyPipeline->process($productModelPayload);
+        $payload = new FamilyPayload($this->clientFactory->createFromApiCredentials(), $context);
+        $familyPipeline->process($payload);
 
         $this->logger->notice(Messages::endOfCommand(self::$defaultName));
         $this->release();
