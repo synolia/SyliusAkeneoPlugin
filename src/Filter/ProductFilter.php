@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 
-final class ProductFilter
+final class ProductFilter implements ProductFilterInterface
 {
     private const AT_LEAST_COMPLETE = 'AT LEAST COMPLETE';
 
