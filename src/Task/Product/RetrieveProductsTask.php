@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\Page;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -23,7 +23,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
     /** @var ConfigurationProvider */
     private $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilter */
+    /** @var ProductFilterInterface */
     private $productFilter;
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
@@ -32,7 +32,7 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
     public function __construct(
         LoggerInterface $akeneoLogger,
         ConfigurationProvider $configurationProvider,
-        ProductFilter $productFilter,
+        ProductFilterInterface $productFilter,
         EntityManagerInterface $entityManager
     ) {
         $this->logger = $akeneoLogger;

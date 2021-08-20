@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -16,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveProductModelsTask implements AkeneoTaskInterface
 {
-    /** @var ProductFilter */
+    /** @var ProductFilterInterface */
     private $productFilter;
 
     /** @var LoggerInterface */
@@ -32,7 +32,7 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
     private $entityManager;
 
     public function __construct(
-        ProductFilter $productFilter,
+        ProductFilterInterface $productFilter,
         ConfigurationProvider $configurationProvider,
         LoggerInterface $logger,
         AkeneoTaskProvider $taskProvider,
