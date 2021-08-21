@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use League\Pipeline\Pipeline;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,11 +14,11 @@ use Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 
-final class ImportAssociationTypeCommand extends Command
+final class ImportAssociationTypeCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    private const DESCRIPTION = 'Import Associations type from Akeneo PIM.';
+    protected static $defaultDescription = 'Import Associations type from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:association-type';
@@ -45,11 +44,6 @@ final class ImportAssociationTypeCommand extends Command
         $this->logger = $akeneoLogger;
     }
 
-    protected function configure(): void
-    {
-        $this->setDescription(self::DESCRIPTION);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -63,11 +57,13 @@ final class ImportAssociationTypeCommand extends Command
             return 0;
         }
 
+        $context = parent::createContext($input, $output);
+
         $this->logger->notice(self::$defaultName);
         /** @var Pipeline $associationTypePipeline */
         $associationTypePipeline = $this->associationTypePipelineFactory->create();
 
-        $associationTypePayload = new AssociationTypePayload($this->clientFactory->createFromApiCredentials());
+        $associationTypePayload = new AssociationTypePayload($this->clientFactory->createFromApiCredentials(), $context);
         $associationTypePipeline->process($associationTypePayload);
 
         $this->logger->notice(Messages::endOfCommand(self::$defaultName));

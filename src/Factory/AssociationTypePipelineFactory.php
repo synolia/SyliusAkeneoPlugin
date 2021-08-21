@@ -7,8 +7,9 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
-use Synolia\SyliusAkeneoPlugin\Task\Association\AddAssociationTypeTask;
-use Synolia\SyliusAkeneoPlugin\Task\Association\RetrieveAssociationTask;
+use Synolia\SyliusAkeneoPlugin\Task\AssociationType\ProcessAssociationTypeTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 final class AssociationTypePipelineFactory extends AbstractPipelineFactory
 {
@@ -17,8 +18,9 @@ final class AssociationTypePipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(RetrieveAssociationTask::class))
-            ->pipe($this->taskProvider->get(AddAssociationTypeTask::class))
-            ;
+            ->pipe($this->taskProvider->get(SetupTask::class))
+            ->pipe($this->taskProvider->get(ProcessAssociationTypeTask::class))
+            ->pipe($this->taskProvider->get(TearDownTask::class))
+        ;
     }
 }
