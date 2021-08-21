@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\AssociationType;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
@@ -17,16 +16,12 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
-final class BatchAssociationTypesTask implements AkeneoTaskInterface, BatchTaskInterface
+final class BatchAssociationTypesTask extends AbstractBatchTask
 {
     /** @var string */
     private $type;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
 
     /** @var LoggerInterface */
     private $logger;
@@ -47,7 +42,8 @@ final class BatchAssociationTypesTask implements AkeneoTaskInterface, BatchTaskI
         FactoryInterface $productAssociationTypeTranslationFactory,
         ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository
     ) {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager);
+
         $this->logger = $akeneoLogger;
         $this->productAssociationTypeFactory = $productAssociationTypeFactory;
         $this->productAssociationTypeTranslationFactory = $productAssociationTypeTranslationFactory;
@@ -62,13 +58,6 @@ final class BatchAssociationTypesTask implements AkeneoTaskInterface, BatchTaskI
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
-        $tableExist = $schemaManager->tablesExist([$payload->getTmpTableName()]);
-
-        if (false === $tableExist) {
-            return $payload;
-        }
-
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
@@ -76,15 +65,7 @@ final class BatchAssociationTypesTask implements AkeneoTaskInterface, BatchTaskI
         try {
             $this->entityManager->beginTransaction();
 
-            $query = $this->entityManager->getConnection()->prepare(\sprintf(
-                'SELECT id, `values`
-             FROM `%s`
-             WHERE id IN (%s)
-             ORDER BY id ASC',
-                $payload->getTmpTableName(),
-                implode(',', $payload->getIds())
-            ));
-
+            $query = $this->getSelectStatement($payload);
             $query->executeStatement();
 
             while ($results = $query->fetchAll()) {
@@ -116,19 +97,9 @@ final class BatchAssociationTypesTask implements AkeneoTaskInterface, BatchTaskI
                         $this->entityManager->clear();
                         unset($resource, $productAssociationType);
 
-                        $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                            'DELETE FROM `%s` WHERE id = :id',
-                            $payload->getTmpTableName(),
-                        ));
-                        $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                        $deleteQuery->execute();
+                        $this->removeEntry($payload, (int) $result['id']);
                     } catch (UnsupportedAttributeTypeException | InvalidAttributeException | ExcludedAttributeException | NotFoundHttpException $throwable) {
-                        $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                            'DELETE FROM `%s` WHERE id = :id',
-                            $payload->getTmpTableName(),
-                        ));
-                        $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                        $deleteQuery->execute();
+                        $this->removeEntry($payload, (int) $result['id']);
                     } catch (\Throwable $throwable) {
                         if ($this->entityManager->getConnection()->isTransactionActive()) {
                             $this->entityManager->rollback();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -27,17 +26,13 @@ use Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInt
 use Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
-use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddProductToCategoriesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
-final class BatchProductModelTask implements AkeneoTaskInterface, BatchTaskInterface
+final class BatchProductModelTask extends AbstractBatchTask
 {
     private const ONE_VARIATION_AXIS = 1;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
 
     /** @var ProductRepositoryInterface */
     private $productRepository;
@@ -99,7 +94,8 @@ final class BatchProductModelTask implements AkeneoTaskInterface, BatchTaskInter
         AttributesProcessorInterface $attributesProcessor,
         CompleteRequirementProcessorInterface $completeRequirementProcessor
     ) {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager);
+
         $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->productGroupRepository = $productGroupRepository;
@@ -124,15 +120,7 @@ final class BatchProductModelTask implements AkeneoTaskInterface, BatchTaskInter
         $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
         $this->addProductCategoriesTask = $this->taskProvider->get(AddProductToCategoriesTask::class);
 
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
-            'SELECT id, `values`
-             FROM `%s`
-             WHERE id IN (%s)
-             ORDER BY id ASC',
-            ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
-            implode(',', $payload->getIds())
-        ));
-
+        $query = $this->getSelectStatement($payload);
         $query->executeStatement();
 
         while ($results = $query->fetchAll()) {
@@ -149,27 +137,14 @@ final class BatchProductModelTask implements AkeneoTaskInterface, BatchTaskInter
 
                     $this->entityManager->flush();
                     $this->entityManager->commit();
-
-                    $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                        'DELETE FROM `%s` WHERE id = :id',
-                        ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
-                    ));
-                    $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                    $deleteQuery->execute();
-
                     $this->entityManager->clear();
 
                     unset($resource, $product);
+                    $this->removeEntry($payload, (int) $result['id']);
                 } catch (\Throwable $throwable) {
-                    $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                        'DELETE FROM `%s` WHERE id = :id',
-                        ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
-                    ));
-                    $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                    $deleteQuery->execute();
-
                     $this->entityManager->rollback();
                     $this->logger->warning($throwable->getMessage());
+                    $this->removeEntry($payload, (int) $result['id']);
                 }
             }
         }

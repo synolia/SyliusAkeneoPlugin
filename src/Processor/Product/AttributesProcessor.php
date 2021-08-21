@@ -4,37 +4,37 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask;
 
 class AttributesProcessor implements AttributesProcessorInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider */
     private $akeneoFamilyPropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\AddAttributesToProductTask */
-    private $addAttributesToProductTask;
-
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $client;
-
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface */
     private $productFilterRulesProvider;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface */
+    private $akeneoAttributeProcessorProvider;
+
+    /** @var \Psr\Log\LoggerInterface */
+    private $akeneoLogger;
+
     public function __construct(
         AkeneoFamilyPropertiesProvider $akeneoFamilyPropertiesProvider,
-        AddAttributesToProductTask $addAttributesToProductTask,
-        ClientFactory $clientFactory,
-        ProductFilterRulesProviderInterface $productFilterRulesProvider
+        ProductFilterRulesProviderInterface $productFilterRulesProvider,
+        AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
+        LoggerInterface $akeneoLogger
     ) {
         $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
-        $this->addAttributesToProductTask = $addAttributesToProductTask;
         $this->productFilterRulesProvider = $productFilterRulesProvider;
-        $this->client = $clientFactory->createFromApiCredentials();
+        $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
+        $this->akeneoLogger = $akeneoLogger;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -42,16 +42,24 @@ class AttributesProcessor implements AttributesProcessorInterface
         $filters = $this->productFilterRulesProvider->getProductFiltersRules();
         $family = $this->akeneoFamilyPropertiesProvider->getProperties($resource['family']);
 
-        $productResourcePayload = new ProductResourcePayload($this->client);
-        $productResourcePayload
-            ->setProduct($product)
-            ->setResource($resource)
-            ->setFamily($family)
-            ->setScope($filters->getChannel())
-        ;
+        foreach ($resource['values'] as $attributeCode => $translations) {
+            if ($family['attribute_as_label'] === $attributeCode) {
+                continue;
+            }
 
-        $this->addAttributesToProductTask->__invoke($productResourcePayload);
+            try {
+                $context = [
+                    'calledBy' => $this,
+                    'model' => $product,
+                    'scope' => $filters->getChannel(),
+                    'data' => $translations,
+                ];
 
-        unset($family, $productResourcePayload);
+                $processor = $this->akeneoAttributeProcessorProvider->getProcessor((string) $attributeCode, $context);
+                $processor->process((string) $attributeCode, $context);
+            } catch (MissingAkeneoAttributeProcessorException $missingAkeneoAttributeProcessorException) {
+                $this->akeneoLogger->debug($missingAkeneoAttributeProcessorException->getMessage());
+            }
+        }
     }
 }

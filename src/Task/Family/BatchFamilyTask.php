@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Family;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -12,14 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor;
-use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
-final class BatchFamilyTask implements AkeneoTaskInterface, BatchTaskInterface
+final class BatchFamilyTask extends AbstractBatchTask
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
     /** @var EntityRepository */
     private $productGroupRepository;
 
@@ -44,7 +39,8 @@ final class BatchFamilyTask implements AkeneoTaskInterface, BatchTaskInterface
         LoggerInterface $akeneoLogger,
         FamilyVariationAxeProcessor $familyVariationAxeProcessor
     ) {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager);
+
         $this->productGroupRepository = $productGroupRepository;
         $this->logger = $akeneoLogger;
         $this->familyVariationAxeProcessor = $familyVariationAxeProcessor;
@@ -57,18 +53,10 @@ final class BatchFamilyTask implements AkeneoTaskInterface, BatchTaskInterface
     {
         $this->logger->debug(self::class);
         $this->productGroupsMapping = [];
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
-            'SELECT id, `values`
-             FROM `%s`
-             WHERE id IN (%s)
-             ORDER BY id ASC',
-            FamilyPayload::TEMP_AKENEO_TABLE_NAME,
-            implode(',', $payload->getIds())
-        ));
-
-        $query->executeStatement();
-
         $resources = [];
+
+        $query = $this->getSelectStatement($payload);
+        $query->executeStatement();
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
@@ -77,21 +65,10 @@ final class BatchFamilyTask implements AkeneoTaskInterface, BatchTaskInterface
                     $resources[] = $resource;
 
                     $this->createProductGroups($resource);
-                    $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                        'DELETE FROM `%s` WHERE id = :id',
-                        FamilyPayload::TEMP_AKENEO_TABLE_NAME,
-                    ));
-                    $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                    $deleteQuery->execute();
+                    $this->removeEntry($payload, (int) $result['id']);
                 } catch (\Throwable $throwable) {
                     $this->logger->warning($throwable->getMessage());
-
-                    $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                        'DELETE FROM `%s` WHERE id = :id',
-                        FamilyPayload::TEMP_AKENEO_TABLE_NAME,
-                    ));
-                    $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                    $deleteQuery->execute();
+                    $this->removeEntry($payload, (int) $result['id']);
                 }
             }
         }

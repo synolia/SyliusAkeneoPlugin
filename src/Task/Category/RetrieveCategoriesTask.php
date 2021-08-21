@@ -12,6 +12,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
+/**
+ * @internal
+ */
 final class RetrieveCategoriesTask implements AkeneoTaskInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository */

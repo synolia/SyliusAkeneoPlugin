@@ -12,9 +12,9 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
-final class ProcessFamilyTask extends AbstractBatchTask
+final class ProcessFamilyTask extends AbstractProcessTask
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
     private $configurationProvider;
@@ -51,6 +51,7 @@ final class ProcessFamilyTask extends AbstractBatchTask
         );
 
         $this->handle($payload, $resources);
+        $this->processManager->waitForAllProcesses();
 
         return $payload;
     }

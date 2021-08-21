@@ -16,9 +16,9 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
-final class ProcessProductsTask extends AbstractBatchTask
+final class ProcessProductsTask extends AbstractProcessTask
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
     private $configurationProvider;
@@ -78,19 +78,18 @@ final class ProcessProductsTask extends AbstractBatchTask
         if ($count > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && $payload->allowParallel()) {
             $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
             $this->batch($payload, $ids);
-            $this->processManager->waitForAllProcesses();
         }
 
         if ($count > 0 && !$payload->isBatchingAllowed()) {
             $payload->setIds($ids);
             $this->task->__invoke($payload);
-
-            return $payload;
         }
 
         if ($count > 0 && !$payload->getProcessAsSoonAsPossible()) {
             $this->process($payload);
         }
+
+        $this->processManager->waitForAllProcesses();
 
         return $payload;
     }

@@ -11,9 +11,9 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
-final class ProcessAttributeTask extends AbstractBatchTask
+final class ProcessAttributeTask extends AbstractProcessTask
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
     private $configurationProvider;
@@ -51,6 +51,7 @@ final class ProcessAttributeTask extends AbstractBatchTask
         );
 
         $this->handle($payload, $page);
+        $this->processManager->waitForAllProcesses();
 
         return $payload;
     }

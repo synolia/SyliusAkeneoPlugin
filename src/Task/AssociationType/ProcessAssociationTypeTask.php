@@ -11,9 +11,9 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
-final class ProcessAssociationTypeTask extends AbstractBatchTask
+final class ProcessAssociationTypeTask extends AbstractProcessTask
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
     private $configurationProvider;

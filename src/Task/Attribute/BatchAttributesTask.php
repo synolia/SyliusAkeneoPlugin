@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Factory\AttributeFactory;
@@ -22,15 +21,13 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
@@ -38,13 +35,10 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEnt
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
 use Webmozart\Assert\Assert;
 
-final class BatchAttributesTask implements AkeneoTaskInterface, BatchTaskInterface
+final class BatchAttributesTask extends AbstractBatchTask
 {
     /** @var string */
     private $type;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
 
     /** @var RepositoryInterface */
     private $productAttributeRepository;
@@ -98,7 +92,8 @@ final class BatchAttributesTask implements AkeneoTaskInterface, BatchTaskInterfa
         EventDispatcherInterface $dispatcher,
         IsEnterpriseCheckerInterface $isEnterpriseChecker
     ) {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager);
+
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productAttributeFactory = $productAttributeFactory;
         $this->logger = $akeneoLogger;
@@ -121,13 +116,6 @@ final class BatchAttributesTask implements AkeneoTaskInterface, BatchTaskInterfa
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $schemaManager = $this->entityManager->getConnection()->getSchemaManager();
-        $tableExist = $schemaManager->tablesExist([$payload->getTmpTableName()]);
-
-        if (false === $tableExist) {
-            return $payload;
-        }
-
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
@@ -137,15 +125,7 @@ final class BatchAttributesTask implements AkeneoTaskInterface, BatchTaskInterfa
             $isEnterprise = $this->isEnterpriseChecker->isEnterprise();
             $this->entityManager->beginTransaction();
 
-            $query = $this->entityManager->getConnection()->prepare(\sprintf(
-                'SELECT id, `values`
-             FROM `%s`
-             WHERE id IN (%s)
-             ORDER BY id ASC',
-                AttributePayload::TEMP_AKENEO_TABLE_NAME,
-                implode(',', $payload->getIds())
-            ));
-
+            $query = $this->getSelectStatement($payload);
             $query->executeStatement();
 
             $variationAxes = \array_unique($this->getVariationAxes($payload));
@@ -174,22 +154,12 @@ final class BatchAttributesTask implements AkeneoTaskInterface, BatchTaskInterfa
                             $this->entityManager->commit();
                         }
 
-                        $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                            'DELETE FROM `%s` WHERE id = :id',
-                            $payload->getTmpTableName(),
-                        ));
-                        $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                        $deleteQuery->execute();
-
                         $this->entityManager->clear();
                         unset($resource, $attribute);
+
+                        $this->removeEntry($payload, (int) $result['id']);
                     } catch (UnsupportedAttributeTypeException | InvalidAttributeException | ExcludedAttributeException | NotFoundHttpException $throwable) {
-                        $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                            'DELETE FROM `%s` WHERE id = :id',
-                            $payload->getTmpTableName(),
-                        ));
-                        $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                        $deleteQuery->execute();
+                        $this->removeEntry($payload, (int) $result['id']);
                     } catch (\Throwable $throwable) {
                         if ($this->entityManager->getConnection()->isTransactionActive()) {
                             $this->entityManager->rollback();

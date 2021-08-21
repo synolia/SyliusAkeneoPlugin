@@ -6,15 +6,11 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Product\Factory\ProductFactory;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
-use Sylius\Component\Product\Model\ProductAssociationInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
-use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -30,7 +26,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
@@ -77,14 +73,8 @@ final class SimpleProductTask extends AbstractCreateProductEntities
     /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
     private $dispatcher;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productAssociationFactory;
-
-    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
-    private $productAssociationRepository;
-
-    /** @var \Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface */
-    private $productAssociationTypeRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface */
+    private $attributesProcessor;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -110,9 +100,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         EventDispatcherInterface $dispatcher,
         ProductChannelEnabler $productChannelEnabler,
-        FactoryInterface $productAssociationFactory,
-        EntityRepository $productAssociationRepository,
-        ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository
+        AttributesProcessorInterface $attributesProcessor
     ) {
         parent::__construct(
             $entityManager,
@@ -137,9 +125,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
         $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
         $this->dispatcher = $dispatcher;
-        $this->productAssociationFactory = $productAssociationFactory;
-        $this->productAssociationRepository = $productAssociationRepository;
-        $this->productAssociationTypeRepository = $productAssociationTypeRepository;
+        $this->attributesProcessor = $attributesProcessor;
     }
 
     /**
@@ -172,10 +158,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
             $productVariant = $this->getOrCreateSimpleVariant($product);
             $this->linkCategoriesToProduct($payload, $product, $resource['categories']);
 
-            $productResourcePayload = $this->insertAttributesToProduct($payload, $product, $resource['family'], $resource);
-            if (null === $productResourcePayload->getProduct()) {
-                return;
-            }
+            $this->attributesProcessor->process($product, $resource);
 
             $this->updateImages($payload, $resource, $product);
             $this->setProductPrices($productVariant, $resource['values']);
@@ -183,7 +166,6 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
             $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
-            $this->createAssociationForEachAssociations($resource);
 
             $this->entityManager->flush();
         } catch (\Throwable $throwable) {
@@ -311,30 +293,6 @@ final class SimpleProductTask extends AbstractCreateProductEntities
     /**
      * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
      */
-    private function insertAttributesToProduct(
-        PipelinePayloadInterface $payload,
-        ProductInterface $product,
-        string $familyCode,
-        array $resource
-    ): ProductResourcePayload {
-        $familyResource = $this->payload->getAkeneoPimClient()->getFamilyApi()->get($familyCode);
-
-        $productResourcePayload = new ProductResourcePayload($payload->getAkeneoPimClient());
-        $productResourcePayload
-            ->setProduct($product)
-            ->setResource($resource)
-            ->setFamily($familyResource)
-            ->setScope($this->scope)
-        ;
-        $addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
-        $addAttributesToProductTask->__invoke($productResourcePayload);
-
-        return $productResourcePayload;
-    }
-
-    /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
-     */
     private function updateImages(PipelinePayloadInterface $payload, array $resource, ProductInterface $product): void
     {
         $productMediaPayload = new ProductMediaPayload($payload->getAkeneoPimClient());
@@ -345,69 +303,5 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         ;
         $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
         $imageTask->__invoke($productMediaPayload);
-    }
-
-    private function createAssociationForEachAssociations(array $resource): void
-    {
-        $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
-        if (!$product instanceof ProductInterface) {
-            $this->logger->critical(sprintf('Product %s not found in database, association skip.', $resource['identifier']));
-
-            return;
-        }
-
-        foreach ($resource['associations'] as $associationTypeCode => $associations) {
-            $this->associateProducts($product, $associationTypeCode, $associations);
-        }
-
-        $this->entityManager->flush();
-    }
-
-    private function associateProducts(
-        ProductInterface $product,
-        string $associationTypeCode,
-        array $associations
-    ): void {
-        $productAssociationType = $this->productAssociationTypeRepository->findOneBy(['code' => $associationTypeCode]);
-        if (!$productAssociationType instanceof ProductAssociationTypeInterface) {
-            $this->logger->warning(sprintf('Product association type %s not found.', $associationTypeCode));
-
-            return;
-        }
-
-        $productAssociation = $this->productAssociationRepository->findOneBy(
-            [
-                'owner' => $product,
-                'type' => $productAssociationType
-            ]
-        );
-
-        if (!$productAssociation instanceof ProductAssociationInterface) {
-            $productAssociation = $this->productAssociationFactory->createNew();
-            if (!$productAssociation instanceof ProductAssociationInterface) {
-                throw new \LogicException('Not an instance of productAssociation.');
-            }
-        }
-
-        $productAssociation->setOwner($product);
-        $productAssociation->setType($productAssociationType);
-
-        foreach ($associations['products'] as $association) {
-            $this->associateProduct($productAssociation, $association);
-        }
-
-        $this->entityManager->persist($productAssociation);
-    }
-
-    private function associateProduct(ProductAssociationInterface $productAssociation, string $associatedProduct): void
-    {
-        $product = $this->productRepository->findOneBy(['code' => $associatedProduct]);
-        if (!$product instanceof ProductInterface) {
-            $this->logger->warning(sprintf('Product %s not and could not be associated', $associatedProduct));
-
-            return;
-        }
-
-        $productAssociation->addAssociatedProduct($product);
     }
 }

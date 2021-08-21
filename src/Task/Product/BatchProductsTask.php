@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
-use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
-final class BatchProductsTask implements AkeneoTaskInterface, BatchTaskInterface
+final class BatchProductsTask extends AbstractBatchTask
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
-
     /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\SimpleProductTask */
     private $batchSimpleProductTask;
 
@@ -27,7 +22,8 @@ final class BatchProductsTask implements AkeneoTaskInterface, BatchTaskInterface
         SimpleProductTask $batchSimpleProductTask,
         ConfigurableProductsTask $batchConfigurableProductsTask
     ) {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager);
+
         $this->batchSimpleProductTask = $batchSimpleProductTask;
         $this->batchConfigurableProductsTask = $batchConfigurableProductsTask;
     }
@@ -38,15 +34,7 @@ final class BatchProductsTask implements AkeneoTaskInterface, BatchTaskInterface
             return $payload;
         }
 
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
-            'SELECT id, `values`, `is_simple`
-             FROM `%s`
-             WHERE id IN (%s)
-             ORDER BY id ASC',
-            ProductPayload::TEMP_AKENEO_TABLE_NAME,
-            implode(',', $payload->getIds())
-        ));
-
+        $query = $this->getSelectStatement($payload);
         $query->executeStatement();
 
         while ($results = $query->fetchAll()) {
@@ -61,19 +49,9 @@ final class BatchProductsTask implements AkeneoTaskInterface, BatchTaskInterface
                         $this->batchConfigurableProductsTask->__invoke($payload, $resource);
                     }
 
-                    $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                        'DELETE FROM `%s` WHERE id = :id',
-                        ProductPayload::TEMP_AKENEO_TABLE_NAME,
-                    ));
-                    $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                    $deleteQuery->execute();
+                    $this->removeEntry($payload, (int) $result['id']);
                 } catch (\Throwable $throwable) {
-                    $deleteQuery = $this->entityManager->getConnection()->prepare(\sprintf(
-                        'DELETE FROM `%s` WHERE id = :id',
-                        ProductPayload::TEMP_AKENEO_TABLE_NAME,
-                    ));
-                    $deleteQuery->bindValue('id', $result['id'], ParameterType::INTEGER);
-                    $deleteQuery->execute();
+                    $this->removeEntry($payload, (int) $result['id']);
                 }
             }
         }
