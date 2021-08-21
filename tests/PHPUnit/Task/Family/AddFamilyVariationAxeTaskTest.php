@@ -13,8 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Family\ProcessFamilyTask;
-use Synolia\SyliusAkeneoPlugin\Task\Family\SetupFamilyTask;
-use Synolia\SyliusAkeneoPlugin\Task\Family\TearDownFamilyTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
@@ -51,14 +51,14 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $familyPayload = new FamilyPayload($this->createClient());
         $familyPayload->setProcessAsSoonAsPossible(false);
 
-        $setupFamilyTask = $this->taskProvider->get(SetupFamilyTask::class);
+        $setupFamilyTask = $this->taskProvider->get(SetupTask::class);
         $familyPayload = $setupFamilyTask->__invoke($familyPayload);
 
         /** @var ProcessFamilyTask $processFamilyTask */
         $processFamilyTask = $this->taskProvider->get(ProcessFamilyTask::class);
         $processFamilyTask->__invoke($familyPayload);
 
-        $tearDownFamilyTask = $this->taskProvider->get(TearDownFamilyTask::class);
+        $tearDownFamilyTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownFamilyTask->__invoke($familyPayload);
 
         /** @var ProductGroup $productGroup */

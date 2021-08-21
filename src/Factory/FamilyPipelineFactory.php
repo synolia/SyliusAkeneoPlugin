@@ -8,8 +8,8 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Task\Family\ProcessFamilyTask;
-use Synolia\SyliusAkeneoPlugin\Task\Family\SetupFamilyTask;
-use Synolia\SyliusAkeneoPlugin\Task\Family\TearDownFamilyTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 final class FamilyPipelineFactory extends AbstractPipelineFactory
 {
@@ -18,9 +18,9 @@ final class FamilyPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(SetupFamilyTask::class))
+            ->pipe($this->taskProvider->get(SetupTask::class))
             ->pipe($this->taskProvider->get(ProcessFamilyTask::class))
-            ->pipe($this->taskProvider->get(TearDownFamilyTask::class))
+            ->pipe($this->taskProvider->get(TearDownTask::class))
         ;
     }
 }

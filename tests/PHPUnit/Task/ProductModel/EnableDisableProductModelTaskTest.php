@@ -9,8 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductModelTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\TearDownProductModelTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
@@ -39,15 +39,14 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $productModelPayload = new ProductModelPayload($this->createClient());
         $productModelPayload->disableBatching();
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductModelTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productModelPayload = $setupProductModelsTask->__invoke($productModelPayload);
 
         /** @var ProcessProductModelsTask $processProductModelsTask */
         $processProductModelsTask = $this->taskProvider->get(ProcessProductModelsTask::class);
         $productModelPayload = $processProductModelsTask->__invoke($productModelPayload);
 
-        /** @var TearDownProductModelTask $tearDownProductModelTask */
-        $tearDownProductModelTask = $this->taskProvider->get(TearDownProductModelTask::class);
+        $tearDownProductModelTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownProductModelTask->__invoke($productModelPayload);
 
         /** @var Product $product */

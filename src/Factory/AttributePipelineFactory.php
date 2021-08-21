@@ -8,8 +8,8 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\ProcessAttributeTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\SetupAttributeTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\TearDownAttributeTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 final class AttributePipelineFactory extends AbstractPipelineFactory
 {
@@ -18,9 +18,9 @@ final class AttributePipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(SetupAttributeTask::class))
+            ->pipe($this->taskProvider->get(SetupTask::class))
             ->pipe($this->taskProvider->get(ProcessAttributeTask::class))
-            ->pipe($this->taskProvider->get(TearDownAttributeTask::class))
+            ->pipe($this->taskProvider->get(TearDownTask::class))
         ;
     }
 }

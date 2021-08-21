@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\ProcessAttributeTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\SetupAttributeTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\TearDownAttributeTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
@@ -30,7 +30,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTest
         $attributesCount = $this->getContainer()->get('sylius.repository.product_attribute')->count([]);
         $payload = new AttributePayload($this->createClient());
 
-        $setupAttributeTask = $this->taskProvider->get(SetupAttributeTask::class);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
         $setupPayload = $setupAttributeTask->__invoke($payload);
 
         /** @var ProcessAttributeTask $task */
@@ -51,14 +51,14 @@ final class ProcessAttributesTaskTest extends AbstractTaskTest
 
         $initialPayload = new AttributePayload($this->createClient());
         $initialPayload->disableBatching();
-        $setupAttributeTask = $this->taskProvider->get(SetupAttributeTask::class);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
         $setupPayload = $setupAttributeTask->__invoke($initialPayload);
 
         /** @var ProcessAttributeTask $task */
         $task = $this->taskProvider->get(ProcessAttributeTask::class);
         $payload = $task->__invoke($setupPayload);
 
-        $tearDownAttributeTask = $this->taskProvider->get(TearDownAttributeTask::class);
+        $tearDownAttributeTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownAttributeTask->__invoke($payload);
 
         /** @var \Sylius\Component\Product\Model\ProductAttribute $careInstructionProductAttribute */

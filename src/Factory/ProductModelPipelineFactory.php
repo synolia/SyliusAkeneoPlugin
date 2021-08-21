@@ -8,8 +8,8 @@ use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductModelTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\TearDownProductModelTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 final class ProductModelPipelineFactory extends AbstractPipelineFactory
 {
@@ -18,9 +18,9 @@ final class ProductModelPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(SetupProductModelTask::class))
+            ->pipe($this->taskProvider->get(SetupTask::class))
             ->pipe($this->taskProvider->get(ProcessProductModelsTask::class))
-            ->pipe($this->taskProvider->get(TearDownProductModelTask::class))
+            ->pipe($this->taskProvider->get(TearDownTask::class))
         ;
     }
 }
