@@ -23,3 +23,4 @@ parameters:
 
     ignoreErrors:
         - '#Cannot call method [a-zA-Z0-9]+\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
+        - '#Call to an undefined method League\\Pipeline\\PipelineInterface\:\:process\(\).#'

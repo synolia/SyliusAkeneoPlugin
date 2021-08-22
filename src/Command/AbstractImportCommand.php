@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContext;
-use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Command\CommandLockedException;
+use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Factory\PipelineFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 
 abstract class AbstractImportCommand extends Command
 {
@@ -18,6 +19,31 @@ abstract class AbstractImportCommand extends Command
 
     /** @var string The default command description */
     protected static $defaultDescription = '';
+
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface */
+    protected $payloadFactory;
+
+    /** @var \League\Pipeline\PipelineInterface */
+    protected $pipeline;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Factory\PipelineFactoryInterface */
+    private $pipelineFactory;
+
+    public function __construct(
+        LoggerInterface $akeneoLogger,
+        PayloadFactoryInterface $payloadFactory,
+        PipelineFactoryInterface $pipelineFactory,
+        string $name = null
+    ) {
+        parent::__construct($name);
+
+        $this->logger = $akeneoLogger;
+        $this->payloadFactory = $payloadFactory;
+        $this->pipelineFactory = $pipelineFactory;
+    }
 
     protected function configure(): void
     {
@@ -31,28 +57,20 @@ abstract class AbstractImportCommand extends Command
         ;
     }
 
-    protected function createContext(
-        InputInterface $input,
-        OutputInterface $output
-    ): CommandContextInterface {
-        $helper = $this->getHelper('question');
-        $context = new CommandContext($input, $output, $helper);
-
-        $isBatchingAllowed = !($input->getOption('disable-batch') ?? true);
-        $isParallelAllowed = $input->getOption('parallel') ?? false;
-
-        $context
-            ->setIsContinue($input->getOption('continue') ?? false)
-            ->setAllowParallel($isParallelAllowed)
-            ->setBatchingAllowed($isBatchingAllowed)
-            ->setBatchSize((int) $input->getOption('batch-size'))
-            ->setMaxRunningProcessQueueSize((int) $input->getOption('max-concurrency'))
-        ;
-
-        if (!$isBatchingAllowed) {
-            $context->disableBatching();
+    protected function preExecute(): void
+    {
+        if (!$this->lock()) {
+            throw new CommandLockedException(Messages::commandAlreadyRunning());
         }
 
-        return $context;
+        $this->logger->notice(static::$defaultName ?? '');
+
+        $this->pipeline = $this->pipelineFactory->create();
+    }
+
+    protected function postExecute(): void
+    {
+        $this->logger->notice(Messages::endOfCommand(static::$defaultName ?? ''));
+        $this->release();
     }
 }

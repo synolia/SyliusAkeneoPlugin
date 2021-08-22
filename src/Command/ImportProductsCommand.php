@@ -8,9 +8,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Command\CommandLockedException;
+use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 
 final class ImportProductsCommand extends AbstractImportCommand
@@ -22,51 +22,32 @@ final class ImportProductsCommand extends AbstractImportCommand
     /** @var string */
     protected static $defaultName = 'akeneo:import:products';
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\ProductPipelineFactory */
-    private $productPipelineFactory;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        ProductPipelineFactory $productPipelineFactory,
-        ClientFactoryInterface $clientFactory,
+        ProductPipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
+        PayloadFactoryInterface $payloadFactory,
         string $name = null
     ) {
-        parent::__construct($name);
-        $this->productPipelineFactory = $productPipelineFactory;
-        $this->clientFactory = $clientFactory;
-        $this->logger = $akeneoLogger;
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, $name);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output
-    ) {
-        if (!$this->lock()) {
-            $output->writeln(Messages::commandAlreadyRunning());
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        try {
+            $this->preExecute();
 
-            return 0;
+            $payload = $this->payloadFactory->createFromCommand(ProductPayload::class, $input, $output);
+            $this->pipeline->process($payload);
+
+            $this->postExecute();
+        } catch (CommandLockedException $commandLockedException) {
+            $this->logger->warning($commandLockedException->getMessage());
+
+            return 1;
         }
-
-        $context = parent::createContext($input, $output);
-
-        $this->logger->notice(self::$defaultName);
-        /** @var \League\Pipeline\Pipeline $productPipeline */
-        $productPipeline = $this->productPipelineFactory->create();
-
-        $productPayload = new ProductPayload($this->clientFactory->createFromApiCredentials(), $context);
-        $productPipeline->process($productPayload);
-
-        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
-        $this->release();
 
         return 0;
     }
