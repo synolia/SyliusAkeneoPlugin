@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
 
@@ -31,14 +31,14 @@ final class ApiConfigurationController extends AbstractController
     /** @var FlashBagInterface */
     private $flashBag;
 
-    /** @var ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $apiConfigurationRepository,
         FlashBagInterface $flashBag,
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;

@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -22,7 +22,7 @@ final class ImportProductsCommand extends AbstractImportCommand
     /** @var string */
     protected static $defaultName = 'akeneo:import:products';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Factory\ProductPipelineFactory */
@@ -33,7 +33,7 @@ final class ImportProductsCommand extends AbstractImportCommand
 
     public function __construct(
         ProductPipelineFactory $productPipelineFactory,
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
         string $name = null
     ) {

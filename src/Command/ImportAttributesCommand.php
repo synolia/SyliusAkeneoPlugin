@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -25,7 +25,7 @@ final class ImportAttributesCommand extends AbstractImportCommand
     /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory */
     private $attributePipelineFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     /** @var LoggerInterface */
@@ -33,7 +33,7 @@ final class ImportAttributesCommand extends AbstractImportCommand
 
     public function __construct(
         AttributePipelineFactory $attributePipelineFactory,
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
         string $name = null
     ) {

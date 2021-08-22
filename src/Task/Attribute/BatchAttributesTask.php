@@ -28,7 +28,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
-use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
@@ -55,7 +55,7 @@ final class BatchAttributesTask extends AbstractBatchTask
     /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
     private $attributeTypeMatcher;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformer */
+    /** @var AkeneoAttributeToSyliusAttributeTransformerInterface */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
     /** @var ExcludedAttributesProviderInterface */
@@ -80,7 +80,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeRepository,
-        AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
+        AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
         FactoryInterface $productAttributeFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,

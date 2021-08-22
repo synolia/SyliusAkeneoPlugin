@@ -9,7 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrSc
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 
-final class AkeneoReferenceEntityAttributeDataProvider
+final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenceEntityAttributeDataProviderInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributePropertiesProvider */
     private $akeneoReferenceEntityAttributePropertiesProvider;

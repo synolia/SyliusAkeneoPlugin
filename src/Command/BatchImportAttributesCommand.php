@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Command;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\BatchAttributesTask;
 
@@ -18,7 +18,7 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
     /** @var string */
     protected static $defaultName = 'akeneo:batch:attributes';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     /** @var LoggerInterface */
@@ -28,7 +28,7 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
     private $attributesTask;
 
     public function __construct(
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
         BatchAttributesTask $batchAttributesTask,
         string $name = null

@@ -8,12 +8,12 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 
 class AttributesProcessor implements AttributesProcessorInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider */
+    /** @var AkeneoFamilyPropertiesProviderInterface */
     private $akeneoFamilyPropertiesProvider;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface */
@@ -26,7 +26,7 @@ class AttributesProcessor implements AttributesProcessorInterface
     private $akeneoLogger;
 
     public function __construct(
-        AkeneoFamilyPropertiesProvider $akeneoFamilyPropertiesProvider,
+        AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
         ProductFilterRulesProviderInterface $productFilterRulesProvider,
         AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
         LoggerInterface $akeneoLogger

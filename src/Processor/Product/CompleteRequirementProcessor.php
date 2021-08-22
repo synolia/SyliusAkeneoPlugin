@@ -12,13 +12,13 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 
 class CompleteRequirementProcessor implements CompleteRequirementProcessorInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider */
+    /** @var AkeneoFamilyPropertiesProviderInterface */
     private $akeneoFamilyPropertiesProvider;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
@@ -43,7 +43,7 @@ class CompleteRequirementProcessor implements CompleteRequirementProcessorInterf
     private $productTranslationFactory;
 
     public function __construct(
-        AkeneoFamilyPropertiesProvider $akeneoFamilyPropertiesProvider,
+        AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         ProductFilterRulesProviderInterface $productFilterRulesProvider,

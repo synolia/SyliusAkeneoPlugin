@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
-final class AkeneoFamilyPropertiesProvider
+final class AkeneoFamilyPropertiesProvider implements AkeneoFamilyPropertiesProviderInterface
 {
     /** @var bool */
     private $loadsAllFamiliesAtOnce = false;
@@ -20,13 +20,6 @@ final class AkeneoFamilyPropertiesProvider
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
         $this->client = $akeneoPimClient;
-    }
-
-    public function setLoadsAllFamiliesAtOnce(bool $loadsAllFamiliesAtOnce): self
-    {
-        $this->loadsAllFamiliesAtOnce = $loadsAllFamiliesAtOnce;
-
-        return $this;
     }
 
     public function getProperties(string $familyCode): array

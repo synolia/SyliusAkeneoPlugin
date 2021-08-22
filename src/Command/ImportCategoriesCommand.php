@@ -9,7 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
@@ -29,12 +29,12 @@ final class ImportCategoriesCommand extends Command
     /** @var \Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory */
     private $categoryPipelineFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     public function __construct(
         CategoryPipelineFactory $categoryPipelineFactory,
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
         string $name = null
     ) {

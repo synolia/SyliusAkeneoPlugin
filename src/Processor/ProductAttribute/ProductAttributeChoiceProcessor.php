@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -40,7 +40,7 @@ class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessor
     private $entityManager;
 
     public function __construct(
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,

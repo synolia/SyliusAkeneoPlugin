@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Command;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\BatchProductModelTask;
 
@@ -24,11 +24,11 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     public function __construct(
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         BatchProductModelTask $batchProductModelTask,
         LoggerInterface $akeneoLogger,
         string $name = null

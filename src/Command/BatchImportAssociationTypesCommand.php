@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Command;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Task\AssociationType\BatchAssociationTypesTask;
 
@@ -18,7 +18,7 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
     /** @var string */
     public static $defaultName = 'akeneo:batch:association-types';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     /** @var LoggerInterface */
@@ -28,7 +28,7 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
     private $batchAssociationTypesTask;
 
     public function __construct(
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
         BatchAssociationTypesTask $batchAssociationTypesTask,
         string $name = null
