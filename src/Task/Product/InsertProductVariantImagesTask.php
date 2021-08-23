@@ -28,7 +28,7 @@ final class InsertProductVariantImagesTask extends AbstractInsertProductImageTas
 
             $this->cleanImages($productVariant);
 
-            $configuration = $this->productConfigurationRepository->findOneBy([]);
+            $configuration = $this->productConfigurationProvider->getProductConfiguration();
 
             if (!$configuration instanceof ProductConfiguration) {
                 return $payload;

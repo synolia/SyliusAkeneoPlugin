@@ -19,6 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 
 class AbstractCreateProductEntities
@@ -52,8 +53,8 @@ class AbstractCreateProductEntities
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productConfigurationRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface */
+    protected $productConfigurationProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -62,7 +63,7 @@ class AbstractCreateProductEntities
         ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
-        RepositoryInterface $productConfigurationRepository,
+        ProductConfigurationProviderInterface $productConfigurationProvider,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         LoggerInterface $akeneoLogger
@@ -73,7 +74,7 @@ class AbstractCreateProductEntities
         $this->productRepository = $productRepository;
         $this->channelRepository = $channelRepository;
         $this->channelPricingRepository = $channelPricingRepository;
-        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->productConfigurationProvider = $productConfigurationProvider;
         $this->channelPricingFactory = $channelPricingFactory;
         $this->localeRepository = $localeRepository;
         $this->logger = $akeneoLogger;
@@ -173,7 +174,7 @@ class AbstractCreateProductEntities
     private function getPriceAttributeData(array $attributes): array
     {
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationProvider->getProductConfiguration();
 
         if (!$productConfiguration instanceof ProductConfiguration) {
             throw new NoProductConfigurationException('Product Configuration is not configured in BO.');

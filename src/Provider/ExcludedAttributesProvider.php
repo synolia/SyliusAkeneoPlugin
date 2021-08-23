@@ -5,24 +5,23 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 
 class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productConfigurationRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface */
+    private $productConfigurationProvider;
 
-    public function __construct(RepositoryInterface $productConfigurationRepository)
+    public function __construct(ProductConfigurationProviderInterface $productConfigurationProvider)
     {
-        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->productConfigurationProvider = $productConfigurationProvider;
     }
 
     public function getExcludedAttributes(): array
     {
         $excludedAttributeCodes = [];
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationProvider->getProductConfiguration();
 
         if (!$productConfiguration instanceof ProductConfiguration) {
             return [];

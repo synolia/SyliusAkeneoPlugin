@@ -21,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -30,6 +31,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -91,7 +93,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         RepositoryInterface $productVariantRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
-        RepositoryInterface $productConfigurationRepository,
+        ProductConfigurationProviderInterface $productConfigurationProvider,
         FactoryInterface $productFactory,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
@@ -113,7 +115,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             $channelRepository,
             $channelPricingRepository,
             $localeRepository,
-            $productConfigurationRepository,
+            $productConfigurationProvider,
             $productVariantFactory,
             $channelPricingFactory,
             $akeneoLogger
@@ -140,7 +142,11 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->logger->debug(self::class);
         $this->type = 'SimpleProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
-        $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationProvider->getProductConfiguration();
+        if (!$productConfiguration instanceof ProductConfiguration) {
+            throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
+        }
+        $this->productConfiguration = $productConfiguration;
 
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
         $filters = $this->productFiltersRulesRepository->findOneBy([]);

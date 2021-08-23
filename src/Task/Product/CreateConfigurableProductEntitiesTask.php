@@ -30,6 +30,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
@@ -96,7 +97,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
         RepositoryInterface $localeRepository,
-        RepositoryInterface $productConfigurationRepository,
+        ProductConfigurationProviderInterface $productConfigurationProvider,
         ProductGroupRepository $productGroupRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
@@ -116,7 +117,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             $channelRepository,
             $channelPricingRepository,
             $localeRepository,
-            $productConfigurationRepository,
+            $productConfigurationProvider,
             $productVariantFactory,
             $channelPricingFactory,
             $akeneoLogger

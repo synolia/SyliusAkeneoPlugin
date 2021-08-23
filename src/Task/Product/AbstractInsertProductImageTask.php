@@ -12,18 +12,18 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface;
 
 class AbstractInsertProductImageTask
 {
     /** @var \Sylius\Component\Core\Uploader\ImageUploaderInterface */
     protected $imageUploader;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productConfigurationRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface */
+    protected $productConfigurationProvider;
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $entityManager;
@@ -39,13 +39,13 @@ class AbstractInsertProductImageTask
 
     public function __construct(
         ImageUploaderInterface $imageUploader,
-        RepositoryInterface $productConfigurationRepository,
+        ProductConfigurationProviderInterface $productConfigurationProvider,
         EntityManagerInterface $entityManager,
         FactoryInterface $productImageFactory,
         LoggerInterface $akeneoLogger
     ) {
         $this->imageUploader = $imageUploader;
-        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->productConfigurationProvider = $productConfigurationProvider;
         $this->entityManager = $entityManager;
         $this->productImageFactory = $productImageFactory;
         $this->logger = $akeneoLogger;
