@@ -24,6 +24,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -35,6 +36,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductTaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
@@ -107,8 +109,8 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $productTranslationRepository;
 
-    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
-    private $productConfigurationRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface */
+    private $productConfigurationProvider;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productTranslationFactory;
@@ -149,7 +151,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         ProductFiltersRulesRepository $productFiltersRulesRepository,
         RepositoryInterface $productTranslationRepository,
-        EntityRepository $productConfigurationRepository,
+        ProductConfigurationProviderInterface $productConfigurationProvider,
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
         AkeneoFamilyPropertiesProvider $akeneoFamilyPropertiesProvider,
@@ -168,7 +170,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
         $this->productTranslationRepository = $productTranslationRepository;
-        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->productConfigurationProvider = $productConfigurationProvider;
         $this->productTranslationFactory = $productTranslationFactory;
         $this->productSlugGenerator = $productSlugGenerator;
         $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
@@ -184,7 +186,11 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
         $this->payload = $payload;
-        $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationProvider->getProductConfiguration();
+        if (!$productConfiguration instanceof ProductConfiguration) {
+            throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
+        }
+        $this->productConfiguration = $productConfiguration;
         $this->addAttributesToProductTask = $this->taskProvider->get(AddAttributesToProductTask::class);
         $this->addProductCategoriesTask = $this->taskProvider->get(AddProductToCategoriesTask::class);
 
@@ -359,7 +365,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             $productTranslation = $this->setProductTranslation($product, $usedLocalesOnBothPlatform, $productName);
 
             /** @var ProductConfiguration $configuration */
-            $configuration = $this->productConfigurationRepository->findOneBy([]);
+            $configuration = $this->productConfigurationProvider->getProductConfiguration();
             if (null !== $product->getId() &&
                 null !== $configuration &&
                 null !== $productTranslation->getSlug() &&

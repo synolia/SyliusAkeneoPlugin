@@ -11,8 +11,8 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
-use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
 final class ProductChannelEnabler
 {
@@ -22,20 +22,20 @@ final class ProductChannelEnabler
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository */
-    private $productConfigurationRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductConfigurationProviderInterface */
+    private $productConfigurationProvider;
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
 
     public function __construct(
         ChannelRepository $channelRepository,
-        ProductConfigurationRepository $productConfigurationRepository,
+        ProductConfigurationProviderInterface $productConfigurationProvider,
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager
     ) {
         $this->channelRepository = $channelRepository;
-        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->productConfigurationProvider = $productConfigurationProvider;
         $this->logger = $akeneoLogger;
         $this->entityManager = $entityManager;
     }
@@ -83,7 +83,7 @@ final class ProductChannelEnabler
     public function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
     {
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationProvider->getProductConfiguration();
 
         if (!$productConfiguration instanceof ProductConfiguration) {
             throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
