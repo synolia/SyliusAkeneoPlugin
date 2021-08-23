@@ -6,7 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\Filter;
 
 interface ProductFilterInterface
 {
-    public function getProductModelFilters(): array;
+    public function getModelQueryParameters(): array;
 
-    public function getProductFilters(): array;
+    public function getQueryParameters(): array;
+
+    public function getChannel(): ?string;
 }

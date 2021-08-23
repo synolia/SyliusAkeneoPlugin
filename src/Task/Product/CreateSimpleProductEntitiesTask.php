@@ -15,13 +15,13 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
@@ -31,7 +31,6 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
-use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -67,8 +66,8 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
     private $productSlugGenerator;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface */
+    private $productFilter;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
@@ -98,7 +97,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         EntityManagerInterface $entityManager,
         AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
-        ProductFiltersRulesRepository $productFiltersRulesRepository,
+        ProductFilterInterface $productFilter,
         RepositoryInterface $productTranslationRepository,
         FactoryInterface $productTranslationFactory,
         SlugGeneratorInterface $productSlugGenerator,
@@ -121,7 +120,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
         $this->productFactory = $productFactory;
         $this->taskProvider = $taskProvider;
-        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
+        $this->productFilter = $productFilter;
         $this->productTranslationRepository = $productTranslationRepository;
         $this->productTranslationFactory = $productTranslationFactory;
         $this->productSlugGenerator = $productSlugGenerator;
@@ -142,12 +141,11 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         $this->logger->notice(Messages::createOrUpdate($this->type));
         $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
-        $filters = $this->productFiltersRulesRepository->findOneBy([]);
-        if (!$filters instanceof ProductFiltersRules) {
+        $scope = $this->productFilter->getChannel();
+        if ($scope === null) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
         }
-        $this->scope = $filters->getChannel();
+        $this->scope = $scope;
 
         $processedCount = 0;
         $totalItemsCount = $this->countTotalProducts(true);
