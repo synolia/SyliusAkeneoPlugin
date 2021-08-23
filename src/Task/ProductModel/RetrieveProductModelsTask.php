@@ -50,7 +50,7 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $queryParameters = $this->productFilter->getProductModelFilters();
+        $queryParameters = $this->productFilter->getModelQueryParameters();
 
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));

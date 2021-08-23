@@ -17,12 +17,12 @@ use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -31,7 +31,6 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
-use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
@@ -71,8 +70,8 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
     /** @var string */
     private $type;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface */
+    private $productFilter;
 
     /** @var string */
     private $scope;
@@ -105,7 +104,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         FactoryInterface $productOptionValueFactory,
         RepositoryInterface $productVariantTranslationRepository,
         FactoryInterface $productVariantTranslationFactory,
-        ProductFiltersRulesRepository $productFiltersRulesRepository,
+        ProductFilterInterface $productFilter,
         AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
         EventDispatcherInterface $dispatcher
     ) {
@@ -130,7 +129,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueFactory = $productOptionValueFactory;
         $this->productVariantTranslationRepository = $productVariantTranslationRepository;
         $this->productVariantTranslationFactory = $productVariantTranslationFactory;
-        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
+        $this->productFilter = $productFilter;
         $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
         $this->dispatcher = $dispatcher;
     }
@@ -146,12 +145,12 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->logger->debug(self::class);
         $this->type = 'ConfigurableProduct';
         $this->logger->notice(Messages::createOrUpdate($this->type));
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
-        $filters = $this->productFiltersRulesRepository->findOneBy([]);
-        if (!$filters instanceof ProductFiltersRules) {
+
+        $scope = $this->productFilter->getChannel();
+        if ($scope === null) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
         }
-        $this->scope = $filters->getChannel();
+        $this->scope = $scope;
 
         $processedCount = 0;
         $totalItemsCount = $this->countTotalProducts(false);

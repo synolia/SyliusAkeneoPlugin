@@ -43,7 +43,7 @@ final class ProductFilter implements ProductFilterInterface
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
-    public function getProductModelFilters(): array
+    public function getModelQueryParameters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
@@ -75,7 +75,7 @@ final class ProductFilter implements ProductFilterInterface
         return $queryParameters;
     }
 
-    public function getProductFilters(): array
+    public function getQueryParameters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
@@ -106,6 +106,17 @@ final class ProductFilter implements ProductFilterInterface
         }
 
         return $queryParameters;
+    }
+
+    public function getChannel(): ?string
+    {
+        /** @var ProductFiltersRules $productFilterRules */
+        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
+        if (!$productFilterRules instanceof ProductFiltersRules) {
+            return null;
+        }
+
+        return $productFilterRules->getChannel();
     }
 
     private function getStatus(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
