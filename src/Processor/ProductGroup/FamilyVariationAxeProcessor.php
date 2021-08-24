@@ -8,7 +8,7 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
-use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
+use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
 
 class FamilyVariationAxeProcessor
 {
@@ -18,7 +18,7 @@ class FamilyVariationAxeProcessor
     /** @var EntityRepository */
     private $productGroupRepository;
 
-    /** @var FamilyRetriever */
+    /** @var FamilyRetrieverInterface */
     private $familyRetriever;
 
     /** @var LoggerInterface */
@@ -33,7 +33,7 @@ class FamilyVariationAxeProcessor
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
         EntityRepository $productGroupRepository,
-        FamilyRetriever $familyRetriever,
+        FamilyRetrieverInterface $familyRetriever,
         LoggerInterface $akeneoLogger
     ) {
         $this->akeneoPimEnterpriseClient = $akeneoPimEnterpriseClient;

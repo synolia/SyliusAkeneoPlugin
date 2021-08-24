@@ -8,7 +8,7 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 
-final class FamilyRetriever
+final class FamilyRetriever implements FamilyRetrieverInterface
 {
     /** @var array<string> */
     private $familiesByVariant = [];
