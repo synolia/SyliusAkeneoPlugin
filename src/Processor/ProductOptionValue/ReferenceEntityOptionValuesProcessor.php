@@ -14,9 +14,8 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
@@ -32,10 +31,10 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
     private $akeneoAttributePropertiesProvider;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
-
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $localeRepository;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface */
+    private $isEnterpriseChecker;
 
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
@@ -46,9 +45,9 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         EntityManagerInterface $entityManager,
         AkeneoPimEnterpriseClientInterface $client,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        RepositoryInterface $apiConfigurationRepository,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
-        RepositoryInterface $localeRepository
+        RepositoryInterface $localeRepository,
+        IsEnterpriseCheckerInterface $isEnterpriseChecker
     ) {
         parent::__construct(
             $productOptionValueRepository,
@@ -62,8 +61,8 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 
         $this->client = $client;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->localeRepository = $localeRepository;
+        $this->isEnterpriseChecker = $isEnterpriseChecker;
     }
 
     public static function getDefaultPriority(): int
@@ -73,19 +72,7 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 
     public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
     {
-        return ReferenceEntityAttributeType::TYPE === $attribute->getType() && $this->isEnterprise();
-    }
-
-    private function isEnterprise(): bool
-    {
-        /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
-
-        if (!$apiConfiguration instanceof ApiConfiguration) {
-            throw new ApiNotConfiguredException();
-        }
-
-        return $apiConfiguration->isEnterprise() ?? false;
+        return ReferenceEntityAttributeType::TYPE === $attribute->getType() && $this->isEnterpriseChecker->isEnterprise();
     }
 
     public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void

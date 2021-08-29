@@ -13,10 +13,9 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\BeforeProcessingAttributeEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
@@ -67,11 +66,11 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     /** @var ExcludedAttributesProviderInterface */
     private $excludedAttributesProvider;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
-
     /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
     private $dispatcher;
+
+    /** @var \Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface */
+    private $isEnterpriseChecker;
 
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -82,8 +81,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
         ExcludedAttributesProviderInterface $excludedAttributesProvider,
-        RepositoryInterface $apiConfigurationRepository,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        IsEnterpriseCheckerInterface $isEnterpriseChecker
     ) {
         $this->entityManager = $entityManager;
         $this->productAttributeRepository = $productAttributeRepository;
@@ -92,9 +91,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->excludedAttributesProvider = $excludedAttributesProvider;
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
         $this->dispatcher = $dispatcher;
+        $this->isEnterpriseChecker = $isEnterpriseChecker;
     }
 
     /**
@@ -109,16 +108,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
-
-        if (!$apiConfiguration instanceof ApiConfiguration) {
-            throw new ApiNotConfiguredException();
-        }
-
         try {
             $excludesAttributes = $this->excludedAttributesProvider->getExcludedAttributes();
-            $isEnterprise = $apiConfiguration->isEnterprise() ?? false;
+            $isEnterprise = $this->isEnterpriseChecker->isEnterprise();
             $this->entityManager->beginTransaction();
 
             $processedCount = 0;
