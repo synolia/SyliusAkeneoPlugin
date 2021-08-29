@@ -85,10 +85,9 @@ final class BatchAttributesTask extends AbstractBatchTask
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
         ExcludedAttributesProviderInterface $excludedAttributesProvider,
-        RepositoryInterface $apiConfigurationRepository,
         ConfigurationProvider $configurationProvider,
         ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
-        ProductOptionProcessorInterface $productOptionProcessor
+        ProductOptionProcessorInterface $productOptionProcessor,
         EventDispatcherInterface $dispatcher,
         IsEnterpriseCheckerInterface $isEnterpriseChecker
     ) {
