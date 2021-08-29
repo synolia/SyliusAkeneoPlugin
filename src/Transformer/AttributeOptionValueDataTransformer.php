@@ -19,6 +19,6 @@ class AttributeOptionValueDataTransformer implements AttributeOptionValueDataTra
 
     public function reverseTransform(string $value): string
     {
-        return \str_replace(\sprintf('%s', self::AKENEO_PREFIX), '', $value);
+        return \str_replace(self::AKENEO_PREFIX, '', $value);
     }
 }
