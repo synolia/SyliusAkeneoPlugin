@@ -15,7 +15,6 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
-use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
@@ -84,16 +83,17 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         $records = $this->client->getReferenceEntityRecordApi()->all($referenceEntityAttributeProperties['reference_data_name']);
 
         foreach ($records as $record) {
+            $optionValueCode = $this->productOptionValueDataTransformer->transform($productOption, $record['code']);
+
             $productOptionValue = $this->productOptionValueRepository->findOneBy([
-                'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, self::AKENEO_PREFIX . (string) $record['code']),
+                'code' => $optionValueCode,
                 'option' => $productOption,
             ]);
 
-            //TODO: use ProductOptionValueDataTransformer
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
                 /** @var ProductOptionValueInterface $productOptionValue */
                 $productOptionValue = $this->productOptionValueFactory->createNew();
-                $productOptionValue->setCode(ProductOptionManager::getOptionValueCodeFromProductOption($productOption, self::AKENEO_PREFIX . (string) $record['code']));
+                $productOptionValue->setCode($optionValueCode);
                 $productOptionValue->setOption($productOption);
                 $this->entityManager->persist($productOptionValue);
             }

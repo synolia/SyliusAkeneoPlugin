@@ -22,7 +22,6 @@ use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVarian
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
-use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
@@ -33,6 +32,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
 final class ConfigurableProductsTask extends AbstractCreateProductEntities
 {
@@ -69,6 +69,9 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
     private $dispatcher;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface */
+    private $productOptionValueDataTransformer;
+
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -93,7 +96,8 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         ProductFiltersRulesRepository $productFiltersRulesRepository,
         AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
         EventDispatcherInterface $dispatcher,
-        ProductChannelEnabler $productChannelEnabler
+        ProductChannelEnabler $productChannelEnabler,
+        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer
     ) {
         parent::__construct(
             $entityManager,
@@ -119,6 +123,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
         $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
         $this->dispatcher = $dispatcher;
+        $this->productOptionValueDataTransformer = $productOptionValueDataTransformer;
     }
 
     /**
@@ -191,12 +196,6 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     ): ProductVariantInterface {
         $productVariant = $this->getOrCreateEntity($variantCode, $productModel);
 
-        /*
-         * TODO: In the future
-         * Do not process attributes of the model
-         * Add family and family_variant to the ProductGroup model for reference
-         * Foreach attributes not in the last variation axis, remove them.
-         */
         foreach ($attributes as $attributeCode => $values) {
             try {
                 $processor = $this->akeneoAttributeProcessorProvider->getProcessor((string) $attributeCode, [
@@ -315,16 +314,10 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     private function getCode(ProductOptionInterface $productOption, $data): string
     {
         if (!\is_array($data)) {
-            return ProductOptionManager::getOptionValueCodeFromProductOption(
-                $productOption,
-                \Synolia\SyliusAkeneoPlugin\Task\Product\AbstractCreateProductEntities::AKENEO_PREFIX . $data
-            );
+            return $this->productOptionValueDataTransformer->transform($productOption, $data);
         }
 
-        return ProductOptionManager::getOptionValueCodeFromProductOption(
-            $productOption,
-            \Synolia\SyliusAkeneoPlugin\Task\Product\AbstractCreateProductEntities::AKENEO_PREFIX . \implode('_', $data)
-        );
+        return $this->productOptionValueDataTransformer->transform($productOption, \implode('_', $data));
     }
 
     /**

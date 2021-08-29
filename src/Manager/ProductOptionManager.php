@@ -88,13 +88,6 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         $this->updateProductOptionValues($productOption, $attribute);
     }
 
-    public static function getOptionValueCodeFromProductOption(
-        ProductOptionInterface $productOption,
-        string $optionValueCode
-    ): string {
-        return \strtolower(\sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode));
-    }
-
     private function updateTranslationsFromAttribute(ProductOptionInterface $productOption, AttributeInterface $attribute): void
     {
         foreach ($this->localeRepository->getLocaleCodes() as $localeCode) {

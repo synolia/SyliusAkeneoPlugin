@@ -14,6 +14,4 @@ interface ProductOptionManagerInterface
     public function createProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface;
 
     public function updateData(AttributeInterface $attribute, ProductOptionInterface $productOption): void;
-
-    public static function getOptionValueCodeFromProductOption(ProductOptionInterface $productOption, string $optionValueCode): string;
 }
