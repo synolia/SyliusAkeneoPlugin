@@ -8,7 +8,6 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
@@ -18,6 +17,7 @@ use Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 use Webmozart\Assert\Assert;
@@ -30,7 +30,7 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface */
     private $localeRepository;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface */
@@ -46,7 +46,7 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         AkeneoPimEnterpriseClientInterface $client,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
-        RepositoryInterface $localeRepository,
+        LocaleRepositoryInterface $localeRepository,
         IsEnterpriseCheckerInterface $isEnterpriseChecker
     ) {
         parent::__construct(
@@ -111,7 +111,7 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
         $translations = $record['values']['label'] ?? [];
 
         if (0 === \count($translations)) {
-            foreach ($this->getLocales() as $locale) {
+            foreach ($this->localeRepository->getLocaleCodes() as $locale) {
                 $translations[] = [
                     'locale' => $locale,
                     'data' => \sprintf('[%s]', $record['code']),
@@ -147,16 +147,6 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
             }
 
             $productOptionValueTranslation->setValue($translation['data']);
-        }
-    }
-
-    private function getLocales(): iterable
-    {
-        /** @var LocaleInterface[] $locales */
-        $locales = $this->localeRepository->findAll();
-
-        foreach ($locales as $locale) {
-            yield $locale->getCode();
         }
     }
 }

@@ -17,6 +17,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AbstractCreateProductEntities;
 
@@ -40,7 +41,7 @@ final class CreateProductAssociationTask extends AbstractCreateProductEntities i
         RepositoryInterface $productRepository,
         ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
-        RepositoryInterface $localeRepository,
+        LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,

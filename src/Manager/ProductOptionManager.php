@@ -8,13 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
 use Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
@@ -27,7 +27,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productOptionFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface */
     private $localeRepository;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
@@ -50,7 +50,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         RepositoryInterface $productAttributeTranslationRepository,
         RepositoryInterface $productOptionRepository,
         RepositoryInterface $productOptionTranslationRepository,
-        RepositoryInterface $localeRepository,
+        LocaleRepositoryInterface $localeRepository,
         FactoryInterface $productOptionTranslationFactory,
         FactoryInterface $productOptionFactory,
         OptionValuesProcessorProviderInterface $optionValuesProcessorProvider,
@@ -97,7 +97,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     private function updateTranslationsFromAttribute(ProductOptionInterface $productOption, AttributeInterface $attribute): void
     {
-        foreach ($this->getLocales() as $localeCode) {
+        foreach ($this->localeRepository->getLocaleCodes() as $localeCode) {
             /** @var AttributeTranslationInterface|null $attributeTranslation */
             $attributeTranslation = $this->productAttributeTranslationRepository->findOneBy([
                 'translatable' => $attribute,
@@ -123,15 +123,6 @@ final class ProductOptionManager implements ProductOptionManagerInterface
             }
 
             $productOptionTranslation->setName($attributeTranslation->getName());
-        }
-    }
-
-    private function getLocales(): iterable
-    {
-        /** @var LocaleInterface[] $locales */
-        $locales = $this->localeRepository->findAll();
-        foreach ($locales as $locale) {
-            yield $locale->getCode();
         }
     }
 
