@@ -11,6 +11,7 @@ akeneo_admin_attribute_type_routing:
         except: ['show']
         redirect: update
         grid: akeneo_admin_attribute_type_mapping
+        permission: true
         vars:
             index:
                 icon: 'file image outline' # choose an icon that will be displayed next to the subheader
