@@ -278,7 +278,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 continue;
             }
 
-            if ($productModel->hasOption($productOption)) {
+            if (!$productModel->hasOption($productOption)) {
                 $productModel->addOption($productOption);
             }
 
