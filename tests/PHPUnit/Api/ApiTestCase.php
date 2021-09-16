@@ -32,7 +32,7 @@ abstract class ApiTestCase extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get(EntityManagerInterface::class);
+        $this->manager = $this->getContainer()->get(EntityManagerInterface::class);
         $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
         $this->server->setResponseOfPath(

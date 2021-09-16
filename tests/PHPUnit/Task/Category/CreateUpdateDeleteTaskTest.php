@@ -58,7 +58,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
         $task->__invoke($payload);
 
-        $taxonRepository = self::$container->get('sylius.repository.taxon');
+        $taxonRepository = $this->getContainer()->get('sylius.repository.taxon');
 
         $expectedTaxonToExists = [
             'sales',
@@ -95,7 +95,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
         $task->__invoke($payload);
 
-        $taxonRepository = self::$container->get('sylius.repository.taxon');
+        $taxonRepository = $this->getContainer()->get('sylius.repository.taxon');
 
         $expectedTaxonToExists = ['clothes', 'pants', 'shoes', 'sweat', 'coats', 'underwear'];
 

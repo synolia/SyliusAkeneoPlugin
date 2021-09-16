@@ -31,6 +31,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductResourcePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -90,7 +91,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
         ChannelRepository $channelRepository,
         RepositoryInterface $productVariantRepository,
         RepositoryInterface $channelPricingRepository,
-        RepositoryInterface $localeRepository,
+        LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
         FactoryInterface $productFactory,
         ProductVariantFactoryInterface $productVariantFactory,

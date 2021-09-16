@@ -23,7 +23,7 @@ final class RetrieveProductModelTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 

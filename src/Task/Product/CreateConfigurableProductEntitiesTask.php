@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
@@ -31,6 +30,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -55,9 +55,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
     private $taskProvider;
-
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionValueFactory;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $productVariantTranslationFactory;
@@ -95,14 +92,13 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         RepositoryInterface $productOptionValueTranslationRepository,
         ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
-        RepositoryInterface $localeRepository,
+        LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
         ProductGroupRepository $productGroupRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
-        FactoryInterface $productOptionValueFactory,
         RepositoryInterface $productVariantTranslationRepository,
         FactoryInterface $productVariantTranslationFactory,
         ProductFiltersRulesRepository $productFiltersRulesRepository,
@@ -127,7 +123,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
         $this->taskProvider = $taskProvider;
-        $this->productOptionValueFactory = $productOptionValueFactory;
         $this->productVariantTranslationRepository = $productVariantTranslationRepository;
         $this->productVariantTranslationFactory = $productVariantTranslationFactory;
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
@@ -278,7 +273,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 continue;
             }
 
-            if ($productModel->hasOption($productOption)) {
+            if (!$productModel->hasOption($productOption)) {
                 $productModel->addOption($productOption);
             }
 
@@ -288,16 +283,6 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         }
 
         return $productVariant;
-    }
-
-    private function getLocales(): iterable
-    {
-        /** @var LocaleInterface[] $locales */
-        $locales = $this->localeRepository->findAll();
-
-        foreach ($locales as $locale) {
-            yield $locale->getCode();
-        }
     }
 
     private function setProductOptionValues(
@@ -330,7 +315,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                 $productVariant->addOptionValue($productOptionValue);
             }
 
-            foreach ($this->getLocales() as $locale) {
+            foreach ($this->localeRepository->getLocaleCodes() as $locale) {
                 /** @var \Sylius\Component\Product\Model\ProductOptionValueTranslationInterface $productOptionValueTranslation */
                 $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
                     'translatable' => $productOptionValue,

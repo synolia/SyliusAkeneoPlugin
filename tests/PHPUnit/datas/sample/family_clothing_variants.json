@@ -166,7 +166,8 @@
                     {
                         "level": 1,
                         "axes": [
-                            "size"
+                            "size",
+                            "coloris"
                         ],
                         "attributes": [
                             "sku",

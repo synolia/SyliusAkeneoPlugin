@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
+use Psr\Log\LoggerInterface;
+
 final class ProductAttributeValueValueBuilder
 {
     /** @var array<\Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface> */
     private $attributeValueBuilders;
+
+    /** @var \Psr\Log\LoggerInterface */
+    private $akeneoLogger;
+
+    public function __construct(LoggerInterface $akeneoLogger)
+    {
+        $this->akeneoLogger = $akeneoLogger;
+    }
 
     public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void
     {
@@ -21,7 +31,6 @@ final class ProductAttributeValueValueBuilder
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if ($attributeValueBuilder->support($attributeCode)) {
                 return $attributeValueBuilder->build($attributeCode, $locale, $scope, $value);
@@ -36,7 +45,6 @@ final class ProductAttributeValueValueBuilder
      */
     public function findBuilderByClassName(string $className)
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface $attributeValueBuilder */
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if (!$attributeValueBuilder instanceof $className) {
                 continue;
@@ -51,8 +59,18 @@ final class ProductAttributeValueValueBuilder
     public function hasSupportedBuilder(string $attributeCode): bool
     {
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
-            if ($attributeValueBuilder->support($attributeCode)) {
-                return true;
+            try {
+                if ($attributeValueBuilder->support($attributeCode)) {
+                    return true;
+                }
+            } catch (\Throwable $throwable) {
+                $this->akeneoLogger->critical(\sprintf(
+                    'AttributeValueBuilder "%s" failed to execute method support() for attribute "%s"',
+                    \get_class($attributeValueBuilder),
+                    $attributeCode
+                ), ['exception' => $throwable]);
+
+                return false;
             }
         }
 

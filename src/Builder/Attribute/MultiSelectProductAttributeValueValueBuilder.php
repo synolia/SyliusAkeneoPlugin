@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
+use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMatcher;
 
@@ -17,12 +17,17 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
     /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
     private $attributeTypeMatcher;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface */
+    private $attributeOptionValueDataTransformer;
+
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AttributeTypeMatcher $attributeTypeMatcher
+        AttributeTypeMatcher $attributeTypeMatcher,
+        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer
     ) {
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
+        $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
     }
 
     public function support(string $attributeCode): bool
@@ -36,7 +41,7 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
     public function build(string $attributeCode, ?string $locale, ?string $scope, $values)
     {
         foreach ($values as $key => $value) {
-            $values[$key] = CreateUpdateDeleteTask::AKENEO_PREFIX . $value;
+            $values[$key] = $this->attributeOptionValueDataTransformer->transform($value);
         }
 
         return $values;
