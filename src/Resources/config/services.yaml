@@ -104,3 +104,8 @@ services:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
     Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor: ~
+
+    Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\ChainOptionValuesDataProvider
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }

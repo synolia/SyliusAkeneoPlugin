@@ -76,7 +76,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
         try {
             $this->entityManager->beginTransaction();
             $variationAxes = \array_unique($this->getVariationAxes($payload));
-            $this->logger->info(Messages::totalToImport($payload->getType(), count($variationAxes)));
+            $this->logger->info(Messages::totalToImport($payload->getType(), \count($variationAxes)));
 
             /** @var AttributeInterface $attribute */
             foreach ($this->productAttributeRepository->findByCodes($variationAxes) as $attribute) {
@@ -90,8 +90,6 @@ final class CreateUpdateTask implements AkeneoTaskInterface
         } catch (\Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
-
-            throw $throwable;
         }
 
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));

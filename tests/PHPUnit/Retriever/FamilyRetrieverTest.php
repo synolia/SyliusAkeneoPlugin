@@ -25,8 +25,8 @@ final class FamilyRetrieverTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
-        $this->familyRetriever = self::$container->get(FamilyRetriever::class);
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
+        $this->familyRetriever = $this->getContainer()->get(FamilyRetriever::class);
 
         $this->server->setResponseOfPath(
             '/' . FamilyApi::FAMILIES_URI,

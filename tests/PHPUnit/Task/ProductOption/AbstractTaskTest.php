@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
@@ -19,8 +20,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
-        $this->manager->beginTransaction();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
@@ -51,11 +51,15 @@ abstract class AbstractTaskTest extends ApiTestCase
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'coloris'),
+            new Response($this->getFileContent('reference_entity_coloris_records.json'), [], HttpResponse::HTTP_OK)
+        );
     }
 
     protected function tearDown(): void
     {
-        $this->manager->rollback();
         $this->manager->close();
         $this->manager = null;
 

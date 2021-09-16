@@ -44,11 +44,11 @@ final class ProductFilterTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
         $this->manager->beginTransaction();
-        $this->localeRepository = self::$container->get('sylius.repository.locale');
-        $this->productFilter = self::$container->get(ProductFilter::class);
-        $this->syliusAkeneoLocaleCodeProvider = self::$container->get(SyliusAkeneoLocaleCodeProvider::class);
+        $this->localeRepository = $this->getContainer()->get('sylius.repository.locale');
+        $this->productFilter = $this->getContainer()->get(ProductFilter::class);
+        $this->syliusAkeneoLocaleCodeProvider = $this->getContainer()->get(SyliusAkeneoLocaleCodeProvider::class);
 
         $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
         if (!$this->productFiltersRules instanceof ProductFiltersRules) {

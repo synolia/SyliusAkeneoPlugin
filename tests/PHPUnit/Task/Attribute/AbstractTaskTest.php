@@ -22,7 +22,6 @@ abstract class AbstractTaskTest extends ApiTestCase
         self::bootKernel();
 
         $this->manager = self::$container->get('doctrine')->getManager();
-        $this->manager->beginTransaction();
 
         $this->initializeApiConfiguration();
 
@@ -38,16 +37,14 @@ abstract class AbstractTaskTest extends ApiTestCase
             new Response($this->getLocales(), [], HttpResponse::HTTP_OK)
         );
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
     }
 
     protected function tearDown(): void
     {
-        $this->manager->rollback();
+        $this->server->stop();
         $this->manager->close();
         $this->manager = null;
-
-        $this->server->stop();
 
         parent::tearDown();
     }

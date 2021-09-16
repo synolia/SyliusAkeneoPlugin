@@ -6,11 +6,8 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\CreateSimpleProductEntitiesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\EnableDisableProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
@@ -32,7 +29,7 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
         $this->client = $this->createClient();
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
@@ -76,23 +73,11 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $enableDisableProductTask->__invoke($simpleProductCreationPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
+        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
 
         $this->assertCount(1, $product->getChannels());
-        $channel = self::$container->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
+        $channel = $this->getContainer()->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
         $this->assertContains($channel, $product->getChannels());
-    }
-
-    private function importAttributes(): void
-    {
-        $initialPayload = new AttributePayload($this->client);
-        /** @var RetrieveAttributesTask $retrieveTask */
-        $retrieveTask = $this->taskProvider->get(RetrieveAttributesTask::class);
-        $payload = $retrieveTask->__invoke($initialPayload);
-
-        /** @var CreateUpdateEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
-        $task->__invoke($payload);
     }
 
     private function importCategories(): void
@@ -100,11 +85,11 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
 
         foreach ($categories as $categoryCode) {
-            $category = self::$container->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
+            $category = $this->getContainer()->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
 
             if (!$category instanceof TaxonInterface) {
                 /** @var Taxon $category */
-                $category = self::$container->get('sylius.factory.taxon')->createNew();
+                $category = $this->getContainer()->get('sylius.factory.taxon')->createNew();
                 $this->manager->persist($category);
             }
             $category->setCurrentLocale('en_US');

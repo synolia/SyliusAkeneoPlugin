@@ -27,9 +27,9 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
         parent::setUp();
 
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
-        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $productAttributeValueValueBuilder = self::$container->get(ProductAttributeValueValueBuilder::class);
+        $productAttributeValueValueBuilder = $this->getContainer()->get(ProductAttributeValueValueBuilder::class);
         $this->attributeDataProvider = new AkeneoAttributeDataProvider($akeneoPropertiesProvider, $productAttributeValueValueBuilder);
     }
 

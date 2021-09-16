@@ -36,8 +36,8 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
-        $this->productGroupRepository = self::$container->get('akeneo.repository.product_group');
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
+        $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
             new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK)
