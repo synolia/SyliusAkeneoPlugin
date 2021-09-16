@@ -27,9 +27,9 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         parent::setUp();
 
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
-        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
@@ -47,7 +47,7 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $optionsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
 
         $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
-        $query->execute();
+        $query->executeStatement();
         $processedCount = 0;
 
         while ($results = $query->fetchAll()) {
@@ -64,7 +64,7 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
 
             $processedCount += \count($results);
             $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
-            $query->execute();
+            $query->executeStatement();
         }
 
         /** @var AddOrUpdateProductModelTask $addOrUpdateProductModelsTask */
@@ -76,9 +76,9 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $enableDisableProductModelTask->__invoke($productModelPayload);
 
         /** @var Product $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => $productBase['code']]);
+        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => $productBase['code']]);
         $this->assertCount(1, $product->getChannels());
-        $channel = self::$container->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
+        $channel = $this->getContainer()->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
         $this->assertContains($channel, $product->getChannels());
     }
 }

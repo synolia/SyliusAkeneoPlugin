@@ -20,6 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 
 class AbstractCreateProductEntities
 {
@@ -46,7 +47,7 @@ class AbstractCreateProductEntities
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     protected $channelPricingFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
+    /** @var \Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface */
     protected $localeRepository;
 
     /** @var \Psr\Log\LoggerInterface */
@@ -61,7 +62,7 @@ class AbstractCreateProductEntities
         RepositoryInterface $productRepository,
         ChannelRepository $channelRepository,
         RepositoryInterface $channelPricingRepository,
-        RepositoryInterface $localeRepository,
+        LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,

@@ -40,11 +40,11 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         parent::setUp();
 
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
-        $akeneoPropertiesProvider = self::$container->get(AkeneoAttributePropertiesProvider::class);
+        $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
-        $this->productRepository = self::$container->get('sylius.repository.product');
-        $this->productGroupRepository = self::$container->get('akeneo.repository.product_group');
+        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
+        $this->productRepository = $this->getContainer()->get('sylius.repository.product');
+        $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
         self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
     }
 
@@ -62,7 +62,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         $optionsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
 
         $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
-        $query->execute();
+        $query->executeStatement();
         $processedCount = 0;
 
         while ($results = $query->fetchAll()) {
@@ -79,7 +79,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 
             $processedCount += \count($results);
             $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
-            $query->execute();
+            $query->executeStatement();
         }
 
         /** @var AddOrUpdateProductModelTask $addOrUpdateProductModelsTask */

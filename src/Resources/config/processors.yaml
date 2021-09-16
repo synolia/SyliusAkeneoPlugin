@@ -12,6 +12,14 @@ services:
         tags:
             - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID }
 
+    Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\SelectOptionValuesProcessor:
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\ReferenceEntityOptionValuesProcessor:
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID }
+
 #######################
 #### MORE EXAMPLES ####
 #######################

@@ -6,6 +6,7 @@
     "license": "EUPL-1.2",
     "require": {
         "php": "^7.3 || ^8.0",
+        "ext-json": "*",
         "akeneo/api-php-client": "^4.0",
         "akeneo/api-php-client-ee": "^4.0",
         "behat/transliterator": "^1.3",

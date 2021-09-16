@@ -35,13 +35,13 @@ final class AttributeTypeMatcherTest extends KernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->attributeTypeMatcher = self::$container->get(AttributeTypeMatcher::class);
+        $this->attributeTypeMatcher = $this->getContainer()->get(AttributeTypeMatcher::class);
     }
 
     public function testDatabaseAttributeTypeMatching(): void
     {
         /** @var \Doctrine\ORM\EntityManagerInterface $manager */
-        $manager = self::$container->get('doctrine')->getManager();
+        $manager = $this->getContainer()->get('doctrine')->getManager();
         $attributeTypeMapping = $manager->getRepository(AttributeTypeMapping::class)->findOneBy([
             'akeneoAttributeType' => self::FAKE_AKENEO_ATTRIBUTE_TYPE,
         ]);

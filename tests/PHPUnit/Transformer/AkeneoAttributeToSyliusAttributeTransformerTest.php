@@ -26,7 +26,7 @@ final class AkeneoAttributeToSyliusAttributeTransformerTest extends KernelTestCa
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::$container->get('doctrine')->getManager();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
         $this->manager->beginTransaction();
         $attributeMapping = new AttributeAkeneoSyliusMapping();
         $attributeMapping
@@ -37,7 +37,7 @@ final class AkeneoAttributeToSyliusAttributeTransformerTest extends KernelTestCa
         $this->manager->persist($attributeMapping);
         $this->manager->flush();
 
-        $this->akeneoAttributeToSyliusAttributeTransformer = self::$container->get(AkeneoAttributeToSyliusAttributeTransformer::class);
+        $this->akeneoAttributeToSyliusAttributeTransformer = $this->getContainer()->get(AkeneoAttributeToSyliusAttributeTransformer::class);
         self::assertInstanceOf(AkeneoAttributeToSyliusAttributeTransformer::class, $this->akeneoAttributeToSyliusAttributeTransformer);
     }
 

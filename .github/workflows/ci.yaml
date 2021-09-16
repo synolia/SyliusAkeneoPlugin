@@ -158,6 +158,9 @@ jobs:
       - name: Install Sylius-Standard and Plugin
         run: make install -e SYLIUS_VERSION=${{ matrix.sylius }} SYMFONY_VERSION=${{ matrix.symfony }}
 
+      - name: Configure Behat
+        run: make behat-configure
+
       - name: Output PHP version for Symfony CLI
         working-directory: ./tests/Application
         run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
@@ -182,9 +185,7 @@ jobs:
 
       - name: Run PHPUnit
         run: make phpunit
-
-      - name: Configure Behat
-        run: make behat-configure
+        if: always() && steps.end-of-setup-sylius.outcome == 'success'
 
       - name: Run behat
         working-directory: ./tests/Application

@@ -94,7 +94,7 @@ abstract class AbstractTaskTest extends ApiTestCase
             'SELECT count(id) FROM `%s`',
             ProductModelPayload::TEMP_AKENEO_TABLE_NAME
         ));
-        $query->execute();
+        $query->executeStatement();
 
         return (int) \current($query->fetch());
     }
