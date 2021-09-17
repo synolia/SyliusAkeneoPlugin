@@ -91,3 +91,19 @@ akeneo:
         admin:
             authentication_successfully_succeeded: Authentification réussie
             changes_successfully_saved: Les modifications ont bien été enregistrées
+sylius_plus:
+    rbac:
+        parent:
+            plugin_synolia_akeneo_configurations: AKENEO Configuration
+            plugin_synolia_akeneo_product_filter_rules: AKENEO Règles de filtre produit
+            plugin_synolia_akeneo_categories: AKENEO Catégories
+            plugin_synolia_akeneo_products: AKENEO Produits
+            plugin_synolia_akeneo_attributes: AKENEO Attributs
+            plugin_synolia_akeneo_medias: AKENEO Medias
+            attribute_type_mapping: AKENEO Attribute Type Mapping
+        sylius_akeneo_connector_api_configuration: Api Configuration
+        sylius_akeneo_connector_product_filter_rules: Règles de filtre produit
+        sylius_akeneo_connector_categories: Catégories
+        sylius_akeneo_connector_products: Produits
+        sylius_akeneo_connector_attributes: Attributs
+        sylius_akeneo_connector_medias: Medias
