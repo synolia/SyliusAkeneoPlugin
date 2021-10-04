@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
-final class ProductChannelEnabler
+final class ProductChannelEnabler implements ProductChannelEnablerInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository */
     private $channelRepository;
@@ -43,32 +43,20 @@ final class ProductChannelEnabler
     public function enableChannelForProduct(ProductInterface $product, array $resource): void
     {
         try {
-            $enabledChannels = $this->getEnabledChannelsAttributeData($product, $resource);
+            $productConfiguration = $this->getProductConfiguration();
+
+            if (!$productConfiguration->getEnableImportedProducts()) {
+                return;
+            }
 
             $this->entityManager->beginTransaction();
 
             //Disable the product for all channels
             $product->getChannels()->clear();
 
-            foreach ($enabledChannels as $enabledChannel) {
-                $channel = $this->channelRepository->findOneBy(['code' => $enabledChannel]);
-                if (!$channel instanceof ChannelInterface) {
-                    $this->logger->warning(\sprintf(
-                        'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
-                        $enabledChannel,
-                        $product->getCode()
-                    ));
+            $this->handleByAkeneoEnabledChannelsAttribute($productConfiguration, $product, $resource);
+            $this->handleBySyliusConfiguration($productConfiguration, $product);
 
-                    continue;
-                }
-
-                $product->addChannel($channel);
-                $this->logger->info(\sprintf(
-                    'Enabled channel "%s" for product "%s"',
-                    $channel->getCode(),
-                    $product->getCode()
-                ));
-            }
             $this->entityManager->flush();
             $this->entityManager->commit();
         } catch (\Throwable $throwable) {
@@ -80,7 +68,17 @@ final class ProductChannelEnabler
         }
     }
 
-    public function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
+    private function addProductToChannel(ProductInterface $product, ChannelInterface $channel): void
+    {
+        $product->addChannel($channel);
+        $this->logger->info(\sprintf(
+            'Enabled channel "%s" for product "%s"',
+            $channel->getCode(),
+            $product->getCode()
+        ));
+    }
+
+    private function getProductConfiguration(): ProductConfiguration
     {
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
@@ -89,6 +87,14 @@ final class ProductChannelEnabler
             throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
         }
 
+        return $productConfiguration;
+    }
+
+    private function getEnabledChannelsAttributeData(
+        ProductConfiguration $productConfiguration,
+        ProductInterface $product,
+        array $resource
+    ): array {
         if (null === $productConfiguration->getAkeneoEnabledChannelsAttribute()) {
             throw new NoProductConfigurationException('Product configuration -> Enabled channels is not configured in BO.');
         }
@@ -106,5 +112,52 @@ final class ProductChannelEnabler
         }
 
         throw new NoAttributeResourcesException(\sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
+    }
+
+    private function handleByAkeneoEnabledChannelsAttribute(
+        ProductConfiguration $productConfiguration,
+        ProductInterface $product,
+        array $resource
+    ): void {
+        $channels = $productConfiguration->getChannelsToEnable();
+        if ($channels->count() > 0) {
+            //Channel configuration section as higher priority.
+            return;
+        }
+
+        $enabledChannels = $this->getEnabledChannelsAttributeData($productConfiguration, $product, $resource);
+
+        foreach ($enabledChannels as $enabledChannel) {
+            $channel = $this->channelRepository->findOneBy(['code' => $enabledChannel]);
+            if (!$channel instanceof ChannelInterface) {
+                $this->logger->warning(\sprintf(
+                    'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
+                    $enabledChannel,
+                    $product->getCode()
+                ));
+
+                continue;
+            }
+
+            $this->addProductToChannel($product, $channel);
+        }
+    }
+
+    private function handleBySyliusConfiguration(ProductConfiguration $productConfiguration, ProductInterface $product): void
+    {
+        $channels = $productConfiguration->getChannelsToEnable();
+
+        if (0 < $channels->count()) {
+            return;
+        }
+
+        $this->addProductToChannels($product, $channels);
+    }
+
+    private function addProductToChannels(ProductInterface $product, iterable $channels): void
+    {
+        foreach ($channels as $channel) {
+            $this->addProductToChannel($product, $channel);
+        }
     }
 }

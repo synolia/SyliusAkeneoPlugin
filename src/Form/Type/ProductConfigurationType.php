@@ -22,6 +22,16 @@ final class ProductConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('enableImportedProducts', CheckboxType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.enable_imported_products',
+                'required' => false,
+            ])
+            ->add('channelsToEnable', \Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.enable_imported_products_channels',
+                'required' => false,
+                'multiple' => true,
+                'expanded' => true,
+            ])
             ->add('akeneoPriceAttribute', AttributeCodeChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.products.akeneo_price_attribute',
             ])
