@@ -18,8 +18,18 @@
     {% endblock %}
     <div class="ui segment">
         {{ form_start(form, {'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+        <div class="ui one column stackable grid segment">
+            <div class="column">
+                <span class="ui pointing below label">{{ 'sylius.ui.admin.akeneo.products.enabled_at_import_help'|trans }}</span>
+                {{ form_row(form.enableImportedProducts) }}
+                <span class="ui pointing below label">{{ 'sylius.ui.admin.akeneo.products.channels_checkboxes_priority'|trans }}</span>
+                {{ form_row(form.channelsToEnable) }}
+                <hr />
+                <span class="ui pointing below label">{{ 'sylius.ui.admin.akeneo.products.akeneo_enabled_channels_attribute_priority'|trans }}</span>
+                {{ form_row(form.akeneoEnabledChannelsAttribute) }}
+            </div>
+        </div>
         {{ form_row(form.akeneoPriceAttribute) }}
-        {{ form_row(form.akeneoEnabledChannelsAttribute) }}
         <div class="ui field">
             {{ form_row(form.importMediaFiles) }}
         </div>

@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
@@ -75,10 +76,27 @@ class ProductConfiguration implements ResourceInterface
      */
     private $regenerateUrlRewrites;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="enable_imported_products", type="boolean", options={"default" = 0})
+     */
+    private $enableImportedProducts = false;
+
+    /**
+     * @var ChannelInterface[]|Collection<int, ChannelInterface>
+     * @ORM\ManyToMany (targetEntity=ChannelInterface::class)
+     * @ORM\JoinTable(name="akeneo_product_configuration_channels",
+     *      joinColumns={@ORM\JoinColumn(name="product_configuration_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="channel_id", referencedColumnName="id", unique=true)}
+     * )
+     */
+    private $channelsToEnable;
+
     public function __construct()
     {
         $this->akeneoImageAttributes = new ArrayCollection();
         $this->productImagesMapping = new ArrayCollection();
+        $this->channelsToEnable = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +220,30 @@ class ProductConfiguration implements ResourceInterface
     public function setAkeneoEnabledChannelsAttribute(?string $akeneoEnabledChannelsAttribute): self
     {
         $this->akeneoEnabledChannelsAttribute = $akeneoEnabledChannelsAttribute;
+
+        return $this;
+    }
+
+    public function getEnableImportedProducts(): bool
+    {
+        return $this->enableImportedProducts;
+    }
+
+    public function setEnableImportedProducts(bool $enableImportedProducts): self
+    {
+        $this->enableImportedProducts = $enableImportedProducts;
+
+        return $this;
+    }
+
+    public function getChannelsToEnable(): Collection
+    {
+        return $this->channelsToEnable;
+    }
+
+    public function setChannelsToEnable(Collection $channelsToEnable): self
+    {
+        $this->channelsToEnable = $channelsToEnable;
 
         return $this;
     }
