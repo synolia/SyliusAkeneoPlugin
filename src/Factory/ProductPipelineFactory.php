@@ -20,8 +20,6 @@ final class ProductPipelineFactory extends AbstractPipelineFactory
         return $pipeline
             ->pipe($this->taskProvider->get(SetupProductTask::class))
             ->pipe($this->taskProvider->get(ProcessProductsTask::class))
-            //->pipe($this->taskProvider->get(CreateSimpleProductEntitiesTask::class))
-            //->pipe($this->taskProvider->get(CreateConfigurableProductEntitiesTask::class))
             ->pipe($this->taskProvider->get(TearDownProductTask::class))
         ;
     }
