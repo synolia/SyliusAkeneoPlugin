@@ -8,6 +8,7 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
 
 class FamilyVariationAxeProcessor
@@ -79,7 +80,7 @@ class FamilyVariationAxeProcessor
         array $familiesVariantPayloads,
         ?string $family,
         array $resource,
-        ProductGroup $productGroup
+        ProductGroupInterface $productGroup
     ): void {
         foreach ($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
             if (\count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {

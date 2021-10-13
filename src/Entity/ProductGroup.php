@@ -9,13 +9,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table("akeneo_product_group")
  */
-class ProductGroup implements ResourceInterface
+class ProductGroup implements ProductGroupInterface
 {
     /**
      * @var int
@@ -60,7 +59,7 @@ class ProductGroup implements ResourceInterface
         return $this->id;
     }
 
-    public function setProductParent(string $productParent): self
+    public function setProductParent(string $productParent): ProductGroupInterface
     {
         $this->productParent = $productParent;
 
@@ -80,7 +79,7 @@ class ProductGroup implements ResourceInterface
         return $this->variationAxes;
     }
 
-    public function addVariationAxe(string $variationAxe): self
+    public function addVariationAxe(string $variationAxe): ProductGroupInterface
     {
         if (in_array($variationAxe, $this->variationAxes)) {
             return $this;
@@ -91,7 +90,7 @@ class ProductGroup implements ResourceInterface
         return $this;
     }
 
-    public function removeVariationAxe(string $variationAxe): self
+    public function removeVariationAxe(string $variationAxe): ProductGroupInterface
     {
         if (!in_array($variationAxe, $this->variationAxes)) {
             return $this;
@@ -107,7 +106,7 @@ class ProductGroup implements ResourceInterface
         return $this->family;
     }
 
-    public function setFamily(string $family): self
+    public function setFamily(string $family): ProductGroupInterface
     {
         $this->family = $family;
 
@@ -122,7 +121,7 @@ class ProductGroup implements ResourceInterface
         return $this->products;
     }
 
-    public function addProduct(ProductInterface $product): self
+    public function addProduct(ProductInterface $product): ProductGroupInterface
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
@@ -131,7 +130,7 @@ class ProductGroup implements ResourceInterface
         return $this;
     }
 
-    public function removeProduct(ProductInterface $product): self
+    public function removeProduct(ProductInterface $product): ProductGroupInterface
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);

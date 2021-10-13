@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 
 final class ProductGroupRepository extends EntityRepository
 {
     public function isProductInProductGroup(
         ProductInterface $product,
-        ProductGroup $productGroup
+        ProductGroupInterface $productGroup
     ): int {
         $query = $this->createQueryBuilder('p');
 

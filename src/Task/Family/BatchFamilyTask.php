@@ -7,7 +7,9 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Family;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor;
@@ -33,17 +35,22 @@ final class BatchFamilyTask extends AbstractBatchTask
     /** @var \Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor */
     private $familyVariationAxeProcessor;
 
+    /** @var FactoryInterface */
+    private $productGroupFactory;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $productGroupRepository,
         LoggerInterface $akeneoLogger,
-        FamilyVariationAxeProcessor $familyVariationAxeProcessor
+        FamilyVariationAxeProcessor $familyVariationAxeProcessor,
+        FactoryInterface $productGroupFactory
     ) {
         parent::__construct($entityManager);
 
         $this->productGroupRepository = $productGroupRepository;
         $this->logger = $akeneoLogger;
         $this->familyVariationAxeProcessor = $familyVariationAxeProcessor;
+        $this->productGroupFactory = $productGroupFactory;
     }
 
     /**
@@ -82,7 +89,7 @@ final class BatchFamilyTask extends AbstractBatchTask
         return $payload;
     }
 
-    private function createGroupForCodeAndFamily(string $code, string $family): ProductGroup
+    private function createGroupForCodeAndFamily(string $code, string $family): ProductGroupInterface
     {
         if (isset($this->productGroupsMapping[$code])) {
             return $this->productGroupsMapping[$code];
@@ -107,7 +114,8 @@ final class BatchFamilyTask extends AbstractBatchTask
             $family,
         ));
 
-        $productGroup = new ProductGroup();
+        /** @var ProductGroupInterface $productGroup */
+        $productGroup = $this->productGroupFactory->createNew();
         $productGroup->setProductParent($code);
         $productGroup->setFamily($family);
         $this->entityManager->persist($productGroup);

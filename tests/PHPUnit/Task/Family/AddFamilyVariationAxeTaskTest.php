@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use donatj\MockWebServer\Response;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Family\ProcessFamilyTask;
@@ -61,7 +61,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $tearDownFamilyTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownFamilyTask->__invoke($familyPayload);
 
-        /** @var ProductGroup $productGroup */
+        /** @var ProductGroupInterface $productGroup */
         $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'caelus']);
         $this->assertNotNull($productGroup);
         $this->assertEquals('clothing', $productGroup->getFamily());
