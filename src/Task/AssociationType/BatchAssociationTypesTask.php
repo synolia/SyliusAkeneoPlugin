@@ -11,6 +11,7 @@ use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeTranslationInterface;
 use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
@@ -35,12 +36,16 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
     /** @var \Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface */
     private $productAssociationTypeRepository;
 
+    /** @var RepositoryInterface */
+    private $productAssociationTypeTranslationRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         FactoryInterface $productAssociationTypeFactory,
         FactoryInterface $productAssociationTypeTranslationFactory,
-        ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository
+        ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
+        RepositoryInterface $productAssociationTypeTranslationRepository
     ) {
         parent::__construct($entityManager);
 
@@ -48,6 +53,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
         $this->productAssociationTypeFactory = $productAssociationTypeFactory;
         $this->productAssociationTypeTranslationFactory = $productAssociationTypeTranslationFactory;
         $this->productAssociationTypeRepository = $productAssociationTypeRepository;
+        $this->productAssociationTypeTranslationRepository = $productAssociationTypeTranslationRepository;
     }
 
     /**
@@ -127,19 +133,26 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
     private function addTranslations(array $resource, ProductAssociationTypeInterface $productAssociationType): void
     {
         foreach ($resource['labels'] as $localeCode => $label) {
-            $productAssociationType->addTranslation($this->createTranslation($localeCode, $label));
+            $productAssociationTypeTranslation = $this->productAssociationTypeTranslationRepository->findOneBy([
+                'translatable' => $productAssociationType,
+                'locale' => $localeCode,
+            ]);
+
+            if (!$productAssociationTypeTranslation instanceof ProductAssociationTypeTranslationInterface) {
+                $productAssociationTypeTranslation = $this->createTranslation($localeCode, $label);
+            }
+
+            $productAssociationType->addTranslation($productAssociationTypeTranslation);
         }
     }
 
     private function createTranslation(string $localeCode, string $label): ProductAssociationTypeTranslationInterface
     {
+        /** @var ProductAssociationTypeTranslationInterface $productAssociationTypeTranslation */
         $productAssociationTypeTranslation = $this->productAssociationTypeTranslationFactory->createNew();
-        if (!$productAssociationTypeTranslation instanceof ProductAssociationTypeTranslationInterface) {
-            throw new \LogicException('Unknown error.');
-        }
-
         $productAssociationTypeTranslation->setLocale($localeCode);
         $productAssociationTypeTranslation->setName($label);
+        $this->entityManager->persist($productAssociationTypeTranslation);
 
         return $productAssociationTypeTranslation;
     }
