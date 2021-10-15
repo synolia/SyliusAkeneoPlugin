@@ -9,8 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
 class AfterProcessingProductEvent extends AbstractResourceEvent
 {
-    /** @var \Sylius\Component\Core\Model\ProductInterface */
-    private $product;
+    private ProductInterface $product;
 
     public function __construct(array $resource, ProductInterface $taxon)
     {

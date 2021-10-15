@@ -9,8 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
 class AfterProcessingAttributeEvent extends AbstractResourceEvent
 {
-    /** @var \Sylius\Component\Attribute\Model\AttributeInterface */
-    private $attribute;
+    private AttributeInterface $attribute;
 
     public function __construct(array $resource, AttributeInterface $taxon)
     {
