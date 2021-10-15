@@ -13,7 +13,7 @@ class ReferenceEntityAttributeType implements AttributeTypeInterface
     public const TYPE = 'reference_entity';
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStorageType(): string
     {
@@ -21,7 +21,7 @@ class ReferenceEntityAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getType(): string
     {
@@ -29,7 +29,7 @@ class ReferenceEntityAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function validate(
         AttributeValueInterface $attributeValue,
