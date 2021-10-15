@@ -10,8 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 
 class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
 
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
