@@ -6,13 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Client;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Exception;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ClientFactory implements ClientFactoryInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
 
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
@@ -25,7 +25,7 @@ final class ClientFactory implements ClientFactoryInterface
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
-            throw new \Exception('The API is not configured in the admin section.');
+            throw new Exception('The API is not configured in the admin section.');
         }
 
         return $this->authenticateByPassword($apiConfiguration);
