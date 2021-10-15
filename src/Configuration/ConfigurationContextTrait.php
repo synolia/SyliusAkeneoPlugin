@@ -8,26 +8,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 trait ConfigurationContextTrait
 {
-    /** @var int */
-    private $batchSize = 100;
+    private int $batchSize = 100;
 
-    /** @var bool */
-    private $allowParallel = false;
+    private bool $allowParallel = false;
 
-    /** @var bool */
-    private $batchingAllowed = true;
+    private bool $batchingAllowed = true;
 
-    /** @var int */
-    private $maxRunningProcessQueueSize = 5;
+    private int $maxRunningProcessQueueSize = 5;
 
-    /** @var bool */
-    private $isContinue = false;
+    private bool $isContinue = false;
 
-    /** @var bool */
-    private $processAsSoonAsPossible = true;
+    private bool $processAsSoonAsPossible = true;
 
-    /** @var int */
-    private $verbosity = OutputInterface::VERBOSITY_NORMAL;
+    private int $verbosity = OutputInterface::VERBOSITY_NORMAL;
 
     public function getBatchSize(): int
     {
