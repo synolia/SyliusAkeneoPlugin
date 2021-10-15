@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 
 final class ImportAttributesCommand extends AbstractImportCommand
 {
-    protected static $defaultDescription = 'Import Attributes and Options from Akeneo PIM.';
+    protected static string $defaultDescription = 'Import Attributes and Options from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:attributes';
@@ -29,7 +29,7 @@ final class ImportAttributesCommand extends AbstractImportCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

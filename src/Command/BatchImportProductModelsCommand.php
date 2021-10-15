@@ -13,19 +13,16 @@ use Synolia\SyliusAkeneoPlugin\Task\ProductModel\BatchProductModelTask;
 
 final class BatchImportProductModelsCommand extends AbstractBatchCommand
 {
-    protected static $defaultDescription = 'Import batch product model ids from Akeneo PIM.';
+    protected static string $defaultDescription = 'Import batch product model ids from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:batch:product-models';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\ProductModel\BatchProductModelTask */
-    private $attributesTask;
+    private BatchProductModelTask $attributesTask;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,
@@ -40,12 +37,12 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $ids = explode(',', $input->getArgument('ids'));
 
         $this->logger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);

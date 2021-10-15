@@ -17,7 +17,7 @@ final class ImportProductsCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    protected static $defaultDescription = 'Import Products from Akeneo PIM.';
+    protected static string $defaultDescription = 'Import Products from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:products';
@@ -32,7 +32,7 @@ final class ImportProductsCommand extends AbstractImportCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

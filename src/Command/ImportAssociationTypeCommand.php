@@ -17,7 +17,7 @@ final class ImportAssociationTypeCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    protected static $defaultDescription = 'Import Associations type from Akeneo PIM.';
+    protected static string $defaultDescription = 'Import Associations type from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:association-type';
@@ -32,7 +32,7 @@ final class ImportAssociationTypeCommand extends AbstractImportCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

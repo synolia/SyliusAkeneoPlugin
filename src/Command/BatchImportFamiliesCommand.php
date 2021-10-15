@@ -13,19 +13,16 @@ use Synolia\SyliusAkeneoPlugin\Task\Family\BatchFamilyTask;
 
 final class BatchImportFamiliesCommand extends AbstractBatchCommand
 {
-    protected static $defaultDescription = 'Import batch family ids from Akeneo PIM.';
+    protected static string $defaultDescription = 'Import batch family ids from Akeneo PIM.';
 
     /** @var string */
     public static $defaultName = 'akeneo:batch:families';
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Family\BatchFamilyTask */
-    private $batchFamilyTask;
+    private BatchFamilyTask $batchFamilyTask;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,
@@ -40,12 +37,12 @@ final class BatchImportFamiliesCommand extends AbstractBatchCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $ids = explode(',', $input->getArgument('ids'));
 
         $this->logger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);

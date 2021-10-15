@@ -12,11 +12,9 @@ class CommandContext implements CommandContextInterface
 {
     use ConfigurationContextTrait;
 
-    /** @var InputInterface */
-    public $input;
+    public InputInterface $input;
 
-    /** @var OutputInterface */
-    public $output;
+    public OutputInterface $output;
 
     public function __construct(
         InputInterface $input,

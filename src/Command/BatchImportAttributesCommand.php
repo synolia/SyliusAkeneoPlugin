@@ -13,19 +13,16 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\BatchAttributesTask;
 
 final class BatchImportAttributesCommand extends AbstractBatchCommand
 {
-    protected static $defaultDescription = 'Import batch attribute ids from Akeneo PIM.';
+    protected static string $defaultDescription = 'Import batch attribute ids from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:batch:attributes';
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Attribute\BatchAttributesTask */
-    private $attributesTask;
+    private BatchAttributesTask $attributesTask;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,
@@ -40,12 +37,12 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $ids = explode(',', $input->getArgument('ids'));
 
         $this->logger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
