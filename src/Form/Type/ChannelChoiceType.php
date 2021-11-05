@@ -8,14 +8,14 @@ use Akeneo\Pim\ApiClient\Api\ChannelApiInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
 final class ChannelChoiceType extends AbstractType
 {
     /** @var ChannelApiInterface */
     private $channelApi;
 
-    public function __construct(ClientFactory $clientFactory)
+    public function __construct(ClientFactoryInterface $clientFactory)
     {
         $this->channelApi = $clientFactory->createFromApiCredentials()->getChannelApi();
     }

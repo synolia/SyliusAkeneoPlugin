@@ -5,73 +5,46 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Command\CommandLockedException;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 
-final class ImportAttributesCommand extends Command
+final class ImportAttributesCommand extends AbstractImportCommand
 {
-    use LockableTrait;
-
-    private const DESCRIPTION = 'Import Attributes and Options from Akeneo PIM.';
+    protected static $defaultDescription = 'Import Attributes and Options from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:attributes';
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory */
-    private $attributePipelineFactory;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
-    private $clientFactory;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        AttributePipelineFactory $attributePipelineFactory,
-        ClientFactory $clientFactory,
+        AttributePipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
+        PayloadFactoryInterface $payloadFactory,
         string $name = null
     ) {
-        parent::__construct($name);
-        $this->attributePipelineFactory = $attributePipelineFactory;
-        $this->clientFactory = $clientFactory;
-        $this->logger = $akeneoLogger;
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription(self::DESCRIPTION);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, $name);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output
-    ) {
-        if (!$this->lock()) {
-            $output->writeln(Messages::commandAlreadyRunning());
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        try {
+            $this->preExecute();
 
-            return 0;
+            $payload = $this->payloadFactory->createFromCommand(AttributePayload::class, $input, $output);
+            $this->pipeline->process($payload);
+
+            $this->postExecute();
+        } catch (CommandLockedException $commandLockedException) {
+            $this->logger->warning($commandLockedException->getMessage());
+
+            return 1;
         }
-
-        $this->logger->notice(self::$defaultName);
-        /** @var \League\Pipeline\Pipeline $attributePipeline */
-        $attributePipeline = $this->attributePipelineFactory->create();
-
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $attributePayload */
-        $attributePayload = new AttributePayload($this->clientFactory->createFromApiCredentials());
-        $attributePipeline->process($attributePayload);
-
-        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
-        $this->release();
 
         return 0;
     }

@@ -11,7 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrSc
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
@@ -27,7 +27,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     private $client;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributeDataProvider */
+    /** @var AkeneoReferenceEntityAttributeDataProviderInterface */
     private $akeneoReferenceEntityAttributeDataProvider;
 
     /** @var \Psr\Log\LoggerInterface */
@@ -38,7 +38,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AkeneoReferenceEntityAttributeDataProvider $akeneoReferenceEntityAttributeDataProvider,
+        AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider,
         AttributeTypeMatcher $attributeTypeMatcher,
         AkeneoPimEnterpriseClientInterface $client,
         LoggerInterface $akeneoLogger,

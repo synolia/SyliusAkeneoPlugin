@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
+use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use Doctrine\DBAL\ParameterType;
@@ -46,6 +47,11 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(FamilyApi::FAMILY_URI, 'clothing'),
+            new Response($this->getFileContent('family_clothing.json'), [], HttpResponse::HTTP_OK)
         );
     }
 

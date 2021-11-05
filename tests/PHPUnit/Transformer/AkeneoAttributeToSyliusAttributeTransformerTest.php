@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 
 /**
  * @internal
@@ -15,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
  */
 final class AkeneoAttributeToSyliusAttributeTransformerTest extends KernelTestCase
 {
-    /** @var AkeneoAttributeToSyliusAttributeTransformer */
+    /** @var AkeneoAttributeToSyliusAttributeTransformerInterface */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
     /** @var ObjectManager */

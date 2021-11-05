@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Search\Operator;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeApi;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeOptionApi;
+use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
+use donatj\MockWebServer\Response;
 use League\Pipeline\Pipeline;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\Product\CreateConfigurableProductEntitiesTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\RetrieveProductsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
 
 /**
  * @internal
@@ -50,27 +57,27 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $this->createProductFiltersConfiguration();
         $this->importCategories();
         $this->importAttributes();
-        $this->importFamillies();
+        $this->importReferenceEntities();
+        $this->importFamilies();
         $this->importProductModels();
         $this->createProductConfiguration();
 
         $this->manager->flush();
 
         $productPayload = new ProductPayload($this->client);
+        $productPayload->setProcessAsSoonAsPossible(false);
 
         $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
-        /** @var RetrieveProductsTask $retrieveProductsTask */
-        $retrieveProductsTask = $this->taskProvider->get(RetrieveProductsTask::class);
+        /** @var ProcessProductsTask $processProductsTask */
+        $processProductsTask = $this->taskProvider->get(ProcessProductsTask::class);
         /** @var ProductPayload $productPayload */
-        $productPayload = $retrieveProductsTask->__invoke($productPayload);
+        $productPayload = $processProductsTask->__invoke($productPayload);
 
-        $this->assertSame(13, $this->countTotalProducts(false));
-
-        /** @var CreateConfigurableProductEntitiesTask $createConfigurableProductEntitiesTask */
-        $createConfigurableProductEntitiesTask = $this->taskProvider->get(CreateConfigurableProductEntitiesTask::class);
-        $createConfigurableProductEntitiesTask->__invoke($productPayload);
+        /** @var TearDownProductTask $tearDownProductTask */
+        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask->__invoke($productPayload);
 
         $productsToTest = [
             [
@@ -147,7 +154,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
     private function importCategories(): void
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $categoryPayload */
         $categoryPayload = new CategoryPayload($this->client);
         /** @var \League\Pipeline\Pipeline $categoryPipeline */
         $categoryPipeline = $this->getContainer()->get(CategoryPipelineFactory::class)->create();
@@ -157,24 +163,26 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
     private function importProductModels(): void
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload $productModelPayload */
         $productModelPayload = new ProductModelPayload($this->client);
+        $productModelPayload->setProcessAsSoonAsPossible(false);
+
         /** @var \League\Pipeline\Pipeline $productModelPipeline */
         $productModelPipeline = $this->getContainer()->get(ProductModelPipelineFactory::class)->create();
 
         $productModelPipeline->process($productModelPayload);
     }
 
-    private function importFamillies()
+    private function importFamilies(): void
     {
         /** @var Pipeline $familyPipeline */
         $familyPipeline = $this->getContainer()->get(FamilyPipelineFactory::class)->create();
 
-        $productModelPayload = new ProductModelPayload($this->client);
-        $familyPipeline->process($productModelPayload);
+        $familyPayload = new FamilyPayload($this->client);
+        $familyPayload->setProcessAsSoonAsPossible(false);
+        $familyPipeline->process($familyPayload);
     }
 
-    private function createProductFiltersConfiguration()
+    private function createProductFiltersConfiguration(): void
     {
         $this->productFilter = $this->getContainer()->get(ProductFilter::class);
 
@@ -195,5 +203,33 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         ;
 
         $this->manager->flush();
+    }
+
+    private function importReferenceEntities(): void
+    {
+        $this->server->setResponseOfPath(
+            '/' . sprintf(LocaleApi::LOCALES_URI),
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
+            new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityAttributeApi::REFERENCE_ENTITY_ATTRIBUTES_URI, 'couleur'),
+            new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityAttributeOptionApi::REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI, 'couleur', 'filtre_couleur_1'),
+            new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK)
+        );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'couleur', 'noir'),
+            new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK)
+        );
     }
 }

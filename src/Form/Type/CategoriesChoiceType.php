@@ -11,7 +11,7 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
 final class CategoriesChoiceType extends AbstractType
 {
@@ -21,10 +21,10 @@ final class CategoriesChoiceType extends AbstractType
     /** @var ChannelContextInterface */
     private $channelContext;
 
-    /** @var ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
-    public function __construct(ClientFactory $clientFactory, ChannelContextInterface $channelContext)
+    public function __construct(ClientFactoryInterface $clientFactory, ChannelContextInterface $channelContext)
     {
         $this->clientFactory = $clientFactory;
         $this->categoryApi = $this->clientFactory->createFromApiCredentials()->getCategoryApi();

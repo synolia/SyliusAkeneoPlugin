@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 class ApiConfigurationFixture extends AbstractFixture
@@ -16,14 +16,14 @@ class ApiConfigurationFixture extends AbstractFixture
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactory */
+    /** @var ClientFactoryInterface */
     private $clientFactory;
 
     /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
     private $apiConfigurationFactory;
 
     public function __construct(
-        ClientFactory $clientFactory,
+        ClientFactoryInterface $clientFactory,
         EntityManagerInterface $entityManager,
         FactoryInterface $apiConfigurationFactory
     ) {

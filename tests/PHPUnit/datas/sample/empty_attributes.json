@@ -1,0 +1,14 @@
+{
+    "_links": {
+        "self": {
+            "href": "http://akeneo.example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+        },
+        "first": {
+            "href": "http://akeneo.example.com/api/rest/v1/attributes?page=1&limit=100&with_count=false"
+        }
+    },
+    "current_page": 1,
+    "_embedded": {
+        "items": []
+    }
+}

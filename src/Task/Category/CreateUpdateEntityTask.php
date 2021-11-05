@@ -21,6 +21,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
+/**
+ * @internal
+ */
 final class CreateUpdateEntityTask implements AkeneoTaskInterface
 {
     /** @var \Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface */

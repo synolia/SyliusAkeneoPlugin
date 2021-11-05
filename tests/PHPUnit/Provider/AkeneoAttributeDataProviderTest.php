@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
+use Akeneo\Pim\ApiClient\Api\AttributeApi;
+use donatj\MockWebServer\Response;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Task\AttributeOption\CreateUpdateDeleteTask;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
 /**
@@ -26,9 +28,15 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     {
         parent::setUp();
 
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK)
+        );
+
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
         $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
+        /** @var ProductAttributeValueValueBuilder $productAttributeValueValueBuilder */
         $productAttributeValueValueBuilder = $this->getContainer()->get(ProductAttributeValueValueBuilder::class);
         $this->attributeDataProvider = new AkeneoAttributeDataProvider($akeneoPropertiesProvider, $productAttributeValueValueBuilder);
     }
@@ -78,28 +86,28 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
     {
-        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
             {
               "locale": null,
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
             {
               "locale": "fr_FR",
               "scope": "ecommerce",
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [[CreateUpdateDeleteTask::AKENEO_PREFIX . '600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
             {
               "locale": null,
               "scope": "ecommerce",

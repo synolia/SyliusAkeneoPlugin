@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -21,9 +20,12 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 
 class AbstractCreateProductEntities
 {
+    protected const AKENEO_PREFIX = 'akeneo-';
+
     private const PRICE_CENTS = 100;
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
@@ -56,6 +58,9 @@ class AbstractCreateProductEntities
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     protected $productConfigurationRepository;
 
+    /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
+    protected $productChannelEnabler;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -66,7 +71,8 @@ class AbstractCreateProductEntities
         RepositoryInterface $productConfigurationRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ProductChannelEnabler $productChannelEnabler
     ) {
         $this->entityManager = $entityManager;
         $this->productVariantRepository = $productVariantRepository;
@@ -78,6 +84,7 @@ class AbstractCreateProductEntities
         $this->channelPricingFactory = $channelPricingFactory;
         $this->localeRepository = $localeRepository;
         $this->logger = $akeneoLogger;
+        $this->productChannelEnabler = $productChannelEnabler;
     }
 
     protected function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface
@@ -125,26 +132,6 @@ class AbstractCreateProductEntities
         $query->execute();
 
         return (int) \current($query->fetch());
-    }
-
-    protected function prepareSelectQuery(
-        bool $isSimple,
-        int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
-        int $offset = 0
-    ): Statement {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
-            'SELECT `values` 
-             FROM `%s` 
-             WHERE is_simple = :is_simple
-             LIMIT :limit
-             OFFSET :offset',
-            ProductPayload::TEMP_AKENEO_TABLE_NAME
-        ));
-        $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
-        $query->bindValue('limit', $limit, ParameterType::INTEGER);
-        $query->bindValue('offset', $offset, ParameterType::INTEGER);
-
-        return $query;
     }
 
     private function addPriceToChannel(

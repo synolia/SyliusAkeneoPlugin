@@ -7,8 +7,9 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddFamilyVariationAxeTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddProductGroupsTask;
+use Synolia\SyliusAkeneoPlugin\Task\Family\ProcessFamilyTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 final class FamilyPipelineFactory extends AbstractPipelineFactory
 {
@@ -17,8 +18,9 @@ final class FamilyPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(AddProductGroupsTask::class))
-            ->pipe($this->taskProvider->get(AddFamilyVariationAxeTask::class))
+            ->pipe($this->taskProvider->get(SetupTask::class))
+            ->pipe($this->taskProvider->get(ProcessFamilyTask::class))
+            ->pipe($this->taskProvider->get(TearDownTask::class))
         ;
     }
 }

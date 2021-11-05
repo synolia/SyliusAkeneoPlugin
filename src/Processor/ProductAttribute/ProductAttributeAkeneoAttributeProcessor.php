@@ -13,7 +13,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
-use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
+use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 
 class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
@@ -23,7 +23,7 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
     /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer */
+    /** @var AkeneoAttributeToSyliusAttributeTransformerInterface */
     private $akeneoAttributeToSyliusAttributeTransformer;
 
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
@@ -44,7 +44,7 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
     public function __construct(
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer,
+        AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
         RepositoryInterface $productAttributeRepository,
         RepositoryInterface $productAttributeValueRepository,
         ProductAttributeValueValueBuilder $attributeValueValueBuilder,

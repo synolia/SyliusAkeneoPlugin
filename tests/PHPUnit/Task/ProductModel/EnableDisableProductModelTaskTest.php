@@ -8,10 +8,9 @@ use Sylius\Component\Core\Model\Product;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\AddOrUpdateProductModelTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\EnableDisableProductModelsTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\RetrieveProductModelsTask;
-use Synolia\SyliusAkeneoPlugin\Task\ProductModel\SetupProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
@@ -38,45 +37,20 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $this->createProductConfiguration();
 
         $productModelPayload = new ProductModelPayload($this->createClient());
+        $productModelPayload->disableBatching();
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productModelPayload = $setupProductModelsTask->__invoke($productModelPayload);
 
-        /** @var RetrieveProductModelsTask $retrieveProductModelsTask */
-        $retrieveProductModelsTask = $this->taskProvider->get(RetrieveProductModelsTask::class);
-        $optionsPayload = $retrieveProductModelsTask->__invoke($productModelPayload);
+        /** @var ProcessProductModelsTask $processProductModelsTask */
+        $processProductModelsTask = $this->taskProvider->get(ProcessProductModelsTask::class);
+        $productModelPayload = $processProductModelsTask->__invoke($productModelPayload);
 
-        $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, 0);
-        $query->executeStatement();
-        $processedCount = 0;
-
-        while ($results = $query->fetchAll()) {
-            foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
-
-                if (null === $resource['parent']) {
-                    continue;
-                }
-                $productBase = $resource;
-
-                break;
-            }
-
-            $processedCount += \count($results);
-            $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
-            $query->executeStatement();
-        }
-
-        /** @var AddOrUpdateProductModelTask $addOrUpdateProductModelsTask */
-        $addOrUpdateProductModelsTask = $this->taskProvider->get(AddOrUpdateProductModelTask::class);
-        $productModelPayload = $addOrUpdateProductModelsTask->__invoke($optionsPayload);
-
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\ProductModel\EnableDisableProductModelsTask $enableDisableProductModelTask */
-        $enableDisableProductModelTask = $this->taskProvider->get(EnableDisableProductModelsTask::class);
-        $enableDisableProductModelTask->__invoke($productModelPayload);
+        $tearDownProductModelTask = $this->taskProvider->get(TearDownTask::class);
+        $tearDownProductModelTask->__invoke($productModelPayload);
 
         /** @var Product $product */
-        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => $productBase['code']]);
+        $product = $this->getContainer()->get('sylius.repository.product')->findOneBy(['code' => 'apollon_yellow']);
         $this->assertCount(1, $product->getChannels());
         $channel = $this->getContainer()->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
         $this->assertContains($channel, $product->getChannels());

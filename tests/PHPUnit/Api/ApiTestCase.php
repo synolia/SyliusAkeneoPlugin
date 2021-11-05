@@ -51,7 +51,7 @@ abstract class ApiTestCase extends KernelTestCase
     {
         $this->apiConfiguration = new ApiConfiguration();
         $this->apiConfiguration->setPaginationSize(100)
-            ->setBaseUrl('test')
+            ->setBaseUrl(\sprintf('%s:%d', $_SERVER['MOCK_SERVER_HOST'], (int) $_SERVER['MOCK_SERVER_PORT']))
             ->setUsername('test')
             ->setApiClientId('test')
             ->setApiClientSecret('test')

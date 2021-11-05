@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Transformer;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 
-final class AkeneoAttributeToSyliusAttributeTransformer
+final class AkeneoAttributeToSyliusAttributeTransformer implements AkeneoAttributeToSyliusAttributeTransformerInterface
 {
     /** @var EntityRepository */
     private $attributeAkeneoSyliusMappingRepository;

@@ -46,6 +46,7 @@ install-plugin:
 update-dependencies:
 	${COMPOSER} config extra.symfony.require "^${SYMFONY_VERSION}"
 	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
+	${COMPOSER} require doctrine/orm:2.9.* -W --no-scripts --no-update
 ifeq ($(SYMFONY_VERSION), 4.4)
 	${COMPOSER} require sylius/admin-api-bundle --no-scripts --no-update
 endif
