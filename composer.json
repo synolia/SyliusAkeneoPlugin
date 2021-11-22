@@ -5,7 +5,7 @@
     "description": "Akeneo connector for Sylius.",
     "license": "EUPL-1.2",
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "akeneo/api-php-client": "^4.0||^5.0||^6.0",
         "akeneo/api-php-client-ee": "^4.0||^5.0||^6.0",
@@ -73,11 +73,14 @@
     },
     "extra": {
         "symfony": {
-            "require": "^4.3 || ^5.1"
+            "require": "^4.3 || ^5.2"
         }
     },
     "scripts": {
         "fix-ecs": "ecs check -c ruleset/ecs.php --fix --ansi --clear-cache",
         "patch" : "php bin/patch"
+    },
+    "conflict": {
+        "doctrine/dbal": "^3.0"
     }
 }

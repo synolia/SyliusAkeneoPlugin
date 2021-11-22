@@ -2,11 +2,11 @@
 SHELL=/bin/bash
 COMPOSER_ROOT=composer
 TEST_DIRECTORY=tests/Application
-CONSOLE=cd tests/Application && symfony console -e test
+CONSOLE=cd tests/Application && php bin/console -e test
 COMPOSER=cd tests/Application && composer
 YARN=cd tests/Application && yarn
 
-SYLIUS_VERSION=1.9.0
+SYLIUS_VERSION=1.10.0
 SYMFONY_VERSION=5.2
 PLUGIN_NAME=synolia/sylius-akeneo-plugin
 
@@ -39,24 +39,31 @@ install-plugin:
 	${COMPOSER} config extra.symfony.allow-contrib true
 	${COMPOSER} config minimum-stability "dev"
 	${COMPOSER} config prefer-stable true
+ifeq ($(SYLIUS_VERSION), 1.10.0)
+	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts -W
+else
 	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts
+endif
+
 	cp -r install/Application tests
 	cp -r tests/data/* ${TEST_DIRECTORY}/
 
 update-dependencies:
 	${COMPOSER} config extra.symfony.require "^${SYMFONY_VERSION}"
 	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
-	${COMPOSER} require doctrine/orm:2.9.* -W --no-scripts --no-update
 ifeq ($(SYMFONY_VERSION), 4.4)
 	${COMPOSER} require sylius/admin-api-bundle --no-scripts --no-update
 endif
 ifeq ($(SYLIUS_VERSION), 1.8.0)
 	${COMPOSER} update --no-progress --no-scripts --prefer-dist -n
 endif
+
 	${COMPOSER} update --no-progress -n
 
 install-sylius:
-	${CONSOLE} sylius:install -n -s akeneo
+	${CONSOLE} d:d:c
+	${CONSOLE} d:mig:mig -n
+	${CONSOLE} syl:fix:load akeneo -n
 	${YARN} install
 	${YARN} build
 	${CONSOLE} cache:clear
