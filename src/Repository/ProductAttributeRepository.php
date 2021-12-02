@@ -70,8 +70,6 @@ final class ProductAttributeRepository extends ServiceEntityRepository
             return [];
         }
 
-        return \array_map(function (array $data) {
-            return $data['code'];
-        }, $attributeCodesResult);
+        return array_map(fn (array $data) => $data['code'], $attributeCodesResult);
     }
 }

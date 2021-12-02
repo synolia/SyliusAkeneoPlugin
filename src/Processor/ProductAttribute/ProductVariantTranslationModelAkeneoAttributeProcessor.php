@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 
-class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
+final class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
     public function __construct(
         CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
@@ -39,9 +39,9 @@ class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractMod
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
-        return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+        return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
-            \ucfirst($attributeCode),
+            ucfirst($attributeCode),
             self::CUSTOM_PROPERTIES_SUFFIX
         ));
     }

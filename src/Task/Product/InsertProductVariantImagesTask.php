@@ -19,7 +19,6 @@ final class InsertProductVariantImagesTask extends AbstractInsertProductImageTas
                 throw new \LogicException('Wrong payload provided.');
             }
 
-            /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
             $productVariant = $payload->getProductVariant();
 
             if (!$productVariant instanceof ProductVariantInterface) {

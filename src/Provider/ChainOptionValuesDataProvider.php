@@ -9,10 +9,10 @@ use Sylius\Component\Product\Model\ProductOptionInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface;
 
-class ChainOptionValuesDataProvider implements OptionValuesProcessorProviderInterface
+final class ChainOptionValuesDataProvider implements OptionValuesProcessorProviderInterface
 {
     /** @var array<OptionValuesProcessorInterface> */
-    private $optionValuesProcessors;
+    private array $optionValuesProcessors;
 
     public function __construct(\Traversable $handlers)
     {
@@ -21,10 +21,6 @@ class ChainOptionValuesDataProvider implements OptionValuesProcessorProviderInte
 
     public function getProcessor(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): OptionValuesProcessorInterface
     {
-        if (null === $this->optionValuesProcessors) {
-            $this->optionValuesProcessors = [];
-        }
-
         /** @var OptionValuesProcessorInterface $optionValuesProcessor */
         foreach ($this->optionValuesProcessors as $optionValuesProcessor) {
             if ($optionValuesProcessor->support($attribute, $productOption, $context)) {
@@ -32,6 +28,6 @@ class ChainOptionValuesDataProvider implements OptionValuesProcessorProviderInte
             }
         }
 
-        throw new MissingProductOptionValuesProcessorException(\sprintf('Could not find an OptionValuesProcessor for option %s', $productOption->getCode()));
+        throw new MissingProductOptionValuesProcessorException(sprintf('Could not find an OptionValuesProcessor for option %s', $productOption->getCode()));
     }
 }

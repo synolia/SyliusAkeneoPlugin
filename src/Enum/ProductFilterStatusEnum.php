@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Enum;
 
-class ProductFilterStatusEnum
+final class ProductFilterStatusEnum
 {
     public const NO_CONDITION = 'no_condition';
 

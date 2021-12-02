@@ -33,44 +33,33 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
+use Throwable;
 
 final class ConfigurableProductsTask extends AbstractCreateProductEntities
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionRepository;
+    private RepositoryInterface $productOptionRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueRepository;
+    private RepositoryInterface $productOptionValueRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
-    private $productGroupRepository;
+    private ProductGroupRepository $productGroupRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionValueTranslationRepository;
+    private RepositoryInterface $productOptionValueTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productVariantTranslationRepository;
+    private RepositoryInterface $productVariantTranslationRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productVariantTranslationFactory;
+    private FactoryInterface $productVariantTranslationFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
-    /** @var string */
-    private $scope;
+    private string $scope;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface */
-    private $akeneoAttributeProcessorProvider;
+    private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface */
-    private $productOptionValueDataTransformer;
+    private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -143,8 +132,8 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             $productModel = $this->productRepository->findOneBy(['code' => $resource['parent']]);
 
             //Skip product variant import if it does not have a parent model on Sylius
-            if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
-                $this->logger->warning(\sprintf(
+            if (!$productModel instanceof ProductInterface || !\is_string($productModel->getCode())) {
+                $this->logger->warning(sprintf(
                     'Skipped product "%s" because model "%s" does not exist.',
                     $resource['identifier'],
                     $resource['parent'],
@@ -158,7 +147,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
 
             if (!$productGroup instanceof ProductGroup) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Skipped product "%s" because model "%s" does not exist as group.',
                     $resource['identifier'],
                     $resource['parent'],
@@ -170,7 +159,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             $variationAxes = $productGroup->getVariationAxes();
 
             if (0 === \count($variationAxes)) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Skipped product "%s" because group has no variation axis.',
                     $resource['identifier'],
                 ));
@@ -182,7 +171,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
             $this->entityManager->flush();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
         }
     }
@@ -227,7 +216,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
             //We cannot create the variant if the option does not exist
             if (!$productOption instanceof ProductOptionInterface) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Skipped ProductVariant "%s" creation because ProductOption "%s" does not exist.',
                     $variantCode,
                     $attributeCode
@@ -263,7 +252,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             ]);
 
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Skipped variant value %s for option %s on variant %s because ProductOptionValue does not exist.',
                     $value,
                     $productOption->getCode(),
@@ -317,7 +306,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             return $this->productOptionValueDataTransformer->transform($productOption, $data);
         }
 
-        return $this->productOptionValueDataTransformer->transform($productOption, \implode('_', $data));
+        return $this->productOptionValueDataTransformer->transform($productOption, implode('_', $data));
     }
 
     /**
@@ -329,7 +318,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             return $data;
         }
 
-        return \implode(' ', $data);
+        return implode(' ', $data);
     }
 
     private function updateImages(ProductPayload $payload, array $resource, ProductVariantInterface $productVariant): void

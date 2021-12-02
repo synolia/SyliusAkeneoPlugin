@@ -15,14 +15,11 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
 final class ProductChannelEnabler
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository */
-    private $channelRepository;
+    private ChannelRepository $channelRepository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository */
-    private $productConfigurationRepository;
+    private ProductConfigurationRepository $productConfigurationRepository;
 
     public function __construct(
         ChannelRepository $channelRepository,
@@ -46,7 +43,7 @@ final class ProductChannelEnabler
                 $channel = $this->channelRepository->findOneBy(['code' => $enabledChannel]);
                 if (!$channel instanceof ChannelInterface) {
                     $this->logger->info(
-                        \sprintf(
+                        sprintf(
                             'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
                             $enabledChannel,
                             $product->getCode()
@@ -58,7 +55,7 @@ final class ProductChannelEnabler
 
                 $product->addChannel($channel);
                 $this->logger->info(
-                    \sprintf(
+                    sprintf(
                         'Enabled channel "%s" for product "%s"',
                         $channel->getCode(),
                         $product->getCode()
@@ -92,9 +89,9 @@ final class ProductChannelEnabler
                 throw new \LogicException('Enabled channels attribute is empty.');
             }
 
-            return \current($attributeValue)['data'];
+            return current($attributeValue)['data'];
         }
 
-        throw new NoAttributeResourcesException(\sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
+        throw new NoAttributeResourcesException(sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
     }
 }

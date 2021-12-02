@@ -13,23 +13,17 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 {
     use ConfigurationContextTrait;
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    protected $akeneoPimClient;
+    protected AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration */
-    protected $apiConfiguration;
+    protected \Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration $apiConfiguration;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface|null */
-    protected $commandContext;
+    protected ?CommandContextInterface $commandContext;
 
-    /** @var array */
-    protected $ids = [];
+    protected array $ids = [];
 
-    /** @var string */
-    protected $tmpTableName;
+    protected string $tmpTableName;
 
-    /** @var string */
-    protected $commandName;
+    protected string $commandName;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,
@@ -56,7 +50,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     public function getType(): string
     {
         try {
-            return \mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
+            return mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
         } catch (\ReflectionException $e) {
             return '';
         }
@@ -85,7 +79,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 
     public function hasCommandContext(): bool
     {
-        return $this->commandContext !== null;
+        return null !== $this->commandContext;
     }
 
     public function getIds(): array

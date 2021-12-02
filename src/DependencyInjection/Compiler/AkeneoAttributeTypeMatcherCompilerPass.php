@@ -17,7 +17,7 @@ final class AkeneoAttributeTypeMatcherCompilerPass implements CompilerPassInterf
         $definition = $container->getDefinition(AttributeTypeMatcher::class);
 
         $taggedServices = $container->findTaggedServiceIds(AttributeTypeMatcherInterface::TAG_ID);
-        foreach (\array_keys($taggedServices) as $id) {
+        foreach (array_keys($taggedServices) as $id) {
             $definition->addMethodCall('addTypeMatcher', [new Reference($id)]);
         }
     }

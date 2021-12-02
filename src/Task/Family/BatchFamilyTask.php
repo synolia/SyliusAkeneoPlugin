@@ -17,26 +17,19 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
 final class BatchFamilyTask extends AbstractBatchTask
 {
-    /** @var EntityRepository */
-    private $productGroupRepository;
+    private EntityRepository $productGroupRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    private $groupAlreadyExistCount = 0;
+    private int $groupAlreadyExistCount = 0;
 
-    /** @var int */
-    private $groupCreateCount = 0;
+    private int $groupCreateCount = 0;
 
-    /** @var array */
-    private $productGroupsMapping;
+    private array $productGroupsMapping;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor */
-    private $familyVariationAxeProcessor;
+    private FamilyVariationAxeProcessor $familyVariationAxeProcessor;
 
-    /** @var FactoryInterface */
-    private $productGroupFactory;
+    private FactoryInterface $productGroupFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -68,7 +61,7 @@ final class BatchFamilyTask extends AbstractBatchTask
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
                 try {
-                    $resource = \json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true);
                     $resources[] = $resource;
 
                     $this->createProductGroups($resource);
@@ -99,7 +92,7 @@ final class BatchFamilyTask extends AbstractBatchTask
         if ($productGroup instanceof ProductGroup) {
             ++$this->groupAlreadyExistCount;
 
-            $this->logger->info(\sprintf(
+            $this->logger->info(sprintf(
                 'Skipping ProductGroup "%s" for family "%s" as it already exists.',
                 $code,
                 $family,
@@ -108,7 +101,7 @@ final class BatchFamilyTask extends AbstractBatchTask
             return $productGroup;
         }
 
-        $this->logger->info(\sprintf(
+        $this->logger->info(sprintf(
             'Creating ProductGroup "%s" for family "%s"',
             $code,
             $family,
@@ -128,10 +121,10 @@ final class BatchFamilyTask extends AbstractBatchTask
 
     private function createProductGroups(array $resource): void
     {
-        if ($resource['parent'] !== null) {
+        if (null !== $resource['parent']) {
             $this->createGroupForCodeAndFamily($resource['parent'], $resource['family']);
         }
-        if ($resource['code'] !== null) {
+        if (null !== $resource['code']) {
             $this->createGroupForCodeAndFamily($resource['code'], $resource['family']);
         }
     }

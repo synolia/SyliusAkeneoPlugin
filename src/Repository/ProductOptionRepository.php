@@ -41,8 +41,6 @@ final class ProductOptionRepository extends ServiceEntityRepository
             return [];
         }
 
-        return \array_map(function (array $data) {
-            return $data['id'];
-        }, $removedOptionResults);
+        return array_map(fn (array $data) => $data['id'], $removedOptionResults);
     }
 }

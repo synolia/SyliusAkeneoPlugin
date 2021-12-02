@@ -52,21 +52,21 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function uniqueAttributeDataProvider(): \Generator
     {
-        yield ['1234567890142', 'ean', \json_decode('[
+        yield ['1234567890142', 'ean', json_decode('[
             {
               "locale": null,
               "scope": null,
               "data": "1234567890142"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['1234567890142', 'sku', \json_decode('[
+        yield ['1234567890142', 'sku', json_decode('[
             {
               "locale": null,
               "scope": null,
               "data": "1234567890142"
             }
           ]', true), 'en_US', 'ecommerce'];
-        yield ['1234567890142', 'sku', \json_decode('[
+        yield ['1234567890142', 'sku', json_decode('[
             {
               "locale": null,
               "scope": null,
@@ -86,35 +86,35 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
     {
-        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', json_decode('[
             {
               "locale": null,
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', json_decode('[
             {
               "locale": "fr_FR",
               "scope": "ecommerce",
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield [['akeneo-600'], 'wash_temperature', \json_decode('[
+        yield [['akeneo-600'], 'wash_temperature', json_decode('[
             {
               "locale": null,
               "scope": "ecommerce",
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['32 INCH', 'display_diagonal', \json_decode('[
+        yield ['32 INCH', 'display_diagonal', json_decode('[
             {
               "locale": null,
               "scope": null,
@@ -137,7 +137,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function nonUniqueNonLocalizableScopableAttributeDataProvider(): \Generator
     {
-        yield ['2011-12-02T00:00:00+01:00', 'release_date', \json_decode('[
+        yield ['2011-12-02T00:00:00+01:00', 'release_date', json_decode('[
             {
               "locale": null,
               "scope": "ecommerce",
@@ -157,14 +157,14 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
     public function nonUniqueLocalizableScopableAttributeDataProvider(): \Generator
     {
-        yield ['description fr', 'variation_description', \json_decode('[
+        yield ['description fr', 'variation_description', json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
               "data": "description fr"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['description fr', 'variation_description', \json_decode('[
+        yield ['description fr', 'variation_description', json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
@@ -176,7 +176,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
               "data": "description en"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['description en', 'variation_description', \json_decode('[
+        yield ['description en', 'variation_description', json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,
@@ -188,7 +188,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
               "data": "description en"
             }
           ]', true), 'en_US', 'ecommerce'];
-        yield ['description en', 'variation_description', \json_decode('[
+        yield ['description en', 'variation_description', json_decode('[
             {
               "locale": "fr_FR",
               "scope": null,

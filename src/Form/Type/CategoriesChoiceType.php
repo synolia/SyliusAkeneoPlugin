@@ -15,14 +15,11 @@ use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
 final class CategoriesChoiceType extends AbstractType
 {
-    /** @var CategoryApiInterface */
-    private $categoryApi;
+    private CategoryApiInterface $categoryApi;
 
-    /** @var ChannelContextInterface */
-    private $channelContext;
+    private ChannelContextInterface $channelContext;
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
     public function __construct(ClientFactoryInterface $clientFactory, ChannelContextInterface $channelContext)
     {

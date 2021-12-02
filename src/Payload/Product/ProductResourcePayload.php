@@ -9,17 +9,13 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductResourcePayload extends AbstractPayload
 {
-    /** @var \Sylius\Component\Core\Model\ProductInterface|null */
-    private $product;
+    private ?ProductInterface $product;
 
-    /** @var array */
-    private $resource;
+    private array $resource;
 
-    /** @var array */
-    private $family;
+    private array $family;
 
-    /** @var string */
-    private $scope;
+    private string $scope;
 
     public function getProduct(): ?ProductInterface
     {

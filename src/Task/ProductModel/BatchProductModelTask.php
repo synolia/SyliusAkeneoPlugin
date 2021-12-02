@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
@@ -25,8 +24,11 @@ use Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddProductToCategoriesTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
@@ -34,60 +36,45 @@ final class BatchProductModelTask extends AbstractBatchTask
 {
     private const ONE_VARIATION_AXIS = 1;
 
-    /** @var ProductRepositoryInterface */
-    private $productRepository;
+    private ProductRepositoryInterface $productRepository;
 
-    /** @var ProductFactoryInterface */
-    private $productFactory;
+    private ProductFactoryInterface $productFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
-    private $productGroupRepository;
+    private ProductGroupRepository $productGroupRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
-    private $productConfigurationRepository;
+    private ProductConfigurationRepository $productConfigurationRepository;
 
-    /** @var ProductConfiguration */
-    private $productConfiguration;
+    private ProductConfiguration $productConfiguration;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface */
-    private $addProductCategoriesTask;
+    private AkeneoTaskInterface $addProductCategoriesTask;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
-    private $productChannelEnabler;
+    private ProductChannelEnabler $productChannelEnabler;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface */
-    private $mainTaxonProcessor;
+    private MainTaxonProcessorInterface $mainTaxonProcessor;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface */
-    private $attributesProcessor;
+    private AttributesProcessorInterface $attributesProcessor;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface */
-    private $completeRequirementProcessor;
+    private CompleteRequirementProcessorInterface $completeRequirementProcessor;
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
         ProductRepositoryInterface $productRepository,
-        EntityRepository $productGroupRepository,
+        ProductGroupRepository $productGroupRepository,
         AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
-        EntityRepository $productConfigurationRepository,
+        ProductConfigurationRepository $productConfigurationRepository,
         EventDispatcherInterface $dispatcher,
         ProductChannelEnabler $productChannelEnabler,
         MainTaxonProcessorInterface $mainTaxonProcessor,
@@ -125,7 +112,7 @@ final class BatchProductModelTask extends AbstractBatchTask
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 try {
                     $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));

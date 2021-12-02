@@ -25,8 +25,7 @@ final class AttributePayload extends AbstractPayload
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $resources;
+    private ?ResourceCursorInterface $resources;
 
     public function getResources(): ?ResourceCursorInterface
     {

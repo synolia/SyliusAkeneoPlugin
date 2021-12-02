@@ -8,7 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Synolia\SyliusAkeneoPlugin\Event\AfterTaskEvent;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Pipeline\DummyPayload;
 
-class AfterTaskSubscriber implements EventSubscriberInterface
+final class AfterTaskSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
@@ -23,7 +23,7 @@ class AfterTaskSubscriber implements EventSubscriberInterface
     {
         /** @var DummyPayload $payload */
         $payload = $event->getPayload();
-        if (\method_exists($payload, 'addLog')) {
+        if (method_exists($payload, 'addLog')) {
             $payload->addLog($event::NAME);
         }
     }

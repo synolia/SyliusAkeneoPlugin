@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
+use League\Pipeline\PipelineInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -20,17 +21,13 @@ abstract class AbstractImportCommand extends Command
     /** @var string The default command description */
     protected static $defaultDescription = '';
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface */
-    protected $payloadFactory;
+    protected PayloadFactoryInterface $payloadFactory;
 
-    /** @var \League\Pipeline\PipelineInterface */
-    protected $pipeline;
+    protected PipelineInterface $pipeline;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\PipelineFactoryInterface */
-    private $pipelineFactory;
+    private PipelineFactoryInterface $pipelineFactory;
 
     public function __construct(
         LoggerInterface $akeneoLogger,

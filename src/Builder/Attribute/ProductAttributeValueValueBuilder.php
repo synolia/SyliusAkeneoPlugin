@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 final class ProductAttributeValueValueBuilder
 {
-    /** @var array<\Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface> */
-    private $attributeValueBuilders;
+    private array $attributeValueBuilders;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
     public function __construct(LoggerInterface $akeneoLogger)
     {
         $this->akeneoLogger = $akeneoLogger;
+        $this->attributeValueBuilders = [];
     }
 
     public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void
@@ -63,8 +63,8 @@ final class ProductAttributeValueValueBuilder
                 if ($attributeValueBuilder->support($attributeCode)) {
                     return true;
                 }
-            } catch (\Throwable $throwable) {
-                $this->akeneoLogger->critical(\sprintf(
+            } catch (Throwable $throwable) {
+                $this->akeneoLogger->critical(sprintf(
                     'AttributeValueBuilder "%s" failed to execute method support() for attribute "%s"',
                     \get_class($attributeValueBuilder),
                     $attributeCode

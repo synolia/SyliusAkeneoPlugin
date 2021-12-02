@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\R
 final class ProductRefEntityAttributeValueValueBuilderProvider implements ProductRefEntityAttributeValueValueBuilderProviderInterface
 {
     /** @var array<ReferenceEntityAttributeValueProcessorInterface> */
-    private $referenceEntityAttributeValueProcessors;
+    private array $referenceEntityAttributeValueProcessors;
 
     public function __construct(\Traversable $handlers)
     {
@@ -29,10 +29,6 @@ final class ProductRefEntityAttributeValueValueBuilderProvider implements Produc
         $value,
         array $context = []
     ): ReferenceEntityAttributeValueProcessorInterface {
-        if (null === $this->referenceEntityAttributeValueProcessors) {
-            $this->referenceEntityAttributeValueProcessors = [];
-        }
-
         /** @var ReferenceEntityAttributeValueProcessorInterface $akeneoAttributeProcessor */
         foreach ($this->referenceEntityAttributeValueProcessors as $akeneoAttributeProcessor) {
             if ($akeneoAttributeProcessor->support($attributeCode, $referenceEntityCode, $subAttributeCode, $locale, $scope, $value, $context)) {
@@ -40,6 +36,6 @@ final class ProductRefEntityAttributeValueValueBuilderProvider implements Produc
             }
         }
 
-        throw new MissingAkeneoAttributeProcessorException(\sprintf('Could not find an AkeneoAttributeProcessor for attribute %s', $attributeCode));
+        throw new MissingAkeneoAttributeProcessorException(sprintf('Could not find an AkeneoAttributeProcessor for attribute %s', $attributeCode));
     }
 }

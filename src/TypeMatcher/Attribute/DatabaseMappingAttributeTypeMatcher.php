@@ -10,11 +10,9 @@ use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 
 final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $attributeTypeMappingRepository;
+    private RepositoryInterface $attributeTypeMappingRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping */
-    private $storedAttributeTypeMapping;
+    private AttributeTypeMapping $storedAttributeTypeMapping;
 
     public function __construct(RepositoryInterface $attributeTypeMappingRepository)
     {

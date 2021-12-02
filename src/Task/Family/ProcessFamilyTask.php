@@ -16,8 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessFamilyTask extends AbstractProcessTask
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,

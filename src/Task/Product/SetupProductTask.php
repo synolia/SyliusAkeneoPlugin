@@ -10,13 +10,11 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-class SetupProductTask implements AkeneoTaskInterface
+final class SetupProductTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
     public function __construct(EntityManagerInterface $entityManager, AkeneoTaskProvider $taskProvider)
     {
@@ -37,7 +35,7 @@ class SetupProductTask implements AkeneoTaskInterface
 
         $this->taskProvider->get(TearDownProductTask::class)->__invoke($payload);
 
-        $query = \sprintf(
+        $query = sprintf(
             'CREATE TABLE `%s` (
               `id` INT NOT NULL AUTO_INCREMENT,
               `values` JSON NULL,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Component\Workflow;
 
-class AkeneoWorkflowConstant
+final class AkeneoWorkflowConstant
 {
     public const CATEGORY = 'category';
 

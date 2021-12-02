@@ -8,8 +8,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractResourceEvent extends Event
 {
-    /** @var array */
-    protected $resource;
+    protected array $resource;
 
     public function __construct(array $resource)
     {

@@ -11,16 +11,13 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
-class ApiConfigurationFixture extends AbstractFixture
+final class ApiConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $apiConfigurationFactory;
+    private FactoryInterface $apiConfigurationFactory;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,

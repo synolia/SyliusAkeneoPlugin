@@ -21,7 +21,7 @@ final class AkeneoTaskCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(AkeneoTaskProvider::class);
 
         $taggedServices = $container->findTaggedServiceIds(AkeneoTaskInterface::TAG_ID);
-        foreach (\array_keys($taggedServices) as $id) {
+        foreach (array_keys($taggedServices) as $id) {
             $definition->addMethodCall('addTask', [new Reference($id)]);
         }
     }

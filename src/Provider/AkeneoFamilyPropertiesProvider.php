@@ -8,14 +8,11 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
 final class AkeneoFamilyPropertiesProvider implements AkeneoFamilyPropertiesProviderInterface
 {
-    /** @var bool */
-    private $loadsAllFamiliesAtOnce = false;
+    private bool $loadsAllFamiliesAtOnce = false;
 
-    /** @var array */
-    private $families = [];
+    private array $families = [];
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {

@@ -17,7 +17,7 @@ final class AkeneoReferenceentityAttributeTypeMatcherCompilerPass implements Com
         $definition = $container->getDefinition(ReferenceEntityAttributeTypeMatcher::class);
 
         $taggedServices = $container->findTaggedServiceIds(ReferenceEntityAttributeTypeMatcherInterface::TAG_ID);
-        foreach (\array_keys($taggedServices) as $id) {
+        foreach (array_keys($taggedServices) as $id) {
             $definition->addMethodCall('addTypeMatcher', [new Reference($id)]);
         }
     }

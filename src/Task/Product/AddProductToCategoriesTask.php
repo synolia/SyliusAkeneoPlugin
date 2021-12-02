@@ -15,17 +15,13 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class AddProductToCategoriesTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $taxonRepository;
+    private RepositoryInterface $taxonRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productTaxonRepository;
+    private RepositoryInterface $productTaxonRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productTaxonFactory;
+    private FactoryInterface $productTaxonFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -45,7 +41,7 @@ final class AddProductToCategoriesTask implements AkeneoTaskInterface
             return $payload;
         }
 
-        $taxonCodes = \array_unique($payload->getCategories());
+        $taxonCodes = array_unique($payload->getCategories());
 
         foreach ($taxonCodes as $taxonCode) {
             $taxon = $this->taxonRepository->findOneBy(['code' => $taxonCode]);

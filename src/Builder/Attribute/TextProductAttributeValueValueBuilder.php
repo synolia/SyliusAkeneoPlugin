@@ -38,6 +38,6 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
-        return \trim((string) $value);
+        return trim((string) $value);
     }
 }

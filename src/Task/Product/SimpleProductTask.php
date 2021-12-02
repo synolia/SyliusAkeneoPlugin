@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
@@ -34,47 +35,35 @@ use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Throwable;
 
 final class SimpleProductTask extends AbstractCreateProductEntities
 {
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productFactory;
+    private FactoryInterface $productFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private AkeneoTaskProvider $taskProvider;
 
-    /** @var ProductPayload */
-    private $payload;
+    private PipelinePayloadInterface $payload;
 
-    /** @var string */
-    private $scope;
+    private RepositoryInterface $productTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productTranslationRepository;
+    private FactoryInterface $productTranslationFactory;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productTranslationFactory;
+    private SlugGeneratorInterface $productSlugGenerator;
 
-    /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
-    private $productSlugGenerator;
+    private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
 
-    /** @var AkeneoAttributeDataProviderInterface */
-    private $akeneoAttributeDataProvider;
+    private ProductConfiguration $productConfiguration;
 
-    /** @var ProductConfiguration */
-    private $productConfiguration;
+    private EventDispatcherInterface $dispatcher;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $dispatcher;
+    private AttributesProcessorInterface $attributesProcessor;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface */
-    private $attributesProcessor;
+    private string $scope;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -168,7 +157,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
 
             $this->entityManager->flush();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
         }
     }
@@ -180,7 +169,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
         if (!$product instanceof ProductInterface) {
             if (!$this->productFactory instanceof ProductFactory) {
-                throw new \LogicException('Wrong Factory');
+                throw new LogicException('Wrong Factory');
             }
 
             if (null === $resource['parent']) {
@@ -223,7 +212,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
             }
 
             if (null === $productName) {
-                $productName = \sprintf('[%s]', $product->getCode());
+                $productName = sprintf('[%s]', $product->getCode());
                 ++$missingNameTranslationCount;
             }
 
@@ -252,7 +241,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
             if ($missingNameTranslationCount > 0) {
                 //Multiple product has the same name
-                $productTranslation->setSlug(\sprintf(
+                $productTranslation->setSlug(sprintf(
                     '%s-%s-%d',
                     $resource['code'] ?? $resource['identifier'],
                     $this->productSlugGenerator->generate($productName),
@@ -263,7 +252,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
             }
 
             //Multiple product has the same name
-            $productTranslation->setSlug(\sprintf(
+            $productTranslation->setSlug(sprintf(
                 '%s-%s',
                 $resource['code'] ?? $resource['identifier'],
                 $this->productSlugGenerator->generate($productName)

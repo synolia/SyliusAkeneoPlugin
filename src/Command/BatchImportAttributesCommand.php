@@ -18,14 +18,11 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
     /** @var string */
     protected static $defaultName = 'akeneo:batch:attributes';
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Attribute\BatchAttributesTask */
-    private $attributesTask;
+    private BatchAttributesTask $attributesTask;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,

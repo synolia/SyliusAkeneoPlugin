@@ -106,8 +106,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $value */
         foreach ($values as $value) {
-            $this->assertEquals(
-                true,
+            $this->assertTrue(
                 \in_array(
                     $value->getCode(),
                     $expectedValueCodes,
@@ -127,8 +126,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $value */
         foreach ($values as $value) {
-            $this->assertEquals(
-                true,
+            $this->assertTrue(
                 \in_array(
                     $value->getCode(),
                     $expectedValueCodes,

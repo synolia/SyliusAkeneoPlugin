@@ -17,11 +17,9 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductModelsTask extends AbstractProcessTask
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilter */
-    private $productFilter;
+    private ProductFilter $productFilter;
 
     public function __construct(
         EntityManagerInterface $entityManager,

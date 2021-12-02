@@ -15,31 +15,23 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 
-class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
+final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    /** @var AkeneoAttributeDataProviderInterface */
-    private $akeneoAttributeDataProvider;
+    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformerInterface */
-    private $akeneoAttributeToSyliusAttributeTransformer;
+    private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeRepository;
+    private RepositoryInterface $productAttributeRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeValueRepository;
+    private RepositoryInterface $productAttributeValueRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder */
-    private $attributeValueValueBuilder;
+    private ProductAttributeValueValueBuilder $attributeValueValueBuilder;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productAttributeValueFactory;
+    private FactoryInterface $productAttributeValueFactory;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
@@ -86,7 +78,7 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(\sprintf(
+        $this->logger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class

@@ -8,14 +8,11 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
 final class AkeneoReferenceEntityAttributePropertiesProvider
 {
-    /** @var bool */
-    private $loadsAllAttributesAtOnce = false;
+    private bool $loadsAllAttributesAtOnce = false;
 
-    /** @var array */
-    private $attributes = [];
+    private array $attributes = [];
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
@@ -67,7 +64,7 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
     {
         $labels = $this->getLabels($referenceEntityCode, $referenceEntityAttributeCode);
         if (null === $locale || !isset($labels[$locale])) {
-            return \current($labels);
+            return current($labels);
         }
 
         return $labels[$locale];

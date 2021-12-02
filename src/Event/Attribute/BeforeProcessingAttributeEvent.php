@@ -6,6 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Event\Attribute;
 
 use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
-class BeforeProcessingAttributeEvent extends AbstractResourceEvent
+final class BeforeProcessingAttributeEvent extends AbstractResourceEvent
 {
 }

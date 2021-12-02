@@ -8,14 +8,11 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
 final class AkeneoAttributePropertiesProvider
 {
-    /** @var bool */
-    private $loadsAllAttributesAtOnce = true;
+    private bool $loadsAllAttributesAtOnce = true;
 
-    /** @var array */
-    private $attributes = [];
+    private array $attributes = [];
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
@@ -67,7 +64,7 @@ final class AkeneoAttributePropertiesProvider
     {
         $labels = $this->getLabels($attributeCode);
         if (null === $locale || !isset($labels[$locale])) {
-            return \current($labels);
+            return current($labels);
         }
 
         return $labels[$locale];

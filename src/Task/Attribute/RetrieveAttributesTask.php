@@ -13,11 +13,9 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveAttributesTask implements AkeneoTaskInterface
 {
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
     public function __construct(LoggerInterface $akeneoLogger, ConfigurationProvider $configurationProvider)
     {

@@ -20,11 +20,9 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductsTask extends AbstractProcessTask
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Filter\ProductFilter */
-    private $productFilter;
+    private ProductFilter $productFilter;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -106,20 +104,20 @@ final class ProcessProductsTask extends AbstractProcessTask
             $page instanceof Page
         ) {
             foreach ($page->getItems() as $item) {
-                $sql = \sprintf(
+                $sql = sprintf(
                     'INSERT INTO `%s` (`values`, `is_simple`) VALUES (:values, :is_simple);',
                     ProductPayload::TEMP_AKENEO_TABLE_NAME,
                 );
 
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->bindValue('values', \json_encode($item));
+                $stmt->bindValue('values', json_encode($item));
                 $stmt->bindValue('is_simple', null === $item['parent'], ParameterType::BOOLEAN);
                 $stmt->execute();
                 ++$count;
 
                 $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
-                if ($payload->getProcessAsSoonAsPossible() && $payload->allowParallel() && $count % $payload->getBatchSize() === 0) {
+                if ($payload->getProcessAsSoonAsPossible() && $payload->allowParallel() && 0 === $count % $payload->getBatchSize()) {
                     $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                     $this->batch($payload, $ids);
                     $ids = [];

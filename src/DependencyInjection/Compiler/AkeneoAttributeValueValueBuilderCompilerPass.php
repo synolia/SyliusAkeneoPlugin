@@ -17,7 +17,7 @@ final class AkeneoAttributeValueValueBuilderCompilerPass implements CompilerPass
         $definition = $container->getDefinition(ProductAttributeValueValueBuilder::class);
 
         $taggedServices = $container->findTaggedServiceIds(ProductAttributeValueValueBuilderInterface::TAG_ID);
-        foreach (\array_keys($taggedServices) as $id) {
+        foreach (array_keys($taggedServices) as $id) {
             $definition->addMethodCall('addBuilder', [new Reference($id)]);
         }
     }

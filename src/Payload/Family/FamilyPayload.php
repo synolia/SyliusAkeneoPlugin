@@ -15,8 +15,7 @@ final class FamilyPayload extends AbstractPayload
 
     public const BATCH_COMMAND_NAME = 'akeneo:batch:families';
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $resources;
+    private ?ResourceCursorInterface $resources;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,

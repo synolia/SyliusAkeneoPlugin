@@ -14,7 +14,7 @@ use Sylius\Component\Core\Model\ProductInterface;
  * @ORM\Entity()
  * @ORM\Table("akeneo_product_group")
  */
-class ProductGroup implements ProductGroupInterface
+final class ProductGroup implements ProductGroupInterface
 {
     /**
      * @var int
@@ -81,7 +81,7 @@ class ProductGroup implements ProductGroupInterface
 
     public function addVariationAxe(string $variationAxe): ProductGroupInterface
     {
-        if (in_array($variationAxe, $this->variationAxes)) {
+        if (\in_array($variationAxe, $this->variationAxes)) {
             return $this;
         }
 
@@ -92,7 +92,7 @@ class ProductGroup implements ProductGroupInterface
 
     public function removeVariationAxe(string $variationAxe): ProductGroupInterface
     {
-        if (!in_array($variationAxe, $this->variationAxes)) {
+        if (!\in_array($variationAxe, $this->variationAxes)) {
             return $this;
         }
 

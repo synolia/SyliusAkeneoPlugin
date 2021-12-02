@@ -34,6 +34,6 @@ final class MetricProductAttributeValueValueBuilder implements ProductAttributeV
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
-        return \trim(implode(' ', $value));
+        return trim(implode(' ', $value));
     }
 }

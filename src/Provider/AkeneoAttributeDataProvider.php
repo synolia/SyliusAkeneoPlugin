@@ -12,11 +12,9 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
 
 final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertyProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder */
-    private $productAttributeValueValueBuilder;
+    private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,

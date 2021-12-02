@@ -14,13 +14,11 @@ use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
-class ProductFilterConfigurationFixture extends AbstractFixture
+final class ProductFilterConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productFiltersRulesFactory;
+    private FactoryInterface $productFiltersRulesFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,

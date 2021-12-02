@@ -9,10 +9,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 final class OptionsPayload extends AbstractPayload
 {
     /** @var array<\Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface> */
-    private $selectOptionsResources;
+    private array $selectOptionsResources;
 
     /** @var array<\Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface> */
-    private $referenceEntityOptionsResources;
+    private array $referenceEntityOptionsResources;
 
     public function getSelectOptionsResources(): array
     {

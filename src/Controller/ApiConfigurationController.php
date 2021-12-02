@@ -19,20 +19,15 @@ final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;
 
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var EntityRepository */
-    private $apiConfigurationRepository;
+    private EntityRepository $apiConfigurationRepository;
 
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    /** @var FlashBagInterface */
-    private $flashBag;
+    private FlashBagInterface $flashBag;
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,

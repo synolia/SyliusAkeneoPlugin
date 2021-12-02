@@ -26,35 +26,25 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
  */
 final class CreateUpdateEntityTask implements AkeneoTaskInterface
 {
-    /** @var \Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface */
-    private $taxonFactory;
+    private TaxonFactoryInterface $taxonFactory;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository */
-    private $taxonRepository;
+    private TaxonRepository $taxonRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $taxonTranslationRepository;
+    private RepositoryInterface $taxonTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $taxonTranslationFactory;
+    private FactoryInterface $taxonTranslationFactory;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
@@ -83,7 +73,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        if (!is_array($payload->getResources())) {
+        if (!\is_array($payload->getResources())) {
             throw new NoCategoryResourcesException('No resource found.');
         }
 
@@ -119,10 +109,10 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                     $taxonTranslation->setName($label);
                     $slug = Transliterator::transliterate(
-                        \str_replace(
+                        str_replace(
                             '\'',
                             '-',
-                            \sprintf(
+                            sprintf(
                                 '%s-%s',
                                 $resource['code'],
                                 $label

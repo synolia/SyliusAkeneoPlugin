@@ -9,13 +9,11 @@ use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class CategoryConfigurationFixture extends AbstractFixture
+final class CategoryConfigurationFixture extends AbstractFixture
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $categoriesConfigurationFactory;
+    private FactoryInterface $categoriesConfigurationFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,

@@ -20,20 +20,15 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 
 final class ProductFilterRulesController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
-    /** @var EntityRepository */
-    private $apiConfigurationRepository;
+    private EntityRepository $apiConfigurationRepository;
 
-    /** @var FlashBagInterface */
-    private $flashBag;
+    private FlashBagInterface $flashBag;
 
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(
         EntityManagerInterface $entityManager,

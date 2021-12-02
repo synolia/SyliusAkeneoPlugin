@@ -23,7 +23,7 @@ final class ClientFactory
 
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
     {
-        $clientBuilder = new AkeneoPimEnterpriseClientBuilder(\sprintf(
+        $clientBuilder = new AkeneoPimEnterpriseClientBuilder(sprintf(
             'http://%s:%d',
             $this->mockServerHost,
             $this->mockServerPort

@@ -160,8 +160,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTest
         $choices = $productAttribute->getConfiguration()['choices'];
 
         foreach (array_keys($choices) as $attributeOptionCode) {
-            $this->assertEquals(
-                true,
+            $this->assertTrue(
                 \in_array(
                     $attributeOptionCode,
                     $expectedChoiceCodes,

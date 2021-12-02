@@ -37,44 +37,31 @@ use Webmozart\Assert\Assert;
 
 final class BatchAttributesTask extends AbstractBatchTask
 {
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var RepositoryInterface */
-    private $productAttributeRepository;
+    private RepositoryInterface $productAttributeRepository;
 
-    /** @var FactoryInterface */
-    private $productAttributeFactory;
+    private FactoryInterface $productAttributeFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
-    /** @var AkeneoAttributeToSyliusAttributeTransformerInterface */
-    private $akeneoAttributeToSyliusAttributeTransformer;
+    private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer;
 
-    /** @var ExcludedAttributesProviderInterface */
-    private $excludedAttributesProvider;
+    private ExcludedAttributesProviderInterface $excludedAttributesProvider;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $dispatcher;
+    private EventDispatcherInterface $dispatcher;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface */
-    private $attributeChoiceProcessor;
+    private ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface */
-    private $productOptionProcessor;
+    private ProductOptionProcessorInterface $productOptionProcessor;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface */
-    private $isEnterpriseChecker;
+    private IsEnterpriseCheckerInterface $isEnterpriseChecker;
 
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -127,10 +114,10 @@ final class BatchAttributesTask extends AbstractBatchTask
             $query = $this->getSelectStatement($payload);
             $query->executeStatement();
 
-            $variationAxes = \array_unique($this->getVariationAxes($payload));
+            $variationAxes = array_unique($this->getVariationAxes($payload));
             while ($results = $query->fetchAll()) {
                 foreach ($results as $result) {
-                    $resource = \json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true);
 
                     try {
                         $this->dispatcher->dispatch(new BeforeProcessingAttributeEvent($resource));
@@ -187,20 +174,14 @@ final class BatchAttributesTask extends AbstractBatchTask
     {
         //Do not import attributes that must not be used as attribute in Sylius
         if (\in_array($resource['code'], $excludesAttributes, true)) {
-            throw new ExcludedAttributeException(\sprintf(
-                'Attribute "%s" is excluded by configuration.',
-                $resource['code']
-            ));
+            throw new ExcludedAttributeException(sprintf('Attribute "%s" is excluded by configuration.', $resource['code']));
         }
 
         try {
             $attributeType = $this->attributeTypeMatcher->match($resource['type']);
 
             if ($attributeType instanceof ReferenceEntityAttributeTypeMatcher && !$isEnterprise) {
-                throw new InvalidAttributeException(\sprintf(
-                    'Attribute "%s" is of type ReferenceEntityAttributeTypeMatcher which is invalid.',
-                    $resource['code']
-                ));
+                throw new InvalidAttributeException(sprintf('Attribute "%s" is of type ReferenceEntityAttributeTypeMatcher which is invalid.', $resource['code']));
             }
 
             $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
@@ -212,7 +193,7 @@ final class BatchAttributesTask extends AbstractBatchTask
 
             return $attribute;
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-            $this->logger->warning(\sprintf(
+            $this->logger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
                 $unsupportedAttributeTypeException->getMessage()
@@ -229,7 +210,7 @@ final class BatchAttributesTask extends AbstractBatchTask
             $attribute->setFallbackLocale($usedLocalesOnBothPlatform);
 
             if (!isset($labels[$usedLocalesOnBothPlatform])) {
-                $attribute->setName(\sprintf('[%s]', $attribute->getCode()));
+                $attribute->setName(sprintf('[%s]', $attribute->getCode()));
 
                 continue;
             }
@@ -282,7 +263,7 @@ final class BatchAttributesTask extends AbstractBatchTask
                 $this->configurationProvider->getConfiguration()->getPaginationSize()
             );
 
-            $variationAxes = \array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));
+            $variationAxes = array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));
         }
 
         return $variationAxes;
@@ -294,7 +275,7 @@ final class BatchAttributesTask extends AbstractBatchTask
 
         foreach ($familyVariants as $familyVariant) {
             //Sort array of variant attribute sets by level DESC
-            \usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
+            usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
                 return (int) ($leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level']);
             });
 

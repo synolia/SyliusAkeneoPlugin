@@ -15,8 +15,7 @@ final class ProductModelPayload extends AbstractPayload
 
     public const BATCH_COMMAND_NAME = 'akeneo:batch:product-models';
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $resources;
+    private ?ResourceCursorInterface $resources;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,

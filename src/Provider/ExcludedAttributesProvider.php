@@ -8,10 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 
-class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
+final class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productConfigurationRepository;
+    private RepositoryInterface $productConfigurationRepository;
 
     public function __construct(RepositoryInterface $productConfigurationRepository)
     {

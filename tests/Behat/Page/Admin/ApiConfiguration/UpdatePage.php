@@ -25,7 +25,7 @@ final class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
                 return true;
             }
 
-            if (false === $strict && strstr($validationMessageElement->getText(), $message)) {
+            if (false === $strict && mb_strstr($validationMessageElement->getText(), $message)) {
                 return true;
             }
         }

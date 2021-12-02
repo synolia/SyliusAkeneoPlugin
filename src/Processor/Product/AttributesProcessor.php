@@ -11,19 +11,15 @@ use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterfac
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 
-class AttributesProcessor implements AttributesProcessorInterface
+final class AttributesProcessor implements AttributesProcessorInterface
 {
-    /** @var AkeneoFamilyPropertiesProviderInterface */
-    private $akeneoFamilyPropertiesProvider;
+    private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface */
-    private $productFilterRulesProvider;
+    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface */
-    private $akeneoAttributeProcessorProvider;
+    private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
     public function __construct(
         AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,

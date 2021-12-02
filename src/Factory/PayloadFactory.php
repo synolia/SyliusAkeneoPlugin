@@ -11,7 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContext;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
-class PayloadFactory implements PayloadFactoryInterface
+final class PayloadFactory implements PayloadFactoryInterface
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface */
     private $clientFactory;
