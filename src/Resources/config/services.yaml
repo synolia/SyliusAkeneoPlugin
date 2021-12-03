@@ -115,20 +115,4 @@ services:
     BluePsyduck\SymfonyProcessManager\ProcessManagerInterface:
         class: BluePsyduck\SymfonyProcessManager\ProcessManager
 
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessor
-
     Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider: ~
-    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface: ~

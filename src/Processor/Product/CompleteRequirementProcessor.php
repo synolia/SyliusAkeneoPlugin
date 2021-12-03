@@ -54,6 +54,11 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         $this->productTranslationFactory = $productTranslationFactory;
     }
 
+    public static function getDefaultPriority(): int
+    {
+        return 900;
+    }
+
     public function process(ProductInterface $product, array $resource): void
     {
         $missingNameTranslationCount = 0;

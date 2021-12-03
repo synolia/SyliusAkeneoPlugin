@@ -26,8 +26,6 @@ use Throwable;
 
 abstract class AbstractCreateProductEntities
 {
-    protected const AKENEO_PREFIX = 'akeneo-';
-
     private const PRICE_CENTS = 100;
 
     protected EntityManagerInterface $entityManager;

@@ -12,6 +12,11 @@ final class MainTaxonProcessor implements MainTaxonProcessorInterface
 {
     private TaxonRepositoryInterface $taxonRepository;
 
+    public static function getDefaultPriority(): int
+    {
+        return 700;
+    }
+
     public function __construct(TaxonRepositoryInterface $taxonRepository)
     {
         $this->taxonRepository = $taxonRepository;

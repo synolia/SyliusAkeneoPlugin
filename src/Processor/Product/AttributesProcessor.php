@@ -33,6 +33,11 @@ final class AttributesProcessor implements AttributesProcessorInterface
         $this->akeneoLogger = $akeneoLogger;
     }
 
+    public static function getDefaultPriority(): int
+    {
+        return 800;
+    }
+
     public function process(ProductInterface $product, array $resource): void
     {
         $filters = $this->productFilterRulesProvider->getProductFiltersRules();

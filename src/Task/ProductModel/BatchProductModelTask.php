@@ -14,16 +14,12 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
@@ -56,13 +52,7 @@ final class BatchProductModelTask extends AbstractBatchTask
 
     private EventDispatcherInterface $dispatcher;
 
-    private ProductChannelEnablerProcessorInterface $productChannelEnabler;
-
-    private MainTaxonProcessorInterface $mainTaxonProcessor;
-
-    private AttributesProcessorInterface $attributesProcessor;
-
-    private CompleteRequirementProcessorInterface $completeRequirementProcessor;
+    private ProductProcessorChainInterface $productProcessorChain;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -76,10 +66,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         LoggerInterface $akeneoLogger,
         ProductConfigurationRepository $productConfigurationRepository,
         EventDispatcherInterface $dispatcher,
-        ProductChannelEnablerProcessorInterface $productChannelEnabler,
-        MainTaxonProcessorInterface $mainTaxonProcessor,
-        AttributesProcessorInterface $attributesProcessor,
-        CompleteRequirementProcessorInterface $completeRequirementProcessor
+        ProductProcessorChainInterface $productProcessorChain
     ) {
         parent::__construct($entityManager);
 
@@ -90,10 +77,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->logger = $akeneoLogger;
         $this->productConfigurationRepository = $productConfigurationRepository;
         $this->dispatcher = $dispatcher;
-        $this->productChannelEnabler = $productChannelEnabler;
-        $this->mainTaxonProcessor = $mainTaxonProcessor;
-        $this->attributesProcessor = $attributesProcessor;
-        $this->completeRequirementProcessor = $completeRequirementProcessor;
+        $this->productProcessorChain = $productProcessorChain;
     }
 
     /**
@@ -183,17 +167,10 @@ final class BatchProductModelTask extends AbstractBatchTask
             return;
         }
 
-        $this->completeRequirementProcessor->process($product, $resource);
-        $this->attributesProcessor->process($product, $resource);
+        $this->productProcessorChain->chain($product, $resource);
         $this->addProductGroup($resource, $product);
-        $this->mainTaxonProcessor->process($product, $resource);
         $this->linkCategoriesToProduct($payload, $product, $resource);
         $this->updateImages($payload, $resource, $product);
-
-        try {
-            $this->productChannelEnabler->enableChannelForProduct($product, $resource);
-        } catch (NoAttributeResourcesException $attributeResourcesException) {
-        }
     }
 
     private function linkCategoriesToProduct(PipelinePayloadInterface $payload, ProductInterface $product, array &$resource): void

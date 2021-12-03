@@ -31,7 +31,12 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
         $this->logger = $akeneoLogger;
     }
 
-    public function enableChannelForProduct(ProductInterface $product, array $resource): void
+    public static function getDefaultPriority(): int
+    {
+        return 600;
+    }
+
+    public function process(ProductInterface $product, array $resource): void
     {
         try {
             $enabledChannels = $this->getEnabledChannelsAttributeData($product, $resource);

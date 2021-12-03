@@ -151,7 +151,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
             $this->updateImages($payload, $resource, $product);
             $this->setProductPrices($productVariant, $resource['values']);
-            $this->productChannelEnabler->enableChannelForProduct($product, $resource);
+            $this->productChannelEnabler->process($product, $resource);
 
             $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));

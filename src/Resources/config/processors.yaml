@@ -4,6 +4,32 @@ services:
         autoconfigure: true
         public: false
 
+    Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessor
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessor
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessor
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessor
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessor
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessor
+
     Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeAkeneoAttributeProcessor:
         tags:
             - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
@@ -19,6 +45,12 @@ services:
     Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\ReferenceEntityOptionValuesProcessor:
         tags:
             - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChain
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+
 
 #######################
 #### MORE EXAMPLES ####
