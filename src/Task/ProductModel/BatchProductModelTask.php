@@ -23,10 +23,10 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
-use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Product\AddProductToCategoriesTask;
@@ -56,7 +56,7 @@ final class BatchProductModelTask extends AbstractBatchTask
 
     private EventDispatcherInterface $dispatcher;
 
-    private ProductChannelEnabler $productChannelEnabler;
+    private ProductChannelEnablerProcessorInterface $productChannelEnabler;
 
     private MainTaxonProcessorInterface $mainTaxonProcessor;
 
@@ -76,7 +76,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         LoggerInterface $akeneoLogger,
         ProductConfigurationRepository $productConfigurationRepository,
         EventDispatcherInterface $dispatcher,
-        ProductChannelEnabler $productChannelEnabler,
+        ProductChannelEnablerProcessorInterface $productChannelEnabler,
         MainTaxonProcessorInterface $mainTaxonProcessor,
         AttributesProcessorInterface $attributesProcessor,
         CompleteRequirementProcessorInterface $completeRequirementProcessor

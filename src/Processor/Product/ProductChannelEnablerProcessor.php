@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Service;
+namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
-final class ProductChannelEnabler
+final class ProductChannelEnablerProcessor implements ProductChannelEnablerProcessorInterface
 {
     private ChannelRepository $channelRepository;
 
@@ -67,9 +67,8 @@ final class ProductChannelEnabler
         }
     }
 
-    public function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
+    private function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
         if (!$productConfiguration instanceof ProductConfiguration) {

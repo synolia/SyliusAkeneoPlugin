@@ -28,13 +28,13 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
-use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
 use Throwable;
 
 final class SimpleProductTask extends AbstractCreateProductEntities
@@ -88,7 +88,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         EventDispatcherInterface $dispatcher,
-        ProductChannelEnabler $productChannelEnabler,
+        ProductChannelEnablerProcessorInterface $productChannelEnabler,
         AttributesProcessorInterface $attributesProcessor
     ) {
         parent::__construct(

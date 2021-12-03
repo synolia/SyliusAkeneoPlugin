@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Service;
+namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
@@ -12,18 +12,18 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class SyliusAkeneoLocaleCodeProvider
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $channelRepository;
+    private RepositoryInterface $channelRepository;
 
     private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
     /** @var array<string> */
-    private array $localesCode = [];
+    private array $localesCode;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient, RepositoryInterface $channelRepository)
     {
         $this->akeneoPimClient = $akeneoPimClient;
         $this->channelRepository = $channelRepository;
+        $this->localesCode = [];
     }
 
     public function getUsedLocalesOnBothPlatforms(): array

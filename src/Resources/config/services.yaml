@@ -129,3 +129,6 @@ services:
 
     Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface:
         class: Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessor
+
+    Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider: ~
+    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface: ~

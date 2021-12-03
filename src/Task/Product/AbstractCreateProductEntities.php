@@ -19,9 +19,9 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
 use Throwable;
 
 abstract class AbstractCreateProductEntities
@@ -50,7 +50,7 @@ abstract class AbstractCreateProductEntities
 
     protected RepositoryInterface $productConfigurationRepository;
 
-    protected ProductChannelEnabler $productChannelEnabler;
+    protected ProductChannelEnablerProcessorInterface $productChannelEnabler;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -63,7 +63,7 @@ abstract class AbstractCreateProductEntities
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         LoggerInterface $akeneoLogger,
-        ProductChannelEnabler $productChannelEnabler
+        ProductChannelEnablerProcessorInterface $productChannelEnabler
     ) {
         $this->entityManager = $entityManager;
         $this->productVariantRepository = $productVariantRepository;
