@@ -112,7 +112,7 @@ jobs:
           php-version: "${{ matrix.php }}"
           ini-values: date.timezone=UTC
           extensions: intl
-          tools: symfony
+          tools: symfony, flex
           coverage: none
 
       - name: Setup Node
@@ -154,6 +154,8 @@ jobs:
             node-${{ matrix.node }}-yarn-
 
       - name: Install Sylius-Standard and Plugin
+        env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}.*
         run: make install -e SYLIUS_VERSION=${{ matrix.sylius }} SYMFONY_VERSION=${{ matrix.symfony }}
 
       - name: Configure Behat
