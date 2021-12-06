@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Task\Product;
+namespace Synolia\SyliusAkeneoPlugin\Processor;
 
+use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -14,52 +15,60 @@ use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayloadInterface;
 use Throwable;
 
-abstract class AbstractInsertProductImageTask
+abstract class AbstractImageProcessor
 {
-    protected ImageUploaderInterface $imageUploader;
+    private ImageUploaderInterface $imageUploader;
 
-    protected RepositoryInterface $productConfigurationRepository;
+    private EntityManagerInterface $entityManager;
 
-    protected EntityManagerInterface $entityManager;
-
-    protected FactoryInterface $productImageFactory;
-
-    protected \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $configuration;
+    private FactoryInterface $productImageFactory;
 
     protected LoggerInterface $logger;
+
+    protected ProductConfiguration $productConfiguration;
+
+    private AkeneoPimEnterpriseClientInterface $client;
 
     public function __construct(
         ImageUploaderInterface $imageUploader,
         RepositoryInterface $productConfigurationRepository,
         EntityManagerInterface $entityManager,
         FactoryInterface $productImageFactory,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ClientFactory $clientFactory
     ) {
         $this->imageUploader = $imageUploader;
-        $this->productConfigurationRepository = $productConfigurationRepository;
         $this->entityManager = $entityManager;
         $this->productImageFactory = $productImageFactory;
         $this->logger = $akeneoLogger;
+
+        $productConfiguration = $productConfigurationRepository->findOneBy([]);
+        if ($productConfiguration instanceof ProductConfiguration) {
+            $this->productConfiguration = $productConfiguration;
+        }
+
+        $this->client = $clientFactory->createFromApiCredentials();
     }
 
     /**
-     * @param mixed $object
+     * @param ProductInterface|ProductVariantInterface|mixed $object
      */
-    protected function addImage(ProductMediaPayloadInterface $payload, $object, Collection $imageAttributes): void
+    protected function addImage($object, array $attributes, Collection $imageAttributes): void
     {
         if (!$object instanceof ProductInterface && !$object instanceof ProductVariantInterface) {
             return;
         }
 
-        foreach ($payload->getAttributes() as $attributeCode => $images) {
+        foreach ($attributes as $attributeCode => $images) {
             if (\in_array($attributeCode, array_map(fn ($imageAttribute) => $imageAttribute->getAkeneoAttributes(), $imageAttributes->toArray()), true)) {
                 foreach ($images as $image) {
                     try {
-                        $imageResponse = $payload->getAkeneoPimClient()->getProductMediaFileApi()->download($image['data']);
+                        $imageResponse = $this->client->getProductMediaFileApi()->download($image['data']);
                         $imageName = basename($image['data']);
                         $imagePath = sys_get_temp_dir() . '/' . $imageName;
                         file_put_contents($imagePath, $imageResponse->getBody()->getContents());

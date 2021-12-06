@@ -16,17 +16,12 @@ use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
-use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Product\AddProductToCategoriesTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 final class BatchProductModelTask extends AbstractBatchTask
 {
@@ -47,8 +42,6 @@ final class BatchProductModelTask extends AbstractBatchTask
     private ProductConfigurationRepository $productConfigurationRepository;
 
     private ProductConfiguration $productConfiguration;
-
-    private AkeneoTaskInterface $addProductCategoriesTask;
 
     private EventDispatcherInterface $dispatcher;
 
@@ -89,7 +82,6 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
         $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
-        $this->addProductCategoriesTask = $this->taskProvider->get(AddProductToCategoriesTask::class);
 
         $query = $this->getSelectStatement($payload);
         $query->executeStatement();
@@ -169,20 +161,6 @@ final class BatchProductModelTask extends AbstractBatchTask
 
         $this->productProcessorChain->chain($product, $resource);
         $this->addProductGroup($resource, $product);
-        $this->linkCategoriesToProduct($payload, $product, $resource);
-        $this->updateImages($payload, $resource, $product);
-    }
-
-    private function linkCategoriesToProduct(PipelinePayloadInterface $payload, ProductInterface $product, array &$resource): void
-    {
-        $productCategoriesPayload = new ProductCategoriesPayload($payload->getAkeneoPimClient());
-        $productCategoriesPayload
-            ->setProduct($product)
-            ->setCategories($resource['categories'])
-        ;
-        $this->addProductCategoriesTask->__invoke($productCategoriesPayload);
-
-        unset($productCategoriesPayload);
     }
 
     private function addProductGroup(array &$resource, ProductInterface $product): void
@@ -192,25 +170,5 @@ final class BatchProductModelTask extends AbstractBatchTask
         if ($productGroup instanceof ProductGroup && 0 === $this->productGroupRepository->isProductInProductGroup($product, $productGroup)) {
             $productGroup->addProduct($product);
         }
-    }
-
-    private function updateImages(PipelinePayloadInterface $payload, array &$resource, ProductInterface $product): void
-    {
-        if (!$this->productConfiguration instanceof ProductConfiguration) {
-            $this->logger->warning(Messages::noConfigurationSet('Product Images', 'Import images'));
-
-            return;
-        }
-
-        $productMediaPayload = new ProductMediaPayload($payload->getAkeneoPimClient());
-        $productMediaPayload
-            ->setProduct($product)
-            ->setAttributes($resource['values'])
-            ->setProductConfiguration($this->productConfiguration)
-        ;
-        $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
-        $imageTask->__invoke($productMediaPayload);
-
-        unset($productMediaPayload, $imageTask);
     }
 }

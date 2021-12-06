@@ -24,8 +24,8 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductFiltersConfigurationException
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductVariantMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ImagesProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
@@ -61,9 +61,8 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
     private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer;
 
-    /**
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
+    private ImagesProcessorInterface $imagesProcessor;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -78,7 +77,6 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         ProductGroupRepository $productGroupRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
-        AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
         RepositoryInterface $productVariantTranslationRepository,
         FactoryInterface $productVariantTranslationFactory,
@@ -86,7 +84,8 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
         EventDispatcherInterface $dispatcher,
         ProductChannelEnablerProcessorInterface $productChannelEnabler,
-        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer
+        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
+        ImagesProcessorInterface $imagesProcessor
     ) {
         parent::__construct(
             $entityManager,
@@ -106,21 +105,21 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         $this->productOptionValueRepository = $productOptionValueRepository;
         $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
         $this->productGroupRepository = $productGroupRepository;
-        $this->taskProvider = $taskProvider;
         $this->productVariantTranslationRepository = $productVariantTranslationRepository;
         $this->productVariantTranslationFactory = $productVariantTranslationFactory;
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
         $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
         $this->dispatcher = $dispatcher;
         $this->productOptionValueDataTransformer = $productOptionValueDataTransformer;
+        $this->imagesProcessor = $imagesProcessor;
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
+     * @param ProductPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $filters */
+        /** @var ProductFiltersRules $filters */
         $filters = $this->productFiltersRulesRepository->findOneBy([]);
         if (!$filters instanceof ProductFiltersRules) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
@@ -167,7 +166,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
                 return;
             }
 
-            $productVariant = $this->processVariations($payload, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
+            $productVariant = $this->processVariations($resource, $resource['identifier'], $productModel, $resource['values'], $variationAxes);
 
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
             $this->entityManager->flush();
@@ -177,7 +176,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     }
 
     private function processVariations(
-        ProductPayload $payload,
+        array $resource,
         string $variantCode,
         ProductInterface $productModel,
         array $attributes,
@@ -230,7 +229,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             }
 
             $this->setProductOptionValues($productVariant, $productOption, $values);
-            $this->updateImages($payload, $attributes, $productVariant);
+            $this->imagesProcessor->process($productVariant, $resource);
             $this->setProductPrices($productVariant, $attributes);
         }
 
@@ -268,7 +267,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             }
 
             foreach ($this->localeRepository->getLocaleCodes() as $locale) {
-                /** @var \Sylius\Component\Product\Model\ProductOptionValueTranslationInterface $productOptionValueTranslation */
+                /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
                 $productOptionValueTranslation = $this->productOptionValueTranslationRepository->findOneBy([
                     'translatable' => $productOptionValue,
                     'locale' => $locale,
@@ -319,17 +318,6 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         }
 
         return implode(' ', $data);
-    }
-
-    private function updateImages(ProductPayload $payload, array $resource, ProductVariantInterface $productVariant): void
-    {
-        $productVariantMediaPayload = new ProductVariantMediaPayload($payload->getAkeneoPimClient());
-        $productVariantMediaPayload
-            ->setProductVariant($productVariant)
-            ->setAttributes($resource)
-        ;
-        $imageTask = $this->taskProvider->get(InsertProductVariantImagesTask::class);
-        $imageTask->__invoke($productVariantMediaPayload);
     }
 
     private function getOrCreateEntity(string $variantCode, ProductInterface $productModel): ProductVariantInterface
