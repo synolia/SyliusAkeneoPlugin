@@ -98,7 +98,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
                 //Multiple product has the same name
                 $productTranslation->setSlug(sprintf(
                     '%s-%s-%d',
-                    $resource['code'],
+                    $resource['code'] ?? $resource['identifier'],
                     $this->productSlugGenerator->generate($productName),
                     $missingNameTranslationCount
                 ));
@@ -109,7 +109,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
             //Multiple product has the same name
             $productTranslation->setSlug(sprintf(
                 '%s-%s',
-                $resource['code'],
+                $resource['code'] ?? $resource['identifier'],
                 $this->productSlugGenerator->generate($productName)
             ));
         }

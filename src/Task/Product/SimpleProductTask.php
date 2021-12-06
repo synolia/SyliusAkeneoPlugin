@@ -73,6 +73,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
     /**
      * @param ProductPayload $payload
+     * @inheritDoc
      */
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void
     {

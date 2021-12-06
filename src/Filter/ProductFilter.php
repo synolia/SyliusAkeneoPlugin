@@ -154,7 +154,7 @@ final class ProductFilter implements ProductFilterInterface
     {
         $advancedFilter['search'] = array_filter($advancedFilter['search'], static function (string $key): bool {
             return \in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
-        }, ARRAY_FILTER_USE_KEY);
+        }, \ARRAY_FILTER_USE_KEY);
 
         if (\array_key_exists('completeness', $advancedFilter['search']) && \is_array($advancedFilter['search']['completeness'])) {
             $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);

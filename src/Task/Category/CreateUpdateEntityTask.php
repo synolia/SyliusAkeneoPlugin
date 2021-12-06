@@ -15,7 +15,6 @@ use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
@@ -72,10 +71,6 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
-
-        if (!\is_array($payload->getResources())) {
-            throw new NoCategoryResourcesException('No resource found.');
-        }
 
         foreach ($payload->getResources() as $resource) {
             try {

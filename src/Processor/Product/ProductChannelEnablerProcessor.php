@@ -67,8 +67,8 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
                     )
                 );
             }
-        } catch (NoAttributeResourcesException $noAttributeResourcesException) {
-            $this->logger->info($noAttributeResourcesException->getMessage());
+        } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
+            $this->logger->info($exception->getMessage());
         }
     }
 

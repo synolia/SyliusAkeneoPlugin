@@ -34,6 +34,8 @@ abstract class AbstractImageProcessor
 
     private AkeneoPimEnterpriseClientInterface $client;
 
+    private RepositoryInterface $productConfigurationRepository;
+
     public function __construct(
         ImageUploaderInterface $imageUploader,
         RepositoryInterface $productConfigurationRepository,
@@ -46,13 +48,25 @@ abstract class AbstractImageProcessor
         $this->entityManager = $entityManager;
         $this->productImageFactory = $productImageFactory;
         $this->logger = $akeneoLogger;
+        $this->productConfigurationRepository = $productConfigurationRepository;
+        $this->client = $clientFactory->createFromApiCredentials();
+    }
 
-        $productConfiguration = $productConfigurationRepository->findOneBy([]);
-        if ($productConfiguration instanceof ProductConfiguration) {
-            $this->productConfiguration = $productConfiguration;
+    protected function getProductConfiguration(): ProductConfiguration
+    {
+        if (isset($this->productConfiguration)) {
+            return $this->productConfiguration;
         }
 
-        $this->client = $clientFactory->createFromApiCredentials();
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+
+        if ($productConfiguration instanceof ProductConfiguration) {
+            $this->productConfiguration = $productConfiguration;
+
+            return $productConfiguration;
+        }
+
+        throw new \LogicException('');
     }
 
     /**

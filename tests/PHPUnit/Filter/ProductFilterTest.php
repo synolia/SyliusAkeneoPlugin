@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 /**
@@ -36,7 +36,7 @@ final class ProductFilterTest extends ApiTestCase
     /** @var EntityRepository */
     private $localeRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
+    /** @var \Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider */
     private $syliusAkeneoLocaleCodeProvider;
 
     protected function setUp(): void

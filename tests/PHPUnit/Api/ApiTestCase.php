@@ -10,11 +10,11 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 use Webmozart\Assert\Assert;
 
-abstract class ApiTestCase extends KernelTestCase
+abstract class ApiTestCase extends AbstractKernelTestCase
 {
     private const SAMPLE_PATH = '/datas/sample/';
 

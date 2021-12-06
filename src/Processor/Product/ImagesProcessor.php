@@ -15,7 +15,7 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
         try {
             $this->cleanImages($product);
 
-            $imageAttributes = $this->productConfiguration->getAkeneoImageAttributes();
+            $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
             if (null === $imageAttributes) {
                 $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 

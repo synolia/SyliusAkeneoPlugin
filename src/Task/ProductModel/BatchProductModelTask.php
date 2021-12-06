@@ -10,7 +10,6 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
@@ -18,8 +17,6 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
@@ -33,15 +30,9 @@ final class BatchProductModelTask extends AbstractBatchTask
 
     private ProductGroupRepository $productGroupRepository;
 
-    private AkeneoTaskProvider $taskProvider;
-
     private LoggerInterface $logger;
 
     private string $type;
-
-    private ProductConfigurationRepository $productConfigurationRepository;
-
-    private ProductConfiguration $productConfiguration;
 
     private EventDispatcherInterface $dispatcher;
 
@@ -55,9 +46,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         ProductFactoryInterface $productFactory,
         ProductRepositoryInterface $productRepository,
         ProductGroupRepository $productGroupRepository,
-        AkeneoTaskProvider $taskProvider,
         LoggerInterface $akeneoLogger,
-        ProductConfigurationRepository $productConfigurationRepository,
         EventDispatcherInterface $dispatcher,
         ProductProcessorChainInterface $productProcessorChain
     ) {
@@ -66,9 +55,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->productGroupRepository = $productGroupRepository;
-        $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
-        $this->productConfigurationRepository = $productConfigurationRepository;
         $this->dispatcher = $dispatcher;
         $this->productProcessorChain = $productProcessorChain;
     }
@@ -81,7 +68,6 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
-        $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
 
         $query = $this->getSelectStatement($payload);
         $query->executeStatement();

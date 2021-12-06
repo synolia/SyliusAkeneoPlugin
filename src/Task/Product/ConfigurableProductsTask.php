@@ -27,7 +27,6 @@ use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ImagesProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
@@ -47,8 +46,6 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
     private RepositoryInterface $productVariantTranslationRepository;
 
-    private AkeneoTaskProvider $taskProvider;
-
     private FactoryInterface $productVariantTranslationFactory;
 
     private ProductFiltersRulesRepository $productFiltersRulesRepository;
@@ -63,6 +60,9 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
     private ImagesProcessorInterface $imagesProcessor;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productVariantRepository,
@@ -116,6 +116,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
     /**
      * @param ProductPayload $payload
+     * @inheritDoc
      */
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void
     {
