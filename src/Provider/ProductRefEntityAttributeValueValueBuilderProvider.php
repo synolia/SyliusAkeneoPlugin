@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
+use Traversable;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface;
 
@@ -12,7 +13,7 @@ final class ProductRefEntityAttributeValueValueBuilderProvider implements Produc
     /** @var array<ReferenceEntityAttributeValueProcessorInterface> */
     private array $referenceEntityAttributeValueProcessors;
 
-    public function __construct(\Traversable $handlers)
+    public function __construct(Traversable $handlers)
     {
         $this->referenceEntityAttributeValueProcessors = iterator_to_array($handlers);
     }

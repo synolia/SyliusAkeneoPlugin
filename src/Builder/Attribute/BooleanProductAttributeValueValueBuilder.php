@@ -10,10 +10,10 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\BooleanAttributeTypeMatcher
 
 final class BooleanProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
+    /** @var AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
+    /** @var AttributeTypeMatcher */
     private $attributeTypeMatcher;
 
     public function __construct(

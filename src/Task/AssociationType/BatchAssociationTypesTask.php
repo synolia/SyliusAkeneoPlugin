@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\AssociationType;
 
+use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
+use Throwable;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -51,10 +54,10 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload $payload
+     * @param AssociationTypePayload $payload
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException
-     * @throws \Throwable
+     * @throws NoAttributeResourcesException
+     * @throws Throwable
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -100,7 +103,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
                         $this->removeEntry($payload, (int) $result['id']);
                     } catch (UnsupportedAttributeTypeException | InvalidAttributeException | ExcludedAttributeException | NotFoundHttpException $throwable) {
                         $this->removeEntry($payload, (int) $result['id']);
-                    } catch (\Throwable $throwable) {
+                    } catch (Throwable $throwable) {
                         if ($this->entityManager->getConnection()->isTransactionActive()) {
                             $this->entityManager->rollback();
                         }
@@ -112,7 +115,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->commit();
             }
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->rollback();
             }

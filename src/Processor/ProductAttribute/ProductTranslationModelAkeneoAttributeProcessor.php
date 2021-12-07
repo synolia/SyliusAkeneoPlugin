@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
+use ReflectionMethod;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -84,7 +85,7 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
         );
 
         $translationModel = $model->getTranslation($locale);
-        $reflectionMethod = new \ReflectionMethod(
+        $reflectionMethod = new ReflectionMethod(
             $translationModel,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         );
