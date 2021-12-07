@@ -10,11 +10,9 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 
 final class ProductFilterRulesProvider implements ProductFilterRulesProviderInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules|null */
-    private $productFiltersRules;
+    private ProductFiltersRules $productFiltersRules;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository */
-    private $productFiltersRulesRepository;
+    private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
     public function __construct(ProductFiltersRulesRepository $productFiltersRulesRepository)
     {
@@ -23,7 +21,7 @@ final class ProductFilterRulesProvider implements ProductFilterRulesProviderInte
 
     public function getProductFiltersRules(): ProductFiltersRules
     {
-        if ($this->productFiltersRules instanceof ProductFiltersRules) {
+        if (isset($this->productFiltersRules)) {
             return $this->productFiltersRules;
         }
 

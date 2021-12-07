@@ -16,10 +16,9 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
-class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
+final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface */
-    private $attributeOptionValueDataTransformer;
+    private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer;
 
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
@@ -48,7 +47,7 @@ class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
     public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void
     {
         $productOptionValuesMapping = [];
-        $productOptionValueCodes = \array_keys($attribute->getConfiguration()['choices']);
+        $productOptionValueCodes = array_keys($attribute->getConfiguration()['choices']);
         foreach ($productOptionValueCodes as $productOptionValueCode) {
             if (isset($productOptionValuesMapping[(string) $productOptionValueCode])) {
                 continue;
@@ -90,8 +89,8 @@ class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
 
         foreach ($translations as $locale => $translation) {
             if (null === $translation) {
-                $translation = \sprintf('[%s]', $productOptionValueCode);
-                $this->akeneoLogger->warning(\sprintf(
+                $translation = sprintf('[%s]', $productOptionValueCode);
+                $this->akeneoLogger->warning(sprintf(
                     'Missing translation on choice "%s" for option %s, defaulted to "%s"',
                     $productOptionValueCode,
                     $attribute->getCode(),

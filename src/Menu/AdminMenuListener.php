@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Menu;
 
-use Knp\Menu\ItemInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 final class AdminMenuListener
@@ -13,7 +12,6 @@ final class AdminMenuListener
     {
         $menu = $event->getMenu();
 
-        /** @var ItemInterface $newSubmenu */
         $newSubmenu = $menu->addChild('akeneo');
 
         $newSubmenu->addChild('sylius_admin_akeneo_api_configuration', [

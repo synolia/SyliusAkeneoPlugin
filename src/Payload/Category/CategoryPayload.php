@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Category;
 
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class CategoryPayload extends AbstractPayload
 {
-    /** @var array|null */
-    private $resources;
+    private array $resources;
 
-    public function getResources(): ?array
+    public function getResources(): array
     {
+        if (!isset($this->resources)) {
+            throw new NoCategoryResourcesException('No resource found.');
+        }
+
         return $this->resources;
     }
 

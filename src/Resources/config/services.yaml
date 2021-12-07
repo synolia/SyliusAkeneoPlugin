@@ -107,25 +107,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\FamilyVariationAxeProcessor: ~
 
-    Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\ChainOptionValuesDataProvider
-        arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
-
     BluePsyduck\SymfonyProcessManager\ProcessManagerInterface:
         class: BluePsyduck\SymfonyProcessManager\ProcessManager
 
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessor
+    Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider: ~

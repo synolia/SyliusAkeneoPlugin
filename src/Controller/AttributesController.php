@@ -20,26 +20,19 @@ use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 
 final class AttributesController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Manager\SettingsManagerInterface */
-    private $settingsManager;
+    private SettingsManagerInterface $settingsManager;
 
-    /** @var RepositoryInterface */
-    private $attributeTypeMappingRepository;
+    private RepositoryInterface $attributeTypeMappingRepository;
 
-    /** @var RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
 
-    /** @var FlashBagInterface */
-    private $flashBag;
+    private FlashBagInterface $flashBag;
 
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $attributeAkeneoSyliusMappingRepository;
+    private RepositoryInterface $attributeAkeneoSyliusMappingRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -117,13 +110,13 @@ final class AttributesController extends AbstractController
         array $attributeAkeneoSyliusMappings
     ): void {
         foreach ($attributeTypeMappings as $attributeTypeMapping) {
-            if (false === \array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
+            if (false === array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeTypeMapping);
             }
         }
 
         foreach ($attributeAkeneoSyliusMappings as $attributeAkeneoSyliusMapping) {
-            if (false === \array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
+            if (false === array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeAkeneoSyliusMapping);
             }
         }

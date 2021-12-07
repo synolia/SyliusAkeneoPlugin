@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configura
 
 use Symfony\Component\Form\AbstractType;
 
-class ReferenceEntityAttributeType extends AbstractType
+final class ReferenceEntityAttributeType extends AbstractType
 {
     public function getBlockPrefix(): string
     {

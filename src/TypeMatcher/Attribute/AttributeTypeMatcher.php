@@ -6,18 +6,19 @@ namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
+use Throwable;
 
 final class AttributeTypeMatcher
 {
     /** @var array<AttributeTypeMatcherInterface> */
-    private $typeMatchers;
+    private array $typeMatchers;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
     public function __construct(LoggerInterface $akeneoLogger)
     {
         $this->akeneoLogger = $akeneoLogger;
+        $this->typeMatchers = [];
     }
 
     public function addTypeMatcher(AttributeTypeMatcherInterface $typeMatcher): void
@@ -32,17 +33,17 @@ final class AttributeTypeMatcher
                 if ($typeMatcher->support($type)) {
                     return $typeMatcher;
                 }
-            } catch (\Throwable $throwable) {
-                $this->akeneoLogger->critical(\sprintf(
+            } catch (Throwable $throwable) {
+                $this->akeneoLogger->critical(sprintf(
                     'AttributeTypeMatcher "%s" failed to execute method support() for attribute type "%s"',
                     \get_class($typeMatcher),
                     $type
                 ), ['exception' => $throwable]);
 
-                throw new UnsupportedAttributeTypeException(\sprintf('Unsupported Attribute Type "%s"', $type));
+                throw new UnsupportedAttributeTypeException(sprintf('Unsupported Attribute Type "%s"', $type));
             }
         }
 
-        throw new UnsupportedAttributeTypeException(\sprintf('Unsupported Attribute Type "%s"', $type));
+        throw new UnsupportedAttributeTypeException(sprintf('Unsupported Attribute Type "%s"', $type));
     }
 }

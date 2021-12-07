@@ -7,10 +7,9 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductOption;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
 
-class ProductOptionProcessor implements ProductOptionProcessorInterface
+final class ProductOptionProcessor implements ProductOptionProcessorInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager */
-    private $productOptionManager;
+    private ProductOptionManager $productOptionManager;
 
     public function __construct(ProductOptionManager $productOptionManager)
     {

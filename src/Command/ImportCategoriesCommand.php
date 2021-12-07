@@ -23,14 +23,11 @@ final class ImportCategoriesCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:categories';
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory */
-    private $categoryPipelineFactory;
+    private CategoryPipelineFactory $categoryPipelineFactory;
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
     public function __construct(
         CategoryPipelineFactory $categoryPipelineFactory,

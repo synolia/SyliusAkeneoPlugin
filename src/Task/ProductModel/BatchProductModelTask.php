@@ -6,107 +6,58 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductCategoriesPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductMediaPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
-use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\AddProductToCategoriesTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\InsertProductImagesTask;
 
 final class BatchProductModelTask extends AbstractBatchTask
 {
     private const ONE_VARIATION_AXIS = 1;
 
-    /** @var ProductRepositoryInterface */
-    private $productRepository;
+    private ProductRepositoryInterface $productRepository;
 
-    /** @var ProductFactoryInterface */
-    private $productFactory;
+    private ProductFactoryInterface $productFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository */
-    private $productGroupRepository;
+    private ProductGroupRepository $productGroupRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider */
-    private $taskProvider;
+    private LoggerInterface $logger;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private string $type;
 
-    /** @var string */
-    private $type;
+    private EventDispatcherInterface $dispatcher;
 
-    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
-    private $productConfigurationRepository;
-
-    /** @var ProductConfiguration */
-    private $productConfiguration;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface */
-    private $addProductCategoriesTask;
-
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $dispatcher;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
-    private $productChannelEnabler;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface */
-    private $mainTaxonProcessor;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface */
-    private $attributesProcessor;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface */
-    private $completeRequirementProcessor;
+    private ProductProcessorChainInterface $productProcessorChain;
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository $productGroupRepository
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFactoryInterface $productFactory,
         ProductRepositoryInterface $productRepository,
-        EntityRepository $productGroupRepository,
-        AkeneoTaskProvider $taskProvider,
+        ProductGroupRepository $productGroupRepository,
         LoggerInterface $akeneoLogger,
-        EntityRepository $productConfigurationRepository,
         EventDispatcherInterface $dispatcher,
-        ProductChannelEnabler $productChannelEnabler,
-        MainTaxonProcessorInterface $mainTaxonProcessor,
-        AttributesProcessorInterface $attributesProcessor,
-        CompleteRequirementProcessorInterface $completeRequirementProcessor
+        ProductProcessorChainInterface $productProcessorChain
     ) {
         parent::__construct($entityManager);
 
         $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->productGroupRepository = $productGroupRepository;
-        $this->taskProvider = $taskProvider;
         $this->logger = $akeneoLogger;
-        $this->productConfigurationRepository = $productConfigurationRepository;
         $this->dispatcher = $dispatcher;
-        $this->productChannelEnabler = $productChannelEnabler;
-        $this->mainTaxonProcessor = $mainTaxonProcessor;
-        $this->attributesProcessor = $attributesProcessor;
-        $this->completeRequirementProcessor = $completeRequirementProcessor;
+        $this->productProcessorChain = $productProcessorChain;
     }
 
     /**
@@ -117,15 +68,13 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
-        $this->productConfiguration = $this->productConfigurationRepository->findOneBy([]);
-        $this->addProductCategoriesTask = $this->taskProvider->get(AddProductToCategoriesTask::class);
 
         $query = $this->getSelectStatement($payload);
         $query->executeStatement();
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 try {
                     $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
@@ -196,29 +145,8 @@ final class BatchProductModelTask extends AbstractBatchTask
             return;
         }
 
-        $this->completeRequirementProcessor->process($product, $resource);
-        $this->attributesProcessor->process($product, $resource);
+        $this->productProcessorChain->chain($product, $resource);
         $this->addProductGroup($resource, $product);
-        $this->mainTaxonProcessor->process($product, $resource);
-        $this->linkCategoriesToProduct($payload, $product, $resource);
-        $this->updateImages($payload, $resource, $product);
-
-        try {
-            $this->productChannelEnabler->enableChannelForProduct($product, $resource);
-        } catch (NoAttributeResourcesException $attributeResourcesException) {
-        }
-    }
-
-    private function linkCategoriesToProduct(PipelinePayloadInterface $payload, ProductInterface $product, array &$resource): void
-    {
-        $productCategoriesPayload = new ProductCategoriesPayload($payload->getAkeneoPimClient());
-        $productCategoriesPayload
-            ->setProduct($product)
-            ->setCategories($resource['categories'])
-        ;
-        $this->addProductCategoriesTask->__invoke($productCategoriesPayload);
-
-        unset($productCategoriesPayload);
     }
 
     private function addProductGroup(array &$resource, ProductInterface $product): void
@@ -228,25 +156,5 @@ final class BatchProductModelTask extends AbstractBatchTask
         if ($productGroup instanceof ProductGroup && 0 === $this->productGroupRepository->isProductInProductGroup($product, $productGroup)) {
             $productGroup->addProduct($product);
         }
-    }
-
-    private function updateImages(PipelinePayloadInterface $payload, array &$resource, ProductInterface $product): void
-    {
-        if (!$this->productConfiguration instanceof ProductConfiguration) {
-            $this->logger->warning(Messages::noConfigurationSet('Product Images', 'Import images'));
-
-            return;
-        }
-
-        $productMediaPayload = new ProductMediaPayload($payload->getAkeneoPimClient());
-        $productMediaPayload
-            ->setProduct($product)
-            ->setAttributes($resource['values'])
-            ->setProductConfiguration($this->productConfiguration)
-        ;
-        $imageTask = $this->taskProvider->get(InsertProductImagesTask::class);
-        $imageTask->__invoke($productMediaPayload);
-
-        unset($productMediaPayload, $imageTask);
     }
 }

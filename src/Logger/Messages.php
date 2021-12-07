@@ -16,42 +16,42 @@ final class Messages
 
     public static function endOfCommand(string $command): string
     {
-        return \sprintf('End of : %s', $command);
+        return sprintf('End of : %s', $command);
     }
 
     public static function retrieveFromAPI(string $type): string
     {
-        return \sprintf('Retrieve %s from Akeneo API', $type);
+        return sprintf('Retrieve %s from Akeneo API', $type);
     }
 
     public static function totalToImport(string $type, int $value): string
     {
-        return \sprintf('Total %s to import %d', $type, $value);
+        return sprintf('Total %s to import %d', $type, $value);
     }
 
     public static function noCodeToImport(string $type, int $value): string
     {
-        return \sprintf('%d %s do not have a code and will not be imported.', $value, $type);
+        return sprintf('%d %s do not have a code and will not be imported.', $value, $type);
     }
 
     public static function removalNoLongerExist(string $type): string
     {
-        return \sprintf('Removal of %s which no longer exist.', $type);
+        return sprintf('Removal of %s which no longer exist.', $type);
     }
 
     public static function countOfDeleted(string $type, int $value): string
     {
-        return \sprintf('%s : %d Delete', $type, $value);
+        return sprintf('%s : %d Delete', $type, $value);
     }
 
     public static function countCreateAndUpdate(string $type, int $create, int $update): string
     {
-        return \sprintf('%s : %d Create, %d Update', $type, $create, $update);
+        return sprintf('%s : %d Create, %d Update', $type, $create, $update);
     }
 
     public static function countCreateAndExist(string $type, int $create, int $exist): string
     {
-        return \sprintf('%s : %d Create, %d Already exist', $type, $create, $exist);
+        return sprintf('%s : %d Create, %d Already exist', $type, $create, $exist);
     }
 
     public static function hasBeenDeleted(string $type, string $code): string
@@ -61,7 +61,7 @@ final class Messages
 
     public static function createOrUpdate(string $type): string
     {
-        return \sprintf('Create or update %s.', $type);
+        return sprintf('Create or update %s.', $type);
     }
 
     public static function hasBeenCreated(string $type, string $code): string
@@ -96,6 +96,6 @@ final class Messages
 
     public static function totalExcludedFromImport(string $type, int $value): string
     {
-        return \sprintf('Total %s excluded from import %d', $type, $value);
+        return sprintf('Total %s excluded from import %d', $type, $value);
     }
 }

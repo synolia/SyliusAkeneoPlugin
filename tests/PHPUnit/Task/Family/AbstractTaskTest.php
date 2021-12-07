@@ -90,20 +90,20 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function countTotalProducts(): int
     {
-        $query = $this->manager->getConnection()->prepare(\sprintf(
+        $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
             ProductModelPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->executeStatement();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     protected function prepareSelectQuery(
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
         int $offset = 0
     ): Statement {
-        $query = $this->manager->getConnection()->prepare(\sprintf(
+        $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              LIMIT :limit

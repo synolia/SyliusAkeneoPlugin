@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Service;
+namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
@@ -12,19 +12,18 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class SyliusAkeneoLocaleCodeProvider
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $channelRepository;
+    private RepositoryInterface $channelRepository;
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
     /** @var array<string> */
-    private $localesCode = [];
+    private array $localesCode;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient, RepositoryInterface $channelRepository)
     {
         $this->akeneoPimClient = $akeneoPimClient;
         $this->channelRepository = $channelRepository;
+        $this->localesCode = [];
     }
 
     public function getUsedLocalesOnBothPlatforms(): array
@@ -34,7 +33,7 @@ final class SyliusAkeneoLocaleCodeProvider
         }
 
         foreach ($this->getUsedLocalesOnAkeneo() as $apiLocale) {
-            if (false === $apiLocale['enabled'] || !in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
+            if (false === $apiLocale['enabled'] || !\in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
                 continue;
             }
             $this->localesCode[$apiLocale['code']] = $apiLocale['code'];
@@ -48,11 +47,11 @@ final class SyliusAkeneoLocaleCodeProvider
      */
     public function isLocaleDataTranslation(AttributeInterface $attribute, $data, string $locale): bool
     {
-        if (is_array($data)) {
+        if (\is_array($data)) {
             return $data['locale'] === $locale;
         }
 
-        if (isset($attribute->getConfiguration()['choices'][$data]) && array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
+        if (isset($attribute->getConfiguration()['choices'][$data]) && \array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
             return true;
         }
 
@@ -63,7 +62,7 @@ final class SyliusAkeneoLocaleCodeProvider
     {
         $locales = $this->getUsedLocalesOnBothPlatforms();
 
-        return in_array($locale, $locales, true);
+        return \in_array($locale, $locales, true);
     }
 
     private function getUsedLocalesOnAkeneo(): ResourceCursorInterface
@@ -76,11 +75,9 @@ final class SyliusAkeneoLocaleCodeProvider
         $locales = [];
         /** @var \Sylius\Component\Core\Model\ChannelInterface $channel */
         foreach ($this->channelRepository->findAll() as $channel) {
-            $locales = \array_unique(\array_merge($locales, $channel
+            $locales = array_unique(array_merge($locales, $channel
                 ->getLocales()
-                ->map(function (LocaleInterface $locale) {
-                    return (string) $locale->getCode();
-                })
+                ->map(fn (LocaleInterface $locale) => (string) $locale->getCode())
                 ->toArray()))
             ;
         }

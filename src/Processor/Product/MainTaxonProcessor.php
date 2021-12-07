@@ -8,10 +8,14 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
-class MainTaxonProcessor implements MainTaxonProcessorInterface
+final class MainTaxonProcessor implements MainTaxonProcessorInterface
 {
-    /** @var \Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface */
-    private $taxonRepository;
+    private TaxonRepositoryInterface $taxonRepository;
+
+    public static function getDefaultPriority(): int
+    {
+        return 700;
+    }
 
     public function __construct(TaxonRepositoryInterface $taxonRepository)
     {

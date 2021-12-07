@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Manager;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\Setting;
 
 final class SettingsManager implements SettingsManagerInterface
 {
-    /** @var \Doctrine\ORM\EntityManager */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        \assert($entityManager instanceof EntityManager);
         $this->entityManager = $entityManager;
     }
 
@@ -34,7 +31,7 @@ final class SettingsManager implements SettingsManagerInterface
             return $default;
         }
 
-        return \json_decode($setting->getValue(), true);
+        return json_decode($setting->getValue(), true);
     }
 
     /**
@@ -49,7 +46,7 @@ final class SettingsManager implements SettingsManagerInterface
             $this->entityManager->persist($setting);
         }
 
-        $setting->setValue(\json_encode($value));
+        $setting->setValue(json_encode($value));
         $this->entityManager->flush($setting);
 
         return $this;

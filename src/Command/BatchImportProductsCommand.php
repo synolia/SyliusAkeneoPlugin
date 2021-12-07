@@ -18,14 +18,11 @@ final class BatchImportProductsCommand extends AbstractBatchCommand
     /** @var string */
     protected static $defaultName = 'akeneo:batch:products';
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\BatchProductsTask */
-    private $batchProductGroupsTask;
+    private BatchProductsTask $batchProductGroupsTask;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,

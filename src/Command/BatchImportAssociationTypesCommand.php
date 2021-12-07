@@ -18,14 +18,11 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
     /** @var string */
     public static $defaultName = 'akeneo:batch:association-types';
 
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\AssociationType\BatchAssociationTypesTask */
-    private $batchAssociationTypesTask;
+    private BatchAssociationTypesTask $batchAssociationTypesTask;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,

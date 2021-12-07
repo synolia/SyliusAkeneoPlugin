@@ -20,21 +20,17 @@ use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 use Webmozart\Assert\Assert;
 
-class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
+final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
     private const AKENEO_PREFIX = 'akeneo-';
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertiesProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface */
-    private $localeRepository;
+    private LocaleRepositoryInterface $localeRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface */
-    private $isEnterpriseChecker;
+    private IsEnterpriseCheckerInterface $isEnterpriseChecker;
 
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
@@ -116,7 +112,7 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
             foreach ($this->localeRepository->getLocaleCodes() as $locale) {
                 $translations[] = [
                     'locale' => $locale,
-                    'data' => \sprintf('[%s]', $record['code']),
+                    'data' => sprintf('[%s]', $record['code']),
                 ];
             }
         }
@@ -125,8 +121,8 @@ class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
             $locale = $translation['locale'];
 
             if (null === $translation['data']) {
-                $translation = \sprintf('[%s]', $record['code']);
-                $this->akeneoLogger->warning(\sprintf(
+                $translation = sprintf('[%s]', $record['code']);
+                $this->akeneoLogger->warning(sprintf(
                     'Missing translation on choice "%s" for option %s, defaulted to "%s"',
                     $record['code'],
                     $attribute->getCode(),

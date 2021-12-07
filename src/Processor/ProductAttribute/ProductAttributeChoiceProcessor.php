@@ -10,34 +10,27 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
-class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessorInterface
+final class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessorInterface
 {
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $client;
+    private \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface $client;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface */
-    private $attributeOptionValueDataTransformer;
+    private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,
@@ -80,7 +73,7 @@ class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessor
                 $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher
             );
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-            $this->logger->warning(\sprintf(
+            $this->logger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
                 $unsupportedAttributeTypeException->getMessage()
@@ -99,7 +92,7 @@ class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessor
         foreach ($options as $option) {
             $transformedCode = $this->attributeOptionValueDataTransformer->transform($option['code']);
             foreach ($option['labels'] as $locale => $label) {
-                if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
+                if (!\in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
                     continue;
                 }
                 if (!isset($choices[$transformedCode]) && [] !== $this->getUnusedLocale($option['labels'])) {

@@ -16,26 +16,19 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class DeleteTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository */
-    private $productAttributeRepository;
+    private ProductAttributeRepository $productAttributeRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository */
-    private $productOptionRepository;
+    private ProductOptionRepository $productOptionRepository;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var int */
-    private $deleteCount = 0;
+    private int $deleteCount = 0;
 
-    /** @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface */
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(
         EntityManagerInterface $entityManager,

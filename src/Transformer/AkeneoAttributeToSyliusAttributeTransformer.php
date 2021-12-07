@@ -9,11 +9,10 @@ use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 
 final class AkeneoAttributeToSyliusAttributeTransformer implements AkeneoAttributeToSyliusAttributeTransformerInterface
 {
-    /** @var EntityRepository */
-    private $attributeAkeneoSyliusMappingRepository;
+    private EntityRepository $attributeAkeneoSyliusMappingRepository;
 
-    /** @var array */
-    private $attributeAkeneoSyliusMappings;
+    /** @var array<AttributeAkeneoSyliusMapping> */
+    private array $attributeAkeneoSyliusMappings;
 
     public function __construct(EntityRepository $attributeAkeneoSyliusMappingRepository)
     {

@@ -8,8 +8,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ReferenceEntityOptionsPayload extends AbstractPayload
 {
-    /** @var array|null */
-    private $resources;
+    private ?array $resources;
 
     public function getResources(): ?array
     {

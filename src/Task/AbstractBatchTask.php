@@ -11,8 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -21,7 +20,7 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
 
     protected function getSelectStatement(PipelinePayloadInterface $payload): \Doctrine\DBAL\Statement
     {
-        return $this->entityManager->getConnection()->prepare(\sprintf(
+        return $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id, `values`
              FROM `%s`
              WHERE id IN (%s)
@@ -33,7 +32,7 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
 
     protected function removeEntry(PipelinePayloadInterface $payload, int $id): void
     {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'DELETE FROM `%s` WHERE id = :id',
             $payload->getTmpTableName(),
         ));

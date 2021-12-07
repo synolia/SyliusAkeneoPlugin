@@ -8,7 +8,7 @@ use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class ReferenceEntityAttributeType implements AttributeTypeInterface
+final class ReferenceEntityAttributeType implements AttributeTypeInterface
 {
     public const TYPE = 'reference_entity';
 

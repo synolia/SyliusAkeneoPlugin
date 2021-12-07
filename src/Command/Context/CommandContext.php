@@ -8,15 +8,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Configuration\ConfigurationContextTrait;
 
-class CommandContext implements CommandContextInterface
+final class CommandContext implements CommandContextInterface
 {
     use ConfigurationContextTrait;
 
-    /** @var InputInterface */
-    public $input;
+    public InputInterface $input;
 
-    /** @var OutputInterface */
-    public $output;
+    public OutputInterface $output;
 
     public function __construct(
         InputInterface $input,

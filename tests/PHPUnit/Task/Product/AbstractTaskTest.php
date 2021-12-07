@@ -158,13 +158,13 @@ abstract class AbstractTaskTest extends ApiTestCase
         $productConfiguration = $this->manager->getRepository(ProductConfiguration::class)->findOneBy([]);
         if (!$productConfiguration instanceof ProductConfiguration) {
             $productConfiguration = new ProductConfiguration();
+            $this->manager->persist($productConfiguration);
         }
 
         $productConfiguration
             ->setAkeneoPriceAttribute('price')
             ->setAkeneoEnabledChannelsAttribute('enabled_channels')
         ;
-        $this->manager->persist($productConfiguration);
 
         $imageMapping = new ProductConfigurationImageMapping();
         $imageMapping->setAkeneoAttribute('picture');

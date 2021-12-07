@@ -12,8 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
 final class FamiliesChoiceType extends AbstractType
 {
-    /** @var AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
     public function __construct(ClientFactoryInterface $clientFactory)
     {

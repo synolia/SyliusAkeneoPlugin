@@ -14,33 +14,25 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
-class CompleteRequirementProcessor implements CompleteRequirementProcessorInterface
+final class CompleteRequirementProcessor implements CompleteRequirementProcessorInterface
 {
-    /** @var AkeneoFamilyPropertiesProviderInterface */
-    private $akeneoFamilyPropertiesProvider;
+    private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface */
-    private $akeneoAttributeDataProvider;
+    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface */
-    private $productFilterRulesProvider;
+    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
 
-    /** @var \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository */
-    private $productConfigurationRepository;
+    private EntityRepository $productConfigurationRepository;
 
-    /** @var \Sylius\Component\Product\Generator\SlugGeneratorInterface */
-    private $productSlugGenerator;
+    private SlugGeneratorInterface $productSlugGenerator;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productTranslationRepository;
+    private RepositoryInterface $productTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productTranslationFactory;
+    private FactoryInterface $productTranslationFactory;
 
     public function __construct(
         AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
@@ -62,6 +54,11 @@ class CompleteRequirementProcessor implements CompleteRequirementProcessorInterf
         $this->productTranslationFactory = $productTranslationFactory;
     }
 
+    public static function getDefaultPriority(): int
+    {
+        return 900;
+    }
+
     public function process(ProductInterface $product, array $resource): void
     {
         $missingNameTranslationCount = 0;
@@ -80,7 +77,7 @@ class CompleteRequirementProcessor implements CompleteRequirementProcessorInterf
             }
 
             if (null === $productName) {
-                $productName = \sprintf('[%s]', $product->getCode());
+                $productName = sprintf('[%s]', $product->getCode());
                 ++$missingNameTranslationCount;
             }
 
@@ -99,9 +96,9 @@ class CompleteRequirementProcessor implements CompleteRequirementProcessorInterf
 
             if ($missingNameTranslationCount > 0) {
                 //Multiple product has the same name
-                $productTranslation->setSlug(\sprintf(
+                $productTranslation->setSlug(sprintf(
                     '%s-%s-%d',
-                    $resource['code'],
+                    $resource['code'] ?? $resource['identifier'],
                     $this->productSlugGenerator->generate($productName),
                     $missingNameTranslationCount
                 ));
@@ -110,9 +107,9 @@ class CompleteRequirementProcessor implements CompleteRequirementProcessorInterf
             }
 
             //Multiple product has the same name
-            $productTranslation->setSlug(\sprintf(
+            $productTranslation->setSlug(sprintf(
                 '%s-%s',
-                $resource['code'],
+                $resource['code'] ?? $resource['identifier'],
                 $this->productSlugGenerator->generate($productName)
             ));
         }

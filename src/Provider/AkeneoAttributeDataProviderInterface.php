@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
+
 interface AkeneoAttributeDataProviderInterface
 {
     /**
      * @param mixed $attributeValues
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
+     * @throws MissingLocaleTranslationOrScopeException
+     * @throws MissingScopeException
+     * @throws MissingLocaleTranslationException
      *
      * @return mixed|null
      */

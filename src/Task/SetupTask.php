@@ -7,13 +7,11 @@ namespace Synolia\SyliusAkeneoPlugin\Task;
 use Doctrine\ORM\EntityManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
-class SetupTask implements AkeneoTaskInterface
+final class SetupTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\TearDownTask */
-    private $tearDownTask;
+    private TearDownTask $tearDownTask;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -36,7 +34,7 @@ class SetupTask implements AkeneoTaskInterface
 
         $this->tearDownTask->__invoke($payload);
 
-        $query = \sprintf(
+        $query = sprintf(
             'CREATE TABLE `%s` (
               `id` INT NOT NULL AUTO_INCREMENT,
               `values` JSON NULL,

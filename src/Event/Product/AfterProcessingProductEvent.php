@@ -7,10 +7,9 @@ namespace Synolia\SyliusAkeneoPlugin\Event\Product;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
-class AfterProcessingProductEvent extends AbstractResourceEvent
+final class AfterProcessingProductEvent extends AbstractResourceEvent
 {
-    /** @var \Sylius\Component\Core\Model\ProductInterface */
-    private $product;
+    private ProductInterface $product;
 
     public function __construct(array $resource, ProductInterface $taxon)
     {

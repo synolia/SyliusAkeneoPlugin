@@ -18,32 +18,23 @@ use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionRepository;
+    private RepositoryInterface $productOptionRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionFactory;
+    private FactoryInterface $productOptionFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface */
-    private $localeRepository;
+    private LocaleRepositoryInterface $localeRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productOptionTranslationRepository;
+    private RepositoryInterface $productOptionTranslationRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productOptionTranslationFactory;
+    private FactoryInterface $productOptionTranslationFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $productAttributeTranslationRepository;
+    private RepositoryInterface $productAttributeTranslationRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface */
-    private $optionValuesProcessorProvider;
+    private OptionValuesProcessorProviderInterface $optionValuesProcessorProvider;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
     public function __construct(
         EntityManagerInterface $entityManager,

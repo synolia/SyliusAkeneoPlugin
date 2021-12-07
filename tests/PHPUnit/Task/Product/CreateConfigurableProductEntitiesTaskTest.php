@@ -55,12 +55,12 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     {
         $this->createConfiguration();
         $this->createProductFiltersConfiguration();
+        $this->createProductConfiguration();
         $this->importCategories();
         $this->importAttributes();
         $this->importReferenceEntities();
         $this->importFamilies();
         $this->importProductModels();
-        $this->createProductConfiguration();
 
         $this->manager->flush();
 

@@ -10,23 +10,17 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class LocaleAttributeTranslationPayload extends AbstractPayload
 {
-    /** @var ProductInterface */
-    private $product;
+    private ProductInterface $product;
 
-    /** @var AttributeInterface */
-    private $attribute;
+    private AttributeInterface $attribute;
 
-    /** @var array */
-    private $translations;
+    private array $translations;
 
-    /** @var array */
-    private $translation;
+    private array $translation;
 
-    /** @var string */
-    private $attributeCode;
+    private string $attributeCode;
 
-    /** @var string */
-    private $scope;
+    private string $scope;
 
     public function getProduct(): ProductInterface
     {

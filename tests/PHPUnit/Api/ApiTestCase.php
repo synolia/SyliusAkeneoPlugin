@@ -10,11 +10,11 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 use Webmozart\Assert\Assert;
 
-abstract class ApiTestCase extends KernelTestCase
+abstract class ApiTestCase extends AbstractKernelTestCase
 {
     private const SAMPLE_PATH = '/datas/sample/';
 
@@ -51,7 +51,7 @@ abstract class ApiTestCase extends KernelTestCase
     {
         $this->apiConfiguration = new ApiConfiguration();
         $this->apiConfiguration->setPaginationSize(100)
-            ->setBaseUrl(\sprintf('%s:%d', $_SERVER['MOCK_SERVER_HOST'], (int) $_SERVER['MOCK_SERVER_PORT']))
+            ->setBaseUrl(sprintf('%s:%d', $_SERVER['MOCK_SERVER_HOST'], (int) $_SERVER['MOCK_SERVER_PORT']))
             ->setUsername('test')
             ->setApiClientId('test')
             ->setApiClientSecret('test')
@@ -83,7 +83,7 @@ abstract class ApiTestCase extends KernelTestCase
         $file = self::getSamplePath() . $name;
         Assert::fileExists($file);
 
-        $content = \file_get_contents($file);
+        $content = file_get_contents($file);
         if (false === $content) {
             return '';
         }

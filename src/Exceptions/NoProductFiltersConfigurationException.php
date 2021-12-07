@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Exceptions;
 
-final class NoProductFiltersConfigurationException extends \Exception
+use Exception;
+
+final class NoProductFiltersConfigurationException extends Exception
 {
 }

@@ -11,7 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository")
  * @ORM\Table("akeneo_api_product_filters_rules")
  */
-class ProductFiltersRules implements ResourceInterface
+final class ProductFiltersRules implements ResourceInterface
 {
     /**
      * @var int
@@ -148,7 +148,7 @@ class ProductFiltersRules implements ResourceInterface
 
     public function addLocale(string $locale): self
     {
-        if (in_array($locale, $this->locales)) {
+        if (\in_array($locale, $this->locales)) {
             return $this;
         }
 
@@ -161,7 +161,7 @@ class ProductFiltersRules implements ResourceInterface
 
     public function removeLocale(string $locale): self
     {
-        if (!in_array($locale, $this->locales)) {
+        if (!\in_array($locale, $this->locales)) {
             return $this;
         }
 
@@ -251,7 +251,7 @@ class ProductFiltersRules implements ResourceInterface
 
     public function addExcludeFamily(string $excludeFamily): self
     {
-        if (in_array($excludeFamily, $this->excludeFamilies)) {
+        if (\in_array($excludeFamily, $this->excludeFamilies)) {
             return $this;
         }
 
@@ -264,7 +264,7 @@ class ProductFiltersRules implements ResourceInterface
 
     public function removeExcludeFamily(string $excludeFamily): self
     {
-        if (!in_array($excludeFamily, $this->excludeFamilies)) {
+        if (!\in_array($excludeFamily, $this->excludeFamilies)) {
             return $this;
         }
 

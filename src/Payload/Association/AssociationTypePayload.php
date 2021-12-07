@@ -10,7 +10,7 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
-class AssociationTypePayload extends AbstractPayload
+final class AssociationTypePayload extends AbstractPayload
 {
     public const TEMP_AKENEO_TABLE_NAME = 'tmp_akeneo_association_types';
 
@@ -26,8 +26,7 @@ class AssociationTypePayload extends AbstractPayload
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
 
-    /** @var ResourceCursorInterface|null */
-    private $resources;
+    private ?ResourceCursorInterface $resources;
 
     /** @return Page|ResourceCursorInterface|null */
     public function getResources()

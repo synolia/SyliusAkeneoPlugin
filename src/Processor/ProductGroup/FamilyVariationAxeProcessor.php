@@ -11,25 +11,19 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
 
-class FamilyVariationAxeProcessor
+final class FamilyVariationAxeProcessor
 {
-    /** @var AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimEnterpriseClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient;
 
-    /** @var EntityRepository */
-    private $productGroupRepository;
+    private EntityRepository $productGroupRepository;
 
-    /** @var FamilyRetrieverInterface */
-    private $familyRetriever;
+    private FamilyRetrieverInterface $familyRetriever;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var int */
-    public $itemCount = 0;
+    public int $itemCount = 0;
 
-    /** @var array */
-    private $familyVariants;
+    private array $familyVariants;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
@@ -90,7 +84,7 @@ class FamilyVariationAxeProcessor
             foreach ($variantAttributeSet['axes'] as $axe) {
                 $productGroup->addVariationAxe($axe);
                 ++$this->itemCount;
-                $this->logger->info(\sprintf(
+                $this->logger->info(sprintf(
                     'Added axe "%s" to product group "%s" for family "%s"',
                     $axe,
                     $productGroup->getProductParent(),

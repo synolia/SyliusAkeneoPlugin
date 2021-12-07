@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity;
 
-class JsonReferenceEntityAttributeValueProcessor implements ReferenceEntityAttributeValueProcessorInterface
+final class JsonReferenceEntityAttributeValueProcessor implements ReferenceEntityAttributeValueProcessorInterface
 {
     public static function getDefaultPriority(): int
     {

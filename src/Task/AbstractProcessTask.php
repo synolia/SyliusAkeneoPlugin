@@ -22,32 +22,23 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 abstract class AbstractProcessTask implements AkeneoTaskInterface
 {
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    /** @var \BluePsyduck\SymfonyProcessManager\ProcessManagerInterface */
-    protected $processManager;
+    protected ProcessManagerInterface $processManager;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface */
-    protected $task;
+    protected BatchTaskInterface $task;
 
-    /** @var LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var int */
-    private $createCount = 0;
+    private int $createCount = 0;
 
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var string */
-    private $projectDir;
+    private string $projectDir;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -67,24 +58,24 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
     protected function count(string $tableName): int
     {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
             $tableName
         ));
         $query->executeStatement();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     protected function min(string $tableName): int
     {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id FROM `%s` ORDER BY id ASC LIMIT 1',
             $tableName
         ));
         $query->executeStatement();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     protected function prepareSelectBatchIdsQuery(
@@ -92,7 +83,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         int $from,
         int $limit
     ): Statement {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id
              FROM `%s`
              WHERE id > :from
@@ -235,19 +226,19 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         ) {
             foreach ($page->getItems() as $item) {
                 ++$count;
-                $sql = \sprintf(
+                $sql = sprintf(
                     'INSERT INTO `%s` (`values`) VALUES (:values);',
                     $payload->getTmpTableName(),
                 );
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->bindValue('values', \json_encode($item));
+                $stmt->bindValue('values', json_encode($item));
                 $stmt->execute();
 
                 $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
                 if ($payload->isBatchingAllowed() &&
                     $payload->getProcessAsSoonAsPossible() &&
-                    $count % $payload->getBatchSize() === 0) {
+                    0 === $count % $payload->getBatchSize()) {
                     $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                     $this->batch($payload, $ids);
                     $ids = [];
@@ -266,19 +257,19 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
     ): void {
         foreach ($resourceCursor as $item) {
             ++$count;
-            $sql = \sprintf(
+            $sql = sprintf(
                 'INSERT INTO `%s` (`values`) VALUES (:values);',
                 $payload->getTmpTableName(),
             );
             $stmt = $this->entityManager->getConnection()->prepare($sql);
-            $stmt->bindValue('values', \json_encode($item));
+            $stmt->bindValue('values', json_encode($item));
             $stmt->execute();
 
             $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
             if ($payload->isBatchingAllowed() &&
                 $payload->getProcessAsSoonAsPossible() &&
-                $count % $payload->getBatchSize() === 0) {
+                0 === $count % $payload->getBatchSize()) {
                 $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                 $this->batch($payload, $ids);
                 $ids = [];

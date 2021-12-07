@@ -21,23 +21,17 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
 final class BatchAssociationTypesTask extends AbstractBatchTask
 {
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productAssociationTypeFactory;
+    private FactoryInterface $productAssociationTypeFactory;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    private $productAssociationTypeTranslationFactory;
+    private FactoryInterface $productAssociationTypeTranslationFactory;
 
-    /** @var \Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface */
-    private $productAssociationTypeRepository;
+    private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository;
 
-    /** @var RepositoryInterface */
-    private $productAssociationTypeTranslationRepository;
+    private RepositoryInterface $productAssociationTypeTranslationRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -76,7 +70,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
 
             while ($results = $query->fetchAll()) {
                 foreach ($results as $result) {
-                    $resource = \json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true);
 
                     try {
                         if (!$this->entityManager->getConnection()->isTransactionActive()) {

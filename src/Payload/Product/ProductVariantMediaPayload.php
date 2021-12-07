@@ -9,11 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductVariantMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
 {
-    /** @var \Sylius\Component\Core\Model\ProductVariantInterface */
-    private $productVariant;
+    private ProductVariantInterface $productVariant;
 
-    /** @var array */
-    private $attributes;
+    private array $attributes;
 
     public function getProductVariant(): ProductVariantInterface
     {

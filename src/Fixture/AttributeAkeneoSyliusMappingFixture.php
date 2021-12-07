@@ -9,13 +9,11 @@ use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class AttributeAkeneoSyliusMappingFixture extends AbstractFixture
+final class AttributeAkeneoSyliusMappingFixture extends AbstractFixture
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var FactoryInterface */
-    private $attributeAkeneoSyliusMappingFactory;
+    private FactoryInterface $attributeAkeneoSyliusMappingFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,

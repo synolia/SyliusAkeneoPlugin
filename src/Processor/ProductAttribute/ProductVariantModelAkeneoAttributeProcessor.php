@@ -10,9 +10,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
-class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
+final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
     private const NATIVE_PROPERTIES = [
         'on_hold',
@@ -50,17 +50,17 @@ class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAkeneoAtt
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
         if (\in_array($this->camelCaseToSnakeCaseNameConverter->normalize($attributeCode), self::NATIVE_PROPERTIES) ||
-            in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
+            \in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
         ) {
-            return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+            return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
                 'set%s',
-                \ucfirst($attributeCode)
+                ucfirst($attributeCode)
             ));
         }
 
-        return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+        return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
-            \ucfirst($attributeCode),
+            ucfirst($attributeCode),
             self::CUSTOM_PROPERTIES_SUFFIX
         ));
     }

@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
@@ -18,48 +19,36 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoProductConfigurationException;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler;
+use Throwable;
 
-class AbstractCreateProductEntities
+abstract class AbstractCreateProductEntities
 {
-    protected const AKENEO_PREFIX = 'akeneo-';
-
     private const PRICE_CENTS = 100;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productVariantRepository;
+    protected RepositoryInterface $productVariantRepository;
 
-    /** @var \Sylius\Component\Product\Factory\ProductVariantFactoryInterface */
-    protected $productVariantFactory;
+    protected ProductVariantFactoryInterface $productVariantFactory;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productRepository;
+    protected RepositoryInterface $productRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository */
-    protected $channelRepository;
+    protected ChannelRepository $channelRepository;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $channelPricingRepository;
+    protected RepositoryInterface $channelPricingRepository;
 
-    /** @var \Sylius\Component\Resource\Factory\FactoryInterface */
-    protected $channelPricingFactory;
+    protected FactoryInterface $channelPricingFactory;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface */
-    protected $localeRepository;
+    protected LocaleRepositoryInterface $localeRepository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    protected $productConfigurationRepository;
+    protected RepositoryInterface $productConfigurationRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\ProductChannelEnabler */
-    protected $productChannelEnabler;
+    protected ProductChannelEnablerProcessorInterface $productChannelEnabler;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -72,7 +61,7 @@ class AbstractCreateProductEntities
         ProductVariantFactoryInterface $productVariantFactory,
         FactoryInterface $channelPricingFactory,
         LoggerInterface $akeneoLogger,
-        ProductChannelEnabler $productChannelEnabler
+        ProductChannelEnablerProcessorInterface $productChannelEnabler
     ) {
         $this->entityManager = $entityManager;
         $this->productVariantRepository = $productVariantRepository;
@@ -115,7 +104,7 @@ class AbstractCreateProductEntities
                     $this->addPriceToChannel((float) $price['amount'], $channel, $productVariant);
                 }
             }
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
 
             return;
@@ -124,14 +113,14 @@ class AbstractCreateProductEntities
 
     protected function countTotalProducts(bool $isSimple): int
     {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s` WHERE is_simple = :is_simple',
             ProductPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
         $query->execute();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     private function addPriceToChannel(
@@ -177,10 +166,10 @@ class AbstractCreateProductEntities
             }
 
             if (0 === \count($attributeValue)) {
-                throw new \LogicException('Price attribute is empty.');
+                throw new LogicException('Price attribute is empty.');
             }
 
-            return \current($attributeValue)['data'];
+            return current($attributeValue)['data'];
         }
 
         throw new NoAttributeResourcesException('Price attribute not found.');

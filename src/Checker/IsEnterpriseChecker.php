@@ -8,7 +8,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 
-class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
+final class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
 {
     /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
     private $apiConfigurationRepository;

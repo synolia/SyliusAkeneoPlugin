@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
+use InvalidArgumentException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,7 @@ final class SettingsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $entries = \array_keys($options['data']);
+        $entries = array_keys($options['data']);
         foreach ($entries as $name) {
             $configuration = SettingType::AKENEO_SETTINGS[$name];
             // If setting's value exist in data and setting isn't disabled
@@ -29,8 +30,8 @@ final class SettingsType extends AbstractType
             if (!empty($fieldOptions['constraints']) && \is_array($fieldOptions['constraints'])) {
                 $constraints = [];
                 foreach ($fieldOptions['constraints'] as $class => $constraintOptions) {
-                    if (!\class_exists($class)) {
-                        throw new \InvalidArgumentException(\sprintf('Constraint class "%s" not found', $class));
+                    if (!class_exists($class)) {
+                        throw new InvalidArgumentException(sprintf('Constraint class "%s" not found', $class));
                     }
                     $constraints[] = new $class($constraintOptions);
                 }
@@ -44,11 +45,9 @@ final class SettingsType extends AbstractType
 
             // Choices I18n
             if (!empty($fieldOptions['choices'])) {
-                $fieldOptions['choices'] = \array_map(
-                    static function ($label) use ($fieldOptions) {
-                        return $fieldOptions['label'] . '_choices.' . $label;
-                    },
-                    \array_combine($fieldOptions['choices'], $fieldOptions['choices'])
+                $fieldOptions['choices'] = array_map(
+                    static fn ($label) => $fieldOptions['label'] . '_choices.' . $label,
+                    array_combine($fieldOptions['choices'], $fieldOptions['choices'])
                 );
             }
             $builder->add($name, $fieldType, $fieldOptions);

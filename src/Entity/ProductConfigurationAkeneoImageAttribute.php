@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * @ORM\Entity()
  * @ORM\Table("akeneo_api_configuration_product_akeneo_image_attribute")
  */
-class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
+final class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
 {
     /**
      * @var int

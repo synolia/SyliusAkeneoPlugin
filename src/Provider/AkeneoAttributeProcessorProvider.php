@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcess
 final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessorProviderInterface
 {
     /** @var array<AkeneoAttributeProcessorInterface> */
-    private $akeneoAttributeProcessors;
+    private array $akeneoAttributeProcessors;
 
     public function __construct(\Traversable $handlers)
     {
@@ -19,10 +19,6 @@ final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessor
 
     public function getProcessor(string $attributeCode, array $context = []): AkeneoAttributeProcessorInterface
     {
-        if (null === $this->akeneoAttributeProcessors) {
-            $this->akeneoAttributeProcessors = [];
-        }
-
         /** @var AkeneoAttributeProcessorInterface $akeneoAttributeProcessor */
         foreach ($this->akeneoAttributeProcessors as $akeneoAttributeProcessor) {
             if ($akeneoAttributeProcessor->support($attributeCode, $context)) {
@@ -30,6 +26,6 @@ final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessor
             }
         }
 
-        throw new MissingAkeneoAttributeProcessorException(\sprintf('Could not find an AkeneoAttributeProcessor for attribute %s', $attributeCode));
+        throw new MissingAkeneoAttributeProcessorException(sprintf('Could not find an AkeneoAttributeProcessor for attribute %s', $attributeCode));
     }
 }

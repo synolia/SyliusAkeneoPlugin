@@ -11,16 +11,13 @@ use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
 final class FamilyRetriever implements FamilyRetrieverInterface
 {
     /** @var array<string> */
-    private $familiesByVariant = [];
+    private array $familiesByVariant = [];
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $akeneoPimClient;
+    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    /** @var ConfigurationProvider */
-    private $configurationProvider;
+    private ConfigurationProvider $configurationProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,
@@ -34,7 +31,7 @@ final class FamilyRetriever implements FamilyRetrieverInterface
 
     public function getFamilyCodeByVariantCode(string $familyVariantCode): string
     {
-        if (array_key_exists($familyVariantCode, $this->familiesByVariant)) {
+        if (\array_key_exists($familyVariantCode, $this->familiesByVariant)) {
             return $this->familiesByVariant[$familyVariantCode];
         }
 

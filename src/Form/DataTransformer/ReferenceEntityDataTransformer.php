@@ -7,11 +7,11 @@ namespace Synolia\SyliusAkeneoPlugin\Form\DataTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\DataTransformer\ReferenceEntityTransformException;
 
-class ReferenceEntityDataTransformer implements DataTransformerInterface
+final class ReferenceEntityDataTransformer implements DataTransformerInterface
 {
     public function transform($value): string
     {
-        $json = \json_encode($value);
+        $json = json_encode($value);
 
         if (false === $json) {
             throw new ReferenceEntityTransformException('Could not transform reference entity array to json.');
@@ -22,6 +22,6 @@ class ReferenceEntityDataTransformer implements DataTransformerInterface
 
     public function reverseTransform($value): ?array
     {
-        return \json_decode($value, true);
+        return json_decode($value, true);
     }
 }

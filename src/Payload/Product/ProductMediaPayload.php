@@ -9,14 +9,11 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration */
-    private $productConfiguration;
+    private \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration;
 
-    /** @var \Sylius\Component\Core\Model\ProductInterface */
-    private $product;
+    private ProductInterface $product;
 
-    /** @var array */
-    private $attributes;
+    private array $attributes;
 
     public function getProduct(): ProductInterface
     {

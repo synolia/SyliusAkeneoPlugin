@@ -106,7 +106,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
                 MissingScopeException |
                 TranslationNotFoundException $exception
             ) {
-                $this->akeneoLogger->debug(\sprintf(
+                $this->akeneoLogger->debug(sprintf(
                     'Skipped attribute value "%s" for reference entity "%s" with value "%s" for locale "%s" and scope "%s"',
                     $subAttributeCode,
                     $referenceEntityAttributeProperties['reference_data_name'],

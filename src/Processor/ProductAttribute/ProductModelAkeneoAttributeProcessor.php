@@ -10,9 +10,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
-class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
+final class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
     public function __construct(
         CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
@@ -39,9 +39,9 @@ class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeP
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
-        return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+        return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
-            \ucfirst($attributeCode),
+            ucfirst($attributeCode),
             self::CUSTOM_PROPERTIES_SUFFIX
         ));
     }

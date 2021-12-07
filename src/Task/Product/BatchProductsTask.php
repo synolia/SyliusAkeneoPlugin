@@ -12,10 +12,10 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 final class BatchProductsTask extends AbstractBatchTask
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\SimpleProductTask */
-    private $batchSimpleProductTask;
+    private SimpleProductTask $batchSimpleProductTask;
 
     /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\ConfigurableProductsTask */
-    private $batchConfigurableProductsTask;
+    private ConfigurableProductsTask $batchConfigurableProductsTask;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -40,7 +40,7 @@ final class BatchProductsTask extends AbstractBatchTask
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
                 try {
-                    $resource = \json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true);
 
                     $isSimple = null === $resource['parent'];
                     if ($isSimple) {

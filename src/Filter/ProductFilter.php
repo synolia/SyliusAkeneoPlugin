@@ -11,7 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductFilter implements ProductFilterInterface
 {
@@ -31,11 +31,9 @@ final class ProductFilter implements ProductFilterInterface
         'created',
     ];
 
-    /** @var EntityRepository */
-    private $productFiltersRulesRepository;
+    private EntityRepository $productFiltersRulesRepository;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
     public function __construct(EntityRepository $productFiltersRulesRepository, SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
     {
@@ -129,7 +127,7 @@ final class ProductFilter implements ProductFilterInterface
         }
 
         parse_str($productFilterRules->getAdvancedFilter(), $advancedFilter);
-        if (!array_key_exists('search', $advancedFilter)) {
+        if (!\array_key_exists('search', $advancedFilter)) {
             return $advancedFilter;
         }
 
@@ -155,10 +153,10 @@ final class ProductFilter implements ProductFilterInterface
     private function getProductModelAdvancedFilter(array $advancedFilter): array
     {
         $advancedFilter['search'] = array_filter($advancedFilter['search'], static function (string $key): bool {
-            return in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
+            return \in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
         }, \ARRAY_FILTER_USE_KEY);
 
-        if (array_key_exists('completeness', $advancedFilter['search']) && is_array($advancedFilter['search']['completeness'])) {
+        if (\array_key_exists('completeness', $advancedFilter['search']) && \is_array($advancedFilter['search']['completeness'])) {
             $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);
         }
 
@@ -218,7 +216,7 @@ final class ProductFilter implements ProductFilterInterface
 
     private function getLocales(ProductFiltersRules $productFilterRules): array
     {
-        if (in_array($productFilterRules->getCompletenessType(), [
+        if (\in_array($productFilterRules->getCompletenessType(), [
             Operator::LOWER_THAN_ON_ALL_LOCALES,
             Operator::GREATER_THAN_ON_ALL_LOCALES,
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
@@ -241,7 +239,7 @@ final class ProductFilter implements ProductFilterInterface
             return $queryParameters;
         }
 
-        if (in_array($completenessType, [
+        if (\in_array($completenessType, [
             Operator::LOWER_THAN_ON_ALL_LOCALES,
             Operator::GREATER_THAN_ON_ALL_LOCALES,
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
@@ -265,7 +263,7 @@ final class ProductFilter implements ProductFilterInterface
             $completeness,
             $completenessValue,
             [
-                'locales' => in_array($completeness, [self::AT_LEAST_COMPLETE, self::ALL_COMPLETE]) ? $this->getLocales($productFilterRules) : [],
+                'locales' => \in_array($completeness, [self::AT_LEAST_COMPLETE, self::ALL_COMPLETE]) ? $this->getLocales($productFilterRules) : [],
                 'scope' => $productFilterRules->getChannel(),
             ]
         );

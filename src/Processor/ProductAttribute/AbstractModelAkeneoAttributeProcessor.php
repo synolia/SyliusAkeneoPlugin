@@ -9,29 +9,23 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 abstract class AbstractModelAkeneoAttributeProcessor
 {
     protected const CUSTOM_PROPERTIES_SUFFIX = 'AkeneoAttribute';
 
-    /** @var \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter */
-    protected $camelCaseToSnakeCaseNameConverter;
+    protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter;
 
-    /** @var AkeneoAttributeDataProviderInterface */
-    protected $akeneoAttributeDataProvider;
+    protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Service\SyliusAkeneoLocaleCodeProvider */
-    protected $syliusAkeneoLocaleCodeProvider;
+    protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    protected $akeneoAttributePropertyProvider;
+    protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var string */
-    protected $model;
+    protected string $model;
 
     public function __construct(
         CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
@@ -51,7 +45,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(\sprintf(
+        $this->logger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class
@@ -80,7 +74,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
      */
     public function support(string $attributeCode, array $context = []): bool
     {
-        return \method_exists(
+        return method_exists(
             $this->model,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         );
