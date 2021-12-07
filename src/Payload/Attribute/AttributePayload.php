@@ -25,9 +25,9 @@ final class AttributePayload extends AbstractPayload
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
 
-    private ?ResourceCursorInterface $resources;
+    private ResourceCursorInterface $resources;
 
-    public function getResources(): ?ResourceCursorInterface
+    public function getResources(): ResourceCursorInterface
     {
         return $this->resources;
     }
