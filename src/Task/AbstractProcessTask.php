@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task;
 
+use LogicException;
+use Throwable;
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
@@ -103,7 +105,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
     ): void {
         if ($payload->allowParallel()) {
             if (!$this->processManager instanceof ProcessManager) {
-                throw new \LogicException('ProcessManager');
+                throw new LogicException('ProcessManager');
             }
             $this->processManager->setNumberOfParallelProcesses($payload->getMaxRunningProcessQueueSize());
 
@@ -171,7 +173,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                 $query->executeStatement();
             }
             $this->processManager->waitForAllProcesses();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
 
             throw $throwable;

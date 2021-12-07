@@ -22,10 +22,10 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
     /**
      * @param mixed $attributeValues
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
+     * @throws MissingLocaleTranslationOrScopeException
+     * @throws MissingScopeException
+     * @throws MissingLocaleTranslationException
+     * @throws TranslationNotFoundException
      *
      * @return mixed|null
      */

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
+use LogicException;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
@@ -18,10 +19,10 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTyp
 
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
+    /** @var AkeneoAttributePropertiesProvider */
     private $akeneoAttributePropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
+    /** @var AttributeTypeMatcher */
     private $attributeTypeMatcher;
 
     /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
@@ -33,7 +34,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     /** @var \Psr\Log\LoggerInterface */
     private $akeneoLogger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface */
+    /** @var ProductRefEntityAttributeValueValueBuilderProviderInterface */
     private $productRefEntityAttributeValueValueBuilderProvider;
 
     public function __construct(
@@ -63,7 +64,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         if (null === $locale || null === $scope) {
-            throw new \LogicException(sprintf('Locale and Scope are mandatory for %s reference entity.', $attributeCode));
+            throw new LogicException(sprintf('Locale and Scope are mandatory for %s reference entity.', $attributeCode));
         }
 
         $subAttributeValues = [];

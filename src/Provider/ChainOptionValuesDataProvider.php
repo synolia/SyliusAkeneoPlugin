@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
+use Traversable;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
@@ -14,7 +15,7 @@ final class ChainOptionValuesDataProvider implements OptionValuesProcessorProvid
     /** @var array<OptionValuesProcessorInterface> */
     private array $optionValuesProcessors;
 
-    public function __construct(\Traversable $handlers)
+    public function __construct(Traversable $handlers)
     {
         $this->optionValuesProcessors = iterator_to_array($handlers);
     }

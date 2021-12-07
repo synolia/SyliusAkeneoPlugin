@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductVariant;
 
+use Traversable;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 
 final class ProductVariantProcessorChain implements ProductVariantProcessorChainInterface
@@ -11,7 +12,7 @@ final class ProductVariantProcessorChain implements ProductVariantProcessorChain
     /** @var array<ProductVariantProcessorInterface> */
     private array $productProcessors;
 
-    public function __construct(\Traversable $handlers)
+    public function __construct(Traversable $handlers)
     {
         $this->productProcessors = iterator_to_array($handlers);
     }

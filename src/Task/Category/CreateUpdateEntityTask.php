@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
+use Throwable;
 use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -64,7 +66,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $payload
+     * @param CategoryPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -121,7 +123,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                 $this->entityManager->flush();
                 $this->entityManager->commit();
-            } catch (\Throwable $throwable) {
+            } catch (Throwable $throwable) {
                 $this->entityManager->rollback();
                 $this->logger->warning($throwable->getMessage());
             }

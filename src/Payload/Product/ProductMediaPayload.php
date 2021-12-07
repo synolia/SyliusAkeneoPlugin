@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
 {
-    private \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration;
+    private ProductConfiguration $productConfiguration;
 
     private ProductInterface $product;
 
@@ -39,12 +40,12 @@ final class ProductMediaPayload extends AbstractPayload implements ProductMediaP
         return $this;
     }
 
-    public function getProductConfiguration(): \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration
+    public function getProductConfiguration(): ProductConfiguration
     {
         return $this->productConfiguration;
     }
 
-    public function setProductConfiguration(\Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration): void
+    public function setProductConfiguration(ProductConfiguration $productConfiguration): void
     {
         $this->productConfiguration = $productConfiguration;
     }

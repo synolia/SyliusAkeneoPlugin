@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
+use ReflectionMethod;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -83,7 +84,7 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
             $scope
         );
 
-        $reflectionMethod = new \ReflectionMethod(
+        $reflectionMethod = new ReflectionMethod(
             $model,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         );

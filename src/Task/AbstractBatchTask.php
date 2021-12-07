@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task;
 
+use Doctrine\DBAL\Statement;
 use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +19,7 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
         $this->entityManager = $entityManager;
     }
 
-    protected function getSelectStatement(PipelinePayloadInterface $payload): \Doctrine\DBAL\Statement
+    protected function getSelectStatement(PipelinePayloadInterface $payload): Statement
     {
         return $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id, `values`

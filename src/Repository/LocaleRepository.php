@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Repository;
 
+use Doctrine\ORM\Query;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Component\Locale\Model\LocaleInterface;
@@ -27,7 +28,7 @@ final class LocaleRepository extends ServiceEntityRepository implements LocaleRe
         $values = $this->createQueryBuilder('locale')
             ->select('locale.code')
             ->getQuery()
-            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
+            ->getResult(Query::HYDRATE_ARRAY)
         ;
 
         return array_map(function ($value) {
