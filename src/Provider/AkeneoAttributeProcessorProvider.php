@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
-use Traversable;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
+use Traversable;
 
 final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessorProviderInterface
 {

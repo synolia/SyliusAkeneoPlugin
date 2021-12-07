@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
-use Throwable;
 use Doctrine\ORM\EntityManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Throwable;
 
 final class BatchProductsTask extends AbstractBatchTask
 {
-    /** @var SimpleProductTask */
     private SimpleProductTask $batchSimpleProductTask;
 
-    /** @var ConfigurableProductsTask */
     private ConfigurableProductsTask $batchConfigurableProductsTask;
 
     public function __construct(

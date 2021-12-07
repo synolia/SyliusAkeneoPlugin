@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task;
 
-use LogicException;
-use Throwable;
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
@@ -14,6 +12,7 @@ use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Process\Process;
@@ -21,6 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Throwable;
 
 abstract class AbstractProcessTask implements AkeneoTaskInterface
 {

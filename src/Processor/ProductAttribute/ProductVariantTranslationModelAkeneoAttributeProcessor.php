@@ -5,13 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use ReflectionMethod;
-use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {

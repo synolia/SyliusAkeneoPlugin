@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
-use Traversable;
 use Sylius\Component\Core\Model\ProductInterface;
+use Traversable;
 
 final class ProductProcessorChain implements ProductProcessorChainInterface
 {
