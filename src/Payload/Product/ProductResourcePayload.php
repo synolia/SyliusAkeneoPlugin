@@ -9,7 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductResourcePayload extends AbstractPayload
 {
-    private ?ProductInterface $product;
+    private ?ProductInterface $product = null;
 
     private array $resource;
 

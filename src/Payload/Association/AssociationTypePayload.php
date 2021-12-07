@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Association;
 
-use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
@@ -26,16 +25,14 @@ final class AssociationTypePayload extends AbstractPayload
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
 
-    private ?ResourceCursorInterface $resources;
+    private ResourceCursorInterface $resources;
 
-    /** @return Page|ResourceCursorInterface|null */
-    public function getResources()
+    public function getResources(): ResourceCursorInterface
     {
         return $this->resources;
     }
 
-    /** @param mixed $resources */
-    public function setResources($resources): void
+    public function setResources(ResourceCursorInterface $resources): void
     {
         $this->resources = $resources;
     }
