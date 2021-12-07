@@ -46,7 +46,7 @@ final class SettingsType extends AbstractType
             // Choices I18n
             if (!empty($fieldOptions['choices'])) {
                 $fieldOptions['choices'] = array_map(
-                    static fn ($label) => $fieldOptions['label'] . '_choices.' . $label,
+                    static fn ($label): string => $fieldOptions['label'] . '_choices.' . $label,
                     array_combine($fieldOptions['choices'], $fieldOptions['choices'])
                 );
             }

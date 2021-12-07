@@ -77,7 +77,7 @@ final class SyliusAkeneoLocaleCodeProvider
         foreach ($this->channelRepository->findAll() as $channel) {
             $locales = array_unique(array_merge($locales, $channel
                 ->getLocales()
-                ->map(fn (LocaleInterface $locale) => (string) $locale->getCode())
+                ->map(fn (LocaleInterface $locale): string => (string) $locale->getCode())
                 ->toArray()))
             ;
         }
