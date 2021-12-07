@@ -25,24 +25,6 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
         'shipping_required',
     ];
 
-    public function __construct(
-        CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        LoggerInterface $akeneoLogger,
-        string $model
-    ) {
-        parent::__construct(
-            $camelCaseToSnakeCaseNameConverter,
-            $akeneoAttributePropertyProvider,
-            $akeneoAttributeDataProvider,
-            $syliusAkeneoLocaleCodeProvider,
-            $akeneoLogger,
-            $model
-        );
-    }
-
     public static function getDefaultPriority(): int
     {
         return 100;

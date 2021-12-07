@@ -27,10 +27,8 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
     public function __construct(
         ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
-        BatchAssociationTypesTask $batchAssociationTypesTask,
-        string $name = null
+        BatchAssociationTypesTask $batchAssociationTypesTask
     ) {
-        parent::__construct($name);
         $this->clientFactory = $clientFactory;
         $this->logger = $akeneoLogger;
         $this->batchAssociationTypesTask = $batchAssociationTypesTask;

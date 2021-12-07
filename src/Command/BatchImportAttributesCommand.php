@@ -27,10 +27,8 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
     public function __construct(
         ClientFactoryInterface $clientFactory,
         LoggerInterface $akeneoLogger,
-        BatchAttributesTask $batchAttributesTask,
-        string $name = null
+        BatchAttributesTask $batchAttributesTask
     ) {
-        parent::__construct($name);
         $this->clientFactory = $clientFactory;
         $this->logger = $akeneoLogger;
         $this->attributesTask = $batchAttributesTask;
