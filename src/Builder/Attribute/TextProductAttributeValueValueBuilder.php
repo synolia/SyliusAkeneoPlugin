@@ -34,7 +34,7 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value): string
     {
         return trim((string) $value);
     }
