@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\AssociationType;
 
-use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
-use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
-use Throwable;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -17,10 +14,13 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Throwable;
 
 final class BatchAssociationTypesTask extends AbstractBatchTask
 {

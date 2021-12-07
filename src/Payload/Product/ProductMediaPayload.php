@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
-use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Sylius\Component\Core\Model\ProductInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface

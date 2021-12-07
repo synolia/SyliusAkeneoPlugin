@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task;
 
-use Doctrine\DBAL\Statement;
 use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 

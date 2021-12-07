@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 
-use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
-use LogicException;
-use Throwable;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class DeleteTask implements AkeneoTaskInterface
 {

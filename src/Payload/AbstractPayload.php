@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use ReflectionException;
-use LogicException;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use LogicException;
 use ReflectionClass;
+use ReflectionException;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Configuration\ConfigurationContextTrait;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {

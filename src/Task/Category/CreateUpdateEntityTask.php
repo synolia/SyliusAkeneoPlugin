@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
-use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
-use Throwable;
 use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -18,9 +16,11 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 /**
  * @internal
