@@ -28,7 +28,7 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
 
     public function isLocalizable(string $referenceEntityCode, string $referenceEntityAttributeCode): bool
     {
-        return (isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_locale'])) ? (bool) $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_locale'] : false;
+        return isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_locale']) && (bool) $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_locale'];
     }
 
     public function getProperties(string $referenceEntityCode, string $referenceEntityAttributeCode): array
@@ -52,12 +52,12 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
 
     public function isUnique(string $referenceEntityCode, string $referenceEntityAttributeCode): bool
     {
-        return (isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['unique'])) ? (bool) $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['unique'] : false;
+        return isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['unique']) && (bool) $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['unique'];
     }
 
     public function isScopable(string $referenceEntityCode, string $referenceEntityAttributeCode): bool
     {
-        return (isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_channel'])) ? (bool) $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_channel'] : false;
+        return isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_channel']) && (bool) $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['value_per_channel'];
     }
 
     public function getLabel(string $referenceEntityCode, string $referenceEntityAttributeCode, ?string $locale): string

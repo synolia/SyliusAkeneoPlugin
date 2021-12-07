@@ -17,24 +17,6 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
 {
     private const NATIVE_PROPERTIES = ['slug', 'description', 'short_description', 'meta_description', 'meta_keywords'];
 
-    public function __construct(
-        CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        LoggerInterface $akeneoLogger,
-        string $model
-    ) {
-        parent::__construct(
-            $camelCaseToSnakeCaseNameConverter,
-            $akeneoAttributePropertyProvider,
-            $akeneoAttributeDataProvider,
-            $syliusAkeneoLocaleCodeProvider,
-            $akeneoLogger,
-            $model
-        );
-    }
-
     public static function getDefaultPriority(): int
     {
         return 200;
