@@ -19,23 +19,19 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTyp
 
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    /** @var AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertiesProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    /** @var AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
     /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
     private $client;
 
-    /** @var AkeneoReferenceEntityAttributeDataProviderInterface */
-    private $akeneoReferenceEntityAttributeDataProvider;
+    private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider;
 
     /** @var \Psr\Log\LoggerInterface */
     private $akeneoLogger;
 
-    /** @var ProductRefEntityAttributeValueValueBuilderProviderInterface */
-    private $productRefEntityAttributeValueValueBuilderProvider;
+    private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,

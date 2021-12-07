@@ -10,11 +10,9 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\CollectionReferenceEntityAt
 
 final class CollectionReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    /** @var AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertiesProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    /** @var AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
