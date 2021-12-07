@@ -29,6 +29,7 @@ final class BatchImportProductsCommand extends AbstractBatchCommand
         LoggerInterface $akeneoLogger,
         BatchProductsTask $batchProductsTask
     ) {
+        parent::__construct(self::$defaultName);
         $this->clientFactory = $clientFactory;
         $this->logger = $akeneoLogger;
         $this->batchProductGroupsTask = $batchProductsTask;
