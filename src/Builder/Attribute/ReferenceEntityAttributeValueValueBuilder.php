@@ -23,13 +23,11 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
 
     private AttributeTypeMatcher $attributeTypeMatcher;
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
     private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
     private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider;
 
