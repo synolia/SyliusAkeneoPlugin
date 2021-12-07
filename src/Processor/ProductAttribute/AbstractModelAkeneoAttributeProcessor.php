@@ -53,7 +53,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
 
         foreach ($context['data'] as $translation) {
             if (null !== $translation['locale']
-                && false === $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
+                && !$this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
                 continue;
             }
 
