@@ -13,8 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class PayloadFactory implements PayloadFactoryInterface
 {
-    /** @var ClientFactoryInterface */
-    private $clientFactory;
+    private ClientFactoryInterface $clientFactory;
 
     public function __construct(ClientFactoryInterface $clientFactory)
     {
