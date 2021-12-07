@@ -29,6 +29,7 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
         LoggerInterface $akeneoLogger,
         BatchAttributesTask $batchAttributesTask
     ) {
+        parent::__construct(self::$defaultName);
         $this->clientFactory = $clientFactory;
         $this->logger = $akeneoLogger;
         $this->attributesTask = $batchAttributesTask;
