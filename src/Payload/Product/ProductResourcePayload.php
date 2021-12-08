@@ -9,7 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductResourcePayload extends AbstractPayload
 {
-    private ?ProductInterface $product = null;
+    private ProductInterface $product;
 
     private array $resource;
 
@@ -17,12 +17,12 @@ final class ProductResourcePayload extends AbstractPayload
 
     private string $scope;
 
-    public function getProduct(): ?ProductInterface
+    public function getProduct(): ProductInterface
     {
         return $this->product;
     }
 
-    public function setProduct(?ProductInterface $product): self
+    public function setProduct(ProductInterface $product): self
     {
         $this->product = $product;
 
