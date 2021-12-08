@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
-use Akeneo\Pim\ApiClient\Pagination\Page;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
@@ -15,7 +15,7 @@ final class ProductPayload extends AbstractPayload
 
     public const BATCH_COMMAND_NAME = 'akeneo:batch:products';
 
-    private Page $resources;
+    private PageInterface $resources;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient, ?CommandContextInterface $commandContext = null)
     {
@@ -25,12 +25,12 @@ final class ProductPayload extends AbstractPayload
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
 
-    public function getResources(): Page
+    public function getResources(): PageInterface
     {
         return $this->resources;
     }
 
-    public function setResources(Page $resources): void
+    public function setResources(PageInterface $resources): void
     {
         $this->resources = $resources;
     }
