@@ -31,8 +31,6 @@ final class LocaleRepository extends ServiceEntityRepository implements LocaleRe
             ->getResult(Query::HYDRATE_ARRAY)
         ;
 
-        return array_map(function ($value) {
-            return $value['code'];
-        }, $values);
+        return array_map(fn ($value) => $value['code'], $values);
     }
 }

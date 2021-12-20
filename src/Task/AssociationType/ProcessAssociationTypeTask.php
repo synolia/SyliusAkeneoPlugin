@@ -32,7 +32,7 @@ final class ProcessAssociationTypeTask extends AbstractProcessTask
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $payload
+     * @param AssociationTypePayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {

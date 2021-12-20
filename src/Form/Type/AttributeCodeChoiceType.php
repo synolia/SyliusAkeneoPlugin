@@ -12,33 +12,31 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
 final class AttributeCodeChoiceType extends AbstractType
 {
     private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    private AkeneoTaskProvider $akeneoTaskProvider;
-
     private LocaleContextInterface $localeContext;
+
+    private RetrieveAttributesTask $retrieveAttributesTask;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,
-        AkeneoTaskProvider $akeneoTaskProvider,
-        LocaleContextInterface $localeContext
+        LocaleContextInterface $localeContext,
+        RetrieveAttributesTask $retrieveAttributesTask
     ) {
         $this->akeneoPimClient = $clientFactory->createFromApiCredentials();
-        $this->akeneoTaskProvider = $akeneoTaskProvider;
         $this->localeContext = $localeContext;
+        $this->retrieveAttributesTask = $retrieveAttributesTask;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $payload = new AttributePayload($this->akeneoPimClient);
-        $attributeResult = $this->akeneoTaskProvider->get(RetrieveAttributesTask::class);
         /** @var AttributePayload $attributePayload */
-        $attributePayload = $attributeResult->__invoke($payload);
+        $attributePayload = $this->retrieveAttributesTask->__invoke($payload);
 
         if (!$attributePayload->getResources() instanceof ResourceCursorInterface) {
             return;

@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
@@ -41,10 +41,10 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
         $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
         $this->productRepository = $this->getContainer()->get('sylius.repository.product');
         $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
-        self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
+        self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
     }
 
     public function testCreateUpdateTask(): void

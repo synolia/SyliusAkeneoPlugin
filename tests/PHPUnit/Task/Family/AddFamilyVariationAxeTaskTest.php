@@ -11,7 +11,7 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Family\ProcessFamilyTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
@@ -32,7 +32,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
     {
         parent::setUp();
 
-        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
         $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
@@ -43,7 +43,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
             new Response($this->getFileContent('product_models_caelus.json'), [], HttpResponse::HTTP_OK)
         );
 
-        self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
+        self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
     }
 
     public function testAddOrUpdateProductModelTask(): void

@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 use RuntimeException;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
-final class AkeneoTaskProvider
+final class TaskProvider
 {
     /** @var array<AkeneoTaskInterface> */
     private array $tasks;
