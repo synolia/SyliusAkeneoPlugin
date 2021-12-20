@@ -12,7 +12,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  *
  * @ORM\Table("akeneo_api_configuration_categories")
  */
-final class CategoryConfiguration implements ResourceInterface
+class CategoryConfiguration implements ResourceInterface
 {
     /**
      * @var int

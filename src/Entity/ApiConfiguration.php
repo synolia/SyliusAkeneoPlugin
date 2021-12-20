@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ORM\Table("akeneo_api_configuration")
  */
-final class ApiConfiguration implements ResourceInterface
+class ApiConfiguration implements ResourceInterface
 {
     public const MIN_AKENEO_PAGINATION_SIZE = 1;
 
