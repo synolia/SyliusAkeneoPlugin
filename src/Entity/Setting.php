@@ -11,7 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Entity()
  * @ORM\Table("akeneo_settings")
  */
-final class Setting implements ResourceInterface
+class Setting implements ResourceInterface
 {
     /**
      * @var int

@@ -14,7 +14,7 @@ use Sylius\Component\Core\Model\ProductInterface;
  * @ORM\Entity()
  * @ORM\Table("akeneo_product_group")
  */
-final class ProductGroup implements ProductGroupInterface
+class ProductGroup implements ProductGroupInterface
 {
     /**
      * @var int

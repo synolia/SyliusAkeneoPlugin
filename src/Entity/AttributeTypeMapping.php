@@ -11,7 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Entity()
  * @ORM\Table("akeneo_attribute_type_mapping")
  */
-final class AttributeTypeMapping implements ResourceInterface
+class AttributeTypeMapping implements ResourceInterface
 {
     /**
      * @var int
