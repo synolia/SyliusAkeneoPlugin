@@ -6,13 +6,14 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
+use Traversable;
 
 final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessorProviderInterface
 {
     /** @var array<AkeneoAttributeProcessorInterface> */
     private array $akeneoAttributeProcessors;
 
-    public function __construct(\Traversable $handlers)
+    public function __construct(Traversable $handlers)
     {
         $this->akeneoAttributeProcessors = iterator_to_array($handlers);
     }

@@ -8,9 +8,9 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ReferenceEntityOptionsPayload extends AbstractPayload
 {
-    private ?array $resources;
+    private array $resources;
 
-    public function getResources(): ?array
+    public function getResources(): array
     {
         return $this->resources;
     }

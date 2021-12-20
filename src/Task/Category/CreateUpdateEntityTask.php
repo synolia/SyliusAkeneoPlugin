@@ -16,9 +16,11 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 /**
  * @internal
@@ -64,7 +66,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $payload
+     * @param CategoryPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -121,7 +123,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                 $this->entityManager->flush();
                 $this->entityManager->commit();
-            } catch (\Throwable $throwable) {
+            } catch (Throwable $throwable) {
                 $this->entityManager->rollback();
                 $this->logger->warning($throwable->getMessage());
             }

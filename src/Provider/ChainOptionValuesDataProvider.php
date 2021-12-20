@@ -8,13 +8,14 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface;
+use Traversable;
 
 final class ChainOptionValuesDataProvider implements OptionValuesProcessorProviderInterface
 {
     /** @var array<OptionValuesProcessorInterface> */
     private array $optionValuesProcessors;
 
-    public function __construct(\Traversable $handlers)
+    public function __construct(Traversable $handlers)
     {
         $this->optionValuesProcessors = iterator_to_array($handlers);
     }

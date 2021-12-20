@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
@@ -18,23 +19,17 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTyp
 
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertiesProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
-    /** @var \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
-    /** @var AkeneoReferenceEntityAttributeDataProviderInterface */
-    private $akeneoReferenceEntityAttributeDataProvider;
+    private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $akeneoLogger;
+    private LoggerInterface $akeneoLogger;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface */
-    private $productRefEntityAttributeValueValueBuilderProvider;
+    private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
@@ -63,7 +58,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {
         if (null === $locale || null === $scope) {
-            throw new \LogicException(sprintf('Locale and Scope are mandatory for %s reference entity.', $attributeCode));
+            throw new LogicException(sprintf('Locale and Scope are mandatory for %s reference entity.', $attributeCode));
         }
 
         $subAttributeValues = [];

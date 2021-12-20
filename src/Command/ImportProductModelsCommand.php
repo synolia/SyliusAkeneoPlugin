@@ -25,10 +25,9 @@ final class ImportProductModelsCommand extends AbstractImportCommand
     public function __construct(
         ProductModelPipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory,
-        string $name = null
+        PayloadFactoryInterface $payloadFactory
     ) {
-        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, $name);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
     }
 
     /**

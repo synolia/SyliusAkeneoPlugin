@@ -4,34 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
-use Psr\Log\LoggerInterface;
+use ReflectionMethod;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    public function __construct(
-        CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        LoggerInterface $akeneoLogger,
-        string $model
-    ) {
-        parent::__construct(
-            $camelCaseToSnakeCaseNameConverter,
-            $akeneoAttributePropertyProvider,
-            $akeneoAttributeDataProvider,
-            $syliusAkeneoLocaleCodeProvider,
-            $akeneoLogger,
-            $model
-        );
-    }
-
     public static function getDefaultPriority(): int
     {
         return 0;
@@ -65,7 +43,7 @@ final class ProductVariantTranslationModelAkeneoAttributeProcessor extends Abstr
         );
 
         $translationModel = $model->getTranslation($locale);
-        $reflectionMethod = new \ReflectionMethod(
+        $reflectionMethod = new ReflectionMethod(
             $translationModel,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         );

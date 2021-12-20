@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\TaxonInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
@@ -41,9 +41,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         $akeneoPropertiesProvider = $this->getContainer()->get(AkeneoAttributePropertiesProvider::class);
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
-        $this->taskProvider = $this->getContainer()->get(AkeneoTaskProvider::class);
+        $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
         $this->client = $this->createClient();
-        self::assertInstanceOf(AkeneoTaskProvider::class, $this->taskProvider);
+        self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
     }
 
     public function testRetrieveProductsTask(): void

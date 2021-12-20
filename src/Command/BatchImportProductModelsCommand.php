@@ -27,10 +27,9 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
     public function __construct(
         ClientFactoryInterface $clientFactory,
         BatchProductModelTask $batchProductModelTask,
-        LoggerInterface $akeneoLogger,
-        string $name = null
+        LoggerInterface $akeneoLogger
     ) {
-        parent::__construct($name);
+        parent::__construct(self::$defaultName);
         $this->attributesTask = $batchProductModelTask;
         $this->logger = $akeneoLogger;
         $this->clientFactory = $clientFactory;

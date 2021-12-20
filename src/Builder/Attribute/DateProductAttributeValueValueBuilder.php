@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
+use DateTime;
+use DateTimeInterface;
+use LogicException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DateAttributeTypeMatcher;
 
 final class DateProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    private $akeneoAttributePropertiesProvider;
+    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private AttributeTypeMatcher $attributeTypeMatcher;
 
     public function __construct(
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
@@ -32,8 +33,14 @@ final class DateProductAttributeValueValueBuilder implements ProductAttributeVal
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, $value): DateTimeInterface
     {
-        return \DateTime::createFromFormat(\DateTime::W3C, $value);
+        $dateTime = DateTime::createFromFormat(DateTime::W3C, $value);
+
+        if (!$dateTime instanceof DateTimeInterface) {
+            throw new LogicException(sprintf('Could not convert "%s" to datetime.', $value));
+        }
+
+        return $dateTime;
     }
 }

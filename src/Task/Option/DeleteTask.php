@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Option;
 
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductOptionRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Throwable;
 
 final class DeleteTask implements AkeneoTaskInterface
 {
@@ -45,7 +48,7 @@ final class DeleteTask implements AkeneoTaskInterface
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload $payload
+     * @param AbstractPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -54,10 +57,10 @@ final class DeleteTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
 
         if (!$this->productAttributeRepository instanceof ProductAttributeRepository) {
-            throw new \LogicException('Wrong repository instance provided.');
+            throw new LogicException('Wrong repository instance provided.');
         }
         if (!$this->productOptionRepository instanceof ProductOptionRepository) {
-            throw new \LogicException('Wrong repository instance provided.');
+            throw new LogicException('Wrong repository instance provided.');
         }
 
         try {
@@ -67,7 +70,7 @@ final class DeleteTask implements AkeneoTaskInterface
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->entityManager->rollback();
             $this->logger->warning($throwable->getMessage());
 
@@ -87,7 +90,7 @@ final class DeleteTask implements AkeneoTaskInterface
         /** @var class-string $productOptionClass */
         $productOptionClass = $this->parameterBag->get('sylius.model.product_option.class');
         if (!class_exists($productOptionClass)) {
-            throw new \LogicException('ProductOption class does not exist.');
+            throw new LogicException('ProductOption class does not exist.');
         }
 
         foreach ($removedOptionIds as $removedOptionId) {

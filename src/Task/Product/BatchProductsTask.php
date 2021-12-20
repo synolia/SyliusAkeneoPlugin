@@ -8,13 +8,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
+use Throwable;
 
 final class BatchProductsTask extends AbstractBatchTask
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\SimpleProductTask */
     private SimpleProductTask $batchSimpleProductTask;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\ConfigurableProductsTask */
     private ConfigurableProductsTask $batchConfigurableProductsTask;
 
     public function __construct(
@@ -50,7 +49,7 @@ final class BatchProductsTask extends AbstractBatchTask
                     }
 
                     $this->removeEntry($payload, (int) $result['id']);
-                } catch (\Throwable $throwable) {
+                } catch (Throwable $throwable) {
                     $this->removeEntry($payload, (int) $result['id']);
                 }
             }

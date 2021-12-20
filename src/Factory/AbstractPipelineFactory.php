@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Factory;
 
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoTaskProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 
 abstract class AbstractPipelineFactory implements PipelineFactoryInterface
 {
-    protected AkeneoTaskProvider $taskProvider;
+    protected TaskProvider $taskProvider;
 
     protected EventDispatcherInterface $dispatcher;
 
     public function __construct(
-        AkeneoTaskProvider $taskProvider,
+        TaskProvider $taskProvider,
         EventDispatcherInterface $dispatcher
     ) {
         $this->taskProvider = $taskProvider;

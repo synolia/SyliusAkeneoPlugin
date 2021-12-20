@@ -60,7 +60,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
 
     public function support(string $attributeCode, array $context = []): bool
     {
-        $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $attributeCode);
+        $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
         /** @var AttributeInterface $attribute */
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
@@ -69,7 +69,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
             return false;
         }
 
-        if (!$this->attributeValueValueBuilder->hasSupportedBuilder((string) $attributeCode)) {
+        if (!$this->attributeValueValueBuilder->hasSupportedBuilder($attributeCode)) {
             return false;
         }
 
@@ -88,7 +88,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
             return;
         }
 
-        $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $attributeCode);
+        $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
         /** @var AttributeInterface $attribute */
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);

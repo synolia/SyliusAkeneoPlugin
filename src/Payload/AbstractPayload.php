@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use LogicException;
 use ReflectionClass;
+use ReflectionException;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Configuration\ConfigurationContextTrait;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
@@ -15,7 +18,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 
     protected AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    protected \Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration $apiConfiguration;
+    protected ApiConfiguration $apiConfiguration;
 
     protected ?CommandContextInterface $commandContext;
 
@@ -51,17 +54,17 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     {
         try {
             return mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return '';
         }
     }
 
-    public function getApiConfiguration(): \Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration
+    public function getApiConfiguration(): ApiConfiguration
     {
         return $this->apiConfiguration;
     }
 
-    public function setApiConfiguration(\Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration $apiConfiguration): self
+    public function setApiConfiguration(ApiConfiguration $apiConfiguration): self
     {
         $this->apiConfiguration = $apiConfiguration;
 
@@ -71,7 +74,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     public function getCommandContext(): CommandContextInterface
     {
         if (null === $this->commandContext) {
-            throw new \LogicException('CommandContext is null');
+            throw new LogicException('CommandContext is null');
         }
 
         return $this->commandContext;

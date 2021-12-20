@@ -32,10 +32,9 @@ final class ImportCategoriesCommand extends Command
     public function __construct(
         CategoryPipelineFactory $categoryPipelineFactory,
         ClientFactoryInterface $clientFactory,
-        LoggerInterface $akeneoLogger,
-        string $name = null
+        LoggerInterface $akeneoLogger
     ) {
-        parent::__construct($name);
+        parent::__construct(self::$defaultName);
         $this->categoryPipelineFactory = $categoryPipelineFactory;
         $this->clientFactory = $clientFactory;
         $this->logger = $akeneoLogger;

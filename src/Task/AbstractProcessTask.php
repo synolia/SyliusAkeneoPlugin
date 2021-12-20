@@ -12,6 +12,7 @@ use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Process\Process;
@@ -19,6 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Throwable;
 
 abstract class AbstractProcessTask implements AkeneoTaskInterface
 {
@@ -103,7 +105,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
     ): void {
         if ($payload->allowParallel()) {
             if (!$this->processManager instanceof ProcessManager) {
-                throw new \LogicException('ProcessManager');
+                throw new LogicException('ProcessManager');
             }
             $this->processManager->setNumberOfParallelProcesses($payload->getMaxRunningProcessQueueSize());
 
@@ -171,7 +173,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                 $query->executeStatement();
             }
             $this->processManager->waitForAllProcesses();
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
 
             throw $throwable;
