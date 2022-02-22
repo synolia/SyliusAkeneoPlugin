@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 
 interface AkeneoAttributeDataProviderInterface
 {
@@ -16,6 +17,7 @@ interface AkeneoAttributeDataProviderInterface
      * @throws MissingLocaleTranslationOrScopeException
      * @throws MissingScopeException
      * @throws MissingLocaleTranslationException
+     * @throws TranslationNotFoundException
      *
      * @return mixed|null
      */
