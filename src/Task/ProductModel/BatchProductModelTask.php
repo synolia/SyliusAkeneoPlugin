@@ -79,7 +79,7 @@ final class BatchProductModelTask extends AbstractBatchTask
                     $this->entityManager->beginTransaction();
 
                     if ($this->isProductProcessableChecker->check($resource)) {
-                        $product = $this->process($payload, $resource);
+                        $product = $this->process($resource);
                         $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
                     }
 
@@ -100,7 +100,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         return $payload;
     }
 
-    private function process(PipelinePayloadInterface $payload, array &$resource): ProductInterface
+    private function process(array &$resource): ProductInterface
     {
         $product = $this->productRepository->findOneByCode($resource['code']);
 
@@ -110,21 +110,16 @@ final class BatchProductModelTask extends AbstractBatchTask
             $product->setCode($resource['code']);
 
             $this->entityManager->persist($product);
-            $this->addOrUpdate($payload, $product, $resource);
+            $this->productProcessorChain->chain($product, $resource);
 
             $this->logger->info(Messages::hasBeenCreated($this->type, (string) $product->getCode()));
 
             return $product;
         }
 
-        $this->addOrUpdate($payload, $product, $resource);
+        $this->productProcessorChain->chain($product, $resource);
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $resource['code']));
 
         return $product;
-    }
-
-    private function addOrUpdate(PipelinePayloadInterface $payload, ProductInterface $product, array &$resource): void
-    {
-        $this->productProcessorChain->chain($product, $resource);
     }
 }
