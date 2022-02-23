@@ -13,14 +13,15 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
     public function process(ProductVariantInterface $productVariant, array $resource): void
     {
         try {
-            $this->cleanImages($productVariant);
-
             $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
-            if (null === $imageAttributes) {
+
+            if (null === $imageAttributes || \count($imageAttributes) === 0) {
                 $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 
                 return;
             }
+
+            $this->cleanImages($productVariant);
 
             $this->addImage($productVariant, $resource['values'], $imageAttributes);
         } catch (\Throwable $throwable) {
