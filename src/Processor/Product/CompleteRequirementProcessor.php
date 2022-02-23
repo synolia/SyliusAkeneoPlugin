@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTranslationInterface;
@@ -11,6 +12,10 @@ use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
@@ -34,6 +39,8 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
 
     private FactoryInterface $productTranslationFactory;
 
+    private LoggerInterface $akeneoLogger;
+
     public function __construct(
         AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -42,7 +49,8 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         EntityRepository $productConfigurationRepository,
         SlugGeneratorInterface $productSlugGenerator,
         RepositoryInterface $productTranslationRepository,
-        FactoryInterface $productTranslationFactory
+        FactoryInterface $productTranslationFactory,
+        LoggerInterface $akeneoLogger
     ) {
         $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
@@ -52,6 +60,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         $this->productSlugGenerator = $productSlugGenerator;
         $this->productTranslationRepository = $productTranslationRepository;
         $this->productTranslationFactory = $productTranslationFactory;
+        $this->akeneoLogger = $akeneoLogger;
     }
 
     public static function getDefaultPriority(): int
@@ -68,12 +77,19 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
             $productName = null;
 
             if (isset($resource['values'][$familyResource['attribute_as_label']])) {
-                $productName = $this->akeneoAttributeDataProvider->getData(
-                    $familyResource['attribute_as_label'],
-                    $resource['values'][$familyResource['attribute_as_label']],
-                    $usedLocalesOnBothPlatform,
-                    $this->productFilterRulesProvider->getProductFiltersRules()->getChannel()
-                );
+                try {
+                    $productName = $this->akeneoAttributeDataProvider->getData(
+                        $familyResource['attribute_as_label'],
+                        $resource['values'][$familyResource['attribute_as_label']],
+                        $usedLocalesOnBothPlatform,
+                        $this->productFilterRulesProvider->getProductFiltersRules()->getChannel()
+                    );
+                } catch (TranslationNotFoundException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException|MissingScopeException $translationNotFoundException) {
+                    $this->akeneoLogger->warning('Could not find translation name for product.', [
+                        'product_code' => $product->getCode(),
+                        'locale' => $usedLocalesOnBothPlatform,
+                    ]);
+                }
             }
 
             if (null === $productName) {
