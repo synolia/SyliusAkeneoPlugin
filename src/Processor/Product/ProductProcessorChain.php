@@ -20,7 +20,9 @@ final class ProductProcessorChain implements ProductProcessorChainInterface
     public function chain(ProductInterface $product, array $resource): void
     {
         foreach ($this->productProcessors as $processor) {
-            $processor->process($product, $resource);
+            if ($processor->support($product, $resource)) {
+                $processor->process($product, $resource);
+            }
         }
     }
 }

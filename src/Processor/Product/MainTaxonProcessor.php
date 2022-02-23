@@ -31,4 +31,9 @@ final class MainTaxonProcessor implements MainTaxonProcessorInterface
             }
         }
     }
+
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        return \array_key_exists('categories', $resource);
+    }
 }

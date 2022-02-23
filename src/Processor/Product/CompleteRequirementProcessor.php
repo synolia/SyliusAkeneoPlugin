@@ -149,4 +149,9 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
 
         return $productTranslation;
     }
+
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        return true;
+    }
 }

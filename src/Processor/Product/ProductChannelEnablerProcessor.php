@@ -59,13 +59,10 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
                 }
 
                 $product->addChannel($channel);
-                $this->logger->info(
-                    sprintf(
-                        'Enabled channel "%s" for product "%s"',
-                        $channel->getCode(),
-                        $product->getCode()
-                    )
-                );
+                $this->logger->info('Enabled channel for product', [
+                    'channel_code' => $channel->getCode(),
+                    'product_code' => $product->getCode(),
+                ]);
             }
         } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
             $this->logger->info($exception->getMessage());
@@ -97,5 +94,18 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
         }
 
         throw new NoAttributeResourcesException(sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
+    }
+
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        try {
+            $this->getEnabledChannelsAttributeData($product, $resource);
+
+            return true;
+        } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
+            $this->logger->info($exception->getMessage());
+
+            return false;
+        }
     }
 }

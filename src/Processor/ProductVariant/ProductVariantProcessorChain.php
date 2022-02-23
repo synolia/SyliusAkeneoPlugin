@@ -20,7 +20,9 @@ final class ProductVariantProcessorChain implements ProductVariantProcessorChain
     public function chain(ProductVariantInterface $productVariant, array $resource): void
     {
         foreach ($this->productProcessors as $processor) {
-            $processor->process($productVariant, $resource);
+            if ($processor->support($productVariant, $resource)) {
+                $processor->process($productVariant, $resource);
+            }
         }
     }
 }
