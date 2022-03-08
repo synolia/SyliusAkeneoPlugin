@@ -61,4 +61,9 @@ final class TaxonsProcessor implements TaxonsProcessorInterface
             $product->addProductTaxon($productTaxon);
         }
     }
+
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        return \array_key_exists('categories', $resource);
+    }
 }

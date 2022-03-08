@@ -63,4 +63,9 @@ final class AttributesProcessor implements AttributesProcessorInterface
             }
         }
     }
+
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        return \count($resource['values']) > 0;
+    }
 }
