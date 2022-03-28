@@ -30,6 +30,11 @@ services:
         tags:
             - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
 
+    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductGroupProcessor:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Product\ProductGroupProcessor
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
+
     Synolia\SyliusAkeneoPlugin\Processor\Product\TaxonsProcessorInterface:
         class: Synolia\SyliusAkeneoPlugin\Processor\Product\TaxonsProcessor
         tags:
