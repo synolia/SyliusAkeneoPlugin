@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api;
 
 use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Locale\Model\LocaleInterface;
+use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 use Webmozart\Assert\Assert;
@@ -39,6 +44,11 @@ abstract class ApiTestCase extends AbstractKernelTestCase
             '/' . AuthenticationApi::TOKEN_URI,
             new Response($this->getAuthenticatedJson())
         );
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(LocaleApi::LOCALES_URI),
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+        );
     }
 
     protected function tearDown(): void
@@ -59,6 +69,46 @@ abstract class ApiTestCase extends AbstractKernelTestCase
             ->setPassword('test')
         ;
         $this->manager->persist($this->apiConfiguration);
+    }
+
+    protected function iniSyliusLocales(): void
+    {
+        $localesToAdd = [
+            'fr_FR',
+            'en_US',
+            'de_DE',
+        ];
+
+        /** @var string $localeCode */
+        foreach ($localesToAdd as $localeCode) {
+            /** @var LocaleInterface $locale */
+            $locale = $this->getContainer()->get('sylius.repository.locale')->findOneBy(['code' => $localeCode]);
+
+            if ($locale instanceof LocaleInterface) {
+                $this->assignLocaleToChannels($locale);
+
+                continue;
+            }
+
+            /** @var FactoryInterface $localeFactory */
+            $localeFactory = $this->getContainer()->get('sylius.factory.locale');
+
+            /** @var LocaleInterface $locale */
+            $locale = $localeFactory->createNew();
+            $locale->setCode($localeCode);
+            $this->manager->persist($locale);
+            $this->assignLocaleToChannels($locale);
+        }
+    }
+
+    private function assignLocaleToChannels(LocaleInterface $locale): void
+    {
+        $channels = $this->getContainer()->get('sylius.repository.channel')->findAll();
+
+        /** @var ChannelInterface $channel */
+        foreach ($channels as $channel) {
+            $channel->addLocale($locale);
+        }
     }
 
     protected function createClient(): AkeneoPimEnterpriseClientInterface

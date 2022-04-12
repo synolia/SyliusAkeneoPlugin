@@ -28,6 +28,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager = self::$container->get('doctrine')->getManager();
 
         $this->initializeApiConfiguration();
+        $this->iniSyliusLocales();
 
         $this->manager->flush();
 
