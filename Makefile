@@ -39,11 +39,7 @@ install-plugin:
 	${COMPOSER} config extra.symfony.allow-contrib true
 	${COMPOSER} config minimum-stability "dev"
 	${COMPOSER} config prefer-stable true
-ifeq ($(SYLIUS_VERSION), 1.10.0)
-	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts -W
-else
 	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts
-endif
 
 	cp -r install/Application tests
 	cp -r tests/data/* ${TEST_DIRECTORY}/

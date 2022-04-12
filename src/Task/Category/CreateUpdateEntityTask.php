@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Throwable;
@@ -47,6 +48,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
     private EventDispatcherInterface $dispatcher;
 
+    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
+
     public function __construct(
         TaxonFactoryInterface $taxonFactory,
         EntityManagerInterface $entityManager,
@@ -54,7 +57,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         RepositoryInterface $taxonTranslationRepository,
         FactoryInterface $taxonTranslationFactory,
         LoggerInterface $akeneoLogger,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider
     ) {
         $this->taxonFactory = $taxonFactory;
         $this->entityManager = $entityManager;
@@ -63,6 +67,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->taxonTranslationFactory = $taxonTranslationFactory;
         $this->logger = $akeneoLogger;
         $this->dispatcher = $dispatcher;
+        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     /**
@@ -78,7 +83,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             try {
                 $this->dispatcher->dispatch(new BeforeProcessingTaxonEvent($resource));
 
-                $this->entityManager->beginTransaction();
+                if (!$this->entityManager->getConnection()->isTransactionActive()) {
+                    $this->entityManager->beginTransaction();
+                }
 
                 $taxon = $this->getOrCreateEntity($resource['code']);
 
@@ -86,9 +93,11 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                 $this->assignParent($taxon, $taxons, $resource);
 
-                foreach ($resource['labels'] as $locale => $label) {
-                    if (null === $label) {
-                        continue;
+                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
+                    $label = \sprintf('[%s]', $resource['code']);
+
+                    if (array_key_exists($locale, $resource['labels']) && null !== $resource['labels'][$locale]) {
+                        $label = $resource['labels'][$locale];
                     }
 
                     $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
@@ -102,6 +111,12 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                         $taxonTranslation->setLocale($locale);
                         $taxonTranslation->setTranslatable($taxon);
                         $this->entityManager->persist($taxonTranslation);
+
+                        $this->logger->notice('Created TaxonTranslation', [
+                            'taxon_id' => $taxon->getId() ?? 'unknown',
+                            'taxon_code' => $taxon->getCode(),
+                            'locale' => $locale,
+                        ]);
                     }
 
                     $taxonTranslation->setName($label);
@@ -117,14 +132,27 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                         )
                     );
                     $taxonTranslation->setSlug($slug ?? $resource['code']);
+
+                    $this->logger->notice('Update TaxonTranslation', [
+                        'taxon_id' => $taxon->getId() ?? 'unknown',
+                        'taxon_code' => $taxon->getCode(),
+                        'locale' => $locale,
+                        'name' => $label,
+                        'slug' => $slug ?? $resource['code'],
+                    ]);
                 }
 
                 $this->dispatcher->dispatch(new AfterProcessingTaxonEvent($resource, $taxon));
 
                 $this->entityManager->flush();
-                $this->entityManager->commit();
+
+                if ($this->entityManager->getConnection()->isTransactionActive()) {
+                    $this->entityManager->commit();
+                }
             } catch (Throwable $throwable) {
-                $this->entityManager->rollback();
+                if ($this->entityManager->getConnection()->isTransactionActive()) {
+                    $this->entityManager->rollback();
+                }
                 $this->logger->warning($throwable->getMessage());
             }
         }
