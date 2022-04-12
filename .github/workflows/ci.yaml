@@ -103,14 +103,6 @@ jobs:
             symfony: 5.3
           - sylius: 1.10.0
             symfony: 4.4
-          #TODO: rollback this exclusion when fixed
-          - sylius: 1.10.0
-            symfony: 5.2
-            php: 8.0
-          - sylius: 1.10.0
-            symfony: 5.4
-            php: 8.0
-
 
     env:
       APP_ENV: test
@@ -123,7 +115,7 @@ jobs:
           php-version: "${{ matrix.php }}"
           ini-values: date.timezone=UTC
           extensions: intl
-          tools: symfony, flex
+          tools: symfony
           coverage: none
 
       - name: Setup Node
@@ -165,8 +157,6 @@ jobs:
             node-${{ matrix.node }}-yarn-
 
       - name: Install Sylius-Standard and Plugin
-        env:
-          SYMFONY_REQUIRE: ${{ matrix.symfony }}.*
         run: make install -e SYLIUS_VERSION=${{ matrix.sylius }} SYMFONY_VERSION=${{ matrix.symfony }}
 
       - name: Configure Behat
