@@ -67,6 +67,7 @@ final class FamilyVariationAxeProcessor
             $this->familyVariants[$family][$resource['family_variant']] = $payloadProductGroup;
         }
 
+        $productGroup->setVariationAxes([]);
         $this->addAxes($this->familyVariants[$family], $family, $resource, $productGroup);
     }
 

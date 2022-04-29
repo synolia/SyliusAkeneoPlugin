@@ -19,6 +19,8 @@ interface ProductGroupInterface extends ResourceInterface
      */
     public function getVariationAxes(): array;
 
+    public function setVariationAxes(array $variationAxes): self;
+
     public function addVariationAxe(string $variationAxe): self;
 
     public function removeVariationAxe(string $variationAxe): self;
