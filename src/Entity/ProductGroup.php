@@ -79,6 +79,13 @@ class ProductGroup implements ProductGroupInterface
         return $this->variationAxes;
     }
 
+    public function setVariationAxes(array $variationAxes): ProductGroupInterface
+    {
+        $this->variationAxes = $variationAxes;
+
+        return $this;
+    }
+
     public function addVariationAxe(string $variationAxe): ProductGroupInterface
     {
         if (\in_array($variationAxe, $this->variationAxes)) {
