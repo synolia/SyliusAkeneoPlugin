@@ -15,10 +15,36 @@ and add one of
     akeneo:import:categories                Import Categories from Akeneo PIM.
     akeneo:import:attributes                Import Attributes and Options from Akeneo PIM.
     akeneo:import:families                  Import product's families from Akeneo PIM.
+    akeneo:import:association-type          Import Associations type from Akeneo PIM.
     akeneo:import:product-models            Import Product Models from Akeneo PIM.
     akeneo:import:products                  Import Products from Akeneo PIM.
 
 > This is the recommended order to launch imports
+
+#### Arguments
+
+`--disable-batch`
+
+Fetch all pages then start processing the data
+
+`--parallel`
+
+Fetch all pages but start processing as soon as batch size is reached
+
+`--batch-size 100`
+
+Define how many data you need in each batch
+
+`--max-concurrency 5`
+
+Define how many parallel processes to be launched (5 by default)
+
+`--continue`
+
+Import from where it stopped.
+This option is not fetching new data from akeneo.
+It only processes the rest of the data in the temp table.
+
 
 ### Logs
 
