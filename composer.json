@@ -17,7 +17,7 @@
         "league/pipeline": "^1.0",
         "php-http/guzzle6-adapter": "^2.0",
         "psr/event-dispatcher": "^1.0",
-        "sylius/sylius": "~1.9.0 || ~1.10.0 || ~1.11.0",
+        "sylius/sylius": "^1.9",
         "symfony/framework-bundle": "^4.4|^5.1",
         "symfony/lock": "^4.3|^5.1",
         "symfony/property-access": "^4.3|^5.1",
