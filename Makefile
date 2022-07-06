@@ -40,6 +40,7 @@ sylius-standard:
 install-plugin:
 	${COMPOSER} config repositories.plugin '{"type": "path", "url": "../../"}'
 	${COMPOSER} config extra.symfony.allow-contrib true
+	${COMPOSER} config allow-plugins true
 	${COMPOSER} config minimum-stability "dev"
 	${COMPOSER} config prefer-stable true
 	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts

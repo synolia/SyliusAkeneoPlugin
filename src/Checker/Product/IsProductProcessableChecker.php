@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Checker\Product;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
@@ -12,7 +11,7 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 {
     private const ONE_VARIATION_AXIS = 1;
 
-    private AkeneoPimEnterpriseClientInterface $client;
+    private ClientFactoryInterface $clientFactory;
 
     private LoggerInterface $logger;
 
@@ -20,7 +19,7 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 
     public function __construct(ClientFactoryInterface $clientFactory, LoggerInterface $logger)
     {
-        $this->client = $clientFactory->createFromApiCredentials();
+        $this->clientFactory = $clientFactory;
         $this->logger = $logger;
         $this->familyVariants = [];
     }
@@ -58,10 +57,13 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
             return $this->familyVariants[$family][$familyVariant];
         }
 
-        $familyVariantPayload = $this->client->getFamilyVariantApi()->get(
-            $family,
-            $familyVariant
-        );
+        $familyVariantPayload = $this->clientFactory
+            ->createFromApiCredentials()
+            ->getFamilyVariantApi()
+            ->get(
+                $family,
+                $familyVariant
+            );
 
         $this->familyVariants[$family][$familyVariant] = $familyVariantPayload;
 

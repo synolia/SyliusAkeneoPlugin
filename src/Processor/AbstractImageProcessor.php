@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -32,7 +31,7 @@ abstract class AbstractImageProcessor
 
     protected ProductConfiguration $productConfiguration;
 
-    private AkeneoPimEnterpriseClientInterface $client;
+    private ClientFactory $clientFactory;
 
     private RepositoryInterface $productConfigurationRepository;
 
@@ -49,7 +48,7 @@ abstract class AbstractImageProcessor
         $this->productImageFactory = $productImageFactory;
         $this->logger = $akeneoLogger;
         $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->client = $clientFactory->createFromApiCredentials();
+        $this->clientFactory = $clientFactory;
     }
 
     protected function getProductConfiguration(): ProductConfiguration
@@ -82,7 +81,10 @@ abstract class AbstractImageProcessor
             if (\in_array($attributeCode, array_map(fn ($imageAttribute) => $imageAttribute->getAkeneoAttributes(), $imageAttributes->toArray()), true)) {
                 foreach ($images as $image) {
                     try {
-                        $imageResponse = $this->client->getProductMediaFileApi()->download($image['data']);
+                        $imageResponse = $this->clientFactory
+                            ->createFromApiCredentials()
+                            ->getProductMediaFileApi()
+                            ->download($image['data']);
                         $imageName = basename($image['data']);
                         $imagePath = sys_get_temp_dir() . '/' . $imageName;
                         file_put_contents($imagePath, $imageResponse->getBody()->getContents());

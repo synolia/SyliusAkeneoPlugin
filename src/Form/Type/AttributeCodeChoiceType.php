@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,7 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
 final class AttributeCodeChoiceType extends AbstractType
 {
-    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
+    private ClientFactoryInterface $clientFactory;
 
     private LocaleContextInterface $localeContext;
 
@@ -27,14 +26,14 @@ final class AttributeCodeChoiceType extends AbstractType
         LocaleContextInterface $localeContext,
         RetrieveAttributesTask $retrieveAttributesTask
     ) {
-        $this->akeneoPimClient = $clientFactory->createFromApiCredentials();
+        $this->clientFactory = $clientFactory;
         $this->localeContext = $localeContext;
         $this->retrieveAttributesTask = $retrieveAttributesTask;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $payload = new AttributePayload($this->akeneoPimClient);
+        $payload = new AttributePayload($this->clientFactory->createFromApiCredentials());
         /** @var AttributePayload $attributePayload */
         $attributePayload = $this->retrieveAttributesTask->__invoke($payload);
 
@@ -54,7 +53,7 @@ final class AttributeCodeChoiceType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

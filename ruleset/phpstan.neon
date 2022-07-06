@@ -1,6 +1,5 @@
 parameters:
     level: max
-    reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     bootstrapFiles:
