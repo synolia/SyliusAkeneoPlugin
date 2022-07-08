@@ -48,4 +48,9 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
     }
+
+    public function __toString(): string
+    {
+        return 'SynoliaSyliusAkeneoPlugin';
+    }
 }

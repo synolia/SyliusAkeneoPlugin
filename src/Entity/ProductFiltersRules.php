@@ -49,7 +49,7 @@ class ProductFiltersRules implements ResourceInterface
      * @var int
      * @ORM\Column(type="integer")
      */
-    private $completenessValue;
+    private $completenessValue = 100;
 
     /**
      * @var string|null

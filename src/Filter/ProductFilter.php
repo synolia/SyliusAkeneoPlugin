@@ -24,11 +24,18 @@ final class ProductFilter implements ProductFilterInterface
     private const API_DATETIME_FORMAT = 'Y-m-d H:i:s';
 
     private const AVAILABLE_PRODUCT_MODEL_QUERIES = [
+        'created',
         'updated',
         'completeness',
         'categories',
         'family',
-        'created',
+        'identifier',
+        'enabled',
+        'groups',
+        'parent',
+        'quality_scores',
+        'completenesses',
+        'code',
     ];
 
     private EntityRepository $productFiltersRulesRepository;
@@ -44,9 +51,13 @@ final class ProductFilter implements ProductFilterInterface
     public function getProductModelFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
-        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
+        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
         if (!$productFilterRules instanceof ProductFiltersRules) {
             return [];
+        }
+
+        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
+            return $this->getAdvancedFilter($productFilterRules, true);
         }
 
         $queryParameters = [];
@@ -66,19 +77,19 @@ final class ProductFilter implements ProductFilterInterface
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
         }
 
-        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
-            return $this->getAdvancedFilter($productFilterRules, true);
-        }
-
         return $queryParameters;
     }
 
     public function getProductFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
-        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
+        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
         if (!$productFilterRules instanceof ProductFiltersRules) {
             return [];
+        }
+
+        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
+            return $this->getAdvancedFilter($productFilterRules);
         }
 
         $queryParameters = [];
@@ -97,10 +108,6 @@ final class ProductFilter implements ProductFilterInterface
             $queryParameters = $this->getStatus($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
             $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
-        }
-
-        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
-            return $this->getAdvancedFilter($productFilterRules);
         }
 
         return $queryParameters;

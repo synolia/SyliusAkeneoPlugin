@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
@@ -30,30 +31,15 @@ final class ProductFilterConfigurationFixture extends AbstractFixture
 
     public function load(array $options): void
     {
-        /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules $productFilterRules */
+        /** @var ProductFiltersRules $productFilterRules */
         $productFilterRules = $this->productFiltersRulesFactory->createNew();
 
-        $updatedBefore = \DateTime::createFromFormat($options['updated_before_format'], $options['updated_before']);
-        $updatedAfter = \DateTime::createFromFormat($options['updated_after_format'], $options['updated_after']);
-
-        if (!$updatedBefore instanceof DateTimeInterface || !$updatedAfter instanceof DateTimeInterface) {
-            throw new \LogicException('Invalid updatedBefore or updatedAfter date format.');
+        if ($options['mode'] === ProductFilterRuleAdvancedType::MODE) {
+            $productFilterRules = $this->saveAdvanced($options, $productFilterRules);
         }
 
-        $productFilterRules
-            ->setMode($options['mode'])
-            ->setChannel($options['akeneo_channel'])
-            ->setAdvancedFilter($options['advanced_filters'])
-            ->setCompletenessType($options['completeness_type'])
-            ->setCompletenessValue($options['completeness_value'])
-            ->setStatus($options['status'])
-            ->setUpdatedMode($options['updated_mode'])
-            ->setUpdatedBefore($updatedBefore)
-            ->setUpdatedAfter($updatedAfter)
-        ;
-
-        foreach ($options['locales'] as $locale) {
-            $productFilterRules->addLocale($locale);
+        if ($options['mode'] === ProductFilterRuleSimpleType::MODE) {
+            $productFilterRules = $this->saveSimple($options, $productFilterRules);
         }
 
         $this->entityManager->persist($productFilterRules);
@@ -113,5 +99,42 @@ final class ProductFilterConfigurationFixture extends AbstractFixture
                 ->end()
             ->end()
         ;
+    }
+
+    private function saveSimple(array $options, ProductFiltersRules $productFilterRules): ProductFiltersRules
+    {
+        $updatedBefore = \DateTime::createFromFormat($options['updated_before_format'], $options['updated_before']);
+        $updatedAfter = \DateTime::createFromFormat($options['updated_after_format'], $options['updated_after']);
+
+        if (!$updatedBefore instanceof DateTimeInterface || !$updatedAfter instanceof DateTimeInterface) {
+            throw new \LogicException('Invalid updatedBefore or updatedAfter date format.');
+        }
+
+        $productFilterRules
+            ->setMode($options['mode'])
+            ->setChannel($options['akeneo_channel'])
+            ->setAdvancedFilter($options['advanced_filters'])
+            ->setCompletenessType($options['completeness_type'])
+            ->setCompletenessValue($options['completeness_value'])
+            ->setStatus($options['status'])
+            ->setUpdatedMode($options['updated_mode'])
+            ->setUpdatedBefore($updatedBefore)
+            ->setUpdatedAfter($updatedAfter);
+
+        foreach ($options['locales'] as $locale) {
+            $productFilterRules->addLocale($locale);
+        }
+
+        return $productFilterRules;
+    }
+
+    private function saveAdvanced(array $options, ProductFiltersRules $productFilterRules): ProductFiltersRules
+    {
+        $productFilterRules
+            ->setMode($options['mode'])
+            ->setChannel($options['akeneo_channel'])
+            ->setAdvancedFilter($options['advanced_filters']);
+
+        return $productFilterRules;
     }
 }
