@@ -44,7 +44,7 @@ final class ProductsController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
         if (!$apiConfiguration instanceof ApiConfiguration) {
             $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
@@ -52,7 +52,7 @@ final class ProductsController extends AbstractController
         }
 
         /** @var ProductConfiguration $productConfiguration */
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]) ?? new ProductConfiguration();
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']) ?? new ProductConfiguration();
 
         $form = $this->createForm(ProductConfigurationType::class, $productConfiguration);
         $form->handleRequest($request);

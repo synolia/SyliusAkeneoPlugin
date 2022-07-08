@@ -100,7 +100,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
             $productTranslation = $this->setProductTranslation($product, $usedLocalesOnBothPlatform, $productName);
 
             /** @var ProductConfiguration $configuration */
-            $configuration = $this->productConfigurationRepository->findOneBy([]);
+            $configuration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
             if (null !== $product->getId() &&
                 null !== $configuration &&
                 null !== $productTranslation->getSlug() &&

@@ -21,7 +21,7 @@ final class ExcludedAttributesProvider implements ExcludedAttributesProviderInte
     {
         $excludedAttributeCodes = [];
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$productConfiguration instanceof ProductConfiguration) {
             return [];

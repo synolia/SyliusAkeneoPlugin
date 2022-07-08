@@ -11,7 +11,7 @@ final class CategoryConfigurationRepository extends EntityRepository
 {
     public function getCategoriesConfiguration(): ?CategoryConfiguration
     {
-        $categoriesConfiguration = $this->findOneBy([]);
+        $categoriesConfiguration = $this->findOneBy([], ['id' => 'DESC']);
 
         if (!$categoriesConfiguration instanceof CategoryConfiguration) {
             return null;

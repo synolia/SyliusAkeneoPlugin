@@ -58,7 +58,7 @@ abstract class AbstractImageProcessor
             return $this->productConfiguration;
         }
 
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if ($productConfiguration instanceof ProductConfiguration) {
             $this->productConfiguration = $productConfiguration;

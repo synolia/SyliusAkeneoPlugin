@@ -71,7 +71,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
 
     private function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
     {
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$productConfiguration instanceof ProductConfiguration) {
             throw new NoProductConfigurationException('Product Configuration is not configured in BO.');
