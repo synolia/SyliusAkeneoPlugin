@@ -241,6 +241,12 @@ final class ProductFilterTest extends ApiTestCase
                         'scope' => 'ecommerce',
                     ],
                 ],
+                'enabled' => [
+                    [
+                        'operator' => '=',
+                        'value' => true,
+                    ],
+                ],
             ],
             'scope' => 'ecommerce',
         ];

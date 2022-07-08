@@ -52,6 +52,9 @@ jobs:
       - name: Composer - Github Auth
         run: composer config -g github-oauth.github.com ${{ github.token }}
 
+      - name: Composer - Allow all plugins
+        run: composer config allow-plugins true
+
       - name: Composer - Restrict Symfony version
         run: composer config extra.symfony.require "${{ matrix.symfony }}"
 

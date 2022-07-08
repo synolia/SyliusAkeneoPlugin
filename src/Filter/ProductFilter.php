@@ -51,7 +51,7 @@ final class ProductFilter implements ProductFilterInterface
     public function getProductModelFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
-        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
+        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
         if (!$productFilterRules instanceof ProductFiltersRules) {
             return [];
         }
@@ -83,7 +83,7 @@ final class ProductFilter implements ProductFilterInterface
     public function getProductFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */
-        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
+        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([]);
         if (!$productFilterRules instanceof ProductFiltersRules) {
             return [];
         }
