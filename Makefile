@@ -34,6 +34,7 @@ sylius: sylius-standard install-plugin update-dependencies install-sylius
 
 sylius-standard:
 	${COMPOSER_ROOT} create-project sylius/sylius-standard ${TEST_DIRECTORY} "~${SYLIUS_VERSION}" --no-install --no-scripts
+	${COMPOSER} config allow-plugins true
 	${COMPOSER} require sylius/sylius:"~${SYLIUS_VERSION}"
 
 install-plugin:
