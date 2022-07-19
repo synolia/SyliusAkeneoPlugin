@@ -21,7 +21,7 @@ final class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
     public function isEnterprise(): bool
     {
         /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
             throw new ApiNotConfiguredException();

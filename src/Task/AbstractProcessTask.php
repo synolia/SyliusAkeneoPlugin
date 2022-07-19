@@ -144,7 +144,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
             throw new ApiNotConfiguredException();

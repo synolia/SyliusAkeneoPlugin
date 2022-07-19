@@ -54,7 +54,7 @@ final class AttributesController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
         if (!$apiConfiguration instanceof ApiConfiguration) {
             $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 

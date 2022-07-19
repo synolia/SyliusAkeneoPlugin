@@ -150,7 +150,7 @@ abstract class AbstractCreateProductEntities
     private function getPriceAttributeData(array $attributes): array
     {
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
-        $productConfiguration = $this->productConfigurationRepository->findOneBy([]);
+        $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$productConfiguration instanceof ProductConfiguration) {
             throw new NoProductConfigurationException('Product Configuration is not configured in BO.');

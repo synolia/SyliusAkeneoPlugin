@@ -46,7 +46,7 @@ final class ApiConfigurationController extends AbstractController
     public function __invoke(Request $request): Response
     {
         /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
             $apiConfiguration = new ApiConfiguration();

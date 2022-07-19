@@ -121,7 +121,7 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void
     {
         /** @var ProductFiltersRules $filters */
-        $filters = $this->productFiltersRulesRepository->findOneBy([]);
+        $filters = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
         if (!$filters instanceof ProductFiltersRules) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
         }

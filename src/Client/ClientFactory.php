@@ -22,7 +22,7 @@ final class ClientFactory implements ClientFactoryInterface
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
     {
         /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
             throw new \Exception('The API is not configured in the admin section.');
