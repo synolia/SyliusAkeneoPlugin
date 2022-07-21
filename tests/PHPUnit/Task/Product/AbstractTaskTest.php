@@ -141,15 +141,21 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function createConfiguration(): void
     {
-        $apiConfiguration = new ApiConfiguration();
-        $apiConfiguration->setBaseUrl('');
-        $apiConfiguration->setApiClientId('');
-        $apiConfiguration->setApiClientSecret('');
+        $apiConfiguration = $this->manager->getRepository(ApiConfiguration::class)->findOneBy([], ['id' => 'DESC']);
+
+        if (null === $apiConfiguration) {
+            $apiConfiguration = new ApiConfiguration();
+            $this->manager->persist($apiConfiguration);
+        }
+
+        $apiConfiguration->setBaseUrl('localhost:8987');
+        $apiConfiguration->setApiClientId('test');
+        $apiConfiguration->setApiClientSecret('test');
         $apiConfiguration->setPaginationSize(100);
         $apiConfiguration->setIsEnterprise(true);
-        $apiConfiguration->setUsername('');
-        $apiConfiguration->setPassword('');
-        $this->manager->persist($apiConfiguration);
+        $apiConfiguration->setUsername('test');
+        $apiConfiguration->setPassword('test');
+
         $this->manager->flush();
     }
 
@@ -188,12 +194,17 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     private function createProductFiltersConfiguration(): void
     {
-        $productFilters = new ProductFiltersRules();
+        $productFilters = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([], ['id' => 'DESC']);
+
+        if (null === $productFilters) {
+            $productFilters = new ProductFiltersRules();
+            $this->manager->persist($productFilters);
+        }
+
         $productFilters->setMode(ProductFilterRuleAdvancedType::MODE)
             ->setAdvancedFilter('')
             ->setCompletenessValue(0)
         ;
-        $this->manager->persist($productFilters);
     }
 
     protected function importAttributes(): void
