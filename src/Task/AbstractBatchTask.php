@@ -41,6 +41,7 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
 
         try {
             $query->execute();
+            /** @phpstan-ignore-next-line ConnectionLost is throw but phpdoc is not good*/
         } catch (ConnectionLost $connectionLost) {
             $query->execute();
         }

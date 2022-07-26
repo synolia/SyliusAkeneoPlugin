@@ -25,11 +25,12 @@ final class ConfigurationProvider
             return $this->configuration;
         }
 
-        $this->configuration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-
-        if (!$this->configuration instanceof ApiConfiguration) {
+        $configuration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
+        if (!$configuration instanceof ApiConfiguration) {
             throw new Exception('The API is not configured in the admin section.');
         }
+
+        $this->configuration = $configuration;
 
         return $this->configuration;
     }

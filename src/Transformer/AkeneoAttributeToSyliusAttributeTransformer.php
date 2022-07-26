@@ -22,7 +22,10 @@ final class AkeneoAttributeToSyliusAttributeTransformer implements AkeneoAttribu
     public function transform(string $attribute): string
     {
         if (empty($this->attributeAkeneoSyliusMappings)) {
-            $this->attributeAkeneoSyliusMappings = $this->attributeAkeneoSyliusMappingRepository->findAll();
+            /** @var array<AttributeAkeneoSyliusMapping> $mapping */
+            $mapping = $this->attributeAkeneoSyliusMappingRepository->findAll();
+
+            $this->attributeAkeneoSyliusMappings = $mapping;
         }
 
         /** @var AttributeAkeneoSyliusMapping $attributeAkeneoSyliusMapping */

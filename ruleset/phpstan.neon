@@ -1,10 +1,11 @@
 parameters:
-    level: max
+    level: 8
+    reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     bootstrapFiles:
         - ../vendor/autoload.php
-    excludes_analyse:
+    excludePaths:
         # Makes PHPStan crash
         - ../src/Configuration/SettingConfiguration.php
         - ../src/DependencyInjection/Configuration.php
@@ -24,3 +25,4 @@ parameters:
         - '#Cannot call method [a-zA-Z0-9]+\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
         - '#Call to an undefined method League\\Pipeline\\PipelineInterface\:\:process\(\).#'
         - '#Method Doctrine\\Persistence\\ObjectRepository<mixed>\:\:findOneBy\(\) invoked with 2 parameters, 1 required.#'
+        - '#Method Doctrine\\Persistence\\ObjectRepository<object>\:\:findOneBy\(\) invoked with 2 parameters, 1 required.#'

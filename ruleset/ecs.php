@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(dirname(__DIR__) . '/vendor/sylius-labs/coding-standard/ecs.php');
@@ -12,8 +11,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::PATHS, [
         dirname(__DIR__, 1) . '/src',
-        dirname(__DIR__, 1) . '/tests/Behat',
         dirname(__DIR__, 1) . '/tests/PHPUnit',
         dirname(__DIR__, 1) . '/spec',
+    ]);
+
+    $parameters->set(Option::SKIP, [
+        \PhpCsFixer\Fixer\Phpdoc\PhpdocTagTypeFixer::class,
+        // @TODO remove this line when we drop php7.4 support
+        \PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer::class
     ]);
 };

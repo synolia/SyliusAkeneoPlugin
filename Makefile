@@ -76,12 +76,6 @@ phpunit-configure:
 phpunit-run:
 	cd ${TEST_DIRECTORY} && ./vendor/bin/phpunit
 
-behat-configure: ## Configure Behat
-	(cd ${TEST_DIRECTORY} && cp behat.yml.dist behat.yml)
-	(cd ${TEST_DIRECTORY} && sed -i "s#vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml#vendor/${PLUGIN_NAME}/tests/Behat/Resources/suites.yml#g" behat.yml)
-	(cd ${TEST_DIRECTORY} && sed -i "s#vendor/sylius/sylius/features#vendor/${PLUGIN_NAME}/features#g" behat.yml)
-	(cd ${TEST_DIRECTORY} && sed -i '2i \ \ \ \ - { resource: "../vendor/${PLUGIN_NAME}/tests/Behat/Resources/services.xml\" }' config/services_test.yaml)
-
 grumphp:
 	vendor/bin/grumphp run
 

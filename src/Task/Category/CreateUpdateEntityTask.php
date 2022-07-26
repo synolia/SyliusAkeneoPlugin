@@ -131,14 +131,14 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                             )
                         )
                     );
-                    $taxonTranslation->setSlug($slug ?? $resource['code']);
+                    $taxonTranslation->setSlug($slug);
 
                     $this->logger->notice('Update TaxonTranslation', [
                         'taxon_id' => $taxon->getId() ?? 'unknown',
                         'taxon_code' => $taxon->getCode(),
                         'locale' => $locale,
                         'name' => $label,
-                        'slug' => $slug ?? $resource['code'],
+                        'slug' => $slug,
                     ]);
                 }
 
