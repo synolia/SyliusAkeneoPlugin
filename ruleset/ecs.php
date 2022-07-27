@@ -12,7 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PATHS, [
         dirname(__DIR__, 1) . '/src',
         dirname(__DIR__, 1) . '/tests/PHPUnit',
-        dirname(__DIR__, 1) . '/spec',
     ]);
 
     $parameters->set(Option::SKIP, [
