@@ -11,8 +11,9 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ClientFactory implements ClientFactoryInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
+
+    private ?AkeneoPimEnterpriseClientInterface $akeneoClient = null;
 
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
@@ -21,6 +22,10 @@ final class ClientFactory implements ClientFactoryInterface
 
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
     {
+        if (null !== $this->akeneoClient) {
+            return $this->akeneoClient;
+        }
+
         /** @var ApiConfiguration|null $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
@@ -28,7 +33,9 @@ final class ClientFactory implements ClientFactoryInterface
             throw new \Exception('The API is not configured in the admin section.');
         }
 
-        return $this->authenticateByPassword($apiConfiguration);
+        $this->akeneoClient = $this->authenticateByPassword($apiConfiguration);
+
+        return $this->akeneoClient;
     }
 
     public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimEnterpriseClientInterface

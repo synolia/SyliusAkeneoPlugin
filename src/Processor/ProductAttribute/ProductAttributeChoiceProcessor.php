@@ -18,7 +18,7 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessorInterface
 {
-    private \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface $client;
+    private ClientFactoryInterface $clientFactory;
 
     private AttributeTypeMatcher $attributeTypeMatcher;
 
@@ -41,7 +41,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
         AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
         EntityManagerInterface $entityManager
     ) {
-        $this->client = $clientFactory->createFromApiCredentials();
+        $this->clientFactory = $clientFactory;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->logger = $akeneoLogger;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
@@ -66,7 +66,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
 
             $this->setAttributeChoices(
                 $attribute,
-                $this->client->getAttributeOptionApi()->all(
+                $this->clientFactory->createFromApiCredentials()->getAttributeOptionApi()->all(
                     $resource['code'],
                     $this->configurationProvider->getConfiguration()->getPaginationSize()
                 ),
@@ -123,6 +123,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
             return [];
         }
 
+        $localeUnused = [];
         foreach ($localeDiff as $locale) {
             $localeUnused[$locale] = ' ';
         }

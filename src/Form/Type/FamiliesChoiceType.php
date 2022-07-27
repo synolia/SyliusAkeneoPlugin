@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,16 +11,16 @@ use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
 final class FamiliesChoiceType extends AbstractType
 {
-    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
+    private ClientFactoryInterface $clientFactory;
 
     public function __construct(ClientFactoryInterface $clientFactory)
     {
-        $this->akeneoPimClient = $clientFactory->createFromApiCredentials();
+        $this->clientFactory = $clientFactory;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $familiesResult = $this->akeneoPimClient->getFamilyApi()->all();
+        $familiesResult = $this->clientFactory->createFromApiCredentials()->getFamilyApi()->all();
         if (empty($familiesResult)) {
             return;
         }
