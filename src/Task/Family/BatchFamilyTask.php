@@ -98,6 +98,8 @@ final class BatchFamilyTask extends AbstractBatchTask
                 $family,
             ));
 
+            $productGroup->cleanProducts();
+
             return $productGroup;
         }
 

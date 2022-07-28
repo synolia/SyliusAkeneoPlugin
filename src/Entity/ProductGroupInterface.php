@@ -37,4 +37,6 @@ interface ProductGroupInterface extends ResourceInterface
     public function addProduct(ProductInterface $product): self;
 
     public function removeProduct(ProductInterface $product): self;
+
+    public function cleanProducts(): self;
 }

@@ -145,4 +145,11 @@ class ProductGroup implements ProductGroupInterface
 
         return $this;
     }
+
+    public function cleanProducts(): ProductGroupInterface
+    {
+        $this->products->clear();
+
+        return $this;
+    }
 }
