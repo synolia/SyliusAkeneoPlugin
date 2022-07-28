@@ -21,7 +21,7 @@ final class FamiliesChoiceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $familiesResult = $this->clientFactory->createFromApiCredentials()->getFamilyApi()->all();
-        if (empty($familiesResult)) {
+        if (!$familiesResult->valid()) {
             return;
         }
 

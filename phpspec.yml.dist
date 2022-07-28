@@ -1,4 +1,0 @@
-suites:
-    main:
-        namespace: Synolia\SyliusAkeneoPlugin
-        psr4_prefix: Synolia\SyliusAkeneoPlugin

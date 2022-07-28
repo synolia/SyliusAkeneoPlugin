@@ -15,6 +15,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
 use Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
+use Webmozart\Assert\Assert;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
@@ -60,7 +61,10 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface
     {
-        return $this->productOptionRepository->findOneBy(['code' => $attribute->getCode()]);
+        $productOption = $this->productOptionRepository->findOneBy(['code' => $attribute->getCode()]);
+        Assert::nullOrIsInstanceOf($productOption, ProductOptionInterface::class);
+
+        return $productOption;
     }
 
     public function createProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface

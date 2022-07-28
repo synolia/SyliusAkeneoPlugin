@@ -22,8 +22,6 @@ use Webmozart\Assert\Assert;
 
 final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
-    private const AKENEO_PREFIX = 'akeneo-';
-
     private AkeneoPimEnterpriseClientInterface $client;
 
     private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;

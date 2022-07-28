@@ -25,11 +25,13 @@ final class ProductFilterRulesProvider implements ProductFilterRulesProviderInte
             return $this->productFiltersRules;
         }
 
-        $this->productFiltersRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
+        $productFiltersRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
 
-        if (!$this->productFiltersRules instanceof ProductFiltersRules) {
+        if (!$productFiltersRules instanceof ProductFiltersRules) {
             throw new NoProductFiltersConfigurationException('Product filters must be configured before importing product attributes.');
         }
+
+        $this->productFiltersRules = $productFiltersRules;
 
         return $this->productFiltersRules;
     }

@@ -26,11 +26,11 @@
 
 ## Requirements
 
-| | Version            |
-| :--- |:-------------------|
-| PHP  | 7.4, 8.0, 8.1     |
-| Sylius | 1.9, 1.10, 1.11    |
-| Akeneo PIM  | 3.0+               |
+| | Version          |
+| :--- |:-----------------|
+| PHP  | ^7.4, ^8.0       |
+| Sylius | ^1.9             |
+| Akeneo PIM  | ^4.0, ^5.0, ^6.0 |
 
 
 ## Installation

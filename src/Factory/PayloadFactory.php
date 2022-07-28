@@ -22,6 +22,7 @@ final class PayloadFactory implements PayloadFactoryInterface
 
     public function create(string $className): PipelinePayloadInterface
     {
+        /** @phpstan-ignore-next-line */
         return new $className($this->clientFactory->createFromApiCredentials());
     }
 
@@ -29,6 +30,7 @@ final class PayloadFactory implements PayloadFactoryInterface
     {
         $context = $this->createContext($input, $output);
 
+        /** @phpstan-ignore-next-line */
         return new $className($this->clientFactory->createFromApiCredentials(), $context);
     }
 
