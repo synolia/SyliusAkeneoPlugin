@@ -16,7 +16,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         \PhpCsFixer\Fixer\Phpdoc\PhpdocTagTypeFixer::class,
-        // @TODO remove this line when we drop php7.4 support
         \PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer::class
     ]);
 };
