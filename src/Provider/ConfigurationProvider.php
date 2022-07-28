@@ -6,27 +6,27 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Exception;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
 
 final class ConfigurationProvider
 {
     private RepositoryInterface $apiConfigurationRepository;
 
-    private ?ApiConfiguration $configuration = null;
+    private ?ApiConfigurationInterface $configuration = null;
 
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
         $this->apiConfigurationRepository = $apiConfigurationRepository;
     }
 
-    public function getConfiguration(): ApiConfiguration
+    public function getConfiguration(): ApiConfigurationInterface
     {
-        if ($this->configuration instanceof ApiConfiguration) {
+        if ($this->configuration instanceof ApiConfigurationInterface) {
             return $this->configuration;
         }
 
         $configuration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-        if (!$configuration instanceof ApiConfiguration) {
+        if (!$configuration instanceof ApiConfigurationInterface) {
             throw new Exception('The API is not configured in the admin section.');
         }
 

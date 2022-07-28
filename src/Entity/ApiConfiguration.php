@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 /**
+ * @deprecated To be removed in 4.0.
  * @ORM\Entity()
  * @ORM\Table("akeneo_api_configuration")
  */
-class ApiConfiguration implements ResourceInterface
+class ApiConfiguration implements ApiConfigurationInterface
 {
     public const MIN_AKENEO_PAGINATION_SIZE = 1;
 
@@ -60,10 +61,10 @@ class ApiConfiguration implements ResourceInterface
     private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
+     * @var string
+     * @ORM\Column(type="string", options={"default" : "ce"})
      */
-    private $isEnterprise;
+    private $edition = AkeneoEditionEnum::COMMUNITY;
 
     /**
      * @var string
@@ -89,7 +90,7 @@ class ApiConfiguration implements ResourceInterface
         return $this->baseUrl;
     }
 
-    public function setBaseUrl(string $baseUrl): self
+    public function setBaseUrl(string $baseUrl): ApiConfigurationInterface
     {
         $this->baseUrl = $baseUrl;
 
@@ -101,7 +102,7 @@ class ApiConfiguration implements ResourceInterface
         return $this->apiClientId;
     }
 
-    public function setApiClientId(string $apiClientId): self
+    public function setApiClientId(string $apiClientId): ApiConfigurationInterface
     {
         $this->apiClientId = $apiClientId;
 
@@ -113,21 +114,21 @@ class ApiConfiguration implements ResourceInterface
         return $this->apiClientSecret;
     }
 
-    public function setApiClientSecret(string $apiClientSecret): self
+    public function setApiClientSecret(string $apiClientSecret): ApiConfigurationInterface
     {
         $this->apiClientSecret = $apiClientSecret;
 
         return $this;
     }
 
-    public function isEnterprise(): ?bool
+    public function getEdition(): string
     {
-        return $this->isEnterprise;
+        return $this->edition;
     }
 
-    public function setIsEnterprise(bool $isEnterprise): self
+    public function setEdition(string $edition): ApiConfigurationInterface
     {
-        $this->isEnterprise = $isEnterprise;
+        $this->edition = $edition;
 
         return $this;
     }
@@ -137,7 +138,7 @@ class ApiConfiguration implements ResourceInterface
         return $this->paginationSize;
     }
 
-    public function setPaginationSize(int $paginationSize): self
+    public function setPaginationSize(int $paginationSize): ApiConfigurationInterface
     {
         $this->paginationSize = $paginationSize;
 
@@ -149,7 +150,7 @@ class ApiConfiguration implements ResourceInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(string $username): ApiConfigurationInterface
     {
         $this->username = $username;
 
@@ -161,7 +162,7 @@ class ApiConfiguration implements ResourceInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): ApiConfigurationInterface
     {
         $this->password = $password;
 

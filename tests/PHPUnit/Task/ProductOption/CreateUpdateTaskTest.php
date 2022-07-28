@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use donatj\MockWebServer\Response;
 use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -67,7 +68,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         $apiConfiguration->setApiClientId('');
         $apiConfiguration->setApiClientSecret('');
         $apiConfiguration->setPaginationSize(100);
-        $apiConfiguration->setIsEnterprise(true);
+        $apiConfiguration->setEdition(AkeneoEditionEnum::ENTERPRISE);
         $apiConfiguration->setUsername('');
         $apiConfiguration->setPassword('');
         $this->manager->persist($apiConfiguration);

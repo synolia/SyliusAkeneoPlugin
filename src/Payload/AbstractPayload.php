@@ -10,7 +10,7 @@ use ReflectionClass;
 use ReflectionException;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Configuration\ConfigurationContextTrait;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
@@ -18,7 +18,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 
     protected AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    protected ApiConfiguration $apiConfiguration;
+    protected ApiConfigurationInterface $apiConfiguration;
 
     protected ?CommandContextInterface $commandContext;
 
@@ -59,12 +59,12 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         }
     }
 
-    public function getApiConfiguration(): ApiConfiguration
+    public function getApiConfiguration(): ApiConfigurationInterface
     {
         return $this->apiConfiguration;
     }
 
-    public function setApiConfiguration(ApiConfiguration $apiConfiguration): self
+    public function setApiConfiguration(ApiConfigurationInterface $apiConfiguration): self
     {
         $this->apiConfiguration = $apiConfiguration;
 
