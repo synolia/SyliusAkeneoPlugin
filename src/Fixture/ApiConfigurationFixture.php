@@ -9,8 +9,11 @@ use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
 
+/**
+ * @deprecated To be removed in 4.0.
+ */
 final class ApiConfigurationFixture extends AbstractFixture
 {
     private EntityManagerInterface $entityManager;
@@ -31,7 +34,7 @@ final class ApiConfigurationFixture extends AbstractFixture
 
     public function load(array $options): void
     {
-        /** @var ApiConfiguration $apiConfiguration */
+        /** @var ApiConfigurationInterface $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationFactory->createNew();
         $apiConfiguration->setBaseUrl($options['base_url']);
         $apiConfiguration->setApiClientId($options['api_client_id']);
@@ -39,7 +42,7 @@ final class ApiConfigurationFixture extends AbstractFixture
         $apiConfiguration->setUsername($options['username']);
         $apiConfiguration->setPassword($options['password']);
         $apiConfiguration->setPaginationSize($options['pagination_size']);
-        $apiConfiguration->setIsEnterprise($options['is_enterprise']);
+        $apiConfiguration->setEdition($options['edition']);
 
         $client = $this->clientFactory->authenticateByPassword($apiConfiguration);
         $client->getCategoryApi()->all(1);
@@ -66,7 +69,7 @@ final class ApiConfigurationFixture extends AbstractFixture
                 ->scalarNode('api_client_id')->end()
                 ->scalarNode('api_client_secret')->end()
                 ->integerNode('pagination_size')->defaultValue(100)->end()
-                ->booleanNode('is_enterprise')->defaultFalse()->end()
+                ->booleanNode('edition')->defaultValue('ee')->end()
             ->end()
         ;
     }

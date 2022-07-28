@@ -13,7 +13,7 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
@@ -28,7 +28,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
 
     private LocaleRepositoryInterface $localeRepository;
 
-    private IsEnterpriseCheckerInterface $isEnterpriseChecker;
+    private EditionCheckerInterface $editionChecker;
 
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
@@ -41,7 +41,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
         LocaleRepositoryInterface $localeRepository,
-        IsEnterpriseCheckerInterface $isEnterpriseChecker
+        EditionCheckerInterface $editionChecker
     ) {
         parent::__construct(
             $productOptionValueRepository,
@@ -56,7 +56,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
         $this->client = $client;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->localeRepository = $localeRepository;
-        $this->isEnterpriseChecker = $isEnterpriseChecker;
+        $this->editionChecker = $editionChecker;
     }
 
     public static function getDefaultPriority(): int
@@ -66,7 +66,10 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
 
     public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
     {
-        return ReferenceEntityAttributeType::TYPE === $attribute->getType() && $this->isEnterpriseChecker->isEnterprise();
+        return
+            ReferenceEntityAttributeType::TYPE === $attribute->getType()
+            && ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition())
+        ;
     }
 
     public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void
