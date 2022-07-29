@@ -7,12 +7,13 @@ namespace Synolia\SyliusAkeneoPlugin\Client;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ClientFactory implements ClientFactoryInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private RepositoryInterface $apiConfigurationRepository;
+
+    private ?AkeneoPimEnterpriseClientInterface $akeneoClient = null;
 
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
@@ -21,17 +22,23 @@ final class ClientFactory implements ClientFactoryInterface
 
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
     {
-        /** @var ApiConfigurationInterface|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([]);
+        if (null !== $this->akeneoClient) {
+            return $this->akeneoClient;
+        }
 
-        if (!$apiConfiguration instanceof ApiConfigurationInterface) {
+        /** @var ApiConfiguration|null $apiConfiguration */
+        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
+
+        if (!$apiConfiguration instanceof ApiConfiguration) {
             throw new \Exception('The API is not configured in the admin section.');
         }
 
-        return $this->authenticateByPassword($apiConfiguration);
+        $this->akeneoClient = $this->authenticateByPassword($apiConfiguration);
+
+        return $this->akeneoClient;
     }
 
-    public function authenticateByPassword(ApiConfigurationInterface $apiConfiguration): AkeneoPimEnterpriseClientInterface
+    public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimEnterpriseClientInterface
     {
         $client = new AkeneoPimEnterpriseClientBuilder($apiConfiguration->getBaseUrl() ?? '');
 

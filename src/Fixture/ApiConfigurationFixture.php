@@ -9,7 +9,7 @@ use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 /**
  * @deprecated To be removed in 4.0.
@@ -34,7 +34,7 @@ final class ApiConfigurationFixture extends AbstractFixture
 
     public function load(array $options): void
     {
-        /** @var ApiConfigurationInterface $apiConfiguration */
+        /** @var ApiConfiguration $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationFactory->createNew();
         $apiConfiguration->setBaseUrl($options['base_url']);
         $apiConfiguration->setApiClientId($options['api_client_id']);
