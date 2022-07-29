@@ -15,8 +15,6 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 use Webmozart\Assert\Assert;
 
@@ -29,8 +27,6 @@ abstract class ApiTestCase extends AbstractKernelTestCase
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $manager;
-
-    protected ApiConfiguration $apiConfiguration;
 
     protected function setUp(): void
     {
@@ -55,20 +51,6 @@ abstract class ApiTestCase extends AbstractKernelTestCase
     {
         $this->server->stop();
         parent::tearDown();
-    }
-
-    public function initializeApiConfiguration(): void
-    {
-        $this->apiConfiguration = new ApiConfiguration();
-        $this->apiConfiguration->setPaginationSize(100)
-            ->setBaseUrl(sprintf('%s:%d', $_SERVER['MOCK_SERVER_HOST'], (int) $_SERVER['MOCK_SERVER_PORT']))
-            ->setUsername('test')
-            ->setApiClientId('test')
-            ->setApiClientSecret('test')
-            ->setEdition(AkeneoEditionEnum::ENTERPRISE)
-            ->setPassword('test')
-        ;
-        $this->manager->persist($this->apiConfiguration);
     }
 
     protected function iniSyliusLocales(): void

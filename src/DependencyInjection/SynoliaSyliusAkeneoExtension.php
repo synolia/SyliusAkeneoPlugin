@@ -72,6 +72,8 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
     {
         // If DotEnvApiConnectionProvider configuration is not set, use default DatabaseApiConfigurationProvider
         if (\count($config) === 0 || (array_key_exists(0, $config) && !\array_key_exists('api_configuration', $config[0]))) {
+            $container->setAlias(ApiConnectionProviderInterface::class, DatabaseApiConfigurationProvider::class);
+
             return;
         }
 

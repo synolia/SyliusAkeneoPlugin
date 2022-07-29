@@ -10,7 +10,6 @@ use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -27,14 +26,13 @@ final class ProcessProductsTask extends AbstractProcessTask
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchProductsTask $task,
         ProductFilter $productFilter,
         ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
+        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->productFilter = $productFilter;
         $this->apiConnectionProvider = $apiConnectionProvider;
     }

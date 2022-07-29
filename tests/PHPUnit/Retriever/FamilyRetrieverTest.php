@@ -38,7 +38,6 @@ final class FamilyRetrieverTest extends ApiTestCase
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
 
-        $this->initializeApiConfiguration();
         $this->manager->flush();
     }
 

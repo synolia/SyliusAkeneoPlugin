@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Family;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -21,13 +20,12 @@ final class ProcessFamilyTask extends AbstractProcessTask
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchFamilyTask $task,
         ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
+        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->apiConnectionProvider = $apiConnectionProvider;
     }
 

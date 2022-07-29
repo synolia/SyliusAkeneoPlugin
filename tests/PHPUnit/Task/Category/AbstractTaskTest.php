@@ -28,8 +28,6 @@ abstract class AbstractTaskTest extends ApiTestCase
             $this->manager->beginTransaction();
         }
 
-        $this->initializeApiConfiguration();
-
         $this->manager->flush();
 
         $this->server->setResponseOfPath(

@@ -25,8 +25,6 @@ abstract class AbstractTaskTest extends ApiTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->initializeApiConfiguration();
-
         $this->manager->flush();
 
         $this->server->setResponseOfPath(

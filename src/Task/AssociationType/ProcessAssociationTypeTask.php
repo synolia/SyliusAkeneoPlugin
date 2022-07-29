@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\AssociationType;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
@@ -20,13 +19,12 @@ final class ProcessAssociationTypeTask extends AbstractProcessTask
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchAssociationTypesTask $task,
         ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
+        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
 
         $this->apiConnectionProvider = $apiConnectionProvider;
     }

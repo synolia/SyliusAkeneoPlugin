@@ -72,6 +72,7 @@ install-sylius:
 phpunit-configure:
 	cp phpunit.xml.dist ${TEST_DIRECTORY}/phpunit.xml
 	echo -e "\nMOCK_SERVER_HOST=localhost\nMOCK_SERVER_PORT=8987\n" >> ${TEST_DIRECTORY}/.env.test.local
+	echo -e "\nSYNOLIA_AKENEO_BASE_URL=http://localhost:8987\n" >> ${TEST_DIRECTORY}/.env.test.local
 
 phpunit-run:
 	cd ${TEST_DIRECTORY} && ./vendor/bin/phpunit

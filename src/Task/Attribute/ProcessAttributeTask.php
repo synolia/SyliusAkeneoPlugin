@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
@@ -20,13 +19,12 @@ final class ProcessAttributeTask extends AbstractProcessTask
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchAttributesTask $task,
         ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
+        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
 
         $this->apiConnectionProvider = $apiConnectionProvider;
     }
