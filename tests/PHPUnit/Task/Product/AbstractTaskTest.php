@@ -16,8 +16,6 @@ use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
@@ -36,7 +34,6 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->manager = $this->getContainer()->get('doctrine')->getManager();
 
-        $this->initializeApiConfiguration();
         $this->createProductFiltersConfiguration();
 
         $this->manager->flush();
@@ -138,26 +135,6 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->stop();
 
         parent::tearDown();
-    }
-
-    protected function createConfiguration(): void
-    {
-        $apiConfiguration = $this->manager->getRepository(ApiConfiguration::class)->findOneBy([], ['id' => 'DESC']);
-
-        if (null === $apiConfiguration) {
-            $apiConfiguration = new ApiConfiguration();
-            $this->manager->persist($apiConfiguration);
-        }
-
-        $apiConfiguration->setBaseUrl('localhost:8987');
-        $apiConfiguration->setApiClientId('test');
-        $apiConfiguration->setApiClientSecret('test');
-        $apiConfiguration->setPaginationSize(100);
-        $apiConfiguration->setEdition(AkeneoEditionEnum::ENTERPRISE);
-        $apiConfiguration->setUsername('test');
-        $apiConfiguration->setPassword('test');
-
-        $this->manager->flush();
     }
 
     protected function createProductConfiguration(): void

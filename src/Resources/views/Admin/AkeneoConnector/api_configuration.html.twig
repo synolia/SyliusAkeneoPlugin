@@ -5,6 +5,17 @@
 {% block title %}{{ 'sylius.ui.admin.akeneo.api_configuration.title'|trans }} {{ parent() }}{% endblock %}
 
 {% block content %}
+    <div class="ui icon warning message sylius-flash-message">
+        <i class="close icon"></i>
+        <i class="warning icon"></i>
+        <div class="content">
+            <div class="header">
+                Deprecated configuration
+            </div>
+            <p>This section has been deprecated and will be removed in the next major release. See <a href="https://github.com/synolia/SyliusAkeneoPlugin/blob/master/UPGRADE.md" target="_blank">Upgrade documentation</a>.</p>
+        </div>
+    </div>
+
     {{ headers.default(
         'sylius.ui.admin.akeneo.api_configuration.title'|trans,
         'cogs',

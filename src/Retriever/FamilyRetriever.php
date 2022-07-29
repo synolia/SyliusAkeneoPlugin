@@ -6,7 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Psr\Log\LoggerInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
 final class FamilyRetriever implements FamilyRetrieverInterface
 {
@@ -15,18 +15,18 @@ final class FamilyRetriever implements FamilyRetrieverInterface
 
     private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
-    private ConfigurationProvider $configurationProvider;
-
     private LoggerInterface $logger;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,
-        ConfigurationProvider $configurationProvider,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->akeneoPimClient = $akeneoPimClient;
-        $this->configurationProvider = $configurationProvider;
         $this->logger = $logger;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function getFamilyCodeByVariantCode(string $familyVariantCode): string
@@ -35,7 +35,7 @@ final class FamilyRetriever implements FamilyRetrieverInterface
             return $this->familiesByVariant[$familyVariantCode];
         }
 
-        $paginationSize = $this->configurationProvider->getConfiguration()->getPaginationSize();
+        $paginationSize = $this->apiConnectionProvider->get()->getPaginationSize();
 
         try {
             $families = $this->akeneoPimClient->getFamilyApi()->all($paginationSize);

@@ -53,7 +53,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
     public function testCreateConfigurableProductsTask(): void
     {
-        $this->createConfiguration();
         $this->createProductFiltersConfiguration();
         $this->createProductConfiguration();
         $this->importCategories();

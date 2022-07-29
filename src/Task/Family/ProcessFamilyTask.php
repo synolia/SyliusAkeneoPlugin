@@ -11,12 +11,12 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessFamilyTask extends AbstractProcessTask
 {
-    private ConfigurationProvider $configurationProvider;
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -24,11 +24,11 @@ final class ProcessFamilyTask extends AbstractProcessTask
         RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchFamilyTask $task,
-        ConfigurationProvider $configurationProvider,
+        ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
-        $this->configurationProvider = $configurationProvider;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -46,7 +46,7 @@ final class ProcessFamilyTask extends AbstractProcessTask
 
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
-            $this->configurationProvider->getConfiguration()->getPaginationSize(),
+            $this->apiConnectionProvider->get()->getPaginationSize(),
         );
 
         $this->handle($payload, $resources);

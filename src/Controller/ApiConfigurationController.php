@@ -16,6 +16,9 @@ use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
 
+/**
+ * @deprecated To be removed in 4.0.
+ */
 final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;

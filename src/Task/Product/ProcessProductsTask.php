@@ -15,14 +15,14 @@ use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductsTask extends AbstractProcessTask
 {
-    private ConfigurationProvider $configurationProvider;
-
     private ProductFilter $productFilter;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -30,13 +30,13 @@ final class ProcessProductsTask extends AbstractProcessTask
         RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchProductsTask $task,
-        ConfigurationProvider $configurationProvider,
         ProductFilter $productFilter,
+        ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
-        $this->configurationProvider = $configurationProvider;
         $this->productFilter = $productFilter;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -59,7 +59,7 @@ final class ProcessProductsTask extends AbstractProcessTask
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
-            $this->configurationProvider->getConfiguration()->getPaginationSize(),
+            $this->apiConnectionProvider->get()->getPaginationSize(),
             true,
             $queryParameters
         );

@@ -8,8 +8,6 @@ use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use donatj\MockWebServer\Response;
 use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
@@ -38,7 +36,6 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
     public function testCreateUpdateTask(): void
     {
-        $this->createConfiguration();
         $attributesPayload = new AttributePayload($this->createClient());
 
         $importAttributePipeline = $this->getContainer()->get(AttributePipelineFactory::class)->create();
@@ -59,20 +56,6 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         $this->assertProductOptionValuesTranslations($colorProductOption);
         $this->assertColorProductOptionValues($colorProductOption);
         $this->assertColorisProductOptionValues($colorisProductOption);
-    }
-
-    private function createConfiguration(): void
-    {
-        $apiConfiguration = new ApiConfiguration();
-        $apiConfiguration->setBaseUrl('');
-        $apiConfiguration->setApiClientId('');
-        $apiConfiguration->setApiClientSecret('');
-        $apiConfiguration->setPaginationSize(100);
-        $apiConfiguration->setEdition(AkeneoEditionEnum::ENTERPRISE);
-        $apiConfiguration->setUsername('');
-        $apiConfiguration->setPassword('');
-        $this->manager->persist($apiConfiguration);
-        $this->manager->flush();
     }
 
     private function assertColorProductOptionTranslations(ProductOption $productOption): void

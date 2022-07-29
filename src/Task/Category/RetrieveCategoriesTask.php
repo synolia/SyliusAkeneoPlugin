@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
@@ -21,16 +21,16 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
 
     private LoggerInterface $logger;
 
-    private ConfigurationProvider $configurationProvider;
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         CategoryConfigurationRepository $categoriesConfigurationRepository,
-        ConfigurationProvider $configurationProvider,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->categoriesConfigurationRepository = $categoriesConfigurationRepository;
         $this->logger = $akeneoLogger;
-        $this->configurationProvider = $configurationProvider;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -41,7 +41,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
-            $this->configurationProvider->getConfiguration()->getPaginationSize()
+            $this->apiConnectionProvider->get()->getPaginationSize()
         );
 
         $configuration = $this->categoriesConfigurationRepository->getCategoriesConfiguration();

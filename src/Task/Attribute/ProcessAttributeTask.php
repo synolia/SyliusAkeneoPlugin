@@ -10,12 +10,12 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessAttributeTask extends AbstractProcessTask
 {
-    private ConfigurationProvider $configurationProvider;
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -23,12 +23,12 @@ final class ProcessAttributeTask extends AbstractProcessTask
         RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchAttributesTask $task,
-        ConfigurationProvider $configurationProvider,
+        ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
 
-        $this->configurationProvider = $configurationProvider;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -45,7 +45,7 @@ final class ProcessAttributeTask extends AbstractProcessTask
         }
 
         $page = $payload->getAkeneoPimClient()->getAttributeApi()->listPerPage(
-            $this->configurationProvider->getConfiguration()->getPaginationSize(),
+            $this->apiConnectionProvider->get()->getPaginationSize(),
             true,
         );
 
