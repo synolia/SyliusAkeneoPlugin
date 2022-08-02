@@ -26,7 +26,7 @@ final class EditionRetriever implements EditionRetrieverInterface
     {
         if (null === $this->configuration) {
             /** @phpstan-ignore-next-line  */
-            $this->configuration = $this->apiConfigurationRepository->findOneBy([]);
+            $this->configuration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
             if (!$this->configuration instanceof ApiConfiguration) {
                 throw new ApiNotConfiguredException();
