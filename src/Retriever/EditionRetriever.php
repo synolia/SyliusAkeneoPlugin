@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 
 final class EditionRetriever implements EditionRetrieverInterface
 {
     private RepositoryInterface $apiConfigurationRepository;
 
-    private ?ApiConfigurationInterface $configuration = null;
+    private ?ApiConfiguration $configuration = null;
 
     public function __construct(RepositoryInterface $apiConfigurationRepository)
     {
@@ -28,7 +28,7 @@ final class EditionRetriever implements EditionRetrieverInterface
             /** @phpstan-ignore-next-line  */
             $this->configuration = $this->apiConfigurationRepository->findOneBy([]);
 
-            if (!$this->configuration instanceof ApiConfigurationInterface) {
+            if (!$this->configuration instanceof ApiConfiguration) {
                 throw new ApiNotConfiguredException();
             }
         }

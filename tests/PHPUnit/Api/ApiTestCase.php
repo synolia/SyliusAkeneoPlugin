@@ -17,7 +17,6 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 use Webmozart\Assert\Assert;
 
@@ -31,7 +30,7 @@ abstract class ApiTestCase extends AbstractKernelTestCase
     /** @var \Doctrine\ORM\EntityManagerInterface */
     protected $manager;
 
-    protected ApiConfigurationInterface $apiConfiguration;
+    protected ApiConfiguration $apiConfiguration;
 
     protected function setUp(): void
     {

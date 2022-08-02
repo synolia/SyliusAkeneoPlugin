@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 /**
- * @deprecated To be removed in 4.0.
  * @ORM\Entity()
  * @ORM\Table("akeneo_api_configuration")
  */
-class ApiConfiguration implements ApiConfigurationInterface
+class ApiConfiguration implements ResourceInterface
 {
     public const MIN_AKENEO_PAGINATION_SIZE = 1;
 
@@ -90,7 +90,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->baseUrl;
     }
 
-    public function setBaseUrl(string $baseUrl): ApiConfigurationInterface
+    public function setBaseUrl(string $baseUrl): self
     {
         $this->baseUrl = $baseUrl;
 
@@ -102,7 +102,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->apiClientId;
     }
 
-    public function setApiClientId(string $apiClientId): ApiConfigurationInterface
+    public function setApiClientId(string $apiClientId): self
     {
         $this->apiClientId = $apiClientId;
 
@@ -114,7 +114,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->apiClientSecret;
     }
 
-    public function setApiClientSecret(string $apiClientSecret): ApiConfigurationInterface
+    public function setApiClientSecret(string $apiClientSecret): self
     {
         $this->apiClientSecret = $apiClientSecret;
 
@@ -126,7 +126,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->edition;
     }
 
-    public function setEdition(string $edition): ApiConfigurationInterface
+    public function setEdition(string $edition): self
     {
         $this->edition = $edition;
 
@@ -138,7 +138,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->paginationSize;
     }
 
-    public function setPaginationSize(int $paginationSize): ApiConfigurationInterface
+    public function setPaginationSize(int $paginationSize): self
     {
         $this->paginationSize = $paginationSize;
 
@@ -150,7 +150,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): ApiConfigurationInterface
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -162,7 +162,7 @@ class ApiConfiguration implements ApiConfigurationInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): ApiConfigurationInterface
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
