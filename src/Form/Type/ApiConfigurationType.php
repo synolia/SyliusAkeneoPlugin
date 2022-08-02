@@ -41,8 +41,7 @@ final class ApiConfigurationType extends AbstractType
                     'max' => ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
                 ],
             ])
-            ->add('edition', AkeneoEditionChoiceType::class, [
-            ])
+            ->add('edition', AkeneoEditionChoiceType::class)
             ->add('testCredentials', SubmitType::class, [
                 'attr' => ['class' => 'ui secondary button'],
             ])

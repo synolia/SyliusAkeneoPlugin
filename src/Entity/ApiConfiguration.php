@@ -118,6 +118,22 @@ class ApiConfiguration implements ResourceInterface
         return $this;
     }
 
+    /** @deprecated */
+    public function isEnterprise(): ?bool
+    {
+        return $this->getEdition() === AkeneoEditionEnum::ENTERPRISE;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @deprecated Use setEdition
+     */
+    public function setIsEnterprise(bool $isEnterprise): self
+    {
+        return $this;
+    }
+
     public function getEdition(): string
     {
         return $this->edition;
@@ -125,6 +141,13 @@ class ApiConfiguration implements ResourceInterface
 
     public function setEdition(string $edition): self
     {
+        if (!\in_array($edition, AkeneoEditionEnum::getEditions(), true)) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Akeneo edition "%s" is not valid.',
+                $edition
+            ));
+        }
+
         $this->edition = $edition;
 
         return $this;
