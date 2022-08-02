@@ -60,9 +60,7 @@ class ApiConfiguration implements ResourceInterface
      */
     private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
-    /**
-     * @ORM\Column(type="string", options={"default" : "ce"})
-     */
+    /** @ORM\Column(type="string", options={"default" : "ce"}) */
     private string $edition = AkeneoEditionEnum::COMMUNITY;
 
     /**
