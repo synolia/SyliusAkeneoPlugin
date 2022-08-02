@@ -30,7 +30,7 @@ final class AkeneoEditionChoiceType extends AbstractType
     {
         $choices = [];
 
-        foreach ((new AkeneoEditionEnum())->getEditions() as $edition) {
+        foreach (AkeneoEditionEnum::getEditions() as $edition) {
             $choices['sylius.ui.admin.akeneo.editions.' . $edition] = $edition;
         }
 

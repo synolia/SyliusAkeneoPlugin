@@ -14,7 +14,7 @@ final class AkeneoEditionEnum
 
     public const SERENITY = 'serenity';
 
-    public function getEditions(): array
+    public static function getEditions(): array
     {
         return [
             self::COMMUNITY,
