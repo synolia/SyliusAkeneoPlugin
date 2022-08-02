@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Config;
 
-class AkeneoEditionEnum
+final class AkeneoEditionEnum
 {
     public const COMMUNITY = 'ce';
 

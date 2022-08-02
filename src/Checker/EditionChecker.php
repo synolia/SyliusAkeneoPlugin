@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Checker;
 use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 use Synolia\SyliusAkeneoPlugin\Retriever\EditionRetrieverInterface;
 
-class EditionChecker implements EditionCheckerInterface
+final class EditionChecker implements EditionCheckerInterface
 {
     private EditionRetrieverInterface $editionRetriever;
 

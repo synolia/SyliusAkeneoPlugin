@@ -8,7 +8,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 
-class EditionRetriever implements EditionRetrieverInterface
+final class EditionRetriever implements EditionRetrieverInterface
 {
     private RepositoryInterface $apiConfigurationRepository;
 

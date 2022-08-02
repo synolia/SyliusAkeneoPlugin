@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 
 /**
- * @deprecated To be removed in 4.0.
+ * @deprecated To be removed in 4.0. Use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface::isEnterprise() instead.
  */
 final class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
 {
