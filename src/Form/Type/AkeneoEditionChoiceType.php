@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
-class AkeneoEditionChoiceType extends AbstractType
+final class AkeneoEditionChoiceType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {
