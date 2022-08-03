@@ -124,13 +124,19 @@ class ApiConfiguration implements ResourceInterface
         return $this->getEdition() === AkeneoEditionEnum::ENTERPRISE;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     *
-     * @deprecated Use setEdition
-     */
+    /** @deprecated Use setEdition */
     public function setIsEnterprise(bool $isEnterprise): self
     {
+        @trigger_error('Method ' . __METHOD__ . ' is deprecated. Use setEdition() instead.', \E_USER_DEPRECATED);
+
+        if ($isEnterprise) {
+            $this->setEdition(AkeneoEditionEnum::ENTERPRISE);
+
+            return $this;
+        }
+
+        $this->setEdition(AkeneoEditionEnum::COMMUNITY);
+
         return $this;
     }
 
