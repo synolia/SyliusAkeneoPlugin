@@ -11,7 +11,6 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
@@ -21,9 +20,6 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 abstract class AbstractTaskTest extends ApiTestCase
 {
-    /** @var ApiConfiguration */
-    protected $apiConfiguration;
-
     protected function setUp(): void
     {
         parent::setUp();

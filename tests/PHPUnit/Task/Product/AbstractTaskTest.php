@@ -16,6 +16,7 @@ use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
@@ -152,7 +153,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         $apiConfiguration->setApiClientId('test');
         $apiConfiguration->setApiClientSecret('test');
         $apiConfiguration->setPaginationSize(100);
-        $apiConfiguration->setIsEnterprise(true);
+        $apiConfiguration->setEdition(AkeneoEditionEnum::ENTERPRISE);
         $apiConfiguration->setUsername('test');
         $apiConfiguration->setPassword('test');
 

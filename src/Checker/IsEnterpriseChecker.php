@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Checker;
 
-use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
-
+/**
+ * @deprecated To be removed in 4.0. Use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface::isEnterprise() instead.
+ */
 final class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
 {
-    /** @var \Sylius\Component\Resource\Repository\RepositoryInterface */
-    private $apiConfigurationRepository;
+    private EditionCheckerInterface $editionChecker;
 
-    public function __construct(RepositoryInterface $apiConfigurationRepository)
+    public function __construct(EditionCheckerInterface $editionChecker)
     {
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->editionChecker = $editionChecker;
     }
 
     public function isEnterprise(): bool
     {
-        /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
+        @trigger_error('Method ' . __METHOD__ . ' is deprecated', \E_USER_DEPRECATED);
 
-        if (!$apiConfiguration instanceof ApiConfiguration) {
-            throw new ApiNotConfiguredException();
-        }
-
-        return $apiConfiguration->isEnterprise() ?? false;
+        return $this->editionChecker->isEnterprise();
     }
 }

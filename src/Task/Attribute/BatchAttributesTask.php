@@ -13,7 +13,7 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseCheckerInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\BeforeProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
@@ -61,7 +61,7 @@ final class BatchAttributesTask extends AbstractBatchTask
 
     private ProductOptionProcessorInterface $productOptionProcessor;
 
-    private IsEnterpriseCheckerInterface $isEnterpriseChecker;
+    private EditionCheckerInterface $editionChecker;
 
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -76,7 +76,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
         ProductOptionProcessorInterface $productOptionProcessor,
         EventDispatcherInterface $dispatcher,
-        IsEnterpriseCheckerInterface $isEnterpriseChecker
+        EditionCheckerInterface $editionChecker
     ) {
         parent::__construct($entityManager);
 
@@ -91,7 +91,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         $this->configurationProvider = $configurationProvider;
         $this->attributeChoiceProcessor = $attributeChoiceProcessor;
         $this->productOptionProcessor = $productOptionProcessor;
-        $this->isEnterpriseChecker = $isEnterpriseChecker;
+        $this->editionChecker = $editionChecker;
     }
 
     /**
@@ -108,7 +108,6 @@ final class BatchAttributesTask extends AbstractBatchTask
 
         try {
             $excludesAttributes = $this->excludedAttributesProvider->getExcludedAttributes();
-            $isEnterprise = $this->isEnterpriseChecker->isEnterprise();
             $this->entityManager->beginTransaction();
 
             $query = $this->getSelectStatement($payload);
@@ -125,7 +124,7 @@ final class BatchAttributesTask extends AbstractBatchTask
                         if (!$this->entityManager->getConnection()->isTransactionActive()) {
                             $this->entityManager->beginTransaction();
                         }
-                        $attribute = $this->process($excludesAttributes, $resource, $isEnterprise);
+                        $attribute = $this->process($excludesAttributes, $resource);
 
                         //Handle attribute options
                         $this->attributeChoiceProcessor->process($attribute, $resource);
@@ -170,7 +169,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         return $payload;
     }
 
-    private function process(array $excludesAttributes, array &$resource, bool $isEnterprise): AttributeInterface
+    private function process(array $excludesAttributes, array &$resource): AttributeInterface
     {
         //Do not import attributes that must not be used as attribute in Sylius
         if (\in_array($resource['code'], $excludesAttributes, true)) {
@@ -179,6 +178,8 @@ final class BatchAttributesTask extends AbstractBatchTask
 
         try {
             $attributeType = $this->attributeTypeMatcher->match($resource['type']);
+
+            $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();
 
             if ($attributeType instanceof ReferenceEntityAttributeTypeMatcher && !$isEnterprise) {
                 throw new InvalidAttributeException(sprintf('Attribute "%s" is of type ReferenceEntityAttributeTypeMatcher which is invalid.', $resource['code']));

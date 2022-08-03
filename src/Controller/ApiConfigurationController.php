@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,8 @@ final class ApiConfigurationController extends AbstractController
 
     private EntityRepository $apiConfigurationRepository;
 
+    private FactoryInterface $apiConfigurationFactory;
+
     private TranslatorInterface $translator;
 
     private FlashBagInterface $flashBag;
@@ -32,12 +35,14 @@ final class ApiConfigurationController extends AbstractController
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $apiConfigurationRepository,
+        FactoryInterface $apiConfigurationFactory,
         FlashBagInterface $flashBag,
         ClientFactoryInterface $clientFactory,
         TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->apiConfigurationFactory = $apiConfigurationFactory;
         $this->flashBag = $flashBag;
         $this->translator = $translator;
         $this->clientFactory = $clientFactory;
@@ -49,7 +54,8 @@ final class ApiConfigurationController extends AbstractController
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$apiConfiguration instanceof ApiConfiguration) {
-            $apiConfiguration = new ApiConfiguration();
+            /** @var ApiConfiguration $apiConfiguration */
+            $apiConfiguration = $this->apiConfigurationFactory->createNew();
         }
 
         $form = $this->createForm(ApiConfigurationType::class, $apiConfiguration);

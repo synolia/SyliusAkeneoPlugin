@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductOption;
 
 use Sylius\Component\Product\Model\ProductOption;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\Option\OptionsPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
@@ -57,7 +58,7 @@ final class DeleteTaskTest extends AbstractTaskTest
         $apiConfiguration->setApiClientId('');
         $apiConfiguration->setApiClientSecret('');
         $apiConfiguration->setPaginationSize(100);
-        $apiConfiguration->setIsEnterprise(true);
+        $apiConfiguration->setEdition(AkeneoEditionEnum::ENTERPRISE);
         $apiConfiguration->setUsername('');
         $apiConfiguration->setPassword('');
         $this->manager->persist($apiConfiguration);

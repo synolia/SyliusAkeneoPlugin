@@ -11,6 +11,9 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
+/**
+ * @deprecated To be removed in 4.0.
+ */
 final class ApiConfigurationFixture extends AbstractFixture
 {
     private EntityManagerInterface $entityManager;
@@ -41,6 +44,10 @@ final class ApiConfigurationFixture extends AbstractFixture
         $apiConfiguration->setPaginationSize($options['pagination_size']);
         $apiConfiguration->setIsEnterprise($options['is_enterprise']);
 
+        if (null !== $options['edition']) {
+            $apiConfiguration->setEdition($options['edition']);
+        }
+
         $client = $this->clientFactory->authenticateByPassword($apiConfiguration);
         $client->getCategoryApi()->all(1);
 
@@ -66,7 +73,8 @@ final class ApiConfigurationFixture extends AbstractFixture
                 ->scalarNode('api_client_id')->end()
                 ->scalarNode('api_client_secret')->end()
                 ->integerNode('pagination_size')->defaultValue(100)->end()
-                ->booleanNode('is_enterprise')->defaultFalse()->end()
+                ->booleanNode('is_enterprise')->setDeprecated('The "is_enterprise" option is deprecated. Use "edition" instead.')->defaultFalse()->end()
+                ->booleanNode('edition')->defaultNull()->end()
             ->end()
         ;
     }

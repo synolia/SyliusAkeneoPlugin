@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 /**
  * @ORM\Entity()
@@ -59,11 +60,8 @@ class ApiConfiguration implements ResourceInterface
      */
     private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $isEnterprise;
+    /** @ORM\Column(type="string", options={"default" : "ce"}) */
+    private string $edition = AkeneoEditionEnum::COMMUNITY;
 
     /**
      * @var string
@@ -120,14 +118,43 @@ class ApiConfiguration implements ResourceInterface
         return $this;
     }
 
+    /** @deprecated */
     public function isEnterprise(): ?bool
     {
-        return $this->isEnterprise;
+        return $this->getEdition() === AkeneoEditionEnum::ENTERPRISE;
     }
 
+    /** @deprecated Use setEdition */
     public function setIsEnterprise(bool $isEnterprise): self
     {
-        $this->isEnterprise = $isEnterprise;
+        @trigger_error('Method ' . __METHOD__ . ' is deprecated. Use setEdition() instead.', \E_USER_DEPRECATED);
+
+        if ($isEnterprise) {
+            $this->setEdition(AkeneoEditionEnum::ENTERPRISE);
+
+            return $this;
+        }
+
+        $this->setEdition(AkeneoEditionEnum::COMMUNITY);
+
+        return $this;
+    }
+
+    public function getEdition(): string
+    {
+        return $this->edition;
+    }
+
+    public function setEdition(string $edition): self
+    {
+        if (!\in_array($edition, AkeneoEditionEnum::getEditions(), true)) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Akeneo edition "%s" is not valid.',
+                $edition
+            ));
+        }
+
+        $this->edition = $edition;
 
         return $this;
     }
