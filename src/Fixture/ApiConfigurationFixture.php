@@ -74,7 +74,7 @@ final class ApiConfigurationFixture extends AbstractFixture
                 ->scalarNode('api_client_secret')->end()
                 ->integerNode('pagination_size')->defaultValue(100)->end()
                 ->booleanNode('is_enterprise')->setDeprecated('The "is_enterprise" option is deprecated. Use "edition" instead.')->defaultFalse()->end()
-                ->booleanNode('edition')->defaultNull()->end()
+                ->scalarNode('edition')->defaultNull()->end()
             ->end()
         ;
     }
