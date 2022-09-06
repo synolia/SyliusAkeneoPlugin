@@ -1,10 +1,10 @@
 parameters:
-    env(SYNOLIA_AKENEO_BASE_URL): ''
-    env(SYNOLIA_AKENEO_CLIENT_ID): ''
-    env(SYNOLIA_AKENEO_CLIENT_SECRET): ''
-    env(SYNOLIA_AKENEO_USERNAME): ''
-    env(SYNOLIA_AKENEO_PASSWORD): ''
-    env(SYNOLIA_AKENEO_EDITION): ''
+    env(SYNOLIA_AKENEO_BASE_URL): 'http://localhost:8987'
+    env(SYNOLIA_AKENEO_CLIENT_ID): 'test'
+    env(SYNOLIA_AKENEO_CLIENT_SECRET): 'test'
+    env(SYNOLIA_AKENEO_USERNAME): 'test'
+    env(SYNOLIA_AKENEO_PASSWORD): 'test'
+    env(SYNOLIA_AKENEO_EDITION): !php/const \Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum::ENTERPRISE
     env(SYNOLIA_AKENEO_PAGINATION): 100
 
 synolia_sylius_akeneo:
