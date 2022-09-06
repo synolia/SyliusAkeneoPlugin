@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Checker;
 
 use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
@@ -10,6 +12,7 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 class EditionCheckerTest extends AbstractKernelTestCase
 {
     private ?ApiConfiguration $apiConfiguration = null;
+
     private ?EditionCheckerInterface $editionChecker = null;
 
     protected function setUp(): void

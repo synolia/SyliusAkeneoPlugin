@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfigurationInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Model\Configuration\ApiConnectionInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\Configuration\DatabaseApiConfigurationToApiConnectionTransformer;
@@ -45,7 +45,7 @@ class DatabaseApiConfigurationProvider implements ApiConnectionProviderInterface
 
         $configuration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
-        if (!$configuration instanceof ApiConfigurationInterface) {
+        if (!$configuration instanceof ApiConfiguration) {
             throw new ApiNotConfiguredException();
         }
 
