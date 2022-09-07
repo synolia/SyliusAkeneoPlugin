@@ -77,7 +77,7 @@
 ## Configuration
 
 ### API Configuration
-The Akeneo API configuration can be set using env variables.
+The Akeneo API configuration can be setup using env variables.
 
 ```dotenv
 SYNOLIA_AKENEO_BASE_URL=http://
