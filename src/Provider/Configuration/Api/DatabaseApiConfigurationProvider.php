@@ -11,7 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Model\Configuration\ApiConnectionInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\Configuration\DatabaseApiConfigurationToApiConnectionTransformer;
 
 /**
- * @deprecated
+ * @deprecated Will be removed in 4.0
  */
 class DatabaseApiConfigurationProvider implements ApiConnectionProviderInterface
 {
