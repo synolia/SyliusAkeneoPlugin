@@ -4,35 +4,19 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
-use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
-final class EditionRetriever implements EditionRetrieverInterface
+class EditionRetriever implements EditionRetrieverInterface
 {
-    private RepositoryInterface $apiConfigurationRepository;
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
-    private ?ApiConfiguration $configuration = null;
-
-    public function __construct(RepositoryInterface $apiConfigurationRepository)
+    public function __construct(ApiConnectionProviderInterface $apiConnectionProvider)
     {
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
-    /**
-     * @throws ApiNotConfiguredException
-     */
     public function getEdition(): string
     {
-        if (null === $this->configuration) {
-            /** @phpstan-ignore-next-line  */
-            $this->configuration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-
-            if (!$this->configuration instanceof ApiConfiguration) {
-                throw new ApiNotConfiguredException();
-            }
-        }
-
-        return $this->configuration->getEdition();
+        return $this->apiConnectionProvider->get()->getEdition();
     }
 }

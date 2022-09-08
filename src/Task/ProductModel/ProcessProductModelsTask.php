@@ -7,33 +7,31 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductModelsTask extends AbstractProcessTask
 {
-    private ConfigurationProvider $configurationProvider;
-
     private ProductFilter $productFilter;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchProductModelTask $task,
-        ConfigurationProvider $configurationProvider,
         ProductFilter $productFilter,
+        ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
-        $this->configurationProvider = $configurationProvider;
+        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->productFilter = $productFilter;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -53,7 +51,7 @@ final class ProcessProductModelsTask extends AbstractProcessTask
 
         $queryParameters = $this->productFilter->getProductModelFilters();
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
-            $this->configurationProvider->getConfiguration()->getPaginationSize(),
+            $this->apiConnectionProvider->get()->getPaginationSize(),
             $queryParameters
         );
 

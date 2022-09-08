@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AttributeOptionValueDataTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
@@ -26,28 +26,28 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
 
     private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 
-    private ConfigurationProvider $configurationProvider;
-
     private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer;
 
     private EntityManagerInterface $entityManager;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         ClientFactoryInterface $clientFactory,
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        ConfigurationProvider $configurationProvider,
         AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->clientFactory = $clientFactory;
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->logger = $akeneoLogger;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->configurationProvider = $configurationProvider;
         $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
         $this->entityManager = $entityManager;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function process(
@@ -68,7 +68,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
                 $attribute,
                 $this->clientFactory->createFromApiCredentials()->getAttributeOptionApi()->all(
                     $resource['code'],
-                    $this->configurationProvider->getConfiguration()->getPaginationSize()
+                    $this->apiConnectionProvider->get()->getPaginationSize()
                 ),
                 $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher
             );

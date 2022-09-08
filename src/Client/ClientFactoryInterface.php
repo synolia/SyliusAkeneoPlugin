@@ -11,5 +11,6 @@ interface ClientFactoryInterface
 {
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface;
 
+    /** @deprecated To be removed in 4.0. */
     public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimEnterpriseClientInterface;
 }

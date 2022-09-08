@@ -10,33 +10,31 @@ use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductsTask extends AbstractProcessTask
 {
-    private ConfigurationProvider $configurationProvider;
-
     private ProductFilter $productFilter;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         ProcessManagerInterface $processManager,
         BatchProductsTask $task,
-        ConfigurationProvider $configurationProvider,
         ProductFilter $productFilter,
+        ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $apiConfigurationRepository, $projectDir);
-        $this->configurationProvider = $configurationProvider;
+        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->productFilter = $productFilter;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -59,7 +57,7 @@ final class ProcessProductsTask extends AbstractProcessTask
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
-            $this->configurationProvider->getConfiguration()->getPaginationSize(),
+            $this->apiConnectionProvider->get()->getPaginationSize(),
             true,
             $queryParameters
         );

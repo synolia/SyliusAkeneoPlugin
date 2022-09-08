@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Menu;
 
+use Knp\Menu\ItemInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 final class AdminMenuListener
@@ -12,17 +13,14 @@ final class AdminMenuListener
     {
         $menu = $event->getMenu();
 
-        $newSubmenu = $menu->addChild('akeneo');
+        if (null === $menu->getChild('akeneo')) {
+            $menu->addChild('akeneo');
+        }
 
-        $newSubmenu->addChild('sylius_admin_akeneo_api_configuration', [
-            'route' => 'sylius_akeneo_connector_api_configuration',
-        ])
-            ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.api_configuration.title')
-            ->setLabelAttribute('icon', 'cogs')
-        ;
+        /** @var ItemInterface $subMenu */
+        $subMenu = $menu->getChild('akeneo');
 
-        $newSubmenu->addChild('sylius_admin_akeneo_product_filter_rules', [
+        $subMenu->addChild('sylius_admin_akeneo_product_filter_rules', [
             'route' => 'sylius_akeneo_connector_product_filter_rules',
         ])
             ->setAttribute('type', 'link')
@@ -30,7 +28,7 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'sync alternate')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_categories', [
+        $subMenu->addChild('sylius_admin_akeneo_categories', [
             'route' => 'sylius_akeneo_connector_categories',
         ])
             ->setAttribute('type', 'link')
@@ -38,7 +36,7 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'configure')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_products', [
+        $subMenu->addChild('sylius_admin_akeneo_products', [
             'route' => 'sylius_akeneo_connector_products',
         ])
             ->setAttribute('type', 'link')
@@ -46,7 +44,7 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'configure')
         ;
 
-        $newSubmenu->addChild('sylius_admin_akeneo_attributes', [
+        $subMenu->addChild('sylius_admin_akeneo_attributes', [
             'route' => 'sylius_akeneo_connector_attributes',
         ])
             ->setAttribute('type', 'link')

@@ -21,6 +21,9 @@ services:
         resource: '../../Fixture'
         tags: ['sylius_fixtures.fixture']
 
+    Synolia\SyliusAkeneoPlugin\Menu\AdminApiConfigurationMenuListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
     Synolia\SyliusAkeneoPlugin\Menu\AdminMenuListener:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
@@ -74,10 +77,6 @@ services:
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
-
-    Synolia\SyliusAkeneoPlugin\Client\ClientFactory:
-        arguments:
-            - '@akeneo.repository.api_configuration'
 
     Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']

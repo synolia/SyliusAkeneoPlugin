@@ -1,0 +1,18 @@
+parameters:
+    env(SYNOLIA_AKENEO_BASE_URL): 'http://localhost:8987'
+    env(SYNOLIA_AKENEO_CLIENT_ID): 'test'
+    env(SYNOLIA_AKENEO_CLIENT_SECRET): 'test'
+    env(SYNOLIA_AKENEO_USERNAME): 'test'
+    env(SYNOLIA_AKENEO_PASSWORD): 'test'
+    env(SYNOLIA_AKENEO_EDITION): !php/const \Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum::ENTERPRISE
+    env(SYNOLIA_AKENEO_PAGINATION): 100
+
+synolia_sylius_akeneo:
+    api_configuration:
+        base_url: '%env(resolve:SYNOLIA_AKENEO_BASE_URL)%'
+        client_id: '%env(resolve:SYNOLIA_AKENEO_CLIENT_ID)%'
+        client_secret: '%env(resolve:SYNOLIA_AKENEO_CLIENT_SECRET)%'
+        username: '%env(resolve:SYNOLIA_AKENEO_USERNAME)%'
+        password: '%env(resolve:SYNOLIA_AKENEO_PASSWORD)%'
+        edition: '%env(resolve:SYNOLIA_AKENEO_EDITION)%'
+        pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'

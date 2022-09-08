@@ -15,7 +15,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ApiConfigurationType;
+use Webmozart\Assert\Assert;
 
+/**
+ * @deprecated To be removed in 4.0.
+ */
 final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;
@@ -66,6 +70,7 @@ final class ApiConfigurationController extends AbstractController
             $testCredentialsButton = $form->get('testCredentials');
 
             try {
+                Assert::isInstanceOf($apiConfiguration, ApiConfiguration::class);
                 $client = $this->clientFactory->authenticateByPassword($apiConfiguration);
                 $client->getCategoryApi()->all(self::PAGING_SIZE);
 

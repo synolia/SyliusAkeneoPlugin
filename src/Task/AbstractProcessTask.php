@@ -14,10 +14,7 @@ use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Process\Process;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
-use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Throwable;
@@ -32,8 +29,6 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
     protected LoggerInterface $logger;
 
-    private RepositoryInterface $apiConfigurationRepository;
-
     private int $updateCount = 0;
 
     private int $createCount = 0;
@@ -47,14 +42,12 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         ProcessManagerInterface $processManager,
         BatchTaskInterface $task,
         LoggerInterface $akeneoLogger,
-        RepositoryInterface $apiConfigurationRepository,
         string $projectDir
     ) {
         $this->entityManager = $entityManager;
         $this->processManager = $processManager;
         $this->task = $task;
         $this->logger = $akeneoLogger;
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->projectDir = $projectDir;
     }
 
@@ -142,13 +135,6 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->type = $initialPayload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
-
-        /** @var ApiConfiguration|null $apiConfiguration */
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-
-        if (!$apiConfiguration instanceof ApiConfiguration) {
-            throw new ApiNotConfiguredException();
-        }
 
         try {
             $totalItemsCount = $this->count($initialPayload->getTmpTableName());

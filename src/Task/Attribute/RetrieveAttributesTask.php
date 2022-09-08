@@ -8,19 +8,19 @@ use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveAttributesTask implements AkeneoTaskInterface
 {
     private LoggerInterface $logger;
 
-    private ConfigurationProvider $configurationProvider;
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
-    public function __construct(LoggerInterface $akeneoLogger, ConfigurationProvider $configurationProvider)
+    public function __construct(LoggerInterface $akeneoLogger, ApiConnectionProviderInterface $apiConnectionProvider)
     {
         $this->logger = $akeneoLogger;
-        $this->configurationProvider = $configurationProvider;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -31,7 +31,7 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getAttributeApi()->all(
-            $this->configurationProvider->getConfiguration()->getPaginationSize()
+            $this->apiConnectionProvider->get()->getPaginationSize()
         );
 
         $noCodeCount = 0;

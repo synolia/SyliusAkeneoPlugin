@@ -11,12 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
+use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Form\Type\AttributesTypeMappingType;
 use Synolia\SyliusAkeneoPlugin\Manager\SettingsManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Model\SettingType;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
 final class AttributesController extends AbstractController
 {
@@ -26,36 +27,37 @@ final class AttributesController extends AbstractController
 
     private RepositoryInterface $attributeTypeMappingRepository;
 
-    private RepositoryInterface $apiConfigurationRepository;
-
     private FlashBagInterface $flashBag;
 
     private TranslatorInterface $translator;
 
     private RepositoryInterface $attributeAkeneoSyliusMappingRepository;
 
+    private ApiConnectionProviderInterface $apiConnectionProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         SettingsManagerInterface $settingsManager,
         RepositoryInterface $attributeTypeMappingRepository,
         RepositoryInterface $attributeAkeneoSyliusMappingRepository,
-        RepositoryInterface $apiConfigurationRepository,
         FlashBagInterface $flashBag,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->entityManager = $entityManager;
         $this->settingsManager = $settingsManager;
         $this->attributeTypeMappingRepository = $attributeTypeMappingRepository;
         $this->attributeAkeneoSyliusMappingRepository = $attributeAkeneoSyliusMappingRepository;
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->flashBag = $flashBag;
         $this->translator = $translator;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function __invoke(Request $request): Response
     {
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-        if (!$apiConfiguration instanceof ApiConfiguration) {
+        try {
+            $this->apiConnectionProvider->get();
+        } catch (ApiNotConfiguredException $apiNotConfiguredException) {
             $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');

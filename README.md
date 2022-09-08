@@ -74,6 +74,24 @@
     bin/console cache:clear
     ```
 
+## Configuration
+
+### API Configuration
+The Akeneo API configuration can be setup using env variables.
+
+```dotenv
+SYNOLIA_AKENEO_BASE_URL=http://
+SYNOLIA_AKENEO_CLIENT_ID=
+SYNOLIA_AKENEO_CLIENT_SECRET=
+SYNOLIA_AKENEO_USERNAME=
+SYNOLIA_AKENEO_PASSWORD=
+
+# See Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum
+SYNOLIA_AKENEO_EDITION=ee
+# Interget between 1 and 100
+SYNOLIA_AKENEO_PAGINATION=100
+```
+
 ## Development
 
 * See [How to contribute](CONTRIBUTING.md)

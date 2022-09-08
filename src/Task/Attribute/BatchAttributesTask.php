@@ -24,7 +24,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
@@ -55,13 +55,13 @@ final class BatchAttributesTask extends AbstractBatchTask
 
     private EventDispatcherInterface $dispatcher;
 
-    private ConfigurationProvider $configurationProvider;
-
     private ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor;
 
     private ProductOptionProcessorInterface $productOptionProcessor;
 
     private EditionCheckerInterface $editionChecker;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -72,11 +72,11 @@ final class BatchAttributesTask extends AbstractBatchTask
         AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
         ExcludedAttributesProviderInterface $excludedAttributesProvider,
-        ConfigurationProvider $configurationProvider,
         ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
         ProductOptionProcessorInterface $productOptionProcessor,
         EventDispatcherInterface $dispatcher,
-        EditionCheckerInterface $editionChecker
+        EditionCheckerInterface $editionChecker,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         parent::__construct($entityManager);
 
@@ -88,10 +88,10 @@ final class BatchAttributesTask extends AbstractBatchTask
         $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
         $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
         $this->dispatcher = $dispatcher;
-        $this->configurationProvider = $configurationProvider;
         $this->attributeChoiceProcessor = $attributeChoiceProcessor;
         $this->productOptionProcessor = $productOptionProcessor;
         $this->editionChecker = $editionChecker;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -253,15 +253,14 @@ final class BatchAttributesTask extends AbstractBatchTask
         Assert::isInstanceOf($payload, AbstractPayload::class);
         $variationAxes = [];
         $client = $payload->getAkeneoPimClient();
+        $pagination = $this->apiConnectionProvider->get()->getPaginationSize();
 
-        $families = $client->getFamilyApi()->all(
-            $this->configurationProvider->getConfiguration()->getPaginationSize()
-        );
+        $families = $client->getFamilyApi()->all($pagination);
 
         foreach ($families as $family) {
             $familyVariants = $client->getFamilyVariantApi()->all(
                 $family['code'],
-                $this->configurationProvider->getConfiguration()->getPaginationSize()
+                $pagination
             );
 
             $variationAxes = array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));

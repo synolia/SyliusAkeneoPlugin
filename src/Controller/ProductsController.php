@@ -12,9 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductConfigurationType;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
 final class ProductsController extends AbstractController
 {
@@ -22,30 +23,31 @@ final class ProductsController extends AbstractController
 
     private RepositoryInterface $productConfigurationRepository;
 
-    private RepositoryInterface $apiConfigurationRepository;
-
     private FlashBagInterface $flashBag;
 
     private TranslatorInterface $translator;
 
+    private ApiConnectionProviderInterface $apiConnectionProvider;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productConfigurationRepository,
-        RepositoryInterface $apiConfigurationRepository,
         FlashBagInterface $flashBag,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->flashBag = $flashBag;
         $this->translator = $translator;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function __invoke(Request $request): Response
     {
-        $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-        if (!$apiConfiguration instanceof ApiConfiguration) {
+        try {
+            $this->apiConnectionProvider->get();
+        } catch (ApiNotConfiguredException $apiNotConfiguredException) {
             $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
