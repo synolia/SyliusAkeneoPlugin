@@ -115,6 +115,7 @@ abstract class AbstractImageProcessor
         if (!$object instanceof ProductInterface && !$object instanceof ProductVariantInterface) {
             return;
         }
+        /** @var ImageInterface $image */
         foreach ($object->getImages() as $image) {
             $this->entityManager->remove($image);
         }
