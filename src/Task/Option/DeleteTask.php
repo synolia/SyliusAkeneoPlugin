@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductOption;
+use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
@@ -97,6 +98,7 @@ final class DeleteTask implements AkeneoTaskInterface
             /** @var ProductOption $referenceEntity */
             $referenceEntity = $this->entityManager->getReference($productOptionClass, $removedOptionId);
             if (null !== $referenceEntity) {
+                /** @var ProductOptionValueInterface $optionValue */
                 foreach ($referenceEntity->getValues() as $optionValue) {
                     $this->entityManager->remove($optionValue);
                 }
