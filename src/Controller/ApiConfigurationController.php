@@ -10,7 +10,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -32,22 +32,18 @@ final class ApiConfigurationController extends AbstractController
 
     private TranslatorInterface $translator;
 
-    private FlashBagInterface $flashBag;
-
     private ClientFactoryInterface $clientFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         EntityRepository $apiConfigurationRepository,
         FactoryInterface $apiConfigurationFactory,
-        FlashBagInterface $flashBag,
         ClientFactoryInterface $clientFactory,
         TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;
         $this->apiConfigurationRepository = $apiConfigurationRepository;
         $this->apiConfigurationFactory = $apiConfigurationFactory;
-        $this->flashBag = $flashBag;
         $this->translator = $translator;
         $this->clientFactory = $clientFactory;
     }
@@ -80,9 +76,11 @@ final class ApiConfigurationController extends AbstractController
                     $this->entityManager->flush();
                 }
 
-                $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
+                Assert::isInstanceOf($request->getSession(), Session::class);
+                $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
             } catch (\Throwable $throwable) {
-                $this->flashBag->add('error', $throwable->getMessage());
+                Assert::isInstanceOf($request->getSession(), Session::class);
+                $request->getSession()->getFlashBag()->add('error', $throwable->getMessage());
             }
         }
 

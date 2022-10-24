@@ -10,20 +10,19 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductConfigurationType;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
+use Webmozart\Assert\Assert;
 
 final class ProductsController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
 
     private RepositoryInterface $productConfigurationRepository;
-
-    private FlashBagInterface $flashBag;
 
     private TranslatorInterface $translator;
 
@@ -32,13 +31,11 @@ final class ProductsController extends AbstractController
     public function __construct(
         EntityManagerInterface $entityManager,
         RepositoryInterface $productConfigurationRepository,
-        FlashBagInterface $flashBag,
         TranslatorInterface $translator,
         ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->flashBag = $flashBag;
         $this->translator = $translator;
         $this->apiConnectionProvider = $apiConnectionProvider;
     }
@@ -48,7 +45,8 @@ final class ProductsController extends AbstractController
         try {
             $this->apiConnectionProvider->get();
         } catch (ApiNotConfiguredException $apiNotConfiguredException) {
-            $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
+            Assert::isInstanceOf($request->getSession(), Session::class);
+            $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
         }
@@ -69,7 +67,8 @@ final class ProductsController extends AbstractController
             $this->entityManager->persist($form->getData());
             $this->entityManager->flush();
 
-            $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
+            Assert::isInstanceOf($request->getSession(), Session::class);
+            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
         }
 
         return $this->render(
