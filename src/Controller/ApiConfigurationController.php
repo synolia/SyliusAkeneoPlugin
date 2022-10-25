@@ -52,7 +52,6 @@ final class ApiConfigurationController extends AbstractController
     {
         /** @var ApiConfiguration|null $apiConfiguration */
         $apiConfiguration = $this->apiConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-
         if (!$apiConfiguration instanceof ApiConfiguration) {
             /** @var ApiConfiguration $apiConfiguration */
             $apiConfiguration = $this->apiConfigurationFactory->createNew();
