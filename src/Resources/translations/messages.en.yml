@@ -88,9 +88,11 @@ sylius:
                     ee: Enterprise Edition
                     serenity: Serenity Edition
         reference_entity: 'Reference Entity'
+        asset: 'Asset'
     form:
         attribute_type:
             reference_entity: 'Reference Entity'
+            asset: 'Asset'
 akeneo:
     ui:
         attribute_type_mappings: 'Akeneo Attribute Type Mappings'

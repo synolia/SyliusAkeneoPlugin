@@ -1,0 +1,5 @@
+{% if attribute.value.code is defined %}
+    {{ attribute.value.code }}
+{% else %}
+    {{ attribute.value|json_encode }}
+{% endif %}

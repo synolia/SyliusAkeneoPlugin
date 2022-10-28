@@ -131,7 +131,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         }
     }
 
-    private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, ?string $productName): ProductTranslationInterface
+    private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, string $productName): ProductTranslationInterface
     {
         $productTranslation = $this->productTranslationRepository->findOneBy([
             'translatable' => $product,

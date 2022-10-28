@@ -88,9 +88,11 @@ sylius:
                     ee: Enterprise Edition
                     serenity: Serenity Edition
         reference_entity: 'Entité référentielle'
+        asset: 'Asset'
     form:
         attribute_type:
             reference_entity: 'Entité référentielle'
+            asset: 'Asset'
 akeneo:
     ui:
         admin:

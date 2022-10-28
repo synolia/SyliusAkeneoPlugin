@@ -46,3 +46,8 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules
                 repository: Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository
+        akeneo.asset:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\Asset
+                repository: Synolia\SyliusAkeneoPlugin\Repository\AssetRepository

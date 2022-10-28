@@ -7,12 +7,16 @@ namespace Synolia\SyliusAkeneoPlugin;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeTypeMatcherCompilerPass;
+use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValueValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentityAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
 
@@ -43,10 +47,20 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle
             ->registerForAutoconfiguration(ProductAttributeValueValueBuilderInterface::class)
             ->addTag(ProductAttributeValueValueBuilderInterface::TAG_ID)
         ;
+        $container
+            ->registerForAutoconfiguration(AssetAttributeValueBuilderInterface::class)
+            ->addTag(AssetAttributeValueBuilderInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(AssetAttributeTypeMatcherInterface::class)
+            ->addTag(AssetAttributeTypeMatcherInterface::TAG_ID)
+        ;
 
         $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
+        $container->addCompilerPass(new AkeneoAssetAttributeValueBuilderCompilerPass());
+        $container->addCompilerPass(new AkeneoAssetAttributeTypeMatcherCompilerPass());
     }
 
     public function __toString(): string

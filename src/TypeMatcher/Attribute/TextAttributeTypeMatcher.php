@@ -9,7 +9,11 @@ use Synolia\SyliusAkeneoPlugin\Builder\Attribute\TextProductAttributeValueValueB
 
 final class TextAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    private const SUPPORTED_TYPES = ['pim_catalog_identifier', 'pim_catalog_text', 'text'];
+    private const SUPPORTED_TYPES = [
+        'pim_catalog_identifier',
+        'pim_catalog_text',
+        'text',
+    ];
 
     public function getType(): string
     {
