@@ -19,6 +19,9 @@ install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=1.12.*] [SYMFONY_VER
 .PHONY: install
 
 reset: ## Remove dependencies
+ifneq ("$(wildcard tests/Application/bin/console)","")
+	${CONSOLE} doctrine:database:drop --force --if-exists || true
+endif
 	rm -rf tests/Application
 .PHONY: reset
 
@@ -33,13 +36,13 @@ sylius: sylius-standard install-plugin update-dependencies install-sylius
 .PHONY: sylius
 
 sylius-standard:
-ifeq ($(SYLIUS_VERSION), 1.12.x-dev)
+ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
 	${COMPOSER_ROOT} create-project sylius/sylius-standard:${SYLIUS_VERSION} ${TEST_DIRECTORY} --no-install --no-scripts
 else
 	${COMPOSER_ROOT} create-project sylius/sylius-standard ${TEST_DIRECTORY} "~${SYLIUS_VERSION}" --no-install --no-scripts
 endif
 	${COMPOSER} config allow-plugins true
-ifeq ($(SYLIUS_VERSION), 1.12.x-dev)
+ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
 	${COMPOSER} require sylius/sylius:"${SYLIUS_VERSION}"
 else
 	${COMPOSER} require sylius/sylius:"~${SYLIUS_VERSION}"
