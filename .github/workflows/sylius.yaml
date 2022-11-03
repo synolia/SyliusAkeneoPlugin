@@ -30,7 +30,7 @@ jobs:
                     - 5.2
                     - 5.3
                     - 5.4
-                    - 6.0
+                    - 6.1
                 node:
                     - 14.x
                 exclude:
@@ -88,19 +88,22 @@ jobs:
                         php: 7.4
                     -
                         sylius: 1.9.0
-                        symfony: 6.0
+                        symfony: 6.1
                     -
                         sylius: 1.10.0
-                        symfony: 6.0
+                        symfony: 6.1
                     -
                         sylius: 1.11.0
-                        symfony: 6.0
+                        symfony: 6.1
                     -
                         sylius: 1.12.0
                         symfony: 4.4
                     -
                         sylius: 1.12.0
                         php: 7.4
+                    -
+                        php: 8.0
+                        symfony: 6.1
         env:
             APP_ENV: test
             package-name: synolia/sylius-akeneo-plugin

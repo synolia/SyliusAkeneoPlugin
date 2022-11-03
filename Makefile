@@ -6,16 +6,16 @@ CONSOLE=cd tests/Application && php bin/console -e test
 COMPOSER=cd tests/Application && composer
 YARN=cd tests/Application && yarn
 
-SYLIUS_VERSION=1.12.*
-SYMFONY_VERSION=6.0
-PHP_VERSION=8.0
+SYLIUS_VERSION=1.12.0
+SYMFONY_VERSION=6.1
+PHP_VERSION=8.1
 PLUGIN_NAME=synolia/sylius-akeneo-plugin
 
 ###
 ### DEVELOPMENT
 ### ¯¯¯¯¯¯¯¯¯¯¯
 
-install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=1.12.*] [SYMFONY_VERSION=6.0] [PHP_VERSION=8.0]
+install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=1.12.0] [SYMFONY_VERSION=6.1] [PHP_VERSION=8.1]
 .PHONY: install
 
 reset: ## Remove dependencies

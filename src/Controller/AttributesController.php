@@ -9,7 +9,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
@@ -18,7 +17,6 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\AttributesTypeMappingType;
 use Synolia\SyliusAkeneoPlugin\Manager\SettingsManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
-use Webmozart\Assert\Assert;
 
 final class AttributesController extends AbstractController
 {
@@ -55,7 +53,6 @@ final class AttributesController extends AbstractController
         try {
             $this->apiConnectionProvider->get();
         } catch (ApiNotConfiguredException $apiNotConfiguredException) {
-            Assert::isInstanceOf($request->getSession(), Session::class);
             $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
@@ -94,7 +91,6 @@ final class AttributesController extends AbstractController
             }
 
             $this->entityManager->flush();
-            Assert::isInstanceOf($request->getSession(), Session::class);
             $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_attributes');

@@ -10,7 +10,6 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -75,10 +74,8 @@ final class ApiConfigurationController extends AbstractController
                     $this->entityManager->flush();
                 }
 
-                Assert::isInstanceOf($request->getSession(), Session::class);
                 $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.authentication_successfully_succeeded'));
             } catch (\Throwable $throwable) {
-                Assert::isInstanceOf($request->getSession(), Session::class);
                 $request->getSession()->getFlashBag()->add('error', $throwable->getMessage());
             }
         }

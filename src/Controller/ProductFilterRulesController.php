@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
@@ -17,7 +16,6 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
-use Webmozart\Assert\Assert;
 
 final class ProductFilterRulesController extends AbstractController
 {
@@ -46,7 +44,6 @@ final class ProductFilterRulesController extends AbstractController
         try {
             $this->apiConnectionProvider->get();
         } catch (ApiNotConfiguredException $apiNotConfiguredException) {
-            Assert::isInstanceOf($request->getSession(), Session::class);
             $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
@@ -82,7 +79,6 @@ final class ProductFilterRulesController extends AbstractController
         $this->entityManager->persist($form->getData());
         $this->entityManager->flush();
 
-        Assert::isInstanceOf($request->getSession(), Session::class);
         $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
     }
 }
