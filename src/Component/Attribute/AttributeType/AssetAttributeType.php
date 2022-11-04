@@ -8,7 +8,7 @@ use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class AssetAttributeType implements AttributeTypeInterface
+final class AssetAttributeType implements AttributeTypeInterface
 {
     public const TYPE = 'asset';
 

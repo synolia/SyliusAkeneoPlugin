@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute;
 use Sylius\Component\Attribute\AttributeType\TextAttributeType;
 use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\MediaLinkAssetAttributeValueBuilder;
 
-class MediaLinkAssetAttributeTypeMatcher implements AssetAttributeTypeMatcherInterface
+final class MediaLinkAssetAttributeTypeMatcher implements AssetAttributeTypeMatcherInterface
 {
     private const SUPPORTED_TYPE = 'media_link';
 

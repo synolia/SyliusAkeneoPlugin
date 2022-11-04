@@ -25,7 +25,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
 /**
  * @SuppressWarnings(PHPMD.NPathComplexity)
  */
-class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
+final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
     private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
 

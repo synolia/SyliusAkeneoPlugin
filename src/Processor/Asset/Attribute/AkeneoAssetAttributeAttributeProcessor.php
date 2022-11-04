@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProviderInterface
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
-class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttributeProcessorInterface
+final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttributeProcessorInterface
 {
     private AssetValueBuilderProviderInterface $assetValueBuilderProvider;
 

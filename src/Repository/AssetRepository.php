@@ -13,6 +13,6 @@ use Synolia\SyliusAkeneoPlugin\Entity\Asset;
  * @method Asset[]    findAll()
  * @method Asset[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AssetRepository extends EntityRepository
+final class AssetRepository extends EntityRepository
 {
 }

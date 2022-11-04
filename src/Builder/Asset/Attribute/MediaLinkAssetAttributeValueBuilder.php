@@ -8,7 +8,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\Asset\AkeneoAssetAttributePropertiesProv
 use Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\MediaLinkAssetAttributeTypeMatcher;
 
-class MediaLinkAssetAttributeValueBuilder implements AssetAttributeValueBuilderInterface
+final class MediaLinkAssetAttributeValueBuilder implements AssetAttributeValueBuilderInterface
 {
     private AssetAttributeTypeMatcherProviderInterface $assetAttributeTypeMatcherProvider;
 
