@@ -8,14 +8,11 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
 final class AkeneoAssetAttributePropertiesProvider implements AkeneoAssetAttributePropertiesProviderInterface
 {
-    /** @var bool */
-    private $loadsAllAttributesAtOnce = true;
+    private bool $loadsAllAttributesAtOnce = true;
 
-    /** @var array */
-    private $attributes = [];
+    private array $attributes = [];
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private $client;
+    private AkeneoPimEnterpriseClientInterface $client;
 
     public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
     {
