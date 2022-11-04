@@ -12,6 +12,8 @@ use Synolia\SyliusAkeneoPlugin\Processor\AbstractImageProcessor;
 
 final class ImagesProcessor extends AbstractImageProcessor implements ImagesProcessorInterface
 {
+    private ?bool $isSupported = null;
+
     public function process(ProductVariantInterface $productVariant, array $resource): void
     {
         try {
@@ -25,16 +27,20 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
         }
     }
 
-    public function support(ProductVariantInterface $product, array $resource): bool
+    public function support(ProductVariantInterface $productVariant, array $resource): bool
     {
+        if ($this->isSupported !== null) {
+            return $this->isSupported;
+        }
+
         $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
 
         if (null === $imageAttributes || 0 === \count($imageAttributes)) {
             $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 
-            return false;
+            return $this->isSupported = false;
         }
 
-        return true;
+        return $this->isSupported = true;
     }
 }

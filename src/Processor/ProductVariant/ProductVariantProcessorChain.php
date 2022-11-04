@@ -11,19 +11,19 @@ use Traversable;
 final class ProductVariantProcessorChain implements ProductVariantProcessorChainInterface
 {
     /** @var array<ProductVariantProcessorInterface> */
-    private array $productProcessors;
+    private array $productVariantProcessors;
 
     private LoggerInterface $logger;
 
     public function __construct(Traversable $handlers, LoggerInterface $logger)
     {
-        $this->productProcessors = iterator_to_array($handlers);
+        $this->productVariantProcessors = iterator_to_array($handlers);
         $this->logger = $logger;
     }
 
     public function chain(ProductVariantInterface $productVariant, array $resource): void
     {
-        foreach ($this->productProcessors as $processor) {
+        foreach ($this->productVariantProcessors as $processor) {
             if ($processor->support($productVariant, $resource)) {
                 $this->logger->debug(sprintf('Begin %s', \get_class($processor)), [
                     'product_variant_code' => $productVariant->getCode(),

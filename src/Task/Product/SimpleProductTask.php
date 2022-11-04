@@ -21,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorChainInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Throwable;
@@ -33,6 +34,8 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
     private ProductProcessorChainInterface $productProcessorChain;
 
+    private ProductVariantProcessorChainInterface $productVariantProcessorChain;
+
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -40,28 +43,25 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         RepositoryInterface $productRepository,
         ChannelRepository $channelRepository,
         RepositoryInterface $productVariantRepository,
-        RepositoryInterface $channelPricingRepository,
         LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
         FactoryInterface $productFactory,
         ProductVariantFactoryInterface $productVariantFactory,
-        FactoryInterface $channelPricingFactory,
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         EventDispatcherInterface $dispatcher,
         ProductChannelEnablerProcessorInterface $productChannelEnabler,
-        ProductProcessorChainInterface $productProcessorChain
+        ProductProcessorChainInterface $productProcessorChain,
+        ProductVariantProcessorChainInterface $productVariantProcessorChain
     ) {
         parent::__construct(
             $entityManager,
             $productVariantRepository,
             $productRepository,
             $channelRepository,
-            $channelPricingRepository,
             $localeRepository,
             $productConfigurationRepository,
             $productVariantFactory,
-            $channelPricingFactory,
             $akeneoLogger,
             $productChannelEnabler
         );
@@ -69,6 +69,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         $this->productFactory = $productFactory;
         $this->dispatcher = $dispatcher;
         $this->productProcessorChain = $productProcessorChain;
+        $this->productVariantProcessorChain = $productVariantProcessorChain;
     }
 
     /**
@@ -88,7 +89,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
             $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $product));
 
             $productVariant = $this->getOrCreateSimpleVariant($product);
-            $this->setProductPrices($productVariant, $resource['values']);
+            $this->productVariantProcessorChain->chain($productVariant, $resource);
 
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
 
