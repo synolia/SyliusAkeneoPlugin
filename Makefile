@@ -6,19 +6,22 @@ CONSOLE=cd tests/Application && php bin/console -e test
 COMPOSER=cd tests/Application && composer
 YARN=cd tests/Application && yarn
 
-SYLIUS_VERSION=1.11.0
-SYMFONY_VERSION=5.4
-PHP_VERSION=8.0
+SYLIUS_VERSION=1.12.0
+SYMFONY_VERSION=6.1
+PHP_VERSION=8.1
 PLUGIN_NAME=synolia/sylius-akeneo-plugin
 
 ###
 ### DEVELOPMENT
 ### ¯¯¯¯¯¯¯¯¯¯¯
 
-install: sylius ## Install Plugin on Sylius [SyliusVersion=1.11] [SymfonyVersion=5.4] [PHP_VERSION=8.0]
+install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=1.12.0] [SYMFONY_VERSION=6.1] [PHP_VERSION=8.1]
 .PHONY: install
 
 reset: ## Remove dependencies
+ifneq ("$(wildcard tests/Application/bin/console)","")
+	${CONSOLE} doctrine:database:drop --force --if-exists || true
+endif
 	rm -rf tests/Application
 .PHONY: reset
 
@@ -33,9 +36,17 @@ sylius: sylius-standard install-plugin update-dependencies install-sylius
 .PHONY: sylius
 
 sylius-standard:
+ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
+	${COMPOSER_ROOT} create-project sylius/sylius-standard:${SYLIUS_VERSION} ${TEST_DIRECTORY} --no-install --no-scripts
+else
 	${COMPOSER_ROOT} create-project sylius/sylius-standard ${TEST_DIRECTORY} "~${SYLIUS_VERSION}" --no-install --no-scripts
+endif
 	${COMPOSER} config allow-plugins true
+ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
+	${COMPOSER} require sylius/sylius:"${SYLIUS_VERSION}"
+else
 	${COMPOSER} require sylius/sylius:"~${SYLIUS_VERSION}"
+endif
 
 install-plugin:
 	${COMPOSER} config repositories.plugin '{"type": "path", "url": "../../"}'
@@ -50,15 +61,9 @@ install-plugin:
 update-dependencies:
 	${COMPOSER} config extra.symfony.require "^${SYMFONY_VERSION}"
 	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
-# FIX since https://github.com/Sylius/Sylius/pull/13215 is not merged
-	${COMPOSER} require doctrine/dbal:"^2.6" doctrine/orm:"^2.9" --no-scripts --no-update
 ifeq ($(shell [[ $(SYMFONY_VERSION) == 4.4 && $(PHP_VERSION) == 7.4 ]] && echo true ),true)
 	${COMPOSER} require sylius/admin-api-bundle:1.10.0 --no-scripts --no-update
 endif
-ifeq ($(SYLIUS_VERSION), 1.8.0)
-	${COMPOSER} update --no-progress --no-scripts --prefer-dist -n
-endif
-
 	${COMPOSER} update --no-progress -n
 
 install-sylius:

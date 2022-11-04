@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformer;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
 /**
@@ -123,7 +124,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     private function assertProductOptionValuesTranslations(ProductOption $productOption): void
     {
         /** @var ProductOptionValueDataTransformerInterface $optionValueDataTransformer */
-        $optionValueDataTransformer = $this->getContainer()->get(ProductOptionValueDataTransformerInterface::class);
+        $optionValueDataTransformer = $this->getContainer()->get(ProductOptionValueDataTransformer::class);
 
         /** @var \Sylius\Component\Resource\Repository\RepositoryInterface $productOptionValueRepository */
         $productOptionValueRepository = $this->getContainer()->get('sylius.repository.product_option_value');

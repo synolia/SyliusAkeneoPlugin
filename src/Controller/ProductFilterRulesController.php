@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
@@ -24,8 +23,6 @@ final class ProductFilterRulesController extends AbstractController
 
     private ProductFiltersRulesRepository $productFiltersRulesRepository;
 
-    private FlashBagInterface $flashBag;
-
     private TranslatorInterface $translator;
 
     private ApiConnectionProviderInterface $apiConnectionProvider;
@@ -33,13 +30,11 @@ final class ProductFilterRulesController extends AbstractController
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductFiltersRulesRepository $productFiltersRulesRepository,
-        FlashBagInterface $flashBag,
         TranslatorInterface $translator,
         ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->entityManager = $entityManager;
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
-        $this->flashBag = $flashBag;
         $this->translator = $translator;
         $this->apiConnectionProvider = $apiConnectionProvider;
     }
@@ -49,7 +44,7 @@ final class ProductFilterRulesController extends AbstractController
         try {
             $this->apiConnectionProvider->get();
         } catch (ApiNotConfiguredException $apiNotConfiguredException) {
-            $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
+            $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
         }
@@ -66,11 +61,11 @@ final class ProductFilterRulesController extends AbstractController
         $advancedForm->handleRequest($request);
 
         if ($simpleForm->isSubmitted() && $simpleForm->isValid()) {
-            $this->update($simpleForm);
+            $this->update($request, $simpleForm);
         }
 
         if ($advancedForm->isSubmitted() && $advancedForm->isValid()) {
-            $this->update($advancedForm);
+            $this->update($request, $advancedForm);
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/filters_configuration.html.twig', [
@@ -79,11 +74,11 @@ final class ProductFilterRulesController extends AbstractController
         ]);
     }
 
-    private function update(FormInterface $form): void
+    private function update(Request $request, FormInterface $form): void
     {
         $this->entityManager->persist($form->getData());
         $this->entityManager->flush();
 
-        $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
+        $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
     }
 }

@@ -9,7 +9,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
@@ -27,8 +26,6 @@ final class AttributesController extends AbstractController
 
     private RepositoryInterface $attributeTypeMappingRepository;
 
-    private FlashBagInterface $flashBag;
-
     private TranslatorInterface $translator;
 
     private RepositoryInterface $attributeAkeneoSyliusMappingRepository;
@@ -40,7 +37,6 @@ final class AttributesController extends AbstractController
         SettingsManagerInterface $settingsManager,
         RepositoryInterface $attributeTypeMappingRepository,
         RepositoryInterface $attributeAkeneoSyliusMappingRepository,
-        FlashBagInterface $flashBag,
         TranslatorInterface $translator,
         ApiConnectionProviderInterface $apiConnectionProvider
     ) {
@@ -48,7 +44,6 @@ final class AttributesController extends AbstractController
         $this->settingsManager = $settingsManager;
         $this->attributeTypeMappingRepository = $attributeTypeMappingRepository;
         $this->attributeAkeneoSyliusMappingRepository = $attributeAkeneoSyliusMappingRepository;
-        $this->flashBag = $flashBag;
         $this->translator = $translator;
         $this->apiConnectionProvider = $apiConnectionProvider;
     }
@@ -58,7 +53,7 @@ final class AttributesController extends AbstractController
         try {
             $this->apiConnectionProvider->get();
         } catch (ApiNotConfiguredException $apiNotConfiguredException) {
-            $this->flashBag->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
+            $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
         }
@@ -96,7 +91,7 @@ final class AttributesController extends AbstractController
             }
 
             $this->entityManager->flush();
-            $this->flashBag->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
+            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('akeneo.ui.admin.changes_successfully_saved'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_attributes');
         }

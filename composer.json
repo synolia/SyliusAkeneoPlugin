@@ -23,12 +23,12 @@
         "php-http/guzzle6-adapter": "^2.0",
         "psr/event-dispatcher": "^1.0",
         "sylius/sylius": "^1.9",
-        "symfony/framework-bundle": "^4.4|^5.1",
-        "symfony/lock": "^4.3|^5.1",
-        "symfony/property-access": "^4.3|^5.1",
-        "symfony/property-info": "^4.3|^5.1",
-        "symfony/serializer": "^4.3|^5.1",
-        "symfony/service-contracts": "^1.1|^2.0",
+        "symfony/framework-bundle": "^4.4|^5.1|^6.0",
+        "symfony/lock": "^4.3|^5.1|^6.0",
+        "symfony/property-access": "^4.3|^5.1|^6.0",
+        "symfony/property-info": "^4.3|^5.1|^6.0",
+        "symfony/serializer": "^4.3|^5.1|^6.0",
+        "symfony/service-contracts": "^1.1|^2.0|^3.0",
         "webmozart/assert": "^1.8"
     },
     "require-dev": {
@@ -66,7 +66,7 @@
     },
     "extra": {
         "symfony": {
-            "require": "^4.3 || ^5.2"
+            "require": "^4.3 || ^5.2 || ^6.0"
         }
     },
     "scripts": {

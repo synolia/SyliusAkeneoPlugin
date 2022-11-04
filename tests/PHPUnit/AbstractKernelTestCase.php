@@ -11,6 +11,6 @@ abstract class AbstractKernelTestCase extends KernelTestCase
 {
     protected static function getContainer(): ContainerInterface
     {
-        return static::$container;
+        return self::$kernel->getContainer();
     }
 }

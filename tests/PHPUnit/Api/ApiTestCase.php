@@ -8,7 +8,6 @@ use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -33,7 +32,7 @@ abstract class ApiTestCase extends AbstractKernelTestCase
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = $this->getContainer()->get(EntityManagerInterface::class);
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
         $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
         $this->server->setResponseOfPath(
