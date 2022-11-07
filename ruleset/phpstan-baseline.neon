@@ -171,11 +171,6 @@ parameters:
 			path: ../src/Controller/ProductsController.php
 
 		-
-			message: "#^Method Synolia\\\\SyliusAkeneoPlugin\\\\Entity\\\\Asset\\:\\:getProductVariants\\(\\) has invalid return type App\\\\Entity\\\\Product\\\\ProductVariant\\.$#"
-			count: 1
-			path: ../src/Entity/Asset.php
-
-		-
 			message: "#^Method Synolia\\\\SyliusAkeneoPlugin\\\\Entity\\\\Asset\\:\\:getProductVariants\\(\\) should return Doctrine\\\\Common\\\\Collections\\\\Collection&iterable\\<App\\\\Entity\\\\Product\\\\ProductVariant\\> but returns Doctrine\\\\Common\\\\Collections\\\\Collection&iterable\\<Sylius\\\\Component\\\\Core\\\\Model\\\\ProductVariantInterface\\>\\.$#"
 			count: 1
 			path: ../src/Entity/Asset.php
