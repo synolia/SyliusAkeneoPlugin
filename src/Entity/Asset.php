@@ -19,55 +19,29 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 class Asset implements AssetInterface
 {
     /**
-     * @var int
-     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="family_code", type="string", length=255)
-     */
-    private $familyCode;
+    /** @ORM\Column(name="family_code", type="string", length=255) */
+    private string $familyCode;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="asset_code", type="string", length=255)
-     */
-    private $assetCode;
+    /** @ORM\Column(name="asset_code", type="string", length=255) */
+    private string $assetCode;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="attribute_code", type="string", length=255)
-     */
-    private $attributeCode;
+    /** @ORM\Column(name="attribute_code", type="string", length=255) */
+    private string $attributeCode;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
+    /** @ORM\Column(type="string", length=255) */
+    private string $type;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $locale;
+    /** @ORM\Column(type="string", length=255) */
+    private string $locale;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $scope;
+    /** @ORM\Column(type="string", length=255) */
+    private string $scope;
 
     /**
      * @var Collection|ProductInterface[]
@@ -78,7 +52,7 @@ class Asset implements AssetInterface
      *    inverseJoinColumns={@ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")},
      * )
      */
-    private $owner;
+    private Collection $owner;
 
     /**
      * @var Collection|ProductVariantInterface[]
@@ -89,14 +63,10 @@ class Asset implements AssetInterface
      *    inverseJoinColumns={@ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
-    private $productVariants;
+    private Collection $productVariants;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(type="json")
-     */
-    private $content = [];
+    /** @ORM\Column(type="json") */
+    private array $content = [];
 
     public function __construct()
     {
