@@ -8,11 +8,20 @@ If you don't have any client id, please take a look at [this page](https://api.a
 
 ## Configure authentication in the plugin
 
-* Login as administrator in your Sylius Back-office
-* Go to menu Akeneo > Api configuration
-* Set you credentials and save it (you can test it, if needed)
-* The pagination allows you to make larger or smaller requests for the recovery of Akeneo data. The maximum value is 100.
-* Check the box **Is Akeneo enterprise edition** if you are planning to use Akeneo Enterprise Edition features like importing reference entities.
+The Akeneo API configuration can be setup using env variables.
+
+```dotenv
+SYNOLIA_AKENEO_BASE_URL=https://
+SYNOLIA_AKENEO_CLIENT_ID=
+SYNOLIA_AKENEO_CLIENT_SECRET=
+SYNOLIA_AKENEO_USERNAME=
+SYNOLIA_AKENEO_PASSWORD=
+
+# See Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum
+SYNOLIA_AKENEO_EDITION=ee
+# Integer between 1 and 100
+SYNOLIA_AKENEO_PAGINATION=100
+```
 
 ![Api Configuration](media/api_configuration.png)
 ---

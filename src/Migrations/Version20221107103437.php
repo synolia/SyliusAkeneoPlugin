@@ -10,11 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20221031154029 extends AbstractMigration
+final class Version20221107103437 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Added Assets table';
+        return 'Added asset table';
     }
 
     public function up(Schema $schema): void
