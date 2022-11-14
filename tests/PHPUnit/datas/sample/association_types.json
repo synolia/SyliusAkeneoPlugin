@@ -1,0 +1,63 @@
+{
+  "_links": {
+    "self": {
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/association-types?page=1&limit=10&with_count=false"
+    },
+    "first": {
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/association-types?page=1&limit=10&with_count=false"
+    }
+  },
+  "current_page": 1,
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/association-types\/PACK"
+          }
+        },
+        "code": "PACK",
+        "labels": {
+          "en_US": "Pack",
+          "fr_FR": "Pack"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/association-types\/SUBSTITUTION"
+          }
+        },
+        "code": "SUBSTITUTION",
+        "labels": {
+          "en_US": "Substitution",
+          "fr_FR": "Substitution"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/association-types\/UPSELL"
+          }
+        },
+        "code": "UPSELL",
+        "labels": {
+          "en_US": "Upsell",
+          "fr_FR": "Upsell"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/association-types\/X_SELL"
+          }
+        },
+        "code": "X_SELL",
+        "labels": {
+          "en_US": "Cross sell",
+          "fr_FR": "Cross sell"
+        }
+      }
+    ]
+  }
+}

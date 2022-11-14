@@ -68,6 +68,7 @@ final class FamilyVariationAxeProcessor
         }
 
         $productGroup->setVariationAxes([]);
+        $productGroup->setAssociations($resource['associations']);
         $this->addAxes($this->familyVariants[$family], $family, $resource, $productGroup);
     }
 

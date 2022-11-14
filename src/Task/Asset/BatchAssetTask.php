@@ -35,7 +35,6 @@ final class BatchAssetTask extends AbstractBatchTask
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         $this->logger->debug(self::class);
-        $resources = [];
 
         $query = $this->getSelectStatement($payload);
         $query->executeStatement();
@@ -44,7 +43,6 @@ final class BatchAssetTask extends AbstractBatchTask
             foreach ($results as $result) {
                 try {
                     $resource = \json_decode($result['values'], true);
-                    $resources[] = $resource;
 
                     $this->retrieveAssets($payload, $resource);
                     $this->removeEntry($payload, (int) $result['id']);
@@ -54,6 +52,7 @@ final class BatchAssetTask extends AbstractBatchTask
                 }
             }
         }
+
         $this->entityManager->flush();
 
         return $payload;

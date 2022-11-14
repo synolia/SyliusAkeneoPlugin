@@ -252,7 +252,10 @@
           },
           "SUBSTITUTION": {
             "products": [],
-            "product_models": [],
+            "product_models": [
+              "apollon_blue",
+              "apollon_green"
+            ],
             "groups": []
           },
           "UPSELL": {
@@ -378,7 +381,139 @@
           },
           "SUBSTITUTION": {
             "products": [],
+            "product_models": [
+              "apollon_yellow",
+              "apollon_green"
+            ],
+            "groups": []
+          },
+          "UPSELL": {
+            "products": [],
             "product_models": [],
+            "groups": []
+          },
+          "X_SELL": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          }
+        },
+        "metadata": {
+          "workflow_status": "working_copy"
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/product-models\/apollon_green"
+          }
+        },
+        "code": "apollon_green",
+        "family": "clothing",
+        "family_variant": "clothing_color_size",
+        "parent": "apollon",
+        "categories": [
+          "master_men_blazers_deals",
+          "supplier_zaro"
+        ],
+        "values": {
+          "supplier": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "zaro"
+            }
+          ],
+          "wash_temperature": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "600"
+            }
+          ],
+          "color": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "blue"
+            }
+          ],
+          "collection": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                "winter_2016"
+              ]
+            }
+          ],
+          "price": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": [
+                {
+                  "amount": "899.00",
+                  "currency": "EUR"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "Long gray suit jacket and matching pants unstructured Apollon blue"
+            }
+          ],
+          "erp_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon"
+            }
+          ],
+          "variation_name": [
+            {
+              "locale": "en_US",
+              "scope": null,
+              "data": "Apollon blue"
+            }
+          ],
+          "description": [
+            {
+              "locale": "en_US",
+              "scope": "ecommerce",
+              "data": "Long gray suit jacket and matching pants unstructured. 61% wool, 30% polyester, 9% ramie. Dry clean only."
+            }
+          ],
+          "image": [
+            {
+              "locale": null,
+              "scope": null,
+              "data": "3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg",
+              "_links": {
+                "download": {
+                  "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/media-files\/3\/b\/b\/7\/3bb7011ca12e593cee25631f541bc2d53c19733a_apollon.jpg\/download"
+                }
+              }
+            }
+          ]
+        },
+        "created": "2020-02-13T08:34:26+01:00",
+        "updated": "2020-02-13T08:34:26+01:00",
+        "associations": {
+          "PACK": {
+            "products": [],
+            "product_models": [],
+            "groups": []
+          },
+          "SUBSTITUTION": {
+            "products": [],
+            "product_models": [
+              "apollon_yellow",
+              "apollon_blue"
+            ],
             "groups": []
           },
           "UPSELL": {

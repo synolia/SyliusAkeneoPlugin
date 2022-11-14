@@ -37,4 +37,15 @@ interface ProductGroupInterface extends ResourceInterface
     public function addProduct(ProductInterface $product): self;
 
     public function removeProduct(ProductInterface $product): self;
+
+    /**
+     * @return array|string[]
+     */
+    public function getAssociations(): array;
+
+    public function setAssociations(array $associations): self;
+
+    public function addAssociation(string $association): self;
+
+    public function removeAssociation(string $association): self;
 }

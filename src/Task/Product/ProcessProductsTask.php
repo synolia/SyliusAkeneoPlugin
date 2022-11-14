@@ -10,7 +10,7 @@ use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
+use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductsTask extends AbstractProcessTask
 {
-    private ProductFilter $productFilter;
+    private ProductFilterInterface $productFilter;
 
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
@@ -28,7 +28,7 @@ final class ProcessProductsTask extends AbstractProcessTask
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchProductsTask $task,
-        ProductFilter $productFilter,
+        ProductFilterInterface $productFilter,
         ApiConnectionProviderInterface $apiConnectionProvider,
         string $projectDir
     ) {
