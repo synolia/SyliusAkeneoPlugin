@@ -1,0 +1,90 @@
+{
+  "_links": {
+    "self": {
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/assets"
+    },
+    "first": {
+      "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/assets"
+    }
+  },
+  "_embedded": {
+    "items": [
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/assets\/02B89FF4_DD7B_4325_9ECA204E3D993B90"
+          }
+        },
+        "code": "02B89FF4_DD7B_4325_9ECA204E3D993B90",
+        "values": {
+          "label": [
+            {
+              "locale": "fr_FR",
+              "channel": null,
+              "data": "not_imported"
+            }
+          ],
+          "media_url": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "http:\/\/akeneo.example.com\/m\/abc\/def.jpg"
+            }
+          ],
+          "thumbnail_url": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "http:\/\/akeneo.example.com\/m\/abc\/ijk.jpg"
+            }
+          ],
+          "mini_url": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "http:\/\/akeneo.example.com\/m\/abc\/lmn.jpg"
+            }
+          ]
+        }
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/assets\/02B89FF4_DD7B_4325_9ECA204E3D993B90"
+          }
+        },
+        "code": "02B89FF4_DD7B_4325_9ECA204E3D993B91",
+        "values": {
+          "label": [
+            {
+              "locale": "fr_FR",
+              "channel": null,
+              "data": "not_imported"
+            }
+          ],
+          "media_url": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "http:\/\/akeneo.example.com\/m\/abc\/def.jpg"
+            }
+          ],
+          "thumbnail_url": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "http:\/\/akeneo.example.com\/m\/abc\/ijk.jpg"
+            }
+          ],
+          "mini_url": [
+            {
+              "locale": null,
+              "channel": null,
+              "data": "http:\/\/akeneo.example.com\/m\/abc\/lmn.jpg"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

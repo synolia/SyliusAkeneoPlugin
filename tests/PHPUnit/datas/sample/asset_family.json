@@ -1,0 +1,10 @@
+{
+  "code": "bynder",
+  "labels": {
+    "fr_FR": "Bynder"
+  },
+  "attribute_as_main_media": "thumbnail_url",
+  "product_link_rules": [],
+  "transformations": [],
+  "naming_convention": {}
+}
