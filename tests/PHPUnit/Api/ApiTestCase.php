@@ -52,7 +52,7 @@ abstract class ApiTestCase extends AbstractKernelTestCase
         parent::tearDown();
     }
 
-    protected function iniSyliusLocales(): void
+    protected function initSyliusLocales(): void
     {
         $localesToAdd = [
             'fr_FR',

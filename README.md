@@ -61,36 +61,82 @@
         resource: "@SynoliaSyliusAkeneoPlugin/Resources/config/routes.yaml"
         prefix: '/%sylius_admin.path_name%'
     ```
+
+5. Add Asset trait to Product.php and ProductVariant.php entities
+
+   ```php
+   <?php
+
+   declare(strict_types=1);
+
+   namespace App\Entity\Product;
    
-5. Apply plugin migrations to your database:
+   use Doctrine\ORM\Mapping as ORM;
+   use Synolia\SyliusAkeneoPlugin\Entity\ProductAssetTrait;
+
+   /**
+    * @ORM\Entity
+    * @ORM\Table(name="sylius_product")
+    */
+    class Product
+    {
+        ...
+        use ProductAssetTrait {
+            __construct as private initializeAssetsCollection;
+        }
+   
+        public function __construct()
+        {
+            parent::__construct();
+
+            $this->initializeAssetsCollection();
+        }
+        ...
+    }
+   ```
+
+   ```php
+   <?php
+
+   declare(strict_types=1);
+
+   namespace App\Entity\Product;
+   
+   use Doctrine\ORM\Mapping as ORM;
+   use Synolia\SyliusAkeneoPlugin\Entity\ProductVariantAssetTrait;
+
+   /**
+    * @ORM\Entity
+    * @ORM\Table(name="sylius_product_variant")
+    */
+    class ProductVariant
+    {
+        ...
+        use ProductVariantAssetTrait {
+            __construct as private initializeAssetsCollection;
+        }
+   
+        public function __construct()
+        {
+            parent::__construct();
+
+            $this->initializeAssetsCollection();
+        }
+        ...
+    }
+   ```
+
+6. Apply plugin migrations to your database:
 
     ```shell
     bin/console doctrine:migrations:migrate
     ```
    
-6. Clear cache
+7. Clear cache
 
     ```shell
     bin/console cache:clear
     ```
-
-## Configuration
-
-### API Configuration
-The Akeneo API configuration can be setup using env variables.
-
-```dotenv
-SYNOLIA_AKENEO_BASE_URL=http://
-SYNOLIA_AKENEO_CLIENT_ID=
-SYNOLIA_AKENEO_CLIENT_SECRET=
-SYNOLIA_AKENEO_USERNAME=
-SYNOLIA_AKENEO_PASSWORD=
-
-# See Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum
-SYNOLIA_AKENEO_EDITION=ee
-# Interget between 1 and 100
-SYNOLIA_AKENEO_PAGINATION=100
-```
 
 ## Development
 
@@ -99,9 +145,10 @@ SYNOLIA_AKENEO_PAGINATION=100
 
 ## Akeneo Enterprise Edition
 
-### Reference Entity
+### Reference Entity and Asset attribute types
 
-[Everything you need to know about Reference Entity in Sylius](docs/reference_entity/REFERENCE_ENTITY.md)
+* [Everything you need to know about Reference Entity in Sylius](docs/reference_entity/REFERENCE_ENTITY.md)
+* [Everything you need to know about Asset in Sylius](docs/asset/ASSET.md)
 
 ## License
 

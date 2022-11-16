@@ -1,0 +1,229 @@
+[
+  {
+    "code": "label",
+    "labels": {
+      "fr_FR": "Label"
+    },
+    "type": "text",
+    "value_per_locale": true,
+    "value_per_channel": false,
+    "is_required_for_completeness": true,
+    "is_read_only": false,
+    "max_characters": null,
+    "is_textarea": false,
+    "is_rich_text_editor": false,
+    "validation_rule": "none",
+    "validation_regexp": null,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/label"
+      }
+    }
+  },
+  {
+    "code": "media_url",
+    "labels": {
+      "fr_FR": "Media URL"
+    },
+    "type": "media_link",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": true,
+    "is_read_only": false,
+    "media_type": "image",
+    "prefix": null,
+    "suffix": null,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/media_url"
+      }
+    }
+  },
+  {
+    "code": "thumbnail_url",
+    "labels": {
+      "fr_FR": "Thumbnail URL"
+    },
+    "type": "media_link",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": true,
+    "is_read_only": false,
+    "media_type": "image",
+    "prefix": null,
+    "suffix": null,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/thumbnail_url"
+      }
+    }
+  },
+  {
+    "code": "mini_url",
+    "labels": {
+      "fr_FR": "Mini URL"
+    },
+    "type": "media_link",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": true,
+    "is_read_only": false,
+    "media_type": "image",
+    "prefix": null,
+    "suffix": null,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/mini_url"
+      }
+    }
+  },
+  {
+    "code": "marque",
+    "labels": {
+      "fr_FR": "Marque"
+    },
+    "type": "single_option",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/marque"
+      }
+    }
+  },
+  {
+    "code": "collection",
+    "labels": {
+      "fr_FR": "Collection"
+    },
+    "type": "single_option",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/collection"
+      }
+    }
+  },
+  {
+    "code": "marche",
+    "labels": {
+      "fr_FR": "Marché"
+    },
+    "type": "multiple_options",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/marche"
+      }
+    }
+  },
+  {
+    "code": "famille",
+    "labels": {
+      "fr_FR": "Famille"
+    },
+    "type": "single_option",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/famille"
+      }
+    }
+  },
+  {
+    "code": "categorie",
+    "labels": {
+      "fr_FR": "Catégorie"
+    },
+    "type": "single_option",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/categorie"
+      }
+    }
+  },
+  {
+    "code": "usage",
+    "labels": {
+      "fr_FR": "Usage"
+    },
+    "type": "multiple_options",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/usage"
+      }
+    }
+  },
+  {
+    "code": "type_asset",
+    "labels": {
+      "fr_FR": "Type asset"
+    },
+    "type": "single_option",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/type_asset"
+      }
+    }
+  },
+  {
+    "code": "sous_dash_type_asset",
+    "labels": {
+      "fr_FR": "Sous-type asset"
+    },
+    "type": "single_option",
+    "value_per_locale": false,
+    "value_per_channel": false,
+    "is_required_for_completeness": false,
+    "is_read_only": false,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/sous_dash_type_asset"
+      }
+    }
+  },
+  {
+    "code": "texte_alternatif",
+    "labels": {
+      "fr_FR": "Texte alternatif"
+    },
+    "type": "text",
+    "value_per_locale": true,
+    "value_per_channel": true,
+    "is_required_for_completeness": true,
+    "is_read_only": false,
+    "max_characters": null,
+    "is_textarea": false,
+    "is_rich_text_editor": false,
+    "validation_rule": "none",
+    "validation_regexp": null,
+    "_links": {
+      "self": {
+        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/asset-families\/bynder\/attributes\/texte_alternatif"
+      }
+    }
+  }
+]

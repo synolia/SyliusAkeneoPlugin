@@ -8,7 +8,7 @@ The attribute configuration is stored as normal attribute. The configuration con
 
 ### On ProductAttributeValue entity
 
-The value we store in the json_vlue column is the raw value given by Akeneo when requesting the endpoint:
+The value we store in the json_value column is the raw value given by Akeneo when requesting the endpoint:
 `/api/rest/v1/reference-entities/{{ reference_entity_code }}/records/{{ record_value }}`
 
 ## How to find/edit them

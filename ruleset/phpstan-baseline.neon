@@ -26,12 +26,12 @@ parameters:
 			path: ../src/Builder/Attribute/MetricProductAttributeValueValueBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$pieces of function implode expects array, mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, mixed given\\.$#"
 			count: 1
 			path: ../src/Builder/Attribute/MetricProductAttributeValueValueBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$pieces of function implode expects array, mixed given\\.$#"
 			count: 1
 			path: ../src/Builder/Attribute/MetricProductAttributeValueValueBuilder.php
 
@@ -71,11 +71,6 @@ parameters:
 			path: ../src/Builder/Attribute/TextProductAttributeValueValueBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$str of function explode expects string, mixed given\\.$#"
-			count: 1
-			path: ../src/Command/BatchImportAssociationTypesCommand.php
-
-		-
 			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
 			count: 1
 			path: ../src/Command/BatchImportAssociationTypesCommand.php
@@ -83,7 +78,7 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$str of function explode expects string, mixed given\\.$#"
 			count: 1
-			path: ../src/Command/BatchImportAttributesCommand.php
+			path: ../src/Command/BatchImportAssociationTypesCommand.php
 
 		-
 			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
@@ -93,7 +88,7 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$str of function explode expects string, mixed given\\.$#"
 			count: 1
-			path: ../src/Command/BatchImportFamiliesCommand.php
+			path: ../src/Command/BatchImportAttributesCommand.php
 
 		-
 			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
@@ -103,7 +98,7 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$str of function explode expects string, mixed given\\.$#"
 			count: 1
-			path: ../src/Command/BatchImportProductModelsCommand.php
+			path: ../src/Command/BatchImportFamiliesCommand.php
 
 		-
 			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
@@ -112,11 +107,16 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$str of function explode expects string, mixed given\\.$#"
+			count: 1
+			path: ../src/Command/BatchImportProductModelsCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
 			count: 1
 			path: ../src/Command/BatchImportProductsCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$string of function explode expects string, mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$str of function explode expects string, mixed given\\.$#"
 			count: 1
 			path: ../src/Command/BatchImportProductsCommand.php
 
@@ -171,6 +171,11 @@ parameters:
 			path: ../src/Controller/ProductsController.php
 
 		-
+			message: "#^Method Synolia\\\\SyliusAkeneoPlugin\\\\Entity\\\\Asset\\:\\:getProductVariants\\(\\) should return Doctrine\\\\Common\\\\Collections\\\\Collection&iterable\\<App\\\\Entity\\\\Product\\\\ProductVariant\\> but returns Doctrine\\\\Common\\\\Collections\\\\Collection&iterable\\<Sylius\\\\Component\\\\Core\\\\Model\\\\ProductVariantInterface\\>\\.$#"
+			count: 1
+			path: ../src/Entity/Asset.php
+
+		-
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 2
 			path: ../src/Factory/PayloadFactory.php
@@ -184,6 +189,16 @@ parameters:
 			message: "#^Parameter \\#1 \\$isContinue of method Synolia\\\\SyliusAkeneoPlugin\\\\Command\\\\Context\\\\CommandContext\\:\\:setIsContinue\\(\\) expects bool, mixed given\\.$#"
 			count: 1
 			path: ../src/Factory/PayloadFactory.php
+
+		-
+			message: "#^Method Synolia\\\\SyliusAkeneoPlugin\\\\Form\\\\DataTransformer\\\\AssetEntityDataTransformer\\:\\:reverseTransform\\(\\) should return array\\|null but returns mixed\\.$#"
+			count: 1
+			path: ../src/Form/DataTransformer/AssetEntityDataTransformer.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: ../src/Form/DataTransformer/AssetEntityDataTransformer.php
 
 		-
 			message: "#^Method Synolia\\\\SyliusAkeneoPlugin\\\\Form\\\\DataTransformer\\\\ReferenceEntityDataTransformer\\:\\:reverseTransform\\(\\) should return array\\|null but returns mixed\\.$#"
@@ -211,12 +226,12 @@ parameters:
 			path: ../src/Form/Type/AttributeCodeChoiceType.php
 
 		-
-			message: "#^Parameter \\#1 \\$array_arg of function current expects array\\|object, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function current expects array\\|object, mixed given\\.$#"
 			count: 1
 			path: ../src/Form/Type/AttributeCodeChoiceType.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function current expects array\\|object, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$array_arg of function current expects array\\|object, mixed given\\.$#"
 			count: 1
 			path: ../src/Form/Type/AttributeCodeChoiceType.php
 
@@ -266,12 +281,17 @@ parameters:
 			path: ../src/Processor/AbstractImageProcessor.php
 
 		-
+			message: "#^Parameter \\#1 \\$content of method Synolia\\\\SyliusAkeneoPlugin\\\\Entity\\\\Asset\\:\\:setContent\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Processor/Asset/Attribute/AkeneoAssetAttributeAttributeProcessor.php
+
+		-
 			message: "#^Parameter \\#1 \\$name of method Sylius\\\\Component\\\\Product\\\\Generator\\\\SlugGeneratorInterface\\:\\:generate\\(\\) expects string, mixed given\\.$#"
 			count: 2
 			path: ../src/Processor/Product/CompleteRequirementProcessor.php
 
 		-
-			message: "#^Parameter \\#3 \\$productName of method Synolia\\\\SyliusAkeneoPlugin\\\\Processor\\\\Product\\\\CompleteRequirementProcessor\\:\\:setProductTranslation\\(\\) expects string\\|null, mixed given\\.$#"
+			message: "#^Parameter \\#3 \\$productName of method Synolia\\\\SyliusAkeneoPlugin\\\\Processor\\\\Product\\\\CompleteRequirementProcessor\\:\\:setProductTranslation\\(\\) expects string, mixed given\\.$#"
 			count: 1
 			path: ../src/Processor/Product/CompleteRequirementProcessor.php
 
@@ -351,6 +371,41 @@ parameters:
 			path: ../src/Provider/AkeneoReferenceEntityAttributeDataProvider.php
 
 		-
+			message: "#^Access to an undefined property Synolia\\\\SyliusAkeneoPlugin\\\\Provider\\\\Asset\\\\AkeneoAssetAttributeDataProvider\\:\\:\\$assetAttributeValueBuilder\\.$#"
+			count: 3
+			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
+
+		-
+			message: "#^Cannot access offset 0 on mixed\\.$#"
+			count: 1
+			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
+
+		-
+			message: "#^Parameter \\#3 \\$attributeValues of method Synolia\\\\SyliusAkeneoPlugin\\\\Provider\\\\Asset\\\\AkeneoAssetAttributeDataProvider\\:\\:getByLocale\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
+
+		-
+			message: "#^Parameter \\#3 \\$attributeValues of method Synolia\\\\SyliusAkeneoPlugin\\\\Provider\\\\Asset\\\\AkeneoAssetAttributeDataProvider\\:\\:getByLocaleAndScope\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
+
+		-
+			message: "#^Parameter \\#3 \\$attributeValues of method Synolia\\\\SyliusAkeneoPlugin\\\\Provider\\\\Asset\\\\AkeneoAssetAttributeDataProvider\\:\\:getByScope\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\ApiClient\\\\AkeneoPimClientInterface\\:\\:getAssetAttributeApi\\(\\)\\.$#"
+			count: 2
+			path: ../src/Provider/Asset/AkeneoAssetAttributePropertiesProvider.php
+
+		-
 			message: "#^Cannot access offset 'code' on mixed\\.$#"
 			count: 3
 			path: ../src/Provider/SyliusAkeneoLocaleCodeProvider.php
@@ -396,12 +451,12 @@ parameters:
 			path: ../src/Repository/ProductAttributeRepository.php
 
 		-
-			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, mixed given\\.$#"
 			count: 1
 			path: ../src/Repository/ProductAttributeRepository.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, mixed given\\.$#"
 			count: 1
 			path: ../src/Repository/ProductAttributeRepository.php
 
@@ -421,12 +476,12 @@ parameters:
 			path: ../src/Repository/ProductOptionRepository.php
 
 		-
-			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, mixed given\\.$#"
 			count: 1
 			path: ../src/Repository/ProductOptionRepository.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, mixed given\\.$#"
 			count: 1
 			path: ../src/Repository/ProductOptionRepository.php
 
@@ -476,14 +531,44 @@ parameters:
 			path: ../src/Task/AbstractProcessTask.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function current expects array\\|object, mixed given\\.$#"
+			count: 2
+			path: ../src/Task/AbstractProcessTask.php
+
+		-
 			message: "#^Parameter \\#1 \\$array_arg of function current expects array\\|object, mixed given\\.$#"
 			count: 2
 			path: ../src/Task/AbstractProcessTask.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function current expects array\\|object, mixed given\\.$#"
+			message: "#^Cannot access offset 'id' on mixed\\.$#"
 			count: 2
-			path: ../src/Task/AbstractProcessTask.php
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
+			message: "#^Cannot access offset 'values' on mixed\\.$#"
+			count: 1
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
+			message: "#^Parameter \\#2 \\$assetFamilyResource of method Synolia\\\\SyliusAkeneoPlugin\\\\Task\\\\Asset\\\\BatchAssetTask\\:\\:retrieveAssets\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
+			message: "#^Parameter \\#2 \\$assetResource of method Synolia\\\\SyliusAkeneoPlugin\\\\Task\\\\Asset\\\\BatchAssetTask\\:\\:handleAssetByFamilyResource\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Task/Asset/BatchAssetTask.php
 
 		-
 			message: "#^Cannot access offset 'code' on mixed\\.$#"
@@ -561,12 +646,12 @@ parameters:
 			path: ../src/Task/Attribute/BatchAttributesTask.php
 
 		-
-			message: "#^Parameter \\#1 \\$array_arg of function usort expects array, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function usort expects array, mixed given\\.$#"
 			count: 1
 			path: ../src/Task/Attribute/BatchAttributesTask.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function usort expects array, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$array_arg of function usort expects array, mixed given\\.$#"
 			count: 1
 			path: ../src/Task/Attribute/BatchAttributesTask.php
 
@@ -636,28 +721,8 @@ parameters:
 			path: ../src/Task/Family/BatchFamilyTask.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: ../src/Task/Product/AbstractCreateProductEntities.php
-
-		-
-			message: "#^Parameter \\#1 \\$array_arg of function current expects array\\|object, mixed given\\.$#"
-			count: 1
-			path: ../src/Task/Product/AbstractCreateProductEntities.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function current expects array\\|object, mixed given\\.$#"
-			count: 1
-			path: ../src/Task/Product/AbstractCreateProductEntities.php
-
-		-
 			message: "#^Cannot access offset 'id' on mixed\\.$#"
 			count: 2
-			path: ../src/Task/Product/BatchProductsTask.php
-
-		-
-			message: "#^Cannot access offset 'parent' on mixed\\.$#"
-			count: 3
 			path: ../src/Task/Product/BatchProductsTask.php
 
 		-
@@ -672,16 +737,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
-			count: 1
-			path: ../src/Task/Product/BatchProductsTask.php
-
-		-
-			message: "#^Parameter \\#2 \\$resource of method Synolia\\\\SyliusAkeneoPlugin\\\\Task\\\\Product\\\\ConfigurableProductsTask\\:\\:__invoke\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: ../src/Task/Product/BatchProductsTask.php
-
-		-
-			message: "#^Parameter \\#2 \\$resource of method Synolia\\\\SyliusAkeneoPlugin\\\\Task\\\\Product\\\\SimpleProductTask\\:\\:__invoke\\(\\) expects array, mixed given\\.$#"
 			count: 1
 			path: ../src/Task/Product/BatchProductsTask.php
 

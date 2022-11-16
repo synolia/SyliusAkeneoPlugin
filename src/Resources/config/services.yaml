@@ -78,6 +78,17 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
 
+    Synolia\SyliusAkeneoPlugin\Repository\AssetRepository:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@sylius.asset_class_metadata'
+
+    sylius.asset_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\Asset'
+
     Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
@@ -89,7 +100,12 @@ services:
     sylius.attribute_type.reference_entity:
         class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
         tags:
-            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'Text', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\ReferenceEntityAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\ReferenceEntityAttributeType' }
+            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\ReferenceEntityAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\ReferenceEntityAttributeType' }
+
+    sylius.attribute_type.asset:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\AssetAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'asset', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\AssetAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\AssetConfigurationAttributeType' }
 
     serializer.name_converter.camel_case_to_snake_case:
         class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
@@ -110,3 +126,15 @@ services:
         class: BluePsyduck\SymfonyProcessManager\ProcessManager
 
     Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider: ~
+
+    Synolia\SyliusAkeneoPlugin\Processor\Asset\Attribute\AkeneoAssetAttributeProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Asset\Attribute\AkeneoAssetAttributeAttributeProcessor
+        arguments:
+            $akeneoAssetFactory: '@akeneo.factory.asset'
+            $akeneoAssetRepository: '@akeneo.repository.asset'
+
+    Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProvider
+
+    Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProvider
