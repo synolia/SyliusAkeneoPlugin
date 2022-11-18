@@ -49,6 +49,9 @@ class ProductGroup implements ProductGroupInterface
      */
     private $products;
 
+    /** @ORM\Column(type="array") */
+    private array $associations = [];
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -104,6 +107,43 @@ class ProductGroup implements ProductGroupInterface
         }
 
         unset($this->variationAxes[array_search($variationAxe, $this->variationAxes)]);
+
+        return $this;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function getAssociations(): array
+    {
+        return $this->associations;
+    }
+
+    public function setAssociations(array $associations): ProductGroupInterface
+    {
+        $this->associations = $associations;
+
+        return $this;
+    }
+
+    public function addAssociation(string $association): ProductGroupInterface
+    {
+        if (\in_array($association, $this->associations)) {
+            return $this;
+        }
+
+        $this->associations[] = $association;
+
+        return $this;
+    }
+
+    public function removeAssociation(string $association): ProductGroupInterface
+    {
+        if (!\in_array($association, $this->associations)) {
+            return $this;
+        }
+
+        unset($this->associations[array_search($association, $this->associations)]);
 
         return $this;
     }

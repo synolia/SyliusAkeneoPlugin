@@ -179,7 +179,8 @@ abstract class AbstractTaskTest extends ApiTestCase
             $this->manager->persist($productFilters);
         }
 
-        $productFilters->setMode(ProductFilterRuleAdvancedType::MODE)
+        $productFilters
+            ->setMode(ProductFilterRuleAdvancedType::MODE)
             ->setAdvancedFilter('')
             ->setCompletenessValue(0)
         ;
