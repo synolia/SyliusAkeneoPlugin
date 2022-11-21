@@ -8,8 +8,11 @@ use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
 use Sylius\Component\Attribute\Factory\AttributeFactory;
 use Sylius\Component\Attribute\Model\AttributeInterface;
+use Sylius\Component\Product\Model\ProductAttributeValue;
+use Sylius\Component\Product\Repository\ProductAttributeValueRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -18,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\BeforeProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Transformer\DataMigration\NoDataMigrationTransformerFoundException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
@@ -29,6 +33,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransformer;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
@@ -63,6 +68,10 @@ final class BatchAttributesTask extends AbstractBatchTask
 
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
+    private ProductAttributeValueRepositoryInterface $productAttributeValueRepository;
+
+    private DataMigrationTransformer $dataMigrationTransformer;
+
     public function __construct(
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         EntityManagerInterface $entityManager,
@@ -76,7 +85,9 @@ final class BatchAttributesTask extends AbstractBatchTask
         ProductOptionProcessorInterface $productOptionProcessor,
         EventDispatcherInterface $dispatcher,
         EditionCheckerInterface $editionChecker,
-        ApiConnectionProviderInterface $apiConnectionProvider
+        ApiConnectionProviderInterface $apiConnectionProvider,
+        ProductAttributeValueRepositoryInterface $productAttributeValueRepository,
+        DataMigrationTransformer $dataMigrationTransformer
     ) {
         parent::__construct($entityManager);
 
@@ -92,6 +103,8 @@ final class BatchAttributesTask extends AbstractBatchTask
         $this->productOptionProcessor = $productOptionProcessor;
         $this->editionChecker = $editionChecker;
         $this->apiConnectionProvider = $apiConnectionProvider;
+        $this->productAttributeValueRepository = $productAttributeValueRepository;
+        $this->dataMigrationTransformer = $dataMigrationTransformer;
     }
 
     /**
@@ -248,15 +261,65 @@ final class BatchAttributesTask extends AbstractBatchTask
             return $attribute;
         }
 
-        if ($attribute->getType() !== $attributeType->getType()) {
-            $attribute->setType($attributeType->getType());
-
-            $attribute->setStorageType((new ($attributeType->getTypeClassName()))->getStorageType());
-        }
+        $this->migrateType($attribute, $attributeType);
 
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));
 
         return $attribute;
+    }
+
+    private function migrateType(AttributeInterface $attribute, TypeMatcherInterface $attributeType): void
+    {
+        if ($attribute->getType() === $attributeType->getType()) {
+            return;
+        }
+
+        $attributeTypeClassName = $attributeType->getTypeClassName();
+        $attributeTypeObject = new $attributeTypeClassName();
+
+        if (!$attributeTypeObject instanceof AttributeTypeInterface) {
+            return;
+        }
+
+        $newStorageType = $attributeTypeObject->getStorageType();
+
+        Assert::string($attribute->getType());
+        Assert::string($attribute->getStorageType());
+
+        try {
+            $this->tryUpgradeData(
+                $attribute,
+                $attribute->getType(),
+                $attributeType->getType(),
+                $attribute->getStorageType(),
+                $newStorageType
+            );
+        } catch (NoDataMigrationTransformerFoundException $exception) {
+        }
+
+        $attribute->setType($attributeType->getType());
+        $attribute->setStorageType($newStorageType);
+    }
+
+    private function tryUpgradeData(
+        AttributeInterface $attribute,
+        string $fromType,
+        string $toType,
+        string $fromStorageType,
+        string $toStorageType
+    ): void {
+        /** @var ProductAttributeValue[] $attributeValues */
+        $attributeValues = $this->productAttributeValueRepository->findBy(['attribute' => $attribute]);
+
+        foreach ($attributeValues as $attributeValue) {
+            $oldValue = $attributeValue->getValue();
+            $newValue = $this->dataMigrationTransformer->transform($fromType, $toType, $oldValue);
+            $attributeValue->setValue(null);
+
+            $attribute->setStorageType($toStorageType);
+            $attributeValue->setValue($newValue);
+            $attribute->setStorageType($fromStorageType);
+        }
     }
 
     private function getVariationAxes(PipelinePayloadInterface $payload): array

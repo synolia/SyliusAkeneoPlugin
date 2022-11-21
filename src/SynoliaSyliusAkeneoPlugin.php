@@ -13,9 +13,11 @@ use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttribute
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValueValueBuilderCompilerPass;
+use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoDataMigrationTransformerCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentityAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
@@ -55,12 +57,17 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle
             ->registerForAutoconfiguration(AssetAttributeTypeMatcherInterface::class)
             ->addTag(AssetAttributeTypeMatcherInterface::TAG_ID)
         ;
+        $container
+            ->registerForAutoconfiguration(DataMigrationTransformerInterface::class)
+            ->addTag(DataMigrationTransformerInterface::TAG_ID)
+        ;
 
         $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoAssetAttributeValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoAssetAttributeTypeMatcherCompilerPass());
+        $container->addCompilerPass(new AkeneoDataMigrationTransformerCompilerPass());
     }
 
     public function __toString(): string

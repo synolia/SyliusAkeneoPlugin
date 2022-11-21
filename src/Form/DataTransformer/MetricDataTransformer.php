@@ -9,8 +9,15 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\DataTransformer\MetricTransformExcepti
 
 final class MetricDataTransformer implements DataTransformerInterface
 {
+    /**
+     * @throws MetricTransformException
+     */
     public function transform($value): string
     {
+        if (!is_array($value)) {
+            throw new MetricTransformException('Could not transform data to json.');
+        }
+
         $json = json_encode($value);
 
         if (false === $json) {
@@ -20,8 +27,21 @@ final class MetricDataTransformer implements DataTransformerInterface
         return $json;
     }
 
+    /**
+     * @throws MetricTransformException
+     */
     public function reverseTransform($value): ?array
     {
-        return json_decode($value, true);
+        if (!is_string($value)) {
+            throw new MetricTransformException('Could not transform data to json.');
+        }
+
+        $array = \json_decode($value, true);
+
+        if ($array !== null && !is_array($array)) {
+            throw new MetricTransformException();
+        }
+
+        return $array;
     }
 }
