@@ -25,4 +25,9 @@ final class TextareaAttributeTypeMatcher implements AttributeTypeMatcherInterfac
     {
         return TextProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return TextareaAttributeType::class;
+    }
 }

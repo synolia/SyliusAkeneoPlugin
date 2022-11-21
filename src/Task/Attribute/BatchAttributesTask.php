@@ -169,6 +169,11 @@ final class BatchAttributesTask extends AbstractBatchTask
         return $payload;
     }
 
+    /**
+     * @throws ExcludedAttributeException
+     * @throws UnsupportedAttributeTypeException
+     * @throws InvalidAttributeException
+     */
     private function process(array $excludesAttributes, array &$resource): AttributeInterface
     {
         //Do not import attributes that must not be used as attribute in Sylius
@@ -241,6 +246,12 @@ final class BatchAttributesTask extends AbstractBatchTask
             $this->logger->info(Messages::hasBeenCreated($this->type, (string) $attribute->getCode()));
 
             return $attribute;
+        }
+
+        if ($attribute->getType() !== $attributeType->getType()) {
+            $attribute->setType($attributeType->getType());
+
+            $attribute->setStorageType((new ($attributeType->getTypeClassName()))->getStorageType());
         }
 
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));

@@ -25,4 +25,9 @@ final class IntegerAttributeTypeMatcher implements AttributeTypeMatcherInterface
     {
         return IntegerProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return IntegerAttributeType::class;
+    }
 }

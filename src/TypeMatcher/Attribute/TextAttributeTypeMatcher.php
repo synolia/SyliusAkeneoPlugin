@@ -29,4 +29,9 @@ final class TextAttributeTypeMatcher implements AttributeTypeMatcherInterface
     {
         return TextProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return TextAttributeType::class;
+    }
 }

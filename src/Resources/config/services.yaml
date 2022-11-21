@@ -107,6 +107,11 @@ services:
         tags:
             - { name: 'sylius.attribute.type', attribute_type: 'asset', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\AssetAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\AssetConfigurationAttributeType' }
 
+    sylius.attribute_type.metric:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\MetricAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: 'metric', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\MetricAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\MetricConfigurationAttributeType' }
+
     serializer.name_converter.camel_case_to_snake_case:
         class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 
@@ -138,3 +143,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface:
         class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProvider
+
+    Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTypeMatcher:
+        arguments:
+            $attributeTypeRegistry: '@sylius.registry.attribute_type'

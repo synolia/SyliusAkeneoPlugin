@@ -25,4 +25,9 @@ final class DateAttributeTypeMatcher implements AttributeTypeMatcherInterface
     {
         return DateProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return DateAttributeType::class;
+    }
 }

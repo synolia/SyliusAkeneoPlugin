@@ -25,4 +25,9 @@ final class BooleanAttributeTypeMatcher implements AttributeTypeMatcherInterface
     {
         return BooleanProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return CheckboxAttributeType::class;
+    }
 }

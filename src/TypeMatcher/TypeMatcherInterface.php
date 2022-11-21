@@ -10,5 +10,7 @@ interface TypeMatcherInterface
 
     public function getType(): string;
 
+    public function getTypeClassName(): string;
+
     public function getBuilder(): string;
 }
