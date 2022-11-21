@@ -8,55 +8,27 @@ use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
-use Sylius\Component\Attribute\Factory\AttributeFactory;
-use Sylius\Component\Attribute\Model\AttributeInterface;
-use Sylius\Component\Product\Model\ProductAttributeValue;
-use Sylius\Component\Product\Repository\ProductAttributeValueRepositoryInterface;
-use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
+use Synolia\SyliusAkeneoPlugin\Creator\AttributeCreatorInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\BeforeProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
-use Synolia\SyliusAkeneoPlugin\Exceptions\Transformer\DataMigration\NoDataMigrationTransformerFoundException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
+use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\ExcludedAttributesProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
-use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
-use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransformer;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTypeMatcher;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
 use Webmozart\Assert\Assert;
 
 final class BatchAttributesTask extends AbstractBatchTask
 {
-    private string $type;
-
-    private RepositoryInterface $productAttributeRepository;
-
-    private FactoryInterface $productAttributeFactory;
-
     private LoggerInterface $logger;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer;
-
-    private ExcludedAttributesProviderInterface $excludedAttributesProvider;
 
     private EventDispatcherInterface $dispatcher;
 
@@ -64,63 +36,42 @@ final class BatchAttributesTask extends AbstractBatchTask
 
     private ProductOptionProcessorInterface $productOptionProcessor;
 
-    private EditionCheckerInterface $editionChecker;
-
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
-    private ProductAttributeValueRepositoryInterface $productAttributeValueRepository;
-
-    private DataMigrationTransformer $dataMigrationTransformer;
+    private AttributeCreatorInterface $attributeCreator;
 
     public function __construct(
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         EntityManagerInterface $entityManager,
-        RepositoryInterface $productAttributeRepository,
-        AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
-        FactoryInterface $productAttributeFactory,
-        AttributeTypeMatcher $attributeTypeMatcher,
         LoggerInterface $akeneoLogger,
-        ExcludedAttributesProviderInterface $excludedAttributesProvider,
         ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
         ProductOptionProcessorInterface $productOptionProcessor,
         EventDispatcherInterface $dispatcher,
-        EditionCheckerInterface $editionChecker,
         ApiConnectionProviderInterface $apiConnectionProvider,
-        ProductAttributeValueRepositoryInterface $productAttributeValueRepository,
-        DataMigrationTransformer $dataMigrationTransformer
+        AttributeCreatorInterface $attributeCreator
     ) {
         parent::__construct($entityManager);
 
-        $this->productAttributeRepository = $productAttributeRepository;
-        $this->productAttributeFactory = $productAttributeFactory;
         $this->logger = $akeneoLogger;
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->excludedAttributesProvider = $excludedAttributesProvider;
-        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
         $this->dispatcher = $dispatcher;
         $this->attributeChoiceProcessor = $attributeChoiceProcessor;
         $this->productOptionProcessor = $productOptionProcessor;
-        $this->editionChecker = $editionChecker;
         $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
-        $this->dataMigrationTransformer = $dataMigrationTransformer;
+        $this->attributeCreator = $attributeCreator;
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload $payload
+     * @param AttributePayload $payload
      *
-     * @throws \Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException
+     * @throws NoAttributeResourcesException
      * @throws \Throwable
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         $this->logger->debug(self::class);
-        $this->type = $payload->getType();
-        $this->logger->notice(Messages::createOrUpdate($this->type));
+        $type = $payload->getType();
+        $this->logger->notice(Messages::createOrUpdate($type));
 
         try {
-            $excludesAttributes = $this->excludedAttributesProvider->getExcludedAttributes();
             $this->entityManager->beginTransaction();
 
             $query = $this->getSelectStatement($payload);
@@ -131,13 +82,19 @@ final class BatchAttributesTask extends AbstractBatchTask
                 foreach ($results as $result) {
                     $resource = json_decode($result['values'], true);
 
+                    if (!is_array($resource)) {
+                        throw new InvalidAttributeException();
+                    }
+
                     try {
                         $this->dispatcher->dispatch(new BeforeProcessingAttributeEvent($resource));
 
                         if (!$this->entityManager->getConnection()->isTransactionActive()) {
                             $this->entityManager->beginTransaction();
                         }
-                        $attribute = $this->process($excludesAttributes, $resource);
+
+                        $attribute = $this->attributeCreator->create($resource);
+                        $this->entityManager->flush();
 
                         //Handle attribute options
                         $this->attributeChoiceProcessor->process($attribute, $resource);
@@ -180,146 +137,6 @@ final class BatchAttributesTask extends AbstractBatchTask
         }
 
         return $payload;
-    }
-
-    /**
-     * @throws ExcludedAttributeException
-     * @throws UnsupportedAttributeTypeException
-     * @throws InvalidAttributeException
-     */
-    private function process(array $excludesAttributes, array &$resource): AttributeInterface
-    {
-        //Do not import attributes that must not be used as attribute in Sylius
-        if (\in_array($resource['code'], $excludesAttributes, true)) {
-            throw new ExcludedAttributeException(sprintf('Attribute "%s" is excluded by configuration.', $resource['code']));
-        }
-
-        try {
-            $attributeType = $this->attributeTypeMatcher->match($resource['type']);
-
-            $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();
-
-            if ($attributeType instanceof ReferenceEntityAttributeTypeMatcher && !$isEnterprise) {
-                throw new InvalidAttributeException(sprintf('Attribute "%s" is of type ReferenceEntityAttributeTypeMatcher which is invalid.', $resource['code']));
-            }
-
-            $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($resource['code']);
-
-            $attribute = $this->getOrCreateEntity($code, $attributeType);
-
-            $this->setAttributeTranslations($resource['labels'], $attribute);
-            $this->entityManager->flush();
-
-            return $attribute;
-        } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-            $this->logger->warning(sprintf(
-                '%s: %s',
-                $resource['code'],
-                $unsupportedAttributeTypeException->getMessage()
-            ));
-
-            throw $unsupportedAttributeTypeException;
-        }
-    }
-
-    private function setAttributeTranslations(array $labels, AttributeInterface $attribute): void
-    {
-        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
-            $attribute->setCurrentLocale($usedLocalesOnBothPlatform);
-            $attribute->setFallbackLocale($usedLocalesOnBothPlatform);
-
-            if (!isset($labels[$usedLocalesOnBothPlatform])) {
-                $attribute->setName(sprintf('[%s]', $attribute->getCode()));
-
-                continue;
-            }
-
-            $attribute->setName($labels[$usedLocalesOnBothPlatform]);
-        }
-    }
-
-    private function getOrCreateEntity(string $attributeCode, TypeMatcherInterface $attributeType): AttributeInterface
-    {
-        /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $attributeCode]);
-
-        if (!$attribute instanceof AttributeInterface) {
-            if (!$this->productAttributeFactory instanceof AttributeFactory) {
-                throw new \LogicException('Wrong Factory');
-            }
-            /** @var AttributeInterface $attribute */
-            $attribute = $this->productAttributeFactory->createTyped($attributeType->getType());
-
-            if ($attributeType instanceof ReferenceEntityAttributeTypeMatcherInterface) {
-                $attribute->setStorageType($attributeType->getStorageType());
-            }
-
-            $attribute->setCode($attributeCode);
-            $this->entityManager->persist($attribute);
-            $this->logger->info(Messages::hasBeenCreated($this->type, (string) $attribute->getCode()));
-
-            return $attribute;
-        }
-
-        $this->migrateType($attribute, $attributeType);
-
-        $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $attribute->getCode()));
-
-        return $attribute;
-    }
-
-    private function migrateType(AttributeInterface $attribute, TypeMatcherInterface $attributeType): void
-    {
-        if ($attribute->getType() === $attributeType->getType()) {
-            return;
-        }
-
-        $attributeTypeClassName = $attributeType->getTypeClassName();
-        $attributeTypeObject = new $attributeTypeClassName();
-
-        if (!$attributeTypeObject instanceof AttributeTypeInterface) {
-            return;
-        }
-
-        $newStorageType = $attributeTypeObject->getStorageType();
-
-        Assert::string($attribute->getType());
-        Assert::string($attribute->getStorageType());
-
-        try {
-            $this->tryUpgradeData(
-                $attribute,
-                $attribute->getType(),
-                $attributeType->getType(),
-                $attribute->getStorageType(),
-                $newStorageType
-            );
-        } catch (NoDataMigrationTransformerFoundException $exception) {
-        }
-
-        $attribute->setType($attributeType->getType());
-        $attribute->setStorageType($newStorageType);
-    }
-
-    private function tryUpgradeData(
-        AttributeInterface $attribute,
-        string $fromType,
-        string $toType,
-        string $fromStorageType,
-        string $toStorageType
-    ): void {
-        /** @var ProductAttributeValue[] $attributeValues */
-        $attributeValues = $this->productAttributeValueRepository->findBy(['attribute' => $attribute]);
-
-        foreach ($attributeValues as $attributeValue) {
-            $oldValue = $attributeValue->getValue();
-            $newValue = $this->dataMigrationTransformer->transform($fromType, $toType, $oldValue);
-            $attributeValue->setValue(null);
-
-            $attribute->setStorageType($toStorageType);
-            $attributeValue->setValue($newValue);
-            $attribute->setStorageType($fromStorageType);
-        }
     }
 
     private function getVariationAxes(PipelinePayloadInterface $payload): array

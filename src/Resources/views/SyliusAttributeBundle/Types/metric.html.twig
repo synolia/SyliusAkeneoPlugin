@@ -1,5 +1,3 @@
-{% if attribute.value.code is defined %}
-    {{ attribute.value.code }}
-{% else %}
+{% if attribute.value is defined %}
     {{ attribute.value|json_encode }}
 {% endif %}

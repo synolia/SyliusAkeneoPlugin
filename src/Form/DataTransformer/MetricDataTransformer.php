@@ -14,6 +14,10 @@ final class MetricDataTransformer implements DataTransformerInterface
      */
     public function transform($value): string
     {
+        if (null === $value) {
+            return '';
+        }
+
         if (!is_array($value)) {
             throw new MetricTransformException('Could not transform data to json.');
         }
@@ -32,6 +36,10 @@ final class MetricDataTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value): ?array
     {
+        if (null === $value) {
+            return null;
+        }
+
         if (!is_string($value)) {
             throw new MetricTransformException('Could not transform data to json.');
         }
