@@ -25,4 +25,9 @@ final class MediaLinkAssetAttributeTypeMatcher implements AssetAttributeTypeMatc
     {
         return MediaLinkAssetAttributeValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return TextAttributeType::class;
+    }
 }

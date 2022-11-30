@@ -25,4 +25,9 @@ final class CollectionReferenceEntityAttributeTypeMatcher implements AttributeTy
     {
         return CollectionReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return ReferenceEntityAttributeType::class;
+    }
 }

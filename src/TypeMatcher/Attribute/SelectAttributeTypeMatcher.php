@@ -25,4 +25,9 @@ final class SelectAttributeTypeMatcher implements AttributeTypeMatcherInterface
     {
         return SelectProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return SelectAttributeType::class;
+    }
 }

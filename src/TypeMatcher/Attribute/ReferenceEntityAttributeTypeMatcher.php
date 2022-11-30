@@ -25,4 +25,9 @@ final class ReferenceEntityAttributeTypeMatcher implements AttributeTypeMatcherI
     {
         return ReferenceEntityAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return ReferenceEntityAttributeType::class;
+    }
 }

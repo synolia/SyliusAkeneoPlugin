@@ -89,10 +89,12 @@ sylius:
                     serenity: Serenity Edition
         reference_entity: 'Reference Entity'
         asset: 'Asset'
+        metric: 'Metric'
     form:
         attribute_type:
             reference_entity: 'Reference Entity'
             asset: 'Asset'
+            metric: 'Metric'
 akeneo:
     ui:
         attribute_type_mappings: 'Akeneo Attribute Type Mappings'

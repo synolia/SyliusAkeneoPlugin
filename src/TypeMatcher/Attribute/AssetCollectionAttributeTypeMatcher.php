@@ -25,4 +25,9 @@ final class AssetCollectionAttributeTypeMatcher implements AttributeTypeMatcherI
     {
         return AssetAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return AssetAttributeType::class;
+    }
 }

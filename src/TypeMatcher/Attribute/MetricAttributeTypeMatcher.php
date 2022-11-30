@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
-use Sylius\Component\Attribute\AttributeType\TextAttributeType;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\MetricProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\MetricAttributeType;
 
 final class MetricAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
@@ -13,7 +13,7 @@ final class MetricAttributeTypeMatcher implements AttributeTypeMatcherInterface
 
     public function getType(): string
     {
-        return TextAttributeType::TYPE;
+        return MetricAttributeType::TYPE;
     }
 
     public function support(string $akeneoType): bool
@@ -24,5 +24,10 @@ final class MetricAttributeTypeMatcher implements AttributeTypeMatcherInterface
     public function getBuilder(): string
     {
         return MetricProductAttributeValueValueBuilder::class;
+    }
+
+    public function getTypeClassName(): string
+    {
+        return MetricAttributeType::class;
     }
 }

@@ -25,4 +25,9 @@ final class MultiSelectAttributeTypeMatcher implements AttributeTypeMatcherInter
     {
         return MultiSelectProductAttributeValueValueBuilder::class;
     }
+
+    public function getTypeClassName(): string
+    {
+        return SelectAttributeType::class;
+    }
 }
