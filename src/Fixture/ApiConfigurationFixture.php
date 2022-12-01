@@ -48,11 +48,11 @@ final class ApiConfigurationFixture extends AbstractFixture
             $apiConfiguration->setEdition($options['edition']);
         }
 
-        $client = $this->clientFactory->createFromApiCredentials();
-        $client->getCategoryApi()->all(1);
-
         $this->entityManager->persist($apiConfiguration);
         $this->entityManager->flush();
+
+        $client = $this->clientFactory->createFromApiCredentials();
+        $client->getCategoryApi()->all(1);
     }
 
     /**
