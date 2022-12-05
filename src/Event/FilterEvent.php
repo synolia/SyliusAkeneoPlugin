@@ -28,7 +28,7 @@ final class FilterEvent extends Event
         return $this->filters;
     }
 
-    public function addFilter(string $key, $value): void
+    public function addFilter(string $key, array $value): void
     {
         $this->filters[$key] = $value;
     }

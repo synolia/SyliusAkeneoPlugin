@@ -35,4 +35,8 @@ interface ConfigurationContextInterface
     public function getProcessAsSoonAsPossible(): bool;
 
     public function disableBatching(): self;
+
+    public function getFilters(): array;
+
+    public function setFilters(array $filters): self;
 }
