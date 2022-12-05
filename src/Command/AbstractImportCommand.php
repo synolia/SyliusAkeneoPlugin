@@ -18,6 +18,9 @@ abstract class AbstractImportCommand extends Command
 {
     use LockableTrait;
 
+    /** @var string The default command description */
+    protected static $defaultDescription = '';
+
     protected LoggerInterface $logger;
 
     protected PayloadFactoryInterface $payloadFactory;
