@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Family;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -17,16 +19,20 @@ final class ProcessFamilyTask extends AbstractProcessTask
 {
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
+    private EventDispatcherInterface $eventDispatcher;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchFamilyTask $task,
         ApiConnectionProviderInterface $apiConnectionProvider,
+        EventDispatcherInterface $eventDispatcher,
         string $projectDir
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->apiConnectionProvider = $apiConnectionProvider;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -43,8 +49,15 @@ final class ProcessFamilyTask extends AbstractProcessTask
         }
 
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
+
+        $event = new FilterEvent($payload->getCommandContext());
+        $this->eventDispatcher->dispatch($event);
+
+        $queryParameters['search'] = $event->getFilters();
+
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
+            $queryParameters
         );
 
         $this->handle($payload, $resources);
