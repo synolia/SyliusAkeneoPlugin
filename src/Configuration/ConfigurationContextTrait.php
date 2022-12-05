@@ -22,6 +22,8 @@ trait ConfigurationContextTrait
 
     private int $verbosity = OutputInterface::VERBOSITY_NORMAL;
 
+    private array $filters = [];
+
     public function getBatchSize(): int
     {
         return $this->batchSize;
@@ -120,6 +122,18 @@ trait ConfigurationContextTrait
         $this->processAsSoonAsPossible = false;
         $this->allowParallel = false;
         $this->batchingAllowed = false;
+
+        return $this;
+    }
+
+    public function getFilters(): array
+    {
+        return $this->filters;
+    }
+
+    public function setFilters(array $filters): ConfigurationContextInterface
+    {
+        $this->filters = $filters;
 
         return $this;
     }

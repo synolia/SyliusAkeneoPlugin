@@ -18,9 +18,6 @@ abstract class AbstractImportCommand extends Command
 {
     use LockableTrait;
 
-    /** @var string The default command description */
-    protected static $defaultDescription = '';
-
     protected LoggerInterface $logger;
 
     protected PayloadFactoryInterface $payloadFactory;
@@ -51,6 +48,7 @@ abstract class AbstractImportCommand extends Command
             ->addOption('disable-batch', 'd', InputOption::VALUE_NONE, 'Disable batch processing')
             ->addOption('batch-size', 's', InputOption::VALUE_OPTIONAL, 'Batch Size', 100)
             ->addOption('max-concurrency', 'c', InputOption::VALUE_OPTIONAL, 'Max process concurrency', 5)
+            ->addOption('filter', 'f', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Add filter')
         ;
     }
 
