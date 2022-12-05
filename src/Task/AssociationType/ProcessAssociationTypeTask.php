@@ -17,6 +17,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 final class ProcessAssociationTypeTask extends AbstractProcessTask
 {
     private ApiConnectionProviderInterface $apiConnectionProvider;
+
     private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
