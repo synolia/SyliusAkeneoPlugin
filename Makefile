@@ -56,7 +56,6 @@ install-plugin:
 	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts
 
 	cp -r install/Application tests
-	cp -r tests/data/* ${TEST_DIRECTORY}/
 
 update-dependencies:
 	${COMPOSER} config extra.symfony.require "^${SYMFONY_VERSION}"
