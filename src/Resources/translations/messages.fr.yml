@@ -37,7 +37,7 @@ sylius:
                     completeness_value: Valeur de complétude
                     completeness_value_help: Entrer la valeur de complétude d'un produit Akeneo à importer (compris entre 0 et 100)
                     status: Statut
-                    status_help: Définir le statut du produit Akeneo a importer
+                    status_help: Définir le statut du produit Akeneo à importer
                     updated_mode: Mode de mise à jour
                     updated_before: Mise à jour avant
                     updated_after: Mise à jour après
@@ -62,13 +62,13 @@ sylius:
                     title: Catégories
                     subtitle: Configuration des catégories
                     categories_to_exclude: Catégories à exclure
-                    main_category: Catégorie principal
+                    main_category: Catégorie principale
                     root_categories: Catégories racines de Sylius
                     empty_local_replace_by: Remplacer la locale vide par
                 products:
                     title: Produits
                     subtitle: Configuration des produits
-                    akeneo_price_attribute: Attribue Akeneo du prix
+                    akeneo_price_attribute: Attribut Akeneo du prix
                     akeneo_enabled_channels_attribute: Attribut Akeneo des channels actifs
                     attribute: Attribut
                     value: Valeur
@@ -76,7 +76,7 @@ sylius:
                     akeneo_attributes: Attributs Akeneo
                     sylius_attribute: Attribut Sylius
                     akeneo_attribute: Attribut Akeneo
-                    regenerate_url_rewrites: Regenerate url rewrites
+                    regenerate_url_rewrites: "Régénérer les réécritures d'url"
                 attributes:
                     title: Attributs
                     subtitle: Configuration des attributs
