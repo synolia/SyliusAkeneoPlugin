@@ -2,6 +2,7 @@
 
 * [Events](customize/EVENTS.md)
 * [Processors](customize/PROCESSORS.md)
+* [Command filters](customize/COMMAND_FILTERS.md)
 
 ## Override
 
