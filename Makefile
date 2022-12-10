@@ -59,7 +59,7 @@ install-plugin:
 	cp -r tests/data/* ${TEST_DIRECTORY}/
 
 update-dependencies:
-	${COMPOSER} config extra.symfony.require "^${SYMFONY_VERSION}"
+	${COMPOSER} config extra.symfony.require "~${SYMFONY_VERSION}"
 	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
 ifeq ($(shell [[ $(SYMFONY_VERSION) == 4.4 && $(PHP_VERSION) == 7.4 ]] && echo true ),true)
 	${COMPOSER} require sylius/admin-api-bundle:1.10.0 --no-scripts --no-update
