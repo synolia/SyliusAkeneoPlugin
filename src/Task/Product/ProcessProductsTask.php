@@ -64,7 +64,7 @@ final class ProcessProductsTask extends AbstractProcessTask
         $event = new FilterEvent($payload->getCommandContext());
         $this->eventDispatcher->dispatch($event);
 
-        $queryParameters['search'] = array_merge($queryParameters['search'], $event->getFilters());
+        $queryParameters['search'] = array_merge($queryParameters['search'] ?? [], $event->getFilters());
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(

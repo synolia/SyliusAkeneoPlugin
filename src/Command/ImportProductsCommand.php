@@ -37,7 +37,6 @@ final class ImportProductsCommand extends AbstractImportCommand
     {
         try {
             $this->preExecute();
-
             $payload = $this->payloadFactory->createFromCommand(ProductPayload::class, $input, $output);
             $this->pipeline->process($payload);
 
