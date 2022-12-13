@@ -21,6 +21,8 @@ class DotEnvApiConnectionProvider implements ApiConnectionProviderInterface
 
     private string $edition;
 
+    private string $axeAsModel;
+
     private int $pagination;
 
     public function __construct(
@@ -30,6 +32,7 @@ class DotEnvApiConnectionProvider implements ApiConnectionProviderInterface
         string $username,
         string $password,
         string $edition,
+        string $axeAsModel,
         int $pagination
     ) {
         $this->baseUrl = $baseUrl;
@@ -38,6 +41,7 @@ class DotEnvApiConnectionProvider implements ApiConnectionProviderInterface
         $this->username = $username;
         $this->password = $password;
         $this->edition = $edition;
+        $this->axeAsModel = $axeAsModel;
         $this->pagination = $pagination;
     }
 
@@ -50,6 +54,7 @@ class DotEnvApiConnectionProvider implements ApiConnectionProviderInterface
             $this->clientId,
             $this->clientSecret,
             $this->edition,
+            $this->axeAsModel,
             $this->pagination
         );
     }

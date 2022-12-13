@@ -89,6 +89,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
             ->setArgument('$username', $config['api_configuration']['username'])
             ->setArgument('$password', $config['api_configuration']['password'])
             ->setArgument('$edition', $config['api_configuration']['edition'])
+            ->setArgument('$axeAsModel', $config['api_configuration']['axe_as_model'])
             ->setArgument('$pagination', $config['api_configuration']['pagination'])
         ;
 

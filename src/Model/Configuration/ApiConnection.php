@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Model\Configuration;
 
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 class ApiConnection implements ApiConnectionInterface
@@ -18,6 +19,8 @@ class ApiConnection implements ApiConnectionInterface
 
     private string $edition;
 
+    private string $axeAsModel;
+
     private string $username;
 
     private string $password;
@@ -29,6 +32,7 @@ class ApiConnection implements ApiConnectionInterface
         string $apiClientId,
         string $apiClientSecret,
         string $edition = AkeneoEditionEnum::COMMUNITY,
+        string $axeAsModel = AkeneoAxesEnum::FIRST,
         int $paginationSize = self::DEFAULT_PAGINATION_SIZE
     ) {
         $this->baseUrl = $baseUrl;
@@ -37,6 +41,7 @@ class ApiConnection implements ApiConnectionInterface
         $this->apiClientId = $apiClientId;
         $this->apiClientSecret = $apiClientSecret;
         $this->edition = $edition;
+        $this->axeAsModel = $axeAsModel;
         $this->paginationSize = $paginationSize;
     }
 
@@ -68,6 +73,11 @@ class ApiConnection implements ApiConnectionInterface
     public function getEdition(): string
     {
         return $this->edition;
+    }
+
+    public function getAxeAsModel(): string
+    {
+        return $this->axeAsModel;
     }
 
     public function getPaginationSize(): int

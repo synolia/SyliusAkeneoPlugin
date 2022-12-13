@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 
 class Configuration implements ConfigurationInterface
 {
@@ -40,6 +41,11 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('edition')
                         ->info('')
                         ->example('')
+                    ->end()
+                    ->scalarNode('axe_as_model')
+                        ->info('')
+                        ->example('')
+                        ->defaultValue(AkeneoAxesEnum::FIRST)
                     ->end()
                     ->integerNode('pagination')
                         ->info('')
