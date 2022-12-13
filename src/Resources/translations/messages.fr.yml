@@ -76,7 +76,7 @@ sylius:
                     akeneo_attributes: Attributs Akeneo
                     sylius_attribute: Attribut Sylius
                     akeneo_attribute: Attribut Akeneo
-                    regenerate_url_rewrites: "Régénérer les réécritures d'url"
+                    regenerate_url_rewrites: "Autoriser la modification des URL"
                 attributes:
                     title: Attributs
                     subtitle: Configuration des attributs
