@@ -67,7 +67,6 @@ endif
 	${COMPOSER} update --no-progress -n
 
 install-sylius:
-	${CONSOLE} d:d:d --force || true
 	${CONSOLE} d:d:c
 	${CONSOLE} d:mig:mig -n
 	${CONSOLE} syl:fix:load akeneo -n
