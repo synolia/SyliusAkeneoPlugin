@@ -10,6 +10,8 @@ use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -23,6 +25,8 @@ final class ProcessProductsTask extends AbstractProcessTask
 
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
+    private EventDispatcherInterface $eventDispatcher;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
@@ -30,11 +34,13 @@ final class ProcessProductsTask extends AbstractProcessTask
         BatchProductsTask $task,
         ProductFilterInterface $productFilter,
         ApiConnectionProviderInterface $apiConnectionProvider,
+        EventDispatcherInterface $eventDispatcher,
         string $projectDir
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->productFilter = $productFilter;
         $this->apiConnectionProvider = $apiConnectionProvider;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -54,6 +60,11 @@ final class ProcessProductsTask extends AbstractProcessTask
 
         $queryParameters = $this->productFilter->getProductFilters();
         $queryParameters['pagination_type'] = 'search_after';
+
+        $event = new FilterEvent($payload->getCommandContext());
+        $this->eventDispatcher->dispatch($event);
+
+        $queryParameters['search'] = array_merge($queryParameters['search'] ?? [], $event->getFilters());
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(

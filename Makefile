@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-SHELL=/bin/bash
+SHELL=/bin/sh
 COMPOSER_ROOT=composer
 TEST_DIRECTORY=tests/Application
 CONSOLE=cd tests/Application && php bin/console -e test
@@ -59,7 +59,7 @@ install-plugin:
 	cp -r tests/data/* ${TEST_DIRECTORY}/
 
 update-dependencies:
-	${COMPOSER} config extra.symfony.require "^${SYMFONY_VERSION}"
+	${COMPOSER} config extra.symfony.require "~${SYMFONY_VERSION}"
 	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
 ifeq ($(shell [[ $(SYMFONY_VERSION) == 4.4 && $(PHP_VERSION) == 7.4 ]] && echo true ),true)
 	${COMPOSER} require sylius/admin-api-bundle:1.10.0 --no-scripts --no-update
@@ -85,7 +85,7 @@ phpunit-run:
 grumphp:
 	vendor/bin/grumphp run
 
-help: SHELL=/bin/bash
+help: SHELL=/bin/sh
 help: ## Dislay this help
 	@IFS=$$'\n'; for line in `grep -h -E '^[a-zA-Z_#-]+:?.*?##.*$$' $(MAKEFILE_LIST)`; do if [ "$${line:0:2}" = "##" ]; then \
 	echo $$line | awk 'BEGIN {FS = "## "}; {printf "\033[33m    %s\033[0m\n", $$2}'; else \

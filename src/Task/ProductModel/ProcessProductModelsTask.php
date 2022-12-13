@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -20,6 +22,8 @@ final class ProcessProductModelsTask extends AbstractProcessTask
 
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
+    private EventDispatcherInterface $eventDispatcher;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
@@ -27,11 +31,13 @@ final class ProcessProductModelsTask extends AbstractProcessTask
         BatchProductModelTask $task,
         ProductFilter $productFilter,
         ApiConnectionProviderInterface $apiConnectionProvider,
+        EventDispatcherInterface $eventDispatcher,
         string $projectDir
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
         $this->productFilter = $productFilter;
         $this->apiConnectionProvider = $apiConnectionProvider;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -50,6 +56,12 @@ final class ProcessProductModelsTask extends AbstractProcessTask
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
         $queryParameters = $this->productFilter->getProductModelFilters();
+
+        $event = new FilterEvent($payload->getCommandContext());
+        $this->eventDispatcher->dispatch($event);
+
+        $queryParameters['search'] = array_merge($queryParameters['search'], $event->getFilters());
+
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             $queryParameters
