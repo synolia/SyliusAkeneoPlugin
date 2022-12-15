@@ -14,11 +14,14 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValue\AfterProcessingProductOptionValueEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValue\BeforeProcessingProductOptionValueEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValue\ProductOptionValueBuilderNotFoundException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\CouldNotFindAxeLevelException;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 use Webmozart\Assert\Assert;
@@ -43,6 +46,8 @@ class OptionValueProcessor implements OptionValueProcessorInterface
 
     private EventDispatcherInterface $eventDispatcher;
 
+    private ApiConnectionProviderInterface $apiConnectionProvider;
+
     public function __construct(
         RepositoryInterface $productOptionRepository,
         RepositoryInterface $productOptionValueRepository,
@@ -52,7 +57,8 @@ class OptionValueProcessor implements OptionValueProcessorInterface
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager,
         ProductOptionValueBuilderInterface $productOptionValueBuilder,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         $this->productOptionRepository = $productOptionRepository;
         $this->productOptionValueRepository = $productOptionValueRepository;
@@ -63,8 +69,12 @@ class OptionValueProcessor implements OptionValueProcessorInterface
         $this->entityManager = $entityManager;
         $this->productOptionValueBuilder = $productOptionValueBuilder;
         $this->eventDispatcher = $eventDispatcher;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function process(ProductVariantInterface $productVariant, array $resource): void
     {
         $productModel = $productVariant->getProduct();
@@ -120,12 +130,40 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                 continue;
             }
 
-            if (!$productModel->hasOption($productOption)) {
-                $productModel->addOption($productOption);
-            }
+            try {
+                // if the attribute is part of the first variation axis, and we import this axis as model, we don't want it as an option of the variant
+                if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST &&
+                    \count($familyVariantPayload['variant_attribute_sets']) === 2 &&
+                    $this->getAxeLevelForAttributeCode(
+                        $familyVariantPayload['variant_attribute_sets'],
+                        $attributeCode
+                    ) === 1
+                ) {
+                    continue;
+                }
 
-            $this->setProductOptionValues($productVariant, $productOption, $values);
+                if (!$productModel->hasOption($productOption)) {
+                    $productModel->addOption($productOption);
+                }
+
+                $this->setProductOptionValues($productVariant, $productOption, $values);
+            } catch (CouldNotFindAxeLevelException $couldNotFindAxeLevelException) {
+            }
         }
+    }
+
+    /**
+     * @throws CouldNotFindAxeLevelException
+     */
+    private function getAxeLevelForAttributeCode(array $variantAttributeSets, string $attributeCode): int
+    {
+        foreach ($variantAttributeSets as $variantAttributeSet) {
+            if (in_array($attributeCode, $variantAttributeSet['axes'])) {
+                return $variantAttributeSet['level'];
+            }
+        }
+
+        throw new CouldNotFindAxeLevelException();
     }
 
     private function setProductOptionValues(
@@ -205,7 +243,6 @@ class OptionValueProcessor implements OptionValueProcessorInterface
             return false;
         }
 
-        //TODO: à changer
         $variationAxes = $productGroup->getVariationAxes();
 
         if (0 === \count($variationAxes)) {
