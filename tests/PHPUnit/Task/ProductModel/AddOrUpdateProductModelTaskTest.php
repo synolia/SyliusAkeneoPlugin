@@ -72,7 +72,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
             $this->assertFileExists(self::$kernel->getProjectDir() . '/public/media/image/' . $image->getPath());
         }
 
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'apollon']);
+        $productGroup = $this->productGroupRepository->findOneBy(['model' => 'apollon']);
         Assert::assertInstanceOf(ProductGroup::class, $productGroup);
     }
 

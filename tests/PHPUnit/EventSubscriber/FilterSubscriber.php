@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 

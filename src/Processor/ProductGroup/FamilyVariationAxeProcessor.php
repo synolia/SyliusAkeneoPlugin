@@ -40,7 +40,7 @@ final class FamilyVariationAxeProcessor
 
     public function process(array $resource): void
     {
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
+        $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['code']]);
         if (!$productGroup instanceof ProductGroup) {
             return;
         }
@@ -89,7 +89,7 @@ final class FamilyVariationAxeProcessor
                 $this->logger->info(sprintf(
                     'Added axe "%s" to product group "%s" for family "%s"',
                     $axe,
-                    $productGroup->getProductParent(),
+                    $productGroup->getModel(),
                     $family ?: $resource['family']
                 ));
             }

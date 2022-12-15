@@ -106,7 +106,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     ]);
 
                     if (!$taxonTranslation instanceof TaxonTranslationInterface) {
-                        /** @var \Sylius\Component\Taxonomy\Model\TaxonTranslationInterface $taxonTranslation */
+                        /** @var TaxonTranslationInterface $taxonTranslation */
                         $taxonTranslation = $this->taxonTranslationFactory->createNew();
                         $taxonTranslation->setLocale($locale);
                         $taxonTranslation->setTranslatable($taxon);

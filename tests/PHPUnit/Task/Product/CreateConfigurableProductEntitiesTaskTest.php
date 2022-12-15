@@ -26,6 +26,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
 use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformer;
+use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
 /**
  * @internal
@@ -124,15 +126,20 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
                 }
             }
 
+            /** @var ProductOptionValueDataTransformerInterface $transformer */
+            $transformer = $this->getContainer()->get(ProductOptionValueDataTransformer::class);
+
             //Testing product attribute translations
             foreach ($productVariant->getOptionValues() as $optionValue) {
-                if (!'size_' . $productToTest['attributes']['size'] === $optionValue->getCode()) {
+                if ($transformer->transform($optionValue->getOption(), $productToTest['attributes']['size']) !== $optionValue->getCode()) {
                     continue;
                 }
+
                 $productOptionValueTranslation = $productOptionValueTranslationRepository->findOneBy([
                     'translatable' => $optionValue,
                     'locale' => 'en_US',
                 ]);
+
                 $this->assertEquals(
                     $productToTest['attributes']['size'],
                     $productOptionValueTranslation->getValue()

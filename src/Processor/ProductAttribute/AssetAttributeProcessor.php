@@ -37,7 +37,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    private RepositoryInterface $akeneoAssetRepository;
+    private RepositoryInterface $assetRepository;
 
     private EntityManagerInterface $entityManager;
 
@@ -53,7 +53,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         RepositoryInterface $productAttributeRepository,
         LoggerInterface $akeneoLogger,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        RepositoryInterface $akeneoAssetRepository,
+        RepositoryInterface $assetRepository,
         EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeValueRepository,
         FactoryInterface $productAttributeValueFactory,
@@ -64,7 +64,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         $this->productAttributeRepository = $productAttributeRepository;
         $this->logger = $akeneoLogger;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->akeneoAssetRepository = $akeneoAssetRepository;
+        $this->assetRepository = $assetRepository;
         $this->entityManager = $entityManager;
         $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->productAttributeValueFactory = $productAttributeValueFactory;
@@ -148,7 +148,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         foreach ($context['data'] as $assetCodes) {
             foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
                 foreach ($assetCodes['data'] as $assetCode) {
-                    $asset = $this->akeneoAssetRepository->findOneBy([
+                    $asset = $this->assetRepository->findOneBy([
                         'familyCode' => $assetAttributeProperties['reference_data_name'],
                         'assetCode' => $assetCode,
                         'scope' => $context['scope'],

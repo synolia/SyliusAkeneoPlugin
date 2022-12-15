@@ -10,9 +10,13 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface ProductGroupInterface extends ResourceInterface
 {
-    public function setProductParent(string $productParent): self;
+    public function setModel(string $model): self;
 
-    public function getProductParent(): string;
+    public function getModel(): string;
+
+    public function getParent(): ?self;
+
+    public function setParent(?self $parent): self;
 
     /**
      * @return array|string[]
@@ -28,6 +32,10 @@ interface ProductGroupInterface extends ResourceInterface
     public function getFamily(): string;
 
     public function setFamily(string $family): self;
+
+    public function getFamilyVariant(): string;
+
+    public function setFamilyVariant(string $familyVariant): self;
 
     /**
      * @return Collection|ProductInterface[]

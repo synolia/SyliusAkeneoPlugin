@@ -320,6 +320,45 @@
                 "group_labels": {
                     "fr_FR": "Description produits (général)"
                 }
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/akeneo.example.com\/api\/rest\/v1\/attributes\/description"
+                    }
+                },
+                "code": "description",
+                "type": "pim_catalog_textarea",
+                "group": "marketing",
+                "unique": false,
+                "useable_as_grid_filter": true,
+                "allowed_extensions": [],
+                "metric_family": null,
+                "default_metric_unit": null,
+                "reference_data_name": null,
+                "available_locales": [],
+                "max_characters": null,
+                "validation_rule": null,
+                "validation_regexp": null,
+                "wysiwyg_enabled": true,
+                "number_min": null,
+                "number_max": null,
+                "decimals_allowed": null,
+                "negative_allowed": null,
+                "date_min": null,
+                "date_max": null,
+                "max_file_size": null,
+                "minimum_input_length": null,
+                "sort_order": 3,
+                "localizable": true,
+                "scopable": true,
+                "labels": {
+                    "de_DE": "Beschreibung",
+                    "en_US": "Description",
+                    "fr_FR": "Description"
+                },
+                "auto_option_sorting": null,
+                "is_read_only": false
             }
         ]
     }

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -50,10 +51,14 @@ final class ProcessFamilyTask extends AbstractProcessTask
 
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
-        $event = new FilterEvent($payload->getCommandContext());
-        $this->eventDispatcher->dispatch($event);
+        try {
+            $event = new FilterEvent($payload->getCommandContext());
+            $this->eventDispatcher->dispatch($event);
 
-        $queryParameters['search'] = $event->getFilters();
+            $queryParameters['search'] = $event->getFilters();
+        } catch (CommandContextIsNullException $commandContextIsNullException) {
+            $queryParameters = [];
+        }
 
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),

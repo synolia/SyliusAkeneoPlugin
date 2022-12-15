@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
 use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
-use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Configuration\ConfigurationContextTrait;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
@@ -71,10 +71,13 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         return $this;
     }
 
+    /**
+     * @throws CommandContextIsNullException
+     */
     public function getCommandContext(): CommandContextInterface
     {
         if (null === $this->commandContext) {
-            throw new LogicException('CommandContext is null');
+            throw new CommandContextIsNullException();
         }
 
         return $this->commandContext;

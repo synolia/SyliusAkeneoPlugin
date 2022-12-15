@@ -64,7 +64,7 @@ class ProcessProductGroupModelTaskTest extends AbstractTaskTest
         $productFinal = $this->productRepository->findOneBy(['code' => 'apollon_yellow']);
         Assert::assertInstanceOf(Product::class, $productFinal);
 
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'apollon']);
+        $productGroup = $this->productGroupRepository->findOneBy(['model' => 'apollon']);
         Assert::assertInstanceOf(ProductGroup::class, $productGroup);
 
         Assert::assertGreaterThan(0, $productGroup->getProducts()->count());

@@ -122,7 +122,7 @@ class AssociateProductsTaskTest extends AbstractTaskTest
     private function importCategories(): void
     {
         $categoryPayload = new CategoryPayload($this->client);
-        /** @var \League\Pipeline\Pipeline $categoryPipeline */
+        /** @var Pipeline $categoryPipeline */
         $categoryPipeline = $this->getContainer()->get(CategoryPipelineFactory::class)->create();
 
         $categoryPipeline->process($categoryPayload);
@@ -133,7 +133,7 @@ class AssociateProductsTaskTest extends AbstractTaskTest
         $productModelPayload = new ProductModelPayload($this->client);
         $productModelPayload->setProcessAsSoonAsPossible(false);
 
-        /** @var \League\Pipeline\Pipeline $productModelPipeline */
+        /** @var Pipeline $productModelPipeline */
         $productModelPipeline = $this->getContainer()->get(ProductModelPipelineFactory::class)->create();
 
         $productModelPipeline->process($productModelPayload);
@@ -144,7 +144,7 @@ class AssociateProductsTaskTest extends AbstractTaskTest
         $associationTypePayload = new AssociationTypePayload($this->client);
         $associationTypePayload->setProcessAsSoonAsPossible(false);
 
-        /** @var \League\Pipeline\Pipeline $associationTypePipeline */
+        /** @var Pipeline $associationTypePipeline */
         $associationTypePipeline = $this->getContainer()->get(AssociationTypePipelineFactory::class)->create();
 
         $associationTypePipeline->process($associationTypePayload);

@@ -11,17 +11,22 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
+use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorChainInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Throwable;
+use Webmozart\Assert\Assert;
 
 final class ConfigurableProductsTask extends AbstractCreateProductEntities
 {
@@ -30,6 +35,10 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     private EventDispatcherInterface $dispatcher;
 
     private ProductVariantProcessorChainInterface $productVariantProcessorChain;
+
+    private ClientFactoryInterface $clientFactory;
+
+    private ApiConnectionProviderInterface $apiConnectionProvider;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -46,7 +55,9 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         LoggerInterface $akeneoLogger,
         EventDispatcherInterface $dispatcher,
         ProductChannelEnablerProcessorInterface $productChannelEnabler,
-        ProductVariantProcessorChainInterface $productVariantProcessorChain
+        ProductVariantProcessorChainInterface $productVariantProcessorChain,
+        ClientFactoryInterface $clientFactory,
+        ApiConnectionProviderInterface $apiConnectionProvider
     ) {
         parent::__construct(
             $entityManager,
@@ -63,6 +74,8 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         $this->productGroupRepository = $productGroupRepository;
         $this->dispatcher = $dispatcher;
         $this->productVariantProcessorChain = $productVariantProcessorChain;
+        $this->clientFactory = $clientFactory;
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -72,8 +85,20 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void
     {
         try {
-            /** @var ProductInterface $productModel */
-            $productModel = $this->productRepository->findOneBy(['code' => $resource['parent']]);
+            $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
+
+            if (!$productGroup instanceof ProductGroup) {
+                $this->logger->warning(sprintf(
+                    'Skipped product "%s" because model "%s" does not exist as group.',
+                    $resource['identifier'],
+                    $resource['parent'],
+                ));
+
+                return;
+            }
+
+            /** @var ProductInterface|null $productModel */
+            $productModel = $this->productRepository->findOneBy(['code' => $this->getModelCode($productGroup)]);
 
             //Skip product variant import if it does not have a parent model on Sylius
             if (!$productModel instanceof ProductInterface || !\is_string($productModel->getCode())) {
@@ -88,21 +113,15 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
             $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $productModel));
 
-            $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
+            $familyVariantPayload = $this->clientFactory
+                ->createFromApiCredentials()
+                ->getFamilyVariantApi()
+                ->get(
+                    $resource['family'],
+                    $productGroup->getFamilyVariant()
+                );
 
-            if (!$productGroup instanceof ProductGroup) {
-                $this->logger->warning(sprintf(
-                    'Skipped product "%s" because model "%s" does not exist as group.',
-                    $resource['identifier'],
-                    $resource['parent'],
-                ));
-
-                return;
-            }
-
-            $variationAxes = $productGroup->getVariationAxes();
-
-            if (0 === \count($variationAxes)) {
+            if (0 === \count($familyVariantPayload['variant_attribute_sets'])) {
                 $this->logger->warning(sprintf(
                     'Skipped product "%s" because group has no variation axis.',
                     $resource['identifier'],
@@ -117,8 +136,21 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
             $this->entityManager->flush();
         } catch (Throwable $throwable) {
-            $this->logger->warning($throwable->getMessage());
+            $this->logger->warning($throwable->getMessage(), [
+                'exception' => $throwable,
+            ]);
         }
+    }
+
+    private function getModelCode(ProductGroupInterface $productGroup): string
+    {
+        if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON) {
+            Assert::isInstanceOf($productGroup->getParent(), ProductGroupInterface::class);
+
+            return $productGroup->getParent()->getModel();
+        }
+
+        return $productGroup->getModel();
     }
 
     private function getOrCreateEntity(string $variantCode, ProductInterface $productModel): ProductVariantInterface

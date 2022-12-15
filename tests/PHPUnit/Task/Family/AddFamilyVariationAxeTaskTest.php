@@ -62,7 +62,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $tearDownFamilyTask->__invoke($familyPayload);
 
         /** @var ProductGroupInterface $productGroup */
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'caelus']);
+        $productGroup = $this->productGroupRepository->findOneBy(['model' => 'caelus']);
         $this->assertNotNull($productGroup);
         $this->assertEquals('clothing', $productGroup->getFamily());
     }

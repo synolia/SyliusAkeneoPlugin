@@ -6,6 +6,8 @@ namespace Synolia\SyliusAkeneoPlugin\Checker\Product;
 
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
 final class IsProductProcessableChecker implements IsProductProcessableCheckerInterface
 {
@@ -17,11 +19,17 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 
     private array $familyVariants;
 
-    public function __construct(ClientFactoryInterface $clientFactory, LoggerInterface $logger)
-    {
+    private ApiConnectionProviderInterface $apiConnectionProvider;
+
+    public function __construct(
+        ClientFactoryInterface $clientFactory,
+        LoggerInterface $logger,
+        ApiConnectionProviderInterface $apiConnectionProvider
+    ) {
         $this->clientFactory = $clientFactory;
         $this->logger = $logger;
         $this->familyVariants = [];
+        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function check(array $resource): bool
@@ -42,8 +50,21 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 
         $numberOfVariationAxis = isset($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0;
 
-        if (null === $resource['parent'] && $numberOfVariationAxis > self::ONE_VARIATION_AXIS) {
+        if (null === $resource['parent'] &&
+            $numberOfVariationAxis > self::ONE_VARIATION_AXIS &&
+            $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST
+        ) {
             $this->logger->warning('Skipping product import because the parent is null and it has more than one variation axis.', ['resource' => $resource]);
+
+            return false;
+        }
+
+        // The common model will not be imported. The first axe on akeneo will become the product on sylius and the next axe on akeneo will become an option for the product variant
+        if (null !== $resource['parent'] &&
+            $numberOfVariationAxis === 2 &&
+            $this->apiConnectionProvider->get()->getAxeAsModel() !== AkeneoAxesEnum::FIRST
+        ) {
+            $this->logger->warning('Skipping product import because the parent is null, and it has more than one variation axis.', ['resource' => $resource]);
 
             return false;
         }

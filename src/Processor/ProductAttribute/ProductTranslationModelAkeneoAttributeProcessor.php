@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
+use ReflectionException;
 use ReflectionMethod;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 
 final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
@@ -54,18 +59,21 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
             return;
         }
 
-        $attributeValueValue = $this->akeneoAttributeDataProvider->getData(
-            $attributeCode,
-            $translations,
-            $locale,
-            $scope
-        );
+        try {
+            $attributeValueValue = $this->akeneoAttributeDataProvider->getData(
+                $attributeCode,
+                $translations,
+                $locale,
+                $scope
+            );
 
-        $translationModel = $model->getTranslation($locale);
-        $reflectionMethod = new ReflectionMethod(
-            $translationModel,
-            $this->getSetterMethodFromAttributeCode($attributeCode)
-        );
-        $reflectionMethod->invoke($translationModel, $attributeValueValue);
+            $translationModel = $model->getTranslation($locale);
+            $reflectionMethod = new ReflectionMethod(
+                $translationModel,
+                $this->getSetterMethodFromAttributeCode($attributeCode)
+            );
+            $reflectionMethod->invoke($translationModel, $attributeValueValue);
+        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException|ReflectionException $e) {
+        }
     }
 }

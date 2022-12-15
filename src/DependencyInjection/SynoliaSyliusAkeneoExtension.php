@@ -29,6 +29,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.yaml');
+        $loader->load('processors.yaml');
 
         $this->processApiConfiguration($container, $config);
     }

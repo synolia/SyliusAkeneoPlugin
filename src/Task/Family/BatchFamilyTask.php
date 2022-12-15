@@ -82,14 +82,15 @@ final class BatchFamilyTask extends AbstractBatchTask
         return $payload;
     }
 
-    private function createGroupForCodeAndFamily(string $code, string $family): ProductGroupInterface
+    private function createGroupForCodeAndFamily(string $code, string $family, string $familyVariant, ?string $parent = null): ProductGroupInterface
     {
         if (isset($this->productGroupsMapping[$code])) {
             return $this->productGroupsMapping[$code];
         }
 
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $code]);
+        $productGroup = $this->productGroupRepository->findOneBy(['model' => $code]);
         if ($productGroup instanceof ProductGroup) {
+            $this->productGroupsMapping[$code] = $productGroup;
             ++$this->groupAlreadyExistCount;
 
             $this->logger->info(sprintf(
@@ -97,6 +98,11 @@ final class BatchFamilyTask extends AbstractBatchTask
                 $code,
                 $family,
             ));
+
+            $productGroup->setParent($this->productGroupsMapping[$parent] ?? null);
+            $productGroup->setModel($code);
+            $productGroup->setFamily($family);
+            $productGroup->setFamilyVariant($familyVariant);
 
             return $productGroup;
         }
@@ -109,8 +115,10 @@ final class BatchFamilyTask extends AbstractBatchTask
 
         /** @var ProductGroupInterface $productGroup */
         $productGroup = $this->productGroupFactory->createNew();
-        $productGroup->setProductParent($code);
+        $productGroup->setParent($this->productGroupsMapping[$parent] ?? null);
+        $productGroup->setModel($code);
         $productGroup->setFamily($family);
+        $productGroup->setFamilyVariant($familyVariant);
         $this->entityManager->persist($productGroup);
         $this->productGroupsMapping[$code] = $productGroup;
 
@@ -122,10 +130,11 @@ final class BatchFamilyTask extends AbstractBatchTask
     private function createProductGroups(array $resource): void
     {
         if (null !== $resource['parent']) {
-            $this->createGroupForCodeAndFamily($resource['parent'], $resource['family']);
+            $this->createGroupForCodeAndFamily($resource['parent'], $resource['family'], $resource['family_variant']);
         }
+
         if (null !== $resource['code']) {
-            $this->createGroupForCodeAndFamily($resource['code'], $resource['family']);
+            $this->createGroupForCodeAndFamily($resource['code'], $resource['family'], $resource['family_variant'], $resource['parent']);
         }
     }
 }

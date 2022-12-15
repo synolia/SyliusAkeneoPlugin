@@ -93,7 +93,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
                     $subAttributeCode,
                     $locale,
                     $scope,
-                    $value
+                    $data
                 );
             } catch (
                 MissingLocaleTranslationException |
