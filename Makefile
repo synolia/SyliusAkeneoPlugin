@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-SHELL=/bin/sh
+SHELL=/bin/bash
 COMPOSER_ROOT=composer
 TEST_DIRECTORY=tests/Application
 CONSOLE=cd tests/Application && php bin/console -e test
@@ -85,7 +85,7 @@ phpunit-run:
 grumphp:
 	vendor/bin/grumphp run
 
-help: SHELL=/bin/sh
+help: SHELL=/bin/bash
 help: ## Dislay this help
 	@IFS=$$'\n'; for line in `grep -h -E '^[a-zA-Z_#-]+:?.*?##.*$$' $(MAKEFILE_LIST)`; do if [ "$${line:0:2}" = "##" ]; then \
 	echo $$line | awk 'BEGIN {FS = "## "}; {printf "\033[33m    %s\033[0m\n", $$2}'; else \

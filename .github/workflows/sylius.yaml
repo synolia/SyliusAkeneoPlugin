@@ -164,7 +164,6 @@ jobs:
             -
                 name: 'Run PHPUnit'
                 run: 'make phpunit'
-                if: 'always() && steps.end-of-setup-sylius.outcome == ''success'''
         services:
             mariadb:
                 image: 'mariadb:10.4.11'

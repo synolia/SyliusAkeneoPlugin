@@ -45,7 +45,9 @@ final class ProcessProductsTask extends AbstractProcessTask
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
+     * @param ProductPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
