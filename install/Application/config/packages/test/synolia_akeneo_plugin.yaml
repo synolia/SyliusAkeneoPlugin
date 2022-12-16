@@ -5,6 +5,7 @@ parameters:
     env(SYNOLIA_AKENEO_USERNAME): 'test'
     env(SYNOLIA_AKENEO_PASSWORD): 'test'
     env(SYNOLIA_AKENEO_EDITION): !php/const \Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum::ENTERPRISE
+    env(SYNOLIA_AKENEO_AXE_AS_MODEL): !php/const \Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum::FIRST
     env(SYNOLIA_AKENEO_PAGINATION): 100
 
 synolia_sylius_akeneo:
@@ -15,4 +16,5 @@ synolia_sylius_akeneo:
         username: '%env(resolve:SYNOLIA_AKENEO_USERNAME)%'
         password: '%env(resolve:SYNOLIA_AKENEO_PASSWORD)%'
         edition: '%env(resolve:SYNOLIA_AKENEO_EDITION)%'
+        axe_as_model: '%env(resolve:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
         pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
