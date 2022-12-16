@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Asset;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Asset\AssetPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -14,11 +15,14 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessAssetTask extends AbstractProcessTask
 {
+    private EditionCheckerInterface $editionChecker;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchAssetTask $task,
+        EditionCheckerInterface $editionChecker,
         string $projectDir
     ) {
         parent::__construct(
@@ -28,6 +32,8 @@ final class ProcessAssetTask extends AbstractProcessTask
             $akeneoLogger,
             $projectDir
         );
+
+        $this->editionChecker = $editionChecker;
     }
 
     /**
@@ -35,6 +41,14 @@ final class ProcessAssetTask extends AbstractProcessTask
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();
+
+        if (!$isEnterprise) {
+            $this->logger->warning('Skipped akeneo:import:assets command because the configured Akeneo edition is not compatible.');
+
+            return $payload;
+        }
+
         $this->logger->debug(self::class);
 
         if ($payload->isContinue()) {
