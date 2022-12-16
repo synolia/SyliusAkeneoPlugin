@@ -26,7 +26,6 @@ use Synolia\SyliusAkeneoPlugin\Repository\ChannelRepository;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Throwable;
-use Webmozart\Assert\Assert;
 
 final class ConfigurableProductsTask extends AbstractCreateProductEntities
 {
@@ -97,6 +96,12 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
                 return;
             }
 
+            $this->logger->info(sprintf(
+                'Processing product "%s" on model "%s".',
+                $resource['identifier'],
+                $resource['parent'],
+            ));
+
             /** @var ProductInterface|null $productModel */
             $productModel = $this->productRepository->findOneBy(['code' => $this->getModelCode($productGroup)]);
 
@@ -144,9 +149,8 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
 
     private function getModelCode(ProductGroupInterface $productGroup): string
     {
-        if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON) {
-            Assert::isInstanceOf($productGroup->getParent(), ProductGroupInterface::class);
-
+        if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON &&
+            $productGroup->getParent() !== null) {
             return $productGroup->getParent()->getModel();
         }
 
