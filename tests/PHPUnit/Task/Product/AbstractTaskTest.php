@@ -48,11 +48,6 @@ abstract class AbstractTaskTest extends ApiTestCase
             new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK)
         );
 
-//        $this->server->setResponseOfPath(
-//            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-//            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK)
-//        );
-
         $this->server->setResponseOfPath(
             '/' . FamilyApi::FAMILIES_URI,
             new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)

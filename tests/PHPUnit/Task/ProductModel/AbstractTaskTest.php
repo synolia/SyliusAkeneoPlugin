@@ -100,7 +100,7 @@ abstract class AbstractTaskTest extends ApiTestCase
     }
 
     protected function prepareSelectQuery(
-        int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
+        int $limit = 100,
         int $offset = 0
     ): Statement {
         $query = $this->manager->getConnection()->prepare(sprintf(

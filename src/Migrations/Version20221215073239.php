@@ -14,7 +14,7 @@ final class Version20221215073239 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Refactored Akeneo ProductGroup table';
     }
 
     public function up(Schema $schema): void

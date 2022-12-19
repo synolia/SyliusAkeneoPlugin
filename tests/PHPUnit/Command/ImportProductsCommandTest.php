@@ -44,6 +44,6 @@ class ImportProductsCommandTest extends ApiTestCase
         // the output of the command in the console
         $output = $commandTester->getDisplay();
 
-//        $this->assertStringContainsString('Provider: synolia', $output);
+        $this->assertStringContainsString('Provider: synolia', $output);
     }
 }
