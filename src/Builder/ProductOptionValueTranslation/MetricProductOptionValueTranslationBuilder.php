@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Retriever\MeasurableNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyMeasureRetriever;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MetricAttributeTypeMatcher;
@@ -32,16 +33,22 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
 
     private FamilyMeasureRetriever $measureFamilyRetriever;
 
+    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
+
+    private ?string $scope = null;
+
     public function __construct(
         AttributeTypeMatcher $attributeTypeMatcher,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        FamilyMeasureRetriever $measureFamilyRetriever
+        FamilyMeasureRetriever $measureFamilyRetriever,
+        ProductFilterRulesProviderInterface $productFilterRulesProvider
     ) {
         $this->attributeTypeMatcher = $attributeTypeMatcher;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
         $this->measureFamilyRetriever = $measureFamilyRetriever;
+        $this->productFilterRulesProvider = $productFilterRulesProvider;
     }
 
     public function support(
@@ -82,7 +89,7 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
             $attributeCode,
             $attributeValues,
             $locale,
-            'ecommerce'
+            $this->getScope(),
         );
 
         $productOptionValue->setCurrentLocale($locale);
@@ -97,5 +104,14 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
     public static function getDefaultPriority(): int
     {
         return 100;
+    }
+
+    private function getScope(): string
+    {
+        if (null !== $this->scope) {
+            return $this->scope;
+        }
+
+        return $this->productFilterRulesProvider->getProductFiltersRules()->getChannel();
     }
 }
