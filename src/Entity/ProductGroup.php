@@ -17,30 +17,29 @@ use Sylius\Component\Core\Model\ProductInterface;
 class ProductGroup implements ProductGroupInterface
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
-    private $productParent;
+    private ?ProductGroupInterface $parent = null;
 
-    /**
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $variationAxes = [];
+    /** @ORM\Column(type="string", length=255, nullable=false, unique=true) */
+    private string $model;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $family = '';
+    /** @ORM\Column(type="array") */
+    private array $variationAxes = [];
+
+    /** @ORM\Column(type="string") */
+    private string $family = '';
+
+    /** @ORM\Column(type="string") */
+    private string $familyVariant = '';
 
     /**
      * @var ArrayCollection
@@ -62,16 +61,28 @@ class ProductGroup implements ProductGroupInterface
         return $this->id;
     }
 
-    public function setProductParent(string $productParent): ProductGroupInterface
+    public function getParent(): ?ProductGroupInterface
     {
-        $this->productParent = $productParent;
+        return $this->parent;
+    }
+
+    public function setParent(?ProductGroupInterface $parent): self
+    {
+        $this->parent = $parent;
 
         return $this;
     }
 
-    public function getProductParent(): string
+    public function setModel(string $model): ProductGroupInterface
     {
-        return $this->productParent;
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function getModel(): string
+    {
+        return $this->model;
     }
 
     /**
@@ -156,6 +167,18 @@ class ProductGroup implements ProductGroupInterface
     public function setFamily(string $family): ProductGroupInterface
     {
         $this->family = $family;
+
+        return $this;
+    }
+
+    public function getFamilyVariant(): string
+    {
+        return $this->familyVariant;
+    }
+
+    public function setFamilyVariant(string $familyVariant): ProductGroupInterface
+    {
+        $this->familyVariant = $familyVariant;
 
         return $this;
     }

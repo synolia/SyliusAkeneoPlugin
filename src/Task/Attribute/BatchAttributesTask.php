@@ -164,15 +164,13 @@ final class BatchAttributesTask extends AbstractBatchTask
     {
         $variationAxes = [];
 
+        /** @var array{variant_attribute_sets: array} $familyVariant */
         foreach ($familyVariants as $familyVariant) {
-            //Sort array of variant attribute sets by level DESC
-            usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
-                return (int) ($leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level']);
-            });
-
-            //We only want to get the last variation set
-            foreach ($familyVariant['variant_attribute_sets'][0]['axes'] as $axe) {
-                $variationAxes[] = $axe;
+            /** @var array{axes: array} $variantAttributeSet */
+            foreach ($familyVariant['variant_attribute_sets'] as $variantAttributeSet) {
+                foreach ($variantAttributeSet['axes'] as $axe) {
+                    $variationAxes[] = $axe;
+                }
             }
         }
 

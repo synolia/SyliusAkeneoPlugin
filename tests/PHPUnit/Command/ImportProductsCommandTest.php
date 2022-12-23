@@ -6,14 +6,11 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Command;
 
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\Response;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Command\BatchImportProductsCommand;
-use Synolia\SyliusAkeneoPlugin\Command\ImportProductsCommand;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Command\ImportProductsCommand;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 class ImportProductsCommandTest extends ApiTestCase
 {

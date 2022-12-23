@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilterInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -44,7 +45,9 @@ final class ProcessProductsTask extends AbstractProcessTask
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload $payload
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
+     * @param ProductPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -61,10 +64,13 @@ final class ProcessProductsTask extends AbstractProcessTask
         $queryParameters = $this->productFilter->getProductFilters();
         $queryParameters['pagination_type'] = 'search_after';
 
-        $event = new FilterEvent($payload->getCommandContext());
-        $this->eventDispatcher->dispatch($event);
+        try {
+            $event = new FilterEvent($payload->getCommandContext());
+            $this->eventDispatcher->dispatch($event);
 
-        $queryParameters['search'] = array_merge($queryParameters['search'] ?? [], $event->getFilters());
+            $queryParameters['search'] = array_merge($queryParameters['search'] ?? [], $event->getFilters());
+        } catch (CommandContextIsNullException $commandContextIsNullException) {
+        }
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(

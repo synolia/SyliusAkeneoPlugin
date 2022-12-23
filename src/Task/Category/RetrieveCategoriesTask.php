@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
+use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
@@ -23,25 +27,40 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
 
     private ApiConnectionProviderInterface $apiConnectionProvider;
 
+    private EventDispatcherInterface $eventDispatcher;
+
     public function __construct(
         CategoryConfigurationRepository $categoriesConfigurationRepository,
         LoggerInterface $akeneoLogger,
-        ApiConnectionProviderInterface $apiConnectionProvider
+        ApiConnectionProviderInterface $apiConnectionProvider,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->categoriesConfigurationRepository = $categoriesConfigurationRepository;
         $this->logger = $akeneoLogger;
         $this->apiConnectionProvider = $apiConnectionProvider;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * @param \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $payload
+     * @param CategoryPayload $payload
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
+
+        try {
+            $event = new FilterEvent($payload->getCommandContext());
+            $this->eventDispatcher->dispatch($event);
+
+            $queryParameters['search'] = $event->getFilters();
+        } catch (CommandContextIsNullException $commandContextIsNullException) {
+            $queryParameters = [];
+        }
+
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
-            $this->apiConnectionProvider->get()->getPaginationSize()
+            $this->apiConnectionProvider->get()->getPaginationSize(),
+            $queryParameters
         );
 
         $configuration = $this->categoriesConfigurationRepository->getCategoriesConfiguration();

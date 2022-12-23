@@ -10,88 +10,11 @@ services:
         arguments:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
-    Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\CompleteRequirementProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\MainTaxonProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\AttributesProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\ProductChannelEnablerProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\ProductGroupProcessor:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\ProductGroupProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\TaxonsProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\TaxonsProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\Product\ImagesProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\Product\ImagesProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface::TAG_ID }
-
     # ProductVariant Processors
     Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorChainInterface:
         class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorChain
         arguments:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\PricingProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\PricingProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ImagesProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ImagesProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\OptionValueProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\OptionValueProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\AttributeProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\AttributeProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\NameProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\NameProcessor
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID }
-
-    # ProductAttribute Processors
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessor
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeAkeneoAttributeProcessor:
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetAttributeProcessor:
-        arguments:
-            $akeneoAssetRepository: '@akeneo.repository.asset'
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
 
     # ProductAttributeValue Processors
     Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\JsonReferenceEntityAttributeValueProcessor:
@@ -104,41 +27,42 @@ services:
         arguments:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
-    Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\SelectOptionValuesProcessor:
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID }
+    # ProductOptionValueTranslation Processors
+    Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderProcessorInterface:
+        class: Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilder
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
-    Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\ReferenceEntityOptionValuesProcessor:
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface::TAG_ID }
+    # ProductOptionValue Processors
+    Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilder
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
-#######################
-#### MORE EXAMPLES ####
-#######################
-#    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductModelAkeneoAttributeProcessor:
-#        arguments:
-#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-#            $model: '%sylius.model.product.class%'
-#        tags:
-#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-#
-#    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductTranslationModelAkeneoAttributeProcessor:
-#        arguments:
-#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-#            $model: '%sylius.model.product_translation.class%'
-#        tags:
-#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-#
-#    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantModelAkeneoAttributeProcessor:
-#        arguments:
-#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-#            $model: '%sylius.model.product_variant.class%'
-#        tags:
-#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-#
-#    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantTranslationModelAkeneoAttributeProcessor:
-#        arguments:
-#            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-#            $model: '%sylius.model.product_variant_translation.class%'
-#        tags:
-#            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductModelAkeneoAttributeProcessor:
+        arguments:
+            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+            $model: '%sylius.model.product.class%'
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductTranslationModelAkeneoAttributeProcessor:
+        arguments:
+            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+            $model: '%sylius.model.product_translation.class%'
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantModelAkeneoAttributeProcessor:
+        arguments:
+            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+            $model: '%sylius.model.product_variant.class%'
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantTranslationModelAkeneoAttributeProcessor:
+        arguments:
+            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+            $model: '%sylius.model.product_variant_translation.class%'
+        tags:
+            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }

@@ -59,14 +59,14 @@ class AssociateProductsTask implements AkeneoTaskInterface
 
         foreach ($productGroups as $productGroup) {
             $this->akeneoLogger->info('Processing ProductGroup', [
-                'parent' => $productGroup->getProductParent(),
+                'parent' => $productGroup->getModel(),
             ]);
 
-            $parentModel = $this->productRepository->findOneBy(['code' => $productGroup->getProductParent()]);
+            $parentModel = $this->productRepository->findOneBy(['code' => $productGroup->getModel()]);
 
             if (!$parentModel instanceof ProductInterface) {
                 $this->akeneoLogger->warning('Skipped ProductGroup', [
-                    'parent' => $productGroup->getProductParent(),
+                    'parent' => $productGroup->getModel(),
                 ]);
 
                 continue;
@@ -143,7 +143,7 @@ class AssociateProductsTask implements AkeneoTaskInterface
             // if the product is not found, search it is a top level product "common"
             // if found, we have to get all the products bound to this "parent" (second variation)
             /** @var ProductGroupInterface $associationProductGroup */
-            $associationProductGroup = $this->productGroupRepository->findOneBy(['productParent' => $model]);
+            $associationProductGroup = $this->productGroupRepository->findOneBy(['model' => $model]);
 
             foreach ($associationProductGroup->getProducts() as $product) {
                 $models[] = $product;

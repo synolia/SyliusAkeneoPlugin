@@ -28,7 +28,7 @@ final class ProductGroupProcessor implements ProductGroupProcessorInterface
 
     public function process(ProductInterface $product, array $resource): void
     {
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+        $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
 
         if ($productGroup instanceof ProductGroup && 0 === $this->productGroupRepository->isProductInProductGroup($product, $productGroup)) {
             $productGroup->addProduct($product);

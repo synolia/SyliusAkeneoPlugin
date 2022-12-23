@@ -21,6 +21,10 @@ SYNOLIA_AKENEO_PASSWORD=
 
 # See Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum
 SYNOLIA_AKENEO_EDITION=ee
+
+# See Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum
+SYNOLIA_AKENEO_AXE_AS_MODEL=first
+
 # Integer between 1 and 100
 SYNOLIA_AKENEO_PAGINATION=100
 ```
@@ -36,9 +40,19 @@ synolia_sylius_akeneo:
         username: '%env(resolve:SYNOLIA_AKENEO_USERNAME)%'
         password: '%env(resolve:SYNOLIA_AKENEO_PASSWORD)%'
         edition: '%env(resolve:SYNOLIA_AKENEO_EDITION)%'
+        axe_as_model: '%env(resolve:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
         pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
 
 ```
+
+#### Axe as model configuration
+
+Option "**first**" :
+The "common" model on Akeneo will not be imported. The first axe on akeneo will become the product on sylius and all the other axes on akeneo will become a combination of options for the product variant.
+
+Option "**common**" : 
+The common model on akeneo will become the product on sylius and all the other axes on akeneo will become a combination of options for the product variant.
+
 
 ### The Akeneo API configuration can be setup in Sylius Admin.
 

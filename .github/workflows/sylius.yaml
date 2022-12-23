@@ -160,11 +160,9 @@ jobs:
                 name: 'Doctrine Schema Validate - Run'
                 working-directory: ./tests/Application
                 run: 'php bin/console doctrine:schema:validate --skip-sync'
-                if: 'always() && steps.end-of-setup-sylius.outcome == ''success'''
             -
                 name: 'Run PHPUnit'
                 run: 'make phpunit'
-                if: 'always() && steps.end-of-setup-sylius.outcome == ''success'''
         services:
             mariadb:
                 image: 'mariadb:10.4.11'

@@ -114,7 +114,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
               "data": "600"
             }
           ]', true), 'fr_FR', 'ecommerce'];
-        yield ['32 INCH', 'display_diagonal', json_decode('[
+        yield [['unit' => 'INCH', 'amount' => '32'], 'display_diagonal', json_decode('[
             {
               "locale": null,
               "scope": null,

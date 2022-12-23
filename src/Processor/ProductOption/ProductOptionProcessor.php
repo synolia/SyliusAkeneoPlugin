@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductOption;
 
 use Sylius\Component\Attribute\Model\AttributeInterface;
-use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManager;
+use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManagerInterface;
 
 final class ProductOptionProcessor implements ProductOptionProcessorInterface
 {
-    private ProductOptionManager $productOptionManager;
+    private ProductOptionManagerInterface $productOptionManager;
 
-    public function __construct(ProductOptionManager $productOptionManager)
+    public function __construct(ProductOptionManagerInterface $productOptionManager)
     {
         $this->productOptionManager = $productOptionManager;
     }

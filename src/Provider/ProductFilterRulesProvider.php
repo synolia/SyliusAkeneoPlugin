@@ -19,6 +19,9 @@ final class ProductFilterRulesProvider implements ProductFilterRulesProviderInte
         $this->productFiltersRulesRepository = $productFiltersRulesRepository;
     }
 
+    /**
+     * @throws NoProductFiltersConfigurationException
+     */
     public function getProductFiltersRules(): ProductFiltersRules
     {
         if (isset($this->productFiltersRules)) {

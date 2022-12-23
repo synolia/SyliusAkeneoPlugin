@@ -20,5 +20,7 @@ interface ApiConnectionInterface
 
     public function getEdition(): string;
 
+    public function getAxeAsModel(): string;
+
     public function getPaginationSize(): int;
 }

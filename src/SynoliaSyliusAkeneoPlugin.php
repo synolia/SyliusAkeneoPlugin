@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeTypeMatcherCompilerPass;
@@ -16,6 +18,10 @@ use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValue
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoDataMigrationTransformerCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentityAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
+use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMatcherInterface;
@@ -60,6 +66,30 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle
         $container
             ->registerForAutoconfiguration(DataMigrationTransformerInterface::class)
             ->addTag(DataMigrationTransformerInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(ProductOptionValueTranslationBuilderInterface::class)
+            ->addTag(ProductOptionValueTranslationBuilderInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(DynamicOptionValueBuilderInterface::class)
+            ->addTag(DynamicOptionValueBuilderInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(AkeneoAttributeProcessorInterface::class)
+            ->addTag(AkeneoAttributeProcessorInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(ProductProcessorInterface::class)
+            ->addTag(ProductProcessorInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(ProductVariantProcessorInterface::class)
+            ->addTag(ProductVariantProcessorInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(OptionValuesProcessorInterface::class)
+            ->addTag(OptionValuesProcessorInterface::TAG_ID)
         ;
 
         $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());

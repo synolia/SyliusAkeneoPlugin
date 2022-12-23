@@ -95,7 +95,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
 
             $this->entityManager->flush();
         } catch (Throwable $throwable) {
-            $this->logger->warning($throwable->getMessage());
+            $this->logger->warning($throwable->getMessage(), ['exception' => $throwable]);
         }
     }
 

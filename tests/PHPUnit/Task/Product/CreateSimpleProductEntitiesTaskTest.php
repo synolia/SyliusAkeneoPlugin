@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
@@ -29,11 +30,9 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
  */
 final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
-    private $taskProvider;
+    private TaskProvider $taskProvider;
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private $client;
+    private AkeneoPimClientInterface $client;
 
     protected function setUp(): void
     {
@@ -135,7 +134,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         ]);
         $this->assertNotNull($referenceEntityAttributeValue);
 
-        $expectedArray = json_decode('{"code":"noir","attributes":{"label":"BLANC","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_blanc.png","filtre_couleur_1":"noir"}}', true);
+        $expectedArray = json_decode('{"code":"noir","attributes":{"label":"NOIR","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_noir.png","filtre_couleur_1":"filtre_noir"}}', true);
         $finalArray = $referenceEntityAttributeValue->getValue();
 
         ksort($expectedArray);

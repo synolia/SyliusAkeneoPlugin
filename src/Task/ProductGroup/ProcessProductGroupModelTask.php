@@ -61,7 +61,7 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
             }
 
             /** @var ProductGroupInterface|null $productGroup */
-            $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+            $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
 
             if (!$productGroup instanceof ProductGroupInterface) {
                 continue;
@@ -74,8 +74,8 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
                 continue;
             }
 
-            if (!\array_key_exists($productGroup->getProductParent(), $this->productGroups)) {
-                $this->productGroups[$productGroup->getProductParent()] = true;
+            if (!\array_key_exists($productGroup->getModel(), $this->productGroups)) {
+                $this->productGroups[$productGroup->getModel()] = true;
                 $productGroup->getProducts()->clear();
 
                 $this->logger->info('Cleaned ProductGroup associations', [

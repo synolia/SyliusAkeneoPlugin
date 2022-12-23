@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
@@ -48,10 +49,14 @@ final class ProcessAttributeTask extends AbstractProcessTask
             return $payload;
         }
 
-        $event = new FilterEvent($payload->getCommandContext());
-        $this->eventDispatcher->dispatch($event);
+        try {
+            $event = new FilterEvent($payload->getCommandContext());
+            $this->eventDispatcher->dispatch($event);
 
-        $queryParameters['search'] = $event->getFilters();
+            $queryParameters['search'] = $event->getFilters();
+        } catch (CommandContextIsNullException $commandContextIsNullException) {
+            $queryParameters = [];
+        }
 
         $page = $payload->getAkeneoPimClient()->getAttributeApi()->listPerPage(
             $this->apiConnectionProvider->get()->getPaginationSize(),

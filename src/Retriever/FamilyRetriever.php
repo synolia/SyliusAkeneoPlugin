@@ -13,6 +13,8 @@ final class FamilyRetriever implements FamilyRetrieverInterface
     /** @var array<string> */
     private array $familiesByVariant = [];
 
+    private array $families = [];
+
     private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
 
     private LoggerInterface $logger;
@@ -29,6 +31,24 @@ final class FamilyRetriever implements FamilyRetrieverInterface
         $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
+    public function getFamily(string $familyCode): array
+    {
+        if (\array_key_exists($familyCode, $this->families)) {
+            return $this->families[$familyCode];
+        }
+
+        $paginationSize = $this->apiConnectionProvider->get()->getPaginationSize();
+
+        $families = $this->akeneoPimClient->getFamilyApi()->all($paginationSize);
+
+        /** @var array{code: string} $family */
+        foreach ($families as $family) {
+            $this->families[$family['code']] = $family;
+        }
+
+        return $this->families[$familyCode];
+    }
+
     public function getFamilyCodeByVariantCode(string $familyVariantCode): string
     {
         if (\array_key_exists($familyVariantCode, $this->familiesByVariant)) {
@@ -40,12 +60,18 @@ final class FamilyRetriever implements FamilyRetrieverInterface
         try {
             $families = $this->akeneoPimClient->getFamilyApi()->all($paginationSize);
 
+            /** @var array{code: string} $family */
             foreach ($families as $family) {
+                if (!\array_key_exists($family['code'], $this->families)) {
+                    $this->families[$family['code']] = $family;
+                }
+
                 $familyVariants = $this->akeneoPimClient->getFamilyVariantApi()->all($family['code'], $paginationSize);
                 if (!$familyVariants->valid()) {
                     continue;
                 }
 
+                /** @var array{code: string} $familyVariant */
                 foreach ($familyVariants as $familyVariant) {
                     $this->familiesByVariant[$familyVariant['code']] = $family['code'];
                 }
@@ -55,7 +81,9 @@ final class FamilyRetriever implements FamilyRetrieverInterface
                 }
             }
         } catch (\Throwable $exception) {
-            $this->logger->warning($exception->getMessage());
+            $this->logger->warning($exception->getMessage(), [
+                'exception' => $exception,
+            ]);
         }
 
         throw new \LogicException(sprintf('Unable to find family for variant "%s"', $familyVariantCode));

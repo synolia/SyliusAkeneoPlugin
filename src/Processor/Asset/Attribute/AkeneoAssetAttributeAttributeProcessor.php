@@ -18,9 +18,9 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
 {
     private AssetValueBuilderProviderInterface $assetValueBuilderProvider;
 
-    private FactoryInterface $akeneoAssetFactory;
+    private FactoryInterface $assetFactory;
 
-    private RepositoryInterface $akeneoAssetRepository;
+    private RepositoryInterface $assetRepository;
 
     private EntityManagerInterface $entityManager;
 
@@ -36,8 +36,8 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
 
     public function __construct(
         AssetValueBuilderProviderInterface $assetValueBuilderProvider,
-        FactoryInterface $akeneoAssetFactory,
-        RepositoryInterface $akeneoAssetRepository,
+        FactoryInterface $assetFactory,
+        RepositoryInterface $assetRepository,
         EntityManagerInterface $entityManager,
         AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider,
         AkeneoAssetAttributeDataProviderInterface $akeneoAssetAttributeDataProvider,
@@ -46,8 +46,8 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         AssetValueBuilderProviderInterface $assetAttributeValueBuilder
     ) {
         $this->assetValueBuilderProvider = $assetValueBuilderProvider;
-        $this->akeneoAssetFactory = $akeneoAssetFactory;
-        $this->akeneoAssetRepository = $akeneoAssetRepository;
+        $this->assetFactory = $assetFactory;
+        $this->assetRepository = $assetRepository;
         $this->entityManager = $entityManager;
         $this->akeneoAssetAttributePropertiesProvider = $akeneoAssetAttributePropertiesProvider;
         $this->akeneoAssetAttributeDataProvider = $akeneoAssetAttributeDataProvider;
@@ -119,11 +119,11 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         array $queryParam,
         array $assetAttributeResource
     ): void {
-        $asset = $this->akeneoAssetRepository->findOneBy($queryParam);
+        $asset = $this->assetRepository->findOneBy($queryParam);
 
         if (!$asset instanceof Asset) {
             /** @var Asset $asset */
-            $asset = $this->akeneoAssetFactory->createNew();
+            $asset = $this->assetFactory->createNew();
             $this->entityManager->persist($asset);
             $asset->setFamilyCode($assetFamilyCode);
             $asset->setAssetCode($assetCode);

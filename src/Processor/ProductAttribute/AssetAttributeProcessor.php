@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -37,9 +36,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
 
-    private RepositoryInterface $akeneoAssetRepository;
-
-    private EntityManagerInterface $entityManager;
+    private RepositoryInterface $assetRepository;
 
     private RepositoryInterface $productAttributeValueRepository;
 
@@ -53,8 +50,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         RepositoryInterface $productAttributeRepository,
         LoggerInterface $akeneoLogger,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        RepositoryInterface $akeneoAssetRepository,
-        EntityManagerInterface $entityManager,
+        RepositoryInterface $assetRepository,
         RepositoryInterface $productAttributeValueRepository,
         FactoryInterface $productAttributeValueFactory,
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider
@@ -64,8 +60,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         $this->productAttributeRepository = $productAttributeRepository;
         $this->logger = $akeneoLogger;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->akeneoAssetRepository = $akeneoAssetRepository;
-        $this->entityManager = $entityManager;
+        $this->assetRepository = $assetRepository;
         $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->productAttributeValueFactory = $productAttributeValueFactory;
         $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
@@ -148,7 +143,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         foreach ($context['data'] as $assetCodes) {
             foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
                 foreach ($assetCodes['data'] as $assetCode) {
-                    $asset = $this->akeneoAssetRepository->findOneBy([
+                    $asset = $this->assetRepository->findOneBy([
                         'familyCode' => $assetAttributeProperties['reference_data_name'],
                         'assetCode' => $assetCode,
                         'scope' => $context['scope'],
@@ -163,7 +158,6 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                 }
             }
         }
-        $this->entityManager->flush();
     }
 
     /**
