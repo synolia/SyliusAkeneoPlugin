@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -39,8 +38,6 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     private RepositoryInterface $assetRepository;
 
-    private EntityManagerInterface $entityManager;
-
     private RepositoryInterface $productAttributeValueRepository;
 
     private FactoryInterface $productAttributeValueFactory;
@@ -54,7 +51,6 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         LoggerInterface $akeneoLogger,
         AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         RepositoryInterface $assetRepository,
-        EntityManagerInterface $entityManager,
         RepositoryInterface $productAttributeValueRepository,
         FactoryInterface $productAttributeValueFactory,
         AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider
@@ -65,7 +61,6 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         $this->logger = $akeneoLogger;
         $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
         $this->assetRepository = $assetRepository;
-        $this->entityManager = $entityManager;
         $this->productAttributeValueRepository = $productAttributeValueRepository;
         $this->productAttributeValueFactory = $productAttributeValueFactory;
         $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
@@ -163,7 +158,6 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                 }
             }
         }
-        $this->entityManager->flush();
     }
 
     /**
