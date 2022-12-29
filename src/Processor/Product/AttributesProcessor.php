@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\AttributeOwnerChecker;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
@@ -20,17 +21,20 @@ final class AttributesProcessor implements AttributesProcessorInterface
     private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider;
 
     private LoggerInterface $akeneoLogger;
+    private AttributeOwnerChecker $attributeOwnerChecker;
 
     public function __construct(
         AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
         ProductFilterRulesProviderInterface $productFilterRulesProvider,
         AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
-        LoggerInterface $akeneoLogger
+        LoggerInterface $akeneoLogger,
+        AttributeOwnerChecker $attributeOwnerChecker
     ) {
         $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
         $this->productFilterRulesProvider = $productFilterRulesProvider;
         $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
         $this->akeneoLogger = $akeneoLogger;
+        $this->attributeOwnerChecker = $attributeOwnerChecker;
     }
 
     public static function getDefaultPriority(): int
@@ -45,6 +49,16 @@ final class AttributesProcessor implements AttributesProcessorInterface
 
         foreach ($resource['values'] as $attributeCode => $translations) {
             if ($family['attribute_as_label'] === $attributeCode) {
+                continue;
+            }
+
+            // Skip attribute if not part of the model
+            if (!$this->attributeOwnerChecker->isAttributePartOfModel($resource, $attributeCode)) {
+                $this->akeneoLogger->info('Skipped attribute insertion on product', [
+                    'product' => $resource['code'] ?? $resource['identifier'],
+                    'attribute_code' => $attributeCode,
+                ]);
+
                 continue;
             }
 

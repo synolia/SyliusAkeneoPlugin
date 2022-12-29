@@ -50,4 +50,21 @@ final class FamilyVariantRetriever
 
         throw new \LogicException(sprintf('Unable to find variants for family "%s"', $familyCode));
     }
+
+    public function getVariant(string $familyCode, string $familyVariantCode): array
+    {
+        foreach ($this->getVariants($familyCode) as $variant) {
+            if ($familyVariantCode !== $variant['code']) {
+                continue;
+            }
+
+            return $variant;
+        }
+
+        throw new \LogicException(sprintf(
+            'Unable to find variant "%s" for family "%s"',
+            $familyVariantCode,
+            $familyCode
+        ));
+    }
 }

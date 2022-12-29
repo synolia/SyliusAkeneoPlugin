@@ -25,8 +25,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  */
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
-    private $taskProvider;
+    private TaskProvider $taskProvider;
 
     /** @var ProductRepositoryInterface */
     private $productRepository;

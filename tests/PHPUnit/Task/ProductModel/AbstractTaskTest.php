@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 

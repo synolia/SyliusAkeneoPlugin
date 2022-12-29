@@ -91,7 +91,7 @@ final class BatchProductModelTask extends AbstractBatchTask
                     $this->removeEntry($payload, (int) $result['id']);
                 } catch (\Throwable $throwable) {
                     $this->entityManager->rollback();
-                    $this->logger->warning($throwable->getMessage());
+                    $this->logger->warning($throwable->getMessage(), [$throwable]);
                     $this->removeEntry($payload, (int) $result['id']);
                 }
             }
