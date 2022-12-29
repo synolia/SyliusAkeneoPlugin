@@ -17,33 +17,20 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
 final class BatchFamilyTask extends AbstractBatchTask
 {
-    private EntityRepository $productGroupRepository;
-
-    private LoggerInterface $logger;
-
     private int $groupAlreadyExistCount = 0;
 
     private int $groupCreateCount = 0;
 
     private array $productGroupsMapping;
 
-    private FamilyVariationAxeProcessor $familyVariationAxeProcessor;
-
-    private FactoryInterface $productGroupFactory;
-
     public function __construct(
         EntityManagerInterface $entityManager,
-        EntityRepository $productGroupRepository,
-        LoggerInterface $akeneoLogger,
-        FamilyVariationAxeProcessor $familyVariationAxeProcessor,
-        FactoryInterface $productGroupFactory
+        private EntityRepository $productGroupRepository,
+        private LoggerInterface $logger,
+        private FamilyVariationAxeProcessor $familyVariationAxeProcessor,
+        private FactoryInterface $productGroupFactory,
     ) {
         parent::__construct($entityManager);
-
-        $this->productGroupRepository = $productGroupRepository;
-        $this->logger = $akeneoLogger;
-        $this->familyVariationAxeProcessor = $familyVariationAxeProcessor;
-        $this->productGroupFactory = $productGroupFactory;
     }
 
     /**
@@ -61,7 +48,7 @@ final class BatchFamilyTask extends AbstractBatchTask
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
                 try {
-                    $resource = json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
                     $resources[] = $resource;
 
                     $this->createProductGroups($resource);

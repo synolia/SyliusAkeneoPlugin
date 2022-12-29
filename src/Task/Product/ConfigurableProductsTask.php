@@ -29,16 +29,6 @@ use Throwable;
 
 final class ConfigurableProductsTask extends AbstractCreateProductEntities
 {
-    private ProductGroupRepository $productGroupRepository;
-
-    private EventDispatcherInterface $dispatcher;
-
-    private ProductVariantProcessorChainInterface $productVariantProcessorChain;
-
-    private ClientFactoryInterface $clientFactory;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -49,14 +39,14 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
         ChannelRepository $channelRepository,
         LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
-        ProductGroupRepository $productGroupRepository,
+        private ProductGroupRepository $productGroupRepository,
         ProductVariantFactoryInterface $productVariantFactory,
         LoggerInterface $akeneoLogger,
-        EventDispatcherInterface $dispatcher,
+        private EventDispatcherInterface $dispatcher,
         ProductChannelEnablerProcessorInterface $productChannelEnabler,
-        ProductVariantProcessorChainInterface $productVariantProcessorChain,
-        ClientFactoryInterface $clientFactory,
-        ApiConnectionProviderInterface $apiConnectionProvider
+        private ProductVariantProcessorChainInterface $productVariantProcessorChain,
+        private ClientFactoryInterface $clientFactory,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
     ) {
         parent::__construct(
             $entityManager,
@@ -67,18 +57,13 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             $productConfigurationRepository,
             $productVariantFactory,
             $akeneoLogger,
-            $productChannelEnabler
+            $productChannelEnabler,
         );
-
-        $this->productGroupRepository = $productGroupRepository;
-        $this->dispatcher = $dispatcher;
-        $this->productVariantProcessorChain = $productVariantProcessorChain;
-        $this->clientFactory = $clientFactory;
-        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
      * @param ProductPayload $payload
+     *
      * @inheritDoc
      */
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void
@@ -123,10 +108,11 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
                 ->getFamilyVariantApi()
                 ->get(
                     $resource['family'],
-                    $productGroup->getFamilyVariant()
-                );
+                    $productGroup->getFamilyVariant(),
+                )
+            ;
 
-            if (0 === \count($familyVariantPayload['variant_attribute_sets'])) {
+            if (0 === (is_countable($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0)) {
                 $this->logger->warning(sprintf(
                     'Skipped product "%s" because group has no variation axis.',
                     $resource['identifier'],

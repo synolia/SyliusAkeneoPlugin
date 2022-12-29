@@ -14,19 +14,12 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
 final class BatchAssetTask extends AbstractBatchTask
 {
-    private LoggerInterface $logger;
-
-    private AkeneoAssetAttributeProcessorInterface $akeneoAssetAttributeProcessor;
-
     public function __construct(
         EntityManagerInterface $entityManager,
-        LoggerInterface $akeneoLogger,
-        AkeneoAssetAttributeProcessorInterface $akeneoAssetAttributeProcessor
+        private LoggerInterface $logger,
+        private AkeneoAssetAttributeProcessorInterface $akeneoAssetAttributeProcessor,
     ) {
         parent::__construct($entityManager);
-
-        $this->logger = $akeneoLogger;
-        $this->akeneoAssetAttributeProcessor = $akeneoAssetAttributeProcessor;
     }
 
     /**
@@ -42,7 +35,7 @@ final class BatchAssetTask extends AbstractBatchTask
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
                 try {
-                    $resource = \json_decode($result['values'], true);
+                    $resource = \json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                     $this->retrieveAssets($payload, $resource);
                     $this->removeEntry($payload, (int) $result['id']);
@@ -76,7 +69,7 @@ final class BatchAssetTask extends AbstractBatchTask
                     $assetFamilyCode,
                     $assetResource['code'],
                     $attributeCode,
-                    $assetAttributeResource
+                    $assetAttributeResource,
                 );
             } catch (UnsupportedAttributeTypeException $attributeTypeException) {
                 $this->logger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);

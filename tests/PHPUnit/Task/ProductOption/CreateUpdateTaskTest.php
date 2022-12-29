@@ -16,12 +16,12 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class CreateUpdateTaskTest extends AbstractTaskTest
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\TaskProvider */
-    private $taskProvider;
+    private ?object $taskProvider = null;
 
     protected function setUp(): void
     {
@@ -31,7 +31,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }
 
@@ -95,8 +95,8 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
                 \in_array(
                     $value->getCode(),
                     $expectedValueCodes,
-                    true
-                )
+                    true,
+                ),
             );
         }
     }
@@ -115,8 +115,8 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
                 \in_array(
                     $value->getCode(),
                     $expectedValueCodes,
-                    true
-                )
+                    true,
+                ),
             );
         }
     }

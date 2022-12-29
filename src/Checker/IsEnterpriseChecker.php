@@ -12,11 +12,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderI
  */
 final class IsEnterpriseChecker implements IsEnterpriseCheckerInterface
 {
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(ApiConnectionProviderInterface $apiConnectionProvider)
+    public function __construct(private ApiConnectionProviderInterface $apiConnectionProvider)
     {
-        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function isEnterprise(): bool

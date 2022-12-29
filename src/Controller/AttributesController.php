@@ -20,39 +20,15 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderI
 
 final class AttributesController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
-
-    private SettingsManagerInterface $settingsManager;
-
-    private RepositoryInterface $attributeTypeMappingRepository;
-
-    private TranslatorInterface $translator;
-
-    private RepositoryInterface $attributeAkeneoSyliusMappingRepository;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        SettingsManagerInterface $settingsManager,
-        RepositoryInterface $attributeTypeMappingRepository,
-        RepositoryInterface $attributeAkeneoSyliusMappingRepository,
-        TranslatorInterface $translator,
-        ApiConnectionProviderInterface $apiConnectionProvider
-    ) {
-        $this->entityManager = $entityManager;
-        $this->settingsManager = $settingsManager;
-        $this->attributeTypeMappingRepository = $attributeTypeMappingRepository;
-        $this->attributeAkeneoSyliusMappingRepository = $attributeAkeneoSyliusMappingRepository;
-        $this->translator = $translator;
-        $this->apiConnectionProvider = $apiConnectionProvider;
+    public function __construct(private EntityManagerInterface $entityManager, private SettingsManagerInterface $settingsManager, private RepositoryInterface $attributeTypeMappingRepository, private RepositoryInterface $attributeAkeneoSyliusMappingRepository, private TranslatorInterface $translator, private ApiConnectionProviderInterface $apiConnectionProvider)
+    {
     }
 
     public function __invoke(Request $request): Response
     {
         try {
             $this->apiConnectionProvider->get();
-        } catch (ApiNotConfiguredException $apiNotConfiguredException) {
+        } catch (ApiNotConfiguredException) {
             $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
@@ -104,7 +80,7 @@ final class AttributesController extends AbstractController
     private function removeRemovedMappedItemsFromFormRequest(
         array $attributes,
         array $attributeTypeMappings,
-        array $attributeAkeneoSyliusMappings
+        array $attributeAkeneoSyliusMappings,
     ): void {
         foreach ($attributeTypeMappings as $attributeTypeMapping) {
             if (false === array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {

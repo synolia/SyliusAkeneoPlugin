@@ -28,14 +28,6 @@ use Throwable;
 
 final class SimpleProductTask extends AbstractCreateProductEntities
 {
-    private FactoryInterface $productFactory;
-
-    private EventDispatcherInterface $dispatcher;
-
-    private ProductProcessorChainInterface $productProcessorChain;
-
-    private ProductVariantProcessorChainInterface $productVariantProcessorChain;
-
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -45,14 +37,14 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         RepositoryInterface $productVariantRepository,
         LocaleRepositoryInterface $localeRepository,
         RepositoryInterface $productConfigurationRepository,
-        FactoryInterface $productFactory,
+        private FactoryInterface $productFactory,
         ProductVariantFactoryInterface $productVariantFactory,
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
-        EventDispatcherInterface $dispatcher,
+        private EventDispatcherInterface $dispatcher,
         ProductChannelEnablerProcessorInterface $productChannelEnabler,
-        ProductProcessorChainInterface $productProcessorChain,
-        ProductVariantProcessorChainInterface $productVariantProcessorChain
+        private ProductProcessorChainInterface $productProcessorChain,
+        private ProductVariantProcessorChainInterface $productVariantProcessorChain,
     ) {
         parent::__construct(
             $entityManager,
@@ -63,17 +55,13 @@ final class SimpleProductTask extends AbstractCreateProductEntities
             $productConfigurationRepository,
             $productVariantFactory,
             $akeneoLogger,
-            $productChannelEnabler
+            $productChannelEnabler,
         );
-
-        $this->productFactory = $productFactory;
-        $this->dispatcher = $dispatcher;
-        $this->productProcessorChain = $productProcessorChain;
-        $this->productVariantProcessorChain = $productVariantProcessorChain;
     }
 
     /**
      * @param ProductPayload $payload
+     *
      * @inheritDoc
      */
     public function __invoke(PipelinePayloadInterface $payload, array $resource): void

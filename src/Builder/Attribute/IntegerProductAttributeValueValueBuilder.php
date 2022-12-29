@@ -10,16 +10,8 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\IntegerAttributeTypeMatcher
 
 final class IntegerProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    public function __construct(
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AttributeTypeMatcher $attributeTypeMatcher
-    ) {
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
+    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AttributeTypeMatcher $attributeTypeMatcher)
+    {
     }
 
     public function support(string $attributeCode): bool

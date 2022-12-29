@@ -21,14 +21,14 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AttributeTypeMatcherTest extends AbstractKernelTestCase
 {
     private const FAKE_AKENEO_ATTRIBUTE_TYPE = 'my_fake_attribute_type';
 
-    /** @var AttributeTypeMatcher */
-    private $attributeTypeMatcher;
+    private ?object $attributeTypeMatcher = null;
 
     protected function setUp(): void
     {

@@ -11,12 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
 
 final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenceEntityAttributeDataProviderInterface
 {
-    private AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider;
-
-    public function __construct(
-        AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider
-    ) {
-        $this->akeneoReferenceEntityAttributePropertiesProvider = $akeneoReferenceEntityAttributePropertiesProvider;
+    public function __construct(private AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider)
+    {
     }
 
     /**
@@ -34,7 +30,7 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
         string $referenceEntityAttributeCode,
         $attributeValues,
         string $locale,
-        string $scope
+        string $scope,
     ) {
         if ($this->akeneoReferenceEntityAttributePropertiesProvider->isUnique($referenceEntityCode, $referenceEntityAttributeCode) ||
             (!$this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
@@ -65,7 +61,7 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
      */
     private function getByScope(
         array $attributeValues,
-        string $scope
+        string $scope,
     ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope) {
@@ -84,7 +80,7 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
     private function getByLocaleAndScope(
         array $attributeValues,
         string $locale,
-        string $scope
+        string $scope,
     ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope || $attributeValue['locale'] !== $locale) {
@@ -102,7 +98,7 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
      */
     private function getByLocale(
         array $attributeValues,
-        string $locale
+        string $locale,
     ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['locale'] !== $locale) {

@@ -30,7 +30,7 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getLocales(), [], HttpResponse::HTTP_OK)
+            new Response($this->getLocales(), [], HttpResponse::HTTP_OK),
         );
 
         $this->taskProvider = $this->getContainer()->get(TaskProvider::class);

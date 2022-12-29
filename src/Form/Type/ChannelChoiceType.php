@@ -11,11 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 
 final class ChannelChoiceType extends AbstractType
 {
-    private ClientFactoryInterface $clientFactory;
-
-    public function __construct(ClientFactoryInterface $clientFactory)
+    public function __construct(private ClientFactoryInterface $clientFactory)
     {
-        $this->clientFactory = $clientFactory;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -28,7 +28,7 @@ final class ProductRefEntityAttributeValueValueBuilderProvider implements Produc
         string $locale,
         string $scope,
         $value,
-        array $context = []
+        array $context = [],
     ): ReferenceEntityAttributeValueProcessorInterface {
         /** @var ReferenceEntityAttributeValueProcessorInterface $akeneoAttributeProcessor */
         foreach ($this->referenceEntityAttributeValueProcessors as $akeneoAttributeProcessor) {

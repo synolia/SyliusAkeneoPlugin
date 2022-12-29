@@ -12,12 +12,12 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider */
-    private $attributePropertiesProvider;
+    private \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider $attributePropertiesProvider;
 
     protected function setUp(): void
     {
@@ -25,7 +25,7 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->attributePropertiesProvider = new AkeneoAttributePropertiesProvider($this->createClient());

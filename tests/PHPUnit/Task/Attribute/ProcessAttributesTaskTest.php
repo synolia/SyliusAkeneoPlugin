@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class ProcessAttributesTaskTest extends AbstractTaskTest
@@ -24,7 +25,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTest
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('empty_attributes.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('empty_attributes.json'), [], HttpResponse::HTTP_OK),
         );
 
         $attributesCount = $this->getContainer()->get('sylius.repository.product_attribute')->count([]);
@@ -46,7 +47,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTest
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 
         $initialPayload = new AttributePayload($this->createClient());
@@ -164,8 +165,8 @@ final class ProcessAttributesTaskTest extends AbstractTaskTest
                 \in_array(
                     $attributeOptionCode,
                     $expectedChoiceCodes,
-                    true
-                )
+                    true,
+                ),
             );
         }
     }

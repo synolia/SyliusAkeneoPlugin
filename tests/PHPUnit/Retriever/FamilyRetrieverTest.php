@@ -9,17 +9,16 @@ use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
-use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class FamilyRetrieverTest extends ApiTestCase
 {
-    /** @var FamilyRetrieverInterface */
-    private $familyRetriever;
+    private ?object $familyRetriever = null;
 
     protected function setUp(): void
     {
@@ -31,11 +30,11 @@ final class FamilyRetrieverTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . FamilyApi::FAMILIES_URI,
-            new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK),
         );
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
-            new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->manager->flush();

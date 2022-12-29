@@ -11,24 +11,8 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class ProductConfigurationFixture extends AbstractFixture
 {
-    private EntityManagerInterface $entityManager;
-
-    private FactoryInterface $productConfigurationFactory;
-
-    private FactoryInterface $productImageAttributeConfigurationFactory;
-
-    private FactoryInterface $productImageMappingConfigurationFactory;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        FactoryInterface $productConfigurationFactory,
-        FactoryInterface $productImageAttributeConfigurationFactory,
-        FactoryInterface $productImageMappingConfigurationFactory
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productConfigurationFactory = $productConfigurationFactory;
-        $this->productImageAttributeConfigurationFactory = $productImageAttributeConfigurationFactory;
-        $this->productImageMappingConfigurationFactory = $productImageMappingConfigurationFactory;
+    public function __construct(private EntityManagerInterface $entityManager, private FactoryInterface $productConfigurationFactory, private FactoryInterface $productImageAttributeConfigurationFactory, private FactoryInterface $productImageMappingConfigurationFactory)
+    {
     }
 
     public function load(array $options): void

@@ -27,7 +27,7 @@ class ProductOptionValueTranslationBuilder implements ProductOptionValueTranslat
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
         string $locale,
-        array $attributeValues
+        array $attributeValues,
     ): ProductOptionValueTranslationInterface {
         foreach ($this->productOptionValueTranslationBuilders as $builder) {
             if (!$builder->support($productOption, $productOptionValue, $locale, $attributeValues)) {

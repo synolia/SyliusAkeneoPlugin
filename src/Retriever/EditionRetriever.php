@@ -8,11 +8,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderI
 
 class EditionRetriever implements EditionRetrieverInterface
 {
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(ApiConnectionProviderInterface $apiConnectionProvider)
+    public function __construct(private ApiConnectionProviderInterface $apiConnectionProvider)
     {
-        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function getEdition(): string

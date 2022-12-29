@@ -18,6 +18,6 @@ interface ProductRefEntityAttributeValueValueBuilderProviderInterface
         string $locale,
         string $scope,
         $value,
-        array $context = []
+        array $context = [],
     ): ReferenceEntityAttributeValueProcessorInterface;
 }

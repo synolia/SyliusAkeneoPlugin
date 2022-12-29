@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class ProcessAssetsTaskTest extends AbstractTaskTest
@@ -28,22 +29,22 @@ final class ProcessAssetsTaskTest extends AbstractTaskTest
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(AssetFamilyApi::ASSET_FAMILIES_URI),
-            new Response($this->getFileContent('asset_families.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('asset_families.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'bynder'),
-            new Response($this->getFileContent('asset_family.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('asset_family.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(\Akeneo\PimEnterprise\ApiClient\Api\AssetManager\AssetApi::ASSETS_URI, 'bynder'),
-            new Response($this->getFileContent('asset_manager_api_all.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('asset_manager_api_all.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AssetAttributeApi::ASSET_ATTRIBUTES_URI, 'bynder'),
-            new Response($this->getFileContent('asset_manager_attributes_all.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('asset_manager_attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 
         $payload = new AssetPayload($this->createClient());

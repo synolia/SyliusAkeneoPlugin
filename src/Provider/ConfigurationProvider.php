@@ -10,13 +10,10 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 final class ConfigurationProvider
 {
-    private RepositoryInterface $apiConfigurationRepository;
-
     private ?ApiConfiguration $configuration = null;
 
-    public function __construct(RepositoryInterface $apiConfigurationRepository)
+    public function __construct(private RepositoryInterface $apiConfigurationRepository)
     {
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
     }
 
     public function getConfiguration(): ApiConfiguration

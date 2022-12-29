@@ -9,13 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
 final class AfterProcessingAttributeEvent extends AbstractResourceEvent
 {
-    private AttributeInterface $attribute;
-
-    public function __construct(array $resource, AttributeInterface $taxon)
+    public function __construct(array $resource, private AttributeInterface $attribute)
     {
         parent::__construct($resource);
-
-        $this->attribute = $taxon;
     }
 
     public function getAttribute(): AttributeInterface

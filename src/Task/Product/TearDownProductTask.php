@@ -12,18 +12,15 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class TearDownProductTask implements AkeneoTaskInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         try {
             $this->delete();
-        } catch (ConnectionLost $connectionLost) {
+        } catch (ConnectionLost) {
             $this->delete();
         }
 

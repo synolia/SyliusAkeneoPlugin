@@ -13,13 +13,7 @@ interface DynamicOptionValueBuilderInterface
 
     public static function getDefaultPriority(): int;
 
-    /**
-     * @param mixed $values
-     */
-    public function support(ProductOptionInterface $productOption, $values, array $context = []): bool;
+    public function support(ProductOptionInterface $productOption, mixed $values, array $context = []): bool;
 
-    /**
-     * @param mixed $values
-     */
-    public function build(ProductOptionInterface $productOption, $values, array $context = []): ProductOptionValueInterface;
+    public function build(ProductOptionInterface $productOption, mixed $values, array $context = []): ProductOptionValueInterface;
 }

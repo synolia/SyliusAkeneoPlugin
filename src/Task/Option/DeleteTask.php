@@ -20,32 +20,12 @@ use Throwable;
 
 final class DeleteTask implements AkeneoTaskInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    private ProductAttributeRepository $productAttributeRepository;
-
-    private ProductOptionRepository $productOptionRepository;
-
-    private LoggerInterface $logger;
-
     private string $type;
 
     private int $deleteCount = 0;
 
-    private ParameterBagInterface $parameterBag;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        ProductAttributeRepository $productAttributeAkeneoRepository,
-        ProductOptionRepository $productOptionAkeneoRepository,
-        LoggerInterface $akeneoLogger,
-        ParameterBagInterface $parameterBag
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productAttributeRepository = $productAttributeAkeneoRepository;
-        $this->productOptionRepository = $productOptionAkeneoRepository;
-        $this->logger = $akeneoLogger;
-        $this->parameterBag = $parameterBag;
+    public function __construct(private EntityManagerInterface $entityManager, private ProductAttributeRepository $productAttributeRepository, private ProductOptionRepository $productOptionRepository, private LoggerInterface $logger, private ParameterBagInterface $parameterBag)
+    {
     }
 
     /**

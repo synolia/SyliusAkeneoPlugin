@@ -11,16 +11,8 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class CategoryConfigurationFixture extends AbstractFixture
 {
-    private EntityManagerInterface $entityManager;
-
-    private FactoryInterface $categoriesConfigurationFactory;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        FactoryInterface $categoriesConfigurationFactory
-    ) {
-        $this->entityManager = $entityManager;
-        $this->categoriesConfigurationFactory = $categoriesConfigurationFactory;
+    public function __construct(private EntityManagerInterface $entityManager, private FactoryInterface $categoriesConfigurationFactory)
+    {
     }
 
     public function load(array $options): void

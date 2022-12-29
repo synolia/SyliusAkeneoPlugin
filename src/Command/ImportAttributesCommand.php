@@ -22,7 +22,7 @@ final class ImportAttributesCommand extends AbstractImportCommand
     public function __construct(
         AttributePipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory
+        PayloadFactoryInterface $payloadFactory,
     ) {
         parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
     }

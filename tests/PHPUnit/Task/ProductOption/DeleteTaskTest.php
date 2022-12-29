@@ -11,12 +11,12 @@ use Synolia\SyliusAkeneoPlugin\Task\Option\DeleteTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class DeleteTaskTest extends AbstractTaskTest
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\TaskProvider */
-    private $taskProvider;
+    private ?object $taskProvider = null;
 
     protected function setUp(): void
     {

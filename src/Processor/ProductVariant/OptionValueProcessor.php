@@ -28,48 +28,8 @@ use Webmozart\Assert\Assert;
 
 class OptionValueProcessor implements OptionValueProcessorInterface
 {
-    private RepositoryInterface $productOptionRepository;
-
-    private RepositoryInterface $productOptionValueRepository;
-
-    private ProductGroupRepository $productGroupRepository;
-
-    private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer;
-
-    private ClientFactoryInterface $clientFactory;
-
-    private LoggerInterface $akeneoLogger;
-
-    private EntityManagerInterface $entityManager;
-
-    private ProductOptionValueBuilderInterface $productOptionValueBuilder;
-
-    private EventDispatcherInterface $eventDispatcher;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(
-        RepositoryInterface $productOptionRepository,
-        RepositoryInterface $productOptionValueRepository,
-        ProductGroupRepository $productGroupRepository,
-        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
-        ClientFactoryInterface $clientFactory,
-        LoggerInterface $akeneoLogger,
-        EntityManagerInterface $entityManager,
-        ProductOptionValueBuilderInterface $productOptionValueBuilder,
-        EventDispatcherInterface $eventDispatcher,
-        ApiConnectionProviderInterface $apiConnectionProvider
-    ) {
-        $this->productOptionRepository = $productOptionRepository;
-        $this->productOptionValueRepository = $productOptionValueRepository;
-        $this->productGroupRepository = $productGroupRepository;
-        $this->productOptionValueDataTransformer = $productOptionValueDataTransformer;
-        $this->clientFactory = $clientFactory;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->entityManager = $entityManager;
-        $this->productOptionValueBuilder = $productOptionValueBuilder;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->apiConnectionProvider = $apiConnectionProvider;
+    public function __construct(private RepositoryInterface $productOptionRepository, private RepositoryInterface $productOptionValueRepository, private ProductGroupRepository $productGroupRepository, private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer, private ClientFactoryInterface $clientFactory, private LoggerInterface $akeneoLogger, private EntityManagerInterface $entityManager, private ProductOptionValueBuilderInterface $productOptionValueBuilder, private EventDispatcherInterface $eventDispatcher, private ApiConnectionProviderInterface $apiConnectionProvider)
+    {
     }
 
     /**
@@ -94,7 +54,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
             ->getFamilyVariantApi()
             ->get(
                 $resource['family'],
-                $productGroup->getFamilyVariant()
+                $productGroup->getFamilyVariant(),
             )
         ;
 
@@ -123,8 +83,8 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                     sprintf(
                         'Skipped ProductVariant "%s" creation because ProductOption "%s" does not exist.',
                         $productVariant->getCode(),
-                        $attributeCode
-                    )
+                        $attributeCode,
+                    ),
                 );
 
                 continue;
@@ -133,10 +93,10 @@ class OptionValueProcessor implements OptionValueProcessorInterface
             try {
                 // if the attribute is part of the first variation axis, and we import this axis as model, we don't want it as an option of the variant
                 if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST &&
-                    \count($familyVariantPayload['variant_attribute_sets']) === 2 &&
+                    (is_countable($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0) === 2 &&
                     $this->getAxeLevelForAttributeCode(
                         $familyVariantPayload['variant_attribute_sets'],
-                        $attributeCode
+                        $attributeCode,
                     ) === 1
                 ) {
                     continue;
@@ -147,7 +107,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                 }
 
                 $this->setProductOptionValues($productVariant, $productOption, $values);
-            } catch (CouldNotFindAxeLevelException $couldNotFindAxeLevelException) {
+            } catch (CouldNotFindAxeLevelException) {
             }
         }
     }
@@ -169,7 +129,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
     private function setProductOptionValues(
         ProductVariantInterface $productVariant,
         ProductOptionInterface $productOption,
-        array $attributeValues
+        array $attributeValues,
     ): void {
         foreach ($attributeValues as $optionValue) {
             $this->eventDispatcher->dispatch(new BeforeProcessingProductOptionValueEvent($productOption, $attributeValues));
@@ -185,7 +145,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                 try {
                     $productOptionValue = $this->productOptionValueBuilder->build($productOption, $attributeValues);
                     $this->entityManager->persist($productOptionValue);
-                } catch (ProductOptionValueBuilderNotFoundException $e) {
+                } catch (ProductOptionValueBuilderNotFoundException) {
                 }
             }
 
@@ -207,10 +167,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
         }
     }
 
-    /**
-     * @param array|string $data
-     */
-    private function getCode(ProductOptionInterface $productOption, $data): string
+    private function getCode(ProductOptionInterface $productOption, array|string $data): string
     {
         if (!\is_array($data)) {
             return $this->productOptionValueDataTransformer->transform($productOption, $data);
@@ -228,7 +185,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
         }
 
         $productGroup = $this->productGroupRepository->findOneBy(
-            ['model' => $productModel->getCode()]
+            ['model' => $productModel->getCode()],
         );
 
         if (!$productGroup instanceof ProductGroup) {
@@ -237,7 +194,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                     'Skipped product "%s" because model "%s" does not exist as group.',
                     $resource['identifier'],
                     $resource['parent'],
-                )
+                ),
             );
 
             return false;
@@ -250,7 +207,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                 sprintf(
                     'Skipped product "%s" because group has no variation axis.',
                     $resource['identifier'],
-                )
+                ),
             );
 
             return false;

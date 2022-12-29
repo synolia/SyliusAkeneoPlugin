@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class EnableDisableProductModelTaskTest extends AbstractTaskTest

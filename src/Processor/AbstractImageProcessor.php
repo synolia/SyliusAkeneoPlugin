@@ -21,34 +21,10 @@ use Throwable;
 
 abstract class AbstractImageProcessor
 {
-    private ImageUploaderInterface $imageUploader;
-
-    private EntityManagerInterface $entityManager;
-
-    private FactoryInterface $productImageFactory;
-
-    protected LoggerInterface $logger;
-
     protected ProductConfiguration $productConfiguration;
 
-    private ClientFactory $clientFactory;
-
-    private RepositoryInterface $productConfigurationRepository;
-
-    public function __construct(
-        ImageUploaderInterface $imageUploader,
-        RepositoryInterface $productConfigurationRepository,
-        EntityManagerInterface $entityManager,
-        FactoryInterface $productImageFactory,
-        LoggerInterface $akeneoLogger,
-        ClientFactory $clientFactory
-    ) {
-        $this->imageUploader = $imageUploader;
-        $this->entityManager = $entityManager;
-        $this->productImageFactory = $productImageFactory;
-        $this->logger = $akeneoLogger;
-        $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->clientFactory = $clientFactory;
+    public function __construct(private ImageUploaderInterface $imageUploader, private RepositoryInterface $productConfigurationRepository, private EntityManagerInterface $entityManager, private FactoryInterface $productImageFactory, protected LoggerInterface $logger, private ClientFactory $clientFactory)
+    {
     }
 
     protected function getProductConfiguration(): ProductConfiguration
@@ -84,7 +60,8 @@ abstract class AbstractImageProcessor
                         $imageResponse = $this->clientFactory
                             ->createFromApiCredentials()
                             ->getProductMediaFileApi()
-                            ->download($image['data']);
+                            ->download($image['data'])
+                        ;
                         $imageName = basename($image['data']);
                         $imagePath = sys_get_temp_dir() . '/' . $imageName;
                         file_put_contents($imagePath, $imageResponse->getBody()->getContents());
@@ -107,10 +84,7 @@ abstract class AbstractImageProcessor
         }
     }
 
-    /**
-     * @param mixed $object
-     */
-    protected function cleanImages($object): void
+    protected function cleanImages(mixed $object): void
     {
         if (!$object instanceof ProductInterface && !$object instanceof ProductVariantInterface) {
             return;

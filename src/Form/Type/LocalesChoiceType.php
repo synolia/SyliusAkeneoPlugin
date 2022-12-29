@@ -11,11 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class LocalesChoiceType extends AbstractType
 {
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    public function __construct(SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
+    public function __construct(private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
     {
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

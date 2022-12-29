@@ -9,14 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 abstract class AbstractTaskEvent extends Event
 {
-    protected string $task;
-
-    protected PipelinePayloadInterface $payload;
-
-    public function __construct(string $task, PipelinePayloadInterface $payload)
+    public function __construct(protected string $task, protected PipelinePayloadInterface $payload)
     {
-        $this->task = $task;
-        $this->payload = $payload;
     }
 
     public function getTask(): string

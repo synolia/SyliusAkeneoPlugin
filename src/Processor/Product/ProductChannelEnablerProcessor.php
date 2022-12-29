@@ -15,20 +15,8 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
 final class ProductChannelEnablerProcessor implements ProductChannelEnablerProcessorInterface
 {
-    private ChannelRepository $channelRepository;
-
-    private LoggerInterface $logger;
-
-    private ProductConfigurationRepository $productConfigurationRepository;
-
-    public function __construct(
-        ChannelRepository $channelRepository,
-        ProductConfigurationRepository $productConfigurationRepository,
-        LoggerInterface $akeneoLogger
-    ) {
-        $this->channelRepository = $channelRepository;
-        $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->logger = $akeneoLogger;
+    public function __construct(private ChannelRepository $channelRepository, private ProductConfigurationRepository $productConfigurationRepository, private LoggerInterface $logger)
+    {
     }
 
     public static function getDefaultPriority(): int
@@ -51,8 +39,8 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
                         sprintf(
                             'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
                             $enabledChannel,
-                            $product->getCode()
-                        )
+                            $product->getCode(),
+                        ),
                     );
 
                     continue;
@@ -86,7 +74,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
                 continue;
             }
 
-            if (0 === \count($attributeValue)) {
+            if (0 === (is_countable($attributeValue) ? \count($attributeValue) : 0)) {
                 throw new \LogicException('Enabled channels attribute is empty.');
             }
 

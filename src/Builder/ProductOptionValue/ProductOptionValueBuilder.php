@@ -19,7 +19,7 @@ class ProductOptionValueBuilder implements ProductOptionValueBuilderInterface
         $this->dynamicProductOptionValueBuilders = iterator_to_array($handlers);
     }
 
-    public function build(ProductOptionInterface $productOption, $values): ProductOptionValueInterface
+    public function build(ProductOptionInterface $productOption, mixed $values): ProductOptionValueInterface
     {
         foreach ($this->dynamicProductOptionValueBuilders as $builder) {
             if (!$builder->support($productOption, $values)) {

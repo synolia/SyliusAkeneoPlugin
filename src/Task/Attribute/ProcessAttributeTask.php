@@ -17,23 +17,16 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessAttributeTask extends AbstractProcessTask
 {
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    private EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchAttributesTask $task,
-        ApiConnectionProviderInterface $apiConnectionProvider,
-        EventDispatcherInterface $eventDispatcher,
-        string $projectDir
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private EventDispatcherInterface $eventDispatcher,
+        string $projectDir,
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
-
-        $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -41,6 +34,7 @@ final class ProcessAttributeTask extends AbstractProcessTask
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $queryParameters = [];
         $this->logger->debug(self::class);
 
         if ($payload->isContinue()) {
@@ -54,14 +48,14 @@ final class ProcessAttributeTask extends AbstractProcessTask
             $this->eventDispatcher->dispatch($event);
 
             $queryParameters['search'] = $event->getFilters();
-        } catch (CommandContextIsNullException $commandContextIsNullException) {
+        } catch (CommandContextIsNullException) {
             $queryParameters = [];
         }
 
         $page = $payload->getAkeneoPimClient()->getAttributeApi()->listPerPage(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             true,
-            $queryParameters
+            $queryParameters,
         );
 
         $this->handle($payload, $page);

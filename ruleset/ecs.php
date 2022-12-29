@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(dirname(__DIR__) . '/vendor/sylius-labs/coding-standard/ecs.php');
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->import(dirname(__DIR__) . '/vendor/sylius-labs/coding-standard/ecs.php');
 
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::PATHS, [
+    $ecsConfig->paths([
         dirname(__DIR__, 1) . '/src',
         dirname(__DIR__, 1) . '/tests/PHPUnit',
     ]);
 
-    $parameters->set(Option::SKIP, [
+    $ecsConfig->skip([
         \PhpCsFixer\Fixer\Phpdoc\PhpdocTagTypeFixer::class,
         \PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer::class
     ]);

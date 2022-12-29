@@ -16,6 +16,7 @@ class ProductConfigurationImageMapping implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -24,26 +25,21 @@ class ProductConfigurationImageMapping implements ResourceInterface
 
     /**
      * @SerializedName("sylius_attribute")
-     *
-     * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $syliusAttribute;
+    private ?string $syliusAttribute = null;
 
     /**
      * @SerializedName("akeneo_attribute")
-     *
-     * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $akeneoAttribute;
+    private ?string $akeneoAttribute = null;
 
     /**
-     * @var ProductConfiguration|null
      * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="productImagesMapping")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $productConfiguration;
+    private ?\Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration = null;
 
     public function getId(): ?int
     {

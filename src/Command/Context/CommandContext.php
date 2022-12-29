@@ -12,16 +12,10 @@ final class CommandContext implements CommandContextInterface
 {
     use ConfigurationContextTrait;
 
-    public InputInterface $input;
-
-    public OutputInterface $output;
-
     public function __construct(
-        InputInterface $input,
-        OutputInterface $output
+        public InputInterface $input,
+        public OutputInterface $output,
     ) {
-        $this->input = $input;
-        $this->output = $output;
         $this->verbosity = $this->output->getVerbosity();
     }
 

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class GetCategoriesTest extends ApiTestCase
@@ -24,8 +25,8 @@ final class GetCategoriesTest extends ApiTestCase
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
-                new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
-            )
+                new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
+            ),
         );
 
         $api = $this->createClient()->getCategoryApi();
@@ -38,7 +39,7 @@ final class GetCategoriesTest extends ApiTestCase
         Assert::assertInstanceOf(RequestInfo::class, $lastRequest);
         Assert::assertSame($lastRequest->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertInstanceOf(ResourceCursor::class, $categories);
-        Assert::assertSame(json_decode($this->getCategories(), true)['_embedded']['items'][0], $categories->current());
+        Assert::assertSame(json_decode($this->getCategories(), true, 512, \JSON_THROW_ON_ERROR)['_embedded']['items'][0], $categories->current());
     }
 
     private function getCategories(): string

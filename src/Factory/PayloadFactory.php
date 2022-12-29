@@ -13,11 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class PayloadFactory implements PayloadFactoryInterface
 {
-    private ClientFactoryInterface $clientFactory;
-
-    public function __construct(ClientFactoryInterface $clientFactory)
+    public function __construct(private ClientFactoryInterface $clientFactory)
     {
-        $this->clientFactory = $clientFactory;
     }
 
     public function create(string $className): PipelinePayloadInterface
@@ -36,7 +33,7 @@ final class PayloadFactory implements PayloadFactoryInterface
 
     private function createContext(
         InputInterface $input,
-        OutputInterface $output
+        OutputInterface $output,
     ): CommandContextInterface {
         $context = new CommandContext($input, $output);
 

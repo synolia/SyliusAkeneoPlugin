@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class GetProductsTest extends ApiTestCase
@@ -24,8 +25,8 @@ final class GetProductsTest extends ApiTestCase
             '/' . ProductApi::PRODUCTS_URI,
             new ResponseStack(
                 new Response($this->getProducts(), [], HttpResponse::HTTP_OK),
-                new Response($this->getProducts(), [], HttpResponse::HTTP_OK)
-            )
+                new Response($this->getProducts(), [], HttpResponse::HTTP_OK),
+            ),
         );
 
         $api = $this->createClient()->getProductApi();

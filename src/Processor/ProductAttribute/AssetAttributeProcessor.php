@@ -26,44 +26,8 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
  */
 final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer;
-
-    private RepositoryInterface $productAttributeRepository;
-
-    private LoggerInterface $logger;
-
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private RepositoryInterface $assetRepository;
-
-    private RepositoryInterface $productAttributeValueRepository;
-
-    private FactoryInterface $productAttributeValueFactory;
-
-    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
-
-    public function __construct(
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
-        RepositoryInterface $productAttributeRepository,
-        LoggerInterface $akeneoLogger,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        RepositoryInterface $assetRepository,
-        RepositoryInterface $productAttributeValueRepository,
-        FactoryInterface $productAttributeValueFactory,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider
-    ) {
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->productAttributeRepository = $productAttributeRepository;
-        $this->logger = $akeneoLogger;
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->assetRepository = $assetRepository;
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
-        $this->productAttributeValueFactory = $productAttributeValueFactory;
-        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
+    public function __construct(private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer, private RepositoryInterface $productAttributeRepository, private LoggerInterface $logger, private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private RepositoryInterface $assetRepository, private RepositoryInterface $productAttributeValueRepository, private FactoryInterface $productAttributeValueFactory, private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider)
+    {
     }
 
     public static function getDefaultPriority(): int
@@ -90,7 +54,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         $this->logger->debug(\sprintf(
             'Attribute "%s" is being processed by "%s"',
             $attributeCode,
-            static::class
+            static::class,
         ));
 
         if (!$context['model'] instanceof ProductInterface) {
@@ -116,9 +80,9 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                             $context['data'],
                             $locale,
                             $attributeCode,
-                            $context['scope']
+                            $context['scope'],
                         );
-                    } catch (TranslationNotFoundException|MissingScopeException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException $e) {
+                    } catch (TranslationNotFoundException|MissingScopeException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException) {
                     }
                 }
 
@@ -132,9 +96,9 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                     $context['data'],
                     $translation['locale'],
                     $attributeCode,
-                    $context['scope']
+                    $context['scope'],
                 );
-            } catch (TranslationNotFoundException|MissingScopeException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException $e) {
+            } catch (TranslationNotFoundException|MissingScopeException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException) {
             }
         }
 
@@ -172,7 +136,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         array $translations,
         string $locale,
         string $attributeCode,
-        string $scope
+        string $scope,
     ): void {
         $attributeValue = $this->productAttributeValueRepository->findOneBy([
             'subject' => $product,

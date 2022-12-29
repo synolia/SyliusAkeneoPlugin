@@ -15,23 +15,18 @@ class AttributeAkeneoSyliusMapping implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $akeneoAttribute;
+    /** @ORM\Column(type="string") */
+    private ?string $akeneoAttribute = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $syliusAttribute;
+    /** @ORM\Column(type="string") */
+    private ?string $syliusAttribute = null;
 
     /**
      * {@inheritdoc}

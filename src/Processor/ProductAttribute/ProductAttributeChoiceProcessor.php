@@ -18,41 +18,13 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessorInterface
 {
-    private ClientFactoryInterface $clientFactory;
-
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    private LoggerInterface $logger;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer;
-
-    private EntityManagerInterface $entityManager;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(
-        ClientFactoryInterface $clientFactory,
-        AttributeTypeMatcher $attributeTypeMatcher,
-        LoggerInterface $akeneoLogger,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
-        EntityManagerInterface $entityManager,
-        ApiConnectionProviderInterface $apiConnectionProvider
-    ) {
-        $this->clientFactory = $clientFactory;
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->logger = $akeneoLogger;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
-        $this->entityManager = $entityManager;
-        $this->apiConnectionProvider = $apiConnectionProvider;
+    public function __construct(private ClientFactoryInterface $clientFactory, private AttributeTypeMatcher $attributeTypeMatcher, private LoggerInterface $logger, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer, private EntityManagerInterface $entityManager, private ApiConnectionProviderInterface $apiConnectionProvider)
+    {
     }
 
     public function process(
         AttributeInterface $attribute,
-        array $resource
+        array $resource,
     ): void {
         try {
             $attributeTypeMatcher = $this->attributeTypeMatcher->match($resource['type']);
@@ -68,15 +40,15 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
                 $attribute,
                 $this->clientFactory->createFromApiCredentials()->getAttributeOptionApi()->all(
                     $resource['code'],
-                    $this->apiConnectionProvider->get()->getPaginationSize()
+                    $this->apiConnectionProvider->get()->getPaginationSize(),
                 ),
-                $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher
+                $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher,
             );
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
             $this->logger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
-                $unsupportedAttributeTypeException->getMessage()
+                $unsupportedAttributeTypeException->getMessage(),
             ));
 
             return;
@@ -86,7 +58,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
     private function setAttributeChoices(
         AttributeInterface $attribute,
         iterable $options,
-        bool $isMultiple
+        bool $isMultiple,
     ): void {
         $choices = [];
         foreach ($options as $option) {

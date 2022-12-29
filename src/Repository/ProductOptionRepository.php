@@ -37,7 +37,7 @@ final class ProductOptionRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
-        if (0 === \count($removedOptionResults)) {
+        if (0 === (is_countable($removedOptionResults) ? \count($removedOptionResults) : 0)) {
             return [];
         }
 

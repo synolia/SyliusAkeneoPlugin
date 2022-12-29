@@ -9,11 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\Setting;
 
 final class SettingsManager implements SettingsManagerInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -31,7 +28,7 @@ final class SettingsManager implements SettingsManagerInterface
             return $default;
         }
 
-        return json_decode($setting->getValue(), true);
+        return json_decode($setting->getValue(), true, 512, \JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -46,7 +43,7 @@ final class SettingsManager implements SettingsManagerInterface
             $this->entityManager->persist($setting);
         }
 
-        $setting->setValue(json_encode($value));
+        $setting->setValue(json_encode($value, \JSON_THROW_ON_ERROR));
         $this->entityManager->flush($setting);
 
         return $this;

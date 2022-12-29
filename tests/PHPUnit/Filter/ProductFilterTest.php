@@ -9,7 +9,6 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Assert;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
@@ -19,6 +18,7 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class ProductFilterTest extends ApiTestCase
@@ -30,14 +30,11 @@ final class ProductFilterTest extends ApiTestCase
     /** @var ProductFiltersRules */
     private $productFiltersRules;
 
-    /** @var ProductFilter */
-    private $productFilter;
+    private ?object $productFilter = null;
 
-    /** @var EntityRepository */
-    private $localeRepository;
+    private ?object $localeRepository = null;
 
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private ?object $syliusAkeneoLocaleCodeProvider = null;
 
     protected function setUp(): void
     {
@@ -72,7 +69,7 @@ final class ProductFilterTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }
 
@@ -174,7 +171,7 @@ final class ProductFilterTest extends ApiTestCase
             $this->productFilter,
             $this->productFiltersRules,
             new SearchBuilder(),
-            self::COMPLETENESS_ALL_COMPLETE
+            self::COMPLETENESS_ALL_COMPLETE,
         );
         Assert::assertInstanceOf(SearchBuilder::class, $result);
         $expect = [
@@ -193,7 +190,7 @@ final class ProductFilterTest extends ApiTestCase
             $this->productFilter,
             $this->productFiltersRules,
             new SearchBuilder(),
-            Operator::GREATER_THAN_ON_ALL_LOCALES
+            Operator::GREATER_THAN_ON_ALL_LOCALES,
         );
         Assert::assertInstanceOf(SearchBuilder::class, $result);
         $expect = [
@@ -225,7 +222,7 @@ final class ProductFilterTest extends ApiTestCase
     {
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
-            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce'
+            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce',
         );
 
         $this->manager->flush();
@@ -257,7 +254,7 @@ final class ProductFilterTest extends ApiTestCase
     {
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
-            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce'
+            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce',
         );
 
         $this->manager->flush();

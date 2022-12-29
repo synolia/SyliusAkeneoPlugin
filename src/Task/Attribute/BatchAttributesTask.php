@@ -28,35 +28,16 @@ use Webmozart\Assert\Assert;
 
 final class BatchAttributesTask extends AbstractBatchTask
 {
-    private LoggerInterface $logger;
-
-    private EventDispatcherInterface $dispatcher;
-
-    private ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor;
-
-    private ProductOptionProcessorInterface $productOptionProcessor;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    private AttributeCreatorInterface $attributeCreator;
-
     public function __construct(
         EntityManagerInterface $entityManager,
-        LoggerInterface $akeneoLogger,
-        ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
-        ProductOptionProcessorInterface $productOptionProcessor,
-        EventDispatcherInterface $dispatcher,
-        ApiConnectionProviderInterface $apiConnectionProvider,
-        AttributeCreatorInterface $attributeCreator
+        private LoggerInterface $logger,
+        private ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
+        private ProductOptionProcessorInterface $productOptionProcessor,
+        private EventDispatcherInterface $dispatcher,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private AttributeCreatorInterface $attributeCreator,
     ) {
         parent::__construct($entityManager);
-
-        $this->logger = $akeneoLogger;
-        $this->dispatcher = $dispatcher;
-        $this->attributeChoiceProcessor = $attributeChoiceProcessor;
-        $this->productOptionProcessor = $productOptionProcessor;
-        $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->attributeCreator = $attributeCreator;
     }
 
     /**
@@ -80,7 +61,7 @@ final class BatchAttributesTask extends AbstractBatchTask
             $variationAxes = array_unique($this->getVariationAxes($payload));
             while ($results = $query->fetchAll()) {
                 foreach ($results as $result) {
-                    $resource = json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                     if (!is_array($resource)) {
                         throw new InvalidAttributeException();
@@ -151,7 +132,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         foreach ($families as $family) {
             $familyVariants = $client->getFamilyVariantApi()->all(
                 $family['code'],
-                $pagination
+                $pagination,
             );
 
             $variationAxes = array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));

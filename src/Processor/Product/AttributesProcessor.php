@@ -13,24 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 
 final class AttributesProcessor implements AttributesProcessorInterface
 {
-    private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider;
-
-    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
-
-    private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider;
-
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(
-        AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
-        ProductFilterRulesProviderInterface $productFilterRulesProvider,
-        AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
-        LoggerInterface $akeneoLogger
-    ) {
-        $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
-        $this->productFilterRulesProvider = $productFilterRulesProvider;
-        $this->akeneoAttributeProcessorProvider = $akeneoAttributeProcessorProvider;
-        $this->akeneoLogger = $akeneoLogger;
+    public function __construct(private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider, private ProductFilterRulesProviderInterface $productFilterRulesProvider, private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider, private LoggerInterface $akeneoLogger)
+    {
     }
 
     public static function getDefaultPriority(): int
@@ -66,6 +50,6 @@ final class AttributesProcessor implements AttributesProcessorInterface
 
     public function support(ProductInterface $product, array $resource): bool
     {
-        return \count($resource['values']) > 0;
+        return (is_countable($resource['values']) ? \count($resource['values']) : 0) > 0;
     }
 }

@@ -12,6 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
+use Webmozart\Assert\Assert;
 
 final class ProductFilter implements ProductFilterInterface
 {
@@ -38,14 +39,8 @@ final class ProductFilter implements ProductFilterInterface
         'code',
     ];
 
-    private EntityRepository $productFiltersRulesRepository;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    public function __construct(EntityRepository $productFiltersRulesRepository, SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
+    public function __construct(private EntityRepository $productFiltersRulesRepository, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
     {
-        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
     }
 
     public function getProductModelFilters(): array
@@ -102,7 +97,7 @@ final class ProductFilter implements ProductFilterInterface
                 $productFilterRules,
                 $queryParameters,
                 $productFilterRules->getCompletenessType(),
-                $productFilterRules->getCompletenessValue()
+                $productFilterRules->getCompletenessValue(),
             );
             $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $this->getStatus($productFilterRules, $queryParameters);
@@ -123,7 +118,7 @@ final class ProductFilter implements ProductFilterInterface
         return $queryParameters->addFilter(
             'enabled',
             Operator::EQUAL,
-            ProductFilterStatusEnum::ENABLED === $status
+            ProductFilterStatusEnum::ENABLED === $status,
         );
     }
 
@@ -138,7 +133,9 @@ final class ProductFilter implements ProductFilterInterface
             return $advancedFilter;
         }
 
-        $advancedFilter['search'] = json_decode($advancedFilter['search'], true);
+        Assert::string($advancedFilter['search']);
+
+        $advancedFilter['search'] = json_decode($advancedFilter['search'], true, 512, \JSON_THROW_ON_ERROR);
         if (true === $isProductModelFilter) {
             return $this->getProductModelAdvancedFilter($advancedFilter);
         }
@@ -159,9 +156,7 @@ final class ProductFilter implements ProductFilterInterface
 
     private function getProductModelAdvancedFilter(array $advancedFilter): array
     {
-        $advancedFilter['search'] = array_filter($advancedFilter['search'], static function (string $key): bool {
-            return \in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
-        }, \ARRAY_FILTER_USE_KEY);
+        $advancedFilter['search'] = array_filter($advancedFilter['search'], static fn (string $key): bool => \in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES), \ARRAY_FILTER_USE_KEY);
 
         if (\array_key_exists('completeness', $advancedFilter['search']) && \is_array($advancedFilter['search']['completeness'])) {
             $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);
@@ -177,14 +172,14 @@ final class ProductFilter implements ProductFilterInterface
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
-                $productFilterRules->getUpdatedAfter()->format(self::API_DATETIME_FORMAT)
+                $productFilterRules->getUpdatedAfter()->format(self::API_DATETIME_FORMAT),
             );
         }
         if (Operator::LOWER_THAN === $updatedMode) {
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
-                $productFilterRules->getUpdatedBefore()->format(self::API_DATETIME_FORMAT)
+                $productFilterRules->getUpdatedBefore()->format(self::API_DATETIME_FORMAT),
             );
         }
         if (Operator::BETWEEN === $updatedMode) {
@@ -194,14 +189,14 @@ final class ProductFilter implements ProductFilterInterface
                 [
                     $productFilterRules->getUpdatedBefore()->format(self::API_DATETIME_FORMAT),
                     $productFilterRules->getUpdatedAfter()->format(self::API_DATETIME_FORMAT),
-                ]
+                ],
             );
         }
         if (Operator::SINCE_LAST_N_DAYS === $updatedMode) {
             $queryParameters->addFilter(
                 'updated',
                 $updatedMode,
-                $productFilterRules->getUpdated()
+                $productFilterRules->getUpdated(),
             );
         }
 
@@ -217,7 +212,7 @@ final class ProductFilter implements ProductFilterInterface
         return $queryParameters->addFilter(
             'family',
             Operator::NOT_IN,
-            $productFilterRules->getExcludeFamilies()
+            $productFilterRules->getExcludeFamilies(),
         );
     }
 
@@ -239,7 +234,7 @@ final class ProductFilter implements ProductFilterInterface
         ProductFiltersRules $productFilterRules,
         SearchBuilder $queryParameters,
         ?string $completeness,
-        ?int $completenessValue = null
+        ?int $completenessValue = null,
     ): SearchBuilder {
         $completenessType = $productFilterRules->getCompletenessType();
         if (null === $completeness || null === $completenessType) {
@@ -259,7 +254,7 @@ final class ProductFilter implements ProductFilterInterface
                 [
                     'locales' => $productFilterRules->getLocales(),
                     'scope' => $productFilterRules->getChannel(),
-                ]
+                ],
             );
 
             return $queryParameters;
@@ -272,7 +267,7 @@ final class ProductFilter implements ProductFilterInterface
             [
                 'locales' => \in_array($completeness, [self::AT_LEAST_COMPLETE, self::ALL_COMPLETE]) ? $this->getLocales($productFilterRules) : [],
                 'scope' => $productFilterRules->getChannel(),
-            ]
+            ],
         );
 
         return $queryParameters;

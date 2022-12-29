@@ -20,7 +20,7 @@ final class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttr
         return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
             ucfirst($attributeCode),
-            self::CUSTOM_PROPERTIES_SUFFIX
+            self::CUSTOM_PROPERTIES_SUFFIX,
         ));
     }
 
@@ -29,7 +29,7 @@ final class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttr
         string $attributeCode,
         array $translations,
         string $locale,
-        string $scope
+        string $scope,
     ): void {
         if (!$model instanceof ProductInterface) {
             return;
@@ -39,12 +39,12 @@ final class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttr
             $attributeCode,
             $translations,
             $locale,
-            $scope
+            $scope,
         );
 
         $reflectionMethod = new ReflectionMethod(
             $model,
-            $this->getSetterMethodFromAttributeCode($attributeCode)
+            $this->getSetterMethodFromAttributeCode($attributeCode),
         );
         $reflectionMethod->invoke($model, $attributeValueValue);
     }

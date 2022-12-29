@@ -12,11 +12,8 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
 
     private array $attributes = [];
 
-    private AkeneoPimEnterpriseClientInterface $client;
-
-    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
+    public function __construct(private AkeneoPimEnterpriseClientInterface $client)
     {
-        $this->client = $akeneoPimClient;
     }
 
     public function setLoadsAllAttributesAtOnce(bool $loadsAllAttributesAtOnce): self
@@ -72,7 +69,7 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
 
     public function getLabels(string $referenceEntityCode, string $referenceEntityAttributeCode): array
     {
-        return (isset($this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['labels'])) ? $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['labels'] : [];
+        return $this->getProperties($referenceEntityCode, $referenceEntityAttributeCode)['labels'] ?? [];
     }
 
     public function getType(string $referenceEntityCode, string $referenceEntityAttributeCode): string

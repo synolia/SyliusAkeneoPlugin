@@ -13,11 +13,8 @@ final class ClientFactory implements ClientFactoryInterface
 {
     private ?AkeneoPimEnterpriseClientInterface $akeneoClient = null;
 
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(ApiConnectionProviderInterface $apiConnectionProvider)
+    public function __construct(private ApiConnectionProviderInterface $apiConnectionProvider)
     {
-        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface

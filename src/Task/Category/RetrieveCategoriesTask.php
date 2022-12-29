@@ -21,24 +21,8 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
  */
 final class RetrieveCategoriesTask implements AkeneoTaskInterface
 {
-    private CategoryConfigurationRepository $categoriesConfigurationRepository;
-
-    private LoggerInterface $logger;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(
-        CategoryConfigurationRepository $categoriesConfigurationRepository,
-        LoggerInterface $akeneoLogger,
-        ApiConnectionProviderInterface $apiConnectionProvider,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->categoriesConfigurationRepository = $categoriesConfigurationRepository;
-        $this->logger = $akeneoLogger;
-        $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private CategoryConfigurationRepository $categoriesConfigurationRepository, private LoggerInterface $logger, private ApiConnectionProviderInterface $apiConnectionProvider, private EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     /**
@@ -46,6 +30,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $queryParameters = [];
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
@@ -54,13 +39,13 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
             $this->eventDispatcher->dispatch($event);
 
             $queryParameters['search'] = $event->getFilters();
-        } catch (CommandContextIsNullException $commandContextIsNullException) {
+        } catch (CommandContextIsNullException) {
             $queryParameters = [];
         }
 
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
-            $queryParameters
+            $queryParameters,
         );
 
         $configuration = $this->categoriesConfigurationRepository->getCategoriesConfiguration();

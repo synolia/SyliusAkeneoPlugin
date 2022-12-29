@@ -34,7 +34,7 @@ final class MetricAttributeType implements AttributeTypeInterface
     public function validate(
         AttributeValueInterface $attributeValue,
         ExecutionContextInterface $context,
-        array $configuration
+        array $configuration,
     ): void {
     }
 }

@@ -9,11 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManagerInterface;
 
 final class ProductOptionProcessor implements ProductOptionProcessorInterface
 {
-    private ProductOptionManagerInterface $productOptionManager;
-
-    public function __construct(ProductOptionManagerInterface $productOptionManager)
+    public function __construct(private ProductOptionManagerInterface $productOptionManager)
     {
-        $this->productOptionManager = $productOptionManager;
     }
 
     public function process(AttributeInterface $attribute, array $variationAxes = []): void

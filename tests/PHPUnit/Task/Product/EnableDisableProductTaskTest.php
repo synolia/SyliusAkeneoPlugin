@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class EnableDisableProductTaskTest extends AbstractTaskTest
@@ -22,7 +23,7 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
     private $taskProvider;
 
     /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private $client;
+    private \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface $client;
 
     protected function setUp(): void
     {

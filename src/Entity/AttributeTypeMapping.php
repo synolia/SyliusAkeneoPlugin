@@ -15,23 +15,18 @@ class AttributeTypeMapping implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", unique=true)
-     */
-    private $akeneoAttributeType;
+    /** @ORM\Column(type="string", unique=true) */
+    private ?string $akeneoAttributeType = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string")
-     */
-    private $attributeType;
+    /** @ORM\Column(type="string") */
+    private ?string $attributeType = null;
 
     /**
      * {@inheritdoc}

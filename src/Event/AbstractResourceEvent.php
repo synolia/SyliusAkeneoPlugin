@@ -8,11 +8,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractResourceEvent extends Event
 {
-    protected array $resource;
-
-    public function __construct(array $resource)
+    public function __construct(protected array $resource)
     {
-        $this->resource = $resource;
     }
 
     public function getResource(): array

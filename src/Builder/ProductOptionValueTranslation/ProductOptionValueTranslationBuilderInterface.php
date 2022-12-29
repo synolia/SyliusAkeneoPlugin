@@ -18,13 +18,13 @@ interface ProductOptionValueTranslationBuilderInterface
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
         string $locale,
-        array $attributeValues
+        array $attributeValues,
     ): bool;
 
     public function build(
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
         string $locale,
-        array $attributeValues
+        array $attributeValues,
     ): ProductOptionValueTranslationInterface;
 }

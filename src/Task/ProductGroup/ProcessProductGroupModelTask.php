@@ -16,30 +16,15 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class ProcessProductGroupModelTask implements AkeneoTaskInterface
 {
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    private ProductGroupRepository $productGroupRepository;
-
-    private ProductRepositoryInterface $productRepository;
-
-    private LoggerInterface $logger;
-
-    private EntityManagerInterface $entityManager;
-
     private array $productGroups;
 
     public function __construct(
-        ApiConnectionProviderInterface $apiConnectionProvider,
-        ProductGroupRepository $productGroupRepository,
-        ProductRepositoryInterface $productRepository,
-        LoggerInterface $logger,
-        EntityManagerInterface $entityManager
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private ProductGroupRepository $productGroupRepository,
+        private ProductRepositoryInterface $productRepository,
+        private LoggerInterface $logger,
+        private EntityManagerInterface $entityManager,
     ) {
-        $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->productGroupRepository = $productGroupRepository;
-        $this->productRepository = $productRepository;
-        $this->logger = $logger;
-        $this->entityManager = $entityManager;
         $this->productGroups = [];
     }
 

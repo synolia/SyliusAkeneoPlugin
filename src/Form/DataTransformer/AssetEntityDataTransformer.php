@@ -12,19 +12,13 @@ final class AssetEntityDataTransformer implements DataTransformerInterface
     /**
      * @throws AssetTransformException
      */
-    public function transform($value): string
+    public function transform(mixed $value): string
     {
-        $json = json_encode($value);
-
-        if (false === $json) {
-            throw new AssetTransformException('Could not transform asset array to json.');
-        }
-
-        return $json;
+        return json_encode($value, \JSON_THROW_ON_ERROR);
     }
 
-    public function reverseTransform($value): ?array
+    public function reverseTransform(mixed $value): ?array
     {
-        return json_decode($value, true);
+        return json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
     }
 }

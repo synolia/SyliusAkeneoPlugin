@@ -13,23 +13,14 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 {
     private const ONE_VARIATION_AXIS = 1;
 
-    private ClientFactoryInterface $clientFactory;
-
-    private LoggerInterface $logger;
-
     private array $familyVariants;
 
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
     public function __construct(
-        ClientFactoryInterface $clientFactory,
-        LoggerInterface $logger,
-        ApiConnectionProviderInterface $apiConnectionProvider
+        private ClientFactoryInterface $clientFactory,
+        private LoggerInterface $logger,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
     ) {
-        $this->clientFactory = $clientFactory;
-        $this->logger = $logger;
         $this->familyVariants = [];
-        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     public function check(array $resource): bool
@@ -83,8 +74,9 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
             ->getFamilyVariantApi()
             ->get(
                 $family,
-                $familyVariant
-            );
+                $familyVariant,
+            )
+        ;
 
         $this->familyVariants[$family][$familyVariant] = $familyVariantPayload;
 

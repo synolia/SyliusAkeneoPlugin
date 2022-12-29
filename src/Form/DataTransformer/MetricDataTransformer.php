@@ -12,7 +12,7 @@ final class MetricDataTransformer implements DataTransformerInterface
     /**
      * @throws MetricTransformException
      */
-    public function transform($value): string
+    public function transform(mixed $value): string
     {
         if (null === $value) {
             return '';
@@ -22,19 +22,13 @@ final class MetricDataTransformer implements DataTransformerInterface
             throw new MetricTransformException('Could not transform data to json.');
         }
 
-        $json = json_encode($value);
-
-        if (false === $json) {
-            throw new MetricTransformException('Could not transform metric array to json.');
-        }
-
-        return $json;
+        return json_encode($value, \JSON_THROW_ON_ERROR);
     }
 
     /**
      * @throws MetricTransformException
      */
-    public function reverseTransform($value): ?array
+    public function reverseTransform(mixed $value): ?array
     {
         if (null === $value) {
             return null;
@@ -44,7 +38,7 @@ final class MetricDataTransformer implements DataTransformerInterface
             throw new MetricTransformException('Could not transform data to json.');
         }
 
-        $array = \json_decode($value, true);
+        $array = \json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
 
         if ($array !== null && !is_array($array)) {
             throw new MetricTransformException();

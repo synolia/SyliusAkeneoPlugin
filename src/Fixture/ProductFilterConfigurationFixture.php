@@ -17,16 +17,8 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
 final class ProductFilterConfigurationFixture extends AbstractFixture
 {
-    private EntityManagerInterface $entityManager;
-
-    private FactoryInterface $productFiltersRulesFactory;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        FactoryInterface $productFiltersRulesFactory
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productFiltersRulesFactory = $productFiltersRulesFactory;
+    public function __construct(private EntityManagerInterface $entityManager, private FactoryInterface $productFiltersRulesFactory)
+    {
     }
 
     public function load(array $options): void
@@ -119,7 +111,8 @@ final class ProductFilterConfigurationFixture extends AbstractFixture
             ->setStatus($options['status'])
             ->setUpdatedMode($options['updated_mode'])
             ->setUpdatedBefore($updatedBefore)
-            ->setUpdatedAfter($updatedAfter);
+            ->setUpdatedAfter($updatedAfter)
+        ;
 
         foreach ($options['locales'] as $locale) {
             $productFilterRules->addLocale($locale);
@@ -133,7 +126,8 @@ final class ProductFilterConfigurationFixture extends AbstractFixture
         $productFilterRules
             ->setMode($options['mode'])
             ->setChannel($options['akeneo_channel'])
-            ->setAdvancedFilter($options['advanced_filters']);
+            ->setAdvancedFilter($options['advanced_filters'])
+        ;
 
         return $productFilterRules;
     }

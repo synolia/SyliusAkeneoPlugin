@@ -12,16 +12,8 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
 
 final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderInterface
 {
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider;
-
-    private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder;
-
-    public function __construct(
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        ProductAttributeValueValueBuilder $productAttributeValueValueBuilder
-    ) {
-        $this->akeneoAttributePropertyProvider = $akeneoAttributePropertyProvider;
-        $this->productAttributeValueValueBuilder = $productAttributeValueValueBuilder;
+    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider, private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder)
+    {
     }
 
     public function getData(string $attributeCode, $attributeValues, string $locale, string $scope)

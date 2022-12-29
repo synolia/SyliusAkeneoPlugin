@@ -20,7 +20,7 @@ interface ReferenceEntityAttributeValueProcessorInterface
         string $locale,
         string $scope,
         $value,
-        array $context = []
+        array $context = [],
     ): bool;
 
     /**
@@ -35,6 +35,6 @@ interface ReferenceEntityAttributeValueProcessorInterface
         string $locale,
         string $scope,
         $value,
-        array $context = []
+        array $context = [],
     );
 }

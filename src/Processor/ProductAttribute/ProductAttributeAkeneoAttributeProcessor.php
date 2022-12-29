@@ -18,40 +18,8 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
 
 final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer;
-
-    private RepositoryInterface $productAttributeRepository;
-
-    private RepositoryInterface $productAttributeValueRepository;
-
-    private ProductAttributeValueValueBuilder $attributeValueValueBuilder;
-
-    private FactoryInterface $productAttributeValueFactory;
-
-    private LoggerInterface $logger;
-
-    public function __construct(
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
-        RepositoryInterface $productAttributeRepository,
-        RepositoryInterface $productAttributeValueRepository,
-        ProductAttributeValueValueBuilder $attributeValueValueBuilder,
-        FactoryInterface $productAttributeValueFactory,
-        LoggerInterface $akeneoLogger
-    ) {
-        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->productAttributeRepository = $productAttributeRepository;
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
-        $this->attributeValueValueBuilder = $attributeValueValueBuilder;
-        $this->productAttributeValueFactory = $productAttributeValueFactory;
-        $this->logger = $akeneoLogger;
+    public function __construct(private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer, private RepositoryInterface $productAttributeRepository, private RepositoryInterface $productAttributeValueRepository, private ProductAttributeValueValueBuilder $attributeValueValueBuilder, private FactoryInterface $productAttributeValueFactory, private LoggerInterface $logger)
+    {
     }
 
     public static function getDefaultPriority(): int
@@ -86,7 +54,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         $this->logger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
-            static::class
+            static::class,
         ));
 
         if (!$context['model'] instanceof ProductInterface) {
@@ -111,7 +79,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
                         $context['data'],
                         $locale,
                         $attributeCode,
-                        $context['scope']
+                        $context['scope'],
                     );
                 }
 
@@ -124,7 +92,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
                 $context['data'],
                 $translation['locale'],
                 $attributeCode,
-                $context['scope']
+                $context['scope'],
             );
         }
     }
@@ -135,7 +103,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         array $translations,
         string $locale,
         string $attributeCode,
-        string $scope
+        string $scope,
     ): void {
         $attributeValue = $this->productAttributeValueRepository->findOneBy([
             'subject' => $product,

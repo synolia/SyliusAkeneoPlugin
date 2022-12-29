@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
-use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
@@ -30,22 +29,22 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
-            new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(FamilyApi::FAMILY_URI, 'clothing'),
-            new Response($this->getFileContent('family_clothing.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('family_clothing.json'), [], HttpResponse::HTTP_OK),
         );
     }
 
@@ -92,7 +91,7 @@ abstract class AbstractTaskTest extends ApiTestCase
     {
         $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
-            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+            ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
         ));
         $query->executeStatement();
 
@@ -101,14 +100,14 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function prepareSelectQuery(
         int $limit = 100,
-        int $offset = 0
+        int $offset = 0,
     ): Statement {
         $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              LIMIT :limit
              OFFSET :offset',
-            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+            ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
         ));
         $query->bindValue('limit', $limit, ParameterType::INTEGER);
         $query->bindValue('offset', $offset, ParameterType::INTEGER);

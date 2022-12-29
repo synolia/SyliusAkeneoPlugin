@@ -11,14 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 
 final class ProductGroupProcessor implements ProductGroupProcessorInterface
 {
-    private ProductGroupRepository $productGroupRepository;
-
-    private LoggerInterface $logger;
-
-    public function __construct(ProductGroupRepository $productGroupRepository, LoggerInterface $logger)
+    public function __construct(private ProductGroupRepository $productGroupRepository, private LoggerInterface $logger)
     {
-        $this->productGroupRepository = $productGroupRepository;
-        $this->logger = $logger;
     }
 
     public static function getDefaultPriority(): int

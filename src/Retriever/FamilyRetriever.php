@@ -15,20 +15,8 @@ final class FamilyRetriever implements FamilyRetrieverInterface
 
     private array $families = [];
 
-    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
-
-    private LoggerInterface $logger;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(
-        AkeneoPimEnterpriseClientInterface $akeneoPimClient,
-        LoggerInterface $logger,
-        ApiConnectionProviderInterface $apiConnectionProvider
-    ) {
-        $this->akeneoPimClient = $akeneoPimClient;
-        $this->logger = $logger;
-        $this->apiConnectionProvider = $apiConnectionProvider;
+    public function __construct(private AkeneoPimEnterpriseClientInterface $akeneoPimClient, private LoggerInterface $logger, private ApiConnectionProviderInterface $apiConnectionProvider)
+    {
     }
 
     public function getFamily(string $familyCode): array

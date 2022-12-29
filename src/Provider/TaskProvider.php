@@ -19,7 +19,7 @@ final class TaskProvider
 
     public function addTask(AkeneoTaskInterface $akeneoTask): void
     {
-        $this->tasks[\get_class($akeneoTask)] = $akeneoTask;
+        $this->tasks[$akeneoTask::class] = $akeneoTask;
     }
 
     public function get(string $taskClassName): AkeneoTaskInterface

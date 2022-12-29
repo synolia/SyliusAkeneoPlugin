@@ -16,44 +16,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttributeProcessorInterface
 {
-    private AssetValueBuilderProviderInterface $assetValueBuilderProvider;
-
-    private FactoryInterface $assetFactory;
-
-    private RepositoryInterface $assetRepository;
-
-    private EntityManagerInterface $entityManager;
-
-    private AkeneoAssetAttributeDataProviderInterface $akeneoAssetAttributeDataProvider;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
-
-    private AssetValueBuilderProviderInterface $assetAttributeValueBuilder;
-
-    private AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider;
-
-    public function __construct(
-        AssetValueBuilderProviderInterface $assetValueBuilderProvider,
-        FactoryInterface $assetFactory,
-        RepositoryInterface $assetRepository,
-        EntityManagerInterface $entityManager,
-        AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider,
-        AkeneoAssetAttributeDataProviderInterface $akeneoAssetAttributeDataProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        ProductFilterRulesProviderInterface $productFilterRulesProvider,
-        AssetValueBuilderProviderInterface $assetAttributeValueBuilder
-    ) {
-        $this->assetValueBuilderProvider = $assetValueBuilderProvider;
-        $this->assetFactory = $assetFactory;
-        $this->assetRepository = $assetRepository;
-        $this->entityManager = $entityManager;
-        $this->akeneoAssetAttributePropertiesProvider = $akeneoAssetAttributePropertiesProvider;
-        $this->akeneoAssetAttributeDataProvider = $akeneoAssetAttributeDataProvider;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->productFilterRulesProvider = $productFilterRulesProvider;
-        $this->assetAttributeValueBuilder = $assetAttributeValueBuilder;
+    public function __construct(private AssetValueBuilderProviderInterface $assetValueBuilderProvider, private FactoryInterface $assetFactory, private RepositoryInterface $assetRepository, private EntityManagerInterface $entityManager, private AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider, private AkeneoAssetAttributeDataProviderInterface $akeneoAssetAttributeDataProvider, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private ProductFilterRulesProviderInterface $productFilterRulesProvider, private AssetValueBuilderProviderInterface $assetAttributeValueBuilder)
+    {
     }
 
     public static function getDefaultPriority(): int
@@ -74,7 +38,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         string $assetFamilyCode,
         string $assetCode,
         string $attributeCode,
-        array $assetAttributeResource = []
+        array $assetAttributeResource = [],
     ): void {
         if (!$this->support($assetFamilyCode, $assetCode, $attributeCode)) {
             return;
@@ -117,7 +81,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         string $assetCode,
         string $attributeCode,
         array $queryParam,
-        array $assetAttributeResource
+        array $assetAttributeResource,
     ): void {
         $asset = $this->assetRepository->findOneBy($queryParam);
 
@@ -146,7 +110,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
             $attributeCode,
             $queryParam['locale'],
             $queryParam['scope'],
-            $assetAttributeValue
+            $assetAttributeValue,
         );
 
         $asset->setContent($data);

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
 use PHPUnit\Framework\Assert;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\Product;
-use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
@@ -21,6 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
@@ -28,11 +27,9 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
     /** @var AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var ProductRepositoryInterface */
-    private $productRepository;
+    private ?object $productRepository = null;
 
-    /** @var EntityRepository */
-    private $productGroupRepository;
+    private ?object $productGroupRepository = null;
 
     protected function setUp(): void
     {

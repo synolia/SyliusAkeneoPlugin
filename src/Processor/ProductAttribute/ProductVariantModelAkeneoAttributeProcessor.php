@@ -32,14 +32,14 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
         ) {
             return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
                 'set%s',
-                ucfirst($attributeCode)
+                ucfirst($attributeCode),
             ));
         }
 
         return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
             ucfirst($attributeCode),
-            self::CUSTOM_PROPERTIES_SUFFIX
+            self::CUSTOM_PROPERTIES_SUFFIX,
         ));
     }
 
@@ -48,7 +48,7 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
         string $attributeCode,
         array $translations,
         string $locale,
-        string $scope
+        string $scope,
     ): void {
         if (!$model instanceof ProductVariantInterface) {
             return;
@@ -58,12 +58,12 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
             $attributeCode,
             $translations,
             $locale,
-            $scope
+            $scope,
         );
 
         $reflectionMethod = new ReflectionMethod(
             $model,
-            $this->getSetterMethodFromAttributeCode($attributeCode)
+            $this->getSetterMethodFromAttributeCode($attributeCode),
         );
         $reflectionMethod->invoke($model, $attributeValueValue);
     }

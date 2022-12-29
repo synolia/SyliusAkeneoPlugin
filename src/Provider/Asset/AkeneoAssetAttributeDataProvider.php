@@ -11,12 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
 
 final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeDataProviderInterface
 {
-    private AkeneoAssetAttributePropertiesProvider $akeneoAssetAttributePropertiesProvider;
-
-    public function __construct(
-        AkeneoAssetAttributePropertiesProvider $akeneoAssetAttributePropertiesProvider
-    ) {
-        $this->akeneoAssetAttributePropertiesProvider = $akeneoAssetAttributePropertiesProvider;
+    public function __construct(private AkeneoAssetAttributePropertiesProvider $akeneoAssetAttributePropertiesProvider)
+    {
     }
 
     /**

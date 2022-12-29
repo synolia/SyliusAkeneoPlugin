@@ -23,6 +23,7 @@ class ApiConfiguration implements ResourceInterface
 
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -30,52 +31,46 @@ class ApiConfiguration implements ResourceInterface
     private $id;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $baseUrl;
+    private ?string $baseUrl = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $apiClientId;
+    private ?string $apiClientId = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $apiClientSecret;
+    private ?string $apiClientSecret = null;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      * @Assert\Range(
      *      min = ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
      *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
      * )
      */
-    private $paginationSize = self::DEFAULT_PAGINATION_SIZE;
+    private int $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
     /** @ORM\Column(type="string", options={"default" : "ce"}) */
     private string $edition = AkeneoEditionEnum::COMMUNITY;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $username;
+    private ?string $username = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Assert\NotBlank
      */
-    private $password;
+    private ?string $password = null;
 
     public function getId(): ?int
     {
@@ -150,7 +145,7 @@ class ApiConfiguration implements ResourceInterface
         if (!\in_array($edition, AkeneoEditionEnum::getEditions(), true)) {
             throw new \InvalidArgumentException(\sprintf(
                 'Akeneo edition "%s" is not valid.',
-                $edition
+                $edition,
             ));
         }
 

@@ -28,7 +28,7 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMat
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
 
-final class SynoliaSyliusAkeneoPlugin extends Bundle
+final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
 {
     use SyliusPluginTrait;
 

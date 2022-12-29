@@ -11,20 +11,8 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMat
 
 final class MultiSelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer;
-
-    public function __construct(
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AttributeTypeMatcher $attributeTypeMatcher,
-        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer
-    ) {
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
+    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AttributeTypeMatcher $attributeTypeMatcher, private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer)
+    {
     }
 
     public function support(string $attributeCode): bool
@@ -35,7 +23,7 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
     /**
      * {@inheritdoc}
      */
-    public function build(string $attributeCode, ?string $locale, ?string $scope, $values)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, mixed $values)
     {
         foreach ($values as $key => $value) {
             $values[$key] = $this->attributeOptionValueDataTransformer->transform($value);

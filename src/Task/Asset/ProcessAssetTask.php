@@ -15,25 +15,21 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessAssetTask extends AbstractProcessTask
 {
-    private EditionCheckerInterface $editionChecker;
-
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchAssetTask $task,
-        EditionCheckerInterface $editionChecker,
-        string $projectDir
+        private EditionCheckerInterface $editionChecker,
+        string $projectDir,
     ) {
         parent::__construct(
             $entityManager,
             $processManager,
             $task,
             $akeneoLogger,
-            $projectDir
+            $projectDir,
         );
-
-        $this->editionChecker = $editionChecker;
     }
 
     /**

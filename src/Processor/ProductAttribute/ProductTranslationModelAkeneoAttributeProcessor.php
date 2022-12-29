@@ -26,7 +26,7 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
     {
         return method_exists(
             $this->model,
-            $this->getSetterMethodFromAttributeCode($attributeCode)
+            $this->getSetterMethodFromAttributeCode($attributeCode),
         ) && $context['model'] instanceof ProductInterface;
     }
 
@@ -37,14 +37,14 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
         ) {
             return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
                 'set%s',
-                ucfirst($attributeCode)
+                ucfirst($attributeCode),
             ));
         }
 
         return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
             ucfirst($attributeCode),
-            self::CUSTOM_PROPERTIES_SUFFIX
+            self::CUSTOM_PROPERTIES_SUFFIX,
         ));
     }
 
@@ -53,7 +53,7 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
         string $attributeCode,
         array $translations,
         string $locale,
-        string $scope
+        string $scope,
     ): void {
         if (!$model instanceof ProductInterface) {
             return;
@@ -64,16 +64,16 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
                 $attributeCode,
                 $translations,
                 $locale,
-                $scope
+                $scope,
             );
 
             $translationModel = $model->getTranslation($locale);
             $reflectionMethod = new ReflectionMethod(
                 $translationModel,
-                $this->getSetterMethodFromAttributeCode($attributeCode)
+                $this->getSetterMethodFromAttributeCode($attributeCode),
             );
             $reflectionMethod->invoke($translationModel, $attributeValueValue);
-        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException|ReflectionException $e) {
+        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException|ReflectionException) {
         }
     }
 }
