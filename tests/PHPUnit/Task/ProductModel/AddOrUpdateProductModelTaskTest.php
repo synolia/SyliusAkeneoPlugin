@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
 use PHPUnit\Framework\Assert;
+use Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Core\Model\Product;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
@@ -13,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
@@ -24,12 +26,11 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  */
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
-    private $taskProvider;
+    private TaskProvider $taskProvider;
 
-    private ?object $productRepository = null;
+    private ?ProductRepository $productRepository = null;
 
-    private ?object $productGroupRepository = null;
+    private ?ProductGroupRepository $productGroupRepository = null;
 
     protected function setUp(): void
     {

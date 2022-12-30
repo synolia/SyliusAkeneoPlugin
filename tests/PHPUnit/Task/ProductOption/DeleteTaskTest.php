@@ -16,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Option\DeleteTask;
  */
 final class DeleteTaskTest extends AbstractTaskTest
 {
-    private ?object $taskProvider = null;
+    private ?TaskProvider $taskProvider = null;
 
     protected function setUp(): void
     {

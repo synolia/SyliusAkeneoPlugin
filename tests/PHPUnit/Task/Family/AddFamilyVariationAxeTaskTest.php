@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\Family\ProcessFamilyTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
@@ -25,7 +26,7 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
     /** @var AkeneoTaskProvider */
     private $taskProvider;
 
-    private ?object $productGroupRepository = null;
+    private ?ProductGroupRepository $productGroupRepository = null;
 
     protected function setUp(): void
     {

@@ -28,7 +28,7 @@ final class AttributeTypeMatcherTest extends AbstractKernelTestCase
 {
     private const FAKE_AKENEO_ATTRIBUTE_TYPE = 'my_fake_attribute_type';
 
-    private ?object $attributeTypeMatcher = null;
+    private ?AttributeTypeMatcher $attributeTypeMatcher = null;
 
     protected function setUp(): void
     {

@@ -27,14 +27,11 @@ final class ProductFilterTest extends ApiTestCase
 
     private const COMPLETENESS_ALL_COMPLETE = 'ALL COMPLETE';
 
-    /** @var ProductFiltersRules */
-    private $productFiltersRules;
+    private ?ProductFiltersRules $productFiltersRules;
 
-    private ?object $productFilter = null;
+    private ?ProductFilter $productFilter = null;
 
-    private ?object $localeRepository = null;
-
-    private ?object $syliusAkeneoLocaleCodeProvider = null;
+    private ?SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider = null;
 
     protected function setUp(): void
     {
@@ -43,7 +40,6 @@ final class ProductFilterTest extends ApiTestCase
 
         $this->manager = $this->getContainer()->get('doctrine')->getManager();
         $this->manager->beginTransaction();
-        $this->localeRepository = $this->getContainer()->get('sylius.repository.locale');
         $this->productFilter = $this->getContainer()->get(ProductFilter::class);
         $this->syliusAkeneoLocaleCodeProvider = $this->getContainer()->get(SyliusAkeneoLocaleCodeProvider::class);
 

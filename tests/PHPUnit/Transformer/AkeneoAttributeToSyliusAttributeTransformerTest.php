@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Transformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
@@ -16,10 +16,9 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
  */
 final class AkeneoAttributeToSyliusAttributeTransformerTest extends AbstractKernelTestCase
 {
-    private ?object $akeneoAttributeToSyliusAttributeTransformer = null;
+    private ?AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer = null;
 
-    /** @var ObjectManager */
-    private $manager;
+    private ?EntityManager $manager;
 
     protected function setUp(): void
     {
