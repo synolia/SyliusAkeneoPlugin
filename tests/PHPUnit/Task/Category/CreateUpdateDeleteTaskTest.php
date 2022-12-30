@@ -10,6 +10,7 @@ use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
@@ -20,8 +21,6 @@ use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
  */
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
-    private \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration $categoryConfiguration;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -48,6 +47,10 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
     public function testCreateCategories(): void
     {
+        /** @var CategoryConfigurationProviderInterface $configuration */
+        $configuration = $this->getContainer()->get(CategoryConfigurationProviderInterface::class);
+        $configuration->get()->setCategoryCodesToImport(['master', 'sales']);
+
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
         /** @var RetrieveCategoriesTask $task */

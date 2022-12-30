@@ -16,9 +16,35 @@ Product filters Akeneo documentation: https://api.akeneo.com/documentation/filte
 
 ## Categories
 
+### From BO
+
     BO > Akeneo > Categories
 
 The category import configuration contains two multi-selects, the first allows you to select the categories that you want to include and the second the categories that you want to exclude from the import. In either case, **selecting a parent will exclude the parent and its children**.
+
+### From package configuration file
+
+The category import configuration contains two configurations.
+
+`root_category_codes` allows you to choose the categories that you want to include.
+
+`excluded_category_codes` allows you to choose the categories that you want to exclude from the import.
+
+**Selecting a parent will exclude the parent and its children**.
+
+```yaml
+# config/packages/synolia_akeneo_plugin.yaml
+
+synolia_sylius_akeneo:
+    category_configuration:
+        root_category_codes:
+            - master
+        excluded_category_codes:
+            - led_tvs
+            - audio_video
+            - mp3_players
+```
+
 
 ## Products
 
