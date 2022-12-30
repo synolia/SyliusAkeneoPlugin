@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
@@ -17,7 +17,7 @@ final class ProductPayload extends AbstractPayload
 
     private PageInterface $resources;
 
-    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient, ?CommandContextInterface $commandContext = null)
+    public function __construct(AkeneoPimClientInterface $akeneoPimClient, ?CommandContextInterface $commandContext = null)
     {
         parent::__construct($akeneoPimClient, $commandContext);
 

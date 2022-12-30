@@ -86,7 +86,7 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Asset'
 
-    Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface:
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
 

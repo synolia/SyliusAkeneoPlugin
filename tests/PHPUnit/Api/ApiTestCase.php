@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -92,9 +92,9 @@ abstract class ApiTestCase extends AbstractKernelTestCase
         }
     }
 
-    protected function createClient(): AkeneoPimEnterpriseClientInterface
+    protected function createClient(): AkeneoPimClientInterface
     {
-        $clientBuilder = new AkeneoPimEnterpriseClientBuilder($this->server->getServerRoot());
+        $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
 
         return $clientBuilder->buildAuthenticatedByPassword(
             'client_id',

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
@@ -29,7 +29,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
         FactoryInterface $productOptionValueTranslationFactory,
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager,
-        private AkeneoPimEnterpriseClientInterface $client,
+        private AkeneoPimClientInterface $client,
         private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
         private LocaleRepositoryInterface $localeRepository,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use ReflectionClass;
 use ReflectionException;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
@@ -25,7 +25,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     protected string $commandName;
 
     public function __construct(
-        protected AkeneoPimEnterpriseClientInterface $akeneoPimClient,
+        protected AkeneoPimClientInterface $akeneoPimClient,
         protected ?\Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface $commandContext = null,
     ) {
         if (null !== $commandContext) {
@@ -38,7 +38,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         }
     }
 
-    public function getAkeneoPimClient(): AkeneoPimEnterpriseClientInterface
+    public function getAkeneoPimClient(): AkeneoPimClientInterface
     {
         return $this->akeneoPimClient;
     }

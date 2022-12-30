@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -15,7 +15,7 @@ final class SyliusAkeneoLocaleCodeProvider
     /** @var array<string> */
     private array $localesCode;
 
-    public function __construct(private AkeneoPimEnterpriseClientInterface $akeneoPimClient, private RepositoryInterface $channelRepository)
+    public function __construct(private AkeneoPimClientInterface $akeneoPimClient, private RepositoryInterface $channelRepository)
     {
         $this->localesCode = [];
     }

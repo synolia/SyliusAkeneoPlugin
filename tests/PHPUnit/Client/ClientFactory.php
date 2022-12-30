@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 
 final class ClientFactory
 {
@@ -13,9 +13,9 @@ final class ClientFactory
     {
     }
 
-    public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
+    public function createFromApiCredentials(): AkeneoPimClientInterface
     {
-        $clientBuilder = new AkeneoPimEnterpriseClientBuilder(sprintf(
+        $clientBuilder = new AkeneoPimClientBuilder(sprintf(
             'http://%s:%d',
             $this->mockServerHost,
             $this->mockServerPort,

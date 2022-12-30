@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Client;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 interface ClientFactoryInterface
 {
-    public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface;
+    public function createFromApiCredentials(): AkeneoPimClientInterface;
 
     /** @deprecated To be removed in 4.0. */
-    public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimEnterpriseClientInterface;
+    public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface;
 }

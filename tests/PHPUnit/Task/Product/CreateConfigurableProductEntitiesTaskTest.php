@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use Akeneo\Pim\ApiClient\Search\Operator;
-use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeApi;
-use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityAttributeOptionApi;
-use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use League\Pipeline\Pipeline;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -39,8 +39,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     /** @var AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface $client;
+    private \Akeneo\Pim\ApiClient\AkeneoPimClientInterface $client;
 
     protected function setUp(): void
     {
