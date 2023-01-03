@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Form\DataTransformer;
 
+use JsonException;
 use Symfony\Component\Form\DataTransformerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\DataTransformer\MetricTransformException;
 
@@ -12,7 +13,7 @@ final class MetricDataTransformer implements DataTransformerInterface
     /**
      * @throws MetricTransformException
      */
-    public function transform($value): string
+    public function transform(mixed $value): string
     {
         if (null === $value) {
             return '';
@@ -22,19 +23,17 @@ final class MetricDataTransformer implements DataTransformerInterface
             throw new MetricTransformException('Could not transform data to json.');
         }
 
-        $json = json_encode($value);
-
-        if (false === $json) {
-            throw new MetricTransformException('Could not transform metric array to json.');
+        try {
+            return json_encode($value, \JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new MetricTransformException('Could not transform metric array to json.', 0, $exception);
         }
-
-        return $json;
     }
 
     /**
      * @throws MetricTransformException
      */
-    public function reverseTransform($value): ?array
+    public function reverseTransform(mixed $value): ?array
     {
         if (null === $value) {
             return null;
@@ -44,7 +43,7 @@ final class MetricDataTransformer implements DataTransformerInterface
             throw new MetricTransformException('Could not transform data to json.');
         }
 
-        $array = \json_decode($value, true);
+        $array = \json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
 
         if ($array !== null && !is_array($array)) {
             throw new MetricTransformException();

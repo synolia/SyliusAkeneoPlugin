@@ -11,25 +11,20 @@ final class ProductAttributeValueValueBuilder
 {
     private array $attributeValueBuilders;
 
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(LoggerInterface $akeneoLogger)
+    public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->akeneoLogger = $akeneoLogger;
         $this->attributeValueBuilders = [];
     }
 
     public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void
     {
-        $this->attributeValueBuilders[\get_class($attributeValueBuilder)] = $attributeValueBuilder;
+        $this->attributeValueBuilders[$attributeValueBuilder::class] = $attributeValueBuilder;
     }
 
     /**
-     * @param mixed $value
-     *
      * @return mixed|null
      */
-    public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
+    public function build(string $attributeCode, ?string $locale, ?string $scope, mixed $value)
     {
         foreach ($this->attributeValueBuilders as $attributeValueBuilder) {
             if ($attributeValueBuilder->support($attributeCode)) {
@@ -66,8 +61,8 @@ final class ProductAttributeValueValueBuilder
             } catch (Throwable $throwable) {
                 $this->akeneoLogger->critical(sprintf(
                     'AttributeValueBuilder "%s" failed to execute method support() for attribute "%s"',
-                    \get_class($attributeValueBuilder),
-                    $attributeCode
+                    $attributeValueBuilder::class,
+                    $attributeCode,
                 ), ['exception' => $throwable]);
 
                 return false;

@@ -17,48 +17,12 @@ use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 
 abstract class AbstractCreateProductEntities
 {
-    protected EntityManagerInterface $entityManager;
-
-    protected RepositoryInterface $productVariantRepository;
-
-    protected ProductVariantFactoryInterface $productVariantFactory;
-
-    protected RepositoryInterface $productRepository;
-
-    protected ChannelRepository $channelRepository;
-
     protected RepositoryInterface $channelPricingRepository;
 
     protected FactoryInterface $channelPricingFactory;
 
-    protected LocaleRepositoryInterface $localeRepository;
-
-    protected LoggerInterface $logger;
-
-    protected RepositoryInterface $productConfigurationRepository;
-
-    protected ProductChannelEnablerProcessorInterface $productChannelEnabler;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        RepositoryInterface $productVariantRepository,
-        RepositoryInterface $productRepository,
-        ChannelRepository $channelRepository,
-        LocaleRepositoryInterface $localeRepository,
-        RepositoryInterface $productConfigurationRepository,
-        ProductVariantFactoryInterface $productVariantFactory,
-        LoggerInterface $akeneoLogger,
-        ProductChannelEnablerProcessorInterface $productChannelEnabler
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productVariantRepository = $productVariantRepository;
-        $this->productVariantFactory = $productVariantFactory;
-        $this->productRepository = $productRepository;
-        $this->channelRepository = $channelRepository;
-        $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->localeRepository = $localeRepository;
-        $this->logger = $akeneoLogger;
-        $this->productChannelEnabler = $productChannelEnabler;
+    public function __construct(protected EntityManagerInterface $entityManager, protected RepositoryInterface $productVariantRepository, protected RepositoryInterface $productRepository, protected ChannelRepository $channelRepository, protected LocaleRepositoryInterface $localeRepository, protected RepositoryInterface $productConfigurationRepository, protected ProductVariantFactoryInterface $productVariantFactory, protected LoggerInterface $logger, protected ProductChannelEnablerProcessorInterface $productChannelEnabler)
+    {
     }
 
     protected function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface

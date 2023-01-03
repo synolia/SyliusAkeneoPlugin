@@ -23,44 +23,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class CompleteRequirementProcessor implements CompleteRequirementProcessorInterface
 {
-    private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
-
-    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
-
-    private EntityRepository $productConfigurationRepository;
-
-    private SlugGeneratorInterface $productSlugGenerator;
-
-    private RepositoryInterface $productTranslationRepository;
-
-    private FactoryInterface $productTranslationFactory;
-
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(
-        AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        ProductFilterRulesProviderInterface $productFilterRulesProvider,
-        EntityRepository $productConfigurationRepository,
-        SlugGeneratorInterface $productSlugGenerator,
-        RepositoryInterface $productTranslationRepository,
-        FactoryInterface $productTranslationFactory,
-        LoggerInterface $akeneoLogger
-    ) {
-        $this->akeneoFamilyPropertiesProvider = $akeneoFamilyPropertiesProvider;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
-        $this->productFilterRulesProvider = $productFilterRulesProvider;
-        $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->productSlugGenerator = $productSlugGenerator;
-        $this->productTranslationRepository = $productTranslationRepository;
-        $this->productTranslationFactory = $productTranslationFactory;
-        $this->akeneoLogger = $akeneoLogger;
+    public function __construct(private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, private ProductFilterRulesProviderInterface $productFilterRulesProvider, private EntityRepository $productConfigurationRepository, private SlugGeneratorInterface $productSlugGenerator, private RepositoryInterface $productTranslationRepository, private FactoryInterface $productTranslationFactory, private LoggerInterface $akeneoLogger)
+    {
     }
 
     public static function getDefaultPriority(): int
@@ -82,9 +46,9 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
                         $familyResource['attribute_as_label'],
                         $resource['values'][$familyResource['attribute_as_label']],
                         $usedLocalesOnBothPlatform,
-                        $this->productFilterRulesProvider->getProductFiltersRules()->getChannel()
+                        $this->productFilterRulesProvider->getProductFiltersRules()->getChannel(),
                     );
-                } catch (TranslationNotFoundException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException|MissingScopeException $translationNotFoundException) {
+                } catch (TranslationNotFoundException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException|MissingScopeException) {
                     $this->akeneoLogger->warning('Could not find translation name for product.', [
                         'product_code' => $product->getCode(),
                         'locale' => $usedLocalesOnBothPlatform,
@@ -116,7 +80,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
                     '%s-%s-%d',
                     $resource['code'] ?? $resource['identifier'],
                     $this->productSlugGenerator->generate($productName),
-                    $missingNameTranslationCount
+                    $missingNameTranslationCount,
                 ));
 
                 continue;
@@ -126,7 +90,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
             $productTranslation->setSlug(sprintf(
                 '%s-%s',
                 $resource['code'] ?? $resource['identifier'],
-                $this->productSlugGenerator->generate($productName)
+                $this->productSlugGenerator->generate($productName),
             ));
         }
     }

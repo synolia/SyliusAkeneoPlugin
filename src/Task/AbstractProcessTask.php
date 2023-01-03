@@ -21,41 +21,21 @@ use Throwable;
 
 abstract class AbstractProcessTask implements AkeneoTaskInterface
 {
-    protected EntityManagerInterface $entityManager;
-
-    protected ProcessManagerInterface $processManager;
-
-    protected BatchTaskInterface $task;
-
-    protected LoggerInterface $logger;
-
     private int $updateCount = 0;
 
     private int $createCount = 0;
 
     private string $type;
 
-    private string $projectDir;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        ProcessManagerInterface $processManager,
-        BatchTaskInterface $task,
-        LoggerInterface $akeneoLogger,
-        string $projectDir
-    ) {
-        $this->entityManager = $entityManager;
-        $this->processManager = $processManager;
-        $this->task = $task;
-        $this->logger = $akeneoLogger;
-        $this->projectDir = $projectDir;
+    public function __construct(protected EntityManagerInterface $entityManager, protected ProcessManagerInterface $processManager, protected BatchTaskInterface $task, protected LoggerInterface $logger, private string $projectDir)
+    {
     }
 
     protected function count(string $tableName): int
     {
         $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
-            $tableName
+            $tableName,
         ));
         $query->executeStatement();
 
@@ -66,7 +46,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
     {
         $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id FROM `%s` ORDER BY id ASC LIMIT 1',
-            $tableName
+            $tableName,
         ));
         $query->executeStatement();
 
@@ -76,7 +56,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
     protected function prepareSelectBatchIdsQuery(
         string $tableName,
         int $from,
-        int $limit
+        int $limit,
     ): Statement {
         $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id
@@ -84,7 +64,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
              WHERE id > :from
              ORDER BY id ASC
              LIMIT :limit',
-            $tableName
+            $tableName,
         ));
         $query->bindValue('from', $from, ParameterType::INTEGER);
         $query->bindValue('limit', $limit, ParameterType::INTEGER);
@@ -94,7 +74,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
     protected function batch(
         PipelinePayloadInterface $payload,
-        array $ids
+        array $ids,
     ): void {
         if ($payload->allowParallel()) {
             if (!$this->processManager instanceof ProcessManager) {
@@ -168,10 +148,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
     }
 
-    /**
-     * @param \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|PageInterface $handleType
-     */
-    protected function handle(PipelinePayloadInterface $payload, $handleType): void
+    protected function handle(PipelinePayloadInterface $payload, \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|\Akeneo\Pim\ApiClient\Pagination\PageInterface $handleType): void
     {
         $count = 0;
         $ids = [];
@@ -183,7 +160,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         }
 
         if ($count > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible()) {
-            $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+            $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[(is_countable($ids) ? \count($ids) : 0) - 1]]);
             $this->batch($payload, $ids);
 
             return;
@@ -205,7 +182,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         PipelinePayloadInterface $payload,
         PageInterface $page,
         int &$count = 0,
-        array &$ids = []
+        array &$ids = [],
     ): void {
         while (
             ($page instanceof Page && $page->hasNextPage()) ||
@@ -219,7 +196,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                     $payload->getTmpTableName(),
                 );
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->bindValue('values', json_encode($item));
+                $stmt->bindValue('values', json_encode($item, \JSON_THROW_ON_ERROR));
                 $stmt->execute();
 
                 $ids[] = $this->entityManager->getConnection()->lastInsertId();
@@ -241,7 +218,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         PipelinePayloadInterface $payload,
         ResourceCursorInterface $resourceCursor,
         int &$count = 0,
-        array &$ids = []
+        array &$ids = [],
     ): void {
         foreach ($resourceCursor as $item) {
             ++$count;
@@ -250,7 +227,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                 $payload->getTmpTableName(),
             );
             $stmt = $this->entityManager->getConnection()->prepare($sql);
-            $stmt->bindValue('values', json_encode($item));
+            $stmt->bindValue('values', json_encode($item, \JSON_THROW_ON_ERROR));
             $stmt->execute();
 
             $ids[] = $this->entityManager->getConnection()->lastInsertId();

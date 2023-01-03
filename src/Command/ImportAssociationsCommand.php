@@ -23,21 +23,12 @@ final class ImportAssociationsCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:associations';
 
-    private ClientFactoryInterface $clientFactory;
-
-    private AssociateProductsTask $associateProductsTask;
-
-    private LoggerInterface $logger;
-
     public function __construct(
-        ClientFactoryInterface $clientFactory,
-        AssociateProductsTask $associateProductsTask,
-        LoggerInterface $akeneoLogger
+        private ClientFactoryInterface $clientFactory,
+        private AssociateProductsTask $associateProductsTask,
+        private LoggerInterface $logger,
     ) {
         parent::__construct(self::$defaultName);
-        $this->clientFactory = $clientFactory;
-        $this->associateProductsTask = $associateProductsTask;
-        $this->logger = $akeneoLogger;
     }
 
     protected function configure(): void
@@ -50,7 +41,7 @@ final class ImportAssociationsCommand extends Command
      */
     protected function execute(
         InputInterface $input,
-        OutputInterface $output
+        OutputInterface $output,
     ) {
         if (!$this->lock()) {
             $output->writeln(Messages::commandAlreadyRunning());

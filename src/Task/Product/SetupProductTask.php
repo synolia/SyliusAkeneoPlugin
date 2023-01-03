@@ -12,14 +12,8 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class SetupProductTask implements AkeneoTaskInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    private TaskProvider $taskProvider;
-
-    public function __construct(EntityManagerInterface $entityManager, TaskProvider $taskProvider)
+    public function __construct(private EntityManagerInterface $entityManager, private TaskProvider $taskProvider)
     {
-        $this->entityManager = $entityManager;
-        $this->taskProvider = $taskProvider;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -41,7 +35,7 @@ final class SetupProductTask implements AkeneoTaskInterface
               `values` JSON NULL,
               `is_simple` TINYINT NOT NULL,
               PRIMARY KEY (`id`));',
-            ProductPayload::TEMP_AKENEO_TABLE_NAME
+            ProductPayload::TEMP_AKENEO_TABLE_NAME,
         );
         $this->entityManager->getConnection()->executeStatement($query);
 

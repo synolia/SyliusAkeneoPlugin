@@ -18,21 +18,12 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
     /** @var string */
     public static $defaultName = 'akeneo:batch:association-types';
 
-    private ClientFactoryInterface $clientFactory;
-
-    private LoggerInterface $logger;
-
-    private BatchAssociationTypesTask $batchAssociationTypesTask;
-
     public function __construct(
-        ClientFactoryInterface $clientFactory,
-        LoggerInterface $akeneoLogger,
-        BatchAssociationTypesTask $batchAssociationTypesTask
+        private ClientFactoryInterface $clientFactory,
+        private LoggerInterface $logger,
+        private BatchAssociationTypesTask $batchAssociationTypesTask,
     ) {
         parent::__construct(self::$defaultName);
-        $this->clientFactory = $clientFactory;
-        $this->logger = $akeneoLogger;
-        $this->batchAssociationTypesTask = $batchAssociationTypesTask;
     }
 
     /**
@@ -40,7 +31,7 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
      */
     protected function execute(
         InputInterface $input,
-        OutputInterface $output
+        OutputInterface $output,
     ) {
         $ids = explode(',', $input->getArgument('ids'));
 

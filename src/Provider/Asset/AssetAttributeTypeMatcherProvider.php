@@ -13,16 +13,13 @@ final class AssetAttributeTypeMatcherProvider implements AssetAttributeTypeMatch
     /** @var array<AssetAttributeTypeMatcherInterface> */
     private array $typeMatchers;
 
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(LoggerInterface $akeneoLogger)
+    public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->akeneoLogger = $akeneoLogger;
     }
 
     public function addTypeMatcher(AssetAttributeTypeMatcherInterface $typeMatcher): void
     {
-        $this->typeMatchers[\get_class($typeMatcher)] = $typeMatcher;
+        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     /**
@@ -38,8 +35,8 @@ final class AssetAttributeTypeMatcherProvider implements AssetAttributeTypeMatch
             } catch (\Throwable $throwable) {
                 $this->akeneoLogger->critical(\sprintf(
                     'AttributeTypeMatcher "%s" failed to execute method support() for attribute type "%s"',
-                    \get_class($typeMatcher),
-                    $type
+                    $typeMatcher::class,
+                    $type,
                 ), ['exception' => $throwable]);
 
                 throw new UnsupportedAttributeTypeException(\sprintf('Unsupported Asset Attribute Type "%s"', $type));

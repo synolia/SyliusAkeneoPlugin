@@ -13,29 +13,13 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class TaxonsProcessor implements TaxonsProcessorInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    private RepositoryInterface $taxonRepository;
-
-    private RepositoryInterface $productTaxonRepository;
-
-    private FactoryInterface $productTaxonFactory;
-
     public static function getDefaultPriority(): int
     {
         return 500;
     }
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        RepositoryInterface $taxonRepository,
-        RepositoryInterface $productTaxonRepository,
-        FactoryInterface $productTaxonFactory
-    ) {
-        $this->entityManager = $entityManager;
-        $this->taxonRepository = $taxonRepository;
-        $this->productTaxonRepository = $productTaxonRepository;
-        $this->productTaxonFactory = $productTaxonFactory;
+    public function __construct(private EntityManagerInterface $entityManager, private RepositoryInterface $taxonRepository, private RepositoryInterface $productTaxonRepository, private FactoryInterface $productTaxonFactory)
+    {
     }
 
     public function process(ProductInterface $product, array $resource): void

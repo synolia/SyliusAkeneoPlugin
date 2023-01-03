@@ -15,84 +15,56 @@ class ProductFiltersRules implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mode;
+    /** @ORM\Column(type="string", length=255) */
+    private ?string $mode = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $advancedFilter;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $advancedFilter = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $completenessType;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $completenessType = null;
 
     /**
      * @var array
+     *
      * @ORM\Column(type="array")
      */
     private $locales = [];
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $completenessValue = 100;
+    /** @ORM\Column(type="integer") */
+    private int $completenessValue = 100;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $status;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $status = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $updatedMode;
+    /** @ORM\Column(type="string", length=255, nullable=true) */
+    private ?string $updatedMode = null;
 
-    /**
-     * @var \DateTimeInterface
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedBefore;
+    /** @ORM\Column(type="datetime") */
+    private \DateTime|\DateTimeInterface $updatedBefore;
 
-    /**
-     * @var \DateTimeInterface
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAfter;
+    /** @ORM\Column(type="datetime") */
+    private \DateTime|\DateTimeInterface $updatedAfter;
 
-    /**
-     * @var int|null
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $updated;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $updated = null;
 
     /**
      * @var array
+     *
      * @ORM\Column(type="array")
      */
     private $excludeFamilies = [];
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $channel = '';
+    /** @ORM\Column(type="string") */
+    private string $channel = '';
 
     public function __construct()
     {

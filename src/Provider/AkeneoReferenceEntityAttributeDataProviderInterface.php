@@ -16,6 +16,6 @@ interface AkeneoReferenceEntityAttributeDataProviderInterface
         string $referenceEntityAttributeCode,
         $attributeValues,
         string $locale,
-        string $scope
+        string $scope,
     );
 }

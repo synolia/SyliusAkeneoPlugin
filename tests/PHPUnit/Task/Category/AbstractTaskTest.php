@@ -33,8 +33,8 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
-                new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
-            )
+                new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
+            ),
         );
 
         $this->taskProvider = $this->getContainer()->get(TaskProvider::class);

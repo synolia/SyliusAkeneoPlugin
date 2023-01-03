@@ -25,44 +25,24 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTranslationBuilderInterface
 {
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
-
-    private FamilyMeasureRetriever $measureFamilyRetriever;
-
-    private ProductFilterRulesProviderInterface $productFilterRulesProvider;
-
     private ?string $scope = null;
 
-    public function __construct(
-        AttributeTypeMatcher $attributeTypeMatcher,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        FamilyMeasureRetriever $measureFamilyRetriever,
-        ProductFilterRulesProviderInterface $productFilterRulesProvider
-    ) {
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
-        $this->measureFamilyRetriever = $measureFamilyRetriever;
-        $this->productFilterRulesProvider = $productFilterRulesProvider;
+    public function __construct(private AttributeTypeMatcher $attributeTypeMatcher, private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, private FamilyMeasureRetriever $measureFamilyRetriever, private ProductFilterRulesProviderInterface $productFilterRulesProvider)
+    {
     }
 
     public function support(
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
         string $locale,
-        array $attributeValues
+        array $attributeValues,
     ): bool {
         try {
             $attributeCode = $productOption->getCode();
             Assert::string($attributeCode);
 
             return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MetricAttributeTypeMatcher;
-        } catch (UnsupportedAttributeTypeException|InvalidArgumentException $unsupportedAttributeTypeException) {
+        } catch (UnsupportedAttributeTypeException|InvalidArgumentException) {
             return false;
         }
     }
@@ -79,7 +59,7 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
         string $locale,
-        array $attributeValues
+        array $attributeValues,
     ): ProductOptionValueTranslationInterface {
         $attributeCode = $productOption->getCode();
         Assert::string($attributeCode);

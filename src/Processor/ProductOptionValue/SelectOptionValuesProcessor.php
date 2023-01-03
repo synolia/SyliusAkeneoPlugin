@@ -18,8 +18,6 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
-    private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer;
-
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
         RepositoryInterface $productOptionValueTranslationRepository,
@@ -28,10 +26,9 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
-        AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer
+        private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
     ) {
         parent::__construct($productOptionValueRepository, $productOptionValueTranslationRepository, $productOptionValueFactory, $productOptionValueTranslationFactory, $akeneoLogger, $entityManager, $productOptionValueDataTransformer);
-        $this->attributeOptionValueDataTransformer = $attributeOptionValueDataTransformer;
     }
 
     public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
@@ -83,7 +80,7 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
     private function updateProductOptionValueTranslations(
         ProductOptionValueInterface $productOptionValue,
         AttributeInterface $attribute,
-        string $productOptionValueCode
+        string $productOptionValueCode,
     ): void {
         $translations = $attribute->getConfiguration()['choices'][$productOptionValueCode];
 

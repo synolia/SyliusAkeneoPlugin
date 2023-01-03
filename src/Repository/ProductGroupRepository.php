@@ -12,7 +12,7 @@ final class ProductGroupRepository extends EntityRepository
 {
     public function isProductInProductGroup(
         ProductInterface $product,
-        ProductGroupInterface $productGroup
+        ProductGroupInterface $productGroup,
     ): int {
         $query = $this->createQueryBuilder('p');
 

@@ -11,16 +11,8 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class AttributeAkeneoSyliusMappingFixture extends AbstractFixture
 {
-    private EntityManagerInterface $entityManager;
-
-    private FactoryInterface $attributeAkeneoSyliusMappingFactory;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        FactoryInterface $attributeAkeneoSyliusMappingFactory
-    ) {
-        $this->entityManager = $entityManager;
-        $this->attributeAkeneoSyliusMappingFactory = $attributeAkeneoSyliusMappingFactory;
+    public function __construct(private EntityManagerInterface $entityManager, private FactoryInterface $attributeAkeneoSyliusMappingFactory)
+    {
     }
 
     public function load(array $options): void

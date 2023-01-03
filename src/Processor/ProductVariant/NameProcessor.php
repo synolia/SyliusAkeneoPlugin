@@ -14,29 +14,13 @@ use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 
 class NameProcessor implements NameProcessorInterface
 {
-    private LocaleRepositoryInterface $localeRepository;
-
-    private RepositoryInterface $productVariantTranslationRepository;
-
-    private FactoryInterface $productVariantTranslationFactory;
-
-    private EntityManagerInterface $entityManager;
-
     public static function getDefaultPriority(): int
     {
         return 800;
     }
 
-    public function __construct(
-        LocaleRepositoryInterface $localeRepository,
-        RepositoryInterface $productVariantTranslationRepository,
-        FactoryInterface $productVariantTranslationFactory,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->localeRepository = $localeRepository;
-        $this->productVariantTranslationRepository = $productVariantTranslationRepository;
-        $this->productVariantTranslationFactory = $productVariantTranslationFactory;
-        $this->entityManager = $entityManager;
+    public function __construct(private LocaleRepositoryInterface $localeRepository, private RepositoryInterface $productVariantTranslationRepository, private FactoryInterface $productVariantTranslationFactory, private EntityManagerInterface $entityManager)
+    {
     }
 
     public function process(ProductVariantInterface $productVariant, array $resource): void

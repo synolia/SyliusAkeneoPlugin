@@ -9,16 +9,8 @@ use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 
 final class ClientFactory
 {
-    /** @var string */
-    private $mockServerHost;
-
-    /** @var int */
-    private $mockServerPort;
-
-    public function __construct(string $mockServerHost, int $mockServerPort)
+    public function __construct(private string $mockServerHost, private int $mockServerPort)
     {
-        $this->mockServerHost = $mockServerHost;
-        $this->mockServerPort = $mockServerPort;
     }
 
     public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
@@ -26,14 +18,14 @@ final class ClientFactory
         $clientBuilder = new AkeneoPimEnterpriseClientBuilder(sprintf(
             'http://%s:%d',
             $this->mockServerHost,
-            $this->mockServerPort
+            $this->mockServerPort,
         ));
 
         return $clientBuilder->buildAuthenticatedByPassword(
             'client_id',
             'secret',
             'username',
-            'password'
+            'password',
         );
     }
 }

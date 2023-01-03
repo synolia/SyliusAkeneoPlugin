@@ -29,17 +29,17 @@ abstract class AbstractTaskTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
-            new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }
 
@@ -86,7 +86,7 @@ abstract class AbstractTaskTest extends ApiTestCase
     {
         $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
-            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+            ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
         ));
         $query->executeStatement();
 
@@ -95,14 +95,14 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function prepareSelectQuery(
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
-        int $offset = 0
+        int $offset = 0,
     ): Statement {
         $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              LIMIT :limit
              OFFSET :offset',
-            ProductModelPayload::TEMP_AKENEO_TABLE_NAME
+            ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
         ));
         $query->bindValue('limit', $limit, ParameterType::INTEGER);
         $query->bindValue('offset', $offset, ParameterType::INTEGER);

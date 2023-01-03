@@ -18,7 +18,7 @@ final class ReferenceEntityAttributeTypeMatcher
 
     public function addTypeMatcher(ReferenceEntityAttributeTypeMatcherInterface $typeMatcher): void
     {
-        $this->typeMatchers[\get_class($typeMatcher)] = $typeMatcher;
+        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     public function match(string $type): ReferenceEntityAttributeTypeMatcherInterface

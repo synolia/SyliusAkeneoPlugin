@@ -13,23 +13,13 @@ use Throwable;
 
 final class BatchProductsTask extends AbstractBatchTask
 {
-    private SimpleProductTask $batchSimpleProductTask;
-
-    private ConfigurableProductsTask $batchConfigurableProductsTask;
-
-    private LoggerInterface $logger;
-
     public function __construct(
         EntityManagerInterface $entityManager,
-        SimpleProductTask $batchSimpleProductTask,
-        ConfigurableProductsTask $batchConfigurableProductsTask,
-        LoggerInterface $logger
+        private SimpleProductTask $batchSimpleProductTask,
+        private ConfigurableProductsTask $batchConfigurableProductsTask,
+        private LoggerInterface $logger,
     ) {
         parent::__construct($entityManager);
-
-        $this->batchSimpleProductTask = $batchSimpleProductTask;
-        $this->batchConfigurableProductsTask = $batchConfigurableProductsTask;
-        $this->logger = $logger;
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -45,7 +35,7 @@ final class BatchProductsTask extends AbstractBatchTask
             foreach ($results as $result) {
                 try {
                     /** @var array{identifier: string,parent: string|null} $resource */
-                    $resource = json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                     $isSimple = null === $resource['parent'];
                     if ($isSimple) {
@@ -63,7 +53,7 @@ final class BatchProductsTask extends AbstractBatchTask
                     }
 
                     $this->removeEntry($payload, (int) $result['id']);
-                } catch (Throwable $throwable) {
+                } catch (Throwable) {
                     $this->removeEntry($payload, (int) $result['id']);
                 }
             }

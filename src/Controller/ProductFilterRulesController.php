@@ -19,31 +19,15 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 
 final class ProductFilterRulesController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
-
-    private ProductFiltersRulesRepository $productFiltersRulesRepository;
-
-    private TranslatorInterface $translator;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        ProductFiltersRulesRepository $productFiltersRulesRepository,
-        TranslatorInterface $translator,
-        ApiConnectionProviderInterface $apiConnectionProvider
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
-        $this->translator = $translator;
-        $this->apiConnectionProvider = $apiConnectionProvider;
+    public function __construct(private EntityManagerInterface $entityManager, private ProductFiltersRulesRepository $productFiltersRulesRepository, private TranslatorInterface $translator, private ApiConnectionProviderInterface $apiConnectionProvider)
+    {
     }
 
     public function __invoke(Request $request): Response
     {
         try {
             $this->apiConnectionProvider->get();
-        } catch (ApiNotConfiguredException $apiNotConfiguredException) {
+        } catch (ApiNotConfiguredException) {
             $request->getSession()->getFlashBag()->add('error', $this->translator->trans('sylius.ui.admin.akeneo.not_configured_yet'));
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');

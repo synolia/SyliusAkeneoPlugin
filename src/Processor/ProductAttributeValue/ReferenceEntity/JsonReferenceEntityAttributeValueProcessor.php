@@ -21,7 +21,7 @@ final class JsonReferenceEntityAttributeValueProcessor implements ReferenceEntit
         string $locale,
         string $scope,
         $value,
-        array $context = []
+        array $context = [],
     ): bool {
         return true;
     }
@@ -36,7 +36,7 @@ final class JsonReferenceEntityAttributeValueProcessor implements ReferenceEntit
         string $locale,
         string $scope,
         $value,
-        array $context = []
+        array $context = [],
     ) {
         return $value;
     }

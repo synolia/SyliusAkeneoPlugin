@@ -23,16 +23,13 @@ final class SyncInternalProductGroupAssociationsCommand extends AbstractImportCo
     /** @var string */
     protected static $defaultName = 'akeneo:internal:sync-product-group-association';
 
-    private ProcessProductGroupModelTask $processProductGroupModelTask;
-
     public function __construct(
         ProductPipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
         PayloadFactoryInterface $payloadFactory,
-        ProcessProductGroupModelTask $processProductGroupModelTask
+        private ProcessProductGroupModelTask $processProductGroupModelTask,
     ) {
         parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
-        $this->processProductGroupModelTask = $processProductGroupModelTask;
     }
 
     /**

@@ -47,7 +47,7 @@ final class SettingsType extends AbstractType
             if (!empty($fieldOptions['choices'])) {
                 $fieldOptions['choices'] = array_map(
                     static fn ($label): string => $fieldOptions['label'] . '_choices.' . $label,
-                    array_combine($fieldOptions['choices'], $fieldOptions['choices'])
+                    array_combine($fieldOptions['choices'], $fieldOptions['choices']),
                 );
             }
             $builder->add($name, $fieldType, $fieldOptions);

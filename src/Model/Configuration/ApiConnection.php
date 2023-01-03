@@ -9,40 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 class ApiConnection implements ApiConnectionInterface
 {
-    private string $baseUrl;
-
-    private string $apiClientId;
-
-    private string $apiClientSecret;
-
-    private int $paginationSize;
-
-    private string $edition;
-
-    private string $axeAsModel;
-
-    private string $username;
-
-    private string $password;
-
-    public function __construct(
-        string $baseUrl,
-        string $username,
-        string $password,
-        string $apiClientId,
-        string $apiClientSecret,
-        string $edition = AkeneoEditionEnum::COMMUNITY,
-        string $axeAsModel = AkeneoAxesEnum::FIRST,
-        int $paginationSize = self::DEFAULT_PAGINATION_SIZE
-    ) {
-        $this->baseUrl = $baseUrl;
-        $this->username = $username;
-        $this->password = $password;
-        $this->apiClientId = $apiClientId;
-        $this->apiClientSecret = $apiClientSecret;
-        $this->edition = $edition;
-        $this->axeAsModel = $axeAsModel;
-        $this->paginationSize = $paginationSize;
+    public function __construct(private string $baseUrl, private string $username, private string $password, private string $apiClientId, private string $apiClientSecret, private string $edition = AkeneoEditionEnum::COMMUNITY, private string $axeAsModel = AkeneoAxesEnum::FIRST, private int $paginationSize = self::DEFAULT_PAGINATION_SIZE)
+    {
     }
 
     public function getBaseUrl(): string

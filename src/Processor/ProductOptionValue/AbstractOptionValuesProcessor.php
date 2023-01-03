@@ -12,35 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 abstract class AbstractOptionValuesProcessor implements OptionValuesProcessorInterface
 {
-    protected RepositoryInterface $productOptionValueRepository;
-
-    protected FactoryInterface $productOptionValueFactory;
-
-    protected RepositoryInterface $productOptionValueTranslationRepository;
-
-    protected FactoryInterface $productOptionValueTranslationFactory;
-
-    protected LoggerInterface $akeneoLogger;
-
-    protected EntityManagerInterface $entityManager;
-
-    protected ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer;
-
-    public function __construct(
-        RepositoryInterface $productOptionValueRepository,
-        RepositoryInterface $productOptionValueTranslationRepository,
-        FactoryInterface $productOptionValueFactory,
-        FactoryInterface $productOptionValueTranslationFactory,
-        LoggerInterface $akeneoLogger,
-        EntityManagerInterface $entityManager,
-        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer
-    ) {
-        $this->productOptionValueRepository = $productOptionValueRepository;
-        $this->productOptionValueTranslationRepository = $productOptionValueTranslationRepository;
-        $this->productOptionValueFactory = $productOptionValueFactory;
-        $this->productOptionValueTranslationFactory = $productOptionValueTranslationFactory;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->entityManager = $entityManager;
-        $this->productOptionValueDataTransformer = $productOptionValueDataTransformer;
+    public function __construct(protected RepositoryInterface $productOptionValueRepository, protected RepositoryInterface $productOptionValueTranslationRepository, protected FactoryInterface $productOptionValueFactory, protected FactoryInterface $productOptionValueTranslationFactory, protected LoggerInterface $akeneoLogger, protected EntityManagerInterface $entityManager, protected ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer)
+    {
     }
 }

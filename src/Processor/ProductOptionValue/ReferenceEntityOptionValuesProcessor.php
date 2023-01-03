@@ -22,14 +22,6 @@ use Webmozart\Assert\Assert;
 
 final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
-    private AkeneoPimEnterpriseClientInterface $client;
-
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private LocaleRepositoryInterface $localeRepository;
-
-    private EditionCheckerInterface $editionChecker;
-
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
         RepositoryInterface $productOptionValueTranslationRepository,
@@ -37,11 +29,11 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
         FactoryInterface $productOptionValueTranslationFactory,
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager,
-        AkeneoPimEnterpriseClientInterface $client,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoPimEnterpriseClientInterface $client,
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
-        LocaleRepositoryInterface $localeRepository,
-        EditionCheckerInterface $editionChecker
+        private LocaleRepositoryInterface $localeRepository,
+        private EditionCheckerInterface $editionChecker,
     ) {
         parent::__construct(
             $productOptionValueRepository,
@@ -50,13 +42,8 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
             $productOptionValueTranslationFactory,
             $akeneoLogger,
             $entityManager,
-            $productOptionValueDataTransformer
+            $productOptionValueDataTransformer,
         );
-
-        $this->client = $client;
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->localeRepository = $localeRepository;
-        $this->editionChecker = $editionChecker;
     }
 
     public static function getDefaultPriority(): int
@@ -67,8 +54,8 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
     public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
     {
         return
-            ReferenceEntityAttributeType::TYPE === $attribute->getType()
-            && ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition())
+            ReferenceEntityAttributeType::TYPE === $attribute->getType() &&
+            ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition())
         ;
     }
 
@@ -104,12 +91,12 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
     private function updateProductOptionValueTranslations(
         ProductOptionValueInterface $productOptionValue,
         AttributeInterface $attribute,
-        array $record
+        array $record,
     ): void {
         //Seems not to be customizable on Akeneo, but can be removed
         $translations = $record['values']['label'] ?? [];
 
-        if (0 === \count($translations)) {
+        if (0 === (is_countable($translations) ? \count($translations) : 0)) {
             foreach ($this->localeRepository->getLocaleCodes() as $locale) {
                 $translations[] = [
                     'locale' => $locale,

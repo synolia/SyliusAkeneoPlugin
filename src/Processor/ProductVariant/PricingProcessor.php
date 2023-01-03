@@ -23,28 +23,8 @@ class PricingProcessor implements PricingProcessorInterface
 
     private ?ProductConfiguration $productConfiguration = null;
 
-    private RepositoryInterface $productConfigurationRepository;
-
-    private RepositoryInterface $channelPricingRepository;
-
-    private ChannelRepository $channelRepository;
-
-    private FactoryInterface $channelPricingFactory;
-
-    private LoggerInterface $logger;
-
-    public function __construct(
-        RepositoryInterface $productConfigurationRepository,
-        RepositoryInterface $channelPricingRepository,
-        ChannelRepository $channelRepository,
-        FactoryInterface $channelPricingFactory,
-        LoggerInterface $logger
-    ) {
-        $this->productConfigurationRepository = $productConfigurationRepository;
-        $this->channelPricingRepository = $channelPricingRepository;
-        $this->channelRepository = $channelRepository;
-        $this->channelPricingFactory = $channelPricingFactory;
-        $this->logger = $logger;
+    public function __construct(private RepositoryInterface $productConfigurationRepository, private RepositoryInterface $channelPricingRepository, private ChannelRepository $channelRepository, private FactoryInterface $channelPricingFactory, private LoggerInterface $logger)
+    {
     }
 
     public function process(ProductVariantInterface $productVariant, array $resource): void
@@ -71,7 +51,7 @@ class PricingProcessor implements PricingProcessorInterface
             $this->getProductConfiguration();
 
             return is_array($this->getPriceAttributeData($resource['values']));
-        } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
+        } catch (NoAttributeResourcesException|NoProductConfigurationException) {
             return false;
         }
     }
@@ -97,7 +77,7 @@ class PricingProcessor implements PricingProcessorInterface
     private function addPriceToChannel(
         float $amount,
         ChannelInterface $channel,
-        ProductVariantInterface $productVariant
+        ProductVariantInterface $productVariant,
     ): void {
         /** @var ChannelPricingInterface $channelPricing */
         $channelPricing = $this->channelPricingRepository->findOneBy([
@@ -135,7 +115,7 @@ class PricingProcessor implements PricingProcessorInterface
                 continue;
             }
 
-            if (0 === \count($attributeValue)) {
+            if (0 === (is_countable($attributeValue) ? \count($attributeValue) : 0)) {
                 throw new LogicException('Price attribute is empty.');
             }
 

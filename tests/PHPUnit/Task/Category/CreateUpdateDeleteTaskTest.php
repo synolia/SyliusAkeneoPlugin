@@ -15,12 +15,12 @@ use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration */
-    private $categoryConfiguration;
+    private \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration $categoryConfiguration;
 
     protected function setUp(): void
     {
@@ -29,8 +29,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
-                new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
-            )
+                new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
+            ),
         );
 
         $this->categoryConfiguration = $this->buildBasicConfiguration();

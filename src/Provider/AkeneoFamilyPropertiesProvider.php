@@ -12,11 +12,8 @@ final class AkeneoFamilyPropertiesProvider implements AkeneoFamilyPropertiesProv
 
     private array $families = [];
 
-    private AkeneoPimEnterpriseClientInterface $client;
-
-    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
+    public function __construct(private AkeneoPimEnterpriseClientInterface $client)
     {
-        $this->client = $akeneoPimClient;
     }
 
     public function getProperties(string $familyCode): array

@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class RetrieveCategoriesTaskTest extends AbstractTaskTest
@@ -35,8 +36,8 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         $this->server->setResponseOfPath(
             '/' . sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
-                new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
-            )
+                new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
+            ),
         );
 
         $this->categoryConfiguration = $this->buildBasicConfiguration();
@@ -91,9 +92,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         foreach ($expectedExcludedCodes as $expectedExcludedCode) {
             $this->assertNotContains(
                 $expectedExcludedCode,
-                array_map(static function ($val) {
-                    return $val['code'];
-                }, $categoriesTree)
+                array_map(static fn ($val) => $val['code'], $categoriesTree),
             );
         }
 
@@ -125,9 +124,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         foreach ($expectedExcludedCodes as $expectedExcludedCode) {
             $this->assertNotContains(
                 $expectedExcludedCode,
-                array_map(static function ($val) {
-                    return $val['code'];
-                }, $categoriesTree)
+                array_map(static fn ($val) => $val['code'], $categoriesTree),
             );
         }
 
@@ -159,9 +156,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         foreach ($expectedExcludedCodes as $expectedExcludedCode) {
             $this->assertNotContains(
                 $expectedExcludedCode,
-                array_map(static function ($val) {
-                    return $val['code'];
-                }, $categoriesTree)
+                array_map(static fn ($val) => $val['code'], $categoriesTree),
             );
         }
 

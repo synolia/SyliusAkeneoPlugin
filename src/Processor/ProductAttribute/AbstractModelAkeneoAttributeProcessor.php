@@ -15,32 +15,8 @@ abstract class AbstractModelAkeneoAttributeProcessor
 {
     protected const CUSTOM_PROPERTIES_SUFFIX = 'AkeneoAttribute';
 
-    protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter;
-
-    protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider;
-
-    protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider;
-
-    protected LoggerInterface $logger;
-
-    protected string $model;
-
-    public function __construct(
-        CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
-        AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        LoggerInterface $akeneoLogger,
-        string $model
-    ) {
-        $this->camelCaseToSnakeCaseNameConverter = $camelCaseToSnakeCaseNameConverter;
-        $this->akeneoAttributePropertyProvider = $akeneoAttributePropertyProvider;
-        $this->akeneoAttributeDataProvider = $akeneoAttributeDataProvider;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->logger = $akeneoLogger;
-        $this->model = $model;
+    public function __construct(protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter, protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider, protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, protected LoggerInterface $logger, protected string $model)
+    {
     }
 
     public function process(string $attributeCode, array $context = []): void
@@ -48,12 +24,12 @@ abstract class AbstractModelAkeneoAttributeProcessor
         $this->logger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
-            static::class
+            static::class,
         ));
 
         foreach ($context['data'] as $translation) {
-            if (null !== $translation['locale']
-                && !$this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
+            if (null !== $translation['locale'] &&
+                !$this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
                 continue;
             }
 
@@ -76,7 +52,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
     {
         return method_exists(
             $this->model,
-            $this->getSetterMethodFromAttributeCode($attributeCode)
+            $this->getSetterMethodFromAttributeCode($attributeCode),
         );
     }
 
@@ -87,6 +63,6 @@ abstract class AbstractModelAkeneoAttributeProcessor
         string $attributeCode,
         array $translations,
         string $locale,
-        string $scope
+        string $scope,
     ): void;
 }

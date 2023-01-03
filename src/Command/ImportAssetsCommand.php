@@ -27,7 +27,7 @@ final class ImportAssetsCommand extends AbstractImportCommand
         AssetPipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
         PayloadFactoryInterface $payloadFactory,
-        string $name = null
+        string $name = null,
     ) {
         parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, $name);
     }

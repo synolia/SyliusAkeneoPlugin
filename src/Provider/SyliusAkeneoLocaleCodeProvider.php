@@ -12,17 +12,11 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class SyliusAkeneoLocaleCodeProvider
 {
-    private RepositoryInterface $channelRepository;
-
-    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
-
     /** @var array<string> */
     private array $localesCode;
 
-    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient, RepositoryInterface $channelRepository)
+    public function __construct(private AkeneoPimEnterpriseClientInterface $akeneoPimClient, private RepositoryInterface $channelRepository)
     {
-        $this->akeneoPimClient = $akeneoPimClient;
-        $this->channelRepository = $channelRepository;
         $this->localesCode = [];
     }
 
@@ -42,10 +36,7 @@ final class SyliusAkeneoLocaleCodeProvider
         return $this->localesCode;
     }
 
-    /**
-     * @param array|string $data
-     */
-    public function isLocaleDataTranslation(AttributeInterface $attribute, $data, string $locale): bool
+    public function isLocaleDataTranslation(AttributeInterface $attribute, array|string $data, string $locale): bool
     {
         if (\is_array($data)) {
             return $data['locale'] === $locale;

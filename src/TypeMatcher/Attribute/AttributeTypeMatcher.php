@@ -13,17 +13,14 @@ final class AttributeTypeMatcher
     /** @var array<AttributeTypeMatcherInterface> */
     private array $typeMatchers;
 
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(LoggerInterface $akeneoLogger)
+    public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->akeneoLogger = $akeneoLogger;
         $this->typeMatchers = [];
     }
 
     public function addTypeMatcher(AttributeTypeMatcherInterface $typeMatcher): void
     {
-        $this->typeMatchers[\get_class($typeMatcher)] = $typeMatcher;
+        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     public function match(string $type): AttributeTypeMatcherInterface
@@ -36,8 +33,8 @@ final class AttributeTypeMatcher
             } catch (Throwable $throwable) {
                 $this->akeneoLogger->critical(sprintf(
                     'AttributeTypeMatcher "%s" failed to execute method support() for attribute type "%s"',
-                    \get_class($typeMatcher),
-                    $type
+                    $typeMatcher::class,
+                    $type,
                 ), ['exception' => $throwable]);
 
                 throw new UnsupportedAttributeTypeException(sprintf('Unsupported Attribute Type "%s"', $type));

@@ -15,20 +15,8 @@ use Synolia\SyliusAkeneoPlugin\Task\Attribute\RetrieveAttributesTask;
 
 final class AttributeCodeChoiceType extends AbstractType
 {
-    private ClientFactoryInterface $clientFactory;
-
-    private LocaleContextInterface $localeContext;
-
-    private RetrieveAttributesTask $retrieveAttributesTask;
-
-    public function __construct(
-        ClientFactoryInterface $clientFactory,
-        LocaleContextInterface $localeContext,
-        RetrieveAttributesTask $retrieveAttributesTask
-    ) {
-        $this->clientFactory = $clientFactory;
-        $this->localeContext = $localeContext;
-        $this->retrieveAttributesTask = $retrieveAttributesTask;
+    public function __construct(private ClientFactoryInterface $clientFactory, private LocaleContextInterface $localeContext, private RetrieveAttributesTask $retrieveAttributesTask)
+    {
     }
 
     public function configureOptions(OptionsResolver $resolver): void

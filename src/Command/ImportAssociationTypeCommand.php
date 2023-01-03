@@ -25,7 +25,7 @@ final class ImportAssociationTypeCommand extends AbstractImportCommand
     public function __construct(
         AssociationTypePipelineFactory $pipelineFactory,
         LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory
+        PayloadFactoryInterface $payloadFactory,
     ) {
         parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
     }

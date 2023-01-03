@@ -26,6 +26,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
@@ -144,7 +145,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         $this->assertSame(
             $expectedArray,
-            $finalArray
+            $finalArray,
         );
     }
 
@@ -176,7 +177,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         string $productId,
         string $selectValue,
         array $multiSelectValue,
-        bool $checkboxValue
+        bool $checkboxValue,
     ): void {
         $this->initializeProductWithMultiSelectAndCheckbox();
 
@@ -219,12 +220,12 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductApi::PRODUCTS_URI),
-            new Response($this->getFileContent('products_attributes_value_test.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('products_attributes_value_test.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('attributes_for_products_attributes_value_test.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('attributes_for_products_attributes_value_test.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->createProductConfiguration();
@@ -258,27 +259,27 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
-            new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityAttributeApi::REFERENCE_ENTITY_ATTRIBUTES_URI, 'couleur'),
-            new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityAttributeOptionApi::REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI, 'couleur', 'filtre_couleur_1'),
-            new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'couleur', 'noir'),
-            new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK),
         );
     }
 }

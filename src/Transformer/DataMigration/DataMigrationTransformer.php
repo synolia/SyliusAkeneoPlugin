@@ -14,15 +14,13 @@ final class DataMigrationTransformer
 
     public function addDataMigrationTransformer(DataMigrationTransformerInterface $dataMigrationTransformer): void
     {
-        $this->dataMigrationTransformers[\get_class($dataMigrationTransformer)] = $dataMigrationTransformer;
+        $this->dataMigrationTransformers[$dataMigrationTransformer::class] = $dataMigrationTransformer;
     }
 
     /**
-     * @param mixed $value
-     *
      * @return mixed
      */
-    public function transform(string $fromType, string $toType, $value)
+    public function transform(string $fromType, string $toType, mixed $value)
     {
         foreach ($this->dataMigrationTransformers as $dataMigrationTransformer) {
             try {
@@ -30,7 +28,7 @@ final class DataMigrationTransformer
                     /** @phpstan-ignore-next-line */
                     return $dataMigrationTransformer->transform($value);
                 }
-            } catch (Throwable $throwable) {
+            } catch (Throwable) {
                 throw new NoDataMigrationTransformerFoundException();
             }
         }

@@ -20,7 +20,7 @@ final class ProductVariantTranslationModelAkeneoAttributeProcessor extends Abstr
         return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
             ucfirst($attributeCode),
-            self::CUSTOM_PROPERTIES_SUFFIX
+            self::CUSTOM_PROPERTIES_SUFFIX,
         ));
     }
 
@@ -29,7 +29,7 @@ final class ProductVariantTranslationModelAkeneoAttributeProcessor extends Abstr
         string $attributeCode,
         array $translations,
         string $locale,
-        string $scope
+        string $scope,
     ): void {
         if (!$model instanceof ProductVariantInterface) {
             return;
@@ -39,13 +39,13 @@ final class ProductVariantTranslationModelAkeneoAttributeProcessor extends Abstr
             $attributeCode,
             $translations,
             $locale,
-            $scope
+            $scope,
         );
 
         $translationModel = $model->getTranslation($locale);
         $reflectionMethod = new ReflectionMethod(
             $translationModel,
-            $this->getSetterMethodFromAttributeCode($attributeCode)
+            $this->getSetterMethodFromAttributeCode($attributeCode),
         );
         $reflectionMethod->invoke($translationModel, $attributeValueValue);
     }

@@ -10,11 +10,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 
 final class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
 {
-    private RepositoryInterface $productConfigurationRepository;
-
-    public function __construct(RepositoryInterface $productConfigurationRepository)
+    public function __construct(private RepositoryInterface $productConfigurationRepository)
     {
-        $this->productConfigurationRepository = $productConfigurationRepository;
     }
 
     public function getExcludedAttributes(): array

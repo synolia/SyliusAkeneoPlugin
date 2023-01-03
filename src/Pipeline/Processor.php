@@ -11,18 +11,15 @@ use Synolia\SyliusAkeneoPlugin\Event\BeforeTaskEvent;
 
 final class Processor implements ProcessorInterface
 {
-    private EventDispatcherInterface $dispatcher;
-
-    public function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(private EventDispatcherInterface $dispatcher)
     {
-        $this->dispatcher = $dispatcher;
     }
 
     public function process($payload, callable ...$stages)
     {
         foreach ($stages as $stage) {
             if (\is_object($stage)) {
-                $beforeEvent = new BeforeTaskEvent(\get_class($stage), $payload);
+                $beforeEvent = new BeforeTaskEvent($stage::class, $payload);
                 $this->dispatcher->dispatch($beforeEvent);
                 $payload = $beforeEvent->getPayload();
             }
@@ -30,7 +27,7 @@ final class Processor implements ProcessorInterface
             $payload = $stage($payload);
 
             if (\is_object($stage)) {
-                $afterEvent = new AfterTaskEvent(\get_class($stage), $payload);
+                $afterEvent = new AfterTaskEvent($stage::class, $payload);
                 $this->dispatcher->dispatch($afterEvent);
                 $payload = $afterEvent->getPayload();
             }

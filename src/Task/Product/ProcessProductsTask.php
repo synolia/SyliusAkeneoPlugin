@@ -22,26 +22,17 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductsTask extends AbstractProcessTask
 {
-    private ProductFilterInterface $productFilter;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    private EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchProductsTask $task,
-        ProductFilterInterface $productFilter,
-        ApiConnectionProviderInterface $apiConnectionProvider,
-        EventDispatcherInterface $eventDispatcher,
-        string $projectDir
+        private ProductFilterInterface $productFilter,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private EventDispatcherInterface $eventDispatcher,
+        string $projectDir,
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
-        $this->productFilter = $productFilter;
-        $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -69,14 +60,14 @@ final class ProcessProductsTask extends AbstractProcessTask
             $this->eventDispatcher->dispatch($event);
 
             $queryParameters['search'] = array_merge($queryParameters['search'] ?? [], $event->getFilters());
-        } catch (CommandContextIsNullException $commandContextIsNullException) {
+        } catch (CommandContextIsNullException) {
         }
 
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             true,
-            $queryParameters
+            $queryParameters,
         );
 
         if (!$resources instanceof Page) {
@@ -89,7 +80,7 @@ final class ProcessProductsTask extends AbstractProcessTask
         $this->handleProducts($payload, $resources, $count, $ids);
 
         if ($count > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && $payload->allowParallel()) {
-            $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+            $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[(is_countable($ids) ? \count($ids) : 0) - 1]]);
             $this->batch($payload, $ids);
         }
 
@@ -111,7 +102,7 @@ final class ProcessProductsTask extends AbstractProcessTask
         PipelinePayloadInterface $payload,
         PageInterface $page,
         int &$count = 0,
-        array &$ids = []
+        array &$ids = [],
     ): void {
         while (
             ($page instanceof Page && $page->hasNextPage()) ||
@@ -125,7 +116,7 @@ final class ProcessProductsTask extends AbstractProcessTask
                 );
 
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->bindValue('values', json_encode($item));
+                $stmt->bindValue('values', json_encode($item, \JSON_THROW_ON_ERROR));
                 $stmt->bindValue('is_simple', null === $item['parent'], ParameterType::BOOLEAN);
                 $stmt->execute();
                 ++$count;

@@ -13,28 +13,16 @@ use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
 
 final class FamilyVariationAxeProcessor
 {
-    private AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient;
-
-    private EntityRepository $productGroupRepository;
-
-    private FamilyRetrieverInterface $familyRetriever;
-
-    private LoggerInterface $logger;
-
     public int $itemCount = 0;
 
     private array $familyVariants;
 
     public function __construct(
-        AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
-        EntityRepository $productGroupRepository,
-        FamilyRetrieverInterface $familyRetriever,
-        LoggerInterface $akeneoLogger
+        private AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
+        private EntityRepository $productGroupRepository,
+        private FamilyRetrieverInterface $familyRetriever,
+        private LoggerInterface $logger,
     ) {
-        $this->akeneoPimEnterpriseClient = $akeneoPimEnterpriseClient;
-        $this->productGroupRepository = $productGroupRepository;
-        $this->familyRetriever = $familyRetriever;
-        $this->logger = $akeneoLogger;
         $this->familyVariants = [];
     }
 
@@ -61,7 +49,7 @@ final class FamilyVariationAxeProcessor
         if (!isset($this->familyVariants[$family][$resource['family_variant']])) {
             $payloadProductGroup = $this->akeneoPimEnterpriseClient->getFamilyVariantApi()->get(
                 $family,
-                $resource['family_variant']
+                $resource['family_variant'],
             );
 
             $this->familyVariants[$family][$resource['family_variant']] = $payloadProductGroup;
@@ -76,10 +64,10 @@ final class FamilyVariationAxeProcessor
         array $familiesVariantPayloads,
         ?string $family,
         array $resource,
-        ProductGroupInterface $productGroup
+        ProductGroupInterface $productGroup,
     ): void {
         foreach ($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
-            if (\count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+            if ((is_countable($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) ? \count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) : 0) !== $variantAttributeSet['level']) {
                 continue;
             }
 
@@ -90,7 +78,7 @@ final class FamilyVariationAxeProcessor
                     'Added axe "%s" to product group "%s" for family "%s"',
                     $axe,
                     $productGroup->getModel(),
-                    $family ?: $resource['family']
+                    $family ?: $resource['family'],
                 ));
             }
         }

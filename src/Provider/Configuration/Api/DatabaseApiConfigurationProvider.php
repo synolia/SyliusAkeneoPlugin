@@ -22,16 +22,8 @@ class DatabaseApiConfigurationProvider implements ApiConnectionProviderInterface
 
     private ?ApiConnectionInterface $apiConnection = null;
 
-    private RepositoryInterface $apiConfigurationRepository;
-
-    private DatabaseApiConfigurationToApiConnectionTransformer $databaseApiConfigurationToApiConnectionTransformer;
-
-    public function __construct(
-        RepositoryInterface $apiConfigurationRepository,
-        DatabaseApiConfigurationToApiConnectionTransformer $databaseApiConfigurationToApiConnectionTransformer
-    ) {
-        $this->apiConfigurationRepository = $apiConfigurationRepository;
-        $this->databaseApiConfigurationToApiConnectionTransformer = $databaseApiConfigurationToApiConnectionTransformer;
+    public function __construct(private RepositoryInterface $apiConfigurationRepository, private DatabaseApiConfigurationToApiConnectionTransformer $databaseApiConfigurationToApiConnectionTransformer)
+    {
     }
 
     /**

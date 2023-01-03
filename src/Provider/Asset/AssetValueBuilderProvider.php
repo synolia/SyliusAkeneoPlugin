@@ -13,16 +13,13 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
     /** @var array<AssetAttributeValueBuilderInterface> */
     private array $assetAttributeValueBuilders;
 
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(LoggerInterface $akeneoLogger)
+    public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->akeneoLogger = $akeneoLogger;
     }
 
     public function addBuilder(AssetAttributeValueBuilderInterface $assetAttributeValueBuilder): void
     {
-        $this->assetAttributeValueBuilders[\get_class($assetAttributeValueBuilder)] = $assetAttributeValueBuilder;
+        $this->assetAttributeValueBuilders[$assetAttributeValueBuilder::class] = $assetAttributeValueBuilder;
     }
 
     /**
@@ -72,7 +69,7 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
             } catch (\Throwable $throwable) {
                 $this->akeneoLogger->critical(\sprintf(
                     'AssetValueBuilderInterface "%s" failed to execute method support() for asset "%s" in family "%s"',
-                    \get_class($attributeValueBuilder),
+                    $attributeValueBuilder::class,
                     $assetCode,
                     $assetFamilyCode,
                 ), ['exception' => $throwable]);

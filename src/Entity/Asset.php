@@ -23,7 +23,7 @@ class Asset implements AssetInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /** @ORM\Column(name="family_code", type="string", length=255) */
     private string $familyCode;

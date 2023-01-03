@@ -10,16 +10,13 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
 final class MainTaxonProcessor implements MainTaxonProcessorInterface
 {
-    private TaxonRepositoryInterface $taxonRepository;
-
     public static function getDefaultPriority(): int
     {
         return 700;
     }
 
-    public function __construct(TaxonRepositoryInterface $taxonRepository)
+    public function __construct(private TaxonRepositoryInterface $taxonRepository)
     {
-        $this->taxonRepository = $taxonRepository;
     }
 
     public function process(ProductInterface $product, array $resource): void

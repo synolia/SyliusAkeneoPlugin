@@ -18,21 +18,12 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
     /** @var string */
     protected static $defaultName = 'akeneo:batch:attributes';
 
-    private ClientFactoryInterface $clientFactory;
-
-    private LoggerInterface $logger;
-
-    private BatchAttributesTask $attributesTask;
-
     public function __construct(
-        ClientFactoryInterface $clientFactory,
-        LoggerInterface $akeneoLogger,
-        BatchAttributesTask $batchAttributesTask
+        private ClientFactoryInterface $clientFactory,
+        private LoggerInterface $logger,
+        private BatchAttributesTask $attributesTask,
     ) {
         parent::__construct(self::$defaultName);
-        $this->clientFactory = $clientFactory;
-        $this->logger = $akeneoLogger;
-        $this->attributesTask = $batchAttributesTask;
     }
 
     /**
@@ -40,7 +31,7 @@ final class BatchImportAttributesCommand extends AbstractBatchCommand
      */
     protected function execute(
         InputInterface $input,
-        OutputInterface $output
+        OutputInterface $output,
     ) {
         $ids = explode(',', $input->getArgument('ids'));
 

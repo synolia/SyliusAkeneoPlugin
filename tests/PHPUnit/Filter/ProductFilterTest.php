@@ -9,7 +9,6 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Assert;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
@@ -19,6 +18,7 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class ProductFilterTest extends ApiTestCase
@@ -27,17 +27,11 @@ final class ProductFilterTest extends ApiTestCase
 
     private const COMPLETENESS_ALL_COMPLETE = 'ALL COMPLETE';
 
-    /** @var ProductFiltersRules */
-    private $productFiltersRules;
+    private ?ProductFiltersRules $productFiltersRules;
 
-    /** @var ProductFilter */
-    private $productFilter;
+    private ?ProductFilter $productFilter = null;
 
-    /** @var EntityRepository */
-    private $localeRepository;
-
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider */
-    private $syliusAkeneoLocaleCodeProvider;
+    private ?SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider = null;
 
     protected function setUp(): void
     {
@@ -46,7 +40,6 @@ final class ProductFilterTest extends ApiTestCase
 
         $this->manager = $this->getContainer()->get('doctrine')->getManager();
         $this->manager->beginTransaction();
-        $this->localeRepository = $this->getContainer()->get('sylius.repository.locale');
         $this->productFilter = $this->getContainer()->get(ProductFilter::class);
         $this->syliusAkeneoLocaleCodeProvider = $this->getContainer()->get(SyliusAkeneoLocaleCodeProvider::class);
 
@@ -72,7 +65,7 @@ final class ProductFilterTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }
 
@@ -174,7 +167,7 @@ final class ProductFilterTest extends ApiTestCase
             $this->productFilter,
             $this->productFiltersRules,
             new SearchBuilder(),
-            self::COMPLETENESS_ALL_COMPLETE
+            self::COMPLETENESS_ALL_COMPLETE,
         );
         Assert::assertInstanceOf(SearchBuilder::class, $result);
         $expect = [
@@ -193,7 +186,7 @@ final class ProductFilterTest extends ApiTestCase
             $this->productFilter,
             $this->productFiltersRules,
             new SearchBuilder(),
-            Operator::GREATER_THAN_ON_ALL_LOCALES
+            Operator::GREATER_THAN_ON_ALL_LOCALES,
         );
         Assert::assertInstanceOf(SearchBuilder::class, $result);
         $expect = [
@@ -225,7 +218,7 @@ final class ProductFilterTest extends ApiTestCase
     {
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
-            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce'
+            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce',
         );
 
         $this->manager->flush();
@@ -257,7 +250,7 @@ final class ProductFilterTest extends ApiTestCase
     {
         $this->productFiltersRules->setMode('advanced');
         $this->productFiltersRules->setAdvancedFilter(
-            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce'
+            'search={"enabled":[{"operator":"=","value":true}],"completeness":[{"operator":"=","value": 100, "locales":["en_US"], "scope": "ecommerce"}]}&scope=ecommerce',
         );
 
         $this->manager->flush();

@@ -21,44 +21,16 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInterface
 {
-    private FactoryInterface $productOptionValueFactory;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer;
-
-    private ProductOptionValueTranslationBuilderProcessorInterface $productOptionValueTranslationBuilder;
-
-    private LoggerInterface $akeneoLogger;
-
-    private EventDispatcherInterface $eventDispatcher;
-
     public static function getDefaultPriority(): int
     {
         return 100;
     }
 
-    public function __construct(
-        FactoryInterface $productOptionValueFactory,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
-        ProductOptionValueTranslationBuilderProcessorInterface $productOptionValueTranslationBuilder,
-        LoggerInterface $akeneoLogger,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->productOptionValueFactory = $productOptionValueFactory;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->productOptionValueDataTransformer = $productOptionValueDataTransformer;
-        $this->productOptionValueTranslationBuilder = $productOptionValueTranslationBuilder;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private FactoryInterface $productOptionValueFactory, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer, private ProductOptionValueTranslationBuilderProcessorInterface $productOptionValueTranslationBuilder, private LoggerInterface $akeneoLogger, private EventDispatcherInterface $eventDispatcher)
+    {
     }
 
-    public function support(ProductOptionInterface $productOption, $values, array $context = []): bool
+    public function support(ProductOptionInterface $productOption, mixed $values, array $context = []): bool
     {
         try {
             $attributeCode = $productOption->getCode();
@@ -70,12 +42,12 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
                 $values !== [] &&
                 array_key_exists('data', $values[0])
             ;
-        } catch (InvalidArgumentException $invalidArgumentException) {
+        } catch (InvalidArgumentException) {
             return false;
         }
     }
 
-    public function build(ProductOptionInterface $productOption, $values, array $context = []): ProductOptionValueInterface
+    public function build(ProductOptionInterface $productOption, mixed $values, array $context = []): ProductOptionValueInterface
     {
         Assert::isArray($values);
 
@@ -93,7 +65,7 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
                 $productOption,
                 $productOptionValue,
                 $locale,
-                $values
+                $values,
             ));
 
             try {
@@ -101,7 +73,7 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
                     $productOption,
                     $productOptionValue,
                     $locale,
-                    $values
+                    $values,
                 );
 
                 $this->eventDispatcher->dispatch(new AfterProcessingProductOptionValueTranslationEvent(
@@ -109,9 +81,9 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
                     $productOptionValue,
                     $productOptionValueTranslation,
                     $locale,
-                    $values
+                    $values,
                 ));
-            } catch (ProductOptionValueTranslationBuilderNotFoundException $e) {
+            } catch (ProductOptionValueTranslationBuilderNotFoundException) {
                 $this->akeneoLogger->warning('Could not create ProductOptionValueTranslation', [
                     'product_option' => $productOption->getCode(),
                     'product_option_value' => $productOptionValue->getCode(),
@@ -124,10 +96,7 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
         return $productOptionValue;
     }
 
-    /**
-     * @param array|string $data
-     */
-    private function getCode(ProductOptionInterface $productOption, $data): string
+    private function getCode(ProductOptionInterface $productOption, array|string $data): string
     {
         if (!\is_array($data)) {
             return $this->productOptionValueDataTransformer->transform($productOption, $data);

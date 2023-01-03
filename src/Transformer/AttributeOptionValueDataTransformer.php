@@ -13,7 +13,7 @@ final class AttributeOptionValueDataTransformer implements AttributeOptionValueD
         return mb_strtolower(sprintf(
             '%s%s',
             self::AKENEO_PREFIX,
-            $value
+            $value,
         ));
     }
 

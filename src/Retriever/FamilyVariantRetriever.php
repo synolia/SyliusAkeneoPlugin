@@ -12,20 +12,8 @@ final class FamilyVariantRetriever
 {
     private array $familyVariants = [];
 
-    private AkeneoPimEnterpriseClientInterface $akeneoPimClient;
-
-    private LoggerInterface $logger;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(
-        AkeneoPimEnterpriseClientInterface $akeneoPimClient,
-        LoggerInterface $logger,
-        ApiConnectionProviderInterface $apiConnectionProvider
-    ) {
-        $this->akeneoPimClient = $akeneoPimClient;
-        $this->logger = $logger;
-        $this->apiConnectionProvider = $apiConnectionProvider;
+    public function __construct(private AkeneoPimEnterpriseClientInterface $akeneoPimClient, private LoggerInterface $logger, private ApiConnectionProviderInterface $apiConnectionProvider)
+    {
     }
 
     public function getVariants(string $familyCode): array

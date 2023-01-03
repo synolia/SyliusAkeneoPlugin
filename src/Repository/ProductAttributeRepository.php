@@ -66,7 +66,7 @@ final class ProductAttributeRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
-        if (0 === \count($attributeCodesResult)) {
+        if (0 === (is_countable($attributeCodesResult) ? \count($attributeCodesResult) : 0)) {
             return [];
         }
 

@@ -21,40 +21,21 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
 final class BatchProductModelTask extends AbstractBatchTask
 {
-    private ProductRepositoryInterface $productRepository;
-
-    private ProductFactoryInterface $productFactory;
-
-    private LoggerInterface $logger;
-
     private string $type;
-
-    private EventDispatcherInterface $dispatcher;
-
-    private ProductProcessorChainInterface $productProcessorChain;
-
-    private IsProductProcessableCheckerInterface $isProductProcessableChecker;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        ProductFactoryInterface $productFactory,
-        ProductRepositoryInterface $productRepository,
-        LoggerInterface $akeneoLogger,
-        EventDispatcherInterface $dispatcher,
-        ProductProcessorChainInterface $productProcessorChain,
-        IsProductProcessableCheckerInterface $canProcessProductChecker
+        private ProductFactoryInterface $productFactory,
+        private ProductRepositoryInterface $productRepository,
+        private LoggerInterface $logger,
+        private EventDispatcherInterface $dispatcher,
+        private ProductProcessorChainInterface $productProcessorChain,
+        private IsProductProcessableCheckerInterface $isProductProcessableChecker,
     ) {
         parent::__construct($entityManager);
-
-        $this->productFactory = $productFactory;
-        $this->productRepository = $productRepository;
-        $this->logger = $akeneoLogger;
-        $this->dispatcher = $dispatcher;
-        $this->productProcessorChain = $productProcessorChain;
-        $this->isProductProcessableChecker = $canProcessProductChecker;
     }
 
     /**
@@ -71,7 +52,7 @@ final class BatchProductModelTask extends AbstractBatchTask
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                 try {
                     $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));

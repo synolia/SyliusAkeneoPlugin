@@ -9,13 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
 final class AfterProcessingTaxonEvent extends AbstractResourceEvent
 {
-    private TaxonInterface $taxon;
-
-    public function __construct(array $resource, TaxonInterface $taxon)
+    public function __construct(array $resource, private TaxonInterface $taxon)
     {
         parent::__construct($resource);
-
-        $this->taxon = $taxon;
     }
 
     public function getTaxon(): TaxonInterface

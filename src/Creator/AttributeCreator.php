@@ -31,52 +31,8 @@ use Webmozart\Assert\Assert;
 
 final class AttributeCreator implements AttributeCreatorInterface
 {
-    private RepositoryInterface $productAttributeRepository;
-
-    private FactoryInterface $productAttributeFactory;
-
-    private LoggerInterface $logger;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer;
-
-    private ExcludedAttributesProviderInterface $excludedAttributesProvider;
-
-    private EditionCheckerInterface $editionChecker;
-
-    private ProductAttributeValueRepositoryInterface $productAttributeValueRepository;
-
-    private DataMigrationTransformer $dataMigrationTransformer;
-
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(
-        FactoryInterface $productAttributeFactory,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        EntityManagerInterface $entityManager,
-        RepositoryInterface $productAttributeRepository,
-        AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
-        AttributeTypeMatcher $attributeTypeMatcher,
-        LoggerInterface $akeneoLogger,
-        ExcludedAttributesProviderInterface $excludedAttributesProvider,
-        EditionCheckerInterface $editionChecker,
-        ProductAttributeValueRepositoryInterface $productAttributeValueRepository,
-        DataMigrationTransformer $dataMigrationTransformer
-    ) {
-        $this->productAttributeFactory = $productAttributeFactory;
-        $this->productAttributeRepository = $productAttributeRepository;
-        $this->entityManager = $entityManager;
-        $this->logger = $akeneoLogger;
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->excludedAttributesProvider = $excludedAttributesProvider;
-        $this->akeneoAttributeToSyliusAttributeTransformer = $akeneoAttributeToSyliusAttributeTransformer;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
-        $this->editionChecker = $editionChecker;
-        $this->productAttributeValueRepository = $productAttributeValueRepository;
-        $this->dataMigrationTransformer = $dataMigrationTransformer;
+    public function __construct(private FactoryInterface $productAttributeFactory, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private EntityManagerInterface $entityManager, private RepositoryInterface $productAttributeRepository, private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer, private AttributeTypeMatcher $attributeTypeMatcher, private LoggerInterface $logger, private ExcludedAttributesProviderInterface $excludedAttributesProvider, private EditionCheckerInterface $editionChecker, private ProductAttributeValueRepositoryInterface $productAttributeValueRepository, private DataMigrationTransformer $dataMigrationTransformer)
+    {
     }
 
     /**
@@ -113,7 +69,7 @@ final class AttributeCreator implements AttributeCreatorInterface
             $this->logger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
-                $unsupportedAttributeTypeException->getMessage()
+                $unsupportedAttributeTypeException->getMessage(),
             ));
 
             throw $unsupportedAttributeTypeException;
@@ -190,9 +146,9 @@ final class AttributeCreator implements AttributeCreatorInterface
                 $attribute->getType(),
                 $attributeType->getType(),
                 $attribute->getStorageType(),
-                $newStorageType
+                $newStorageType,
             );
-        } catch (NoDataMigrationTransformerFoundException $exception) {
+        } catch (NoDataMigrationTransformerFoundException) {
         }
 
         $attribute->setType($attributeType->getType());
@@ -204,7 +160,7 @@ final class AttributeCreator implements AttributeCreatorInterface
         string $fromType,
         string $toType,
         string $fromStorageType,
-        string $toStorageType
+        string $toStorageType,
     ): void {
         /** @var ProductAttributeValue[] $attributeValues */
         $attributeValues = $this->productAttributeValueRepository->findBy(['attribute' => $attribute]);

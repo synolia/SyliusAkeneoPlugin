@@ -19,7 +19,7 @@ final class FamilyPayload extends AbstractPayload
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,
-        ?CommandContextInterface $commandContext = null
+        ?CommandContextInterface $commandContext = null,
     ) {
         parent::__construct($akeneoPimClient, $commandContext);
 

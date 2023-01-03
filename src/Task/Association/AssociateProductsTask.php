@@ -20,36 +20,8 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class AssociateProductsTask implements AkeneoTaskInterface
 {
-    private ProductGroupRepository $productGroupRepository;
-
-    private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository;
-
-    private LoggerInterface $akeneoLogger;
-
-    private ProductRepositoryInterface $productRepository;
-
-    private EntityManagerInterface $entityManager;
-
-    private FactoryInterface $productAssociationFactory;
-
-    private RepositoryInterface $productAssociationRepository;
-
-    public function __construct(
-        ProductGroupRepository $productGroupRepository,
-        ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
-        LoggerInterface $akeneoLogger,
-        ProductRepositoryInterface $productRepository,
-        EntityManagerInterface $entityManager,
-        FactoryInterface $productAssociationFactory,
-        RepositoryInterface $productAssociationRepository
-    ) {
-        $this->productGroupRepository = $productGroupRepository;
-        $this->productAssociationTypeRepository = $productAssociationTypeRepository;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->productRepository = $productRepository;
-        $this->entityManager = $entityManager;
-        $this->productAssociationFactory = $productAssociationFactory;
-        $this->productAssociationRepository = $productAssociationRepository;
+    public function __construct(private ProductGroupRepository $productGroupRepository, private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository, private LoggerInterface $akeneoLogger, private ProductRepositoryInterface $productRepository, private EntityManagerInterface $entityManager, private FactoryInterface $productAssociationFactory, private RepositoryInterface $productAssociationRepository)
+    {
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -125,7 +97,7 @@ class AssociateProductsTask implements AkeneoTaskInterface
 
     private function retrieveModels(
         ProductAssociationTypeInterface $productAssociationType,
-        array $association
+        array $association,
     ): array {
         $models = [];
 

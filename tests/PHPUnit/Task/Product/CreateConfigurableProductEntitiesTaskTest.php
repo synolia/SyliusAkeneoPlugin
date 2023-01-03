@@ -31,6 +31,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
@@ -39,7 +40,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     private $taskProvider;
 
     /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private $client;
+    private \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface $client;
 
     protected function setUp(): void
     {
@@ -142,7 +143,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
                 $this->assertEquals(
                     $productToTest['attributes']['size'],
-                    $productOptionValueTranslation->getValue()
+                    $productOptionValueTranslation->getValue(),
                 );
             }
 
@@ -215,27 +216,27 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     {
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
-            new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityAttributeApi::REFERENCE_ENTITY_ATTRIBUTES_URI, 'couleur'),
-            new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityAttributeOptionApi::REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI, 'couleur', 'filtre_couleur_1'),
-            new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'couleur', 'noir'),
-            new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK),
         );
     }
 }

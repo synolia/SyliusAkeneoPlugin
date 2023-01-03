@@ -11,9 +11,7 @@ interface AssetAttributeValueBuilderInterface
     public function support(string $assetFamilyCode, string $attributeCode): bool;
 
     /**
-     * @param mixed $value
-     *
      * @return mixed
      */
-    public function build(string $assetFamilyCode, string $assetCode, ?string $locale, ?string $scope, $value);
+    public function build(string $assetFamilyCode, string $assetCode, ?string $locale, ?string $scope, mixed $value);
 }

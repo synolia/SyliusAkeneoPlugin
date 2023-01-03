@@ -42,11 +42,10 @@ class ProductGroup implements ProductGroupInterface
     private string $familyVariant = '';
 
     /**
-     * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\Product")
      * @JoinTable(name="akeneo_productgroup_product")
      */
-    private $products;
+    private Collection $products;
 
     /** @ORM\Column(type="array") */
     private array $associations = [];

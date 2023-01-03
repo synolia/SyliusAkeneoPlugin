@@ -11,15 +11,12 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Retriever\MeasurableNotFoundException;
 
 class FamilyMeasureRetriever
 {
-    private ClientFactory $clientFactory;
-
     private ?AkeneoPimClientInterface $client = null;
 
     private array $measuresFamilies = [];
 
-    public function __construct(ClientFactory $clientFactory)
+    public function __construct(private ClientFactory $clientFactory)
     {
-        $this->clientFactory = $clientFactory;
     }
 
     /**
@@ -47,7 +44,7 @@ class FamilyMeasureRetriever
 
         throw new FamilyMeasureNotFoundException(\sprintf(
             'Measure family %s could not be found on Akeneo',
-            $measureCode
+            $measureCode,
         ));
     }
 
@@ -65,7 +62,7 @@ class FamilyMeasureRetriever
         throw new MeasurableNotFoundException(\sprintf(
             'Measurable %s could not be found on Akeneo for family %s',
             $measurableCode,
-            $measureCode
+            $measureCode,
         ));
     }
 }

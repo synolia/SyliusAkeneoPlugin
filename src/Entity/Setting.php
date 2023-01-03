@@ -15,27 +15,22 @@ class Setting implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $name;
+    /** @ORM\Column(type="string", nullable=true) */
+    private ?string $value = null;
 
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $value;
-
-    public function __construct(string $name)
-    {
-        $this->name = $name;
+    public function __construct(
+        /**
+         * @ORM\Column(type="string")
+         */
+        private string $name,
+    ) {
     }
 
     public function getId(): int

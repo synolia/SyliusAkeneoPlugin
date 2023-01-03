@@ -26,31 +26,15 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
 {
     private string $type;
 
-    private LoggerInterface $logger;
-
-    private FactoryInterface $productAssociationTypeFactory;
-
-    private FactoryInterface $productAssociationTypeTranslationFactory;
-
-    private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository;
-
-    private RepositoryInterface $productAssociationTypeTranslationRepository;
-
     public function __construct(
         EntityManagerInterface $entityManager,
-        LoggerInterface $akeneoLogger,
-        FactoryInterface $productAssociationTypeFactory,
-        FactoryInterface $productAssociationTypeTranslationFactory,
-        ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
-        RepositoryInterface $productAssociationTypeTranslationRepository
+        private LoggerInterface $logger,
+        private FactoryInterface $productAssociationTypeFactory,
+        private FactoryInterface $productAssociationTypeTranslationFactory,
+        private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
+        private RepositoryInterface $productAssociationTypeTranslationRepository,
     ) {
         parent::__construct($entityManager);
-
-        $this->logger = $akeneoLogger;
-        $this->productAssociationTypeFactory = $productAssociationTypeFactory;
-        $this->productAssociationTypeTranslationFactory = $productAssociationTypeTranslationFactory;
-        $this->productAssociationTypeRepository = $productAssociationTypeRepository;
-        $this->productAssociationTypeTranslationRepository = $productAssociationTypeTranslationRepository;
     }
 
     /**
@@ -73,7 +57,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
 
             while ($results = $query->fetchAll()) {
                 foreach ($results as $result) {
-                    $resource = json_decode($result['values'], true);
+                    $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                     try {
                         if (!$this->entityManager->getConnection()->isTransactionActive()) {

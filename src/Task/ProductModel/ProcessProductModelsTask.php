@@ -19,26 +19,17 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
 
 final class ProcessProductModelsTask extends AbstractProcessTask
 {
-    private ProductFilter $productFilter;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    private EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $akeneoLogger,
         ProcessManagerInterface $processManager,
         BatchProductModelTask $task,
-        ProductFilter $productFilter,
-        ApiConnectionProviderInterface $apiConnectionProvider,
-        EventDispatcherInterface $eventDispatcher,
-        string $projectDir
+        private ProductFilter $productFilter,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private EventDispatcherInterface $eventDispatcher,
+        string $projectDir,
     ) {
         parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
-        $this->productFilter = $productFilter;
-        $this->apiConnectionProvider = $apiConnectionProvider;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -63,13 +54,13 @@ final class ProcessProductModelsTask extends AbstractProcessTask
             $this->eventDispatcher->dispatch($event);
 
             $queryParameters['search'] = array_merge($queryParameters['search'], $event->getFilters());
-        } catch (CommandContextIsNullException $commandContextIsNullException) {
+        } catch (CommandContextIsNullException) {
             $queryParameters = [];
         }
 
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
-            $queryParameters
+            $queryParameters,
         );
 
         $this->handle($payload, $resources);

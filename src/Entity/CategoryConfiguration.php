@@ -9,13 +9,13 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="CategoryConfigurationRepository")
- *
  * @ORM\Table("akeneo_api_configuration_categories")
  */
 class CategoryConfiguration implements ResourceInterface
 {
     /**
      * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -24,15 +24,17 @@ class CategoryConfiguration implements ResourceInterface
 
     /**
      * @var array<string>
+     *
      * @ORM\Column(type="array")
      */
-    private $notImportCategories = [];
+    private array $notImportCategories = [];
 
     /**
      * @var array<string>
+     *
      * @ORM\Column(type="array")
      */
-    private $rootCategories = [];
+    private array $rootCategories = [];
 
     public function getId(): int
     {

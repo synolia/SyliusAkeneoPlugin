@@ -37,12 +37,12 @@ abstract class ApiTestCase extends AbstractKernelTestCase
         $this->server->start();
         $this->server->setResponseOfPath(
             '/' . AuthenticationApi::TOKEN_URI,
-            new Response($this->getAuthenticatedJson())
+            new Response($this->getAuthenticatedJson()),
         );
 
         $this->server->setResponseOfPath(
             '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }
 
@@ -100,7 +100,7 @@ abstract class ApiTestCase extends AbstractKernelTestCase
             'client_id',
             'secret',
             'username',
-            'password'
+            'password',
         );
     }
 

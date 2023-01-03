@@ -28,46 +28,14 @@ use Throwable;
  */
 final class CreateUpdateEntityTask implements AkeneoTaskInterface
 {
-    private TaxonFactoryInterface $taxonFactory;
-
-    private EntityManagerInterface $entityManager;
-
-    private TaxonRepository $taxonRepository;
-
-    private LoggerInterface $logger;
-
     private int $updateCount = 0;
 
     private int $createCount = 0;
 
     private string $type;
 
-    private RepositoryInterface $taxonTranslationRepository;
-
-    private FactoryInterface $taxonTranslationFactory;
-
-    private EventDispatcherInterface $dispatcher;
-
-    private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider;
-
-    public function __construct(
-        TaxonFactoryInterface $taxonFactory,
-        EntityManagerInterface $entityManager,
-        TaxonRepository $taxonAkeneoRepository,
-        RepositoryInterface $taxonTranslationRepository,
-        FactoryInterface $taxonTranslationFactory,
-        LoggerInterface $akeneoLogger,
-        EventDispatcherInterface $dispatcher,
-        SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider
-    ) {
-        $this->taxonFactory = $taxonFactory;
-        $this->entityManager = $entityManager;
-        $this->taxonRepository = $taxonAkeneoRepository;
-        $this->taxonTranslationRepository = $taxonTranslationRepository;
-        $this->taxonTranslationFactory = $taxonTranslationFactory;
-        $this->logger = $akeneoLogger;
-        $this->dispatcher = $dispatcher;
-        $this->syliusAkeneoLocaleCodeProvider = $syliusAkeneoLocaleCodeProvider;
+    public function __construct(private TaxonFactoryInterface $taxonFactory, private EntityManagerInterface $entityManager, private TaxonRepository $taxonRepository, private RepositoryInterface $taxonTranslationRepository, private FactoryInterface $taxonTranslationFactory, private LoggerInterface $logger, private EventDispatcherInterface $dispatcher, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
+    {
     }
 
     /**
@@ -127,9 +95,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                             sprintf(
                                 '%s-%s',
                                 $resource['code'],
-                                $label
-                            )
-                        )
+                                $label,
+                            ),
+                        ),
                     );
                     $taxonTranslation->setSlug($slug);
 

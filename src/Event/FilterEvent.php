@@ -9,13 +9,10 @@ use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 
 final class FilterEvent extends Event
 {
-    private CommandContextInterface $commandContext;
-
     private array $filters = [];
 
-    public function __construct(CommandContextInterface $commandContext)
+    public function __construct(private CommandContextInterface $commandContext)
     {
-        $this->commandContext = $commandContext;
     }
 
     public function getCommandContext(): CommandContextInterface

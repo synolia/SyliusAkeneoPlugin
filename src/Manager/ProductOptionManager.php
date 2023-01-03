@@ -19,44 +19,8 @@ use Webmozart\Assert\Assert;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    private RepositoryInterface $productOptionRepository;
-
-    private FactoryInterface $productOptionFactory;
-
-    private LocaleRepositoryInterface $localeRepository;
-
-    private RepositoryInterface $productOptionTranslationRepository;
-
-    private FactoryInterface $productOptionTranslationFactory;
-
-    private RepositoryInterface $productAttributeTranslationRepository;
-
-    private OptionValuesProcessorProviderInterface $optionValuesProcessorProvider;
-
-    private LoggerInterface $akeneoLogger;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        RepositoryInterface $productAttributeTranslationRepository,
-        RepositoryInterface $productOptionRepository,
-        RepositoryInterface $productOptionTranslationRepository,
-        LocaleRepositoryInterface $localeRepository,
-        FactoryInterface $productOptionTranslationFactory,
-        FactoryInterface $productOptionFactory,
-        OptionValuesProcessorProviderInterface $optionValuesProcessorProvider,
-        LoggerInterface $akeneoLogger
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productOptionRepository = $productOptionRepository;
-        $this->localeRepository = $localeRepository;
-        $this->productOptionFactory = $productOptionFactory;
-        $this->productOptionTranslationRepository = $productOptionTranslationRepository;
-        $this->productOptionTranslationFactory = $productOptionTranslationFactory;
-        $this->productAttributeTranslationRepository = $productAttributeTranslationRepository;
-        $this->optionValuesProcessorProvider = $optionValuesProcessorProvider;
-        $this->akeneoLogger = $akeneoLogger;
+    public function __construct(private EntityManagerInterface $entityManager, private RepositoryInterface $productAttributeTranslationRepository, private RepositoryInterface $productOptionRepository, private RepositoryInterface $productOptionTranslationRepository, private LocaleRepositoryInterface $localeRepository, private FactoryInterface $productOptionTranslationFactory, private FactoryInterface $productOptionFactory, private OptionValuesProcessorProviderInterface $optionValuesProcessorProvider, private LoggerInterface $akeneoLogger)
+    {
     }
 
     public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface

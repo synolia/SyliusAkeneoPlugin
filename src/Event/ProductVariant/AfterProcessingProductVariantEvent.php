@@ -9,13 +9,9 @@ use Synolia\SyliusAkeneoPlugin\Event\AbstractResourceEvent;
 
 final class AfterProcessingProductVariantEvent extends AbstractResourceEvent
 {
-    private ProductVariantInterface $productVariant;
-
-    public function __construct(array $resource, ProductVariantInterface $taxon)
+    public function __construct(array $resource, private ProductVariantInterface $productVariant)
     {
         parent::__construct($resource);
-
-        $this->productVariant = $taxon;
     }
 
     public function getProductVariant(): ProductVariantInterface

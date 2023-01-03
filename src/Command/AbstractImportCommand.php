@@ -21,25 +21,15 @@ abstract class AbstractImportCommand extends Command
     /** @var string The default command description */
     protected static $defaultDescription = '';
 
-    protected LoggerInterface $logger;
-
-    protected PayloadFactoryInterface $payloadFactory;
-
     protected PipelineInterface $pipeline;
 
-    private PipelineFactoryInterface $pipelineFactory;
-
     public function __construct(
-        LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory,
-        PipelineFactoryInterface $pipelineFactory,
-        string $name = null
+        protected LoggerInterface $logger,
+        protected PayloadFactoryInterface $payloadFactory,
+        private PipelineFactoryInterface $pipelineFactory,
+        string $name = null,
     ) {
         parent::__construct($name);
-
-        $this->logger = $akeneoLogger;
-        $this->payloadFactory = $payloadFactory;
-        $this->pipelineFactory = $pipelineFactory;
     }
 
     protected function configure(): void

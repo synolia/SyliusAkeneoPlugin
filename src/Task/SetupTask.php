@@ -9,16 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 final class SetupTask implements AkeneoTaskInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    private TearDownTask $tearDownTask;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        TearDownTask $tearDownTask
-    ) {
-        $this->entityManager = $entityManager;
-        $this->tearDownTask = $tearDownTask;
+    public function __construct(private EntityManagerInterface $entityManager, private TearDownTask $tearDownTask)
+    {
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
@@ -39,7 +31,7 @@ final class SetupTask implements AkeneoTaskInterface
               `id` INT NOT NULL AUTO_INCREMENT,
               `values` JSON NULL,
               PRIMARY KEY (`id`));',
-            $payload->getTmpTableName()
+            $payload->getTmpTableName(),
         );
         $this->entityManager->getConnection()->executeStatement($query);
 

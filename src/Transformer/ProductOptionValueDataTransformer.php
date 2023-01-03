@@ -16,7 +16,7 @@ final class ProductOptionValueDataTransformer implements ProductOptionValueDataT
             '%s_%s%s',
             (string) $productOption->getCode(),
             self::AKENEO_PREFIX,
-            $value
+            $value,
         ));
     }
 }

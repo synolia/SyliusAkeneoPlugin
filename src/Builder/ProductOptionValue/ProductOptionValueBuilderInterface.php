@@ -11,12 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValue\ProductOpti
 interface ProductOptionValueBuilderInterface
 {
     /**
-     * @param mixed $values
-     *
      * @throws ProductOptionValueBuilderNotFoundException
      */
     public function build(
         ProductOptionInterface $productOption,
-        $values
+        mixed $values,
     ): ProductOptionValueInterface;
 }

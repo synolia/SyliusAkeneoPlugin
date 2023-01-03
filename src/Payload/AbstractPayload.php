@@ -16,11 +16,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 {
     use ConfigurationContextTrait;
 
-    protected AkeneoPimEnterpriseClientInterface $akeneoPimClient;
-
     protected ApiConfiguration $apiConfiguration;
-
-    protected ?CommandContextInterface $commandContext;
 
     protected array $ids = [];
 
@@ -29,12 +25,9 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     protected string $commandName;
 
     public function __construct(
-        AkeneoPimEnterpriseClientInterface $akeneoPimClient,
-        ?CommandContextInterface $commandContext = null
+        protected AkeneoPimEnterpriseClientInterface $akeneoPimClient,
+        protected ?\Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface $commandContext = null,
     ) {
-        $this->akeneoPimClient = $akeneoPimClient;
-        $this->commandContext = $commandContext;
-
         if (null !== $commandContext) {
             $this->allowParallel = $commandContext->allowParallel();
             $this->batchSize = $commandContext->getBatchSize();
@@ -54,7 +47,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     {
         try {
             return mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             return '';
         }
     }

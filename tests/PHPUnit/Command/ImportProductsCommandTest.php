@@ -30,13 +30,13 @@ class ImportProductsCommandTest extends ApiTestCase
 
         $this->server->setResponseOfPath(
             '/' . sprintf(ProductApi::PRODUCTS_URI),
-            $response
+            $response,
         );
 
         $commandTester->execute(
             [
                 '--filter' => 'provider=synolia',
-            ]
+            ],
         );
 
         $commandTester->assertCommandIsSuccessful();

@@ -79,18 +79,13 @@ trait ConfigurationContextTrait
 
     public function getVerbosityArgument(): string
     {
-        switch ($this->getVerbosity()) {
-            case OutputInterface::VERBOSITY_QUIET:
-                return '-q';
-            case OutputInterface::VERBOSITY_VERBOSE:
-                return '-v';
-            case OutputInterface::VERBOSITY_VERY_VERBOSE:
-                return '-vv';
-            case OutputInterface::VERBOSITY_DEBUG:
-                return '-vvv';
-        }
-
-        return '';
+        return match ($this->getVerbosity()) {
+            OutputInterface::VERBOSITY_QUIET => '-q',
+            OutputInterface::VERBOSITY_VERBOSE => '-v',
+            OutputInterface::VERBOSITY_VERY_VERBOSE => '-vv',
+            OutputInterface::VERBOSITY_DEBUG => '-vvv',
+            default => '',
+        };
     }
 
     public function setIsContinue(bool $isContinue): ConfigurationContextInterface

@@ -11,18 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 
 final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherInterface
 {
-    private RepositoryInterface $attributeTypeMappingRepository;
-
     private AttributeTypeMapping $storedAttributeTypeMapping;
 
-    private ServiceRegistryInterface $attributeTypeRegistry;
-
-    public function __construct(
-        RepositoryInterface $attributeTypeMappingRepository,
-        ServiceRegistryInterface $attributeTypeRegistry
-    ) {
-        $this->attributeTypeMappingRepository = $attributeTypeMappingRepository;
-        $this->attributeTypeRegistry = $attributeTypeRegistry;
+    public function __construct(private RepositoryInterface $attributeTypeMappingRepository, private ServiceRegistryInterface $attributeTypeRegistry)
+    {
     }
 
     public function getType(): string
@@ -68,6 +60,6 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
             throw new \LogicException('Attribute Type cannot be null.');
         }
 
-        return \get_class($this->attributeTypeRegistry->get($this->storedAttributeTypeMapping->getAttributeType()));
+        return $this->attributeTypeRegistry->get($this->storedAttributeTypeMapping->getAttributeType())::class;
     }
 }

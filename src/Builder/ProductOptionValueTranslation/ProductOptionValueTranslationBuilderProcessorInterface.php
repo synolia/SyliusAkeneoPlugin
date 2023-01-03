@@ -18,6 +18,6 @@ interface ProductOptionValueTranslationBuilderProcessorInterface
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
         string $locale,
-        array $attributeValues
+        array $attributeValues,
     ): ProductOptionValueTranslationInterface;
 }

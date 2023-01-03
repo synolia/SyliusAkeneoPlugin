@@ -9,11 +9,8 @@ use Synolia\SyliusAkeneoPlugin\Retriever\EditionRetrieverInterface;
 
 final class EditionChecker implements EditionCheckerInterface
 {
-    private EditionRetrieverInterface $editionRetriever;
-
-    public function __construct(EditionRetrieverInterface $editionRetriever)
+    public function __construct(private EditionRetrieverInterface $editionRetriever)
     {
-        $this->editionRetriever = $editionRetriever;
     }
 
     public function isCommunityEdition(): bool

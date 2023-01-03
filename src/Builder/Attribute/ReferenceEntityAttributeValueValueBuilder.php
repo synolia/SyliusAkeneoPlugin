@@ -19,32 +19,8 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\ReferenceEntityAttributeTyp
 
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider;
-
-    private AttributeTypeMatcher $attributeTypeMatcher;
-
-    private AkeneoPimEnterpriseClientInterface $client;
-
-    private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider;
-
-    private LoggerInterface $akeneoLogger;
-
-    private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider;
-
-    public function __construct(
-        AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider,
-        AttributeTypeMatcher $attributeTypeMatcher,
-        AkeneoPimEnterpriseClientInterface $client,
-        LoggerInterface $akeneoLogger,
-        ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider
-    ) {
-        $this->akeneoAttributePropertiesProvider = $akeneoAttributePropertiesProvider;
-        $this->akeneoReferenceEntityAttributeDataProvider = $akeneoReferenceEntityAttributeDataProvider;
-        $this->attributeTypeMatcher = $attributeTypeMatcher;
-        $this->client = $client;
-        $this->akeneoLogger = $akeneoLogger;
-        $this->productRefEntityAttributeValueValueBuilderProvider = $productRefEntityAttributeValueValueBuilderProvider;
+    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider, private AttributeTypeMatcher $attributeTypeMatcher, private AkeneoPimEnterpriseClientInterface $client, private LoggerInterface $akeneoLogger, private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider)
+    {
     }
 
     public function support(string $attributeCode): bool
@@ -65,7 +41,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
         $referenceEntityAttributeProperties = $this->akeneoAttributePropertiesProvider->getProperties($attributeCode);
         $records = $this->client->getReferenceEntityRecordApi()->get(
             $referenceEntityAttributeProperties['reference_data_name'],
-            $value
+            $value,
         );
 
         foreach ($records['values'] as $subAttributeCode => $attributeValue) {
@@ -75,7 +51,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
                     $subAttributeCode,
                     $attributeValue,
                     $locale,
-                    $scope
+                    $scope,
                 );
 
                 $dataProcessor = $this->productRefEntityAttributeValueValueBuilderProvider->getProcessor(
@@ -84,7 +60,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
                     $subAttributeCode,
                     $locale,
                     $scope,
-                    $data
+                    $data,
                 );
 
                 $subAttributeValues[$subAttributeCode] = $dataProcessor->getValue(
@@ -93,13 +69,13 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
                     $subAttributeCode,
                     $locale,
                     $scope,
-                    $data
+                    $data,
                 );
             } catch (
                 MissingLocaleTranslationException |
                 MissingLocaleTranslationOrScopeException |
                 MissingScopeException |
-                TranslationNotFoundException $exception
+                TranslationNotFoundException
             ) {
                 $this->akeneoLogger->debug(sprintf(
                     'Skipped attribute value "%s" for reference entity "%s" with value "%s" for locale "%s" and scope "%s"',

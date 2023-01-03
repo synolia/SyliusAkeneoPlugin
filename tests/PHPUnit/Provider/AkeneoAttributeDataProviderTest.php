@@ -15,6 +15,7 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
@@ -22,7 +23,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     private const DEFAULT_SCOPE = 'ecommerce';
 
     /** @var AkeneoAttributeDataProviderInterface */
-    private $attributeDataProvider;
+    private \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider $attributeDataProvider;
 
     protected function setUp(): void
     {
@@ -30,7 +31,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
-            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK)
+            new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 
         /** @var AkeneoAttributePropertiesProvider $akeneoPropertiesProvider */
@@ -46,7 +47,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     {
         $this->assertEquals(
             $expectedValue,
-            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
+            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
         );
     }
 
@@ -80,7 +81,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     {
         $this->assertEquals(
             $expectedValue,
-            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
+            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
         );
     }
 
@@ -131,7 +132,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     {
         $this->assertEquals(
             new \DateTime($expectedValue),
-            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
+            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
         );
     }
 
@@ -151,7 +152,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     {
         $this->assertEquals(
             $expectedValue,
-            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope)
+            $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
         );
     }
 

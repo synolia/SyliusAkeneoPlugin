@@ -15,12 +15,11 @@ final class AssetPayload extends AbstractPayload
 
     public const BATCH_COMMAND_NAME = 'akeneo:batch:assets';
 
-    /** @var \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|null */
-    private $resources;
+    private ?\Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface $resources = null;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimClient,
-        ?CommandContextInterface $commandContext = null
+        ?CommandContextInterface $commandContext = null,
     ) {
         parent::__construct($akeneoPimClient, $commandContext);
 

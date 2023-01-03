@@ -12,11 +12,8 @@ final class AkeneoAttributePropertiesProvider
 
     private array $attributes = [];
 
-    private AkeneoPimEnterpriseClientInterface $client;
-
-    public function __construct(AkeneoPimEnterpriseClientInterface $akeneoPimClient)
+    public function __construct(private AkeneoPimEnterpriseClientInterface $client)
     {
-        $this->client = $akeneoPimClient;
     }
 
     public function setLoadsAllAttributesAtOnce(bool $loadsAllAttributesAtOnce): self
@@ -72,7 +69,7 @@ final class AkeneoAttributePropertiesProvider
 
     public function getLabels(string $attributeCode): array
     {
-        return (isset($this->getProperties($attributeCode)['labels'])) ? $this->getProperties($attributeCode)['labels'] : [];
+        return $this->getProperties($attributeCode)['labels'] ?? [];
     }
 
     public function getType(string $attributeCode): string

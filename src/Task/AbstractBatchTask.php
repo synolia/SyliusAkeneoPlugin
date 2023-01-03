@@ -12,11 +12,8 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
 abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterface
 {
-    protected EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(protected EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     protected function getSelectStatement(PipelinePayloadInterface $payload): Statement
@@ -27,7 +24,7 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
              WHERE id IN (%s)
              ORDER BY id ASC',
             $payload->getTmpTableName(),
-            implode(',', $payload->getIds())
+            implode(',', $payload->getIds()),
         ));
     }
 
@@ -42,7 +39,7 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
         try {
             $query->execute();
             /** @phpstan-ignore-next-line ConnectionLost is throw but phpdoc is not good*/
-        } catch (ConnectionLost $connectionLost) {
+        } catch (ConnectionLost) {
             $query->execute();
         }
     }

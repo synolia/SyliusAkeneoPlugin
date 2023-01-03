@@ -12,11 +12,8 @@ final class ProductFilterRulesProvider implements ProductFilterRulesProviderInte
 {
     private ProductFiltersRules $productFiltersRules;
 
-    private ProductFiltersRulesRepository $productFiltersRulesRepository;
-
-    public function __construct(ProductFiltersRulesRepository $productFiltersRulesRepository)
+    public function __construct(private ProductFiltersRulesRepository $productFiltersRulesRepository)
     {
-        $this->productFiltersRulesRepository = $productFiltersRulesRepository;
     }
 
     /**

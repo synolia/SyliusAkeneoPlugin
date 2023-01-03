@@ -23,21 +23,12 @@ final class ImportCategoriesCommand extends Command
     /** @var string */
     protected static $defaultName = 'akeneo:import:categories';
 
-    private LoggerInterface $logger;
-
-    private CategoryPipelineFactory $categoryPipelineFactory;
-
-    private ClientFactoryInterface $clientFactory;
-
     public function __construct(
-        CategoryPipelineFactory $categoryPipelineFactory,
-        ClientFactoryInterface $clientFactory,
-        LoggerInterface $akeneoLogger
+        private CategoryPipelineFactory $categoryPipelineFactory,
+        private ClientFactoryInterface $clientFactory,
+        private LoggerInterface $logger,
     ) {
         parent::__construct(self::$defaultName);
-        $this->categoryPipelineFactory = $categoryPipelineFactory;
-        $this->clientFactory = $clientFactory;
-        $this->logger = $akeneoLogger;
     }
 
     protected function configure(): void
@@ -50,7 +41,7 @@ final class ImportCategoriesCommand extends Command
      */
     protected function execute(
         InputInterface $input,
-        OutputInterface $output
+        OutputInterface $output,
     ) {
         if (!$this->lock()) {
             $output->writeln(Messages::commandAlreadyRunning());

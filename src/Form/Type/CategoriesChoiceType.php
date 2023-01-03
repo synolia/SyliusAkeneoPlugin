@@ -17,15 +17,9 @@ final class CategoriesChoiceType extends AbstractType
 {
     private CategoryApiInterface $categoryApi;
 
-    private ChannelContextInterface $channelContext;
-
-    private ClientFactoryInterface $clientFactory;
-
-    public function __construct(ClientFactoryInterface $clientFactory, ChannelContextInterface $channelContext)
+    public function __construct(private ClientFactoryInterface $clientFactory, private ChannelContextInterface $channelContext)
     {
-        $this->clientFactory = $clientFactory;
         $this->categoryApi = $this->clientFactory->createFromApiCredentials()->getCategoryApi();
-        $this->channelContext = $channelContext;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

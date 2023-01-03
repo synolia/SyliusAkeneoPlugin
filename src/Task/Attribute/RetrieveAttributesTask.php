@@ -13,14 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveAttributesTask implements AkeneoTaskInterface
 {
-    private LoggerInterface $logger;
-
-    private ApiConnectionProviderInterface $apiConnectionProvider;
-
-    public function __construct(LoggerInterface $akeneoLogger, ApiConnectionProviderInterface $apiConnectionProvider)
+    public function __construct(private LoggerInterface $logger, private ApiConnectionProviderInterface $apiConnectionProvider)
     {
-        $this->logger = $akeneoLogger;
-        $this->apiConnectionProvider = $apiConnectionProvider;
     }
 
     /**
@@ -31,7 +25,7 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getAttributeApi()->all(
-            $this->apiConnectionProvider->get()->getPaginationSize()
+            $this->apiConnectionProvider->get()->getPaginationSize(),
         );
 
         $noCodeCount = 0;
