@@ -30,7 +30,7 @@
 | :--- |:-----------------|
 | PHP  | ^8.0       |
 | Sylius | ^1.10             |
-| Akeneo PIM  | ^4.0, ^5.0, ^6.0 |
+| Akeneo PIM  | >=8.0 <12.0 |
 
 
 ## Installation
