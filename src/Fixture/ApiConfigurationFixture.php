@@ -16,8 +16,11 @@ use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
  */
 final class ApiConfigurationFixture extends AbstractFixture
 {
-    public function __construct(private ClientFactoryInterface $clientFactory, private EntityManagerInterface $entityManager, private FactoryInterface $apiConfigurationFactory)
-    {
+    public function __construct(
+        private ClientFactoryInterface $clientFactory,
+        private EntityManagerInterface $entityManager,
+        private FactoryInterface $apiConfigurationFactory,
+    ) {
     }
 
     public function load(array $options): void

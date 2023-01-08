@@ -20,8 +20,14 @@ use Webmozart\Assert\Assert;
 
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider, private AttributeTypeMatcher $attributeTypeMatcher, private AkeneoPimClientInterface $client, private LoggerInterface $akeneoLogger, private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider)
-    {
+    public function __construct(
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider,
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private AkeneoPimClientInterface $client,
+        private LoggerInterface $akeneoLogger,
+        private ProductRefEntityAttributeValueValueBuilderProviderInterface $productRefEntityAttributeValueValueBuilderProvider,
+    ) {
     }
 
     public function support(string $attributeCode): bool

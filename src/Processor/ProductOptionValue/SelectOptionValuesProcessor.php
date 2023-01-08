@@ -31,8 +31,11 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
         parent::__construct($productOptionValueRepository, $productOptionValueTranslationRepository, $productOptionValueFactory, $productOptionValueTranslationFactory, $akeneoLogger, $entityManager, $productOptionValueDataTransformer);
     }
 
-    public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
-    {
+    public function support(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): bool {
         return SelectAttributeType::TYPE === $attribute->getType();
     }
 
@@ -41,8 +44,11 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
         return 100;
     }
 
-    public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void
-    {
+    public function process(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): void {
         $productOptionValuesMapping = [];
         $productOptionValueCodes = array_keys($attribute->getConfiguration()['choices']);
         foreach ($productOptionValueCodes as $productOptionValueCode) {

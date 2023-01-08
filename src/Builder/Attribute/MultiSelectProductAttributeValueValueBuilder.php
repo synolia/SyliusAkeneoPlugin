@@ -11,8 +11,11 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMat
 
 final class MultiSelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AttributeTypeMatcher $attributeTypeMatcher, private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer)
-    {
+    public function __construct(
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
+    ) {
     }
 
     public function support(string $attributeCode): bool

@@ -9,8 +9,16 @@ use Synolia\SyliusAkeneoPlugin\Model\Configuration\ApiConnectionInterface;
 
 class DotEnvApiConnectionProvider implements ApiConnectionProviderInterface
 {
-    public function __construct(private string $baseUrl, private string $clientId, private string $clientSecret, private string $username, private string $password, private string $edition, private string $axeAsModel, private int $pagination)
-    {
+    public function __construct(
+        private string $baseUrl,
+        private string $clientId,
+        private string $clientSecret,
+        private string $username,
+        private string $password,
+        private string $edition,
+        private string $axeAsModel,
+        private int $pagination,
+    ) {
     }
 
     public function get(): ApiConnectionInterface

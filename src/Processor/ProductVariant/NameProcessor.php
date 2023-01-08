@@ -19,8 +19,12 @@ class NameProcessor implements NameProcessorInterface
         return 800;
     }
 
-    public function __construct(private LocaleRepositoryInterface $localeRepository, private RepositoryInterface $productVariantTranslationRepository, private FactoryInterface $productVariantTranslationFactory, private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private LocaleRepositoryInterface $localeRepository,
+        private RepositoryInterface $productVariantTranslationRepository,
+        private FactoryInterface $productVariantTranslationFactory,
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
     public function process(ProductVariantInterface $productVariant, array $resource): void

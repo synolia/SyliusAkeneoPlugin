@@ -13,7 +13,15 @@ interface OptionValuesProcessorInterface
 
     public static function getDefaultPriority(): int;
 
-    public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool;
+    public function support(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): bool;
 
-    public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void;
+    public function process(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): void;
 }

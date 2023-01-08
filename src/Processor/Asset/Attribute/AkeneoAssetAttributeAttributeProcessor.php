@@ -16,8 +16,17 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttributeProcessorInterface
 {
-    public function __construct(private AssetValueBuilderProviderInterface $assetValueBuilderProvider, private FactoryInterface $assetFactory, private RepositoryInterface $assetRepository, private EntityManagerInterface $entityManager, private AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider, private AkeneoAssetAttributeDataProviderInterface $akeneoAssetAttributeDataProvider, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private ProductFilterRulesProviderInterface $productFilterRulesProvider, private AssetValueBuilderProviderInterface $assetAttributeValueBuilder)
-    {
+    public function __construct(
+        private AssetValueBuilderProviderInterface $assetValueBuilderProvider,
+        private FactoryInterface $assetFactory,
+        private RepositoryInterface $assetRepository,
+        private EntityManagerInterface $entityManager,
+        private AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider,
+        private AkeneoAssetAttributeDataProviderInterface $akeneoAssetAttributeDataProvider,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private ProductFilterRulesProviderInterface $productFilterRulesProvider,
+        private AssetValueBuilderProviderInterface $assetAttributeValueBuilder,
+    ) {
     }
 
     public static function getDefaultPriority(): int
@@ -25,8 +34,12 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         return -100;
     }
 
-    public function support(string $assetFamilyCode, string $assetCode, string $attributeCode, array $assetAttributeResource = []): bool
-    {
+    public function support(
+        string $assetFamilyCode,
+        string $assetCode,
+        string $attributeCode,
+        array $assetAttributeResource = [],
+    ): bool {
         if (!$this->assetValueBuilderProvider->hasSupportedBuilder($assetFamilyCode, $attributeCode)) {
             return false;
         }

@@ -27,8 +27,13 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
     private string $type;
 
-    public function __construct(protected EntityManagerInterface $entityManager, protected ProcessManagerInterface $processManager, protected BatchTaskInterface $task, protected LoggerInterface $logger, private string $projectDir)
-    {
+    public function __construct(
+        protected EntityManagerInterface $entityManager,
+        protected ProcessManagerInterface $processManager,
+        protected BatchTaskInterface $task,
+        protected LoggerInterface $logger,
+        private string $projectDir,
+    ) {
     }
 
     protected function count(string $tableName): int
@@ -148,8 +153,10 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
     }
 
-    protected function handle(PipelinePayloadInterface $payload, \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|\Akeneo\Pim\ApiClient\Pagination\PageInterface $handleType): void
-    {
+    protected function handle(
+        PipelinePayloadInterface $payload,
+        \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|\Akeneo\Pim\ApiClient\Pagination\PageInterface $handleType,
+    ): void {
         $count = 0;
         $ids = [];
 

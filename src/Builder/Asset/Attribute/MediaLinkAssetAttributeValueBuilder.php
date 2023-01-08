@@ -10,8 +10,10 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\MediaLinkAssetAttribu
 
 final class MediaLinkAssetAttributeValueBuilder implements AssetAttributeValueBuilderInterface
 {
-    public function __construct(private AssetAttributeTypeMatcherProviderInterface $assetAttributeTypeMatcherProvider, private AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider)
-    {
+    public function __construct(
+        private AssetAttributeTypeMatcherProviderInterface $assetAttributeTypeMatcherProvider,
+        private AkeneoAssetAttributePropertiesProviderInterface $akeneoAssetAttributePropertiesProvider,
+    ) {
     }
 
     public function support(string $assetFamilyCode, string $attributeCode): bool
@@ -19,8 +21,13 @@ final class MediaLinkAssetAttributeValueBuilder implements AssetAttributeValueBu
         return $this->assetAttributeTypeMatcherProvider->match($this->akeneoAssetAttributePropertiesProvider->getType($assetFamilyCode, $attributeCode)) instanceof MediaLinkAssetAttributeTypeMatcher;
     }
 
-    public function build(string $assetFamilyCode, string $assetCode, ?string $locale, ?string $scope, mixed $value): array
-    {
+    public function build(
+        string $assetFamilyCode,
+        string $assetCode,
+        ?string $locale,
+        ?string $scope,
+        mixed $value,
+    ): array {
         return ['url' => $value];
     }
 }

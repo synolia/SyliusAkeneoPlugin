@@ -34,8 +34,16 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
     private string $type;
 
-    public function __construct(private TaxonFactoryInterface $taxonFactory, private EntityManagerInterface $entityManager, private TaxonRepository $taxonRepository, private RepositoryInterface $taxonTranslationRepository, private FactoryInterface $taxonTranslationFactory, private LoggerInterface $logger, private EventDispatcherInterface $dispatcher, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
-    {
+    public function __construct(
+        private TaxonFactoryInterface $taxonFactory,
+        private EntityManagerInterface $entityManager,
+        private TaxonRepository $taxonRepository,
+        private RepositoryInterface $taxonTranslationRepository,
+        private FactoryInterface $taxonTranslationFactory,
+        private LoggerInterface $logger,
+        private EventDispatcherInterface $dispatcher,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+    ) {
     }
 
     /**

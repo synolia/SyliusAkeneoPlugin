@@ -23,8 +23,17 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class CompleteRequirementProcessor implements CompleteRequirementProcessorInterface
 {
-    public function __construct(private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, private ProductFilterRulesProviderInterface $productFilterRulesProvider, private EntityRepository $productConfigurationRepository, private SlugGeneratorInterface $productSlugGenerator, private RepositoryInterface $productTranslationRepository, private FactoryInterface $productTranslationFactory, private LoggerInterface $akeneoLogger)
-    {
+    public function __construct(
+        private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+        private ProductFilterRulesProviderInterface $productFilterRulesProvider,
+        private EntityRepository $productConfigurationRepository,
+        private SlugGeneratorInterface $productSlugGenerator,
+        private RepositoryInterface $productTranslationRepository,
+        private FactoryInterface $productTranslationFactory,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     public static function getDefaultPriority(): int
@@ -95,8 +104,11 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         }
     }
 
-    private function setProductTranslation(ProductInterface $product, string $usedLocalesOnBothPlatform, string $productName): ProductTranslationInterface
-    {
+    private function setProductTranslation(
+        ProductInterface $product,
+        string $usedLocalesOnBothPlatform,
+        string $productName,
+    ): ProductTranslationInterface {
         $productTranslation = $this->productTranslationRepository->findOneBy([
             'translatable' => $product,
             'locale' => $usedLocalesOnBothPlatform,

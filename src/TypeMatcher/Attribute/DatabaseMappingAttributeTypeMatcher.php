@@ -13,8 +13,10 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
 {
     private AttributeTypeMapping $storedAttributeTypeMapping;
 
-    public function __construct(private RepositoryInterface $attributeTypeMappingRepository, private ServiceRegistryInterface $attributeTypeRegistry)
-    {
+    public function __construct(
+        private RepositoryInterface $attributeTypeMappingRepository,
+        private ServiceRegistryInterface $attributeTypeRegistry,
+    ) {
     }
 
     public function getType(): string

@@ -21,8 +21,17 @@ abstract class AbstractCreateProductEntities
 
     protected FactoryInterface $channelPricingFactory;
 
-    public function __construct(protected EntityManagerInterface $entityManager, protected RepositoryInterface $productVariantRepository, protected RepositoryInterface $productRepository, protected ChannelRepository $channelRepository, protected LocaleRepositoryInterface $localeRepository, protected RepositoryInterface $productConfigurationRepository, protected ProductVariantFactoryInterface $productVariantFactory, protected LoggerInterface $logger, protected ProductChannelEnablerProcessorInterface $productChannelEnabler)
-    {
+    public function __construct(
+        protected EntityManagerInterface $entityManager,
+        protected RepositoryInterface $productVariantRepository,
+        protected RepositoryInterface $productRepository,
+        protected ChannelRepository $channelRepository,
+        protected LocaleRepositoryInterface $localeRepository,
+        protected RepositoryInterface $productConfigurationRepository,
+        protected ProductVariantFactoryInterface $productVariantFactory,
+        protected LoggerInterface $logger,
+        protected ProductChannelEnablerProcessorInterface $productChannelEnabler,
+    ) {
     }
 
     protected function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface

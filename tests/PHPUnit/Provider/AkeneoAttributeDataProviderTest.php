@@ -43,8 +43,13 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     }
 
     /** @dataProvider uniqueAttributeDataProvider */
-    public function testUniqueValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
-    {
+    public function testUniqueValue(
+        $expectedValue,
+        $attributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope,
+    ): void {
         $this->assertEquals(
             $expectedValue,
             $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
@@ -77,8 +82,13 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     }
 
     /** @dataProvider nonUniqueNonLocalizableNonScopableAttributeDataProvider */
-    public function testNonUniqueNonLocalizableNonScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
-    {
+    public function testNonUniqueNonLocalizableNonScopableValue(
+        $expectedValue,
+        $attributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope,
+    ): void {
         $this->assertEquals(
             $expectedValue,
             $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
@@ -128,8 +138,13 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     }
 
     /** @dataProvider nonUniqueNonLocalizableScopableAttributeDataProvider */
-    public function testNonUniqueNonLocalizableScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
-    {
+    public function testNonUniqueNonLocalizableScopableValue(
+        $expectedValue,
+        $attributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope,
+    ): void {
         $this->assertEquals(
             new \DateTime($expectedValue),
             $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),
@@ -148,8 +163,13 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     }
 
     /** @dataProvider nonUniqueLocalizableScopableAttributeDataProvider */
-    public function testNonUniqueLocalizableScopableValue($expectedValue, $attributeCode, $attributeValues, string $locale, string $scope): void
-    {
+    public function testNonUniqueLocalizableScopableValue(
+        $expectedValue,
+        $attributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope,
+    ): void {
         $this->assertEquals(
             $expectedValue,
             $this->attributeDataProvider->getData($attributeCode, $attributeValues, $locale, $scope),

@@ -18,8 +18,16 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
 
 final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    public function __construct(private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer, private RepositoryInterface $productAttributeRepository, private RepositoryInterface $productAttributeValueRepository, private ProductAttributeValueValueBuilder $attributeValueValueBuilder, private FactoryInterface $productAttributeValueFactory, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
+        private RepositoryInterface $productAttributeRepository,
+        private RepositoryInterface $productAttributeValueRepository,
+        private ProductAttributeValueValueBuilder $attributeValueValueBuilder,
+        private FactoryInterface $productAttributeValueFactory,
+        private LoggerInterface $logger,
+    ) {
     }
 
     public static function getDefaultPriority(): int

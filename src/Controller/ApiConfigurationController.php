@@ -23,8 +23,13 @@ final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;
 
-    public function __construct(private EntityManagerInterface $entityManager, private EntityRepository $apiConfigurationRepository, private FactoryInterface $apiConfigurationFactory, private ClientFactoryInterface $clientFactory, private TranslatorInterface $translator)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private EntityRepository $apiConfigurationRepository,
+        private FactoryInterface $apiConfigurationFactory,
+        private ClientFactoryInterface $clientFactory,
+        private TranslatorInterface $translator,
+    ) {
     }
 
     public function __invoke(Request $request): Response

@@ -12,5 +12,9 @@ interface PayloadFactoryInterface
 {
     public function create(string $className): PipelinePayloadInterface;
 
-    public function createFromCommand(string $className, InputInterface $input, OutputInterface $output): PipelinePayloadInterface;
+    public function createFromCommand(
+        string $className,
+        InputInterface $input,
+        OutputInterface $output,
+    ): PipelinePayloadInterface;
 }

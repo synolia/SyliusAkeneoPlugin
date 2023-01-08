@@ -16,8 +16,11 @@ class AttributeProcessor implements AttributeProcessorInterface
 {
     private ?ProductFiltersRules $productFiltersRules = null;
 
-    public function __construct(private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider, private ProductFiltersRulesRepository $productFiltersRulesRepository, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
+        private ProductFiltersRulesRepository $productFiltersRulesRepository,
+        private LoggerInterface $logger,
+    ) {
     }
 
     public function process(ProductVariantInterface $productVariant, array $resource): void

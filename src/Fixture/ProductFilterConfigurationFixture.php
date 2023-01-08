@@ -17,8 +17,10 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleSimpleType;
 
 final class ProductFilterConfigurationFixture extends AbstractFixture
 {
-    public function __construct(private EntityManagerInterface $entityManager, private FactoryInterface $productFiltersRulesFactory)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private FactoryInterface $productFiltersRulesFactory,
+    ) {
     }
 
     public function load(array $options): void

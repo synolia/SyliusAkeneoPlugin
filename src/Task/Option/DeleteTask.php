@@ -24,8 +24,13 @@ final class DeleteTask implements AkeneoTaskInterface
 
     private int $deleteCount = 0;
 
-    public function __construct(private EntityManagerInterface $entityManager, private ProductAttributeRepository $productAttributeRepository, private ProductOptionRepository $productOptionRepository, private LoggerInterface $logger, private ParameterBagInterface $parameterBag)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private ProductAttributeRepository $productAttributeRepository,
+        private ProductOptionRepository $productOptionRepository,
+        private LoggerInterface $logger,
+        private ParameterBagInterface $parameterBag,
+    ) {
     }
 
     /**

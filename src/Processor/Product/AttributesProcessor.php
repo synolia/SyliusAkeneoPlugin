@@ -13,8 +13,12 @@ use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 
 final class AttributesProcessor implements AttributesProcessorInterface
 {
-    public function __construct(private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider, private ProductFilterRulesProviderInterface $productFilterRulesProvider, private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider, private LoggerInterface $akeneoLogger)
-    {
+    public function __construct(
+        private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
+        private ProductFilterRulesProviderInterface $productFilterRulesProvider,
+        private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     public static function getDefaultPriority(): int

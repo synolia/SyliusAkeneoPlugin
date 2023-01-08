@@ -19,8 +19,12 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 
 final class ProductFilterRulesController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager, private ProductFiltersRulesRepository $productFiltersRulesRepository, private TranslatorInterface $translator, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private ProductFiltersRulesRepository $productFiltersRulesRepository,
+        private TranslatorInterface $translator,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     public function __invoke(Request $request): Response

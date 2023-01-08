@@ -62,8 +62,10 @@ final class AttributeTypeMatcherTest extends AbstractKernelTestCase
     }
 
     /** @dataProvider supportedAttributeTypeDataProvider */
-    public function testSupportedAttributeTypeMatcher(string $akeneoAttributeType, string $expectedTypeMatcherClass): void
-    {
+    public function testSupportedAttributeTypeMatcher(
+        string $akeneoAttributeType,
+        string $expectedTypeMatcherClass,
+    ): void {
         $this->assertInstanceOf($expectedTypeMatcherClass, $this->attributeTypeMatcher->match($akeneoAttributeType));
     }
 

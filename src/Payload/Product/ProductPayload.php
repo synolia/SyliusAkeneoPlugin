@@ -17,8 +17,10 @@ final class ProductPayload extends AbstractPayload
 
     private PageInterface $resources;
 
-    public function __construct(AkeneoPimClientInterface $akeneoPimClient, ?CommandContextInterface $commandContext = null)
-    {
+    public function __construct(
+        AkeneoPimClientInterface $akeneoPimClient,
+        ?CommandContextInterface $commandContext = null,
+    ) {
         parent::__construct($akeneoPimClient, $commandContext);
 
         $this->setTmpTableName(self::TEMP_AKENEO_TABLE_NAME);

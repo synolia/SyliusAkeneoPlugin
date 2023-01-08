@@ -69,8 +69,12 @@ final class BatchFamilyTask extends AbstractBatchTask
         return $payload;
     }
 
-    private function createGroupForCodeAndFamily(string $code, string $family, string $familyVariant, ?string $parent = null): ProductGroupInterface
-    {
+    private function createGroupForCodeAndFamily(
+        string $code,
+        string $family,
+        string $familyVariant,
+        ?string $parent = null,
+    ): ProductGroupInterface {
         if (isset($this->productGroupsMapping[$code])) {
             return $this->productGroupsMapping[$code];
         }

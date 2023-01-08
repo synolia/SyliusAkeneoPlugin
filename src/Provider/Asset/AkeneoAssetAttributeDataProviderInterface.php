@@ -15,5 +15,11 @@ interface AkeneoAssetAttributeDataProviderInterface
      *
      * @return mixed|null
      */
-    public function getData(string $assetFamilyCode, string $attributeCode, $attributeValues, string $locale, string $scope);
+    public function getData(
+        string $assetFamilyCode,
+        string $attributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope,
+    );
 }

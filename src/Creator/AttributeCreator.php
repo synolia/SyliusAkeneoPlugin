@@ -31,8 +31,19 @@ use Webmozart\Assert\Assert;
 
 final class AttributeCreator implements AttributeCreatorInterface
 {
-    public function __construct(private FactoryInterface $productAttributeFactory, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private EntityManagerInterface $entityManager, private RepositoryInterface $productAttributeRepository, private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer, private AttributeTypeMatcher $attributeTypeMatcher, private LoggerInterface $logger, private ExcludedAttributesProviderInterface $excludedAttributesProvider, private EditionCheckerInterface $editionChecker, private ProductAttributeValueRepositoryInterface $productAttributeValueRepository, private DataMigrationTransformer $dataMigrationTransformer)
-    {
+    public function __construct(
+        private FactoryInterface $productAttributeFactory,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private EntityManagerInterface $entityManager,
+        private RepositoryInterface $productAttributeRepository,
+        private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private LoggerInterface $logger,
+        private ExcludedAttributesProviderInterface $excludedAttributesProvider,
+        private EditionCheckerInterface $editionChecker,
+        private ProductAttributeValueRepositoryInterface $productAttributeValueRepository,
+        private DataMigrationTransformer $dataMigrationTransformer,
+    ) {
     }
 
     /**

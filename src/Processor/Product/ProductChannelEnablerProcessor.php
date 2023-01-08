@@ -15,8 +15,11 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
 final class ProductChannelEnablerProcessor implements ProductChannelEnablerProcessorInterface
 {
-    public function __construct(private ChannelRepository $channelRepository, private ProductConfigurationRepository $productConfigurationRepository, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private ChannelRepository $channelRepository,
+        private ProductConfigurationRepository $productConfigurationRepository,
+        private LoggerInterface $logger,
+    ) {
     }
 
     public static function getDefaultPriority(): int

@@ -27,8 +27,13 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
 {
     private ?string $scope = null;
 
-    public function __construct(private AttributeTypeMatcher $attributeTypeMatcher, private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, private FamilyMeasureRetriever $measureFamilyRetriever, private ProductFilterRulesProviderInterface $productFilterRulesProvider)
-    {
+    public function __construct(
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+        private FamilyMeasureRetriever $measureFamilyRetriever,
+        private ProductFilterRulesProviderInterface $productFilterRulesProvider,
+    ) {
     }
 
     public function support(
