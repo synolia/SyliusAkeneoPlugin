@@ -6,7 +6,17 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\Asset\Attribute;
 
 interface AkeneoAssetAttributeProcessorInterface
 {
-    public function support(string $assetFamilyCode, string $assetCode, string $attributeCode, array $assetAttributeResource = []): bool;
+    public function support(
+        string $assetFamilyCode,
+        string $assetCode,
+        string $attributeCode,
+        array $assetAttributeResource = [],
+    ): bool;
 
-    public function process(string $assetFamilyCode, string $assetCode, string $attributeCode, array $assetAttributeResource): void;
+    public function process(
+        string $assetFamilyCode,
+        string $assetCode,
+        string $attributeCode,
+        array $assetAttributeResource,
+    ): void;
 }

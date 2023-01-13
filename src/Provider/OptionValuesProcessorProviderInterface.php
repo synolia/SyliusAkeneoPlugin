@@ -10,5 +10,9 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcesso
 
 interface OptionValuesProcessorProviderInterface
 {
-    public function getProcessor(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): OptionValuesProcessorInterface;
+    public function getProcessor(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): OptionValuesProcessorInterface;
 }

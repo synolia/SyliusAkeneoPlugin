@@ -11,8 +11,11 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class SelectProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AttributeTypeMatcher $attributeTypeMatcher, private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer)
-    {
+    public function __construct(
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
+    ) {
     }
 
     public function support(string $attributeCode): bool

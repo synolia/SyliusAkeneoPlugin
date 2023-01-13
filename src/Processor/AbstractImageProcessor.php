@@ -23,8 +23,14 @@ abstract class AbstractImageProcessor
 {
     protected ProductConfiguration $productConfiguration;
 
-    public function __construct(private ImageUploaderInterface $imageUploader, private RepositoryInterface $productConfigurationRepository, private EntityManagerInterface $entityManager, private FactoryInterface $productImageFactory, protected LoggerInterface $logger, private ClientFactory $clientFactory)
-    {
+    public function __construct(
+        private ImageUploaderInterface $imageUploader,
+        private RepositoryInterface $productConfigurationRepository,
+        private EntityManagerInterface $entityManager,
+        private FactoryInterface $productImageFactory,
+        protected LoggerInterface $logger,
+        private ClientFactory $clientFactory,
+    ) {
     }
 
     protected function getProductConfiguration(): ProductConfiguration

@@ -21,8 +21,13 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
      * @throws MissingScopeException
      * @throws TranslationNotFoundException
      */
-    public function getData(string $assetFamilyCode, string $attributeCode, $attributeValues, string $locale, string $scope)
-    {
+    public function getData(
+        string $assetFamilyCode,
+        string $attributeCode,
+        $attributeValues,
+        string $locale,
+        string $scope,
+    ) {
         if (!$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
             !$this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
             return $attributeValues[0]['data'];
@@ -69,8 +74,13 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
      *
      * @throws MissingLocaleTranslationOrScopeException
      */
-    private function getByLocaleAndScope(string $assetFamilyCode, string $attributeCode, array $attributeValues, string $locale, string $scope)
-    {
+    private function getByLocaleAndScope(
+        string $assetFamilyCode,
+        string $attributeCode,
+        array $attributeValues,
+        string $locale,
+        string $scope,
+    ) {
         foreach ($attributeValues as $attributeValue) {
             if ($attributeValue['scope'] !== $scope || $attributeValue['locale'] !== $locale) {
                 continue;

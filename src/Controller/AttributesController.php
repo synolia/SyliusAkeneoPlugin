@@ -20,8 +20,14 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderI
 
 final class AttributesController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager, private SettingsManagerInterface $settingsManager, private RepositoryInterface $attributeTypeMappingRepository, private RepositoryInterface $attributeAkeneoSyliusMappingRepository, private TranslatorInterface $translator, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private SettingsManagerInterface $settingsManager,
+        private RepositoryInterface $attributeTypeMappingRepository,
+        private RepositoryInterface $attributeAkeneoSyliusMappingRepository,
+        private TranslatorInterface $translator,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     public function __invoke(Request $request): Response

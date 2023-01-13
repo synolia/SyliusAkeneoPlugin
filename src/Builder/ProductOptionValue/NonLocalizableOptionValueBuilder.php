@@ -26,8 +26,15 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
         return 100;
     }
 
-    public function __construct(private FactoryInterface $productOptionValueFactory, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer, private ProductOptionValueTranslationBuilderProcessorInterface $productOptionValueTranslationBuilder, private LoggerInterface $akeneoLogger, private EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        private FactoryInterface $productOptionValueFactory,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
+        private ProductOptionValueTranslationBuilderProcessorInterface $productOptionValueTranslationBuilder,
+        private LoggerInterface $akeneoLogger,
+        private EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     public function support(ProductOptionInterface $productOption, mixed $values, array $context = []): bool
@@ -47,8 +54,11 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
         }
     }
 
-    public function build(ProductOptionInterface $productOption, mixed $values, array $context = []): ProductOptionValueInterface
-    {
+    public function build(
+        ProductOptionInterface $productOption,
+        mixed $values,
+        array $context = [],
+    ): ProductOptionValueInterface {
         Assert::isArray($values);
 
         /** @phpstan-ignore-next-line */

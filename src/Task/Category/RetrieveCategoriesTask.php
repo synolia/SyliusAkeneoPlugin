@@ -21,8 +21,12 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
  */
 final class RetrieveCategoriesTask implements AkeneoTaskInterface
 {
-    public function __construct(private CategoryConfigurationRepository $categoriesConfigurationRepository, private LoggerInterface $logger, private ApiConnectionProviderInterface $apiConnectionProvider, private EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        private CategoryConfigurationRepository $categoriesConfigurationRepository,
+        private LoggerInterface $logger,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     /**

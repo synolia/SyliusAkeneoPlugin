@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use SlevomatCodingStandard\Sniffs\Classes\RequireMultiLineMethodSignatureSniff;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
@@ -16,4 +17,7 @@ return static function (ECSConfig $ecsConfig): void {
         \PhpCsFixer\Fixer\Phpdoc\PhpdocTagTypeFixer::class,
         \PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer::class
     ]);
+
+    /** @phpstan-ignore-next-line  */
+    $ecsConfig->rule(RequireMultiLineMethodSignatureSniff::class);
 };

@@ -18,8 +18,15 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 
 final class ProductAttributeChoiceProcessor implements ProductAttributeChoiceProcessorInterface
 {
-    public function __construct(private ClientFactoryInterface $clientFactory, private AttributeTypeMatcher $attributeTypeMatcher, private LoggerInterface $logger, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer, private EntityManagerInterface $entityManager, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private ClientFactoryInterface $clientFactory,
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private LoggerInterface $logger,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
+        private EntityManagerInterface $entityManager,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     public function process(

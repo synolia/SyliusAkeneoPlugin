@@ -20,8 +20,11 @@ final class ChainOptionValuesDataProvider implements OptionValuesProcessorProvid
         $this->optionValuesProcessors = iterator_to_array($handlers);
     }
 
-    public function getProcessor(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): OptionValuesProcessorInterface
-    {
+    public function getProcessor(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): OptionValuesProcessorInterface {
         /** @var OptionValuesProcessorInterface $optionValuesProcessor */
         foreach ($this->optionValuesProcessors as $optionValuesProcessor) {
             if ($optionValuesProcessor->support($attribute, $productOption, $context)) {

@@ -20,8 +20,15 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class AssociateProductsTask implements AkeneoTaskInterface
 {
-    public function __construct(private ProductGroupRepository $productGroupRepository, private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository, private LoggerInterface $akeneoLogger, private ProductRepositoryInterface $productRepository, private EntityManagerInterface $entityManager, private FactoryInterface $productAssociationFactory, private RepositoryInterface $productAssociationRepository)
-    {
+    public function __construct(
+        private ProductGroupRepository $productGroupRepository,
+        private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
+        private LoggerInterface $akeneoLogger,
+        private ProductRepositoryInterface $productRepository,
+        private EntityManagerInterface $entityManager,
+        private FactoryInterface $productAssociationFactory,
+        private RepositoryInterface $productAssociationRepository,
+    ) {
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface

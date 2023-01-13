@@ -15,8 +15,14 @@ abstract class AbstractModelAkeneoAttributeProcessor
 {
     protected const CUSTOM_PROPERTIES_SUFFIX = 'AkeneoAttribute';
 
-    public function __construct(protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter, protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider, protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider, protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, protected LoggerInterface $logger, protected string $model)
-    {
+    public function __construct(
+        protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
+        protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
+        protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+        protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        protected LoggerInterface $logger,
+        protected string $model,
+    ) {
     }
 
     public function process(string $attributeCode, array $context = []): void

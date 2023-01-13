@@ -28,8 +28,18 @@ use Webmozart\Assert\Assert;
 
 class OptionValueProcessor implements OptionValueProcessorInterface
 {
-    public function __construct(private RepositoryInterface $productOptionRepository, private RepositoryInterface $productOptionValueRepository, private ProductGroupRepository $productGroupRepository, private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer, private ClientFactoryInterface $clientFactory, private LoggerInterface $akeneoLogger, private EntityManagerInterface $entityManager, private ProductOptionValueBuilderInterface $productOptionValueBuilder, private EventDispatcherInterface $eventDispatcher, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private RepositoryInterface $productOptionRepository,
+        private RepositoryInterface $productOptionValueRepository,
+        private ProductGroupRepository $productGroupRepository,
+        private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
+        private ClientFactoryInterface $clientFactory,
+        private LoggerInterface $akeneoLogger,
+        private EntityManagerInterface $entityManager,
+        private ProductOptionValueBuilderInterface $productOptionValueBuilder,
+        private EventDispatcherInterface $eventDispatcher,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     /**

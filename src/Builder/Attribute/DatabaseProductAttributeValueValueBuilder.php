@@ -10,8 +10,12 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTyp
 
 final class DatabaseProductAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
-    public function __construct(private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private AttributeTypeMatcher $attributeTypeMatcher, private DatabaseMappingAttributeTypeMatcher $databaseMappingAttributeTypeMatcher, private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder)
-    {
+    public function __construct(
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AttributeTypeMatcher $attributeTypeMatcher,
+        private DatabaseMappingAttributeTypeMatcher $databaseMappingAttributeTypeMatcher,
+        private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder,
+    ) {
     }
 
     public function support(string $attributeCode): bool

@@ -18,8 +18,12 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderI
 
 final class ProductsController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager, private RepositoryInterface $productConfigurationRepository, private TranslatorInterface $translator, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private RepositoryInterface $productConfigurationRepository,
+        private TranslatorInterface $translator,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     public function __invoke(Request $request): Response

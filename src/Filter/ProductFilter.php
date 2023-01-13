@@ -39,8 +39,10 @@ final class ProductFilter implements ProductFilterInterface
         'code',
     ];
 
-    public function __construct(private EntityRepository $productFiltersRulesRepository, private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider)
-    {
+    public function __construct(
+        private EntityRepository $productFiltersRulesRepository,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+    ) {
     }
 
     public function getProductModelFilters(): array
@@ -122,8 +124,10 @@ final class ProductFilter implements ProductFilterInterface
         );
     }
 
-    private function getAdvancedFilter(ProductFiltersRules $productFilterRules, bool $isProductModelFilter = false): array
-    {
+    private function getAdvancedFilter(
+        ProductFiltersRules $productFilterRules,
+        bool $isProductModelFilter = false,
+    ): array {
         if (null === $productFilterRules->getAdvancedFilter()) {
             return [];
         }
@@ -165,8 +169,10 @@ final class ProductFilter implements ProductFilterInterface
         return $advancedFilter;
     }
 
-    private function getUpdatedFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
-    {
+    private function getUpdatedFilter(
+        ProductFiltersRules $productFilterRules,
+        SearchBuilder $queryParameters,
+    ): SearchBuilder {
         $updatedMode = $productFilterRules->getUpdatedMode();
         if (Operator::GREATER_THAN === $updatedMode) {
             $queryParameters->addFilter(
@@ -203,8 +209,10 @@ final class ProductFilter implements ProductFilterInterface
         return $queryParameters;
     }
 
-    private function getExcludeFamiliesFilter(ProductFiltersRules $productFilterRules, SearchBuilder $queryParameters): SearchBuilder
-    {
+    private function getExcludeFamiliesFilter(
+        ProductFiltersRules $productFilterRules,
+        SearchBuilder $queryParameters,
+    ): SearchBuilder {
         if (empty($productFilterRules->getExcludeFamilies())) {
             return $queryParameters;
         }

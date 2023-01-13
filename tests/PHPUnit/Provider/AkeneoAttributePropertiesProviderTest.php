@@ -33,8 +33,12 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
     }
 
     /** @dataProvider attributePropertiesDataProvider */
-    public function testGetProperties(string $attributeCode, bool $isNullable, bool $isLocalizable, bool $isScopable): void
-    {
+    public function testGetProperties(
+        string $attributeCode,
+        bool $isNullable,
+        bool $isLocalizable,
+        bool $isScopable,
+    ): void {
         $this->assertEquals($isNullable, $this->attributePropertiesProvider->isUnique($attributeCode));
         $this->assertEquals($isLocalizable, $this->attributePropertiesProvider->isLocalizable($attributeCode));
         $this->assertEquals($isScopable, $this->attributePropertiesProvider->isScopable($attributeCode));

@@ -13,8 +13,10 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class RetrieveAttributesTask implements AkeneoTaskInterface
 {
-    public function __construct(private LoggerInterface $logger, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private LoggerInterface $logger,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     /**

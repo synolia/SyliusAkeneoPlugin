@@ -15,8 +15,10 @@ final class SyliusAkeneoLocaleCodeProvider
     /** @var array<string> */
     private array $localesCode;
 
-    public function __construct(private AkeneoPimClientInterface $akeneoPimClient, private RepositoryInterface $channelRepository)
-    {
+    public function __construct(
+        private AkeneoPimClientInterface $akeneoPimClient,
+        private RepositoryInterface $channelRepository,
+    ) {
         $this->localesCode = [];
     }
 

@@ -18,8 +18,12 @@ final class TaxonsProcessor implements TaxonsProcessorInterface
         return 500;
     }
 
-    public function __construct(private EntityManagerInterface $entityManager, private RepositoryInterface $taxonRepository, private RepositoryInterface $productTaxonRepository, private FactoryInterface $productTaxonFactory)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private RepositoryInterface $taxonRepository,
+        private RepositoryInterface $productTaxonRepository,
+        private FactoryInterface $productTaxonFactory,
+    ) {
     }
 
     public function process(ProductInterface $product, array $resource): void

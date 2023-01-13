@@ -9,8 +9,16 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 class ApiConnection implements ApiConnectionInterface
 {
-    public function __construct(private string $baseUrl, private string $username, private string $password, private string $apiClientId, private string $apiClientSecret, private string $edition = AkeneoEditionEnum::COMMUNITY, private string $axeAsModel = AkeneoAxesEnum::FIRST, private int $paginationSize = self::DEFAULT_PAGINATION_SIZE)
-    {
+    public function __construct(
+        private string $baseUrl,
+        private string $username,
+        private string $password,
+        private string $apiClientId,
+        private string $apiClientSecret,
+        private string $edition = AkeneoEditionEnum::COMMUNITY,
+        private string $axeAsModel = AkeneoAxesEnum::FIRST,
+        private int $paginationSize = self::DEFAULT_PAGINATION_SIZE,
+    ) {
     }
 
     public function getBaseUrl(): string

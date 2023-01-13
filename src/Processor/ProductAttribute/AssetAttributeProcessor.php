@@ -26,8 +26,17 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
  */
 final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
-    public function __construct(private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider, private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer, private RepositoryInterface $productAttributeRepository, private LoggerInterface $logger, private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider, private RepositoryInterface $assetRepository, private RepositoryInterface $productAttributeValueRepository, private FactoryInterface $productAttributeValueFactory, private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider)
-    {
+    public function __construct(
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
+        private RepositoryInterface $productAttributeRepository,
+        private LoggerInterface $logger,
+        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private RepositoryInterface $assetRepository,
+        private RepositoryInterface $productAttributeValueRepository,
+        private FactoryInterface $productAttributeValueFactory,
+        private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+    ) {
     }
 
     public static function getDefaultPriority(): int

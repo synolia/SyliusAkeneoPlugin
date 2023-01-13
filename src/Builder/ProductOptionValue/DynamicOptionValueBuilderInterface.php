@@ -15,5 +15,9 @@ interface DynamicOptionValueBuilderInterface
 
     public function support(ProductOptionInterface $productOption, mixed $values, array $context = []): bool;
 
-    public function build(ProductOptionInterface $productOption, mixed $values, array $context = []): ProductOptionValueInterface;
+    public function build(
+        ProductOptionInterface $productOption,
+        mixed $values,
+        array $context = [],
+    ): ProductOptionValueInterface;
 }

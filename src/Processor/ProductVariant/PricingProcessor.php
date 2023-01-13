@@ -23,8 +23,13 @@ class PricingProcessor implements PricingProcessorInterface
 
     private ?ProductConfiguration $productConfiguration = null;
 
-    public function __construct(private RepositoryInterface $productConfigurationRepository, private RepositoryInterface $channelPricingRepository, private ChannelRepository $channelRepository, private FactoryInterface $channelPricingFactory, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private RepositoryInterface $productConfigurationRepository,
+        private RepositoryInterface $channelPricingRepository,
+        private ChannelRepository $channelRepository,
+        private FactoryInterface $channelPricingFactory,
+        private LoggerInterface $logger,
+    ) {
     }
 
     public function process(ProductVariantInterface $productVariant, array $resource): void

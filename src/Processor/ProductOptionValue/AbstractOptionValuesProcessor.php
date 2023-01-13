@@ -12,7 +12,14 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 abstract class AbstractOptionValuesProcessor implements OptionValuesProcessorInterface
 {
-    public function __construct(protected RepositoryInterface $productOptionValueRepository, protected RepositoryInterface $productOptionValueTranslationRepository, protected FactoryInterface $productOptionValueFactory, protected FactoryInterface $productOptionValueTranslationFactory, protected LoggerInterface $akeneoLogger, protected EntityManagerInterface $entityManager, protected ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer)
-    {
+    public function __construct(
+        protected RepositoryInterface $productOptionValueRepository,
+        protected RepositoryInterface $productOptionValueTranslationRepository,
+        protected FactoryInterface $productOptionValueFactory,
+        protected FactoryInterface $productOptionValueTranslationFactory,
+        protected LoggerInterface $akeneoLogger,
+        protected EntityManagerInterface $entityManager,
+        protected ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
+    ) {
     }
 }

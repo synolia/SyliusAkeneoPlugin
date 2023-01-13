@@ -19,8 +19,17 @@ use Webmozart\Assert\Assert;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager, private RepositoryInterface $productAttributeTranslationRepository, private RepositoryInterface $productOptionRepository, private RepositoryInterface $productOptionTranslationRepository, private LocaleRepositoryInterface $localeRepository, private FactoryInterface $productOptionTranslationFactory, private FactoryInterface $productOptionFactory, private OptionValuesProcessorProviderInterface $optionValuesProcessorProvider, private LoggerInterface $akeneoLogger)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private RepositoryInterface $productAttributeTranslationRepository,
+        private RepositoryInterface $productOptionRepository,
+        private RepositoryInterface $productOptionTranslationRepository,
+        private LocaleRepositoryInterface $localeRepository,
+        private FactoryInterface $productOptionTranslationFactory,
+        private FactoryInterface $productOptionFactory,
+        private OptionValuesProcessorProviderInterface $optionValuesProcessorProvider,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface
@@ -47,8 +56,10 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         $this->updateProductOptionValues($productOption, $attribute);
     }
 
-    private function updateTranslationsFromAttribute(ProductOptionInterface $productOption, AttributeInterface $attribute): void
-    {
+    private function updateTranslationsFromAttribute(
+        ProductOptionInterface $productOption,
+        AttributeInterface $attribute,
+    ): void {
         foreach ($this->localeRepository->getLocaleCodes() as $localeCode) {
             /** @var AttributeTranslationInterface|null $attributeTranslation */
             $attributeTranslation = $this->productAttributeTranslationRepository->findOneBy([
@@ -78,8 +89,10 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         }
     }
 
-    private function updateProductOptionValues(ProductOptionInterface $productOption, AttributeInterface $attribute): void
-    {
+    private function updateProductOptionValues(
+        ProductOptionInterface $productOption,
+        AttributeInterface $attribute,
+    ): void {
         try {
             $processor = $this->optionValuesProcessorProvider->getProcessor($attribute, $productOption);
             $processor->process($attribute, $productOption);

@@ -17,8 +17,12 @@ use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 
 final class CategoriesController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager, private CategoryConfigurationRepository $categoriesConfigurationRepository, private TranslatorInterface $translator, private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private CategoryConfigurationRepository $categoriesConfigurationRepository,
+        private TranslatorInterface $translator,
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+    ) {
     }
 
     public function __invoke(Request $request): Response

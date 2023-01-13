@@ -51,16 +51,22 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
         return 90;
     }
 
-    public function support(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): bool
-    {
+    public function support(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): bool {
         return
             ReferenceEntityAttributeType::TYPE === $attribute->getType() &&
             ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition())
         ;
     }
 
-    public function process(AttributeInterface $attribute, ProductOptionInterface $productOption, array $context = []): void
-    {
+    public function process(
+        AttributeInterface $attribute,
+        ProductOptionInterface $productOption,
+        array $context = [],
+    ): void {
         Assert::string($attribute->getCode());
 
         $referenceEntityAttributeProperties = $this->akeneoAttributePropertiesProvider->getProperties($attribute->getCode());

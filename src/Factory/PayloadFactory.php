@@ -23,8 +23,11 @@ final class PayloadFactory implements PayloadFactoryInterface
         return new $className($this->clientFactory->createFromApiCredentials());
     }
 
-    public function createFromCommand(string $className, InputInterface $input, OutputInterface $output): PipelinePayloadInterface
-    {
+    public function createFromCommand(
+        string $className,
+        InputInterface $input,
+        OutputInterface $output,
+    ): PipelinePayloadInterface {
         $context = $this->createContext($input, $output);
 
         /** @phpstan-ignore-next-line */
