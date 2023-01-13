@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Client;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientBuilder;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
 final class ClientFactory implements ClientFactoryInterface
 {
-    private ?AkeneoPimEnterpriseClientInterface $akeneoClient = null;
+    private ?AkeneoPimClientInterface $akeneoClient = null;
 
     public function __construct(private ApiConnectionProviderInterface $apiConnectionProvider)
     {
     }
 
-    public function createFromApiCredentials(): AkeneoPimEnterpriseClientInterface
+    public function createFromApiCredentials(): AkeneoPimClientInterface
     {
         if (null !== $this->akeneoClient) {
             return $this->akeneoClient;
@@ -25,7 +25,7 @@ final class ClientFactory implements ClientFactoryInterface
 
         $apiConnection = $this->apiConnectionProvider->get();
 
-        $client = new AkeneoPimEnterpriseClientBuilder($apiConnection->getBaseUrl());
+        $client = new AkeneoPimClientBuilder($apiConnection->getBaseUrl());
 
         $this->akeneoClient = $client->buildAuthenticatedByPassword(
             $apiConnection->getApiClientId(),
@@ -38,9 +38,9 @@ final class ClientFactory implements ClientFactoryInterface
     }
 
     /** @deprecated To be removed in 4.0. */
-    public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimEnterpriseClientInterface
+    public function authenticateByPassword(ApiConfiguration $apiConfiguration): AkeneoPimClientInterface
     {
-        $client = new AkeneoPimEnterpriseClientBuilder($apiConfiguration->getBaseUrl() ?? '');
+        $client = new AkeneoPimClientBuilder($apiConfiguration->getBaseUrl() ?? '');
 
         return $client->buildAuthenticatedByPassword(
             $apiConfiguration->getApiClientId() ?? '',

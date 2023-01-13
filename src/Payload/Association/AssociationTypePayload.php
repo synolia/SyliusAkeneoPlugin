@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Payload\Association;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
@@ -16,7 +16,7 @@ final class AssociationTypePayload extends AbstractPayload
     public const BATCH_COMMAND_NAME = 'akeneo:batch:association-types';
 
     public function __construct(
-        AkeneoPimEnterpriseClientInterface $akeneoPimClient,
+        AkeneoPimClientInterface $akeneoPimClient,
         ?CommandContextInterface $commandContext = null,
     ) {
         parent::__construct($akeneoPimClient, $commandContext);

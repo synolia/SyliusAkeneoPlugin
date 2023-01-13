@@ -22,8 +22,7 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
     /** @var AkeneoTaskProvider */
     private $taskProvider;
 
-    /** @var \Akeneo\Pim\ApiClient\AkeneoPimClientInterface */
-    private \Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface $client;
+    private \Akeneo\Pim\ApiClient\AkeneoPimClientInterface $client;
 
     protected function setUp(): void
     {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Asset;
 
-use Akeneo\PimEnterprise\ApiClient\Api\AssetManager\AssetAttributeApi;
-use Akeneo\PimEnterprise\ApiClient\Api\AssetManager\AssetFamilyApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetFamilyApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\Asset;
@@ -38,7 +38,7 @@ final class ProcessAssetsTaskTest extends AbstractTaskTest
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(\Akeneo\PimEnterprise\ApiClient\Api\AssetManager\AssetApi::ASSETS_URI, 'bynder'),
+            '/' . sprintf(\Akeneo\Pim\ApiClient\Api\AssetManager\AssetApi::ASSETS_URI, 'bynder'),
             new Response($this->getFileContent('asset_manager_api_all.json'), [], HttpResponse::HTTP_OK),
         );
 

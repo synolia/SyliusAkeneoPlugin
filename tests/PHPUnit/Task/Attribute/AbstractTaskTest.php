@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
-use Akeneo\PimEnterprise\ApiClient\Api\ReferenceEntityRecordApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;

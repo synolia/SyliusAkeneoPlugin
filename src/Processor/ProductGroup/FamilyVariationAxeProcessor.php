@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductGroup;
 
-use Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
@@ -18,7 +18,7 @@ final class FamilyVariationAxeProcessor
     private array $familyVariants;
 
     public function __construct(
-        private AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
+        private AkeneoPimClientInterface $akeneoPimEnterpriseClient,
         private EntityRepository $productGroupRepository,
         private FamilyRetrieverInterface $familyRetriever,
         private LoggerInterface $logger,

@@ -14,7 +14,7 @@ services:
             $mockServerHost: '%env(MOCK_SERVER_HOST)%'
             $mockServerPort: '%env(MOCK_SERVER_PORT)%'
 
-    Akeneo\PimEnterprise\ApiClient\AkeneoPimEnterpriseClientInterface:
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory', 'createFromApiCredentials']
 
     Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder: ~
