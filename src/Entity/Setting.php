@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("akeneo_settings")
  */
 class Setting implements ResourceInterface
@@ -17,7 +18,9 @@ class Setting implements ResourceInterface
      * @var int
      *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      * @ORM\Column(type="integer")
      */
     private $id;

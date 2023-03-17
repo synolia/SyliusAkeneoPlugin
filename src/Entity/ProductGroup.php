@@ -12,19 +12,23 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("akeneo_product_group")
  */
 class ProductGroup implements ProductGroupInterface
 {
     /**
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface")
+     *
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private ?ProductGroupInterface $parent = null;
@@ -43,6 +47,7 @@ class ProductGroup implements ProductGroupInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\Product")
+     *
      * @JoinTable(name="akeneo_productgroup_product")
      */
     private Collection $products;
