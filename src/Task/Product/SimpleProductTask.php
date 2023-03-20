@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Product\Factory\ProductFactory;
+use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -93,7 +93,7 @@ final class SimpleProductTask extends AbstractCreateProductEntities
         $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
 
         if (!$product instanceof ProductInterface) {
-            if (!$this->productFactory instanceof ProductFactory) {
+            if (!$this->productFactory instanceof ProductFactoryInterface) {
                 throw new LogicException('Wrong Factory');
             }
 
