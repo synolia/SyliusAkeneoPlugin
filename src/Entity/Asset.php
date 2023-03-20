@@ -13,14 +13,18 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 
 /**
  * @ApiResource()
+ *
  * @ORM\Entity(repositoryClass=\Synolia\SyliusAkeneoPlugin\Repository\AssetRepository::class)
+ *
  * @ORM\Table(name="akeneo_assets")
  */
 class Asset implements AssetInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      */
     private ?int $id = null;
@@ -47,6 +51,7 @@ class Asset implements AssetInterface
      * @var Collection|ProductInterface[]
      *
      * @ORM\ManyToMany(targetEntity=ProductInterface::class, inversedBy="assets")
+     *
      * @ORM\JoinTable(name="akeneo_assets_products",
      *    joinColumns={@ORM\JoinColumn(name="asset_id", referencedColumnName="id")},
      *    inverseJoinColumns={@ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")},
@@ -58,6 +63,7 @@ class Asset implements AssetInterface
      * @var Collection|ProductVariantInterface[]
      *
      * @ORM\ManyToMany(targetEntity=ProductVariantInterface::class, inversedBy="assets")
+     *
      * @ORM\JoinTable(name="akeneo_assets_product_variants",
      *    joinColumns={@ORM\JoinColumn(name="asset_id", referencedColumnName="id")},
      *    inverseJoinColumns={@ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")}

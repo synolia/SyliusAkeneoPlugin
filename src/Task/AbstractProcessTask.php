@@ -153,6 +153,12 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         $this->logger->notice(Messages::countCreateAndUpdate($this->type, $this->createCount, $this->updateCount));
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     *
+     * @TODO Probably need to be refactored
+     */
     protected function handle(
         PipelinePayloadInterface $payload,
         \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|\Akeneo\Pim\ApiClient\Pagination\PageInterface $handleType,
@@ -166,14 +172,21 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
             $this->handleByCursor($payload, $handleType, $count, $ids);
         }
 
-        if ($count > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible()) {
+        if ($count > 0 && count($ids) > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && $payload->allowParallel()) {
             $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[(is_countable($ids) ? \count($ids) : 0) - 1]]);
             $this->batch($payload, $ids);
 
             return;
         }
 
-        if ($count > 0 && !$payload->isBatchingAllowed()) {
+        if ($count > 0 && count($ids) > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && !$payload->allowParallel()) {
+            $payload->setIds($ids);
+            $this->task->__invoke($payload);
+
+            return;
+        }
+
+        if ($count > 0 && count($ids) > 0 && !$payload->isBatchingAllowed()) {
             $payload->setIds($ids);
             $this->task->__invoke($payload);
 

@@ -11,6 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("akeneo_api_configuration")
  */
 class ApiConfiguration implements ResourceInterface
@@ -25,31 +26,37 @@ class ApiConfiguration implements ResourceInterface
      * @var int
      *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private ?string $baseUrl = null;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private ?string $apiClientId = null;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private ?string $apiClientSecret = null;
 
     /**
      * @ORM\Column(type="integer")
+     *
      * @Assert\Range(
      *      min = ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
      *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
@@ -62,12 +69,14 @@ class ApiConfiguration implements ResourceInterface
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private ?string $username = null;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank
      */
     private ?string $password = null;

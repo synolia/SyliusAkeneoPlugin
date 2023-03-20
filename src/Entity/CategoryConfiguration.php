@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="CategoryConfigurationRepository")
+ *
  * @ORM\Table("akeneo_api_configuration_categories")
  */
 class CategoryConfiguration implements ResourceInterface
@@ -17,7 +18,9 @@ class CategoryConfiguration implements ResourceInterface
      * @var int
      *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      * @ORM\Column(type="integer")
      */
     private $id;

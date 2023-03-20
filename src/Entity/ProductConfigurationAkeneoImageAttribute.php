@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("akeneo_api_configuration_product_akeneo_image_attribute")
  */
 class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
@@ -18,19 +19,23 @@ class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
      * @var int
      *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @SerializedName("akeneo_attributes")
+     *
      * @ORM\Column(type="string", length=255)
      */
     private ?string $akeneoAttributes = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="akeneoImageAttributes")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private ?\Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration = null;

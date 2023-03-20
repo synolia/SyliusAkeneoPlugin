@@ -37,6 +37,9 @@ final class ProcessProductsTask extends AbstractProcessTask
 
     /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     *
+     * @TODO Probably need to be refactored
      *
      * @param ProductPayload $payload
      */
@@ -79,12 +82,17 @@ final class ProcessProductsTask extends AbstractProcessTask
 
         $this->handleProducts($payload, $resources, $count, $ids);
 
-        if ($count > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && $payload->allowParallel()) {
+        if ($count > 0 && count($ids) > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && $payload->allowParallel()) {
             $this->logger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[(is_countable($ids) ? \count($ids) : 0) - 1]]);
             $this->batch($payload, $ids);
         }
 
-        if ($count > 0 && !$payload->isBatchingAllowed()) {
+        if ($count > 0 && count($ids) > 0 && $payload->isBatchingAllowed() && $payload->getProcessAsSoonAsPossible() && !$payload->allowParallel()) {
+            $payload->setIds($ids);
+            $this->task->__invoke($payload);
+        }
+
+        if ($count > 0 && count($ids) > 0 && !$payload->isBatchingAllowed()) {
             $payload->setIds($ids);
             $this->task->__invoke($payload);
         }

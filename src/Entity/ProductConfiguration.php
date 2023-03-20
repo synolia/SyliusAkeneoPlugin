@@ -11,6 +11,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository")
+ *
  * @ORM\Table("akeneo_api_configuration_product")
  */
 class ProductConfiguration implements ResourceInterface
@@ -19,7 +20,9 @@ class ProductConfiguration implements ResourceInterface
      * @var int
      *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;

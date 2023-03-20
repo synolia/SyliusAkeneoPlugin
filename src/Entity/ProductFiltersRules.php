@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository")
+ *
  * @ORM\Table("akeneo_api_product_filters_rules")
  */
 class ProductFiltersRules implements ResourceInterface
@@ -17,7 +18,9 @@ class ProductFiltersRules implements ResourceInterface
      * @var int
      *
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;

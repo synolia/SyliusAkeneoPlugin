@@ -61,7 +61,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "symfony/thanks": true,
             "phpro/grumphp": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
