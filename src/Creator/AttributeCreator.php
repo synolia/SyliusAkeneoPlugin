@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Creator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
-use Sylius\Component\Attribute\Factory\AttributeFactory;
+use Sylius\Component\Attribute\Factory\AttributeFactoryInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductAttributeValue;
 use Sylius\Component\Product\Repository\ProductAttributeValueRepositoryInterface;
@@ -109,7 +109,7 @@ final class AttributeCreator implements AttributeCreatorInterface
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $attributeCode]);
 
         if (!$attribute instanceof AttributeInterface) {
-            if (!$this->productAttributeFactory instanceof AttributeFactory) {
+            if (!$this->productAttributeFactory instanceof AttributeFactoryInterface) {
                 throw new \LogicException('Wrong Factory');
             }
             /** @var AttributeInterface $attribute */
