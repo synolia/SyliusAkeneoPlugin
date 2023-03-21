@@ -70,14 +70,15 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
         $choices = [];
         foreach ($options as $option) {
             $transformedCode = $this->attributeOptionValueDataTransformer->transform($option['code']);
-            foreach ($option['labels'] as $locale => $label) {
-                if (!\in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
+            foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
+                if (!\array_key_exists($locale, $option['labels'])) {
+                    $label = \sprintf('[%s]', $transformedCode);
+                    $choices[$transformedCode][$locale] = $label;
+
                     continue;
                 }
-                if (!isset($choices[$transformedCode]) && [] !== $this->getUnusedLocale($option['labels'])) {
-                    $choices[$transformedCode] = $this->getUnusedLocale($option['labels']);
-                }
-                $choices[$transformedCode][$locale] = $label;
+
+                $choices[$transformedCode][$locale] = $option['labels'][$locale];
             }
         }
 
@@ -93,20 +94,5 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
             'min' => null,
             'max' => null,
         ]);
-    }
-
-    private function getUnusedLocale(array $labels): array
-    {
-        $localeDiff = array_diff($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), array_keys($labels));
-        if ([] === $localeDiff) {
-            return [];
-        }
-
-        $localeUnused = [];
-        foreach ($localeDiff as $locale) {
-            $localeUnused[$locale] = ' ';
-        }
-
-        return $localeUnused;
     }
 }
