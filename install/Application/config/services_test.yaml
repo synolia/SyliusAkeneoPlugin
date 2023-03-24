@@ -1,0 +1,13 @@
+imports:
+    - { resource: "../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
+
+sylius_api:
+    enabled: true
+
+services:
+    Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProvider
+        arguments:
+            $categoryCodesToImport: []
+            $categoryCodesToExclude: []
+        public: true

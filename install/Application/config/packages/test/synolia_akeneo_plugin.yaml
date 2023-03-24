@@ -18,3 +18,7 @@ synolia_sylius_akeneo:
         edition: '%env(resolve:SYNOLIA_AKENEO_EDITION)%'
         axe_as_model: '%env(resolve:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
         pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
+    category_configuration:
+        root_category_codes:
+            - master
+        excluded_category_codes: []

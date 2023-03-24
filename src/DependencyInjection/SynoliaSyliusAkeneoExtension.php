@@ -10,9 +10,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Synolia\SyliusAkeneoPlugin\Controller\ApiConfigurationController;
+use Synolia\SyliusAkeneoPlugin\Controller\CategoriesController;
 use Synolia\SyliusAkeneoPlugin\Menu\AdminApiConfigurationMenuListener;
+use Synolia\SyliusAkeneoPlugin\Menu\AdminCategoryMenuListener;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseApiConfigurationProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseCategoryConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DotEnvApiConnectionProvider;
 
 final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExtensionInterface
@@ -32,6 +38,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $loader->load('processors.yaml');
 
         $this->processApiConfiguration($container, $config);
+        $this->processCategoryConfiguration($container, $config);
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -72,7 +79,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
     private function processApiConfiguration(ContainerBuilder $container, array $config): void
     {
         // If DotEnvApiConnectionProvider configuration is not set, use default DatabaseApiConfigurationProvider
-        if (\count($config) === 0 || (array_key_exists(0, $config) && !\array_key_exists('api_configuration', $config[0]))) {
+        if (\count($config) !== 0 && !\array_key_exists('api_configuration', $config)) {
             $container->setAlias(ApiConnectionProviderInterface::class, DatabaseApiConfigurationProvider::class);
 
             return;
@@ -81,6 +88,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         // If DotEnvApiConnectionProvider configuration is set, remove the DatabaseApiConfigurationProvider
         $container->removeDefinition(DatabaseApiConfigurationProvider::class);
         $container->removeDefinition(AdminApiConfigurationMenuListener::class);
+        $container->removeDefinition(ApiConfigurationController::class);
 
         $dotEnvDefinition = $container->getDefinition(DotEnvApiConnectionProvider::class);
         $dotEnvDefinition
@@ -95,5 +103,28 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         ;
 
         $container->setAlias(ApiConnectionProviderInterface::class, DotEnvApiConnectionProvider::class);
+    }
+
+    private function processCategoryConfiguration(ContainerBuilder $container, array $config): void
+    {
+        // If CategoryConfigurationProvider configuration is not set, use default DatabaseCategoryConfigurationProvider
+        if (\count($config) !== 0 && !\array_key_exists('category_configuration', $config)) {
+            $container->setAlias(CategoryConfigurationProviderInterface::class, DatabaseCategoryConfigurationProvider::class);
+
+            return;
+        }
+
+        // If CategoryConfigurationProvider configuration is set, remove the DatabaseCategoryConfigurationProvider
+        $container->removeDefinition(DatabaseCategoryConfigurationProvider::class);
+        $container->removeDefinition(AdminCategoryMenuListener::class);
+        $container->removeDefinition(CategoriesController::class);
+
+        $categoryConfigurationProviderDefinition = $container->getDefinition(CategoryConfigurationProvider::class);
+        $categoryConfigurationProviderDefinition
+            ->setArgument('$categoryCodesToImport', $config['category_configuration']['root_category_codes'])
+            ->setArgument('$categoryCodesToExclude', $config['category_configuration']['excluded_category_codes'])
+        ;
+
+        $container->setAlias(CategoryConfigurationProviderInterface::class, CategoryConfigurationProvider::class);
     }
 }

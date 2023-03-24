@@ -8,8 +8,8 @@ use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
 
 /**
@@ -26,8 +26,6 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
     private const CLOTHES_ROOT_CATEGORY_COUNT = 12;
 
     private const CLOTHES_ROOT_CATEGORY_COUNT_WITH_EXCLUSIONS = 7;
-
-    private CategoryConfiguration $categoryConfiguration;
 
     protected function setUp(): void
     {
@@ -46,9 +44,9 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     public function testGetCategories(): void
     {
-        $this->categoryConfiguration->setRootCategories(['master']);
-        $this->categoryConfiguration->setNotImportCategories([]);
-        $this->manager->flush();
+        $configuration = self::getContainer()->get(CategoryConfigurationProviderInterface::class);
+        $configuration->get()->setCategoryCodesToImport(['master']);
+        $configuration->get()->setCategoryCodesToExclude([]);
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
@@ -64,9 +62,9 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     public function testGetCategoriesWithExclusions(): void
     {
-        $this->categoryConfiguration->setRootCategories(['master']);
-        $this->categoryConfiguration->setNotImportCategories(['sales', 'clothes']);
-        $this->manager->flush();
+        $configuration = self::getContainer()->get(CategoryConfigurationProviderInterface::class);
+        $configuration->get()->setCategoryCodesToImport(['master']);
+        $configuration->get()->setCategoryCodesToExclude(['sales', 'clothes']);
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
@@ -101,9 +99,9 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     public function testGetCategoriesWithRootCategory(): void
     {
-        $this->categoryConfiguration->setRootCategories(['clothes']);
-        $this->categoryConfiguration->setNotImportCategories([]);
-        $this->manager->flush();
+        $configuration = self::getContainer()->get(CategoryConfigurationProviderInterface::class);
+        $configuration->get()->setCategoryCodesToImport(['clothes']);
+        $configuration->get()->setCategoryCodesToExclude([]);
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
@@ -133,9 +131,9 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
     public function testGetCategoriesWithRootCategoryAndExistingExclusion(): void
     {
-        $this->categoryConfiguration->setRootCategories(['clothes']);
-        $this->categoryConfiguration->setNotImportCategories(['clothes_accessories']);
-        $this->manager->flush();
+        $configuration = self::getContainer()->get(CategoryConfigurationProviderInterface::class);
+        $configuration->get()->setCategoryCodesToImport(['clothes']);
+        $configuration->get()->setCategoryCodesToExclude(['clothes_accessories']);
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 

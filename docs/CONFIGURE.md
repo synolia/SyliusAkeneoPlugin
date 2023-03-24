@@ -42,7 +42,6 @@ synolia_sylius_akeneo:
         edition: '%env(resolve:SYNOLIA_AKENEO_EDITION)%'
         axe_as_model: '%env(resolve:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
         pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
-
 ```
 
 #### Axe as model configuration

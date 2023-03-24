@@ -21,6 +21,11 @@ services:
     Synolia\SyliusAkeneoPlugin\Menu\AdminApiConfigurationMenuListener:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+
+    Synolia\SyliusAkeneoPlugin\Menu\AdminCategoryMenuListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+
     Synolia\SyliusAkeneoPlugin\Menu\AdminMenuListener:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }

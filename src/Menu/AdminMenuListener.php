@@ -28,14 +28,6 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'sync alternate')
         ;
 
-        $subMenu->addChild('sylius_admin_akeneo_categories', [
-            'route' => 'sylius_akeneo_connector_categories',
-        ])
-            ->setAttribute('type', 'link')
-            ->setLabel('sylius.ui.admin.akeneo.categories.title')
-            ->setLabelAttribute('icon', 'configure')
-        ;
-
         $subMenu->addChild('sylius_admin_akeneo_products', [
             'route' => 'sylius_akeneo_connector_products',
         ])

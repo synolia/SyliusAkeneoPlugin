@@ -53,6 +53,17 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+
+            ->arrayNode('category_configuration')
+                ->children()
+                    ->arrayNode('root_category_codes')
+                        ->scalarPrototype()->defaultValue([])->end()
+                    ->end()
+                    ->arrayNode('excluded_category_codes')
+                        ->scalarPrototype()->defaultValue([])->end()
+                    ->end()
+                ->end()
+            ->end()
         ->end()
         ;
 

@@ -6,14 +6,13 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 /**
@@ -22,7 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 final class RetrieveCategoriesTask implements AkeneoTaskInterface
 {
     public function __construct(
-        private CategoryConfigurationRepository $categoriesConfigurationRepository,
+        private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
         private LoggerInterface $logger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private EventDispatcherInterface $eventDispatcher,
@@ -52,20 +51,14 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
             $queryParameters,
         );
 
-        $configuration = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
-        if (!$configuration instanceof CategoryConfiguration) {
-            $resourcesArray = iterator_to_array($resources);
-            $payload->setResources($resourcesArray);
-            $this->logger->info(Messages::totalToImport($payload->getType(), \count($resourcesArray)));
-
-            return $payload;
-        }
-
         $categories = iterator_to_array($resources);
         $categoriesTree = $this->buildTree($categories, null);
 
-        $keptCategories = $this->excludeNotInRootCategory($configuration, $categoriesTree);
-        $excludedCategories = $this->excludeNotImportedCategories($configuration, $categoriesTree);
+        $rootCategoryCodes = $this->categoryConfigurationProvider->get()->getCategoryCodesToImport();
+        $excludedCategoryCodes = $this->categoryConfigurationProvider->get()->getCategoryCodesToExclude();
+
+        $keptCategories = $this->excludeNotInRootCategory($rootCategoryCodes, $categoriesTree);
+        $excludedCategories = $this->excludeNotImportedCategories($excludedCategoryCodes, $categoriesTree);
 
         //Only keep category of the root category
         foreach ($categories as $key => $category) {
@@ -146,14 +139,14 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         return $branch;
     }
 
-    private function excludeNotInRootCategory(CategoryConfiguration $configuration, array &$categoriesTree): array
+    private function excludeNotInRootCategory(array $rootCategoryCodes, array &$categoriesTree): array
     {
         $keptCategories = [];
-        if (0 === \count($configuration->getRootCategories())) {
+        if (0 === \count($rootCategoryCodes)) {
             return $keptCategories;
         }
 
-        foreach ($configuration->getRootCategories() as $rootCategory) {
+        foreach ($rootCategoryCodes as $rootCategory) {
             $rootNode = $this->findParentNode($rootCategory, $categoriesTree);
 
             if (!\is_array($rootNode)) {
@@ -167,14 +160,14 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         return $keptCategories;
     }
 
-    private function excludeNotImportedCategories(CategoryConfiguration $configuration, array &$categoriesTree): array
+    private function excludeNotImportedCategories(array $excludedCategoryCodes, array &$categoriesTree): array
     {
         $excludedCategories = [];
-        if (0 === \count($configuration->getNotImportCategories())) {
+        if (0 === \count($excludedCategoryCodes)) {
             return $excludedCategories;
         }
 
-        foreach ($configuration->getNotImportCategories() as $notImportCategory) {
+        foreach ($excludedCategoryCodes as $notImportCategory) {
             $parentNode = $this->findParentNode($notImportCategory, $categoriesTree);
             if (!\is_array($parentNode)) {
                 continue;
