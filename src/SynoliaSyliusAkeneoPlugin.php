@@ -32,7 +32,7 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
 {
     use SyliusPluginTrait;
 
-    public const VERSION = '3.1.1';
+    public const VERSION = '3.3.0';
 
     public function build(ContainerBuilder $container): void
     {
