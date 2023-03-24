@@ -119,8 +119,6 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $container->removeDefinition(AdminCategoryMenuListener::class);
         $container->removeDefinition(CategoriesController::class);
 
-        // TODO: remove menu link if already using the new config
-
         $categoryConfigurationProviderDefinition = $container->getDefinition(CategoryConfigurationProvider::class);
         $categoryConfigurationProviderDefinition
             ->setArgument('$categoryCodesToImport', $config['category_configuration']['root_category_codes'])
