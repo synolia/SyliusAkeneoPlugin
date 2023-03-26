@@ -1,4 +1,4 @@
-name: Sylius
+name: Install & Test
 'on':
     push:
         branches:
@@ -11,7 +11,7 @@ name: Sylius
             - README.md
 jobs:
     sylius:
-        name: 'PHPUnit-Behat (PHP ${{ matrix.php }} Sylius ${{ matrix.sylius }} Symfony ${{ matrix.symfony }})'
+        name: 'PHP ${{ matrix.php }} Sylius ${{ matrix.sylius }} Symfony ${{ matrix.symfony }}'
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
