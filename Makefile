@@ -53,7 +53,7 @@ install-plugin:
 	${COMPOSER} config extra.symfony.allow-contrib true
 	${COMPOSER} config minimum-stability "dev"
 	${COMPOSER} config prefer-stable true
-	${COMPOSER} req "${PLUGIN_NAME}:*" --prefer-source --no-scripts
+	${COMPOSER} require "${PLUGIN_NAME}:*" --prefer-source --no-scripts
 
 	cp -r install/Application tests
 	cp -r tests/data/* ${TEST_DIRECTORY}/
@@ -61,10 +61,7 @@ install-plugin:
 update-dependencies:
 	${COMPOSER} config extra.symfony.require "~${SYMFONY_VERSION}"
 	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
-ifeq ($(shell [[ $(SYMFONY_VERSION) == 4.4 && $(PHP_VERSION) == 7.4 ]] && echo true ),true)
-	${COMPOSER} require sylius/admin-api-bundle:1.10.0 --no-scripts --no-update
-endif
-	${COMPOSER} update --no-progress -n
+	${COMPOSER} update -n
 
 install-sylius:
 	${CONSOLE} d:d:c
