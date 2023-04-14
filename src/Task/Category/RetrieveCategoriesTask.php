@@ -45,6 +45,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         } catch (CommandContextIsNullException) {
             $queryParameters = [];
         }
+        $queryParameters['with_enriched_attributes'] = true;
 
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),

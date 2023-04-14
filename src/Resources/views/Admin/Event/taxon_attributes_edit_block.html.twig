@@ -1,0 +1,11 @@
+{% if akeneo_is_taxon_attribute_enabled() %}
+    {% form_theme form '@SyliusAdmin/Product/Attribute/attributesCollection.html.twig' %}
+
+    <h3 class="ui top attached header">{{ 'sylius.ui.attributes'|trans }}</h3>
+
+    <div class="ui attached segment">
+        <div id="attributesContainer" data-count="{{ form.attributes|length }}">
+            {{ form_widget(form.attributes, {'attr': {'translations': form.translations} }) }}
+        </div>
+    </div>
+{% endif %}
