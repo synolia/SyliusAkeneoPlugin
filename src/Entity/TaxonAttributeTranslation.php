@@ -7,8 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
-use Sylius\Component\Resource\Model\AbstractTranslation;
 use Sylius\Component\Resource\Model\TranslatableInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @ApiResource()
@@ -20,7 +20,7 @@ use Sylius\Component\Resource\Model\TranslatableInterface;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="attribute_translation", columns={"translatable_id", "locale"})}
  * )
  */
-class TaxonAttributeTranslation extends AbstractTranslation implements AttributeTranslationInterface
+class TaxonAttributeTranslation implements AttributeTranslationInterface
 {
     /**
      * @ORM\Id
@@ -33,6 +33,9 @@ class TaxonAttributeTranslation extends AbstractTranslation implements Attribute
 
     /** @ORM\Column(name="name", type="string", length=255) */
     protected string $name = '';
+
+    /** @ORM\Column(name="locale", type="string", length=255) */
+    protected ?string $locale = null;
 
     /**
      * @ORM\ManyToOne(
@@ -62,6 +65,44 @@ class TaxonAttributeTranslation extends AbstractTranslation implements Attribute
         }
 
         $this->name = $name;
+    }
+
+    public function getTranslatable(): TranslatableInterface
+    {
+        $translatable = $this->translatable;
+
+        // Return typehint should account for null value.
+        Assert::notNull($translatable);
+
+        return $translatable;
+    }
+
+    public function setTranslatable(?TranslatableInterface $translatable): void
+    {
+        if ($translatable === $this->translatable) {
+            return;
+        }
+
+        $previousTranslatable = $this->translatable;
+        $this->translatable = $translatable;
+
+        if (null !== $previousTranslatable) {
+            $previousTranslatable->removeTranslation($this);
+        }
+
+        if (null !== $translatable) {
+            $translatable->addTranslation($this);
+        }
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): void
+    {
+        $this->locale = $locale;
     }
 
     public function __toString(): string
