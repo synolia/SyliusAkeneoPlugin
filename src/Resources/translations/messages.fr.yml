@@ -87,6 +87,15 @@ sylius:
                     ge: Growth Edition
                     ee: Enterprise Edition
                     serenity: Serenity Edition
+                asset:
+                    listing_title: Liste des ressources
+                    title: Resource
+                    family_code: Code de la famille
+                    asset_code: Code de l'asset
+                    attribute_code: Code de l'attribut
+                    type: Type
+                    content: Contenu
+
         reference_entity: 'Entité référentielle'
         asset: 'Asset'
         metric: 'Métrique'

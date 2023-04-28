@@ -7,3 +7,9 @@ sylius_ui:
         sylius.admin.taxon.update.form:
             blocks:
                 akeneo: '@SynoliaSyliusAkeneoPlugin/Admin/Event/taxon_attributes_edit_block.html.twig'
+
+        sylius.admin.configurable_product.show:
+            blocks:
+                assets:
+                    template: '@SynoliaSyliusAkeneoPlugin/Admin/Event/Product/_show_assets.html.twig'
+                    priority: -9999
