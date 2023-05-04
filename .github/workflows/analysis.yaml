@@ -18,12 +18,9 @@ jobs:
             matrix:
                 php:
                     - 8.0
-                    - 8.1
                     - 8.2
                 symfony:
                     - '5.4.*'
-                    - '6.0.*'
-                    - '6.1.*'
                     - '6.2.*'
         env:
             APP_ENV: test

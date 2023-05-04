@@ -18,43 +18,21 @@ jobs:
             matrix:
                 php:
                     - 8.0
-                    - 8.1
                     - 8.2
                 sylius:
                     - 1.10.0
-                    - 1.11.0
                     - 1.12.0
                 symfony:
                     - 5.4
-                    - 6.0
-                    - 6.1
                     - 6.2
                 node:
                     - 14.x
                 exclude:
                     -
                         sylius: 1.10.0
-                        symfony: 6.0
-                    -
-                        sylius: 1.11.0
-                        symfony: 6.0
-                    -
-                        php: '8.0'
-                        symfony: 6.1
-                    -
-                        sylius: 1.10.0
-                        symfony: 6.1
-                    -
-                        sylius: 1.11.0
-                        symfony: 6.1
-                    -
-                        php: '8.0'
                         symfony: 6.2
                     -
-                        sylius: 1.10.0
-                        symfony: 6.2
-                    -
-                        sylius: 1.11.0
+                        php: '8.0'
                         symfony: 6.2
         env:
             APP_ENV: test
