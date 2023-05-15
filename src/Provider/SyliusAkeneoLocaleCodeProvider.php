@@ -72,8 +72,7 @@ final class SyliusAkeneoLocaleCodeProvider
                 ->getLocales()
                 /** @phpstan-ignore-next-line */
                 ->map(fn (LocaleInterface $locale): string => (string) $locale->getCode())
-                ->toArray()))
-            ;
+                ->toArray()));
         }
 
         return $locales;
