@@ -58,8 +58,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
     ): bool {
         return
             ReferenceEntityAttributeType::TYPE === $attribute->getType() &&
-            ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition())
-        ;
+            ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition());
     }
 
     public function process(

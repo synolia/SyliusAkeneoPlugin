@@ -47,8 +47,7 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
                 !$this->akeneoAttributePropertiesProvider->isLocalizable($attributeCode) &&
                 is_array($values) &&
                 $values !== [] &&
-                array_key_exists('data', $values[0])
-            ;
+                array_key_exists('data', $values[0]);
         } catch (InvalidArgumentException) {
             return false;
         }
