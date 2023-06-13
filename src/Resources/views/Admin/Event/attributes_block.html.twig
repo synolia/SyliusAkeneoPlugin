@@ -5,41 +5,41 @@
     <h4 class="ui top attached large header">{{ 'sylius.ui.attributes'|trans }}</h4>
     <div class="ui attached segment">
         <div class="ui top attached tabular menu">
-            {% set setLocales = [] %}
-            {% for attributeValue in taxon.attributes %}
-                {% if attributeValue.localeCode not in setLocales %}
-                    {% set localeCode = attributeValue.localeCode %}
-                    {% if attributeValue.localeCode is not null  %}
-                        <a class="item{% if loop.first %} active {% endif %}" {% if loop.first %}{{ sylius_test_html_attribute('active') }}{% endif %} data-tab="{{ localeCode|sylius_locale_name }}" {{ sylius_test_html_attribute('tab', localeCode|sylius_locale_name) }}>{{ flags.fromLocaleCode(localeCode)}} {{ localeCode|sylius_locale_name }}</a>
+            {% set set_locales = [] %}
+            {% for attribute_value in taxon.attributes %}
+                {% if attribute_value.locale_code not in set_locales %}
+                    {% set locale_code = attribute_value.locale_code %}
+                    {% if attribute_value.locale_code is not null  %}
+                        <a class="item{% if loop.first %} active {% endif %}" {% if loop.first %}{{ sylius_test_html_attribute('active') }}{% endif %} data-tab="{{ locale_code|sylius_locale_name }}" {{ sylius_test_html_attribute('tab', locale_code|sylius_locale_name) }}>{{ flags.fromLocaleCode(locale_code) }} {{ locale_code|sylius_locale_name }}</a>
                     {% else %}
                         <a class="item{% if loop.first %} active {% endif %}" {% if loop.first %}{{ sylius_test_html_attribute('active') }}{% endif %} data-tab="{{ 'non-translatable' }}" {{ sylius_test_html_attribute('tab', 'non-translatable') }}><i class="globe icon"></i></a>
                     {% endif %}
-                    {%  set setLocales = setLocales|merge([localeCode]) %}
+                    {% set set_locales = set_locales|merge([locale_code]) %}
                 {% endif %}
             {% endfor %}
         </div>
-        {% for locale in setLocales %}
+        {% for locale in set_locales %}
             {% set data_tab = (locale is not null ? locale|sylius_locale_name : 'non-translatable') %}
             <div class="ui bottom attached tab segment{% if loop.first %} active{% endif %}" data-tab="{{ data_tab }}" {{ sylius_test_html_attribute('tab', data_tab) }}>
                 <table class="ui very basic celled table fixed">
                     <tbody>
-                    {% for attributeValue in taxon.attributes|filter(attributeValue => attributeValue.localeCode == locale) %}
+                    {% for attribute_value in taxon.attributes|filter(attribute_value => attribute_value.localeCode == locale) %}
                         <tr>
                             <td class="five wide">
                                 <strong class="gray text">
-                                    {% if attributeValue.attribute.isTranslatable %}
-                                        {{ attributeValue.name }}
+                                    {% if attribute_value.attribute.isTranslatable %}
+                                        {{ attribute_value.name }}
                                     {% else %}
-                                        {{ attributeValue.code }}
+                                        {{ attribute_value.code }}
                                     {% endif %}
                                 </strong>
                             </td>
                             <td style="word-break: break-word">
                                 {% include [
-                                    '@SynoliaSyliusAkeneoPlugin/Admin/Taxon/Show/Types/'~attributeValue.type~'.html.twig',
+                                    '@SynoliaSyliusAkeneoPlugin/Admin/Taxon/Show/Types/' ~ attribute_value.type ~ '.html.twig',
                                     '@SynoliaSyliusAkeneoPlugin/Admin/Taxon/Show/Types/default.html.twig'
                                 ] with {
-                                    'attribute': attributeValue,
+                                    'attribute': attribute_value,
                                     'locale': configuration.request.locale,
                                     'fallbackLocale': configuration.request.defaultLocale
                                 } %}
