@@ -271,7 +271,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     private function getTaxonAttributeValues(
         TaxonInterface $taxon,
         TaxonAttributeInterface $taxonAttribute,
-        string $locale,
+        ?string $locale,
     ): TaxonAttributeValueInterface {
         Assert::string($taxon->getCode());
         Assert::string($taxonAttribute->getCode());
@@ -290,7 +290,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         ]);
 
         if ($taxonAttributeValue instanceof TaxonAttributeValueInterface) {
-            $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()] = $taxonAttribute;
+            $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()] = $taxonAttributeValue;
 
             return $taxonAttributeValue;
         }
@@ -302,7 +302,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $taxonAttributeValue->setLocaleCode($locale);
         $this->entityManager->persist($taxonAttributeValue);
 
-        $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()] = $taxonAttribute;
+        $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()] = $taxonAttributeValue;
 
         return $taxonAttributeValue;
     }

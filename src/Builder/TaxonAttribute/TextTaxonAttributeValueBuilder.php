@@ -21,8 +21,7 @@ final class TextTaxonAttributeValueBuilder implements TaxonAttributeValueBuilder
 
         return
             $typeMatcher instanceof TextTaxonAttributeTypeMatcher ||
-            $typeMatcher instanceof TextareaTaxonAttributeTypeMatcher
-        ;
+            $typeMatcher instanceof TextareaTaxonAttributeTypeMatcher;
     }
 
     /**
