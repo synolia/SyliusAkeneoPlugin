@@ -19,7 +19,7 @@ final class ClientFactory implements ClientFactoryInterface
 
     public function __construct(
         private ApiConnectionProviderInterface $apiConnectionProvider,
-        private string $kernelCacheDir,
+        private string $cacheDir,
     ) {
     }
 
@@ -35,7 +35,7 @@ final class ClientFactory implements ClientFactoryInterface
 
         $httpClient = HttpClient::create();
 
-        $path = $this->kernelCacheDir . '/akeneo';
+        $path = $this->cacheDir . '/akeneo';
 
         if (is_dir($path) === false) {
             mkdir($path);
