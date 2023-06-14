@@ -23,6 +23,7 @@
         "psr/event-dispatcher": "^1.0",
         "sylius/sylius": "^1.10",
         "symfony/framework-bundle": "^5.4|^6.0",
+        "symfony/http-client": "^5.4|^6.0",
         "symfony/lock": "^5.4|^6.0",
         "symfony/property-access": "^4.3|^5.4|^6.0",
         "symfony/property-info": "^5.4|^6.0",

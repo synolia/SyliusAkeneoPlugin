@@ -15,6 +15,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactory;
+use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Throwable;
@@ -29,7 +30,7 @@ abstract class AbstractImageProcessor
         private EntityManagerInterface $entityManager,
         private FactoryInterface $productImageFactory,
         protected LoggerInterface $logger,
-        private ClientFactory $clientFactory,
+        private ClientFactoryInterface $clientFactory,
     ) {
     }
 
