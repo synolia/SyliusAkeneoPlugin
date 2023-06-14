@@ -19,7 +19,7 @@ final class ClientFactory implements ClientFactoryInterface
 
     public function __construct(
         private ApiConnectionProviderInterface $apiConnectionProvider,
-        private string $kernelCacheDir
+        private string $kernelCacheDir,
     )
     {
     }
