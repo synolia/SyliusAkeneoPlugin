@@ -17,7 +17,10 @@ final class ClientFactory implements ClientFactoryInterface
 {
     private ?AkeneoPimClientInterface $akeneoClient = null;
 
-    public function __construct(private ApiConnectionProviderInterface $apiConnectionProvider, private string $kernelCacheDir)
+    public function __construct(
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private string $kernelCacheDir
+    )
     {
     }
 
