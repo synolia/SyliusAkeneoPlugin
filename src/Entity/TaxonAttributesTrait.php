@@ -19,6 +19,12 @@ trait TaxonAttributesTrait
      *     orphanRemoval=true
      * )
      */
+    #[ORM\OneToMany(
+        targetEntity: TaxonAttributeValue::class,
+        mappedBy: "subject",
+        cascade: ["persist", "remove"],
+        orphanRemoval: true
+    )]
     public Collection $attributes;
 
     public function __construct()
@@ -31,9 +37,9 @@ trait TaxonAttributesTrait
      */
     public function getAttributes(): Collection
     {
-        if (!isset($this->attributes)) {
-            $this->attributes = new ArrayCollection();
-        }
+//        if (!isset($this->attributes)) {
+//            $this->attributes = new ArrayCollection();
+//        }
 
         return $this->attributes;
     }
@@ -106,7 +112,7 @@ trait TaxonAttributesTrait
     ): ?TaxonAttributeValueInterface {
         $localeCode = $localeCode ?: $this->getTranslation()->getLocale();
 
-        foreach ($this->attributes as $attribute) {
+        foreach ($this->getAttributes() as $attribute) {
             if ($attribute->getAttribute()->getCode() === $attributeCode &&
                 ($attribute->getLocaleCode() === $localeCode || null === $attribute->getLocaleCode())) {
                 return $attribute;

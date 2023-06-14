@@ -37,6 +37,8 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
      *
      * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\ManyToOne(targetEntity: TaxonInterface::class, inversedBy: 'attributes')]
+    #[ORM\JoinColumn(name: 'taxon_id', referencedColumnName: 'id')]
     protected ?TaxonInterface $subject;
 
     /**
