@@ -44,7 +44,7 @@ class BuildTaxonAttributesFormSubscriber implements EventSubscriberInterface
         $defaultLocaleCode = $this->localeProvider->getDefaultLocaleCode();
 
         $attributes = $taxon->getAttributes()->filter(
-            fn (TaxonAttributeValueInterface $attribute) => $attribute->getLocaleCode() === $defaultLocaleCode,
+            fn (TaxonAttributeValueInterface $attribute) => $attribute->getLocaleCode() === $defaultLocaleCode || $attribute->getLocaleCode() === null,
         );
 
         /** @var TaxonAttributeValueInterface $attribute */
