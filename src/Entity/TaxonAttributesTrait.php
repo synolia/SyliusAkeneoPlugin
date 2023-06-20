@@ -37,10 +37,6 @@ trait TaxonAttributesTrait
      */
     public function getAttributes(): Collection
     {
-//        if (!isset($this->attributes)) {
-//            $this->attributes = new ArrayCollection();
-//        }
-
         return $this->attributes;
     }
 
