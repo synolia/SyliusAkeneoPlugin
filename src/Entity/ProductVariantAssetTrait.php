@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait ProductVariantAssetTrait
 {
     /** @ORM\ManyToMany(targetEntity=\Synolia\SyliusAkeneoPlugin\Entity\Asset::class, mappedBy="productVariants") */
+    #[ORM\ManyToMany(targetEntity: Asset::class, mappedBy: 'productVariants')]
     private $assets;
 
     public function __construct()
