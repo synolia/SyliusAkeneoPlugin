@@ -21,9 +21,9 @@ trait TaxonAttributesTrait
      */
     #[ORM\OneToMany(
         targetEntity: TaxonAttributeValue::class,
-        mappedBy: "subject",
-        cascade: ["persist", "remove"],
-        orphanRemoval: true
+        mappedBy: 'subject',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
     )]
     public Collection $attributes;
 

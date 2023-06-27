@@ -278,9 +278,10 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
         if (
             array_key_exists($taxon->getCode(), $this->taxonAttributeValues) &&
-            array_key_exists($taxonAttribute->getCode(), $this->taxonAttributeValues[$taxon->getCode()])
+            array_key_exists($taxonAttribute->getCode(), $this->taxonAttributeValues[$taxon->getCode()]) &&
+            array_key_exists($locale, $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()])
         ) {
-            return $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()];
+            return $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale];
         }
 
         $taxonAttributeValue = $this->taxonAttributeValueRepository->findOneBy([
@@ -290,7 +291,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         ]);
 
         if ($taxonAttributeValue instanceof TaxonAttributeValueInterface) {
-            $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()] = $taxonAttributeValue;
+            $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale] = $taxonAttributeValue;
 
             return $taxonAttributeValue;
         }
@@ -302,7 +303,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $taxonAttributeValue->setLocaleCode($locale);
         $this->entityManager->persist($taxonAttributeValue);
 
-        $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()] = $taxonAttributeValue;
+        $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale] = $taxonAttributeValue;
 
         return $taxonAttributeValue;
     }
