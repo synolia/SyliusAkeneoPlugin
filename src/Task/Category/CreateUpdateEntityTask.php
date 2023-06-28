@@ -303,6 +303,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $taxonAttributeValue->setLocaleCode($locale);
         $this->entityManager->persist($taxonAttributeValue);
 
+        $taxon->addAttribute($taxonAttributeValue);
+
         $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'] = $taxonAttributeValue;
 
         return $taxonAttributeValue;
