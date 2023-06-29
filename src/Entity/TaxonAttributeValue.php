@@ -9,6 +9,7 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubjectInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -82,9 +83,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->subject;
     }
 
-    public function setSubject(?TaxonInterface $subject): void
+    public function setSubject(?TaxonInterface $subject): self
     {
         $this->subject = $subject;
+
+        return $this;
     }
 
     public function getAttribute(): ?TaxonAttributeInterface
@@ -92,9 +95,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->attribute;
     }
 
-    public function setAttribute(?TaxonAttributeInterface $attribute): void
+    public function setAttribute(?TaxonAttributeInterface $attribute): self
     {
         $this->attribute = $attribute;
+
+        return $this;
     }
 
     public function getLocaleCode(): ?string
@@ -102,9 +107,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->localeCode;
     }
 
-    public function setLocaleCode(?string $localeCode): void
+    public function setLocaleCode(?string $localeCode): self
     {
         $this->localeCode = $localeCode;
+
+        return $this;
     }
 
     public function getValue()
@@ -118,13 +125,15 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->$getter();
     }
 
-    public function setValue($value): void
+    public function setValue($value): self
     {
         $this->assertAttributeIsSet();
 
         $setter = 'set' . $this->attribute->getStorageType();
 
         $this->$setter($value);
+
+        return $this;
     }
 
     public function getCode(): ?string
@@ -153,9 +162,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->boolean;
     }
 
-    protected function setBoolean(?bool $boolean): void
+    protected function setBoolean(?bool $boolean): self
     {
         $this->boolean = $boolean;
+
+        return $this;
     }
 
     protected function getText(): ?string
@@ -163,9 +174,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->text;
     }
 
-    protected function setText(?string $text): void
+    protected function setText(?string $text): self
     {
         $this->text = $text;
+
+        return $this;
     }
 
     protected function getInteger(): ?int
@@ -173,9 +186,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->integer;
     }
 
-    protected function setInteger(?int $integer): void
+    protected function setInteger(?int $integer): self
     {
         $this->integer = $integer;
+
+        return $this;
     }
 
     protected function getFloat(): ?float
@@ -183,9 +198,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->float;
     }
 
-    protected function setFloat(?float $float): void
+    protected function setFloat(?float $float): self
     {
         $this->float = $float;
+
+        return $this;
     }
 
     protected function getDatetime(): ?\DateTimeInterface
@@ -196,9 +213,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
     /**
      * @param \DateTimeInterface $datetime
      */
-    protected function setDatetime(?\DateTimeInterface $datetime): void
+    protected function setDatetime(?\DateTimeInterface $datetime): self
     {
         $this->datetime = $datetime;
+
+        return $this;
     }
 
     protected function getDate(): ?\DateTimeInterface
@@ -206,9 +225,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->date;
     }
 
-    protected function setDate(?\DateTimeInterface $date): void
+    protected function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
     }
 
     protected function getJson(): ?array
@@ -216,9 +237,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->json;
     }
 
-    protected function setJson(?array $json): void
+    protected function setJson(?array $json): self
     {
         $this->json = $json;
+
+        return $this;
     }
 
     /**
@@ -240,9 +263,15 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $subject;
     }
 
-    public function setTaxon(?TaxonInterface $taxon): void
+    public function setTaxon(?TaxonInterface $taxon): self
     {
         $this->setSubject($taxon);
+
+        if ($taxon instanceof TaxonAttributeSubjectInterface) {
+            $taxon->addAttribute($this);
+        }
+
+        return $this;
     }
 
     public function __toString(): string

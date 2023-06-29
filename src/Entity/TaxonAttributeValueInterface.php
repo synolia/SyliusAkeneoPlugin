@@ -10,15 +10,15 @@ interface TaxonAttributeValueInterface
 {
     public function getSubject(): ?TaxonInterface;
 
-    public function setSubject(?TaxonInterface $subject): void;
+    public function setSubject(?TaxonInterface $subject): self;
 
     public function getAttribute(): ?TaxonAttributeInterface;
 
-    public function setAttribute(?TaxonAttributeInterface $attribute): void;
+    public function setAttribute(?TaxonAttributeInterface $attribute): self;
 
     public function getLocaleCode(): ?string;
 
-    public function setLocaleCode(?string $localeCode): void;
+    public function setLocaleCode(?string $localeCode): self;
 
     /**
      * @return mixed
@@ -28,7 +28,7 @@ interface TaxonAttributeValueInterface
     /**
      * @param mixed $value
      */
-    public function setValue($value): void;
+    public function setValue($value): self;
 
     public function getCode(): ?string;
 
@@ -38,5 +38,5 @@ interface TaxonAttributeValueInterface
 
     public function getTaxon(): ?TaxonInterface;
 
-    public function setTaxon(?TaxonInterface $taxon): void;
+    public function setTaxon(?TaxonInterface $taxon): self;
 }
