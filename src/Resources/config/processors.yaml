@@ -39,6 +39,12 @@ services:
         arguments:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
+    # TableProductAttributeValue Processors
+    Synolia\SyliusAkeneoPlugin\Provider\ProductAttributeValue\TableAttributeValueProcessorProviderInterface:
+        class: Synolia\SyliusAkeneoPlugin\Provider\ProductAttributeValue\TableAttributeValueProcessorProvider
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\Table\TableProductAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+
     Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductModelAkeneoAttributeProcessor:
         arguments:
             $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'

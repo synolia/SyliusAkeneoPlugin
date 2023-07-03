@@ -136,6 +136,11 @@ services:
         tags:
             - { name: 'sylius.attribute.type', attribute_type: 'metric', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\MetricAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\MetricConfigurationAttributeType' }
 
+    sylius.attribute_type.akeneo_table:
+        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\TableAttributeType
+        tags:
+            - { name: 'sylius.attribute.type', attribute_type: !php/const Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\TableAttributeType::TYPE, label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\TableAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\TableAttributeType' }
+
     serializer.name_converter.camel_case_to_snake_case:
         class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 
