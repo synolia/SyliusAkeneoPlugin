@@ -73,8 +73,8 @@ trait TaxonAttributesTrait
         );
 
         if (!$this->hasAttribute($attribute)) {
-            $attribute->setTaxon($this);
             $this->attributes->add($attribute);
+            $attribute->setTaxon($this);
         }
     }
 
