@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -56,10 +57,11 @@ final class BatchAttributesTask extends AbstractBatchTask
             $this->entityManager->beginTransaction();
 
             $query = $this->getSelectStatement($payload);
-            $query->executeStatement();
+            /** @var Result $queryResult */
+            $queryResult = $query->executeQuery();
 
             $variationAxes = array_unique($this->getVariationAxes($payload));
-            while ($results = $query->fetchAll()) {
+            while ($results = $queryResult->fetchAll()) {
                 foreach ($results as $result) {
                     $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 

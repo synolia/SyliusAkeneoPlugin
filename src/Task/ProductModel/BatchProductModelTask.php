@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -48,9 +49,10 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         $query = $this->getSelectStatement($payload);
-        $query->executeStatement();
+        /** @var Result $queryResult */
+        $queryResult = $query->executeQuery();
 
-        while ($results = $query->fetchAll()) {
+        while ($results = $queryResult->fetchAll()) {
             foreach ($results as $result) {
                 $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
