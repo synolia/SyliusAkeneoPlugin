@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\AssociationType;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
@@ -53,9 +54,10 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
             $this->entityManager->beginTransaction();
 
             $query = $this->getSelectStatement($payload);
-            $query->executeStatement();
+            /** @var Result $queryResult */
+            $queryResult = $query->executeQuery();
 
-            while ($results = $query->fetchAll()) {
+            while ($results = $queryResult->fetchAll()) {
                 foreach ($results as $result) {
                     $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 

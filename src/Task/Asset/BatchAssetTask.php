@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Asset;
 
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
@@ -30,9 +31,10 @@ final class BatchAssetTask extends AbstractBatchTask
         $this->logger->debug(self::class);
 
         $query = $this->getSelectStatement($payload);
-        $query->executeStatement();
+        /** @var Result $queryResult */
+        $queryResult = $query->executeQuery();
 
-        while ($results = $query->fetchAll()) {
+        while ($results = $queryResult->fetchAll()) {
             foreach ($results as $result) {
                 try {
                     $resource = \json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Product;
 
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -29,9 +30,10 @@ final class BatchProductsTask extends AbstractBatchTask
         }
 
         $query = $this->getSelectStatement($payload);
-        $query->executeStatement();
+        /** @var Result $queryResult */
+        $queryResult = $query->executeQuery();
 
-        while ($results = $query->fetchAll()) {
+        while ($results = $queryResult->fetchAll()) {
             foreach ($results as $result) {
                 try {
                     /** @var array{identifier: string,parent: string|null} $resource */

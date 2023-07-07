@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use BluePsyduck\SymfonyProcessManager\ProcessManager;
 use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
@@ -38,22 +39,22 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
     protected function count(string $tableName): int
     {
+        /** @var Result $query */
         $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
             $tableName,
-        ));
-        $query->executeStatement();
+        ))->executeQuery();
 
         return (int) current($query->fetch());
     }
 
     protected function min(string $tableName): int
     {
+        /** @var Result $query */
         $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT id FROM `%s` ORDER BY id ASC LIMIT 1',
             $tableName,
-        ));
-        $query->executeStatement();
+        ))->executeQuery();
 
         return (int) current($query->fetch());
     }
@@ -130,9 +131,10 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
             $min = $this->min($initialPayload->getTmpTableName());
             $query = $this->prepareSelectBatchIdsQuery($initialPayload->getTmpTableName(), $min - 1, $initialPayload->getBatchSize());
-            $query->executeStatement();
+            /** @var Result $queryResult */
+            $queryResult = $query->executeQuery();
 
-            while ($results = $query->fetchAll()) {
+            while ($results = $queryResult->fetchAll()) {
                 $ids = [];
                 foreach ($results as $result) {
                     $ids[] = $result['id'];
@@ -141,7 +143,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                 $this->batch($initialPayload, $ids);
 
                 $query = $this->prepareSelectBatchIdsQuery($initialPayload->getTmpTableName(), (int) $result['id'], $initialPayload->getBatchSize());
-                $query->executeStatement();
+                $query->executeQuery();
             }
             $this->processManager->waitForAllProcesses();
         } catch (Throwable $throwable) {

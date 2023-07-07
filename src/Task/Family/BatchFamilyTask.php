@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Family;
 
+use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -43,9 +44,10 @@ final class BatchFamilyTask extends AbstractBatchTask
         $resources = [];
 
         $query = $this->getSelectStatement($payload);
-        $query->executeStatement();
+        /** @var Result $queryResult */
+        $queryResult = $query->executeQuery();
 
-        while ($results = $query->fetchAll()) {
+        while ($results = $queryResult->fetchAll()) {
             foreach ($results as $result) {
                 try {
                     $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
