@@ -95,6 +95,7 @@ sylius:
             reference_entity: 'Entité référentielle'
             asset: 'Asset'
             metric: 'Métrique'
+            akeneo_table: 'Tableau'
 akeneo:
     ui:
         admin:
