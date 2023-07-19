@@ -20,6 +20,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationP
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseApiConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseCategoryConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DotEnvApiConnectionProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\LocaleMappingConfiguration;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\LocaleMappingConfigurationInterface;
 
 final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExtensionInterface
 {
@@ -39,6 +41,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
 
         $this->processApiConfiguration($container, $config);
         $this->processCategoryConfiguration($container, $config);
+        $this->processLocaleMapping($container, $config);
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -126,5 +129,15 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         ;
 
         $container->setAlias(CategoryConfigurationProviderInterface::class, CategoryConfigurationProvider::class);
+    }
+
+    private function processLocaleMapping(ContainerBuilder $container, array $config): void
+    {
+        $localeMappingConfigurationDefinition = $container->getDefinition(LocaleMappingConfiguration::class);
+        $localeMappingConfigurationDefinition
+            ->setArgument('$localeMapping', $config['locale_mappings'])
+        ;
+
+        $container->setAlias(LocaleMappingConfigurationInterface::class, LocaleMappingConfiguration::class);
     }
 }

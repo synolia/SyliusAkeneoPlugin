@@ -64,6 +64,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+
+            ->arrayNode('locale_mappings')->defaultValue([])
+                ->arrayPrototype()->example('fr_FR')
+                    ->scalarPrototype()->example(['fr_CH', 'fr_CA', 'fr_FR'])->end()
+                ->end()
+            ->end()
         ->end()
         ;
 
