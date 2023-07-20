@@ -31,6 +31,9 @@ final class SyliusAkeneoLocaleCodeProvider
             return $this->localesCode;
         }
 
+        /**
+         * @var array{enabled: bool, code: string} $apiLocale
+         */
         foreach ($this->getUsedLocalesOnAkeneo() as $apiLocale) {
             if (false === $apiLocale['enabled']) {
                 continue;
