@@ -39,7 +39,5 @@ class AkeneoSyliusLocaleMapper implements AkeneoSyliusLocaleMapperInterface
         }
 
         return $syliusLocale;
-
-        throw new LocaleNotFoundException();
     }
 }

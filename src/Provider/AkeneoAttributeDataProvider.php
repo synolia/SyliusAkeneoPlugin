@@ -15,15 +15,18 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
     public function __construct(
         private AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
         private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
     }
 
     public function getData(string $attributeCode, $attributeValues, string $locale, string $scope)
     {
+        $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
+
         if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
             (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
                 !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode))) {
-            return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValues[0]['data']);
+            return $this->productAttributeValueValueBuilder->build($attributeCode, $akeneoLocale, $scope, $attributeValues[0]['data']);
         }
 
         if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
@@ -33,12 +36,12 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
 
         if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
             $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
-            return $this->getByLocaleAndScope($attributeCode, $attributeValues, $locale, $scope);
+            return $this->getByLocaleAndScope($attributeCode, $attributeValues, $akeneoLocale, $scope);
         }
 
         if (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
             $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
-            return $this->getByLocale($attributeCode, $attributeValues, $locale);
+            return $this->getByLocale($attributeCode, $attributeValues, $akeneoLocale);
         }
 
         throw new TranslationNotFoundException();
