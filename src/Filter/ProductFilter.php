@@ -235,7 +235,7 @@ final class ProductFilter implements ProductFilterInterface
             return $productFilterRules->getLocales();
         }
 
-        return $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
+        return $this->syliusAkeneoLocaleCodeProvider->getUsedAkeneoLocales();
     }
 
     private function getCompletenessFilter(
