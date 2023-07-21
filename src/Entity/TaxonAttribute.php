@@ -73,7 +73,6 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
         $this->initializeTranslationsCollection();
 
         $this->createdAt = new \DateTime();
-        $this->setCurrentLocale('fr_FR');
     }
 
     public function getNameByLocaleCode(string $localeCode): string
