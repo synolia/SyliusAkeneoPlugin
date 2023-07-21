@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait ProductAssetTrait
 {
     /** @ORM\ManyToMany(targetEntity=\Synolia\SyliusAkeneoPlugin\Entity\Asset::class, mappedBy="owner") */
+    #[ORM\ManyToMany(targetEntity: Asset::class, mappedBy: 'owner')]
     private $assets;
 
     public function __construct()

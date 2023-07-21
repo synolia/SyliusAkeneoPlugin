@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -12,6 +13,8 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  *
  * @ORM\Table("akeneo_attribute_akeneo_sylius_mapping")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'akeneo_attribute_akeneo_sylius_mapping')]
 class AttributeAkeneoSyliusMapping implements ResourceInterface
 {
     /**
@@ -23,12 +26,17 @@ class AttributeAkeneoSyliusMapping implements ResourceInterface
      *
      * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
     /** @ORM\Column(type="string") */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $akeneoAttribute = null;
 
     /** @ORM\Column(type="string") */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $syliusAttribute = null;
 
     /**

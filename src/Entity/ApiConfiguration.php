@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +15,8 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum;
  *
  * @ORM\Table("akeneo_api_configuration")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'akeneo_api_configuration')]
 class ApiConfiguration implements ResourceInterface
 {
     public const MIN_AKENEO_PAGINATION_SIZE = 1;
@@ -31,6 +34,9 @@ class ApiConfiguration implements ResourceInterface
      *
      * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
     /**
@@ -38,6 +44,7 @@ class ApiConfiguration implements ResourceInterface
      *
      * @Assert\NotBlank
      */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $baseUrl = null;
 
     /**
@@ -45,6 +52,7 @@ class ApiConfiguration implements ResourceInterface
      *
      * @Assert\NotBlank
      */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $apiClientId = null;
 
     /**
@@ -52,6 +60,7 @@ class ApiConfiguration implements ResourceInterface
      *
      * @Assert\NotBlank
      */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $apiClientSecret = null;
 
     /**
@@ -62,9 +71,11 @@ class ApiConfiguration implements ResourceInterface
      *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
      * )
      */
+    #[ORM\Column(type: Types::INTEGER)]
     private int $paginationSize = self::DEFAULT_PAGINATION_SIZE;
 
     /** @ORM\Column(type="string", options={"default" : "ce"}) */
+    #[ORM\Column(type: Types::STRING, options: ['default' => 'ce'])]
     private string $edition = AkeneoEditionEnum::COMMUNITY;
 
     /**
@@ -72,6 +83,7 @@ class ApiConfiguration implements ResourceInterface
      *
      * @Assert\NotBlank
      */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $username = null;
 
     /**
@@ -79,6 +91,7 @@ class ApiConfiguration implements ResourceInterface
      *
      * @Assert\NotBlank
      */
+    #[ORM\Column(type: Types::STRING)]
     private ?string $password = null;
 
     public function getId(): ?int
