@@ -66,6 +66,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
             'scope' => $scope,
         ];
 
+        //TODO: appliquer l'opération en partant de Sylius
         foreach ($assetAttributeResource as $translation) {
             // Skip akeneo locale translation if not active on Sylius
             if ($isLocalizedAttribute &&
@@ -76,8 +77,8 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
             }
 
             if (!$isLocalizedAttribute) {
-                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
-                    $queryParam['locale'] = $locale;
+                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
+                    $queryParam['locale'] = $syliusLocale;
                     $this->handleAsset($assetFamilyCode, $assetCode, $attributeCode, $queryParam, $assetAttributeResource);
                 }
 
