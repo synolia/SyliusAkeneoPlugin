@@ -13,15 +13,23 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute\TaxonAttributeValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubjectInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute;
+use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
+use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValueInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
+use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute\TaxonAttributeTypeMatcher;
 use Throwable;
+use Webmozart\Assert\Assert;
 
 /**
  * @internal
@@ -34,6 +42,10 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
     private string $type;
 
+    private array $taxonAttributes = [];
+
+    private array $taxonAttributeValues = [];
+
     public function __construct(
         private TaxonFactoryInterface $taxonFactory,
         private EntityManagerInterface $entityManager,
@@ -43,6 +55,12 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         private LoggerInterface $logger,
         private EventDispatcherInterface $dispatcher,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private RepositoryInterface $taxonAttributeRepository,
+        private RepositoryInterface $taxonAttributeValueRepository,
+        private FactoryInterface $taxonAttributeFactory,
+        private FactoryInterface $taxonAttributeValueFactory,
+        private TaxonAttributeTypeMatcher $taxonAttributeTypeMatcher,
+        private TaxonAttributeValueBuilder $taxonAttributeValueBuilder,
     ) {
     }
 
@@ -116,6 +134,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                         'name' => $label,
                         'slug' => $slug,
                     ]);
+
+                    $this->handleAttributes($taxon, $resource);
                 }
 
                 $this->dispatcher->dispatch(new AfterProcessingTaxonEvent($resource, $taxon));
@@ -172,5 +192,119 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $taxon->getCode()));
 
         return $taxon;
+    }
+
+    private function handleAttributes(TaxonInterface $taxon, array $resource): void
+    {
+        if (!$taxon instanceof TaxonAttributeSubjectInterface) {
+            $this->logger->warning('Missing TaxonAttributeSubjectInterface implementation on Taxon', [
+                'taxon_code' => $taxon->getCode(),
+            ]);
+
+            return;
+        }
+
+        if (!array_key_exists('values', $resource)) {
+            return;
+        }
+
+        foreach ($resource['values'] as $attributeValue) {
+            try {
+                $taxonAttribute = $this->getTaxonAttributes(
+                    $attributeValue['attribute_code'],
+                    $attributeValue['type'],
+                );
+
+                $taxonAttributeValue = $this->getTaxonAttributeValues(
+                    $taxon,
+                    $taxonAttribute,
+                    $attributeValue['locale'],
+                );
+
+                $value = $this->taxonAttributeValueBuilder->build(
+                    $attributeValue['attribute_code'],
+                    $attributeValue['type'],
+                    $attributeValue['locale'],
+                    $attributeValue['channel'],
+                    $attributeValue['data'],
+                );
+
+                $taxonAttributeValue->setValue($value);
+            } catch (UnsupportedAttributeTypeException $e) {
+                $this->logger->warning($e->getMessage(), [
+                    'trace' => $e->getTrace(),
+                    'exception' => $e,
+                ]);
+            }
+        }
+    }
+
+    private function getTaxonAttributes(string $attributeCode, string $type): TaxonAttributeInterface
+    {
+        if (array_key_exists($attributeCode, $this->taxonAttributes)) {
+            return $this->taxonAttributes[$attributeCode];
+        }
+
+        $taxonAttribute = $this->taxonAttributeRepository->findOneBy(['code' => $attributeCode]);
+
+        if ($taxonAttribute instanceof TaxonAttribute) {
+            $this->taxonAttributes[$attributeCode] = $taxonAttribute;
+
+            return $taxonAttribute;
+        }
+
+        $matcher = $this->taxonAttributeTypeMatcher->match($type);
+
+        /** @var TaxonAttributeInterface $taxonAttribute */
+        $taxonAttribute = $this->taxonAttributeFactory->createNew();
+        $taxonAttribute->setCode($attributeCode);
+        $taxonAttribute->setType($type);
+        $taxonAttribute->setStorageType($matcher->getAttributeType()->getStorageType());
+        $taxonAttribute->setTranslatable(false);
+
+        $this->entityManager->persist($taxonAttribute);
+        $this->taxonAttributes[$attributeCode] = $taxonAttribute;
+
+        return $taxonAttribute;
+    }
+
+    private function getTaxonAttributeValues(
+        TaxonInterface $taxon,
+        TaxonAttributeInterface $taxonAttribute,
+        ?string $locale,
+    ): TaxonAttributeValueInterface {
+        Assert::string($taxon->getCode());
+        Assert::string($taxonAttribute->getCode());
+
+        if (
+            array_key_exists($taxon->getCode(), $this->taxonAttributeValues) &&
+            array_key_exists($taxonAttribute->getCode(), $this->taxonAttributeValues[$taxon->getCode()]) &&
+            array_key_exists($locale ?? 'unknown', $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()])
+        ) {
+            return $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'];
+        }
+
+        $taxonAttributeValue = $this->taxonAttributeValueRepository->findOneBy([
+            'subject' => $taxon,
+            'attribute' => $taxonAttribute,
+            'localeCode' => $locale,
+        ]);
+
+        if ($taxonAttributeValue instanceof TaxonAttributeValueInterface) {
+            $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'] = $taxonAttributeValue;
+
+            return $taxonAttributeValue;
+        }
+
+        /** @var TaxonAttributeValueInterface $taxonAttributeValue */
+        $taxonAttributeValue = $this->taxonAttributeValueFactory->createNew();
+        $taxonAttributeValue->setAttribute($taxonAttribute);
+        $taxonAttributeValue->setTaxon($taxon);
+        $taxonAttributeValue->setLocaleCode($locale);
+        $this->entityManager->persist($taxonAttributeValue);
+
+        $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'] = $taxonAttributeValue;
+
+        return $taxonAttributeValue;
     }
 }

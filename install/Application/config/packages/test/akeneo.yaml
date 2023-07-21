@@ -33,3 +33,7 @@ services:
     Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer: ~
     Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformer: ~
     Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher: ~
+    Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider:
+        arguments:
+            $defaultSyliusLocaleCode: 'en_US'
+        public: true

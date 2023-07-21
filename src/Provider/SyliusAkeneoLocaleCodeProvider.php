@@ -18,6 +18,7 @@ final class SyliusAkeneoLocaleCodeProvider
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
         private RepositoryInterface $channelRepository,
+        private string $defaultSyliusLocaleCode,
     ) {
         $this->localesCode = [];
     }
@@ -35,7 +36,10 @@ final class SyliusAkeneoLocaleCodeProvider
             $this->localesCode[$apiLocale['code']] = $apiLocale['code'];
         }
 
-        return $this->localesCode;
+        /** @phpstan-ignore-next-line */
+        $this->localesCode = array_merge($this->localesCode, [$this->defaultSyliusLocaleCode => $this->defaultSyliusLocaleCode]);
+
+        return array_unique($this->localesCode);
     }
 
     public function isLocaleDataTranslation(AttributeInterface $attribute, array|string $data, string $locale): bool

@@ -8,7 +8,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{Controller,DependencyInjection,Fixture,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
+        exclude: '../../{Controller,DependencyInjection,Fixture,Model,Migrations,Payload,Twig,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Controller\:
         resource: '../../Controller'
@@ -17,6 +17,10 @@ services:
     Synolia\SyliusAkeneoPlugin\Fixture\:
         resource: '../../Fixture'
         tags: ['sylius_fixtures.fixture']
+
+    Synolia\SyliusAkeneoPlugin\Twig\:
+        resource: '../../Twig'
+        tags: ['twig.extension']
 
     Synolia\SyliusAkeneoPlugin\Menu\AdminApiConfigurationMenuListener:
         tags:
@@ -91,6 +95,24 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Asset'
 
+    akeneo.taxon_attribute_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute'
+
+    akeneo.taxon_attribute_value_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue'
+
+    akeneo.taxon_attribute_translation_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeTranslation'
+
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
@@ -139,3 +161,37 @@ services:
     Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTypeMatcher:
         arguments:
             $attributeTypeRegistry: '@sylius.registry.attribute_type'
+
+    Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider:
+        arguments:
+            $defaultSyliusLocaleCode: '%locale%'
+
+    Synolia\SyliusAkeneoPlugin\Form\Extension\TaxonExtension:
+        arguments:
+            $localeProvider: '@sylius.translation_locale_provider.immutable'
+        tags:
+            - { name: form.type_extension, extended_type: Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonType, priority: 200 }
+
+    Synolia\SyliusAkeneoPlugin\Form\Type\TaxonAttributeValueType:
+        arguments:
+            $dataClass: 'Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue'
+            $validationGroups: '%sylius.form.type.product_attribute_value.validation_groups%'
+            $attributeChoiceType: 'Synolia\SyliusAkeneoPlugin\Form\Type\TaxonAttributeChoiceType'
+            $localeRepository: '@sylius.repository.locale'
+            $formTypeRegistry: '@sylius.form_registry.taxon_attribute_type'
+        tags:
+            - { name: form.type }
+
+    Synolia\SyliusAkeneoPlugin\Form\EventSubscriber\BuildTaxonAttributesFormSubscriber:
+        arguments:
+            $localeProvider: '@sylius.translation_locale_provider.immutable'
+
+    sylius.form_registry.taxon_attribute_type:
+        class: Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry
+        calls:
+            - add: ['text', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextAttributeType']
+            - add: ['text', 'configuration', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\TextAttributeConfigurationType']
+            - add: ['textarea', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextareaAttributeType']
+            - add: ['checkbox', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\CheckboxAttributeType']
+            - add: ['integer', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\IntegerAttributeType']
+            - add: ['percent', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\PercentAttributeType']

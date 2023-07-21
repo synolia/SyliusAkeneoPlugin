@@ -63,37 +63,44 @@
         prefix: '/%sylius_admin.path_name%'
     ```
 
-5. Add Asset trait to Product.php and ProductVariant.php entities
+5. Add Asset trait to Product.php and ProductVariant.php entities and add TaxonAttributes trait to Taxon entity
 
    ```php
    <?php
-
+   
    declare(strict_types=1);
-
+   
    namespace App\Entity\Product;
    
+   use App\Entity\Product\ProductTranslation;
    use Doctrine\ORM\Mapping as ORM;
+   use Sylius\Component\Core\Model\Product as BaseProduct;
+   use Sylius\Component\Product\Model\ProductTranslationInterface;
    use Synolia\SyliusAkeneoPlugin\Entity\ProductAssetTrait;
-
+   
    /**
     * @ORM\Entity
     * @ORM\Table(name="sylius_product")
     */
-    class Product
-    {
-        ...
-        use ProductAssetTrait {
-            __construct as private initializeAssetsCollection;
-        }
+   #[ORM\Entity]
+   #[ORM\Table(name: 'sylius_product')]
+   class Product extends BaseProduct
+   {
+       use ProductAssetTrait {
+           __construct as private initializeAssetsCollection;
+       }
    
-        public function __construct()
-        {
-            parent::__construct();
-
-            $this->initializeAssetsCollection();
-        }
-        ...
-    }
+       public function __construct()
+       {
+           parent::__construct();
+           $this->initializeAssetsCollection();
+       }
+   
+       protected function createTranslation(): ProductTranslationInterface
+       {
+           return new ProductTranslation();
+       }
+   }
    ```
 
    ```php
@@ -104,27 +111,74 @@
    namespace App\Entity\Product;
    
    use Doctrine\ORM\Mapping as ORM;
+   use Sylius\Component\Core\Model\ProductVariant as BaseProductVariant;
+   use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
    use Synolia\SyliusAkeneoPlugin\Entity\ProductVariantAssetTrait;
 
    /**
     * @ORM\Entity
     * @ORM\Table(name="sylius_product_variant")
     */
-    class ProductVariant
-    {
-        ...
-        use ProductVariantAssetTrait {
-            __construct as private initializeAssetsCollection;
-        }
+   #[ORM\Entity]
+   #[ORM\Table(name: 'sylius_product_variant')]
+   class ProductVariant extends BaseProductVariant
+   {
+       use ProductVariantAssetTrait {
+           ProductVariantAssetTrait::__construct as private initializeAssetsCollection;
+       }
    
-        public function __construct()
-        {
-            parent::__construct();
+       public function __construct()
+       {
+           parent::__construct();
+   
+           $this->initializeAssetsCollection();
+       }
+   
+       protected function createTranslation(): ProductVariantTranslationInterface
+       {
+           return new ProductVariantTranslation();
+       }
+   }
+   ```
 
-            $this->initializeAssetsCollection();
-        }
-        ...
-    }
+   ```php
+   <?php
+   
+   declare(strict_types=1);
+   
+   namespace App\Entity\Taxonomy;
+   
+   use Doctrine\ORM\Mapping as ORM;
+   use Sylius\Component\Core\Model\Taxon as BaseTaxon;
+   use Sylius\Component\Taxonomy\Model\TaxonTranslationInterface;
+   use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubjectInterface;
+   use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributesTrait;
+   
+   /**
+    * @ORM\Entity
+    * @ORM\Table(name="sylius_taxon")
+    */
+   #[ORM\Entity]
+   #[ORM\Table(name: 'sylius_taxon')]
+   class Taxon extends BaseTaxon implements TaxonAttributeSubjectInterface
+   {
+       use TaxonAttributesTrait {
+           __construct as private initializeTaxonAttributes;
+       }
+   
+       public function __construct()
+       {
+           parent::__construct();
+   
+           $this->createTranslation();
+           $this->initializeTaxonAttributes();
+       }
+   
+       protected function createTranslation(): TaxonTranslationInterface
+       {
+           return new TaxonTranslation();
+       }
+   }
    ```
 
 6. Apply plugin migrations to your database:

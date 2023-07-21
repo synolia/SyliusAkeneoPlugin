@@ -11,6 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilde
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute\TaxonAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeTypeMatcherCompilerPass;
@@ -18,6 +19,8 @@ use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValue
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoDataMigrationTransformerCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentityAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
+use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttributeTypeMatcherCompilerPass;
+use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface;
@@ -27,6 +30,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransforme
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
+use Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute\TaxonAttributeTypeMatcherInterface;
 
 final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
 {
@@ -46,6 +50,14 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
         $container
             ->registerForAutoconfiguration(AttributeTypeMatcherInterface::class)
             ->addTag(AttributeTypeMatcherInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(TaxonAttributeTypeMatcherInterface::class)
+            ->addTag(TaxonAttributeTypeMatcherInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(TaxonAttributeValueBuilderInterface::class)
+            ->addTag(TaxonAttributeValueBuilderInterface::TAG_ID)
         ;
         $container
             ->registerForAutoconfiguration(ReferenceEntityAttributeTypeMatcherInterface::class)
@@ -93,8 +105,10 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
         ;
 
         $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());
+        $container->addCompilerPass(new AkeneoTaxonAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
+        $container->addCompilerPass(new AkeneoTaxonAttributeValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoAssetAttributeValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoAssetAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoDataMigrationTransformerCompilerPass());

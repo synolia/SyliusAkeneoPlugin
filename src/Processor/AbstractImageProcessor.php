@@ -70,6 +70,7 @@ abstract class AbstractImageProcessor
                         ;
                         $imageName = basename($image['data']);
                         $imagePath = sys_get_temp_dir() . '/' . $imageName;
+                        /** @phpstan-ignore-next-line */
                         file_put_contents($imagePath, $imageResponse->getBody()->getContents());
                         $uploadedImage = new UploadedFile($imagePath, $imageName);
 
@@ -79,8 +80,10 @@ abstract class AbstractImageProcessor
                         $productImage->setType($this->getFileType((string) $attributeCode));
                         $this->imageUploader->upload($productImage);
 
+                        /** @phpstan-ignore-next-line */
                         $object->addImage($productImage);
 
+                        /** @phpstan-ignore-next-line */
                         unlink($imagePath);
                     } catch (Throwable $throwable) {
                         $this->logger->warning($throwable->getMessage());

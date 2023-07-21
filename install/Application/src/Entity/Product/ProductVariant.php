@@ -13,6 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductVariantAssetTrait;
  * @ORM\Entity
  * @ORM\Table(name="sylius_product_variant")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_product_variant')]
 class ProductVariant extends BaseProductVariant
 {
     use ProductVariantAssetTrait {

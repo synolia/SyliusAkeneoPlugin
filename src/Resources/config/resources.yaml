@@ -51,3 +51,14 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\Asset
                 repository: Synolia\SyliusAkeneoPlugin\Repository\AssetRepository
+        akeneo.taxon_attribute:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute
+            translation:
+                classes:
+                    model: Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeTranslation
+        akeneo.taxon_attribute_value:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue
