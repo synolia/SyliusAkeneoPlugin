@@ -8,14 +8,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
-use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductInterface;
 
 /**
  * @ORM\Entity()
  *
  * @ORM\Table("akeneo_product_group")
+ *
+ * @IgnoreAnnotation("ORM\InverseJoinColumn")
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_product_group')]
@@ -59,12 +62,18 @@ class ProductGroup implements ProductGroupInterface
     private string $familyVariant = '';
 
     /**
-     * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\Product")
+     * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\ProductInterface")
      *
-     * @JoinTable(name="akeneo_productgroup_product")
+     * @ORM\JoinTable(name="akeneo_productgroup_product")
+     *
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     *
+     * @ORM\InverseJoinColumn(name="productgroup_id", referencedColumnName="id")
      */
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    #[ORM\JoinTable(name: 'akeneo_productgroup_product')]
+    #[JoinTable(name: 'akeneo_productgroup_product')]
+    #[JoinColumn(name: 'product_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'productgroup_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: ProductInterface::class)]
     private Collection $products;
 
     /** @ORM\Column(type="array") */
