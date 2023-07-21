@@ -14,6 +14,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributesTrait;
  * @ORM\Entity
  * @ORM\Table(name="sylius_taxon")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_taxon')]
 class Taxon extends BaseTaxon implements TaxonAttributeSubjectInterface
 {
     use TaxonAttributesTrait {

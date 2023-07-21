@@ -14,6 +14,8 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductAssetTrait;
  * @ORM\Entity
  * @ORM\Table(name="sylius_product")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_product')]
 class Product extends BaseProduct
 {
     use ProductAssetTrait {

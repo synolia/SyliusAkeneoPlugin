@@ -19,6 +19,9 @@ use Sylius\Component\Resource\Model\TranslatableTrait;
  *
  * @ORM\Table(name="akeneo_taxon_attributes")
  */
+#[ApiResource()]
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_taxon_attributes')]
 class TaxonAttribute implements TaxonAttributeInterface, \Stringable
 {
     use TranslatableTrait {
@@ -33,30 +36,41 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
      *
      * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
     /** @ORM\Column(name="code", type="string", length=255, unique=true) */
+    #[ORM\Column(name: 'code', type: 'string', length: 255, unique: true)]
     protected string $code = '';
 
     /** @ORM\Column(name="type", type="string", length=255) */
+    #[ORM\Column(name: 'type', type: 'string', length: 255)]
     protected string $type = TextAttributeType::TYPE;
 
     /** @ORM\Column(name="configuration", type="array") */
+    #[ORM\Column(name: 'configuration', type: 'array')]
     protected array $configuration = [];
 
     /** @ORM\Column(name="storage_type", type="string", length=255) */
+    #[ORM\Column(name: 'storage_type', type: 'string', length: 255)]
     protected string $storageType = '';
 
     /** @ORM\Column(name="position", type="integer") */
+    #[ORM\Column(name: 'position', type: 'integer')]
     protected int $position = 0;
 
     /** @ORM\Column(name="translatable", type="boolean") */
+    #[ORM\Column(name: 'translatable', type: 'boolean')]
     protected bool $translatable = true;
 
     /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
+    #[ORM\Column(name: 'created_at', type: 'datetime', nullable: true)]
     protected ?\DateTimeInterface $createdAt;
 
     /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     protected ?\DateTimeInterface $updatedAt;
 
     /** @ORM\OneToMany(
@@ -66,6 +80,12 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
      *     orphanRemoval=true
      * )
      */
+    #[ORM\OneToMany(
+        targetEntity: 'TaxonAttributeValue',
+        mappedBy: 'attribute',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+    )]
     protected Collection $values;
 
     public function __construct()

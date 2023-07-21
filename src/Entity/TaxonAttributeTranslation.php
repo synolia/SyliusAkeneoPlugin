@@ -20,6 +20,10 @@ use Webmozart\Assert\Assert;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="attribute_translation", columns={"translatable_id", "locale"})}
  * )
  */
+#[ApiResource()]
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_taxon_attribute_translations')]
+#[ORM\UniqueConstraint(name: 'attribute_translation', columns: ['translatable_id', 'locale'])]
 class TaxonAttributeTranslation implements AttributeTranslationInterface
 {
     /**
@@ -29,12 +33,17 @@ class TaxonAttributeTranslation implements AttributeTranslationInterface
      *
      * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
     /** @ORM\Column(name="name", type="string", length=255) */
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     protected string $name = '';
 
     /** @ORM\Column(name="locale", type="string", length=255) */
+    #[ORM\Column(name: 'locale', type: 'string', length: 255)]
     protected ?string $locale = null;
 
     /**
@@ -46,6 +55,12 @@ class TaxonAttributeTranslation implements AttributeTranslationInterface
      *
      * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\ManyToOne(
+        targetEntity: 'TaxonAttribute',
+        inversedBy: 'translations',
+        cascade: ['persist', 'remove'],
+    )]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?TranslatableInterface $translatable = null;
 
     public function getId(): ?int

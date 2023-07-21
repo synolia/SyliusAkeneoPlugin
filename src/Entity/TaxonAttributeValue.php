@@ -22,6 +22,10 @@ use Webmozart\Assert\Assert;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="attribute_value", columns={"subject_id", "attribute_id", "locale_code"})}
  * )
  */
+#[ApiResource()]
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_taxon_attribute_values')]
+#[ORM\UniqueConstraint(name: 'attribute_value', columns: ['subject_id', 'attribute_id', 'locale_code'])]
 class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInterface
 {
     /**
@@ -31,6 +35,9 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
      *
      * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
     /**
@@ -38,8 +45,8 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
      *
      * @ORM\JoinColumn(nullable=true)
      */
-    #[ORM\ManyToOne(targetEntity: TaxonInterface::class, inversedBy: 'attributes')]
-    #[ORM\JoinColumn(name: 'taxon_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: TaxonInterface::class, inversedBy: 'attributes', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?TaxonInterface $subject;
 
     /**
@@ -47,30 +54,40 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
      *
      * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: 'TaxonAttribute', inversedBy: 'values')]
+    #[ORM\JoinColumn(nullable: false)]
     protected TaxonAttributeInterface $attribute;
 
     /** @ORM\Column(name="locale_code", type="string", length=255, nullable=true) */
+    #[ORM\Column(name: 'locale_code', type: 'string', length: 255, nullable: true)]
     protected ?string $localeCode;
 
     /** @ORM\Column(name="text_value", type="text", nullable=true) */
+    #[ORM\Column(name: 'text_value', type: 'text', nullable: true)]
     private ?string $text;
 
     /** @ORM\Column(name="boolean_value", type="boolean", nullable=true) */
+    #[ORM\Column(name: 'boolean_value', type: 'boolean', nullable: true)]
     private ?bool $boolean;
 
     /** @ORM\Column(name="integer_value", type="integer", nullable=true) */
+    #[ORM\Column(name: 'integer_value', type: 'integer', nullable: true)]
     private ?int $integer;
 
     /** @ORM\Column(name="float_value", type="float", nullable=true) */
+    #[ORM\Column(name: 'float_value', type: 'float', nullable: true)]
     private ?float $float;
 
     /** @ORM\Column(name="datetime_value", type="datetime", nullable=true) */
+    #[ORM\Column(name: 'datetime_value', type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $datetime;
 
     /** @ORM\Column(name="date_value", type="date", nullable=true) */
+    #[ORM\Column(name: 'date_value', type: 'date', nullable: true)]
     private ?DateTimeInterface $date;
 
     /** @ORM\Column(name="json_value", type="json", nullable=true) */
+    #[ORM\Column(name: 'json_value', type: 'json', nullable: true)]
     private ?array $json;
 
     public function getId(): int
