@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
@@ -35,15 +36,15 @@ class TaxonAttributeTranslation implements AttributeTranslationInterface
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
     /** @ORM\Column(name="name", type="string", length=255) */
-    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
     protected string $name = '';
 
     /** @ORM\Column(name="locale", type="string", length=255) */
-    #[ORM\Column(name: 'locale', type: 'string', length: 255)]
+    #[ORM\Column(name: 'locale', type: Types::STRING, length: 255)]
     protected ?string $locale = null;
 
     /**

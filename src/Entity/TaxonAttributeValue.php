@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -37,7 +38,7 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
     /**
@@ -59,35 +60,35 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
     protected TaxonAttributeInterface $attribute;
 
     /** @ORM\Column(name="locale_code", type="string", length=255, nullable=true) */
-    #[ORM\Column(name: 'locale_code', type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(name: 'locale_code', type: Types::STRING, length: 255, nullable: true)]
     protected ?string $localeCode;
 
     /** @ORM\Column(name="text_value", type="text", nullable=true) */
-    #[ORM\Column(name: 'text_value', type: 'text', nullable: true)]
+    #[ORM\Column(name: 'text_value', type: Types::TEXT, nullable: true)]
     private ?string $text;
 
     /** @ORM\Column(name="boolean_value", type="boolean", nullable=true) */
-    #[ORM\Column(name: 'boolean_value', type: 'boolean', nullable: true)]
+    #[ORM\Column(name: 'boolean_value', type: Types::BOOLEAN, nullable: true)]
     private ?bool $boolean;
 
     /** @ORM\Column(name="integer_value", type="integer", nullable=true) */
-    #[ORM\Column(name: 'integer_value', type: 'integer', nullable: true)]
+    #[ORM\Column(name: 'integer_value', type: Types::INTEGER, nullable: true)]
     private ?int $integer;
 
     /** @ORM\Column(name="float_value", type="float", nullable=true) */
-    #[ORM\Column(name: 'float_value', type: 'float', nullable: true)]
+    #[ORM\Column(name: 'float_value', type: Types::FLOAT, nullable: true)]
     private ?float $float;
 
     /** @ORM\Column(name="datetime_value", type="datetime", nullable=true) */
-    #[ORM\Column(name: 'datetime_value', type: 'datetime', nullable: true)]
+    #[ORM\Column(name: 'datetime_value', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $datetime;
 
     /** @ORM\Column(name="date_value", type="date", nullable=true) */
-    #[ORM\Column(name: 'date_value', type: 'date', nullable: true)]
+    #[ORM\Column(name: 'date_value', type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $date;
 
     /** @ORM\Column(name="json_value", type="json", nullable=true) */
-    #[ORM\Column(name: 'json_value', type: 'json', nullable: true)]
+    #[ORM\Column(name: 'json_value', type: Types::JSON, nullable: true)]
     private ?array $json;
 
     public function getId(): int

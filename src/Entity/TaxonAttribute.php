@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Attribute\AttributeType\TextAttributeType;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
@@ -38,39 +39,39 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
     /** @ORM\Column(name="code", type="string", length=255, unique=true) */
-    #[ORM\Column(name: 'code', type: 'string', length: 255, unique: true)]
+    #[ORM\Column(name: 'code', type: Types::STRING, length: 255, unique: true)]
     protected string $code = '';
 
     /** @ORM\Column(name="type", type="string", length=255) */
-    #[ORM\Column(name: 'type', type: 'string', length: 255)]
+    #[ORM\Column(name: 'type', type: Types::STRING, length: 255)]
     protected string $type = TextAttributeType::TYPE;
 
     /** @ORM\Column(name="configuration", type="array") */
-    #[ORM\Column(name: 'configuration', type: 'array')]
+    #[ORM\Column(name: 'configuration', type: Types::ARRAY)]
     protected array $configuration = [];
 
     /** @ORM\Column(name="storage_type", type="string", length=255) */
-    #[ORM\Column(name: 'storage_type', type: 'string', length: 255)]
+    #[ORM\Column(name: 'storage_type', type: Types::STRING, length: 255)]
     protected string $storageType = '';
 
     /** @ORM\Column(name="position", type="integer") */
-    #[ORM\Column(name: 'position', type: 'integer')]
+    #[ORM\Column(name: 'position', type: Types::INTEGER)]
     protected int $position = 0;
 
     /** @ORM\Column(name="translatable", type="boolean") */
-    #[ORM\Column(name: 'translatable', type: 'boolean')]
+    #[ORM\Column(name: 'translatable', type: Types::BOOLEAN)]
     protected bool $translatable = true;
 
     /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
-    #[ORM\Column(name: 'created_at', type: 'datetime', nullable: true)]
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $createdAt;
 
     /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
-    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $updatedAt;
 
     /** @ORM\OneToMany(
