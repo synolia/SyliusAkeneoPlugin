@@ -52,7 +52,7 @@ final class SyliusAkeneoLocaleCodeProvider
             $this->localesCode[] = $this->defaultSyliusLocaleCode;
         }
 
-        return array_unique($this->localesCode);
+        return $this->localesCode = array_unique($this->localesCode);
     }
 
     public function getAkeneoLocale(string $syliusLocale): string
