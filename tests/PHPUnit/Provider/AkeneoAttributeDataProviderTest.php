@@ -43,7 +43,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
         $this->attributeDataProvider = new AkeneoAttributeDataProvider(
             $akeneoPropertiesProvider,
             $productAttributeValueValueBuilder,
-            $this->getContainer()->get(SyliusAkeneoLocaleCodeProvider::class)
+            $this->getContainer()->get(SyliusAkeneoLocaleCodeProvider::class),
         );
     }
 
