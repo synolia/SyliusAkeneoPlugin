@@ -22,6 +22,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeTableProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
@@ -34,6 +35,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         private LoggerInterface $logger,
         private ProductAttributeChoiceProcessorInterface $attributeChoiceProcessor,
         private ProductOptionProcessorInterface $productOptionProcessor,
+        private ProductAttributeTableProcessorInterface $productAttributeTableProcessor,
         private EventDispatcherInterface $dispatcher,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private AttributeCreatorInterface $attributeCreator,
@@ -81,6 +83,9 @@ final class BatchAttributesTask extends AbstractBatchTask
 
                         //Handle attribute options
                         $this->attributeChoiceProcessor->process($attribute, $resource);
+
+                        //Handle attribute table configuration
+                        $this->productAttributeTableProcessor->process($attribute, $resource);
 
                         //Handler options
                         $this->productOptionProcessor->process($attribute, $variationAxes);

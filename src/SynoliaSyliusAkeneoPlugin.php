@@ -23,6 +23,7 @@ use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttribute
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\Table\TableProductAttributeValueProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -102,6 +103,10 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
         $container
             ->registerForAutoconfiguration(OptionValuesProcessorInterface::class)
             ->addTag(OptionValuesProcessorInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(TableProductAttributeValueProcessorInterface::class)
+            ->addTag(TableProductAttributeValueProcessorInterface::TAG_ID)
         ;
 
         $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());

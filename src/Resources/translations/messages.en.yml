@@ -95,6 +95,7 @@ sylius:
             reference_entity: 'Reference Entity'
             asset: 'Asset'
             metric: 'Metric'
+            akeneo_table: 'Table'
 akeneo:
     ui:
         attribute_type_mappings: 'Akeneo Attribute Type Mappings'

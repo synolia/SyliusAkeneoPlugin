@@ -48,6 +48,7 @@ final class ProcessAttributeTask extends AbstractProcessTask
             $this->eventDispatcher->dispatch($event);
 
             $queryParameters['search'] = $event->getFilters();
+            $queryParameters['with_table_select_options'] = true;
         } catch (CommandContextIsNullException) {
             $queryParameters = [];
         }
