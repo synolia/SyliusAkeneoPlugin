@@ -232,7 +232,9 @@ final class ProductFilter implements ProductFilterInterface
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
             Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
         ])) {
-            return $productFilterRules->getLocales(); //TODO: also unmap to akeneo
+            return array_map(function (string $syliusLocale) {
+                return $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
+            }, $productFilterRules->getLocales());
         }
 
         return $this->syliusAkeneoLocaleCodeProvider->getUsedAkeneoLocales();
