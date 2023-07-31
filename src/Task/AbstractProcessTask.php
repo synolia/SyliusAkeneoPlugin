@@ -143,7 +143,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                 $this->batch($initialPayload, $ids);
 
                 $query = $this->prepareSelectBatchIdsQuery($initialPayload->getTmpTableName(), (int) $result['id'], $initialPayload->getBatchSize());
-                $query->executeQuery();
+                $queryResult = $query->executeQuery();
             }
             $this->processManager->waitForAllProcesses();
         } catch (Throwable $throwable) {
