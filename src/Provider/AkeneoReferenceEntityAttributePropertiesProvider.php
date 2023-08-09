@@ -12,8 +12,10 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
 
     private array $attributes = [];
 
-    public function __construct(private AkeneoPimClientInterface $client)
-    {
+    public function __construct(
+        private AkeneoPimClientInterface $client,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+    ) {
     }
 
     public function setLoadsAllAttributesAtOnce(bool $loadsAllAttributesAtOnce): self
@@ -60,11 +62,18 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
     public function getLabel(string $referenceEntityCode, string $referenceEntityAttributeCode, ?string $locale): string
     {
         $labels = $this->getLabels($referenceEntityCode, $referenceEntityAttributeCode);
-        if (null === $locale || !isset($labels[$locale])) {
+
+        if (null === $locale) {
             return current($labels);
         }
 
-        return $labels[$locale];
+        $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
+
+        if (!isset($labels[$akeneoLocale])) {
+            return current($labels);
+        }
+
+        return $labels[$akeneoLocale];
     }
 
     public function getLabels(string $referenceEntityCode, string $referenceEntityAttributeCode): array

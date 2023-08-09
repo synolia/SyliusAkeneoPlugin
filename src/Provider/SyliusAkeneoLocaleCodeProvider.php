@@ -6,9 +6,10 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Mapper\AkeneoSyliusLocaleMapperInterface;
+use Synolia\SyliusAkeneoPlugin\Mapper\LocaleNotFoundException;
 
 final class SyliusAkeneoLocaleCodeProvider
 {
@@ -18,6 +19,7 @@ final class SyliusAkeneoLocaleCodeProvider
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
         private RepositoryInterface $channelRepository,
+        private AkeneoSyliusLocaleMapperInterface $akeneoSyliusLocaleMapper,
         private string $defaultSyliusLocaleCode,
     ) {
         $this->localesCode = [];
@@ -29,30 +31,33 @@ final class SyliusAkeneoLocaleCodeProvider
             return $this->localesCode;
         }
 
+        /**
+         * @var array{enabled: bool, code: string} $apiLocale
+         */
         foreach ($this->getUsedLocalesOnAkeneo() as $apiLocale) {
-            if (false === $apiLocale['enabled'] || !\in_array($apiLocale['code'], $this->getUsedLocalesOnSylius(), true)) {
+            if (false === $apiLocale['enabled']) {
                 continue;
             }
-            $this->localesCode[$apiLocale['code']] = $apiLocale['code'];
+
+            foreach ($this->akeneoSyliusLocaleMapper->map($apiLocale['code']) as $syliusLocaleMapping) {
+                if (!in_array($syliusLocaleMapping, $this->getUsedLocalesOnSylius())) {
+                    continue;
+                }
+
+                $this->localesCode[] = $syliusLocaleMapping;
+            }
         }
 
-        /** @phpstan-ignore-next-line */
-        $this->localesCode = array_merge($this->localesCode, [$this->defaultSyliusLocaleCode => $this->defaultSyliusLocaleCode]);
+        if (!array_key_exists($this->defaultSyliusLocaleCode, $this->localesCode)) {
+            $this->localesCode[] = $this->defaultSyliusLocaleCode;
+        }
 
-        return array_unique($this->localesCode);
+        return $this->localesCode = array_unique($this->localesCode);
     }
 
-    public function isLocaleDataTranslation(AttributeInterface $attribute, array|string $data, string $locale): bool
+    public function getAkeneoLocale(string $syliusLocale): string
     {
-        if (\is_array($data)) {
-            return $data['locale'] === $locale;
-        }
-
-        if (isset($attribute->getConfiguration()['choices'][$data]) && \array_key_exists($locale, $attribute->getConfiguration()['choices'][$data])) {
-            return true;
-        }
-
-        return false;
+        return $this->akeneoSyliusLocaleMapper->unmap($syliusLocale);
     }
 
     public function isActiveLocale(string $locale): bool
@@ -77,6 +82,20 @@ final class SyliusAkeneoLocaleCodeProvider
                 /** @phpstan-ignore-next-line */
                 ->map(fn (LocaleInterface $locale): string => (string) $locale->getCode())
                 ->toArray()));
+        }
+
+        return $locales;
+    }
+
+    public function getUsedAkeneoLocales(): array
+    {
+        $locales = [];
+
+        foreach ($this->getUsedLocalesOnSylius() as $syliusLocale) {
+            try {
+                $locales[] = $this->getAkeneoLocale($syliusLocale);
+            } catch (LocaleNotFoundException) {
+            }
         }
 
         return $locales;

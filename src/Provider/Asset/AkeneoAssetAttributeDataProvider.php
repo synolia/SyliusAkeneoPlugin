@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider\Asset;
 
+use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeDataProviderInterface
 {
-    public function __construct(private AkeneoAssetAttributePropertiesProvider $akeneoAssetAttributePropertiesProvider)
-    {
+    public function __construct(
+        private AkeneoAssetAttributePropertiesProvider $akeneoAssetAttributePropertiesProvider,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
+        private AssetAttributeValueBuilderInterface $assetAttributeValueBuilder,
+    ) {
     }
 
     /**
@@ -28,6 +33,8 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
         string $locale,
         string $scope,
     ) {
+        $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
+
         if (!$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
             !$this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
             return $attributeValues[0]['data'];
@@ -40,12 +47,12 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
 
         if ($this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
             $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
-            return $this->getByLocaleAndScope($assetFamilyCode, $attributeCode, $attributeValues, $locale, $scope);
+            return $this->getByLocaleAndScope($assetFamilyCode, $attributeCode, $attributeValues, $akeneoLocale, $scope);
         }
 
         if (!$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
             $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
-            return $this->getByLocale($assetFamilyCode, $attributeCode, $attributeValues, $locale);
+            return $this->getByLocale($assetFamilyCode, $attributeCode, $attributeValues, $akeneoLocale);
         }
 
         throw new TranslationNotFoundException();

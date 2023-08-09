@@ -87,29 +87,32 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                 $this->assignParent($taxon, $taxons, $resource);
 
-                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
+                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
+                    $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
+
                     $label = \sprintf('[%s]', $resource['code']);
 
-                    if (array_key_exists($locale, $resource['labels']) && null !== $resource['labels'][$locale]) {
-                        $label = $resource['labels'][$locale];
+                    if (array_key_exists($akeneoLocale, $resource['labels']) && null !== $resource['labels'][$akeneoLocale]) {
+                        $label = $resource['labels'][$akeneoLocale];
                     }
 
                     $taxonTranslation = $this->taxonTranslationRepository->findOneBy([
                         'translatable' => $taxon,
-                        'locale' => $locale,
+                        'locale' => $syliusLocale,
                     ]);
 
                     if (!$taxonTranslation instanceof TaxonTranslationInterface) {
                         /** @var TaxonTranslationInterface $taxonTranslation */
                         $taxonTranslation = $this->taxonTranslationFactory->createNew();
-                        $taxonTranslation->setLocale($locale);
+                        $taxonTranslation->setLocale($syliusLocale);
                         $taxonTranslation->setTranslatable($taxon);
                         $this->entityManager->persist($taxonTranslation);
 
                         $this->logger->notice('Created TaxonTranslation', [
                             'taxon_id' => $taxon->getId() ?? 'unknown',
                             'taxon_code' => $taxon->getCode(),
-                            'locale' => $locale,
+                            'locale' => $syliusLocale,
+                            'akeneo_locale' => $akeneoLocale,
                         ]);
                     }
 
@@ -130,7 +133,8 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     $this->logger->notice('Update TaxonTranslation', [
                         'taxon_id' => $taxon->getId() ?? 'unknown',
                         'taxon_code' => $taxon->getCode(),
-                        'locale' => $locale,
+                        'locale' => $syliusLocale,
+                        'akeneo_locale' => $akeneoLocale,
                         'name' => $label,
                         'slug' => $slug,
                     ]);

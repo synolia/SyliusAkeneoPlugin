@@ -14,7 +14,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
 use Synolia\SyliusAkeneoPlugin\Provider\OptionValuesProcessorProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Webmozart\Assert\Assert;
 
 final class ProductOptionManager implements ProductOptionManagerInterface
@@ -24,11 +24,11 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         private RepositoryInterface $productAttributeTranslationRepository,
         private RepositoryInterface $productOptionRepository,
         private RepositoryInterface $productOptionTranslationRepository,
-        private LocaleRepositoryInterface $localeRepository,
         private FactoryInterface $productOptionTranslationFactory,
         private FactoryInterface $productOptionFactory,
         private OptionValuesProcessorProviderInterface $optionValuesProcessorProvider,
         private LoggerInterface $akeneoLogger,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
     }
 
@@ -60,7 +60,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         ProductOptionInterface $productOption,
         AttributeInterface $attribute,
     ): void {
-        foreach ($this->localeRepository->getLocaleCodes() as $localeCode) {
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $localeCode) {
             /** @var AttributeTranslationInterface|null $attributeTranslation */
             $attributeTranslation = $this->productAttributeTranslationRepository->findOneBy([
                 'translatable' => $attribute,

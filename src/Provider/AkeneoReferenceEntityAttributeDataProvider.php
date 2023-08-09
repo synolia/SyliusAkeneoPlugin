@@ -13,6 +13,7 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
 {
     public function __construct(
         private AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
     }
 
@@ -33,6 +34,8 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
         string $locale,
         string $scope,
     ) {
+        $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
+
         if ($this->akeneoReferenceEntityAttributePropertiesProvider->isUnique($referenceEntityCode, $referenceEntityAttributeCode) ||
             (!$this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
                 !$this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode))) {
@@ -46,12 +49,12 @@ final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenc
 
         if ($this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
             $this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode)) {
-            return $this->getByLocaleAndScope($attributeValues, $locale, $scope);
+            return $this->getByLocaleAndScope($attributeValues, $akeneoLocale, $scope);
         }
 
         if (!$this->akeneoReferenceEntityAttributePropertiesProvider->isScopable($referenceEntityCode, $referenceEntityAttributeCode) &&
             $this->akeneoReferenceEntityAttributePropertiesProvider->isLocalizable($referenceEntityCode, $referenceEntityAttributeCode)) {
-            return $this->getByLocale($attributeValues, $locale);
+            return $this->getByLocale($attributeValues, $akeneoLocale);
         }
 
         throw new TranslationNotFoundException();

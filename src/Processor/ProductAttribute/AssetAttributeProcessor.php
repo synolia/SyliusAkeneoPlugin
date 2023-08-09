@@ -81,13 +81,13 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
             }
 
             if (null === $translation['locale']) {
-                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
+                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
                     try {
                         $this->setAttributeTranslation(
                             $context['model'],
                             $attribute,
                             $context['data'],
-                            $locale,
+                            $syliusLocale,
                             $attributeCode,
                             $context['scope'],
                         );

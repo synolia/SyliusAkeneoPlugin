@@ -11,6 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuild
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
 /**
@@ -39,7 +40,11 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
         /** @var ProductAttributeValueValueBuilder $productAttributeValueValueBuilder */
         $productAttributeValueValueBuilder = $this->getContainer()->get(ProductAttributeValueValueBuilder::class);
-        $this->attributeDataProvider = new AkeneoAttributeDataProvider($akeneoPropertiesProvider, $productAttributeValueValueBuilder);
+        $this->attributeDataProvider = new AkeneoAttributeDataProvider(
+            $akeneoPropertiesProvider,
+            $productAttributeValueValueBuilder,
+            $this->getContainer()->get(SyliusAkeneoLocaleCodeProvider::class),
+        );
     }
 
     /** @dataProvider uniqueAttributeDataProvider */

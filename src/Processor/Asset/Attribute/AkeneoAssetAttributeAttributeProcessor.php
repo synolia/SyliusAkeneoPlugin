@@ -17,7 +17,6 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttributeProcessorInterface
 {
     public function __construct(
-        private AssetValueBuilderProviderInterface $assetValueBuilderProvider,
         private FactoryInterface $assetFactory,
         private RepositoryInterface $assetRepository,
         private EntityManagerInterface $entityManager,
@@ -40,7 +39,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         string $attributeCode,
         array $assetAttributeResource = [],
     ): bool {
-        if (!$this->assetValueBuilderProvider->hasSupportedBuilder($assetFamilyCode, $attributeCode)) {
+        if (!$this->assetAttributeValueBuilder->hasSupportedBuilder($assetFamilyCode, $attributeCode)) {
             return false;
         }
 
@@ -58,7 +57,6 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         }
 
         $scope = $this->productFilterRulesProvider->getProductFiltersRules()->getChannel();
-        $isLocalizedAttribute = $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode);
         $queryParam = [
             'familyCode' => $assetFamilyCode,
             'attributeCode' => $attributeCode,
@@ -66,25 +64,8 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
             'scope' => $scope,
         ];
 
-        foreach ($assetAttributeResource as $translation) {
-            // Skip akeneo locale translation if not active on Sylius
-            if ($isLocalizedAttribute &&
-                null !== $translation['locale'] &&
-                false === $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])
-            ) {
-                continue;
-            }
-
-            if (!$isLocalizedAttribute) {
-                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
-                    $queryParam['locale'] = $locale;
-                    $this->handleAsset($assetFamilyCode, $assetCode, $attributeCode, $queryParam, $assetAttributeResource);
-                }
-
-                continue;
-            }
-
-            $queryParam['locale'] = $translation['locale'];
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
+            $queryParam['locale'] = $syliusLocale;
             $this->handleAsset($assetFamilyCode, $assetCode, $attributeCode, $queryParam, $assetAttributeResource);
         }
     }
@@ -110,18 +91,21 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
             $asset->setType($this->akeneoAssetAttributePropertiesProvider->getType($assetFamilyCode, $attributeCode));
         }
 
+        $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($queryParam['locale']);
+
         $assetAttributeValue = $this->akeneoAssetAttributeDataProvider->getData(
             $assetFamilyCode,
             $attributeCode,
             $assetAttributeResource,
-            $queryParam['locale'],
+            $akeneoLocale,
             $queryParam['scope'],
         );
 
+        /** @var array $data */
         $data = $this->assetAttributeValueBuilder->build(
             $assetFamilyCode,
             $attributeCode,
-            $queryParam['locale'],
+            $akeneoLocale,
             $queryParam['scope'],
             $assetAttributeValue,
         );

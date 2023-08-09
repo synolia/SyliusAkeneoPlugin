@@ -90,16 +90,18 @@ final class AttributeCreator implements AttributeCreatorInterface
     private function setAttributeTranslations(array $labels, AttributeInterface $attribute): void
     {
         foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
+            $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($usedLocalesOnBothPlatform);
+
             $attribute->setCurrentLocale($usedLocalesOnBothPlatform);
             $attribute->setFallbackLocale($usedLocalesOnBothPlatform);
 
-            if (!isset($labels[$usedLocalesOnBothPlatform])) {
+            if (!isset($labels[$akeneoLocale])) {
                 $attribute->setName(sprintf('[%s]', $attribute->getCode()));
 
                 continue;
             }
 
-            $attribute->setName($labels[$usedLocalesOnBothPlatform]);
+            $attribute->setName($labels[$akeneoLocale]);
         }
     }
 

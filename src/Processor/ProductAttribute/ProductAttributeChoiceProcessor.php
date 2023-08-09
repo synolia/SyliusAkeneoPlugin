@@ -70,15 +70,17 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
         $choices = [];
         foreach ($options as $option) {
             $transformedCode = $this->attributeOptionValueDataTransformer->transform($option['code']);
-            foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
-                if (!\array_key_exists($locale, $option['labels'])) {
+            foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
+                $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
+
+                if (!\array_key_exists($akeneoLocale, $option['labels'])) {
                     $label = \sprintf('[%s]', $transformedCode);
-                    $choices[$transformedCode][$locale] = $label;
+                    $choices[$transformedCode][$syliusLocale] = $label;
 
                     continue;
                 }
 
-                $choices[$transformedCode][$locale] = $option['labels'][$locale];
+                $choices[$transformedCode][$syliusLocale] = $option['labels'][$akeneoLocale];
             }
         }
 

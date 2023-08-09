@@ -27,14 +27,18 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
 
     public function support(ProductInterface $product, array $resource): bool
     {
-        $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
+        try {
+            $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
 
-        if (null === $imageAttributes || 0 === \count($imageAttributes)) {
-            $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
+            if (null === $imageAttributes || 0 === \count($imageAttributes)) {
+                $this->logger->warning(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 
+                return false;
+            }
+
+            return true;
+        } catch (\Throwable $throwable) {
             return false;
         }
-
-        return true;
     }
 }

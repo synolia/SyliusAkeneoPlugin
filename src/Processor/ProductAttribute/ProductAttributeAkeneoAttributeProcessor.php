@@ -74,31 +74,12 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         /** @var AttributeInterface $attribute */
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
 
-        foreach ($context['data'] as $translation) {
-            if (null !== $translation['locale'] && false === $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {
-                continue;
-            }
-
-            if (null === $translation['locale']) {
-                foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
-                    $this->setAttributeTranslation(
-                        $context['model'],
-                        $attribute,
-                        $context['data'],
-                        $locale,
-                        $attributeCode,
-                        $context['scope'],
-                    );
-                }
-
-                continue;
-            }
-
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusAkeneo) {
             $this->setAttributeTranslation(
                 $context['model'],
                 $attribute,
                 $context['data'],
-                $translation['locale'],
+                $syliusAkeneo,
                 $attributeCode,
                 $context['scope'],
             );
@@ -109,14 +90,16 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         ProductInterface $product,
         AttributeInterface $attribute,
         array $translations,
-        string $locale,
+        string $syliusLocale,
         string $attributeCode,
         string $scope,
     ): void {
+        $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
+
         $attributeValue = $this->productAttributeValueRepository->findOneBy([
             'subject' => $product,
             'attribute' => $attribute,
-            'localeCode' => $locale,
+            'localeCode' => $syliusLocale,
         ]);
 
         if (!$attributeValue instanceof ProductAttributeValueInterface) {
@@ -124,9 +107,9 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
             $attributeValue = $this->productAttributeValueFactory->createNew();
         }
 
-        $attributeValue->setLocaleCode($locale);
+        $attributeValue->setLocaleCode($syliusLocale);
         $attributeValue->setAttribute($attribute);
-        $attributeValueValue = $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $locale, $scope);
+        $attributeValueValue = $this->akeneoAttributeDataProvider->getData($attributeCode, $translations, $akeneoLocale, $scope);
         $attributeValue->setValue($attributeValueValue);
         $product->addAttribute($attributeValue);
     }

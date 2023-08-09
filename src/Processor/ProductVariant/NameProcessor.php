@@ -10,7 +10,7 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 class NameProcessor implements NameProcessorInterface
 {
@@ -20,16 +20,16 @@ class NameProcessor implements NameProcessorInterface
     }
 
     public function __construct(
-        private LocaleRepositoryInterface $localeRepository,
         private RepositoryInterface $productVariantTranslationRepository,
         private FactoryInterface $productVariantTranslationFactory,
         private EntityManagerInterface $entityManager,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
     }
 
     public function process(ProductVariantInterface $productVariant, array $resource): void
     {
-        foreach ($this->localeRepository->getLocaleCodes() as $locale) {
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
             /** @var string $name */
             $name = $productVariant->getCode();
 
@@ -38,7 +38,7 @@ class NameProcessor implements NameProcessorInterface
                 if (0 === $key) {
                     $name .= ' ';
                 }
-                $name .= $optionValue->getTranslation($locale)->getValue() . ' - ';
+                $name .= $optionValue->getTranslation($syliusLocale)->getValue() . ' - ';
             }
 
             if (\substr($name, strlen($name) - 3)) {
@@ -48,14 +48,14 @@ class NameProcessor implements NameProcessorInterface
             // This does not work if two options are set for the same variant
             $productVariantTranslation = $this->productVariantTranslationRepository->findOneBy([
                 'translatable' => $productVariant,
-                'locale' => $locale,
+                'locale' => $syliusLocale,
             ]);
 
             if (!$productVariantTranslation instanceof ProductVariantTranslationInterface) {
                 /** @var ProductVariantTranslationInterface $productVariantTranslation */
                 $productVariantTranslation = $this->productVariantTranslationFactory->createNew();
                 $this->entityManager->persist($productVariantTranslation);
-                $productVariantTranslation->setLocale($locale);
+                $productVariantTranslation->setLocale($syliusLocale);
                 $productVariantTranslation->setTranslatable($productVariant);
                 $productVariant->addTranslation($productVariantTranslation);
             }
