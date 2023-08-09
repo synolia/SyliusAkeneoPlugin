@@ -1,5 +1,28 @@
 # Advanced configuration
 
+## Translation locale mapping
+
+### From package configuration file
+
+Use it if you want to use an akeneo translation locale that is in different or missing from the ones used on Sylius or if you want to use the same locale for multiple targets.
+
+In the example below, we bind for the `eng` part the source locale `en_GB` to target locales `en_CH` and `en_US` and for the `fra` part we use the `fr_FR` as source locale and target `fr_FR` and `fr_CA` locales on Sylius.
+
+**Note that if nothing is specified, we use the source as target.**
+
+```yaml
+# config/packages/synolia_akeneo_plugin.yaml
+
+synolia_sylius_akeneo:
+  locale_mappings:
+    en_GB: # here you specify the source locale (akeneo side)
+      - en_CH # here you specify the target locale (sylius side)
+      - en_US
+    fr_FR:
+      - fr_FR
+      - fr_CA
+```
+
 ## Product filter rules
 
     BO > Akeneo > Product filter rules
