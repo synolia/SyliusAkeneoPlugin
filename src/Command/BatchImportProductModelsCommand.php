@@ -20,7 +20,7 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
 
     public function __construct(
         private ClientFactoryInterface $clientFactory,
-        private BatchProductModelTask $attributesTask,
+        private BatchProductModelTask $batchProductModelTask,
         private LoggerInterface $logger,
     ) {
         parent::__construct(self::$defaultName);
@@ -41,7 +41,7 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
         $productModelPayload = new ProductModelPayload($this->clientFactory->createFromApiCredentials());
         $productModelPayload->setIds($ids);
 
-        $this->attributesTask->__invoke($productModelPayload);
+        $this->batchProductModelTask->__invoke($productModelPayload);
 
         return 0;
     }
