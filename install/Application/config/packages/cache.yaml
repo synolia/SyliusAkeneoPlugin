@@ -1,0 +1,34 @@
+framework:
+    cache:
+        app: cache.adapter.null
+        system: cache.adapter.null
+        pools:
+            akeneo_families:
+                adapters:
+                    - cache.adapter.null
+            akeneo_family:
+                adapters:
+                    - cache.adapter.null
+            akeneo_family_variants:
+                adapters:
+                    - cache.adapter.null
+            akeneo_product_models:
+                adapters:
+                    - cache.adapter.null
+            akeneo_products:
+                adapters:
+                    - cache.adapter.null
+            akeneo_attributes_pool:
+                adapters:
+                    - cache.adapter.null
+            akeneo_attribute_options:
+                adapters:
+                    - cache.adapter.null
+            akeneo_reference_entity_attribute:
+                adapters:
+                    - cache.adapter.null
+
+services:
+    cache.adapter.null:
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+        arguments: [~] # small trick to avoid arguments errors on compile-time.

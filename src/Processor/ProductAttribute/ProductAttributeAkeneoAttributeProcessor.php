@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuild
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\AssetAttributeType;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
+use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 
 final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
@@ -22,7 +23,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
-        private RepositoryInterface $productAttributeRepository,
+        private ProductAttributeRepository $productAttributeRepository,
         private RepositoryInterface $productAttributeValueRepository,
         private ProductAttributeValueValueBuilder $attributeValueValueBuilder,
         private FactoryInterface $productAttributeValueFactory,
@@ -40,7 +41,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
         /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
+        $attribute = $this->productAttributeRepository->findOneByCode($transformedAttributeCode);
 
         if (!$attribute instanceof AttributeInterface || null === $attribute->getType()) {
             return false;
@@ -59,7 +60,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(sprintf(
+        $this->logger->info(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class,
@@ -72,7 +73,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
         /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
+        $attribute = $this->productAttributeRepository->findOneByCode($transformedAttributeCode);
 
         foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusAkeneo) {
             $this->setAttributeTranslation(

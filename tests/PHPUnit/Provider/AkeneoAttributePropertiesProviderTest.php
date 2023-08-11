@@ -6,6 +6,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
@@ -28,7 +29,7 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
             new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 
-        $this->attributePropertiesProvider = new AkeneoAttributePropertiesProvider($this->createClient());
+        $this->attributePropertiesProvider = new AkeneoAttributePropertiesProvider($this->createClient(), new ArrayAdapter());
         $this->attributePropertiesProvider->setLoadsAllAttributesAtOnce(true);
     }
 

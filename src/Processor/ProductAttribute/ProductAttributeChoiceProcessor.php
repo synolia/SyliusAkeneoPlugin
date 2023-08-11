@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
@@ -26,6 +28,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
         private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
         private EntityManagerInterface $entityManager,
         private ApiConnectionProviderInterface $apiConnectionProvider,
+        private CacheInterface $attributeOptions,
     ) {
     }
 
@@ -43,12 +46,16 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
                 return;
             }
 
+            $options = $this->attributeOptions->get('akeneo_attribute_options_' . $attribute->getCode(), function (ItemInterface $item) use ($attribute): array {
+                return iterator_to_array($this->clientFactory->createFromApiCredentials()->getAttributeOptionApi()->all(
+                    $attribute->getCode(),
+                    $this->apiConnectionProvider->get()->getPaginationSize(),
+                ));
+            });
+
             $this->setAttributeChoices(
                 $attribute,
-                $this->clientFactory->createFromApiCredentials()->getAttributeOptionApi()->all(
-                    $resource['code'],
-                    $this->apiConnectionProvider->get()->getPaginationSize(),
-                ),
+                $options,
                 $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher,
             );
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
