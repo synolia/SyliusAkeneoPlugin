@@ -69,3 +69,45 @@ sylius_fixtures:
                                             - 'child_category'
                                             - 'another_child_category'
 ```
+
+## Attributes - `akeneo_attributes`
+
+This fixture allow you to trigger the `akeneo:import:attributes` command.
+
+You can specify the batch size, if you allow parallel import, and max concurrency. 
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_attributes: 
+                    options:
+                        batch_size: 100
+                        allow_parallel: true
+                        max_concurrency: 4
+```
+
+If you have too many attributes, you can also provide a custom filter to reduce the number of attributes you want to import.
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_attributes: 
+                    options:
+                        custom:
+                            search:
+                                code: 
+                                    - 
+                                        operator: 'IN'
+                                        value: 
+                                            - 'attribute_code'
+                                            - 'another_attribute_code'
+```
+Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-attributes).
