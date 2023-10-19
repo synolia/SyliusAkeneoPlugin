@@ -39,10 +39,10 @@ class ProductGroup implements ProductGroupInterface
     /**
      * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface")
      *
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     #[ORM\ManyToOne(targetEntity: ProductGroupInterface::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?ProductGroupInterface $parent = null;
 
     /** @ORM\Column(type="string", length=255, nullable=false, unique=true) */

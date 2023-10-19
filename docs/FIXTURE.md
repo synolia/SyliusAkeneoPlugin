@@ -136,4 +136,48 @@ sylius_fixtures:
 > Given [Akeneo API](https://api.akeneo.com/api-reference.html#Associationtype) don't provide any search filter for association types, 
 > it's not currently possible de reduce the number of association types to import.
 
+## Families - `akeneo_families`
+
+This fixture allow you to trigger the `akeneo:import:families` command.
+
+You can specify the batch size, if you allow parallel import, and max concurrency.
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_families: 
+                    options:
+                        batch_size: 100
+                        allow_parallel: true
+                        max_concurrency: 4
+```
+
+You can also provide a custom filter to reduce the number of families you want to import.
+
+Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-on-product-model-properties).
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_families: 
+                    options:
+                        custom:
+                            search:
+                                categories:
+                                    -
+                                        operator: 'IN'
+                                        value: 
+                                            - 'root_category'
+```
+
+> [!NOTE]
+> The API call made is on ProductModel endpoint, so be careful to only use filters available for this endpoint.
 
