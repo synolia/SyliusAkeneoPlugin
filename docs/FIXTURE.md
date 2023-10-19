@@ -111,3 +111,29 @@ sylius_fixtures:
                                             - 'another_attribute_code'
 ```
 Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-attributes).
+
+## Association Types - `akeneo_association_types`
+
+This fixture allow you to trigger the `akeneo:import:association-type` command.
+
+You can specify the batch size, if you allow parallel import, and max concurrency. 
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_association_types: 
+                    options:
+                        batch_size: 100
+                        allow_parallel: true
+                        max_concurrency: 4
+```
+
+> [!NOTE]
+> Given [Akeneo API](https://api.akeneo.com/api-reference.html#Associationtype) don't provide any search filter for association types, 
+> it's not currently possible de reduce the number of association types to import.
+
+
