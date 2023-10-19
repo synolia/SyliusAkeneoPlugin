@@ -46,7 +46,7 @@ You can also provide a custom filter to reduce the number of categories you want
 > [!IMPORTANT]
 > If you want to get only some children categories, make sure that all parents are also included in your search. 
 
-Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-categories).
+Inside `custom` node option, you can provide any query parameter supported by [Akeneo API](https://api.akeneo.com/documentation/filter.html#filter-categories).
 
 ```yaml
 # config/packages/sylius_fixtures.yaml
@@ -110,7 +110,7 @@ sylius_fixtures:
                                             - 'attribute_code'
                                             - 'another_attribute_code'
 ```
-Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-attributes).
+Inside `custom` node option, you can provide any query parameter supported by [Akeneo API](https://api.akeneo.com/documentation/filter.html#filter-attributes).
 
 ## Association Types - `akeneo_association_types`
 
@@ -158,7 +158,7 @@ sylius_fixtures:
 
 You can also provide a custom filter to reduce the number of families you want to import.
 
-Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-on-product-model-properties).
+Inside `custom` node option, you can provide any query parameter supported by [Akeneo API](https://api.akeneo.com/documentation/filter.html#filter-on-product-model-properties).
 
 ```yaml
 # config/packages/sylius_fixtures.yaml
@@ -180,4 +180,55 @@ sylius_fixtures:
 
 > [!NOTE]
 > The API call made is on ProductModel endpoint, so be careful to only use filters available for this endpoint.
+
+## Product Models - `akeneo_product_models`
+
+This fixture allow you to trigger the `akeneo:import:product-models` command.
+
+You can specify the batch size, if you allow parallel import, and max concurrency.
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_product_models: 
+                    options:
+                        batch_size: 100
+                        allow_parallel: true
+                        max_concurrency: 4
+```
+
+> [!IMPORTANT]
+> Before this fixture, you need to create a [Product Filter rule](https://github.com/synolia/SyliusAkeneoPlugin/blob/master/docs/CONFIGURE_DETAIL.md#product-filter-rules).
+
+You can also provide a custom filter to reduce the number of product-models you want to import.
+
+Inside `custom` node option, you can provide any query parameter supported by [Akeneo API](https://api.akeneo.com/documentation/filter.html#filter-on-product-model-properties).
+
+```yaml
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_product_models:
+                    options:
+                        custom:
+                            search:
+                                categories:
+                                    -
+                                        operator: 'IN'
+                                        value:
+                                            - 'root_category'
+                                            - 'another_category'
+                                parent:
+                                    - 
+                                        operator: 'NOT EMPTY'
+```
+
+> [!NOTE]
+> Adding NOT EMPTY filter for parent will avoid warning while importing product models. 
+> We actually don't import productModel without parents.
 
