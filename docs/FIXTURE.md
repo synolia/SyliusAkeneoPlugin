@@ -1,0 +1,71 @@
+# Developers - Using fixtures
+
+This plugin provides multiples fixtures to help you start your shop from scratch.
+
+## Category Configurations - `akeneo_category_configuration`
+
+This fixture allow to define the root category you want to import from Akeneo, and also if you want to exclude somes.
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_category_configuration:
+                    options: 
+                        root_categories_to_import:
+                            - 'root_category'
+                            - 'another_root_category'
+                        categories_to_exclude:
+                            - 'excluded_category'
+                            - 'another_excluded_category'
+```
+## Categories - `akeneo_categories`
+
+This fixture allow you to trigger the `akeneo:import:categories` command.
+
+> [!IMPORTANT]
+> Remember that the `akeneo_category_configuration` fixture must be configured and loaded before this one.
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_category_configuration: 
+                    # ...
+                akeneo_categories: ~
+```
+
+You can also provide a custom filter to reduce the number of categories you want to import.
+
+> [!IMPORTANT]
+> If you want to get only some children categories, make sure that all parents are also included in your search. 
+
+Inside `custom` node option, you can provide any query parameter supported by [Akneneo API](https://api.akeneo.com/documentation/filter.html#filter-categories).
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_category_configuration: 
+                    # ...
+                akeneo_categories: 
+                    options:
+                        custom:
+                            search:
+                                code: 
+                                    - 
+                                        operator: 'IN'
+                                        value: 
+                                            - 'root_category'
+                                            - 'child_category'
+                                            - 'another_child_category'
+```
