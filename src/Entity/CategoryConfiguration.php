@@ -10,7 +10,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 
 /**
- * @ORM\Entity(repositoryClass="CategoryConfigurationRepository")
+ * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository")
  *
  * @ORM\Table("akeneo_api_configuration_categories")
  */
