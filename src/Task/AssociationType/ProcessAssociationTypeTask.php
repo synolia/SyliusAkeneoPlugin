@@ -59,6 +59,7 @@ final class ProcessAssociationTypeTask extends AbstractProcessTask
         );
 
         $this->handle($payload, $page);
+        $this->processManager->waitForAllProcesses();
 
         return $payload;
     }
