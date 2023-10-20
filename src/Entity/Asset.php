@@ -16,7 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\AssetRepository;
 /**
  * @ApiResource()
  *
- * @ORM\Entity(repositoryClass=\Synolia\SyliusAkeneoPlugin\Repository\AssetRepository::class)
+ * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\AssetRepository")
  *
  * @ORM\Table(name="akeneo_assets")
  */
