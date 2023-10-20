@@ -66,6 +66,8 @@ final class ProcessProductsTask extends AbstractProcessTask
         } catch (CommandContextIsNullException) {
         }
 
+        $queryParameters = array_merge_recursive($queryParameters, $payload->getCustomFilters());
+
         /** @var \Akeneo\Pim\ApiClient\Pagination\PageInterface|null $resources */
         $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
             $this->apiConnectionProvider->get()->getPaginationSize(),

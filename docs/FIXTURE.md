@@ -232,3 +232,53 @@ sylius_fixtures:
 > Adding NOT EMPTY filter for parent will avoid warning while importing product models. 
 > We actually don't import productModel without parents.
 
+
+## Products - `akeneo_products`
+
+This fixture allow you to trigger the `akeneo:import:products` command.
+
+You can specify the batch size, if you allow parallel import, and max concurrency.
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_products: 
+                    options:
+                        batch_size: 100
+                        allow_parallel: true
+                        max_concurrency: 4
+```
+
+Like others fixtures, you can reduce amount of product to import by adding filters.
+Inside `custom` node option, you can provide any query parameter supported by [Akeneo API](https://api.akeneo.com/documentation/filter.html#filter-on-product-properties).
+
+
+```yaml
+# config/packages/sylius_fixtures.yaml
+
+sylius_fixtures:
+    suites:
+        app:
+            fixtures:
+                akeneo_products: 
+                    options:
+                        custom:
+                            search:
+                                code:
+                                    -
+                                        operator: 'IN'
+                                        value:
+                                            - 'awesome_product'
+```
+
+> [!NOTE]
+> While launching this fixture, the [Product Filter rule](https://github.com/synolia/SyliusAkeneoPlugin/blob/master/docs/CONFIGURE_DETAIL.md#product-filter-rules) will be applied too.
+> Custom search can override those values.
+
+
+
+
