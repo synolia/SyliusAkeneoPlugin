@@ -9,10 +9,8 @@ use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeTranslationInterface;
 use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\InvalidAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\NoAttributeResourcesException;
@@ -20,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 use Throwable;
 
@@ -31,9 +30,8 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
         EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private FactoryInterface $productAssociationTypeFactory,
-        private FactoryInterface $productAssociationTypeTranslationFactory,
         private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
-        private RepositoryInterface $productAssociationTypeTranslationRepository,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
         parent::__construct($entityManager);
     }
@@ -59,6 +57,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
 
             while ($results = $queryResult->fetchAll()) {
                 foreach ($results as $result) {
+                    /** @var array{code: string, labels: array} $resource */
                     $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                     try {
@@ -75,7 +74,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
                             $productAssociationType->setCode($resource['code']);
                         }
 
-                        $this->addTranslations($resource, $productAssociationType);
+                        $this->setTranslations($resource['labels'], $productAssociationType);
 
                         $this->entityManager->flush();
 
@@ -113,30 +112,21 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
         return $payload;
     }
 
-    private function addTranslations(array $resource, ProductAssociationTypeInterface $productAssociationType): void
+    private function setTranslations(array $labels, ProductAssociationTypeInterface $productAssociationType): void
     {
-        foreach ($resource['labels'] as $localeCode => $label) {
-            $productAssociationTypeTranslation = $this->productAssociationTypeTranslationRepository->findOneBy([
-                'translatable' => $productAssociationType,
-                'locale' => $localeCode,
-            ]);
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
+            $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($usedLocalesOnBothPlatform);
 
-            if (!$productAssociationTypeTranslation instanceof ProductAssociationTypeTranslationInterface) {
-                $productAssociationTypeTranslation = $this->createTranslation($localeCode, $label);
+            $productAssociationType->setCurrentLocale($usedLocalesOnBothPlatform);
+            $productAssociationType->setFallbackLocale($usedLocalesOnBothPlatform);
+
+            if (!isset($labels[$akeneoLocale])) {
+                $productAssociationType->setName(sprintf('[%s]', $productAssociationType->getCode()));
+
+                continue;
             }
 
-            $productAssociationType->addTranslation($productAssociationTypeTranslation);
+            $productAssociationType->setName($labels[$akeneoLocale]);
         }
-    }
-
-    private function createTranslation(string $localeCode, string $label): ProductAssociationTypeTranslationInterface
-    {
-        /** @var ProductAssociationTypeTranslationInterface $productAssociationTypeTranslation */
-        $productAssociationTypeTranslation = $this->productAssociationTypeTranslationFactory->createNew();
-        $productAssociationTypeTranslation->setLocale($localeCode);
-        $productAssociationTypeTranslation->setName($label);
-        $this->entityManager->persist($productAssociationTypeTranslation);
-
-        return $productAssociationTypeTranslation;
     }
 }
