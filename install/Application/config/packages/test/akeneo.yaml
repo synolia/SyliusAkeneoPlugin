@@ -16,7 +16,7 @@ services:
 
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory', 'createFromApiCredentials']
-
+        lazy: true
     Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder: ~
     Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory: ~
@@ -25,7 +25,6 @@ services:
     Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Filter\ProductFilter: ~
     Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider: ~
-    Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider: ~
     Synolia\SyliusAkeneoPlugin\Provider\TaskProvider: ~
     Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever: ~
     Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository: ~

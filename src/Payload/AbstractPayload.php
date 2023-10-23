@@ -24,6 +24,8 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 
     protected string $commandName;
 
+    protected array $customFilters = [];
+
     public function __construct(
         protected AkeneoPimClientInterface $akeneoPimClient,
         protected ?\Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface $commandContext = null,
@@ -115,5 +117,15 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         $this->commandName = $command;
 
         return $this;
+    }
+
+    public function getCustomFilters(): array
+    {
+        return $this->customFilters;
+    }
+
+    public function setCustomFilters(array $customFilters = []): void
+    {
+        $this->customFilters = $customFilters;
     }
 }

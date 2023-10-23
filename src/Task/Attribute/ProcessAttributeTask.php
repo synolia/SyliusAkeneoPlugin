@@ -53,6 +53,8 @@ final class ProcessAttributeTask extends AbstractProcessTask
             $queryParameters = [];
         }
 
+        $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());
+
         $page = $payload->getAkeneoPimClient()->getAttributeApi()->listPerPage(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             true,

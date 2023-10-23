@@ -55,6 +55,8 @@ final class ProcessFamilyTask extends AbstractProcessTask
             $queryParameters = [];
         }
 
+        $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());
+
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             $queryParameters,

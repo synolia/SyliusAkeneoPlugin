@@ -197,6 +197,8 @@
 
 * See [How to contribute](CONTRIBUTING.md)
 * See [How to customize your import using processors](docs/customize/PROCESSORS.md)
+* See [How to use fixtures](docs/FIXTURE.md)
+
 
 ## Akeneo Enterprise Edition
 
