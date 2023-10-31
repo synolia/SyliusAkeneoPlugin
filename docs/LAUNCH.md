@@ -45,6 +45,10 @@ Import from where it stopped.
 This option is not fetching new data from akeneo.
 It only processes the rest of the data in the temp table.
 
+`--batch-after-fetch`
+
+Fetch all pages then start processing the batches.
+This allows you to recover the import process by launching the command again with the `--continue` argument
 
 ### Logs
 

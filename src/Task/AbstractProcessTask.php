@@ -7,16 +7,14 @@ namespace Synolia\SyliusAkeneoPlugin\Task;
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use BluePsyduck\SymfonyProcessManager\ProcessManager;
-use BluePsyduck\SymfonyProcessManager\ProcessManagerInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\Process;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Manager\ProcessManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Throwable;
 
@@ -83,11 +81,6 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         array $ids,
     ): void {
         if ($payload->allowParallel()) {
-            if (!$this->processManager instanceof ProcessManager) {
-                throw new LogicException('ProcessManager');
-            }
-            $this->processManager->setNumberOfParallelProcesses($payload->getMaxRunningProcessQueueSize());
-
             $processArguments = [
                 'php',
                 'bin/console',
@@ -105,6 +98,9 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
             $isTtySupported = Process::isTtySupported();
             $process->setTty($isTtySupported);
             $this->processManager->addProcess($process);
+            $this->logger->info('Added batch process', [
+                'ids' => $ids,
+            ]);
 
             return;
         }
@@ -118,6 +114,9 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
     protected function process(PipelinePayloadInterface $initialPayload): void
     {
+        $this->processManager->setInstantProcessing($initialPayload->getProcessAsSoonAsPossible());
+        $this->processManager->setNumberOfParallelProcesses($initialPayload->getMaxRunningProcessQueueSize());
+
         $this->logger->debug(self::class);
         $this->type = $initialPayload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
@@ -145,7 +144,8 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
                 $query = $this->prepareSelectBatchIdsQuery($initialPayload->getTmpTableName(), (int) $result['id'], $initialPayload->getBatchSize());
                 $queryResult = $query->executeQuery();
             }
-            $this->processManager->waitForAllProcesses();
+
+            $this->processManager->startAll();
         } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage());
 
@@ -165,6 +165,9 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
         PipelinePayloadInterface $payload,
         \Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface|\Akeneo\Pim\ApiClient\Pagination\PageInterface $handleType,
     ): void {
+        $this->processManager->setInstantProcessing($payload->getProcessAsSoonAsPossible());
+        $this->processManager->setNumberOfParallelProcesses($payload->getMaxRunningProcessQueueSize());
+
         $count = 0;
         $ids = [];
 

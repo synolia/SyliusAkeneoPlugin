@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Factory;
 
+use const FILTER_VALIDATE_BOOLEAN;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
@@ -42,11 +43,13 @@ final class PayloadFactory implements PayloadFactoryInterface
 
         $isBatchingAllowed = !($input->getOption('disable-batch') ?? true);
         $isParallelAllowed = $input->getOption('parallel') ?? false;
+        $batchAfterFetch = $input->getOption('batch-after-fetch') ?? false;
 
         $context
             ->setIsContinue($input->getOption('continue') ?? false)
             ->setAllowParallel($isParallelAllowed)
             ->setBatchingAllowed($isBatchingAllowed)
+            ->setProcessAsSoonAsPossible(filter_var($batchAfterFetch, FILTER_VALIDATE_BOOLEAN))
             ->setBatchSize((int) $input->getOption('batch-size'))
             ->setMaxRunningProcessQueueSize((int) $input->getOption('max-concurrency'))
             ->setFilters((array) ($input->getOption('filter') ?: []))

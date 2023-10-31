@@ -154,8 +154,7 @@ services:
         arguments:
             - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
 
-    BluePsyduck\SymfonyProcessManager\ProcessManagerInterface:
-        class: BluePsyduck\SymfonyProcessManager\ProcessManager
+    BluePsyduck\SymfonyProcessManager\ProcessManager: ~
 
     Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProviderInterface:
         class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProvider
