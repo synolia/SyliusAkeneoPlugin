@@ -6,39 +6,42 @@ namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Synolia\SyliusAkeneoPlugin\Component\Cache\CacheKey;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
-final class FamilyVariantRetriever
+final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
 {
-    private array $familyVariants = [];
+    private array $variantsByFamily = [];
 
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
         private LoggerInterface $logger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
+        private CacheInterface $akeneoFamilyVariants,
     ) {
     }
 
     public function getVariants(string $familyCode): array
     {
-        if (\array_key_exists($familyCode, $this->familyVariants)) {
-            return $this->familyVariants[$familyCode];
+        if ($this->variantsByFamily !== []) {
+            return $this->variantsByFamily[$familyCode] ?? [];
         }
 
-        $paginationSize = $this->apiConnectionProvider->get()->getPaginationSize();
+        /** @phpstan-ignore-next-line */
+        return $this->variantsByFamily[$familyCode] = $this->akeneoFamilyVariants->get(\sprintf(CacheKey::FAMILY_VARIANTS, $familyCode), function () use ($familyCode): array {
+            $paginationSize = $this->apiConnectionProvider->get()->getPaginationSize();
 
-        try {
-            $familyVariants = $this->akeneoPimClient->getFamilyVariantApi()->all($familyCode, $paginationSize);
+            try {
+                $results = $this->akeneoPimClient->getFamilyVariantApi()->all($familyCode, $paginationSize);
+                $familyVariants = iterator_to_array($results);
+            } catch (\Throwable $exception) {
+                $this->logger->warning($exception->getMessage());
 
-            $this->familyVariants[$familyCode] = iterator_to_array($familyVariants);
-
-            if (isset($this->familyVariants[$familyCode])) {
-                return $this->familyVariants[$familyCode];
+                return [];
             }
-        } catch (\Throwable $exception) {
-            $this->logger->warning($exception->getMessage());
-        }
 
-        throw new \LogicException(sprintf('Unable to find variants for family "%s"', $familyCode));
+            return $familyVariants;
+        });
     }
 }

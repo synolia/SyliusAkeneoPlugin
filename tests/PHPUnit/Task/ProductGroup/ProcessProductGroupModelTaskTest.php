@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductGroup;
 
+use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
+use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Assert;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -41,6 +44,11 @@ class ProcessProductGroupModelTaskTest extends AbstractTaskTest
         $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
         $this->processProductGroupModelTask = $this->getContainer()->get(ProcessProductGroupModelTask::class);
         self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
+            new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK),
+        );
     }
 
     public function testCreateProductGroupAssociations(): void

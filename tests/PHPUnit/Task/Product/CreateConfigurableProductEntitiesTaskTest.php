@@ -10,15 +10,12 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use donatj\MockWebServer\Response;
-use League\Pipeline\Pipeline;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
@@ -60,7 +57,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $this->importCategories();
         $this->importAttributes();
         $this->importReferenceEntities();
-        $this->importFamilies();
         $this->importProductModels();
 
         $this->manager->flush();
@@ -176,16 +172,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $productModelPipeline = $this->getContainer()->get(ProductModelPipelineFactory::class)->create();
 
         $productModelPipeline->process($productModelPayload);
-    }
-
-    private function importFamilies(): void
-    {
-        /** @var Pipeline $familyPipeline */
-        $familyPipeline = $this->getContainer()->get(FamilyPipelineFactory::class)->create();
-
-        $familyPayload = new FamilyPayload($this->client);
-        $familyPayload->setProcessAsSoonAsPossible(false);
-        $familyPipeline->process($familyPayload);
     }
 
     private function createProductFiltersConfiguration(): void

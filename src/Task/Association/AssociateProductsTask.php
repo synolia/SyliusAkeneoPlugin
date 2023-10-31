@@ -80,10 +80,10 @@ class AssociateProductsTask implements AkeneoTaskInterface
                     if (!$productAssociation instanceof ProductAssociationInterface) {
                         /** @var ProductAssociationInterface $productAssociation */
                         $productAssociation = $this->productAssociationFactory->createNew();
-                        $productAssociation->setOwner($parentModel);
                         $productAssociation->setType($productAssociationType);
 
                         $this->entityManager->persist($productAssociation);
+                        $parentModel->addAssociation($productAssociation);
                     }
 
                     /** @var ProductInterface|null $reference */
