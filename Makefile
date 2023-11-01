@@ -60,7 +60,7 @@ install-plugin:
 
 update-dependencies:
 	${COMPOSER} config extra.symfony.require "~${SYMFONY_VERSION}"
-	${COMPOSER} require --dev donatj/mock-webserver:^2.1 --no-scripts --no-update
+	${COMPOSER} require --dev donatj/mock-webserver:2.7.0 --no-scripts --no-update
 	${COMPOSER} update -n
 
 install-sylius:
