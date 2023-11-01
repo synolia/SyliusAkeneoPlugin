@@ -31,7 +31,7 @@
         "webmozart/assert": "^1.8"
     },
     "require-dev": {
-        "donatj/mock-webserver": "2.6.1",
+        "donatj/mock-webserver": "2.7.0",
         "friendsoftwig/twigcs": "6.0.0",
         "j13k/yaml-lint": "1.1.4",
         "php-parallel-lint/php-parallel-lint": "1.3.2",
