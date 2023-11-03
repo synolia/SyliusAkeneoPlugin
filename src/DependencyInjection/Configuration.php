@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('excluded_category_codes')
                         ->scalarPrototype()->defaultValue([])->end()
                     ->end()
+                    ->booleanNode('use_akeneo_positions')->defaultFalse()->end()
                 ->end()
             ->end()
 

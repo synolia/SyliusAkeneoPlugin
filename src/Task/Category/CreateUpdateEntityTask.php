@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Sortable\SortableListener;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -24,6 +25,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -61,6 +63,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         private FactoryInterface $taxonAttributeValueFactory,
         private TaxonAttributeTypeMatcher $taxonAttributeTypeMatcher,
         private TaxonAttributeValueBuilder $taxonAttributeValueBuilder,
+        private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
     ) {
     }
 
@@ -86,6 +89,12 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 $taxons[$resource['code']] = $taxon;
 
                 $this->assignParent($taxon, $taxons, $resource);
+
+                $this->logger->warning('SetPosition', [
+                    'taxon_code' => $taxon->getCode(),
+                    'position' => $resource['position'],
+                    'positiond' => $taxon->getPosition(),
+                ]);
 
                 foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
                     $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
@@ -143,6 +152,26 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 }
 
                 $this->dispatcher->dispatch(new AfterProcessingTaxonEvent($resource, $taxon));
+
+                if ($this->categoryConfigurationProvider->get()->isUseAkeneoPositions()) {
+                    $taxon->setPosition($resource['position']);
+
+                    foreach ($this->entityManager->getEventManager()->getAllListeners() as $listenerTypes) {
+                        foreach ($listenerTypes as $listener) {
+                            if (get_class($listener) === SortableListener::class) {
+                                $this->entityManager->getEventManager()->removeEventListener([
+                                    'onFlush',
+                                    'loadClassMetadata',
+                                    'prePersist',
+                                    'postPersist',
+                                    'preUpdate',
+                                    'postRemove',
+                                    'postFlush',
+                                ], $listener);
+                            }
+                        }
+                    }
+                }
 
                 $this->entityManager->flush();
 
