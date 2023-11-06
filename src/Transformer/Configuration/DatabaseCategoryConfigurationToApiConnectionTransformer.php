@@ -14,6 +14,7 @@ class DatabaseCategoryConfigurationToApiConnectionTransformer
         return new \Synolia\SyliusAkeneoPlugin\Model\Configuration\CategoryConfiguration(
             $configuration->getRootCategories(),
             $configuration->getNotImportCategories(),
+            $configuration->useAkeneoPositions(),
         );
     }
 }

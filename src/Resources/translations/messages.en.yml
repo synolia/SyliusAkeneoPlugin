@@ -65,6 +65,7 @@ sylius:
                     main_category: Main category
                     root_categories: Sylius Root categories
                     empty_local_replace_by: Replace empty local by
+                    use_akeneo_positions: Import category position from Akeneo
                 products:
                     title: Products
                     subtitle: Products configuration

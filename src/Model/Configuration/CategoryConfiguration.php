@@ -37,7 +37,7 @@ class CategoryConfiguration implements CategoryConfigurationInterface
         return $this;
     }
 
-    public function isUseAkeneoPositions(): bool
+    public function useAkeneoPositions(): bool
     {
         return $this->useAkeneoPositions;
     }

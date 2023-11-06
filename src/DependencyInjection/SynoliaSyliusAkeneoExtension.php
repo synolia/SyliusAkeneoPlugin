@@ -126,7 +126,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $categoryConfigurationProviderDefinition
             ->setArgument('$categoryCodesToImport', $config['category_configuration']['root_category_codes'])
             ->setArgument('$categoryCodesToExclude', $config['category_configuration']['excluded_category_codes'])
-            ->setArgument('$categoryCodesToExclude', $config['category_configuration']['use_akeneo_positions'])
+            ->setArgument('$useAkeneoPositions', $config['category_configuration']['use_akeneo_positions'])
         ;
 
         $container->setAlias(CategoryConfigurationProviderInterface::class, CategoryConfigurationProvider::class);

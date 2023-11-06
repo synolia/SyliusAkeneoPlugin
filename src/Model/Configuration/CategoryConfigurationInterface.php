@@ -14,7 +14,7 @@ interface CategoryConfigurationInterface
 
     public function setCategoryCodesToExclude(array $categoryCodesToExclude): self;
 
-    public function isUseAkeneoPositions(): bool;
+    public function useAkeneoPositions(): bool;
 
     public function setUseAkeneoPositions(bool $useAkeneoPositions): self;
 }
