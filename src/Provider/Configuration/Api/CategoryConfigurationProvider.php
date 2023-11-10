@@ -14,6 +14,7 @@ class CategoryConfigurationProvider implements CategoryConfigurationProviderInte
     public function __construct(
         private array $categoryCodesToImport,
         private array $categoryCodesToExclude,
+        private bool $useAkeneoPositions,
     ) {
     }
 
@@ -26,6 +27,7 @@ class CategoryConfigurationProvider implements CategoryConfigurationProviderInte
         return $this->configuration = new CategoryConfiguration(
             $this->categoryCodesToImport,
             $this->categoryCodesToExclude,
+            $this->useAkeneoPositions,
         );
     }
 }

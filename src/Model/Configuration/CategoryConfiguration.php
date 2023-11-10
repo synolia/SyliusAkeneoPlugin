@@ -6,8 +6,11 @@ namespace Synolia\SyliusAkeneoPlugin\Model\Configuration;
 
 class CategoryConfiguration implements CategoryConfigurationInterface
 {
-    public function __construct(private array $categoryCodesToImport, private array $categoryCodesToExclude)
-    {
+    public function __construct(
+        private array $categoryCodesToImport,
+        private array $categoryCodesToExclude,
+        private bool $useAkeneoPositions,
+    ) {
     }
 
     public function getCategoryCodesToImport(): array
@@ -30,6 +33,18 @@ class CategoryConfiguration implements CategoryConfigurationInterface
     public function setCategoryCodesToExclude(array $categoryCodesToExclude): self
     {
         $this->categoryCodesToExclude = $categoryCodesToExclude;
+
+        return $this;
+    }
+
+    public function useAkeneoPositions(): bool
+    {
+        return $this->useAkeneoPositions;
+    }
+
+    public function setUseAkeneoPositions(bool $useAkeneoPositions): self
+    {
+        $this->useAkeneoPositions = $useAkeneoPositions;
 
         return $this;
     }

@@ -48,6 +48,10 @@ class CategoryConfiguration implements ResourceInterface
     #[ORM\Column(type: Types::ARRAY)]
     private array $rootCategories = [];
 
+    /** @ORM\Column(type="boolean") */
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $useAkeneoPositions = false;
+
     public function getId(): int
     {
         return $this->id;
@@ -85,6 +89,18 @@ class CategoryConfiguration implements ResourceInterface
     public function setRootCategories(array $rootCategories): self
     {
         $this->rootCategories = $rootCategories;
+
+        return $this;
+    }
+
+    public function useAkeneoPositions(): bool
+    {
+        return $this->useAkeneoPositions;
+    }
+
+    public function setUseAkeneoPositions(bool $useAkeneoPositions): self
+    {
+        $this->useAkeneoPositions = $useAkeneoPositions;
 
         return $this;
     }

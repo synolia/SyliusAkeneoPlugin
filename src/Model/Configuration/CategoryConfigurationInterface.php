@@ -10,7 +10,11 @@ interface CategoryConfigurationInterface
 
     public function getCategoryCodesToExclude(): array;
 
-    public function setCategoryCodesToImport(array $categoryCodesToImport): CategoryConfiguration;
+    public function setCategoryCodesToImport(array $categoryCodesToImport): self;
 
-    public function setCategoryCodesToExclude(array $categoryCodesToExclude): CategoryConfiguration;
+    public function setCategoryCodesToExclude(array $categoryCodesToExclude): self;
+
+    public function useAkeneoPositions(): bool;
+
+    public function setUseAkeneoPositions(bool $useAkeneoPositions): self;
 }

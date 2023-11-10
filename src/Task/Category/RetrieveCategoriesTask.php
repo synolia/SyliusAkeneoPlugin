@@ -45,7 +45,12 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         } catch (CommandContextIsNullException) {
             $queryParameters = [];
         }
+
         $queryParameters['with_enriched_attributes'] = true;
+
+        if ($this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
+            $queryParameters['with_position'] = true;
+        }
 
         $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());
 

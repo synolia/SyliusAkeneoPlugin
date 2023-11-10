@@ -53,6 +53,8 @@ The category import configuration contains two configurations.
 
 `excluded_category_codes` allows you to choose the categories that you want to exclude from the import.
 
+`use_akeneo_positions` import category position from Akeneo, this will bypass the default sortable event.
+
 **Selecting a parent will exclude the parent and its children**.
 
 ```yaml
@@ -66,6 +68,7 @@ synolia_sylius_akeneo:
             - led_tvs
             - audio_video
             - mp3_players
+        use_akeneo_positions: true
 ```
 
 

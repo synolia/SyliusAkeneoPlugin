@@ -23,6 +23,7 @@ final class CategoryConfigurationFixture extends AbstractFixture
         $categoryConfiguration = $this->categoriesConfigurationFactory->createNew();
         $categoryConfiguration->setRootCategories($options['root_categories_to_import']);
         $categoryConfiguration->setNotImportCategories($options['categories_to_exclude']);
+        $categoryConfiguration->setUseAkeneoPositions($options['use_akeneo_positions']);
 
         $this->entityManager->persist($categoryConfiguration);
         $this->entityManager->flush();
@@ -45,6 +46,9 @@ final class CategoryConfigurationFixture extends AbstractFixture
                 ->end()
                 ->arrayNode('categories_to_exclude')
                     ->scalarPrototype()->defaultValue([])->end()
+                ->end()
+                ->arrayNode('use_akeneo_positions')
+                    ->scalarPrototype()->defaultFalse()->end()
                 ->end()
             ->end()
         ;

@@ -21,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentit
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttributeValueBuilderCompilerPass;
+use Synolia\SyliusAkeneoPlugin\Processor\Category\CategoryProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\Table\TableProductAttributeValueProcessorInterface;
@@ -91,6 +92,10 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
         $container
             ->registerForAutoconfiguration(AkeneoAttributeProcessorInterface::class)
             ->addTag(AkeneoAttributeProcessorInterface::TAG_ID)
+        ;
+        $container
+            ->registerForAutoconfiguration(CategoryProcessorInterface::class)
+            ->addTag(CategoryProcessorInterface::TAG_ID)
         ;
         $container
             ->registerForAutoconfiguration(ProductProcessorInterface::class)

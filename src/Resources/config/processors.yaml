@@ -4,6 +4,12 @@ services:
         autoconfigure: true
         public: false
 
+    # Taxon Processors
+    Synolia\SyliusAkeneoPlugin\Processor\Category\CategoryProcessorChainInterface:
+        class: Synolia\SyliusAkeneoPlugin\Processor\Category\CategoryProcessorChain
+        arguments:
+            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\Category\CategoryProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
+
     # Product Processors
     Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface:
         class: Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChain
