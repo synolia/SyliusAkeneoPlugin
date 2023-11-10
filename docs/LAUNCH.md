@@ -14,7 +14,6 @@ and add one of
 
     akeneo:import:categories                Import Categories from Akeneo PIM.
     akeneo:import:attributes                Import Attributes and Options from Akeneo PIM.
-    akeneo:import:families                  Import product's families from Akeneo PIM.
     akeneo:import:association-type          Import Associations type from Akeneo PIM.
     akeneo:import:product-models            Import Product Models from Akeneo PIM.
     akeneo:import:products                  Import Products from Akeneo PIM.

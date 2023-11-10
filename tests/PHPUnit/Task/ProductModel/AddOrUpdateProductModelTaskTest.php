@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
+use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
+use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Assert;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Core\Model\Product;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
@@ -43,6 +46,11 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         $this->productRepository = $this->getContainer()->get('sylius.repository.product');
         $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
         self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
+            new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK),
+        );
     }
 
     public function testCreateUpdateTask(): void

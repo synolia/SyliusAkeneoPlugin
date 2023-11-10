@@ -10,6 +10,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\ProductGroupProcessor;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
@@ -24,6 +25,7 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
         private ProductRepositoryInterface $productRepository,
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
+        private ProductGroupProcessor $productGroupProcessor,
     ) {
         $this->productGroups = [];
     }
@@ -41,6 +43,8 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
          * } $resource
          */
         foreach ($resourceCursor as $resource) {
+            $this->productGroupProcessor->process($resource);
+
             if (null === $resource['parent']) {
                 continue;
             }

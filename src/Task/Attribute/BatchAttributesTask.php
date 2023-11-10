@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -24,7 +23,8 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeChoiceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductAttributeTableProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOption\ProductOptionProcessorInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
+use Synolia\SyliusAkeneoPlugin\Retriever\FamilyVariantRetrieverInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 use Webmozart\Assert\Assert;
 
@@ -37,8 +37,9 @@ final class BatchAttributesTask extends AbstractBatchTask
         private ProductOptionProcessorInterface $productOptionProcessor,
         private ProductAttributeTableProcessorInterface $productAttributeTableProcessor,
         private EventDispatcherInterface $dispatcher,
-        private ApiConnectionProviderInterface $apiConnectionProvider,
         private AttributeCreatorInterface $attributeCreator,
+        private FamilyRetrieverInterface $familyRetriever,
+        private FamilyVariantRetrieverInterface $familyVariantRetriever,
     ) {
         parent::__construct($entityManager);
     }
@@ -131,16 +132,10 @@ final class BatchAttributesTask extends AbstractBatchTask
     {
         Assert::isInstanceOf($payload, AbstractPayload::class);
         $variationAxes = [];
-        $client = $payload->getAkeneoPimClient();
-        $pagination = $this->apiConnectionProvider->get()->getPaginationSize();
-
-        $families = $client->getFamilyApi()->all($pagination);
+        $families = $this->familyRetriever->getFamilies();
 
         foreach ($families as $family) {
-            $familyVariants = $client->getFamilyVariantApi()->all(
-                $family['code'],
-                $pagination,
-            );
+            $familyVariants = $this->familyVariantRetriever->getVariants($family['code']);
 
             $variationAxes = array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));
         }
@@ -148,7 +143,7 @@ final class BatchAttributesTask extends AbstractBatchTask
         return $variationAxes;
     }
 
-    private function getVariationAxesForFamilies(ResourceCursorInterface $familyVariants): array
+    private function getVariationAxesForFamilies(array $familyVariants): array
     {
         $variationAxes = [];
 

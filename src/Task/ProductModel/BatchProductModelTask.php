@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMInvalidArgumentException;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
@@ -18,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
+use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\ProductGroupProcessor;
 use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 
 final class BatchProductModelTask extends AbstractBatchTask
@@ -35,12 +39,16 @@ final class BatchProductModelTask extends AbstractBatchTask
         private EventDispatcherInterface $dispatcher,
         private ProductProcessorChainInterface $productProcessorChain,
         private IsProductProcessableCheckerInterface $isProductProcessableChecker,
+        private ProductGroupProcessor $productGroupProcessor,
+        private ManagerRegistry $managerRegistry,
     ) {
         parent::__construct($entityManager);
     }
 
     /**
      * @param ProductModelPayload $payload
+     *
+     * @throws Exception
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
@@ -54,7 +62,10 @@ final class BatchProductModelTask extends AbstractBatchTask
 
         while ($results = $queryResult->fetchAll()) {
             foreach ($results as $result) {
-                $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
+                /** @var array $resource */
+                $resource = json_decode($result['values'], true);
+
+                $this->handleProductGroup($resource);
 
                 try {
                     $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
@@ -68,7 +79,6 @@ final class BatchProductModelTask extends AbstractBatchTask
 
                     $this->entityManager->flush();
                     $this->entityManager->commit();
-                    $this->entityManager->clear();
 
                     unset($resource, $product);
                     $this->removeEntry($payload, (int) $result['id']);
@@ -81,6 +91,26 @@ final class BatchProductModelTask extends AbstractBatchTask
         }
 
         return $payload;
+    }
+
+    private function handleProductGroup(array $resource): void
+    {
+        try {
+            $this->entityManager->beginTransaction();
+
+            $this->productGroupProcessor->process($resource);
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (ORMInvalidArgumentException) {
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->rollback();
+            }
+
+            if (!$this->entityManager->isOpen()) {
+                $this->entityManager = $this->getNewEntityManager();
+            }
+        }
     }
 
     private function process(array &$resource): ProductInterface
@@ -104,5 +134,16 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $resource['code']));
 
         return $product;
+    }
+
+    private function getNewEntityManager(): EntityManagerInterface
+    {
+        $objectManager = $this->managerRegistry->resetManager();
+
+        if (!$objectManager instanceof EntityManagerInterface) {
+            throw new \LogicException('Wrong ObjectManager');
+        }
+
+        return $objectManager;
     }
 }

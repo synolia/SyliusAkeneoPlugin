@@ -18,13 +18,11 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
-use Synolia\SyliusAkeneoPlugin\Payload\Family\FamilyPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
@@ -59,6 +57,7 @@ class AssociateProductsTaskTest extends AbstractTaskTest
         $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
         $this->productRepository = $this->getContainer()->get('sylius.repository.product');
         $this->productGroupRepository = $this->getContainer()->get('akeneo.repository.product_group');
+
         $this->client = $this->createClient();
 
         self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
@@ -71,7 +70,6 @@ class AssociateProductsTaskTest extends AbstractTaskTest
         $this->importCategories();
         $this->importAttributes();
         $this->importAssociationTypes();
-        $this->importFamilies();
         $this->importProductModels();
 
         $productModelPayload = new ProductModelPayload($this->createClient());
@@ -148,16 +146,6 @@ class AssociateProductsTaskTest extends AbstractTaskTest
         $associationTypePipeline = $this->getContainer()->get(AssociationTypePipelineFactory::class)->create();
 
         $associationTypePipeline->process($associationTypePayload);
-    }
-
-    private function importFamilies(): void
-    {
-        /** @var Pipeline $familyPipeline */
-        $familyPipeline = $this->getContainer()->get(FamilyPipelineFactory::class)->create();
-
-        $familyPayload = new FamilyPayload($this->client);
-        $familyPayload->setProcessAsSoonAsPossible(false);
-        $familyPipeline->process($familyPayload);
     }
 
     private function createProductFiltersConfiguration(): void

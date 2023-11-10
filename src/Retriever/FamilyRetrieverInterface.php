@@ -6,6 +6,8 @@ namespace Synolia\SyliusAkeneoPlugin\Retriever;
 
 interface FamilyRetrieverInterface
 {
+    public function getFamilies(): array;
+
     public function getFamilyCodeByVariantCode(string $familyVariantCode): string;
 
     public function getFamily(string $familyCode): array;

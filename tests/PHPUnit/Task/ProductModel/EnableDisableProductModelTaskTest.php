@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
+use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
+use donatj\MockWebServer\Response;
 use Sylius\Component\Core\Model\Product;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
@@ -31,6 +34,11 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $akeneoPropertiesProvider->setLoadsAllAttributesAtOnce(true);
         $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
         self::assertInstanceOf(TaskProvider::class, $this->taskProvider);
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
+            new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK),
+        );
     }
 
     public function testEnableDisableProductModelTask(): void
