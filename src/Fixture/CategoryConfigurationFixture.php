@@ -47,8 +47,8 @@ final class CategoryConfigurationFixture extends AbstractFixture
                 ->arrayNode('categories_to_exclude')
                     ->scalarPrototype()->defaultValue([])->end()
                 ->end()
-                ->arrayNode('use_akeneo_positions')
-                    ->scalarPrototype()->defaultFalse()->end()
+                ->booleanNode('use_akeneo_positions')
+                    ->defaultFalse()->end()
                 ->end()
             ->end()
         ;
