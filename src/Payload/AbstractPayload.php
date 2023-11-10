@@ -37,6 +37,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
             $this->maxRunningProcessQueueSize = $commandContext->getMaxRunningProcessQueueSize();
             $this->verbosity = $commandContext->getVerbosity();
             $this->isContinue = $commandContext->isContinue();
+            $this->processAsSoonAsPossible = $commandContext->getProcessAsSoonAsPossible();
         }
     }
 
