@@ -5,6 +5,7 @@ services:
         public: false
         bind:
             $projectDir: '%kernel.project_dir%'
+            $cacheDir: '%kernel.cache_dir%'
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'

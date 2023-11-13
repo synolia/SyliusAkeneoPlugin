@@ -6,6 +6,10 @@ namespace Synolia\SyliusAkeneoPlugin\Client;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Symfony\Component\HttpClient\CachingHttpClient;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\HttplugClient;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
@@ -13,8 +17,10 @@ final class ClientFactory implements ClientFactoryInterface
 {
     private ?AkeneoPimClientInterface $akeneoClient = null;
 
-    public function __construct(private ApiConnectionProviderInterface $apiConnectionProvider)
-    {
+    public function __construct(
+        private ApiConnectionProviderInterface $apiConnectionProvider,
+        private string $cacheDir,
+    ) {
     }
 
     public function createFromApiCredentials(): AkeneoPimClientInterface
@@ -26,6 +32,19 @@ final class ClientFactory implements ClientFactoryInterface
         $apiConnection = $this->apiConnectionProvider->get();
 
         $client = new AkeneoPimClientBuilder($apiConnection->getBaseUrl());
+
+        $httpClient = HttpClient::create();
+
+        $path = $this->cacheDir . '/akeneo';
+
+        if (is_dir($path) === false) {
+            mkdir($path);
+        }
+
+        $store = new Store($path);
+        $httpClient = new CachingHttpClient($httpClient, $store, ['default_ttl' => 3600, 'allow_revalidate' => true, 'debug' => getenv('APP_DEBUG')]);
+
+        $client->setHttpClient(new HttplugClient($httpClient));
 
         $this->akeneoClient = $client->buildAuthenticatedByPassword(
             $apiConnection->getApiClientId(),
