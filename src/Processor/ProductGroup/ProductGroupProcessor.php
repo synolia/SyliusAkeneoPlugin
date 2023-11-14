@@ -54,7 +54,6 @@ class ProductGroupProcessor
             $productGroup->setModel($code);
             $productGroup->setFamily($family);
             $productGroup->setFamilyVariant($familyVariant);
-            $this->entityManager->persist($productGroup);
 
             return;
         }

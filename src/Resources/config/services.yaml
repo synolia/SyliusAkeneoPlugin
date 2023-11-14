@@ -1,3 +1,7 @@
+parameters:
+  env(SYNOLIA_AKENEO_MAX_RETRY_COUNT): 30
+  env(SYNOLIA_AKENEO_RETRY_WAIT_TIME): 5000
+
 services:
     _defaults:
         autowire: true
@@ -5,6 +9,8 @@ services:
         public: false
         bind:
             $projectDir: '%kernel.project_dir%'
+            $maxRetryCount: '%env(int:SYNOLIA_AKENEO_MAX_RETRY_COUNT)%'
+            $retryWaitTime: '%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%'
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
