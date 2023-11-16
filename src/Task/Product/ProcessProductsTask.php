@@ -103,7 +103,7 @@ final class ProcessProductsTask extends AbstractProcessTask
             $this->process($payload);
         }
 
-        $this->processManager->waitForAllProcesses();
+        $this->processManager->startAll();
 
         return $payload;
     }
@@ -114,6 +114,9 @@ final class ProcessProductsTask extends AbstractProcessTask
         int &$count = 0,
         array &$ids = [],
     ): void {
+        $this->processManager->setInstantProcessing($payload->getProcessAsSoonAsPossible());
+        $this->processManager->setNumberOfParallelProcesses($payload->getMaxRunningProcessQueueSize());
+
         while (
             ($page instanceof Page && $page->hasNextPage()) ||
             ($page instanceof Page && !$page->hasPreviousPage()) ||
