@@ -15,14 +15,13 @@ use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValueInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
+use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute\TaxonAttributeTypeMatcher;
 use Webmozart\Assert\Assert;
 
 class AttributeProcessor implements CategoryProcessorInterface
 {
     private array $taxonAttributes = [];
-
-    private array $taxonAttributeValues = [];
 
     public static function getDefaultPriority(): int
     {
@@ -38,6 +37,7 @@ class AttributeProcessor implements CategoryProcessorInterface
         private FactoryInterface $taxonAttributeValueFactory,
         private TaxonAttributeTypeMatcher $taxonAttributeTypeMatcher,
         private TaxonAttributeValueBuilder $taxonAttributeValueBuilder,
+        private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
     }
 
@@ -50,12 +50,6 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $attributeValue['type'],
                 );
 
-                $taxonAttributeValue = $this->getTaxonAttributeValues(
-                    $taxon,
-                    $taxonAttribute,
-                    $attributeValue['locale'],
-                );
-
                 $value = $this->taxonAttributeValueBuilder->build(
                     $attributeValue['attribute_code'],
                     $attributeValue['type'],
@@ -64,7 +58,12 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $attributeValue['data'],
                 );
 
-                $taxonAttributeValue->setValue($value);
+                $this->getTaxonAttributeValues(
+                    $attributeValue,
+                    $taxon,
+                    $taxonAttribute,
+                    $value,
+                );
             } catch (UnsupportedAttributeTypeException $e) {
                 $this->logger->warning($e->getMessage(), [
                     'trace' => $e->getTrace(),
@@ -109,21 +108,31 @@ class AttributeProcessor implements CategoryProcessorInterface
     }
 
     private function getTaxonAttributeValues(
+        array $attributeValue,
         TaxonInterface $taxon,
         TaxonAttributeInterface $taxonAttribute,
-        ?string $locale,
-    ): TaxonAttributeValueInterface {
+        mixed $value,
+    ): void {
         Assert::string($taxon->getCode());
         Assert::string($taxonAttribute->getCode());
 
-        if (
-            array_key_exists($taxon->getCode(), $this->taxonAttributeValues) &&
-            array_key_exists($taxonAttribute->getCode(), $this->taxonAttributeValues[$taxon->getCode()]) &&
-            array_key_exists($locale ?? 'unknown', $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()])
-        ) {
-            return $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'];
+        if (null === $attributeValue['locale']) {
+            $this->handleValue($taxon, $taxonAttribute, null, $value);
+
+            return;
         }
 
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getSyliusLocales($attributeValue['locale']) as $syliusLocale) {
+            $this->handleValue($taxon, $taxonAttribute, $syliusLocale, $value);
+        }
+    }
+
+    private function handleValue(
+        TaxonInterface $taxon,
+        TaxonAttributeInterface $taxonAttribute,
+        ?string $locale,
+        mixed $value,
+    ): void {
         $taxonAttributeValue = $this->taxonAttributeValueRepository->findOneBy([
             'subject' => $taxon,
             'attribute' => $taxonAttribute,
@@ -131,9 +140,9 @@ class AttributeProcessor implements CategoryProcessorInterface
         ]);
 
         if ($taxonAttributeValue instanceof TaxonAttributeValueInterface) {
-            $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'] = $taxonAttributeValue;
+            $taxonAttributeValue->setValue($value);
 
-            return $taxonAttributeValue;
+            return;
         }
 
         /** @var TaxonAttributeValueInterface $taxonAttributeValue */
@@ -141,10 +150,8 @@ class AttributeProcessor implements CategoryProcessorInterface
         $taxonAttributeValue->setAttribute($taxonAttribute);
         $taxonAttributeValue->setTaxon($taxon);
         $taxonAttributeValue->setLocaleCode($locale);
+        $taxonAttributeValue->setValue($value);
+
         $this->entityManager->persist($taxonAttributeValue);
-
-        $this->taxonAttributeValues[$taxon->getCode()][$taxonAttribute->getCode()][$locale ?? 'unknown'] = $taxonAttributeValue;
-
-        return $taxonAttributeValue;
     }
 }
