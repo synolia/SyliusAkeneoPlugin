@@ -61,7 +61,7 @@ final class ProductConfigurationFixture extends AbstractFixture
         $optionsNode
             ->children()
                 ->scalarNode('akeneo_sylius_enabled_channels_attribute')->defaultNull()->end()
-                ->scalarNode('akeneo_price_attribute')->end()
+                ->scalarNode('akeneo_price_attribute')->defaultNull()->end()
                 ->booleanNode('regenerate_url')->defaultFalse()->end()
                 ->booleanNode('import_media_files')->defaultFalse()->end()
                 ->arrayNode('images_attributes')
