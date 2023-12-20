@@ -60,7 +60,7 @@ final class BatchProductModelTask extends AbstractBatchTask
         /** @var Result $queryResult */
         $queryResult = $query->executeQuery();
 
-        while ($results = $queryResult->fetchAll()) {
+        while ($results = $queryResult->fetchAllAssociative()) {
             foreach ($results as $result) {
                 /** @var array $resource */
                 $resource = json_decode($result['values'], true);

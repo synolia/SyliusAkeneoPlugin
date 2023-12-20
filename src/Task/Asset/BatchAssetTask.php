@@ -34,7 +34,7 @@ final class BatchAssetTask extends AbstractBatchTask
         /** @var Result $queryResult */
         $queryResult = $query->executeQuery();
 
-        while ($results = $queryResult->fetchAll()) {
+        while ($results = $queryResult->fetchAllAssociative()) {
             foreach ($results as $result) {
                 try {
                     $resource = \json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);

@@ -64,7 +64,7 @@ final class BatchAttributesTask extends AbstractBatchTask
             $queryResult = $query->executeQuery();
 
             $variationAxes = array_unique($this->getVariationAxes($payload));
-            while ($results = $queryResult->fetchAll()) {
+            while ($results = $queryResult->fetchAllAssociative()) {
                 foreach ($results as $result) {
                     $resource = json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
