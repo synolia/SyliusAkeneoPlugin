@@ -33,7 +33,7 @@ final class BatchProductsTask extends AbstractBatchTask
         /** @var Result $queryResult */
         $queryResult = $query->executeQuery();
 
-        while ($results = $queryResult->fetchAll()) {
+        while ($results = $queryResult->fetchAllAssociative()) {
             foreach ($results as $result) {
                 try {
                     /** @var array{identifier: string,parent: string|null} $resource */

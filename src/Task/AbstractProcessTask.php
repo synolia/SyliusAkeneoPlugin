@@ -133,7 +133,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
             /** @var Result $queryResult */
             $queryResult = $query->executeQuery();
 
-            while ($results = $queryResult->fetchAll()) {
+            while ($results = $queryResult->fetchAllAssociative()) {
                 $ids = [];
                 foreach ($results as $result) {
                     $ids[] = $result['id'];
