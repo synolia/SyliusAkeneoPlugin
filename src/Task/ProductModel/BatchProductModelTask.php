@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -64,7 +63,6 @@ final class BatchProductModelTask extends AbstractBatchTask
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         $query = $this->getSelectStatement($payload);
-        /** @var Result $queryResult */
         $queryResult = $query->executeQuery();
 
         while ($results = $queryResult->fetchAllAssociative()) {
@@ -100,7 +98,7 @@ final class BatchProductModelTask extends AbstractBatchTask
 
                         $this->entityManager = $this->getNewEntityManager();
                     }
-                } while (false === $isSuccess && $this->retryCount !== $this->maxRetryCount);
+                } while (false === $isSuccess && $this->retryCount < $this->maxRetryCount);
 
                 unset($resource);
                 $this->removeEntry($payload, (int) $result['id']);
