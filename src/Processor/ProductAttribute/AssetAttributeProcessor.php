@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -11,13 +12,12 @@ use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\AssetAttributeType;
-use Synolia\SyliusAkeneoPlugin\Entity\AssetInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 
@@ -31,11 +31,11 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
         private RepositoryInterface $productAttributeRepository,
         private LoggerInterface $logger,
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
-        private RepositoryInterface $assetRepository,
         private RepositoryInterface $productAttributeValueRepository,
         private FactoryInterface $productAttributeValueFactory,
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
+        private AkeneoPimClientInterface $akeneoPimClient,
+        private AssetProductAttributeProcessorInterface $akeneoAssetProductAttributeProcessor,
     ) {
     }
 
@@ -111,24 +111,30 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
             }
         }
 
-        $assetAttributeProperties = $this->akeneoAttributePropertiesProvider->getProperties($attributeCode);
-
         foreach ($context['data'] as $assetCodes) {
-            foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $locale) {
-                foreach ($assetCodes['data'] as $assetCode) {
-                    $asset = $this->assetRepository->findOneBy([
-                        'familyCode' => $assetAttributeProperties['reference_data_name'],
-                        'assetCode' => $assetCode,
-                        'scope' => $context['scope'],
-                        'locale' => $locale,
-                    ]);
+            foreach ($assetCodes['data'] as $assetCode) {
+                $assetResource = $this->akeneoPimClient->getAssetManagerApi()->get($attributeCode, $assetCode);
+                $this->handleAssetByFamilyResource($context['model'], $attributeCode, $assetResource);
+            }
+        }
+    }
 
-                    if (!$asset instanceof AssetInterface) {
-                        continue;
-                    }
-
-                    $asset->addOwner($context['model']);
-                }
+    private function handleAssetByFamilyResource(
+        ProductInterface $model,
+        string $assetFamilyCode,
+        array $assetResource,
+    ): void {
+        foreach ($assetResource['values'] as $attributeCode => $assetAttributeResource) {
+            try {
+                $this->akeneoAssetProductAttributeProcessor->process(
+                    $model,
+                    $assetFamilyCode,
+                    $assetResource['code'],
+                    $attributeCode,
+                    $assetAttributeResource,
+                );
+            } catch (UnsupportedAttributeTypeException $attributeTypeException) {
+                $this->logger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
             }
         }
     }

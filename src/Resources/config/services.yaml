@@ -199,3 +199,6 @@ services:
             - add: ['checkbox', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\CheckboxAttributeType']
             - add: ['integer', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\IntegerAttributeType']
             - add: ['percent', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\PercentAttributeType']
+
+    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetProductAttributeProcessorInterface:
+      class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetProductAttributeProcessor
