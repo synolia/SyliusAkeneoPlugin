@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,6 +40,9 @@ final class BatchProductModelTask extends AbstractBatchTask
         private IsProductProcessableCheckerInterface $isProductProcessableChecker,
         private ProductGroupProcessor $productGroupProcessor,
         private ManagerRegistry $managerRegistry,
+        private int $maxRetryCount,
+        private int $retryWaitTime,
+        private int $retryCount = 0,
     ) {
         parent::__construct($entityManager);
     }
@@ -52,64 +54,89 @@ final class BatchProductModelTask extends AbstractBatchTask
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        if ($this->retryCount === $this->maxRetryCount) {
+            return $payload;
+        }
+
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
         $query = $this->getSelectStatement($payload);
-        /** @var Result $queryResult */
         $queryResult = $query->executeQuery();
 
         while ($results = $queryResult->fetchAllAssociative()) {
             foreach ($results as $result) {
+                $isSuccess = false;
+
                 /** @var array $resource */
                 $resource = json_decode($result['values'], true);
 
-                $this->handleProductGroup($resource);
+                do {
+                    try {
+                        $this->handleProductModel($resource);
+                        $isSuccess = true;
+                    } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
+                        ++$this->retryCount;
+                        usleep($this->retryWaitTime);
 
-                try {
-                    $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
+                        $this->logger->error('Retrying import', [
+                            'product' => $result,
+                            'retry_count' => $this->retryCount,
+                            'error' => $ormInvalidArgumentException->getMessage(),
+                        ]);
 
-                    $this->entityManager->beginTransaction();
+                        $this->entityManager = $this->getNewEntityManager();
+                    } catch (\Throwable $throwable) {
+                        ++$this->retryCount;
+                        usleep($this->retryWaitTime);
 
-                    if ($this->isProductProcessableChecker->check($resource)) {
-                        $product = $this->process($resource);
-                        $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+                        $this->logger->error('Error importing product', [
+                            'message' => $throwable->getMessage(),
+                            'trace' => $throwable->getTraceAsString(),
+                        ]);
+
+                        $this->entityManager = $this->getNewEntityManager();
                     }
+                } while (false === $isSuccess && $this->retryCount < $this->maxRetryCount);
 
-                    $this->entityManager->flush();
-                    $this->entityManager->commit();
-
-                    unset($resource, $product);
-                    $this->removeEntry($payload, (int) $result['id']);
-                } catch (\Throwable $throwable) {
-                    $this->entityManager->rollback();
-                    $this->logger->warning($throwable->getMessage());
-                    $this->removeEntry($payload, (int) $result['id']);
-                }
+                unset($resource);
+                $this->removeEntry($payload, (int) $result['id']);
+                $this->retryCount = 0;
             }
         }
 
         return $payload;
     }
 
+    private function handleProductModel(array $resource): void
+    {
+        $this->handleProductGroup($resource);
+        $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
+
+        if (!$this->isProductProcessableChecker->check($resource)) {
+            return;
+        }
+
+        $product = $this->process($resource);
+        $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+        $this->entityManager->flush();
+    }
+
     private function handleProductGroup(array $resource): void
     {
         try {
-            $this->entityManager->beginTransaction();
-
             $this->productGroupProcessor->process($resource);
-
             $this->entityManager->flush();
-            $this->entityManager->commit();
-        } catch (ORMInvalidArgumentException) {
-            if ($this->entityManager->getConnection()->isTransactionActive()) {
-                $this->entityManager->rollback();
-            }
-
+        } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
             if (!$this->entityManager->isOpen()) {
+                $this->logger->warning('Recreating entity manager');
                 $this->entityManager = $this->getNewEntityManager();
             }
+
+            ++$this->retryCount;
+
+            throw $ormInvalidArgumentException;
         }
     }
 

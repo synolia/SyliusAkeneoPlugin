@@ -12,6 +12,10 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\AssetAttributeType;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
@@ -74,18 +78,34 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         /** @var AttributeInterface $attribute */
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
 
-        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusAkeneo) {
-            $this->setAttributeTranslation(
-                $context['model'],
-                $attribute,
-                $context['data'],
-                $syliusAkeneo,
-                $attributeCode,
-                $context['scope'],
-            );
+        foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
+            try {
+                $this->setAttributeTranslation(
+                    $context['model'],
+                    $attribute,
+                    $context['data'],
+                    $syliusLocale,
+                    $attributeCode,
+                    $context['scope'],
+                );
+            } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException $error) {
+                $this->logger->warning('Attribute translation error', [
+                    'attribute_code' => $attributeCode,
+                    'sylius_locale' => $syliusLocale,
+                    'context' => $context,
+                    'error' => $error->getMessage(),
+                    'trace' => $error->getTraceAsString(),
+                ]);
+            }
         }
     }
 
+    /**
+     * @throws MissingLocaleTranslationOrScopeException
+     * @throws MissingLocaleTranslationException
+     * @throws MissingScopeException
+     * @throws TranslationNotFoundException
+     */
     private function setAttributeTranslation(
         ProductInterface $product,
         AttributeInterface $attribute,
