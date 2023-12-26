@@ -60,6 +60,11 @@ final class SyliusAkeneoLocaleCodeProvider
         return $this->akeneoSyliusLocaleMapper->unmap($syliusLocale);
     }
 
+    public function getSyliusLocales(string $akeneoLocale): array
+    {
+        return $this->akeneoSyliusLocaleMapper->map($akeneoLocale);
+    }
+
     public function isActiveLocale(string $locale): bool
     {
         $locales = $this->getUsedLocalesOnBothPlatforms();
