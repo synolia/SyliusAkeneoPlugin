@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Provider\Asset;
 
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 
 final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterface
@@ -13,8 +14,10 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
     /** @var array<AssetAttributeValueBuilderInterface> */
     private array $assetAttributeValueBuilders;
 
-    public function __construct(private LoggerInterface $akeneoLogger)
-    {
+    public function __construct(
+        private LoggerInterface $akeneoLogger,
+        private EditionCheckerInterface $editionChecker,
+    ) {
     }
 
     public function addBuilder(AssetAttributeValueBuilderInterface $assetAttributeValueBuilder): void
@@ -56,6 +59,12 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
 
     public function hasSupportedBuilder(string $assetFamilyCode, string $assetCode): bool
     {
+        $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();
+
+        if (!$isEnterprise) {
+            return false;
+        }
+
         foreach ($this->assetAttributeValueBuilders as $attributeValueBuilder) {
             try {
                 if ($attributeValueBuilder->support($assetFamilyCode, $assetCode)) {

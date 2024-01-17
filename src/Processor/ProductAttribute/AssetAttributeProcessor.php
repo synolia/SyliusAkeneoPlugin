@@ -11,6 +11,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\AssetAttributeType;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
@@ -36,6 +37,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         private AkeneoPimClientInterface $akeneoPimClient,
         private AssetProductAttributeProcessorInterface $akeneoAssetProductAttributeProcessor,
+        private EditionCheckerInterface $editionChecker,
     ) {
     }
 
@@ -46,6 +48,12 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     public function support(string $attributeCode, array $context = []): bool
     {
+        $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();
+
+        if (!$isEnterprise) {
+            return false;
+        }
+
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
         /** @var AttributeInterface $attribute */
