@@ -21,12 +21,14 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  */
 final class ProcessAssetsTaskTest extends AbstractTaskTest
 {
-    private const ASSET_COUNT = 6;
+    private const ASSET_COUNT = 8;
 
     private const LOCALE_COUNT = 3;
 
     public function testMediaLinkAsset(): void
     {
+        $mockedAssetAttributesJson = $this->getFileContent('asset_manager_attributes_all.json');
+
         $this->server->setResponseOfPath(
             '/' . sprintf(AssetFamilyApi::ASSET_FAMILIES_URI),
             new Response($this->getFileContent('asset_families.json'), [], HttpResponse::HTTP_OK),
@@ -44,7 +46,7 @@ final class ProcessAssetsTaskTest extends AbstractTaskTest
 
         $this->server->setResponseOfPath(
             '/' . sprintf(AssetAttributeApi::ASSET_ATTRIBUTES_URI, 'bynder'),
-            new Response($this->getFileContent('asset_manager_attributes_all.json'), [], HttpResponse::HTTP_OK),
+            new Response($mockedAssetAttributesJson, [], HttpResponse::HTTP_OK),
         );
 
         $payload = new AssetPayload($this->createClient());
