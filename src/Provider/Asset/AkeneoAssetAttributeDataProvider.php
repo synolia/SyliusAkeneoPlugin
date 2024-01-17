@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider\Asset;
 
-use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
@@ -16,7 +15,7 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
     public function __construct(
         private AkeneoAssetAttributePropertiesProvider $akeneoAssetAttributePropertiesProvider,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        private AssetAttributeValueBuilderInterface $assetAttributeValueBuilder,
+        private AssetValueBuilderProviderInterface $assetAttributeValueBuilderProvider,
     ) {
     }
 
@@ -70,7 +69,7 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
                 continue;
             }
 
-            return $this->assetAttributeValueBuilder->build($assetFamilyCode, $attributeCode, null, $scope, $attributeValue['data']);
+            return $this->assetAttributeValueBuilderProvider->build($assetFamilyCode, $attributeCode, null, $scope, $attributeValue['data']);
         }
 
         throw new MissingScopeException();
@@ -93,7 +92,7 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
                 continue;
             }
 
-            return $this->assetAttributeValueBuilder->build($assetFamilyCode, $attributeCode, $locale, $scope, $attributeValue['data']);
+            return $this->assetAttributeValueBuilderProvider->build($assetFamilyCode, $attributeCode, $locale, $scope, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationOrScopeException();
@@ -111,7 +110,7 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
                 continue;
             }
 
-            return $this->assetAttributeValueBuilder->build($assetFamilyCode, $attributeCode, $locale, null, $attributeValue['data']);
+            return $this->assetAttributeValueBuilderProvider->build($assetFamilyCode, $attributeCode, $locale, null, $attributeValue['data']);
         }
 
         throw new MissingLocaleTranslationException();

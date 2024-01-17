@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\Asset;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Provider\Asset\AkeneoAssetAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Asset\AkeneoAssetAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProviderInterface;
@@ -26,6 +30,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private ProductFilterRulesProviderInterface $productFilterRulesProvider,
         private AssetValueBuilderProviderInterface $assetAttributeValueBuilder,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -89,40 +94,51 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
             return;
         }
 
-        $asset = $this->assetRepository->findOneBy($queryParam);
-
-        if (!$asset instanceof Asset) {
-            /** @var Asset $asset */
-            $asset = $this->assetFactory->createNew();
-            $this->entityManager->persist($asset);
-            $asset->setFamilyCode($assetFamilyCode);
-            $asset->setAssetCode($assetCode);
-            $asset->setAttributeCode($attributeCode);
-            $asset->setLocale($queryParam['locale']);
-            $asset->setScope($queryParam['scope']);
-            $asset->setType($this->akeneoAssetAttributePropertiesProvider->getType($assetFamilyCode, $attributeCode));
-        }
-
         $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($queryParam['locale']);
 
-        $assetAttributeValue = $this->akeneoAssetAttributeDataProvider->getData(
-            $assetFamilyCode,
-            $attributeCode,
-            $assetAttributeResource,
-            $akeneoLocale,
-            $queryParam['scope'],
-        );
+        try {
+            $asset = $this->assetRepository->findOneBy($queryParam);
 
-        /** @var array $data */
-        $data = $this->assetAttributeValueBuilder->build(
-            $assetFamilyCode,
-            $attributeCode,
-            $akeneoLocale,
-            $queryParam['scope'],
-            $assetAttributeValue,
-        );
+            if (!$asset instanceof Asset) {
+                /** @var Asset $asset */
+                $asset = $this->assetFactory->createNew();
+                $this->entityManager->persist($asset);
+                $asset->setFamilyCode($assetFamilyCode);
+                $asset->setAssetCode($assetCode);
+                $asset->setAttributeCode($attributeCode);
+                $asset->setLocale($queryParam['locale']);
+                $asset->setScope($queryParam['scope']);
+                $asset->setType($this->akeneoAssetAttributePropertiesProvider->getType($assetFamilyCode, $attributeCode));
+            }
 
-        $asset->setContent($data);
-        $model->addAsset($asset);
+            $assetAttributeValue = $this->akeneoAssetAttributeDataProvider->getData(
+                $assetFamilyCode,
+                $attributeCode,
+                $assetAttributeResource,
+                $akeneoLocale,
+                $queryParam['scope'],
+            );
+
+            /** @var array $data */
+            $data = $this->assetAttributeValueBuilder->build(
+                $assetFamilyCode,
+                $attributeCode,
+                $akeneoLocale,
+                $queryParam['scope'],
+                $assetAttributeValue,
+            );
+
+            $asset->setContent($data);
+            $model->addAsset($asset);
+        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException) {
+            $this->akeneoLogger->debug('Error processing asset', [
+                'family_code' => $assetFamilyCode,
+                'attribute_code' => $attributeCode,
+                'asset_code' => $assetCode,
+                'scope' => $queryParam['scope'],
+                'akeneo_locale' => $akeneoLocale,
+                'resource' => $assetAttributeResource,
+            ]);
+        }
     }
 }
