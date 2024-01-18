@@ -15,4 +15,6 @@ class CacheKey
     public const FAMILY_VARIANTS = 'akeneo_family_variants_%s';
 
     public const ATTRIBUTES = 'akeneo_attributes';
+
+    public const ATTRIBUTE_TYPE_MAPPING = 'akeneo_attribute_type_mapping_%s';
 }

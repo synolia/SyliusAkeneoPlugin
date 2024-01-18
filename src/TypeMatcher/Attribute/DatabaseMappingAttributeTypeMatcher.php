@@ -6,7 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Registry\ServiceRegistryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\DatabaseProductAttributeValueValueBuilder;
+use Synolia\SyliusAkeneoPlugin\Component\Cache\CacheKey;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 
 final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherInterface
@@ -16,15 +18,12 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
     public function __construct(
         private RepositoryInterface $attributeTypeMappingRepository,
         private ServiceRegistryInterface $attributeTypeRegistry,
+        private CacheInterface $akeneoAttributeTypeMappingCache,
     ) {
     }
 
     public function getType(): string
     {
-        if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
-        }
-
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
             throw new \LogicException('Attribute Type cannot be null.');
         }
@@ -34,9 +33,7 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
 
     public function support(string $akeneoType): bool
     {
-        $attributeTypeMapping = $this->attributeTypeMappingRepository->findOneBy([
-            'akeneoAttributeType' => $akeneoType,
-        ]);
+        $attributeTypeMapping = $this->getAttributeTypeMapping($akeneoType);
 
         if (!$attributeTypeMapping instanceof AttributeTypeMapping) {
             return false;
@@ -52,12 +49,19 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
         return DatabaseProductAttributeValueValueBuilder::class;
     }
 
+    private function getAttributeTypeMapping(string $akeneoType): ?AttributeTypeMapping
+    {
+        /** @phpstan-ignore-next-line */
+        return $this->akeneoAttributeTypeMappingCache->get(\sprintf(CacheKey::ATTRIBUTE_TYPE_MAPPING, $akeneoType), function () use ($akeneoType): array {
+            /** @phpstan-ignore-next-line */
+            return $this->attributeTypeMappingRepository->findOneBy([
+                'akeneoAttributeType' => $akeneoType,
+            ]);
+        });
+    }
+
     public function getTypeClassName(): string
     {
-        if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
-        }
-
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
             throw new \LogicException('Attribute Type cannot be null.');
         }
