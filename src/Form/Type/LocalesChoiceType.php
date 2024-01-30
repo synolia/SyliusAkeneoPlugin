@@ -17,8 +17,14 @@ final class LocalesChoiceType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $usedLocalesOnBothPlatforms = $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
+
+        $usedLocalesOnBothPlatforms = array_map(function ($locale) {
+            return $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
+        }, $usedLocalesOnBothPlatforms);
+
         $resolver->setDefaults([
-            'choices' => $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(),
+            'choices' => array_combine($usedLocalesOnBothPlatforms, $usedLocalesOnBothPlatforms),
             'multiple' => true,
             'required' => false,
         ]);
