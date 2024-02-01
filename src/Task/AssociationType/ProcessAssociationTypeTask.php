@@ -49,7 +49,8 @@ final class ProcessAssociationTypeTask extends AbstractProcessTask
 
             $queryParameters['search'] = $event->getFilters();
         } catch (CommandContextIsNullException) {
-            $queryParameters = [];
+        } finally {
+            $this->logger->notice('Filters', $queryParameters);
         }
 
         $page = $payload->getAkeneoPimClient()->getAssociationTypeApi()->listPerPage(

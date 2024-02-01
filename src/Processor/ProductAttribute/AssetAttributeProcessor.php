@@ -21,6 +21,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -54,6 +55,14 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
             return false;
         }
 
+        if (!$context['model'] instanceof ProductInterface) {
+            return false;
+        }
+
+        if (!\method_exists($context['model'], 'getAssets')) {
+            return false;
+        }
+
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
         /** @var AttributeInterface $attribute */
@@ -74,9 +83,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
             static::class,
         ));
 
-        if (!$context['model'] instanceof ProductInterface) {
-            return;
-        }
+        Assert::isInstanceOf($context['model'], ProductInterface::class);
 
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
 
