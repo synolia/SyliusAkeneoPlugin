@@ -53,6 +53,7 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         }
 
         $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());
+        $this->logger->notice('Filters', $queryParameters);
 
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),

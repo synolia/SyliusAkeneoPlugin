@@ -60,7 +60,6 @@ final class BatchProductModelTask extends AbstractBatchTask
 
         $this->logger->debug(self::class);
         $this->type = $payload->getType();
-        $this->logger->notice(Messages::createOrUpdate($this->type));
 
         $query = $this->getSelectStatement($payload);
         $queryResult = $query->executeQuery();
@@ -74,6 +73,10 @@ final class BatchProductModelTask extends AbstractBatchTask
 
                 do {
                     try {
+                        $this->logger->notice('Processing product', [
+                            'code' => $resource['code'] ?? $resource['identifier'] ?? 'unknown',
+                        ]);
+
                         $this->handleProductModel($resource);
                         $isSuccess = true;
                     } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
@@ -130,7 +133,7 @@ final class BatchProductModelTask extends AbstractBatchTask
             $this->entityManager->flush();
         } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
             if (!$this->entityManager->isOpen()) {
-                $this->logger->warning('Recreating entity manager');
+                $this->logger->warning('Recreating entity manager', ['exception' => $ormInvalidArgumentException]);
                 $this->entityManager = $this->getNewEntityManager();
             }
 

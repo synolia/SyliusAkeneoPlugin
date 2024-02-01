@@ -50,7 +50,8 @@ final class ProcessAttributeTask extends AbstractProcessTask
             $queryParameters['search'] = $event->getFilters();
             $queryParameters['with_table_select_options'] = true;
         } catch (CommandContextIsNullException) {
-            $queryParameters = [];
+        } finally {
+            $this->logger->notice('Filters', $queryParameters);
         }
 
         $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());

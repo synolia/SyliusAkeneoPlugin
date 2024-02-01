@@ -62,6 +62,7 @@ final class ProcessProductModelsTask extends AbstractProcessTask
         }
 
         $queryParameters = array_merge_recursive($queryParameters, $payload->getCustomFilters());
+        $this->logger->notice('Filters', $queryParameters);
 
         $resources = $payload->getAkeneoPimClient()->getProductModelApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),

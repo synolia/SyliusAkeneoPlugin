@@ -44,7 +44,7 @@ class ProductGroupProcessor
         if ($productGroup instanceof ProductGroupInterface) {
             $this->productGroupsMapping[$code] = $productGroup;
 
-            $this->logger->info(sprintf(
+            $this->logger->debug(sprintf(
                 'Skipping ProductGroup "%s" for family "%s" as it already exists.',
                 $code,
                 $family,

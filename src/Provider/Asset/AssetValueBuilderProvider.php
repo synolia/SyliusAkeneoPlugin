@@ -71,7 +71,7 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
                     return true;
                 }
             } catch (UnsupportedAttributeTypeException $throwable) {
-                $this->akeneoLogger->warning('Unsupported AssetAttributeType', [
+                $this->akeneoLogger->info('Unsupported AssetAttributeType', [
                     'family_code' => $assetFamilyCode,
                     'asset_code' => $assetCode,
                 ]);

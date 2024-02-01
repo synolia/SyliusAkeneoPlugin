@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Cache\CacheKey;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Retriever\FamilyVariantNotFountException;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
 final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
@@ -43,5 +44,23 @@ final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
 
             return $familyVariants;
         });
+    }
+
+    /**
+     * @throws FamilyVariantNotFountException
+     */
+    public function getVariant(string $familyCode, string $familyVariantCode): array
+    {
+        $familyVariants = $this->getVariants($familyCode);
+
+        foreach ($familyVariants as $familyVariant) {
+            if ($familyVariant['code'] !== $familyVariantCode) {
+                continue;
+            }
+
+            return $familyVariant;
+        }
+
+        throw new FamilyVariantNotFountException('Could not determine variant');
     }
 }
