@@ -13,8 +13,6 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderI
 
 final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
 {
-    private array $variantsByFamily = [];
-
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
         private LoggerInterface $logger,
@@ -25,12 +23,8 @@ final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
 
     public function getVariants(string $familyCode): array
     {
-        if ($this->variantsByFamily !== []) {
-            return $this->variantsByFamily[$familyCode] ?? [];
-        }
-
         /** @phpstan-ignore-next-line */
-        return $this->variantsByFamily[$familyCode] = $this->akeneoFamilyVariants->get(\sprintf(CacheKey::FAMILY_VARIANTS, $familyCode), function () use ($familyCode): array {
+        return $this->akeneoFamilyVariants->get(\sprintf(CacheKey::FAMILY_VARIANTS, $familyCode), function () use ($familyCode): array {
             $paginationSize = $this->apiConnectionProvider->get()->getPaginationSize();
 
             try {
