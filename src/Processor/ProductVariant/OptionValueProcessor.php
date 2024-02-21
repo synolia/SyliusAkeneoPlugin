@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValue\AfterProcessingProductOptionValueEvent;
+use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValue\AfterProductOptionValueRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValue\BeforeProcessingProductOptionValueEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValue\ProductOptionValueBuilderNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\CouldNotFindAxeLevelException;
@@ -167,6 +168,8 @@ class OptionValueProcessor implements OptionValueProcessorInterface
 
                 continue;
             }
+
+            $this->eventDispatcher->dispatch(new AfterProductOptionValueRetrievedEvent($productOption, $productOptionValue, $attributeValues));
 
             //Product variant already have this value
             if (!$productVariant->hasOptionValue($productOptionValue)) {

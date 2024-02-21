@@ -15,6 +15,7 @@ use Sylius\Component\Product\Factory\ProductFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\Product\IsProductProcessableCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProductRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -121,8 +122,7 @@ final class BatchProductModelTask extends AbstractBatchTask
             return;
         }
 
-        $product = $this->process($resource);
-        $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+        $this->process($resource);
         $this->entityManager->flush();
     }
 
@@ -153,14 +153,19 @@ final class BatchProductModelTask extends AbstractBatchTask
             $product->setCode($resource['code']);
 
             $this->entityManager->persist($product);
+            $this->dispatcher->dispatch(new AfterProductRetrievedEvent($resource, $product));
+            $event = new AfterProcessingProductEvent($resource, clone $product, $product);
             $this->productProcessorChain->chain($product, $resource);
-
+            $this->dispatcher->dispatch($event);
             $this->logger->info(Messages::hasBeenCreated($this->type, (string) $product->getCode()));
 
             return $product;
         }
 
+        $this->dispatcher->dispatch(new AfterProductRetrievedEvent($resource, $product));
+        $event = new AfterProcessingProductEvent($resource, clone $product, $product);
         $this->productProcessorChain->chain($product, $resource);
+        $this->dispatcher->dispatch($event);
         $this->logger->info(Messages::hasBeenUpdated($this->type, (string) $resource['code']));
 
         return $product;

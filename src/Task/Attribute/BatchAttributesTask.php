@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Creator\AttributeCreatorInterface;
+use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterAttributeRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\AfterProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Attribute\BeforeProcessingAttributeEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
@@ -80,6 +81,7 @@ final class BatchAttributesTask extends AbstractBatchTask
                         }
 
                         $attribute = $this->attributeCreator->create($resource);
+                        $this->dispatcher->dispatch(new AfterAttributeRetrievedEvent($resource, $attribute));
                         $this->entityManager->flush();
 
                         //Handle attribute options

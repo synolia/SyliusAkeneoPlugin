@@ -10,6 +10,7 @@ use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Category\AfterTaxonRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Manager\Doctrine\DoctrineSortableManager;
@@ -66,6 +67,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                 }
 
                 $taxon = $this->getOrCreateEntity($resource['code']);
+                $this->dispatcher->dispatch(new AfterTaxonRetrievedEvent($resource, $taxon));
 
                 $this->processorChain->chain($taxon, $resource);
 

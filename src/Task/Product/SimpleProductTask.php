@@ -14,8 +14,10 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProductRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
+use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProductVariantRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -68,18 +70,18 @@ final class SimpleProductTask extends AbstractCreateProductEntities
     {
         try {
             $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
-
             $product = $this->getOrCreateEntity($resource);
+            $this->dispatcher->dispatch(new AfterProductRetrievedEvent($resource, $product));
+            $event = new AfterProcessingProductEvent($resource, clone $product, $product);
             $this->productProcessorChain->chain($product, $resource);
-
-            $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+            $this->dispatcher->dispatch($event);
 
             $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $product));
-
             $productVariant = $this->getOrCreateSimpleVariant($product);
+            $this->dispatcher->dispatch(new AfterProductVariantRetrievedEvent($resource, $productVariant));
+            $event = new AfterProcessingProductVariantEvent($resource, clone $productVariant, $productVariant);
             $this->productVariantProcessorChain->chain($productVariant, $resource);
-
-            $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
+            $this->dispatcher->dispatch($event);
 
             $this->entityManager->flush();
         } catch (Throwable $throwable) {

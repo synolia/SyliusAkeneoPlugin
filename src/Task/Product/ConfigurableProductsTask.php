@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
+use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProductVariantRetrievedEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -122,9 +123,11 @@ final class ConfigurableProductsTask extends AbstractCreateProductEntities
             }
 
             $productVariant = $this->getOrCreateEntity($resource['identifier'], $productModel);
+            $this->dispatcher->dispatch(new AfterProductVariantRetrievedEvent($resource, $productVariant));
+            $event = new AfterProcessingProductVariantEvent($resource, clone $productVariant, $productVariant);
             $this->productVariantProcessorChain->chain($productVariant, $resource);
+            $this->dispatcher->dispatch($event);
 
-            $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
             $this->entityManager->flush();
         } catch (Throwable $throwable) {
             $this->logger->warning($throwable->getMessage(), [
