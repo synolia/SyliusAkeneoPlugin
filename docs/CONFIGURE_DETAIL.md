@@ -120,6 +120,17 @@ This configuration will generally not be used, because the Akeneo module from Sy
 
 This part allows you to manually map an Akeneo attribute to a Sylius attribute by indicating the attribute code on each of the solutions. Useful if the code of an attribute differs between Sylius and the PIM.
 
+### Exclude attributes from import
+
+```yaml
+# config/packages/synolia_akeneo_plugin.yaml
+
+synolia_sylius_akeneo:
+    excluded_attributes:
+        - supplier
+        - supplier_size
+```
+
 ![Akeneo Attribute Code To Sylius Atribute Code](media/akeneo_attribute_to_sylius_code.png)
 ---
 

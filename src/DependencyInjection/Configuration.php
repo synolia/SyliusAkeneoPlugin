@@ -71,6 +71,11 @@ class Configuration implements ConfigurationInterface
                     ->scalarPrototype()->example(['fr_CH', 'fr_CA', 'fr_FR'])->end()
                 ->end()
             ->end()
+
+            ->arrayNode('excluded_attributes')
+                ->scalarPrototype()->example(['supplier'])->defaultValue([])->end()
+            ->end()
+
         ->end()
         ;
 

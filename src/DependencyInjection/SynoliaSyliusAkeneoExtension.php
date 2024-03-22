@@ -20,6 +20,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationP
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseApiConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseCategoryConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DotEnvApiConnectionProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\ExcludedAttributesConfiguration;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\ExcludedAttributesConfigurationInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\LocaleMappingConfiguration;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\LocaleMappingConfigurationInterface;
 
@@ -42,6 +44,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $this->processApiConfiguration($container, $config);
         $this->processCategoryConfiguration($container, $config);
         $this->processLocaleMapping($container, $config);
+        $this->processExcludedAttributes($container, $config);
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -140,5 +143,15 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         ;
 
         $container->setAlias(LocaleMappingConfigurationInterface::class, LocaleMappingConfiguration::class);
+    }
+
+    private function processExcludedAttributes(ContainerBuilder $container, array $config): void
+    {
+        $localeMappingConfigurationDefinition = $container->getDefinition(ExcludedAttributesConfiguration::class);
+        $localeMappingConfigurationDefinition
+            ->setArgument('$excludedAttributeCodes', $config['excluded_attributes'])
+        ;
+
+        $container->setAlias(ExcludedAttributesConfigurationInterface::class, ExcludedAttributesConfiguration::class);
     }
 }

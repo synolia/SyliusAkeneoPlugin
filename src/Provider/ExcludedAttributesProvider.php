@@ -7,21 +7,25 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Provider\Configuration\ExcludedAttributesConfigurationInterface;
 
 final class ExcludedAttributesProvider implements ExcludedAttributesProviderInterface
 {
-    public function __construct(private RepositoryInterface $productConfigurationRepository)
-    {
+    public function __construct(
+        private RepositoryInterface $productConfigurationRepository,
+        private ExcludedAttributesConfigurationInterface $excludedAttributesConfiguration,
+    ) {
     }
 
     public function getExcludedAttributes(): array
     {
-        $excludedAttributeCodes = [];
+        $excludedAttributeCodes = $this->excludedAttributesConfiguration->get();
+
         /** @var \Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration|null $productConfiguration */
         $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
 
         if (!$productConfiguration instanceof ProductConfiguration) {
-            return [];
+            return $excludedAttributeCodes;
         }
 
         if (null !== $productConfiguration->getAkeneoPriceAttribute()) {
