@@ -28,6 +28,7 @@ final class TaxonsProcessor implements TaxonsProcessorInterface
 
     public function process(ProductInterface $product, array $resource): void
     {
+        $product->getProductTaxons()->clear();
         $taxonCodes = array_unique($resource['categories']);
 
         foreach ($taxonCodes as $taxonCode) {
