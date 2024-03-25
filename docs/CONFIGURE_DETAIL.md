@@ -126,7 +126,7 @@ This part allows you to manually map an Akeneo attribute to a Sylius attribute b
 # config/packages/synolia_akeneo_plugin.yaml
 
 synolia_sylius_akeneo:
-    excluded_attributes:
+    excluded_product_attributes:
         - supplier
         - supplier_size
 ```

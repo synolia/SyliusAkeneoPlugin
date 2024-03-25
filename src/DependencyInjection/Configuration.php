@@ -72,7 +72,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
 
-            ->arrayNode('excluded_attributes')
+            ->arrayNode('excluded_product_attributes')
                 ->scalarPrototype()->example(['supplier'])->defaultValue([])->end()
             ->end()
 
