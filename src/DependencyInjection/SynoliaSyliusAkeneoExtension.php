@@ -149,7 +149,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
     {
         $localeMappingConfigurationDefinition = $container->getDefinition(ExcludedAttributesConfiguration::class);
         $localeMappingConfigurationDefinition
-            ->setArgument('$excludedAttributeCodes', $config['excluded_attributes'])
+            ->setArgument('$excludedAttributeCodes', $config['excluded_product_attributes'])
         ;
 
         $container->setAlias(ExcludedAttributesConfigurationInterface::class, ExcludedAttributesConfiguration::class);
