@@ -22,6 +22,7 @@ use Sylius\Component\Core\Model\ProductInterface;
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_product_group')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class ProductGroup implements ProductGroupInterface
 {
     /**

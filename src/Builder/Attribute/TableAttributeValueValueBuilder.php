@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 use Sylius\Component\Product\Model\ProductAttributeInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoProductAttributeValueProcessorException;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductAttributeValue\TableAttributeValueProcessorProviderInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TableAttributeTypeMatcher;
@@ -15,7 +15,7 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TableAttributeTypeMatcher;
 final class TableAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     public function __construct(
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertiesProvider,
         private AttributeTypeMatcher $attributeTypeMatcher,
         private RepositoryInterface $productAttributeRepository,
         private TableAttributeValueProcessorProviderInterface $tableAttributeValueProcessorProvider,

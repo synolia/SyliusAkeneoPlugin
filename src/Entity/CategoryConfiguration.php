@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
  */
 #[ORM\Entity(repositoryClass: CategoryConfigurationRepository::class)]
 #[ORM\Table(name: 'akeneo_api_configuration_categories')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class CategoryConfiguration implements ResourceInterface
 {
     /**

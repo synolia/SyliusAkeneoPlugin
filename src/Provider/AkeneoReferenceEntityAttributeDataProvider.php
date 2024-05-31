@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException
 final class AkeneoReferenceEntityAttributeDataProvider implements AkeneoReferenceEntityAttributeDataProviderInterface
 {
     public function __construct(
-        private AkeneoReferenceEntityAttributePropertiesProvider $akeneoReferenceEntityAttributePropertiesProvider,
+        private AkeneoReferenceEntityAttributePropertiesProviderInterface $akeneoReferenceEntityAttributePropertiesProvider,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
     }

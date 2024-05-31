@@ -16,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
  */
 #[ORM\Entity(repositoryClass: ProductFiltersRulesRepository::class)]
 #[ORM\Table(name: 'akeneo_api_product_filters_rules')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class ProductFiltersRules implements ResourceInterface
 {
     /**

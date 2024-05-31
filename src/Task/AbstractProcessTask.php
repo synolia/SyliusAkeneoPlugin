@@ -173,7 +173,7 @@ abstract class AbstractProcessTask implements AkeneoTaskInterface
 
         if ($handleType instanceof PageInterface) {
             $this->handleByPage($payload, $handleType, $count, $ids);
-        } else {
+        } elseif ($handleType instanceof ResourceCursorInterface) {
             $this->handleByCursor($payload, $handleType, $count, $ids);
         }
 

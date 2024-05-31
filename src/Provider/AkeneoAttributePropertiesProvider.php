@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
-final class AkeneoAttributePropertiesProvider
+#[AsAlias]
+final class AkeneoAttributePropertiesProvider implements AkeneoAttributePropertiesProviderInterface
 {
-    private bool $loadsAllAttributesAtOnce = true;
+    private bool $loadsAllAttributesAtOnce = false;
 
     private array $attributes = [];
 

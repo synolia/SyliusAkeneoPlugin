@@ -208,3 +208,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetProductAttributeProcessorInterface:
       class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetProductAttributeProcessor
+
+    Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider: ~
+    Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProvider: ~
+    Synolia\SyliusAkeneoPlugin\Provider\AkeneoReferenceEntityAttributePropertiesProvider: ~

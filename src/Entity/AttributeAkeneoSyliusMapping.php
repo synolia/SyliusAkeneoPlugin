@@ -15,6 +15,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_attribute_akeneo_sylius_mapping')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class AttributeAkeneoSyliusMapping implements ResourceInterface
 {
     /**

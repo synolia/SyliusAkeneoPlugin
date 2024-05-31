@@ -15,7 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Retriever\FamilyMeasureNotFoundExcepti
 use Synolia\SyliusAkeneoPlugin\Exceptions\Retriever\MeasurableNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyMeasureRetriever;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
@@ -29,7 +29,7 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
 
     public function __construct(
         private AttributeTypeMatcher $attributeTypeMatcher,
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertiesProvider,
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         private FamilyMeasureRetriever $measureFamilyRetriever,
         private ProductFilterRulesProviderInterface $productFilterRulesProvider,

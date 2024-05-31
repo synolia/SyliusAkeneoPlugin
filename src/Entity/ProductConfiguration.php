@@ -18,6 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
  */
 #[ORM\Entity(repositoryClass: ProductConfigurationRepository::class)]
 #[ORM\Table(name: 'akeneo_api_configuration_product')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class ProductConfiguration implements ResourceInterface
 {
     /**

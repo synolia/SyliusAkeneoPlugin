@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_api_configuration_product_images_mapping')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class ProductConfigurationImageMapping implements ResourceInterface
 {
     /**

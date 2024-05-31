@@ -15,6 +15,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_settings')]
+#[ORM\Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Setting implements ResourceInterface
 {
     /**

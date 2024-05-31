@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
-final class AkeneoReferenceEntityAttributePropertiesProvider
+#[AsAlias]
+final class AkeneoReferenceEntityAttributePropertiesProvider implements AkeneoReferenceEntityAttributePropertiesProviderInterface
 {
     private bool $loadsAllAttributesAtOnce = false;
 
@@ -18,8 +20,9 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
     ) {
     }
 
-    public function setLoadsAllAttributesAtOnce(bool $loadsAllAttributesAtOnce): self
-    {
+    public function setLoadsAllAttributesAtOnce(
+        bool $loadsAllAttributesAtOnce,
+    ): AkeneoReferenceEntityAttributePropertiesProviderInterface {
         $this->loadsAllAttributesAtOnce = $loadsAllAttributesAtOnce;
 
         return $this;
