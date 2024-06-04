@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
 use Sylius\Component\Core\Model\ProductInterface;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\BatchMessageInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductResourcePayload extends AbstractPayload
@@ -73,5 +74,10 @@ final class ProductResourcePayload extends AbstractPayload
         $this->scope = $scope;
 
         return $this;
+    }
+
+    public function createBatchMessage(array $items): BatchMessageInterface
+    {
+        throw new \InvalidArgumentException();
     }
 }

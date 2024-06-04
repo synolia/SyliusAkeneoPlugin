@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Payload\Attribute;
 
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\BatchMessageInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class LocaleAttributeTranslationPayload extends AbstractPayload
@@ -92,5 +93,10 @@ final class LocaleAttributeTranslationPayload extends AbstractPayload
         $this->scope = $scope;
 
         return $this;
+    }
+
+    public function createBatchMessage(array $items): BatchMessageInterface
+    {
+        throw new \InvalidArgumentException();
     }
 }

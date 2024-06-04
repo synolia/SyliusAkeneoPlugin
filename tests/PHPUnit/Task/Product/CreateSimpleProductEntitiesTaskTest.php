@@ -17,12 +17,12 @@ use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository;
 use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
@@ -50,7 +50,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         $productPayload = new ProductPayload($this->client);
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
         /** @var ProcessProductsTask $retrieveProductsTask */
@@ -76,7 +76,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $productPayload = new ProductPayload($this->client);
         $productPayload->setProcessAsSoonAsPossible(false);
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
         /** @var ProcessProductsTask $processProductsTask */
@@ -84,8 +84,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         /** @var ProductPayload $productPayload */
         $productPayload = $processProductsTask->__invoke($productPayload);
 
-        /** @var TearDownProductTask $tearDownProductTask */
-        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownProductTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
@@ -184,7 +183,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $productPayload = new ProductPayload($this->client);
         $productPayload->setProcessAsSoonAsPossible(false);
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
         /** @var ProcessProductsTask $retrieveProductsTask */
@@ -192,8 +191,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        /** @var TearDownProductTask $tearDownProductTask */
-        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownProductTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
