@@ -9,8 +9,8 @@ use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
@@ -19,8 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
  */
 final class EnableDisableProductTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
-    private $taskProvider;
+    private TaskProvider $taskProvider;
 
     private \Akeneo\Pim\ApiClient\AkeneoPimClientInterface $client;
 
@@ -41,7 +40,7 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
 
         $productPayload = new ProductPayload($this->client);
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
         /** @var ProcessProductsTask $retrieveProductsTask */
@@ -49,8 +48,7 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         /** @var ProductPayload $productPayload */
         $productPayload = $retrieveProductsTask->__invoke($productPayload);
 
-        /** @var \Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask $tearDownProductTask */
-        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownProductTask->__invoke($productPayload);
 
         $this->manager->flush();

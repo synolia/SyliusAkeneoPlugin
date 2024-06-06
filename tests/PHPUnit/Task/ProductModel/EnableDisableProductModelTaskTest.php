@@ -9,7 +9,7 @@ use donatj\MockWebServer\Response;
 use Sylius\Component\Core\Model\Product;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
@@ -22,8 +22,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  */
 final class EnableDisableProductModelTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
-    private $taskProvider;
+    private TaskProvider $taskProvider;
 
     protected function setUp(): void
     {

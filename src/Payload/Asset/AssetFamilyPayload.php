@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Payload\Asset;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\BatchMessageInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class AssetFamilyPayload extends AbstractPayload
@@ -35,5 +36,10 @@ final class AssetFamilyPayload extends AbstractPayload
     public function setResources(ResourceCursorInterface $resources): void
     {
         $this->resources = $resources;
+    }
+
+    public function createBatchMessage(array $items): BatchMessageInterface
+    {
+        throw new \InvalidArgumentException();
     }
 }

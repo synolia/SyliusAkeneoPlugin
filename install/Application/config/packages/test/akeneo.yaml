@@ -24,7 +24,7 @@ services:
     Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Filter\ProductFilter: ~
-    Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider: ~
+    Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider: ~
     Synolia\SyliusAkeneoPlugin\Provider\TaskProvider: ~
     Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever: ~
     Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository: ~

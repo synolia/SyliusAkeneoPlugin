@@ -19,12 +19,11 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Association\AssociateProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
@@ -41,6 +40,8 @@ class AssociateProductsTaskTest extends AbstractTaskTest
     private EntityRepository $productGroupRepository;
 
     private AkeneoPimClientInterface $client;
+
+    private ?ProductFiltersRules $productFiltersRules;
 
     protected function setUp(): void
     {
@@ -150,8 +151,6 @@ class AssociateProductsTaskTest extends AbstractTaskTest
 
     private function createProductFiltersConfiguration(): void
     {
-        $this->productFilter = $this->getContainer()->get(ProductFilter::class);
-
         $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
         if (!$this->productFiltersRules instanceof ProductFiltersRules) {
             $this->productFiltersRules = new ProductFiltersRules();

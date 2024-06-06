@@ -22,6 +22,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\AssetRepository;
  */
 #[ORM\Entity(repositoryClass: AssetRepository::class)]
 #[ORM\Table(name: 'akeneo_assets')]
+#[ORM\Index(columns: ['family_code', 'asset_code', 'attribute_code'], name: 'asset_idx')]
 class Asset implements AssetInterface
 {
     /**

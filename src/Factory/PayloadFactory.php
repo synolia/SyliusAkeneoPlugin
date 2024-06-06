@@ -53,6 +53,7 @@ final class PayloadFactory implements PayloadFactoryInterface
             ->setBatchSize((int) $input->getOption('batch-size'))
             ->setMaxRunningProcessQueueSize((int) $input->getOption('max-concurrency'))
             ->setFilters((array) ($input->getOption('filter') ?: []))
+            ->setHandler($input->getOption('handler') ?? $context->getHandler())
         ;
 
         if (!$isBatchingAllowed) {

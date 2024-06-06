@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\BatchMessageInterface;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\ProductVariantBatchMessage;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductPayload extends AbstractPayload
@@ -35,5 +37,10 @@ final class ProductPayload extends AbstractPayload
     public function setResources(PageInterface $resources): void
     {
         $this->resources = $resources;
+    }
+
+    public function createBatchMessage(array $items): BatchMessageInterface
+    {
+        return new ProductVariantBatchMessage($items);
     }
 }

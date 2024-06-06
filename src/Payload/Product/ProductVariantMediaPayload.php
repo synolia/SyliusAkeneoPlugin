@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\BatchMessageInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductVariantMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
@@ -35,5 +36,10 @@ final class ProductVariantMediaPayload extends AbstractPayload implements Produc
         $this->attributes = $attributes;
 
         return $this;
+    }
+
+    public function createBatchMessage(array $items): BatchMessageInterface
+    {
+        throw new \InvalidArgumentException();
     }
 }
