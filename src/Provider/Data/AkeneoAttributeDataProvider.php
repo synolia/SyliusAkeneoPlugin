@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderInterface
 {
     public function __construct(
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertyProvider,
         private ProductAttributeValueValueBuilder $productAttributeValueValueBuilder,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {

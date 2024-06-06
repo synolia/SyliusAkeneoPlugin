@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOpti
 use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValueTranslation\AfterProcessingProductOptionValueTranslationEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductOptionValueTranslation\BeforeProcessingProductOptionValueTranslationEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderNotFoundException;
-use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 use Webmozart\Assert\Assert;
@@ -29,7 +29,7 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
     public function __construct(
         private FactoryInterface $productOptionValueFactory,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertiesProvider,
         private ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
         private ProductOptionValueTranslationBuilderProcessorInterface $productOptionValueTranslationBuilder,
         private LoggerInterface $akeneoLogger,

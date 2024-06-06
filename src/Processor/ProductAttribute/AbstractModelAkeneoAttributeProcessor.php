@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 abstract class AbstractModelAkeneoAttributeProcessor
@@ -17,7 +17,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
 
     public function __construct(
         protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
-        protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
+        protected AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertyProvider,
         protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         protected LoggerInterface $logger,

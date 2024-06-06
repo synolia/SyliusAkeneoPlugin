@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Provider;
+namespace Synolia\SyliusAkeneoPlugin\Provider\Data;
 
 interface AkeneoFamilyPropertiesProviderInterface
 {

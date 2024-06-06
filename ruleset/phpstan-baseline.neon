@@ -258,7 +258,7 @@ parameters:
 		-
 			message: "#^Cannot access offset 'code' on mixed\\.$#"
 			count: 1
-			path: ../src/Provider/AkeneoFamilyPropertiesProvider.php
+			path: ../src/Provider/Data/AkeneoFamilyPropertiesProvider.php
 
 		-
 			message: "#^Cannot access offset 'data' on mixed\\.$#"

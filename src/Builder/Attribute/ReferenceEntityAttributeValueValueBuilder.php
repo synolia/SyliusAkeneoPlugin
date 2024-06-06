@@ -11,7 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationExce
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
-use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoReferenceEntityAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
 final class ReferenceEntityAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     public function __construct(
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertiesProvider,
         private AkeneoReferenceEntityAttributeDataProviderInterface $akeneoReferenceEntityAttributeDataProvider,
         private AttributeTypeMatcher $attributeTypeMatcher,
         private AkeneoPimClientInterface $client,
