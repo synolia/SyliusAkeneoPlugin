@@ -76,6 +76,9 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
 
     public function continue(PipelinePayloadInterface $pipelinePayload): void
     {
+        $this->processManager->setInstantProcessing($pipelinePayload->getProcessAsSoonAsPossible());
+        $this->processManager->setNumberOfParallelProcesses($pipelinePayload->getMaxRunningProcessQueueSize());
+
         $totalItemsCount = $this->count($pipelinePayload->getTmpTableName());
 
         if (0 === $totalItemsCount) {
