@@ -60,10 +60,6 @@ class AttributeResourceProcessor implements AkeneoResourceProcessorInterface
 
             $this->dispatcher->dispatch(new BeforeProcessingAttributeEvent($resource));
 
-            if (!$this->entityManager->getConnection()->isTransactionActive()) {
-                $this->entityManager->beginTransaction();
-            }
-
             $attribute = $this->attributeCreator->create($resource);
             $this->entityManager->flush();
 
