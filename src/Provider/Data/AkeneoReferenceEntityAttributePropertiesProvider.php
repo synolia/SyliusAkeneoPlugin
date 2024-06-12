@@ -7,7 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Provider\Data;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
-final class AkeneoReferenceEntityAttributePropertiesProvider
+final class AkeneoReferenceEntityAttributePropertiesProvider implements AkeneoReferenceEntityAttributePropertiesProviderInterface
 {
     private bool $loadsAllAttributesAtOnce = false;
 
@@ -19,8 +19,9 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
     ) {
     }
 
-    public function setLoadsAllAttributesAtOnce(bool $loadsAllAttributesAtOnce): self
-    {
+    public function setLoadsAllAttributesAtOnce(
+        bool $loadsAllAttributesAtOnce,
+    ): AkeneoReferenceEntityAttributePropertiesProviderInterface {
         $this->loadsAllAttributesAtOnce = $loadsAllAttributesAtOnce;
 
         return $this;

@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 
 final class AttributesProcessor implements AttributesProcessorInterface

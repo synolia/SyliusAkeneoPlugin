@@ -16,8 +16,8 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationExce
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoFamilyPropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 

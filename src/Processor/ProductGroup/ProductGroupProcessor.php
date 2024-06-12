@@ -23,10 +23,12 @@ class ProductGroupProcessor
     ) {
     }
 
-    public function process(array $resource): void
+    public function process(array $resource): ?ProductGroupInterface
     {
-        $this->createProductGroups($resource);
+        $parentGroup = $this->createProductGroups($resource);
         $this->familyVariationAxeProcessor->process($resource);
+
+        return $parentGroup;
     }
 
     private function createGroupForCodeAndFamily(
@@ -34,9 +36,9 @@ class ProductGroupProcessor
         string $family,
         string $familyVariant,
         ?string $parent = null,
-    ): void {
+    ): ProductGroupInterface {
         if (isset($this->productGroupsMapping[$code])) {
-            return;
+            return $this->productGroupsMapping[$code];
         }
 
         $productGroup = $this->productGroupRepository->findOneBy(['model' => $code]);
@@ -55,7 +57,7 @@ class ProductGroupProcessor
             $productGroup->setFamily($family);
             $productGroup->setFamilyVariant($familyVariant);
 
-            return;
+            return $productGroup;
         }
 
         $this->logger->info(sprintf(
@@ -72,16 +74,22 @@ class ProductGroupProcessor
         $productGroup->setFamilyVariant($familyVariant);
         $this->entityManager->persist($productGroup);
         $this->productGroupsMapping[$code] = $productGroup;
+
+        return $productGroup;
     }
 
-    private function createProductGroups(array $resource): void
+    private function createProductGroups(array $resource): ?ProductGroupInterface
     {
+        $parentGroup = null;
+
         if (null !== $resource['parent']) {
-            $this->createGroupForCodeAndFamily($resource['parent'], $resource['family'], $resource['family_variant']);
+            $parentGroup = $this->createGroupForCodeAndFamily($resource['parent'], $resource['family'], $resource['family_variant']);
         }
 
         if (null !== $resource['code']) {
             $this->createGroupForCodeAndFamily($resource['code'], $resource['family'], $resource['family_variant'], $resource['parent']);
         }
+
+        return $parentGroup;
     }
 }

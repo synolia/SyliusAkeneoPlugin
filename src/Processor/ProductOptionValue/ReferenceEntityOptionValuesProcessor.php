@@ -15,7 +15,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType;
-use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\LocaleRepositoryInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 use Webmozart\Assert\Assert;
@@ -30,7 +30,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
         LoggerInterface $akeneoLogger,
         EntityManagerInterface $entityManager,
         private AkeneoPimClientInterface $client,
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertiesProvider,
         ProductOptionValueDataTransformerInterface $productOptionValueDataTransformer,
         private LocaleRepositoryInterface $localeRepository,
         private EditionCheckerInterface $editionChecker,
