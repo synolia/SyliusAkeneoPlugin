@@ -7,8 +7,9 @@ namespace Synolia\SyliusAkeneoPlugin\Factory;
 use League\Pipeline\Pipeline;
 use League\Pipeline\PipelineInterface;
 use Synolia\SyliusAkeneoPlugin\Pipeline\Processor;
-use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 final class CategoryPipelineFactory extends AbstractPipelineFactory
 {
@@ -17,8 +18,9 @@ final class CategoryPipelineFactory extends AbstractPipelineFactory
         $pipeline = new Pipeline(new Processor($this->dispatcher));
 
         return $pipeline
-            ->pipe($this->taskProvider->get(RetrieveCategoriesTask::class))
-            ->pipe($this->taskProvider->get(CreateUpdateEntityTask::class))
+            ->pipe($this->taskProvider->get(SetupTask::class))
+            ->pipe($this->taskProvider->get(ProcessCategoriesTask::class))
+            ->pipe($this->taskProvider->get(TearDownTask::class))
         ;
     }
 }

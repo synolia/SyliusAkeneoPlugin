@@ -39,6 +39,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
             $this->isContinue = $commandContext->isContinue();
             $this->processAsSoonAsPossible = $commandContext->getProcessAsSoonAsPossible();
             $this->handler = $commandContext->getHandler();
+            $this->fromPage = $commandContext->getFromPage();
         }
     }
 

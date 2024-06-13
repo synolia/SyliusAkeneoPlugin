@@ -43,4 +43,8 @@ interface ConfigurationContextInterface
     public function getHandler(): string;
 
     public function setHandler(string $handler): self;
+
+    public function getFromPage(): int;
+
+    public function setFromPage(int $fromPage): self;
 }
