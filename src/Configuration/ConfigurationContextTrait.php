@@ -27,6 +27,8 @@ trait ConfigurationContextTrait
 
     private string $handler = SymfonyProcessTaskHandler::HANDLER_CODE;
 
+    private int $fromPage = 1;
+
     public function getBatchSize(): int
     {
         return $this->batchSize;
@@ -144,6 +146,18 @@ trait ConfigurationContextTrait
     public function setHandler(string $handler): ConfigurationContextInterface
     {
         $this->handler = $handler;
+
+        return $this;
+    }
+
+    public function getFromPage(): int
+    {
+        return $this->fromPage;
+    }
+
+    public function setFromPage(int $fromPage): ConfigurationContextInterface
+    {
+        $this->fromPage = $fromPage;
 
         return $this;
     }

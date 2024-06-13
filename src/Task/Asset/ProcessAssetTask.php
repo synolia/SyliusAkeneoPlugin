@@ -9,6 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Asset\AssetPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Filter\SearchFilterProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Handler\Task\TaskHandlerProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
@@ -22,7 +23,8 @@ final class ProcessAssetTask implements AkeneoTaskInterface
     public function __construct(
         private EditionCheckerInterface $editionChecker,
         private LoggerInterface $akeneoLogger,
-        private TaskHandlerProviderInterface $taskHandlerProvider,
+        private SearchFilterProviderInterface $searchFilterProvider,
+        TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
         $this->__taskHandlerConstruct($taskHandlerProvider);
     }
@@ -49,7 +51,8 @@ final class ProcessAssetTask implements AkeneoTaskInterface
         }
 
         $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
-        $resources = $payload->getAkeneoPimClient()->getAssetFamilyApi()->all();
+
+        $resources = $payload->getAkeneoPimClient()->getAssetFamilyApi()->all($this->searchFilterProvider->get($payload));
 
         $this->handle($payload, $resources);
 

@@ -5,60 +5,48 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Command\CommandLockedException;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Logger\Messages;
+use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 
-final class ImportCategoriesCommand extends Command
+final class ImportCategoriesCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    private const DESCRIPTION = 'Import Categories from Akeneo PIM.';
+    protected static $defaultDescription = 'Import Categories from Akeneo PIM.';
 
     /** @var string */
     protected static $defaultName = 'akeneo:import:categories';
 
     public function __construct(
-        private CategoryPipelineFactory $categoryPipelineFactory,
-        private ClientFactoryInterface $clientFactory,
-        private LoggerInterface $logger,
+        CategoryPipelineFactory $pipelineFactory,
+        LoggerInterface $akeneoLogger,
+        PayloadFactoryInterface $payloadFactory,
     ) {
-        parent::__construct(self::$defaultName);
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription(self::DESCRIPTION);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output,
-    ) {
-        if (!$this->lock()) {
-            $output->writeln(Messages::commandAlreadyRunning());
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        try {
+            $this->preExecute();
 
-            return 0;
+            $payload = $this->payloadFactory->createFromCommand(CategoryPayload::class, $input, $output);
+            $this->pipeline->process($payload);
+
+            $this->postExecute();
+        } catch (CommandLockedException $commandLockedException) {
+            $this->logger->warning($commandLockedException->getMessage());
+
+            return 1;
         }
-
-        $this->logger->notice(self::$defaultName);
-        /** @var \League\Pipeline\Pipeline $categoryPipeline */
-        $categoryPipeline = $this->categoryPipelineFactory->create();
-
-        /** @var \Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload $categoryPayload */
-        $categoryPayload = new CategoryPayload($this->clientFactory->createFromApiCredentials());
-        $categoryPipeline->process($categoryPayload);
-
-        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
-        $this->release();
 
         return 0;
     }

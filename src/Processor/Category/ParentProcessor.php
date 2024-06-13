@@ -35,6 +35,6 @@ class ParentProcessor implements CategoryProcessorInterface
      */
     public function support(TaxonInterface $taxon, array $resource): bool
     {
-        return null !== $resource['parent'];
+        return array_key_exists('parent', $resource) && null !== $resource['parent'];
     }
 }

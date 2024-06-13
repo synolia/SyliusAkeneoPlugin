@@ -5,27 +5,33 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Filter\SearchFilterProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Handler\Task\TaskHandlerProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
 
 /**
  * @internal
  */
-final class RetrieveCategoriesTask implements AkeneoTaskInterface
+final class ProcessCategoriesTask implements AkeneoTaskInterface
 {
+    use TaskHandlerTrait{
+        TaskHandlerTrait::__construct as private __taskHandlerConstruct;
+    }
+
     public function __construct(
         private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
         private LoggerInterface $logger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
-        private EventDispatcherInterface $eventDispatcher,
+        private SearchFilterProviderInterface $searchFilterProvider,
+        TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
+        $this->__taskHandlerConstruct($taskHandlerProvider);
     }
 
     /**
@@ -33,31 +39,12 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $queryParameters = [];
         $this->logger->debug(self::class);
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
-        try {
-            $event = new FilterEvent($payload->getCommandContext());
-            $this->eventDispatcher->dispatch($event);
-
-            $queryParameters['search'] = $event->getFilters();
-        } catch (CommandContextIsNullException) {
-            $queryParameters = [];
-        }
-
-        $queryParameters['with_enriched_attributes'] = true;
-
-        if ($this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
-            $queryParameters['with_position'] = true;
-        }
-
-        $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());
-        $this->logger->notice('Filters', $queryParameters);
-
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
-            $queryParameters,
+            $this->searchFilterProvider->get($payload),
         );
 
         $categories = iterator_to_array($resources);
@@ -70,6 +57,9 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         $excludedCategories = $this->excludeNotImportedCategories($excludedCategoryCodes, $categoriesTree);
 
         //Only keep category of the root category
+        /**
+         * @var array{code: string} $category
+         */
         foreach ($categories as $key => $category) {
             if (!\in_array($category['code'], $keptCategories, true)) {
                 $this->logger->info(sprintf('%s: %s is not inside selected root categories and will be excluded', $payload->getType(), $category['code']));
@@ -78,6 +68,9 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         }
 
         //Remove excluded categories from kept categories
+        /**
+         * @var array{code: string} $category
+         */
         foreach ($categories as $key => $category) {
             if (\in_array($category['code'], $excludedCategories, true)) {
                 $this->logger->info(sprintf('%s: %s is explicitly excluded from configuration', $payload->getType(), $category['code']));
@@ -90,6 +83,8 @@ final class RetrieveCategoriesTask implements AkeneoTaskInterface
         $this->logger->info(Messages::totalToImport($payload->getType(), \count($categories)));
 
         $payload->setResources($categories);
+
+        $this->handle($payload, $categories);
 
         return $payload;
     }

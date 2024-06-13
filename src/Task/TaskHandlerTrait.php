@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task;
 
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Handler\Task\TaskHandlerProviderInterface;
 
@@ -23,7 +22,7 @@ trait TaskHandlerTrait
 
     protected function handle(
         PipelinePayloadInterface $pipelinePayload,
-        ResourceCursorInterface|PageInterface $handleType,
+        iterable|PageInterface $handleType,
     ): void {
         $this->taskHandlerProvider->provide($pipelinePayload)->handle($pipelinePayload, $handleType);
     }
