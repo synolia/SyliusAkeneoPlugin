@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Handler\Task;
 
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
@@ -114,7 +113,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
      */
     public function handle(
         PipelinePayloadInterface $pipelinePayload,
-        ResourceCursorInterface|PageInterface $handleType,
+        iterable|PageInterface $handleType,
     ): void {
         $this->processManager->setInstantProcessing($pipelinePayload->getProcessAsSoonAsPossible());
         $this->processManager->setNumberOfParallelProcesses($pipelinePayload->getMaxRunningProcessQueueSize());
@@ -197,7 +196,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
 
     private function handleByCursor(
         PipelinePayloadInterface $payload,
-        ResourceCursorInterface $resourceCursor,
+        iterable $resourceCursor,
         int &$count = 0,
         array &$ids = [],
     ): void {

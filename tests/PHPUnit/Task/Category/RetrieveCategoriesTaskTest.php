@@ -10,7 +10,7 @@ use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
 
 /**
  * @internal
@@ -50,8 +50,8 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $payload = $task->__invoke($retrieveCategoryPayload);
 
         /** @var array $categoriesTree */
@@ -68,8 +68,8 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $payload = $task->__invoke($retrieveCategoryPayload);
 
         $categoriesTree = $payload->getResources();
@@ -105,8 +105,8 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $payload = $task->__invoke($retrieveCategoryPayload);
 
         $categoriesTree = $payload->getResources();
@@ -137,8 +137,8 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $payload = $task->__invoke($retrieveCategoryPayload);
 
         $categoriesTree = $payload->getResources();

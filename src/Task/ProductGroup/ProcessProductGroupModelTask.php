@@ -49,17 +49,17 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
                 continue;
             }
 
-            /** @var ProductGroupInterface|null $productGroup */
-            $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
-
-            if (!$productGroup instanceof ProductGroupInterface) {
-                continue;
-            }
-
             /** @var ProductInterface|null $product */
             $product = $this->productRepository->findOneByCode($resource['code']);
 
             if (!$product instanceof ProductInterface) {
+                continue;
+            }
+
+            /** @var ProductGroupInterface|null $productGroup */
+            $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
+
+            if (!$productGroup instanceof ProductGroupInterface) {
                 continue;
             }
 

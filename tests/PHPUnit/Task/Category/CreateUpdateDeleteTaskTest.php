@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
 
 /**
  * @internal
@@ -53,8 +53,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $payload = $task->__invoke($retrieveCategoryPayload);
 
         /** @var CreateUpdateEntityTask $task */
@@ -90,8 +90,8 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
         $retrieveCategoryPayload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $payload = $task->__invoke($retrieveCategoryPayload);
 
         /** @var CreateUpdateEntityTask $task */
