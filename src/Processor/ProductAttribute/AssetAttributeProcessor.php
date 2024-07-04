@@ -18,7 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrSc
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 use Webmozart\Assert\Assert;

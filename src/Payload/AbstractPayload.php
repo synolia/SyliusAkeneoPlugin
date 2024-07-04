@@ -28,7 +28,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 
     public function __construct(
         protected AkeneoPimClientInterface $akeneoPimClient,
-        protected ?\Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface $commandContext = null,
+        protected ?CommandContextInterface $commandContext = null,
     ) {
         if (null !== $commandContext) {
             $this->allowParallel = $commandContext->allowParallel();
@@ -38,6 +38,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
             $this->verbosity = $commandContext->getVerbosity();
             $this->isContinue = $commandContext->isContinue();
             $this->processAsSoonAsPossible = $commandContext->getProcessAsSoonAsPossible();
+            $this->handler = $commandContext->getHandler();
         }
     }
 

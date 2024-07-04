@@ -7,8 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 abstract class AbstractModelAkeneoAttributeProcessor

@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Payload\Product;
 
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
+use Synolia\SyliusAkeneoPlugin\Message\Batch\BatchMessageInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\AbstractPayload;
 
 final class ProductMediaPayload extends AbstractPayload implements ProductMediaPayloadInterface
@@ -48,5 +49,10 @@ final class ProductMediaPayload extends AbstractPayload implements ProductMediaP
     public function setProductConfiguration(ProductConfiguration $productConfiguration): void
     {
         $this->productConfiguration = $productConfiguration;
+    }
+
+    public function createBatchMessage(array $items): BatchMessageInterface
+    {
+        throw new \InvalidArgumentException();
     }
 }

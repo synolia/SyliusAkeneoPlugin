@@ -39,4 +39,8 @@ interface ConfigurationContextInterface
     public function getFilters(): array;
 
     public function setFilters(array $filters): self;
+
+    public function getHandler(): string;
+
+    public function setHandler(string $handler): self;
 }

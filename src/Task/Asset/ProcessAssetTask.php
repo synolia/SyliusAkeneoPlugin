@@ -4,32 +4,27 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Asset;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
-use Synolia\SyliusAkeneoPlugin\Manager\ProcessManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Asset\AssetPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
+use Synolia\SyliusAkeneoPlugin\Provider\Handler\Task\TaskHandlerProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
 
-final class ProcessAssetTask extends AbstractProcessTask
+final class ProcessAssetTask implements AkeneoTaskInterface
 {
+    use TaskHandlerTrait{
+        TaskHandlerTrait::__construct as private __taskHandlerConstruct;
+    }
+
     public function __construct(
-        EntityManagerInterface $entityManager,
-        LoggerInterface $akeneoLogger,
-        ProcessManagerInterface $processManager,
-        BatchAssetTask $task,
         private EditionCheckerInterface $editionChecker,
-        string $projectDir,
+        private LoggerInterface $akeneoLogger,
+        private TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
-        parent::__construct(
-            $entityManager,
-            $processManager,
-            $task,
-            $akeneoLogger,
-            $projectDir,
-        );
+        $this->__taskHandlerConstruct($taskHandlerProvider);
     }
 
     /**
@@ -40,32 +35,24 @@ final class ProcessAssetTask extends AbstractProcessTask
         $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();
 
         if (!$isEnterprise) {
-            $this->logger->warning('Skipped akeneo:import:assets command because the configured Akeneo edition is not compatible.');
+            $this->akeneoLogger->warning('Skipped akeneo:import:assets command because the configured Akeneo edition is not compatible.');
 
             return $payload;
         }
 
-        $this->logger->debug(self::class);
+        $this->akeneoLogger->debug(self::class);
 
         if ($payload->isContinue()) {
-            $this->process($payload);
+            $this->continue($payload);
 
             return $payload;
         }
 
-        $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
+        $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getAssetFamilyApi()->all();
 
         $this->handle($payload, $resources);
-        $this->processManager->waitForAllProcesses();
 
         return $payload;
-    }
-
-    protected function createBatchPayload(PipelinePayloadInterface $payload): PipelinePayloadInterface
-    {
-        $commandContext = ($payload->hasCommandContext()) ? $payload->getCommandContext() : null;
-
-        return new AssetPayload($payload->getAkeneoPimClient(), $commandContext);
     }
 }

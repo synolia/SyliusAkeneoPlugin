@@ -7,7 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
 /**
@@ -17,7 +17,7 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
  */
 final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
 {
-    private \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider $attributePropertiesProvider;
+    private \Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider $attributePropertiesProvider;
 
     protected function setUp(): void
     {

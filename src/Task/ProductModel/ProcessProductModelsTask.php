@@ -4,33 +4,34 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
-use Synolia\SyliusAkeneoPlugin\Manager\ProcessManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
+use Synolia\SyliusAkeneoPlugin\Provider\Handler\Task\TaskHandlerProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
 use Throwable;
 
-final class ProcessProductModelsTask extends AbstractProcessTask
+final class ProcessProductModelsTask implements AkeneoTaskInterface
 {
+    use TaskHandlerTrait{
+        TaskHandlerTrait::__construct as private __taskHandlerConstruct;
+    }
+
     public function __construct(
-        EntityManagerInterface $entityManager,
-        LoggerInterface $akeneoLogger,
-        ProcessManagerInterface $processManager,
-        BatchProductModelTask $task,
         private ProductFilter $productFilter,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private EventDispatcherInterface $eventDispatcher,
-        string $projectDir,
+        private LoggerInterface $logger,
+        private TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
+        $this->__taskHandlerConstruct($taskHandlerProvider);
     }
 
     /**
@@ -43,7 +44,7 @@ final class ProcessProductModelsTask extends AbstractProcessTask
         $this->logger->debug(self::class);
 
         if ($payload->isContinue()) {
-            $this->process($payload);
+            $this->continue($payload);
 
             return $payload;
         }
@@ -71,15 +72,6 @@ final class ProcessProductModelsTask extends AbstractProcessTask
 
         $this->handle($payload, $resources);
 
-        $this->processManager->startAll();
-
         return $payload;
-    }
-
-    protected function createBatchPayload(PipelinePayloadInterface $payload): PipelinePayloadInterface
-    {
-        $commandContext = ($payload->hasCommandContext()) ? $payload->getCommandContext() : null;
-
-        return new ProductModelPayload($payload->getAkeneoPimClient(), $commandContext);
     }
 }

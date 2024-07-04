@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\ProductGroup\ProcessProductGroupModelTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;

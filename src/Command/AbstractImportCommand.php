@@ -43,6 +43,7 @@ abstract class AbstractImportCommand extends Command
             ->addOption('max-concurrency', 'c', InputOption::VALUE_OPTIONAL, 'Max process concurrency', 5)
             ->addOption('batch-after-fetch', 'a', InputOption::VALUE_OPTIONAL, 'Fetch all pages then start processing the batches', true)
             ->addOption('filter', 'f', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Add filter')
+            ->addOption('handler', 'i', InputOption::VALUE_OPTIONAL, 'Specify batch handler')
         ;
     }
 
