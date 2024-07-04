@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductGroup;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroup;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
+use Synolia\SyliusAkeneoPlugin\Retriever\FamilyVariantRetrieverInterface;
 
 final class FamilyVariationAxeProcessor
 {
@@ -18,9 +18,9 @@ final class FamilyVariationAxeProcessor
     private array $familyVariants;
 
     public function __construct(
-        private AkeneoPimClientInterface $akeneoPimEnterpriseClient,
         private EntityRepository $productGroupRepository,
         private FamilyRetrieverInterface $familyRetriever,
+        private FamilyVariantRetrieverInterface $familyVariantRetriever,
         private LoggerInterface $logger,
     ) {
         $this->familyVariants = [];
@@ -47,10 +47,7 @@ final class FamilyVariationAxeProcessor
         $family = $family ?: $resource['family'];
 
         if (!isset($this->familyVariants[$family][$resource['family_variant']])) {
-            $payloadProductGroup = $this->akeneoPimEnterpriseClient->getFamilyVariantApi()->get(
-                $family,
-                $resource['family_variant'],
-            );
+            $payloadProductGroup = $this->familyVariantRetriever->getVariant($family, $resource['family_variant']);
 
             $this->familyVariants[$family][$resource['family_variant']] = $payloadProductGroup;
         }

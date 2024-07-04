@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Synolia\SyliusAkeneoPlugin\Provider;
+namespace Synolia\SyliusAkeneoPlugin\Provider\Data;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias]
 final class AkeneoFamilyPropertiesProvider implements AkeneoFamilyPropertiesProviderInterface
 {
     private bool $loadsAllFamiliesAtOnce = false;
