@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin\Handler\Task;
 
 use Akeneo\Pim\ApiClient\Pagination\Page;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -37,7 +36,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
 
     public function handle(
         PipelinePayloadInterface $pipelinePayload,
-        ResourceCursorInterface|PageInterface $handleType,
+        iterable|PageInterface $handleType,
     ): void {
         $count = 0;
         $items = [];
@@ -83,7 +82,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
 
     private function handleByCursor(
         PipelinePayloadInterface $payload,
-        ResourceCursorInterface $resourceCursor,
+        iterable $resourceCursor,
         int &$count = 0,
         array &$items = [],
     ): void {

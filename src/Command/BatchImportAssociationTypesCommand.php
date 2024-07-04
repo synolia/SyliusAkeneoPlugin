@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Task\AssociationType\BatchAssociationTypesTask;
+use Webmozart\Assert\Assert;
 
 final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
 {
@@ -33,6 +34,7 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
         InputInterface $input,
         OutputInterface $output,
     ) {
+        Assert::string($input->getArgument('ids'));
         $ids = explode(',', $input->getArgument('ids'));
 
         $this->logger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);

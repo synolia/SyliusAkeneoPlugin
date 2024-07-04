@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Handler\Task;
 
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
@@ -25,7 +24,7 @@ interface TaskHandlerInterface
 
     public function handle(
         PipelinePayloadInterface $pipelinePayload,
-        ResourceCursorInterface|PageInterface $handleType,
+        iterable|PageInterface $handleType,
     ): void;
 
     public function continue(PipelinePayloadInterface $pipelinePayload): void;
