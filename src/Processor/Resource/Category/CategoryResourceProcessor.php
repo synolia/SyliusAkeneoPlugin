@@ -68,10 +68,6 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
             $this->dispatcher->dispatch(new AfterProcessingTaxonEvent($resource, $taxon));
 
             $this->entityManager->flush();
-
-            if (true === $this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
-                $this->sortableManager->enableSortableEventListener();
-            }
         } catch (ExcludedAttributeException) {
             // Do nothing
         } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
@@ -97,6 +93,10 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
 
             $this->entityManager = $this->getNewEntityManager();
             $this->process($resource);
+        } finally {
+            if (true === $this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
+                $this->sortableManager->enableSortableEventListener();
+            }
         }
     }
 
