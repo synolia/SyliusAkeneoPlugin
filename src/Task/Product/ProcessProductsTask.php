@@ -44,9 +44,8 @@ final class ProcessProductsTask implements AkeneoTaskInterface
 
         $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
 
-        $resources = $payload->getAkeneoPimClient()->getProductApi()->listPerPage(
+        $resources = $payload->getAkeneoPimClient()->getProductApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
-            true,
             $this->searchFilterProvider->get($payload),
         );
 
