@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubj
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValueInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute\TaxonAttributeTypeMatcher;
@@ -21,8 +22,6 @@ use Webmozart\Assert\Assert;
 
 class AttributeProcessor implements CategoryProcessorInterface
 {
-    private array $taxonAttributes = [];
-
     public static function getDefaultPriority(): int
     {
         return 700;
@@ -64,7 +63,7 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $taxonAttribute,
                     $value,
                 );
-            } catch (UnsupportedAttributeTypeException $e) {
+            } catch (ExcludedAttributeException|UnsupportedAttributeTypeException $e) {
                 $this->logger->warning($e->getMessage(), [
                     'trace' => $e->getTrace(),
                     'exception' => $e,
@@ -80,15 +79,9 @@ class AttributeProcessor implements CategoryProcessorInterface
 
     private function getTaxonAttributes(string $attributeCode, string $type): TaxonAttributeInterface
     {
-        if (array_key_exists($attributeCode, $this->taxonAttributes)) {
-            return $this->taxonAttributes[$attributeCode];
-        }
-
         $taxonAttribute = $this->taxonAttributeRepository->findOneBy(['code' => $attributeCode]);
 
         if ($taxonAttribute instanceof TaxonAttribute) {
-            $this->taxonAttributes[$attributeCode] = $taxonAttribute;
-
             return $taxonAttribute;
         }
 
@@ -102,7 +95,6 @@ class AttributeProcessor implements CategoryProcessorInterface
         $taxonAttribute->setTranslatable(false);
 
         $this->entityManager->persist($taxonAttribute);
-        $this->taxonAttributes[$attributeCode] = $taxonAttribute;
 
         return $taxonAttribute;
     }

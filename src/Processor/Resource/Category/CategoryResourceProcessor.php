@@ -68,8 +68,6 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
             $this->dispatcher->dispatch(new AfterProcessingTaxonEvent($resource, $taxon));
 
             $this->entityManager->flush();
-        } catch (ExcludedAttributeException) {
-            // Do nothing
         } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
             ++$this->retryCount;
             usleep($this->retryWaitTime);
