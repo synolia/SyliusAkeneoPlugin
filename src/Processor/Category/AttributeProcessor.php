@@ -28,7 +28,7 @@ class AttributeProcessor implements CategoryProcessorInterface
     }
 
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private EntityManagerInterface $entityManager,
         private RepositoryInterface $taxonAttributeRepository,
         private RepositoryInterface $taxonAttributeValueRepository,
@@ -44,6 +44,14 @@ class AttributeProcessor implements CategoryProcessorInterface
     {
         foreach ($resource['values'] as $attributeValue) {
             try {
+                $this->akeneoLogger->info('Processing category attribute for taxon', [
+                    'taxon' => $taxon->getCode(),
+                    'attribute' => $attributeValue,
+                    'type' => $attributeValue['type'],
+                    'locale' => $attributeValue['locale'],
+                    'channel' => $attributeValue['channel'],
+                ]);
+
                 $taxonAttribute = $this->getTaxonAttributes(
                     $attributeValue['attribute_code'],
                     $attributeValue['type'],
@@ -57,6 +65,11 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $attributeValue['data'],
                 );
 
+                $this->akeneoLogger->info('Set TaxonAttribute value', [
+                    'code' => $attributeValue['attribute_code'],
+                    'value' => $value,
+                ]);
+
                 $this->getTaxonAttributeValues(
                     $attributeValue,
                     $taxon,
@@ -64,7 +77,7 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $value,
                 );
             } catch (ExcludedAttributeException|UnsupportedAttributeTypeException $e) {
-                $this->logger->warning($e->getMessage(), [
+                $this->akeneoLogger->warning($e->getMessage(), [
                     'trace' => $e->getTrace(),
                     'exception' => $e,
                 ]);
@@ -82,6 +95,11 @@ class AttributeProcessor implements CategoryProcessorInterface
         $taxonAttribute = $this->taxonAttributeRepository->findOneBy(['code' => $attributeCode]);
 
         if ($taxonAttribute instanceof TaxonAttribute) {
+            $this->akeneoLogger->debug('Found TaxonAttribute', [
+                'code' => $attributeCode,
+                'type' => $type,
+            ]);
+
             return $taxonAttribute;
         }
 
@@ -95,6 +113,10 @@ class AttributeProcessor implements CategoryProcessorInterface
         $taxonAttribute->setTranslatable(false);
 
         $this->entityManager->persist($taxonAttribute);
+        $this->akeneoLogger->debug('Created TaxonAttribute', [
+            'code' => $attributeCode,
+            'type' => $type,
+        ]);
 
         return $taxonAttribute;
     }

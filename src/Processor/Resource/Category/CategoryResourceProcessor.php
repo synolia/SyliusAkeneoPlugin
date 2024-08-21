@@ -13,7 +13,6 @@ use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Manager\Doctrine\DoctrineSortableManager;
 use Synolia\SyliusAkeneoPlugin\Processor\Category\CategoryProcessorChainInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\AkeneoResourceProcessorInterface;
