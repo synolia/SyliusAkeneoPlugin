@@ -130,7 +130,16 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
 
             $asset->setContent($data);
             $model->addAsset($asset);
-        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException) {
+
+            $this->akeneoLogger->info('Updated asset for product', [
+                'product' => $model->getCode(),
+                'familyCode' => $assetFamilyCode,
+                'attributeCode' => $attributeCode,
+                'assetCode' => $assetCode,
+                'locale' => $queryParam['locale'],
+                'content' => $data,
+            ]);
+        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException $e) {
             $this->akeneoLogger->debug('Error processing asset', [
                 'family_code' => $assetFamilyCode,
                 'attribute_code' => $attributeCode,
