@@ -68,6 +68,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
                     $this->logger->notice('Batching', ['codes' => $identifiers]);
                     $this->batch($payload, $items);
                     $items = [];
+                    $identifiers = [];
                 }
             }
 
@@ -98,6 +99,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
                 $this->logger->notice('Batching', ['codes' => $identifiers]);
                 $this->batch($payload, $items);
                 $items = [];
+                $identifiers = [];
             }
         }
 
