@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -128,8 +129,18 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
         foreach ($context['data'] as $assetCodes) {
             foreach ($assetCodes['data'] as $assetCode) {
-                $assetResource = $this->akeneoPimClient->getAssetManagerApi()->get($attributeCode, $assetCode);
-                $this->handleAssetByFamilyResource($context['model'], $attributeCode, $assetResource);
+                try {
+                    $assetResource = $this->akeneoPimClient->getAssetManagerApi()->get($attributeCode, $assetCode);
+                    $this->handleAssetByFamilyResource($context['model'], $attributeCode, $assetResource);
+                } catch (RuntimeException $runtimeException) {
+                    $this->logger->error('Error processing asset', [
+                        'product' => $context['model']->getCode(),
+                        'asset_code' => $assetCode,
+                        'exception_code' => $runtimeException->getCode(),
+                        'exception_message' => $runtimeException->getMessage(),
+                        'exception_trace' => $runtimeException->getTraceAsString(),
+                    ]);
+                }
             }
         }
     }
