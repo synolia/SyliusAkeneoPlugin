@@ -24,7 +24,7 @@ class TranslationProcessor implements CategoryProcessorInterface
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private RepositoryInterface $taxonTranslationRepository,
         private FactoryInterface $taxonTranslationFactory,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private EntityManagerInterface $entityManager,
     ) {
     }
@@ -52,7 +52,7 @@ class TranslationProcessor implements CategoryProcessorInterface
                 $taxonTranslation->setTranslatable($taxon);
                 $this->entityManager->persist($taxonTranslation);
 
-                $this->logger->notice('Created TaxonTranslation', [
+                $this->akeneoLogger->notice('Created TaxonTranslation', [
                     'taxon_id' => $taxon->getId() ?? 'unknown',
                     'taxon_code' => $taxon->getCode(),
                     'locale' => $syliusLocale,
@@ -74,7 +74,7 @@ class TranslationProcessor implements CategoryProcessorInterface
             );
             $taxonTranslation->setSlug($slug);
 
-            $this->logger->notice('Update TaxonTranslation', [
+            $this->akeneoLogger->notice('Update TaxonTranslation', [
                 'taxon_id' => $taxon->getId() ?? 'unknown',
                 'taxon_code' => $taxon->getCode(),
                 'locale' => $syliusLocale,

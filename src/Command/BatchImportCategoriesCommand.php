@@ -21,7 +21,7 @@ final class BatchImportCategoriesCommand extends AbstractBatchCommand
 
     public function __construct(
         private ClientFactoryInterface $clientFactory,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private BatchCategoriesTask $task,
     ) {
         parent::__construct(self::$defaultName);
@@ -37,8 +37,8 @@ final class BatchImportCategoriesCommand extends AbstractBatchCommand
         Assert::string($input->getArgument('ids'));
         $ids = explode(',', $input->getArgument('ids'));
 
-        $this->logger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
-        $this->logger->debug(self::$defaultName, ['batched_ids' => $ids]);
+        $this->akeneoLogger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+        $this->akeneoLogger->debug(self::$defaultName, ['batched_ids' => $ids]);
 
         $payload = new CategoryPayload($this->clientFactory->createFromApiCredentials());
         $payload->setIds($ids);

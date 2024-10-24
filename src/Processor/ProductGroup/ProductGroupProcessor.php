@@ -16,7 +16,7 @@ class ProductGroupProcessor
 
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private FamilyVariationAxeProcessor $familyVariationAxeProcessor,
         private EntityRepository $productGroupRepository,
         private FactoryInterface $productGroupFactory,
@@ -46,7 +46,7 @@ class ProductGroupProcessor
         if ($productGroup instanceof ProductGroupInterface) {
             $this->productGroupsMapping[$code] = $productGroup;
 
-            $this->logger->debug(sprintf(
+            $this->akeneoLogger->debug(sprintf(
                 'Skipping ProductGroup "%s" for family "%s" as it already exists.',
                 $code,
                 $family,
@@ -60,7 +60,7 @@ class ProductGroupProcessor
             return $productGroup;
         }
 
-        $this->logger->info(sprintf(
+        $this->akeneoLogger->info(sprintf(
             'Creating ProductGroup "%s" for family "%s"',
             $code,
             $family,

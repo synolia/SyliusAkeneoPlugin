@@ -21,7 +21,7 @@ final class ProcessAssociationTypeTask implements AkeneoTaskInterface
 
     public function __construct(
         private ApiConnectionProviderInterface $apiConnectionProvider,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private SearchFilterProviderInterface $searchFilterProvider,
         TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
@@ -33,7 +33,7 @@ final class ProcessAssociationTypeTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $this->logger->debug(self::class);
+        $this->akeneoLogger->debug(self::class);
 
         if ($payload->isContinue()) {
             $this->continue($payload);

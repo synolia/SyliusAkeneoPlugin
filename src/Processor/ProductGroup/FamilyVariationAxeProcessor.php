@@ -21,7 +21,7 @@ final class FamilyVariationAxeProcessor
         private EntityRepository $productGroupRepository,
         private FamilyRetrieverInterface $familyRetriever,
         private FamilyVariantRetrieverInterface $familyVariantRetriever,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
         $this->familyVariants = [];
     }
@@ -38,7 +38,7 @@ final class FamilyVariationAxeProcessor
             try {
                 $family = $this->familyRetriever->getFamilyCodeByVariantCode($resource['family_variant']);
             } catch (\LogicException $exception) {
-                $this->logger->warning($exception->getMessage());
+                $this->akeneoLogger->warning($exception->getMessage());
 
                 return;
             }
@@ -71,7 +71,7 @@ final class FamilyVariationAxeProcessor
             foreach ($variantAttributeSet['axes'] as $axe) {
                 $productGroup->addVariationAxe($axe);
                 ++$this->itemCount;
-                $this->logger->info(sprintf(
+                $this->akeneoLogger->info(sprintf(
                     'Added axe "%s" to product group "%s" for family "%s"',
                     $axe,
                     $productGroup->getModel(),

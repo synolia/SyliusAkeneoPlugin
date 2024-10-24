@@ -17,7 +17,7 @@ class PositionProcessor implements CategoryProcessorInterface
 
     public function __construct(
         private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -25,7 +25,7 @@ class PositionProcessor implements CategoryProcessorInterface
     {
         $taxon->setPosition($resource['position']);
 
-        $this->logger->info('Update Taxon Position', [
+        $this->akeneoLogger->info('Update Taxon Position', [
             'taxon_code' => $taxon->getCode(),
             'position' => $resource['position'],
         ]);

@@ -18,7 +18,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
 
     public function __construct(
         protected EntityManagerInterface $entityManager,
-        protected LoggerInterface $logger,
+        protected LoggerInterface $akeneoLogger,
         private MessageBusInterface $bus,
         private BatchMessageFactoryInterface $batchMessageFactory,
     ) {
@@ -65,7 +65,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
                 $identifiers[] = $item['code'] ?? $item['identifier'];
 
                 if (0 === $count % $payload->getBatchSize()) {
-                    $this->logger->notice('Batching', ['codes' => $identifiers]);
+                    $this->akeneoLogger->notice('Batching', ['codes' => $identifiers]);
                     $this->batch($payload, $items);
                     $items = [];
                     $identifiers = [];
@@ -96,7 +96,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
             $identifiers[] = $item['code'] ?? $item['identifier'];
 
             if (0 === $count % $payload->getBatchSize()) {
-                $this->logger->notice('Batching', ['codes' => $identifiers]);
+                $this->akeneoLogger->notice('Batching', ['codes' => $identifiers]);
                 $this->batch($payload, $items);
                 $items = [];
                 $identifiers = [];

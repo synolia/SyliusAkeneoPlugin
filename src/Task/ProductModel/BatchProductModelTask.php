@@ -20,7 +20,7 @@ final class BatchProductModelTask extends AbstractBatchTask
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ProductModelResourceProcessor $resourceProcessor,
     ) {
         parent::__construct($entityManager);
@@ -33,7 +33,7 @@ final class BatchProductModelTask extends AbstractBatchTask
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $this->logger->debug(self::class);
+        $this->akeneoLogger->debug(self::class);
 
         $query = $this->getSelectStatement($payload);
         $queryResult = $query->executeQuery();

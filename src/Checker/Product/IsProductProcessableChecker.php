@@ -15,7 +15,7 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
     private const ONE_VARIATION_AXIS = 1;
 
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private FamilyVariantRetrieverInterface $familyVariantRetriever,
     ) {
@@ -25,13 +25,13 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
     {
         try {
             if ('' === $resource['code'] || null === $resource['code']) {
-                $this->logger->warning('Skipping product import because the code is missing.', ['resource' => $resource]);
+                $this->akeneoLogger->warning('Skipping product import because the code is missing.', ['resource' => $resource]);
 
                 return false;
             }
 
             if (!isset($resource['family'])) {
-                $this->logger->warning('Skipping product import because the family is missing.', ['resource' => $resource]);
+                $this->akeneoLogger->warning('Skipping product import because the family is missing.', ['resource' => $resource]);
 
                 return false;
             }
@@ -44,7 +44,7 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
                 $numberOfVariationAxis > self::ONE_VARIATION_AXIS &&
                 $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST
             ) {
-                $this->logger->debug('Skipping product import because the parent is null and it has more than one variation axis.', ['resource' => $resource]);
+                $this->akeneoLogger->debug('Skipping product import because the parent is null and it has more than one variation axis.', ['resource' => $resource]);
 
                 return false;
             }
@@ -54,7 +54,7 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
                 $numberOfVariationAxis === 2 &&
                 $this->apiConnectionProvider->get()->getAxeAsModel() !== AkeneoAxesEnum::FIRST
             ) {
-                $this->logger->debug('Skipping product import because the parent is null, and it has more than one variation axis.', ['resource' => $resource]);
+                $this->akeneoLogger->debug('Skipping product import because the parent is null, and it has more than one variation axis.', ['resource' => $resource]);
 
                 return false;
             }

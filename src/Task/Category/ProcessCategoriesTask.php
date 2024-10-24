@@ -26,7 +26,7 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
 
     public function __construct(
         private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private SearchFilterProviderInterface $searchFilterProvider,
         TaskHandlerProviderInterface $taskHandlerProvider,
@@ -39,8 +39,8 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $this->logger->debug(self::class);
-        $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
+        $this->akeneoLogger->debug(self::class);
+        $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
 
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
@@ -62,7 +62,7 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
          */
         foreach ($categories as $key => $category) {
             if (!\in_array($category['code'], $keptCategories, true)) {
-                $this->logger->info(sprintf('%s: %s is not inside selected root categories and will be excluded', $payload->getType(), $category['code']));
+                $this->akeneoLogger->info(sprintf('%s: %s is not inside selected root categories and will be excluded', $payload->getType(), $category['code']));
                 unset($categories[$key]);
             }
         }
@@ -73,14 +73,14 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
          */
         foreach ($categories as $key => $category) {
             if (\in_array($category['code'], $excludedCategories, true)) {
-                $this->logger->info(sprintf('%s: %s is explicitly excluded from configuration', $payload->getType(), $category['code']));
+                $this->akeneoLogger->info(sprintf('%s: %s is explicitly excluded from configuration', $payload->getType(), $category['code']));
                 unset($categories[$key]);
             }
         }
 
-        $this->logger->info(Messages::totalExcludedFromImport($payload->getType(), \count($excludedCategories)));
+        $this->akeneoLogger->info(Messages::totalExcludedFromImport($payload->getType(), \count($excludedCategories)));
 
-        $this->logger->info(Messages::totalToImport($payload->getType(), \count($categories)));
+        $this->akeneoLogger->info(Messages::totalToImport($payload->getType(), \count($categories)));
 
         $payload->setResources($categories);
 

@@ -28,7 +28,7 @@ abstract class AbstractImageProcessor
         private RepositoryInterface $productConfigurationRepository,
         private EntityManagerInterface $entityManager,
         private FactoryInterface $productImageFactory,
-        protected LoggerInterface $logger,
+        protected LoggerInterface $akeneoLogger,
         private ClientFactoryInterface $clientFactory,
     ) {
     }
@@ -86,7 +86,7 @@ abstract class AbstractImageProcessor
                         /** @phpstan-ignore-next-line */
                         unlink($imagePath);
                     } catch (Throwable $throwable) {
-                        $this->logger->warning($throwable->getMessage());
+                        $this->akeneoLogger->warning($throwable->getMessage());
                     }
                 }
             }

@@ -17,7 +17,7 @@ final class BatchAssetTask extends AbstractBatchTask
 {
     public function __construct(
         EntityManagerInterface $entityManager,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private AkeneoAssetAttributeProcessorInterface $akeneoAssetAttributeProcessor,
     ) {
         parent::__construct($entityManager);
@@ -28,7 +28,7 @@ final class BatchAssetTask extends AbstractBatchTask
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $this->logger->debug(self::class);
+        $this->akeneoLogger->debug(self::class);
 
         $query = $this->getSelectStatement($payload);
         /** @var Result $queryResult */
@@ -42,7 +42,7 @@ final class BatchAssetTask extends AbstractBatchTask
                     $this->retrieveAssets($payload, $resource);
                     $this->removeEntry($payload, (int) $result['id']);
                 } catch (\Throwable $throwable) {
-                    $this->logger->warning($throwable->getMessage());
+                    $this->akeneoLogger->warning($throwable->getMessage());
                     $this->removeEntry($payload, (int) $result['id']);
                 }
             }
@@ -74,7 +74,7 @@ final class BatchAssetTask extends AbstractBatchTask
                     $assetAttributeResource,
                 );
             } catch (UnsupportedAttributeTypeException $attributeTypeException) {
-                $this->logger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
+                $this->akeneoLogger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
             }
             $this->entityManager->flush();
         }

@@ -20,14 +20,14 @@ abstract class AbstractModelAkeneoAttributeProcessor
         protected AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertyProvider,
         protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        protected LoggerInterface $logger,
+        protected LoggerInterface $akeneoLogger,
         protected string $model,
     ) {
     }
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(sprintf(
+        $this->akeneoLogger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class,

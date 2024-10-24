@@ -15,7 +15,7 @@ final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
 {
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private CacheInterface $akeneoFamilyVariants,
     ) {
@@ -31,7 +31,7 @@ final class FamilyVariantRetriever implements FamilyVariantRetrieverInterface
                 $results = $this->akeneoPimClient->getFamilyVariantApi()->all($familyCode, $paginationSize);
                 $familyVariants = iterator_to_array($results);
             } catch (\Throwable $exception) {
-                $this->logger->warning($exception->getMessage());
+                $this->akeneoLogger->warning($exception->getMessage());
 
                 return [];
             }

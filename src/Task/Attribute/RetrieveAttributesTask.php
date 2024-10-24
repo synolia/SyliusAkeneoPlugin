@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 final class RetrieveAttributesTask implements AkeneoTaskInterface
 {
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
     ) {
     }
@@ -24,8 +24,8 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $this->logger->debug(self::class);
-        $this->logger->notice(Messages::retrieveFromAPI($payload->getType()));
+        $this->akeneoLogger->debug(self::class);
+        $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
         $resources = $payload->getAkeneoPimClient()->getAttributeApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
         );
@@ -37,9 +37,9 @@ final class RetrieveAttributesTask implements AkeneoTaskInterface
             }
         }
 
-        $this->logger->info(Messages::totalToImport($payload->getType(), $resources->key()));
+        $this->akeneoLogger->info(Messages::totalToImport($payload->getType(), $resources->key()));
         if ($noCodeCount > 0) {
-            $this->logger->warning(Messages::noCodeToImport($payload->getType(), $noCodeCount));
+            $this->akeneoLogger->warning(Messages::noCodeToImport($payload->getType(), $noCodeCount));
         }
 
         $payload = new AttributePayload($payload->getAkeneoPimClient());

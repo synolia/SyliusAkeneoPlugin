@@ -22,7 +22,7 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
     public function __construct(
         private ClientFactoryInterface $clientFactory,
         private BatchProductModelTask $batchProductModelTask,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
         parent::__construct(self::$defaultName);
     }
@@ -37,8 +37,8 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
         Assert::string($input->getArgument('ids'));
         $ids = explode(',', $input->getArgument('ids'));
 
-        $this->logger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
-        $this->logger->debug(self::$defaultName, ['batched_ids' => $ids]);
+        $this->akeneoLogger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+        $this->akeneoLogger->debug(self::$defaultName, ['batched_ids' => $ids]);
 
         $productModelPayload = new ProductModelPayload($this->clientFactory->createFromApiCredentials());
         $productModelPayload->setIds($ids);

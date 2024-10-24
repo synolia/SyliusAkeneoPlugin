@@ -13,7 +13,7 @@ final class ProductVariantProcessorChain implements ProductVariantProcessorChain
     /** @var array<ProductVariantProcessorInterface> */
     private array $productVariantProcessors;
 
-    public function __construct(Traversable $handlers, private LoggerInterface $logger)
+    public function __construct(Traversable $handlers, private LoggerInterface $akeneoLogger)
     {
         $this->productVariantProcessors = iterator_to_array($handlers);
     }
@@ -22,13 +22,13 @@ final class ProductVariantProcessorChain implements ProductVariantProcessorChain
     {
         foreach ($this->productVariantProcessors as $processor) {
             if ($processor->support($productVariant, $resource)) {
-                $this->logger->debug(sprintf('Begin %s', $processor::class), [
+                $this->akeneoLogger->debug(sprintf('Begin %s', $processor::class), [
                     'product_variant_code' => $productVariant->getCode(),
                 ]);
 
                 $processor->process($productVariant, $resource);
 
-                $this->logger->debug(sprintf('End %s', $processor::class), [
+                $this->akeneoLogger->debug(sprintf('End %s', $processor::class), [
                     'product_variant_code' => $productVariant->getCode(),
                 ]);
             }

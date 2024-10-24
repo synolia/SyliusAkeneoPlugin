@@ -69,6 +69,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
         }
 
         $scope = $this->productFilterRulesProvider->getProductFiltersRules()->getChannel();
+
         $queryParam = [
             'familyCode' => $assetFamilyCode,
             'attributeCode' => $attributeCode,
@@ -147,6 +148,8 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
                 'scope' => $queryParam['scope'],
                 'akeneo_locale' => $akeneoLocale,
                 'resource' => $assetAttributeResource,
+                'exception' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
         }
     }

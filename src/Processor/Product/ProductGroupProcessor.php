@@ -11,8 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 
 final class ProductGroupProcessor implements ProductGroupProcessorInterface
 {
-    public function __construct(private ProductGroupRepository $productGroupRepository, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private ProductGroupRepository $productGroupRepository,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     public static function getDefaultPriority(): int
@@ -27,7 +29,7 @@ final class ProductGroupProcessor implements ProductGroupProcessorInterface
         if ($productGroup instanceof ProductGroup && 0 === $this->productGroupRepository->isProductInProductGroup($product, $productGroup)) {
             $productGroup->addProduct($product);
 
-            $this->logger->info('Added product to group', [
+            $this->akeneoLogger->info('Added product to group', [
                 'product_code' => $product->getCode(),
                 'product_group_id' => $productGroup->getId(),
                 'family' => $productGroup->getFamily(),

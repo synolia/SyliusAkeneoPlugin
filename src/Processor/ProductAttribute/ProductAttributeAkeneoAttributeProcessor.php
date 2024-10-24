@@ -30,7 +30,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         private RepositoryInterface $productAttributeValueRepository,
         private ProductAttributeValueValueBuilder $attributeValueValueBuilder,
         private FactoryInterface $productAttributeValueFactory,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -63,7 +63,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(sprintf(
+        $this->akeneoLogger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class,
@@ -89,7 +89,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
                     $context['scope'],
                 );
             } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException $error) {
-                $this->logger->debug('Attribute translation error', [
+                $this->akeneoLogger->debug('Attribute translation error', [
                     'attribute_code' => $attributeCode,
                     'sylius_locale' => $syliusLocale,
                     'context' => $context,

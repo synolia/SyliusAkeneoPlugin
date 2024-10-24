@@ -14,7 +14,7 @@ class ProductAttributeTableProcessor implements ProductAttributeTableProcessorIn
 {
     public function __construct(
         private AttributeTypeMatcher $attributeTypeMatcher,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -31,7 +31,7 @@ class ProductAttributeTableProcessor implements ProductAttributeTableProcessorIn
                 'table_configuration' => $resource['table_configuration'],
             ]);
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-            $this->logger->warning(sprintf(
+            $this->akeneoLogger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
                 $unsupportedAttributeTypeException->getMessage(),

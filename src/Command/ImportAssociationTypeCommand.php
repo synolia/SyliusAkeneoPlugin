@@ -43,7 +43,7 @@ final class ImportAssociationTypeCommand extends AbstractImportCommand
 
             $this->postExecute();
         } catch (CommandLockedException $commandLockedException) {
-            $this->logger->warning($commandLockedException->getMessage());
+            $this->akeneoLogger->warning($commandLockedException->getMessage());
 
             return 1;
         }

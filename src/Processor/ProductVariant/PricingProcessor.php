@@ -28,7 +28,7 @@ class PricingProcessor implements PricingProcessorInterface
         private RepositoryInterface $channelPricingRepository,
         private ChannelRepository $channelRepository,
         private FactoryInterface $channelPricingFactory,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -44,7 +44,7 @@ class PricingProcessor implements PricingProcessorInterface
                 }
             }
         } catch (Throwable $throwable) {
-            $this->logger->warning($throwable->getMessage());
+            $this->akeneoLogger->warning($throwable->getMessage());
 
             return;
         }

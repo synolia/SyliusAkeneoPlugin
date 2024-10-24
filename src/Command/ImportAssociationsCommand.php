@@ -26,7 +26,7 @@ final class ImportAssociationsCommand extends Command
     public function __construct(
         private ClientFactoryInterface $clientFactory,
         private AssociateProductsTask $associateProductsTask,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
         parent::__construct(self::$defaultName);
     }
@@ -49,12 +49,12 @@ final class ImportAssociationsCommand extends Command
             return 0;
         }
 
-        $this->logger->notice(self::$defaultName);
+        $this->akeneoLogger->notice(self::$defaultName);
 
         $payload = new AssociationPayload($this->clientFactory->createFromApiCredentials());
         $this->associateProductsTask->__invoke($payload);
 
-        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
+        $this->akeneoLogger->notice(Messages::endOfCommand(self::$defaultName));
         $this->release();
 
         return 0;

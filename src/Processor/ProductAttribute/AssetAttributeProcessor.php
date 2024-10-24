@@ -33,7 +33,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
         private RepositoryInterface $productAttributeRepository,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private RepositoryInterface $productAttributeValueRepository,
         private FactoryInterface $productAttributeValueFactory,
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
@@ -78,7 +78,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(\sprintf(
+        $this->akeneoLogger->debug(\sprintf(
             'Attribute "%s" is being processed by "%s"',
             $attributeCode,
             static::class,
@@ -133,7 +133,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                     $assetResource = $this->akeneoPimClient->getAssetManagerApi()->get($attributeCode, $assetCode);
                     $this->handleAssetByFamilyResource($context['model'], $attributeCode, $assetResource);
                 } catch (RuntimeException $runtimeException) {
-                    $this->logger->error('Error processing asset', [
+                    $this->akeneoLogger->error('Error processing asset', [
                         'product' => $context['model']->getCode(),
                         'asset_code' => $assetCode,
                         'exception_code' => $runtimeException->getCode(),
@@ -160,7 +160,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                     $assetAttributeResource,
                 );
             } catch (UnsupportedAttributeTypeException $attributeTypeException) {
-                $this->logger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
+                $this->akeneoLogger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
             }
         }
     }

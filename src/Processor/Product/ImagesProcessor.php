@@ -21,7 +21,7 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
             $this->cleanImages($product);
             $this->addImage($product, $resource['values'], $imageAttributes);
         } catch (\Throwable $throwable) {
-            $this->logger->warning($throwable->getMessage());
+            $this->akeneoLogger->warning($throwable->getMessage());
         }
     }
 
@@ -31,14 +31,14 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
             $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
 
             if (null === $imageAttributes || 0 === \count($imageAttributes)) {
-                $this->logger->debug(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
+                $this->akeneoLogger->debug(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 
                 return false;
             }
 
             return true;
         } catch (\Throwable $throwable) {
-            $this->logger->warning($throwable->getMessage());
+            $this->akeneoLogger->warning($throwable->getMessage());
 
             return false;
         }

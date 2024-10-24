@@ -18,7 +18,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
     public function __construct(
         private ChannelRepository $channelRepository,
         private ProductConfigurationRepository $productConfigurationRepository,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -38,7 +38,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
             foreach ($enabledChannels as $enabledChannel) {
                 $channel = $this->channelRepository->findOneBy(['code' => $enabledChannel]);
                 if (!$channel instanceof ChannelInterface) {
-                    $this->logger->info(
+                    $this->akeneoLogger->info(
                         sprintf(
                             'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
                             $enabledChannel,
@@ -50,13 +50,13 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
                 }
 
                 $product->addChannel($channel);
-                $this->logger->info('Enabled channel for product', [
+                $this->akeneoLogger->info('Enabled channel for product', [
                     'channel_code' => $channel->getCode(),
                     'product_code' => $product->getCode(),
                 ]);
             }
         } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
-            $this->logger->info($exception->getMessage());
+            $this->akeneoLogger->info($exception->getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
 
             return true;
         } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
-            $this->logger->info($exception->getMessage());
+            $this->akeneoLogger->info($exception->getMessage());
 
             return false;
         }

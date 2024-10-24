@@ -24,7 +24,7 @@ abstract class AbstractImportCommand extends Command
     protected PipelineInterface $pipeline;
 
     public function __construct(
-        protected LoggerInterface $logger,
+        protected LoggerInterface $akeneoLogger,
         protected PayloadFactoryInterface $payloadFactory,
         private PipelineFactoryInterface $pipelineFactory,
         string $name = null,
@@ -57,14 +57,14 @@ abstract class AbstractImportCommand extends Command
             throw new CommandLockedException(Messages::commandAlreadyRunning());
         }
 
-        $this->logger->notice(static::$defaultName ?? '');
+        $this->akeneoLogger->notice(static::$defaultName ?? '');
 
         $this->pipeline = $this->pipelineFactory->create();
     }
 
     protected function postExecute(): void
     {
-        $this->logger->notice(Messages::endOfCommand(static::$defaultName ?? ''));
+        $this->akeneoLogger->notice(Messages::endOfCommand(static::$defaultName ?? ''));
         $this->release();
     }
 }
