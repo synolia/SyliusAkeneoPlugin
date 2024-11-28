@@ -22,7 +22,7 @@ final class ProcessAttributeTask implements AkeneoTaskInterface
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private LoggerInterface $akeneoLogger,
         private SearchFilterProviderInterface $searchFilterProvider,
-        TaskHandlerProviderInterface $taskHandlerProvider,
+        private TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
         $this->__taskHandlerConstruct($taskHandlerProvider);
     }

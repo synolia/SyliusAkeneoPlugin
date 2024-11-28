@@ -50,6 +50,8 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
 
     /**
      * @return mixed|null
+     *
+     * @throws MissingScopeException
      */
     private function getByScope(string $attributeCode, array $attributeValues, string $scope)
     {
@@ -61,11 +63,13 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
             return $this->productAttributeValueValueBuilder->build($attributeCode, null, $scope, $attributeValue['data']);
         }
 
-        throw new MissingScopeException();
+        throw new MissingScopeException('Could not find attribute data for attribute code ' . $attributeCode . ' and scope ' . $scope);
     }
 
     /**
      * @return mixed|null
+     *
+     * @throws MissingLocaleTranslationOrScopeException
      */
     private function getByLocaleAndScope(string $attributeCode, array $attributeValues, string $locale, string $scope)
     {
@@ -77,11 +81,13 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
             return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, $scope, $attributeValue['data']);
         }
 
-        throw new MissingLocaleTranslationOrScopeException();
+        throw new MissingLocaleTranslationOrScopeException('Could not find attribute data for attribute code ' . $attributeCode . ', locale ' . $locale . ' and scope ' . $scope);
     }
 
     /**
      * @return mixed|null
+     *
+     * @throws MissingLocaleTranslationException
      */
     private function getByLocale(string $attributeCode, array $attributeValues, string $locale)
     {
@@ -93,6 +99,6 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
             return $this->productAttributeValueValueBuilder->build($attributeCode, $locale, null, $attributeValue['data']);
         }
 
-        throw new MissingLocaleTranslationException();
+        throw new MissingLocaleTranslationException('Could not find attribute data for attribute code ' . $attributeCode . ' and locale ' . $locale);
     }
 }

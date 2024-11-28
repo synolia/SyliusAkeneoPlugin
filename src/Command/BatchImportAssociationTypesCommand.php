@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
@@ -12,19 +14,18 @@ use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 use Synolia\SyliusAkeneoPlugin\Task\AssociationType\BatchAssociationTypesTask;
 use Webmozart\Assert\Assert;
 
+#[AsCommand(
+    name: 'akeneo:batch:association-types',
+    description: 'Import batch association type ids from Akeneo PIM.',
+)]
 final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
 {
-    protected static $defaultDescription = 'Import batch association type ids from Akeneo PIM.';
-
-    /** @var string */
-    public static $defaultName = 'akeneo:batch:association-types';
-
     public function __construct(
-        private ClientFactoryInterface $clientFactory,
         private LoggerInterface $akeneoLogger,
+        private ClientFactoryInterface $clientFactory,
         private BatchAssociationTypesTask $batchAssociationTypesTask,
     ) {
-        parent::__construct(self::$defaultName);
+        parent::__construct();
     }
 
     /**
@@ -38,13 +39,13 @@ final class BatchImportAssociationTypesCommand extends AbstractBatchCommand
         $ids = explode(',', $input->getArgument('ids'));
 
         $this->akeneoLogger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
-        $this->akeneoLogger->debug(self::$defaultName, ['batched_ids' => $ids]);
+        $this->akeneoLogger->debug($this->getName() ?? '', ['batched_ids' => $ids]);
 
         $batchPayload = new AssociationTypePayload($this->clientFactory->createFromApiCredentials());
         $batchPayload->setIds($ids);
 
         $this->batchAssociationTypesTask->__invoke($batchPayload);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

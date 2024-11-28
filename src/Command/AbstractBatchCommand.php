@@ -9,12 +9,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 abstract class AbstractBatchCommand extends Command
 {
-    /** @var string The default command description */
-    protected static $defaultDescription = '';
-
     protected function configure(): void
     {
-        $this->setDescription(static::$defaultDescription);
         $this->addArgument('ids', InputArgument::REQUIRED, 'Comma separated list of ids');
         $this->setHidden(true);
     }

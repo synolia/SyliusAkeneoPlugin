@@ -27,3 +27,6 @@ parameters:
         - '#Call to an undefined method League\\Pipeline\\PipelineInterface\:\:process\(\).#'
         - '#Method Doctrine\\Persistence\\ObjectRepository<object>\:\:findOneBy\(\) invoked with 2 parameters, 1 required.#'
         - "#^Call to an undefined method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:getFlashBag\\(\\)\\.$#"
+        -
+          message: '#Property [a-zA-Z0-9\\_]+::\$pipelineFactory is never read, only written.#'
+          path: ../src/Command/*

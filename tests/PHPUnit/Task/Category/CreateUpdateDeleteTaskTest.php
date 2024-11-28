@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
@@ -20,6 +21,8 @@ use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
  */
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
+    private CategoryConfiguration $categoryConfiguration;
+
     protected function setUp(): void
     {
         parent::setUp();

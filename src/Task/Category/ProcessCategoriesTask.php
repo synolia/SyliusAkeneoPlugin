@@ -29,7 +29,7 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
         private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private SearchFilterProviderInterface $searchFilterProvider,
-        TaskHandlerProviderInterface $taskHandlerProvider,
+        private TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
         $this->__taskHandlerConstruct($taskHandlerProvider);
     }

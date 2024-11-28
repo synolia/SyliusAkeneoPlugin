@@ -17,7 +17,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 final class BatchAttributesTask extends AbstractBatchTask
 {
     public function __construct(
-        EntityManagerInterface $entityManager,
+        protected EntityManagerInterface $entityManager,
         private LoggerInterface $akeneoLogger,
         private AttributeResourceProcessor $resourceProcessor,
     ) {

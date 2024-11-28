@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,21 +15,20 @@ use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 
+#[AsCommand(
+    name: 'akeneo:import:categories',
+    description: 'Import Categories from Akeneo PIM.',
+)]
 final class ImportCategoriesCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    protected static $defaultDescription = 'Import Categories from Akeneo PIM.';
-
-    /** @var string */
-    protected static $defaultName = 'akeneo:import:categories';
-
     public function __construct(
-        CategoryPipelineFactory $pipelineFactory,
-        LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory,
+        protected LoggerInterface $akeneoLogger,
+        protected PayloadFactoryInterface $payloadFactory,
+        private CategoryPipelineFactory $pipelineFactory,
     ) {
-        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory);
     }
 
     /**
@@ -43,11 +44,11 @@ final class ImportCategoriesCommand extends AbstractImportCommand
 
             $this->postExecute();
         } catch (CommandLockedException $commandLockedException) {
-            $this->akeneoLogger->warning($commandLockedException->getMessage());
+            $this->akeneoLogger->info($commandLockedException->getMessage());
 
-            return 1;
+            return Command::SUCCESS;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

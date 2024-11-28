@@ -9,7 +9,6 @@ use donatj\MockWebServer\Response;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Command\ImportProductsCommand;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 class ImportProductsCommandTest extends ApiTestCase
@@ -23,7 +22,7 @@ class ImportProductsCommandTest extends ApiTestCase
     {
         $application = new Application(static::$kernel);
 
-        $command = $application->find(ImportProductsCommand::getDefaultName());
+        $command = $application->find('akeneo:import:products');
         $commandTester = new CommandTester($command);
 
         $response = new Response($this->getFileContent('products_all_with_filter.json'), [], HttpResponse::HTTP_OK);

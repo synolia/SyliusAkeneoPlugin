@@ -18,7 +18,7 @@ use Throwable;
 final class BatchAssociationTypesTask extends AbstractBatchTask
 {
     public function __construct(
-        EntityManagerInterface $entityManager,
+        protected EntityManagerInterface $entityManager,
         private LoggerInterface $akeneoLogger,
         private AssociationTypeResourceProcessor $resourceProcessor,
     ) {

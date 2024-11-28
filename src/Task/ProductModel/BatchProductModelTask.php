@@ -19,7 +19,7 @@ final class BatchProductModelTask extends AbstractBatchTask
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        protected EntityManagerInterface $entityManager,
         private LoggerInterface $akeneoLogger,
         private ProductModelResourceProcessor $resourceProcessor,
     ) {

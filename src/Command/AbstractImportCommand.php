@@ -18,24 +18,19 @@ abstract class AbstractImportCommand extends Command
 {
     use LockableTrait;
 
-    /** @var string The default command description */
-    protected static $defaultDescription = '';
-
     protected PipelineInterface $pipeline;
 
     public function __construct(
         protected LoggerInterface $akeneoLogger,
         protected PayloadFactoryInterface $payloadFactory,
         private PipelineFactoryInterface $pipelineFactory,
-        string $name = null,
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription(static::$defaultDescription)
             ->addOption('continue')
             ->addOption('parallel', 'p', InputOption::VALUE_NONE, 'Allow parallel task processing')
             ->addOption('disable-batch', 'd', InputOption::VALUE_NONE, 'Disable batch processing')
@@ -57,14 +52,14 @@ abstract class AbstractImportCommand extends Command
             throw new CommandLockedException(Messages::commandAlreadyRunning());
         }
 
-        $this->akeneoLogger->notice(static::$defaultName ?? '');
+        $this->akeneoLogger->notice($this->getName() ?? '');
 
         $this->pipeline = $this->pipelineFactory->create();
     }
 
     protected function postExecute(): void
     {
-        $this->akeneoLogger->notice(Messages::endOfCommand(static::$defaultName ?? ''));
+        $this->akeneoLogger->notice(Messages::endOfCommand($this->getName() ?? ''));
         $this->release();
     }
 }

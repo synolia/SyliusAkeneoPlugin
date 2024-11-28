@@ -201,6 +201,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
         array &$ids = [],
     ): void {
         foreach ($resourceCursor as $item) {
+            $this->akeneoLogger->info('Processing item ' . ($item['identifier'] ?? $item['code']));
             ++$count;
             $sql = sprintf(
                 'INSERT INTO `%s` (`values`) VALUES (:values);',

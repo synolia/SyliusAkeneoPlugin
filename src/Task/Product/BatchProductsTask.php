@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AbstractBatchTask;
 final class BatchProductsTask extends AbstractBatchTask
 {
     public function __construct(
-        EntityManagerInterface $entityManager,
+        protected EntityManagerInterface $entityManager,
         private ProductVariantResourceProcessor $resourceProcessor,
     ) {
         parent::__construct($entityManager);

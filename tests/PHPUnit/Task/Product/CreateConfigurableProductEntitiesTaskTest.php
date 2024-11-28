@@ -33,10 +33,14 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
  */
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
+    /** @var TaskProvider */
     private $taskProvider;
 
     private \Akeneo\Pim\ApiClient\AkeneoPimClientInterface $client;
+
+    private ProductFilter $productFilter;
+
+    private ?ProductFiltersRules $productFiltersRules;
 
     protected function setUp(): void
     {

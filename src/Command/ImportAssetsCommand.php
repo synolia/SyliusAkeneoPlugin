@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,23 +15,20 @@ use Synolia\SyliusAkeneoPlugin\Factory\AssetPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Asset\AssetPayload;
 
+#[AsCommand(
+    name: 'akeneo:import:assets',
+    description: 'Import Assets from Akeneo PIM.',
+)]
 final class ImportAssetsCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    /** @var string */
-    protected static $defaultDescription = 'Import Assets from Akeneo PIM.';
-
-    /** @var string */
-    protected static $defaultName = 'akeneo:import:assets';
-
     public function __construct(
-        AssetPipelineFactory $pipelineFactory,
-        LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory,
-        string $name = null,
+        protected LoggerInterface $akeneoLogger,
+        protected PayloadFactoryInterface $payloadFactory,
+        private AssetPipelineFactory $pipelineFactory,
     ) {
-        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, $name);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory);
     }
 
     /**
@@ -45,11 +44,11 @@ final class ImportAssetsCommand extends AbstractImportCommand
 
             $this->postExecute();
         } catch (CommandLockedException $commandLockedException) {
-            $this->akeneoLogger->warning($commandLockedException->getMessage());
+            $this->akeneoLogger->info($commandLockedException->getMessage());
 
-            return 1;
+            return Command::SUCCESS;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

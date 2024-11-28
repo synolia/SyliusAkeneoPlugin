@@ -24,7 +24,7 @@ final class ProcessAssetTask implements AkeneoTaskInterface
         private EditionCheckerInterface $editionChecker,
         private LoggerInterface $akeneoLogger,
         private SearchFilterProviderInterface $searchFilterProvider,
-        TaskHandlerProviderInterface $taskHandlerProvider,
+        private TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
         $this->__taskHandlerConstruct($taskHandlerProvider);
     }
