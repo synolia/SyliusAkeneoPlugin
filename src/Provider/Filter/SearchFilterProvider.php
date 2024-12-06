@@ -41,7 +41,7 @@ class SearchFilterProvider implements SearchFilterProviderInterface
 
         $queryParameters = array_merge_recursive($queryParameters, $payload->getCustomFilters());
 
-        $this->akeneoLogger->notice('Filters', $queryParameters);
+        $this->akeneoLogger->debug('Filters', $queryParameters);
 
         return $queryParameters;
     }

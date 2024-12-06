@@ -37,14 +37,14 @@ class AssociateProductsTask implements AkeneoTaskInterface
         $productGroups = $this->productGroupRepository->findAll();
 
         foreach ($productGroups as $productGroup) {
-            $this->akeneoLogger->info('Processing ProductGroup', [
+            $this->akeneoLogger->debug('Processing ProductGroup', [
                 'parent' => $productGroup->getModel(),
             ]);
 
             $parentModel = $this->productRepository->findOneBy(['code' => $productGroup->getModel()]);
 
             if (!$parentModel instanceof ProductInterface) {
-                $this->akeneoLogger->warning('Skipped ProductGroup', [
+                $this->akeneoLogger->debug('Skipped ProductGroup', [
                     'parent' => $productGroup->getModel(),
                 ]);
 
@@ -66,7 +66,7 @@ class AssociateProductsTask implements AkeneoTaskInterface
                 /** @var ProductAssociationTypeInterface $productAssociationType */
                 $productAssociationType = $this->productAssociationTypeRepository->findOneBy(['code' => $associationType]);
 
-                $this->akeneoLogger->info('Processing ProductAssociationType', [
+                $this->akeneoLogger->debug('Processing ProductAssociationType', [
                     'code' => $associationType,
                     'name' => $productAssociationType->getName() ?? '',
                 ]);
@@ -127,7 +127,7 @@ class AssociateProductsTask implements AkeneoTaskInterface
             foreach ($associationProductGroup->getProducts() as $product) {
                 $models[] = $product;
 
-                $this->akeneoLogger->info('Added product to association group', [
+                $this->akeneoLogger->debug('Added product to association group', [
                     'association_code' => $productAssociationType->getCode(),
                     'code' => $product->getCode(),
                 ]);

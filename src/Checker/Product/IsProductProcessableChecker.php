@@ -25,13 +25,13 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
     {
         try {
             if ('' === $resource['code'] || null === $resource['code']) {
-                $this->akeneoLogger->warning('Skipping product import because the code is missing.', ['resource' => $resource]);
+                $this->akeneoLogger->debug('Skipping product import because the code is missing.', ['resource' => $resource]);
 
                 return false;
             }
 
             if (!isset($resource['family'])) {
-                $this->akeneoLogger->warning('Skipping product import because the family is missing.', ['resource' => $resource]);
+                $this->akeneoLogger->debug('Skipping product import because the family is missing.', ['resource' => $resource]);
 
                 return false;
             }

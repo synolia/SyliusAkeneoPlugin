@@ -121,7 +121,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
             );
 
             if (!$asset instanceof Asset) {
-                $this->akeneoLogger->info('Created asset for product', [
+                $this->akeneoLogger->debug('Created asset for product', [
                     'product' => $model->getCode(),
                     'familyCode' => $assetFamilyCode,
                     'attributeCode' => $attributeCode,
@@ -156,7 +156,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
             $oldContent = $asset->getContent();
 
             if ($oldContent === $data) {
-                $this->akeneoLogger->info('Skipped asset for product as it has same content', [
+                $this->akeneoLogger->debug('Skipped asset for product as it has same content', [
                     'product' => $model->getCode(),
                     'familyCode' => $assetFamilyCode,
                     'attributeCode' => $attributeCode,
@@ -189,7 +189,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
                 $data,
             );
 
-            $this->akeneoLogger->info('Updated asset for product', [
+            $this->akeneoLogger->debug('Updated asset for product', [
                 'product' => $model->getCode(),
                 'familyCode' => $assetFamilyCode,
                 'attributeCode' => $attributeCode,
@@ -228,7 +228,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
         }
 
         if ($model->getAssets()->contains($asset)) {
-            $this->akeneoLogger->info('Asset already associated to product', [
+            $this->akeneoLogger->debug('Asset already associated to product', [
                 'product' => $model->getCode(),
                 'familyCode' => $assetFamilyCode,
                 'attributeCode' => $attributeCode,
@@ -242,7 +242,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
 
         $model->addAsset($asset);
 
-        $this->akeneoLogger->info('Associated asset to product', [
+        $this->akeneoLogger->debug('Associated asset to product', [
             'product' => $model->getCode(),
             'familyCode' => $assetFamilyCode,
             'attributeCode' => $attributeCode,

@@ -52,7 +52,7 @@ abstract class AbstractImportCommand extends Command
             throw new CommandLockedException(Messages::commandAlreadyRunning());
         }
 
-        $this->akeneoLogger->notice($this->getName() ?? '');
+        $this->akeneoLogger->debug($this->getName() ?? '');
 
         $this->pipeline = $this->pipelineFactory->create();
     }

@@ -15,7 +15,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\Product\IsProductProcessableCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
-use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\ProductGroupProcessor;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\AkeneoResourceProcessorInterface;
@@ -51,7 +50,7 @@ class ProductModelResourceProcessor implements AkeneoResourceProcessorInterface
         }
 
         try {
-            $this->akeneoLogger->notice('Processing product', [
+            $this->akeneoLogger->debug('Processing product', [
                 'code' => $resource['code'] ?? $resource['identifier'] ?? 'unknown',
             ]);
 
@@ -64,10 +63,6 @@ class ProductModelResourceProcessor implements AkeneoResourceProcessorInterface
 
             $product = $this->getOrCreateEntity($resource);
             $this->productProcessorChain->chain($product, $resource);
-
-            // TODO: check if id is null
-            $this->akeneoLogger->info(Messages::hasBeenCreated($product::class, (string) $product->getCode()));
-            $this->akeneoLogger->info(Messages::hasBeenUpdated($product::class, (string) $resource['code']));
 
             $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
             $this->entityManager->flush();
@@ -104,7 +99,7 @@ class ProductModelResourceProcessor implements AkeneoResourceProcessorInterface
             $this->entityManager->flush();
         } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
             if (!$this->entityManager->isOpen()) {
-                $this->akeneoLogger->warning('Recreating entity manager', ['exception' => $ormInvalidArgumentException]);
+                $this->akeneoLogger->error('Recreating entity manager', ['exception' => $ormInvalidArgumentException]);
                 $this->entityManager = $this->getNewEntityManager();
             }
 

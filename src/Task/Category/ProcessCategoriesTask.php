@@ -40,7 +40,7 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
         $this->akeneoLogger->debug(self::class);
-        $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
+        $this->akeneoLogger->debug(Messages::retrieveFromAPI($payload->getType()));
 
         $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
@@ -79,7 +79,6 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
         }
 
         $this->akeneoLogger->info(Messages::totalExcludedFromImport($payload->getType(), \count($excludedCategories)));
-
         $this->akeneoLogger->info(Messages::totalToImport($payload->getType(), \count($categories)));
 
         $payload->setResources($categories);

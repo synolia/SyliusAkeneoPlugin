@@ -61,7 +61,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
             $isTtySupported = Process::isTtySupported();
             $process->setTty($isTtySupported);
             $this->processManager->addProcess($process);
-            $this->akeneoLogger->info('Added batch process', [
+            $this->akeneoLogger->debug('Added batch process', [
                 'ids' => $ids,
             ]);
 
@@ -128,7 +128,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
         }
 
         if ($count > 0 && count($ids) > 0 && $pipelinePayload->isBatchingAllowed() && $pipelinePayload->getProcessAsSoonAsPossible() && $pipelinePayload->allowParallel()) {
-            $this->akeneoLogger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[(is_countable($ids) ? \count($ids) : 0) - 1]]);
+            $this->akeneoLogger->debug('Batching', ['from_id' => $ids[0], 'to_id' => $ids[(is_countable($ids) ? \count($ids) : 0) - 1]]);
             $this->batch($pipelinePayload, $ids);
             $this->processManager->waitForAllProcesses();
 
@@ -184,7 +184,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
                 if ($payload->isBatchingAllowed() &&
                     $payload->getProcessAsSoonAsPossible() &&
                     0 === $count % $payload->getBatchSize()) {
-                    $this->akeneoLogger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+                    $this->akeneoLogger->debug('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                     $this->batch($payload, $ids);
                     $ids = [];
                 }
@@ -201,7 +201,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
         array &$ids = [],
     ): void {
         foreach ($resourceCursor as $item) {
-            $this->akeneoLogger->info('Processing item ' . ($item['identifier'] ?? $item['code']));
+            $this->akeneoLogger->debug('Processing item ' . ($item['identifier'] ?? $item['code']));
             ++$count;
             $sql = sprintf(
                 'INSERT INTO `%s` (`values`) VALUES (:values);',
@@ -216,7 +216,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
             if ($payload->isBatchingAllowed() &&
                 $payload->getProcessAsSoonAsPossible() &&
                 0 === $count % $payload->getBatchSize()) {
-                $this->akeneoLogger->notice('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+                $this->akeneoLogger->debug('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                 $this->batch($payload, $ids);
                 $ids = [];
             }

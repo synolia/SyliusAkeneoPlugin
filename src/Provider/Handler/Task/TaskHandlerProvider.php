@@ -25,7 +25,7 @@ class TaskHandlerProvider implements TaskHandlerProviderInterface
     {
         foreach ($this->taskHandlers as $taskHandler) {
             if ($taskHandler->support($pipelinePayload)) {
-                $this->akeneoLogger->notice($taskHandler::class);
+                $this->akeneoLogger->debug($taskHandler::class);
 
                 return $taskHandler;
             }

@@ -34,7 +34,7 @@ final class BatchAssociationTypesTask extends AbstractBatchTask
     {
         $this->akeneoLogger->debug(self::class);
         $type = $payload->getType();
-        $this->akeneoLogger->notice(Messages::createOrUpdate($type));
+        $this->akeneoLogger->debug(Messages::createOrUpdate($type));
 
         $query = $this->getSelectStatement($payload);
         /** @var Result $queryResult */

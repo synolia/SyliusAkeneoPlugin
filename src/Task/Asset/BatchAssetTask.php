@@ -42,7 +42,7 @@ final class BatchAssetTask extends AbstractBatchTask
                     $this->retrieveAssets($payload, $resource);
                     $this->removeEntry($payload, (int) $result['id']);
                 } catch (\Throwable $throwable) {
-                    $this->akeneoLogger->warning($throwable->getMessage());
+                    $this->akeneoLogger->error($throwable->getMessage());
                     $this->removeEntry($payload, (int) $result['id']);
                 }
             }

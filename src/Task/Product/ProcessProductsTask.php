@@ -42,7 +42,7 @@ final class ProcessProductsTask implements AkeneoTaskInterface
             return $payload;
         }
 
-        $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
+        $this->akeneoLogger->debug(Messages::retrieveFromAPI($payload->getType()));
 
         $resources = $payload->getAkeneoPimClient()->getProductApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
