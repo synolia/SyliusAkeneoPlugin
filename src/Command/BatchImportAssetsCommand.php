@@ -38,7 +38,7 @@ final class BatchImportAssetsCommand extends AbstractBatchCommand
         Assert::string($input->getArgument('ids'));
         $ids = explode(',', $input->getArgument('ids'));
 
-        $this->akeneoLogger->notice('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
+        $this->akeneoLogger->debug('Processing batch', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
         $this->akeneoLogger->debug($this->getName() ?? '', ['batched_ids' => $ids]);
 
         $batchPayload = new AssetPayload($this->clientFactory->createFromApiCredentials());

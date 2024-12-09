@@ -31,7 +31,7 @@ final class AttributeTypeMatcher
                     return $typeMatcher;
                 }
             } catch (Throwable $throwable) {
-                $this->akeneoLogger->critical(sprintf(
+                $this->akeneoLogger->error(sprintf(
                     'AttributeTypeMatcher "%s" failed to execute method support() for attribute type "%s"',
                     $typeMatcher::class,
                     $type,

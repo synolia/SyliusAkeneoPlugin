@@ -44,12 +44,12 @@ final class ImportAssociationsCommand extends Command
             return 0;
         }
 
-        $this->akeneoLogger->notice($this->getName() ?? '');
+        $this->akeneoLogger->debug($this->getName() ?? '');
 
         $payload = new AssociationPayload($this->clientFactory->createFromApiCredentials());
         $this->associateProductsTask->__invoke($payload);
 
-        $this->akeneoLogger->notice(Messages::endOfCommand($this->getName() ?? ''));
+        $this->akeneoLogger->debug(Messages::endOfCommand($this->getName() ?? ''));
         $this->release();
 
         return Command::SUCCESS;

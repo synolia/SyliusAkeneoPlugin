@@ -65,7 +65,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
                 $identifiers[] = $item['code'] ?? $item['identifier'];
 
                 if (0 === $count % $payload->getBatchSize()) {
-                    $this->akeneoLogger->notice('Batching', ['codes' => $identifiers]);
+                    $this->akeneoLogger->debug('Batching', ['codes' => $identifiers]);
                     $this->batch($payload, $items);
                     $items = [];
                     $identifiers = [];
@@ -96,7 +96,7 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
             $identifiers[] = $item['code'] ?? $item['identifier'];
 
             if (0 === $count % $payload->getBatchSize()) {
-                $this->akeneoLogger->notice('Batching', ['codes' => $identifiers]);
+                $this->akeneoLogger->debug('Batching', ['codes' => $identifiers]);
                 $this->batch($payload, $items);
                 $items = [];
                 $identifiers = [];

@@ -50,7 +50,7 @@ final class ProcessAssetTask implements AkeneoTaskInterface
             return $payload;
         }
 
-        $this->akeneoLogger->notice(Messages::retrieveFromAPI($payload->getType()));
+        $this->akeneoLogger->debug(Messages::retrieveFromAPI($payload->getType()));
 
         $resources = $payload->getAkeneoPimClient()->getAssetFamilyApi()->all($this->searchFilterProvider->get($payload));
 
