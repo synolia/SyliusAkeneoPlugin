@@ -18,31 +18,28 @@ abstract class AbstractImportCommand extends Command
 {
     use LockableTrait;
 
-    /** @var string The default command description */
-    protected static $defaultDescription = '';
-
     protected PipelineInterface $pipeline;
 
     public function __construct(
-        protected LoggerInterface $logger,
+        protected LoggerInterface $akeneoLogger,
         protected PayloadFactoryInterface $payloadFactory,
         private PipelineFactoryInterface $pipelineFactory,
-        string $name = null,
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription(static::$defaultDescription)
             ->addOption('continue')
             ->addOption('parallel', 'p', InputOption::VALUE_NONE, 'Allow parallel task processing')
             ->addOption('disable-batch', 'd', InputOption::VALUE_NONE, 'Disable batch processing')
             ->addOption('batch-size', 's', InputOption::VALUE_OPTIONAL, 'Batch Size', 100)
+            ->addOption('from-page', null, InputOption::VALUE_OPTIONAL, 'From page', 1)
             ->addOption('max-concurrency', 'c', InputOption::VALUE_OPTIONAL, 'Max process concurrency', 5)
             ->addOption('batch-after-fetch', 'a', InputOption::VALUE_OPTIONAL, 'Fetch all pages then start processing the batches', true)
             ->addOption('filter', 'f', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Add filter')
+            ->addOption('handler', 'i', InputOption::VALUE_OPTIONAL, 'Specify batch handler')
         ;
     }
 
@@ -55,14 +52,14 @@ abstract class AbstractImportCommand extends Command
             throw new CommandLockedException(Messages::commandAlreadyRunning());
         }
 
-        $this->logger->notice(static::$defaultName ?? '');
+        $this->akeneoLogger->debug($this->getName() ?? '');
 
         $this->pipeline = $this->pipelineFactory->create();
     }
 
     protected function postExecute(): void
     {
-        $this->logger->notice(Messages::endOfCommand(static::$defaultName ?? ''));
+        $this->akeneoLogger->notice(Messages::endOfCommand($this->getName() ?? ''));
         $this->release();
     }
 }

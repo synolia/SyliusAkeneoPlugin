@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,26 +15,20 @@ use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationPayload;
 use Synolia\SyliusAkeneoPlugin\Task\Association\AssociateProductsTask;
 
+#[AsCommand(
+    name: 'akeneo:import:associations',
+    description: 'Import Product Associations from Akeneo PIM.',
+)]
 final class ImportAssociationsCommand extends Command
 {
     use LockableTrait;
 
-    private const DESCRIPTION = 'Import Product Associations from Akeneo PIM.';
-
-    /** @var string */
-    protected static $defaultName = 'akeneo:import:associations';
-
     public function __construct(
+        private LoggerInterface $akeneoLogger,
         private ClientFactoryInterface $clientFactory,
         private AssociateProductsTask $associateProductsTask,
-        private LoggerInterface $logger,
     ) {
-        parent::__construct(self::$defaultName);
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription(self::DESCRIPTION);
+        parent::__construct();
     }
 
     /**
@@ -49,14 +44,14 @@ final class ImportAssociationsCommand extends Command
             return 0;
         }
 
-        $this->logger->notice(self::$defaultName);
+        $this->akeneoLogger->debug($this->getName() ?? '');
 
         $payload = new AssociationPayload($this->clientFactory->createFromApiCredentials());
         $this->associateProductsTask->__invoke($payload);
 
-        $this->logger->notice(Messages::endOfCommand(self::$defaultName));
+        $this->akeneoLogger->debug(Messages::endOfCommand($this->getName() ?? ''));
         $this->release();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

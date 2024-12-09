@@ -60,7 +60,7 @@ final class TaxonAttributeValueBuilder
                     return true;
                 }
             } catch (Throwable $throwable) {
-                $this->akeneoLogger->critical(sprintf(
+                $this->akeneoLogger->error(sprintf(
                     'TaxonAttributeValueBuilder "%s" failed to execute method support() for attribute "%s"',
                     $attributeValueBuilder::class,
                     $attributeCode,

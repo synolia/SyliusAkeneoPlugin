@@ -50,9 +50,11 @@ final class PayloadFactory implements PayloadFactoryInterface
             ->setAllowParallel($isParallelAllowed)
             ->setBatchingAllowed($isBatchingAllowed)
             ->setProcessAsSoonAsPossible(filter_var($batchAfterFetch, FILTER_VALIDATE_BOOLEAN))
-            ->setBatchSize((int) $input->getOption('batch-size'))
-            ->setMaxRunningProcessQueueSize((int) $input->getOption('max-concurrency'))
+            ->setBatchSize((int) $input->getOption('batch-size')) /** @phpstan-ignore-line Cannot cast mixed to int */
+            ->setFromPage((int) $input->getOption('from-page')) /** @phpstan-ignore-line Cannot cast mixed to int */
+            ->setMaxRunningProcessQueueSize((int) $input->getOption('max-concurrency')) /** @phpstan-ignore-line Cannot cast mixed to int */
             ->setFilters((array) ($input->getOption('filter') ?: []))
+            ->setHandler($input->getOption('handler') ?? $context->getHandler())
         ;
 
         if (!$isBatchingAllowed) {

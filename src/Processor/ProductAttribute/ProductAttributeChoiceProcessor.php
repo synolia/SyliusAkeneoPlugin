@@ -21,7 +21,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
     public function __construct(
         private ClientFactoryInterface $clientFactory,
         private AttributeTypeMatcher $attributeTypeMatcher,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private AttributeOptionValueDataTransformerInterface $attributeOptionValueDataTransformer,
         private EntityManagerInterface $entityManager,
@@ -52,7 +52,7 @@ final class ProductAttributeChoiceProcessor implements ProductAttributeChoicePro
                 $attributeTypeMatcher instanceof MultiSelectAttributeTypeMatcher,
             );
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-            $this->logger->warning(sprintf(
+            $this->akeneoLogger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
                 $unsupportedAttributeTypeException->getMessage(),

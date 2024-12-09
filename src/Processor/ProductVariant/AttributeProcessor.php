@@ -19,7 +19,7 @@ class AttributeProcessor implements AttributeProcessorInterface
     public function __construct(
         private AkeneoAttributeProcessorProviderInterface $akeneoAttributeProcessorProvider,
         private ProductFiltersRulesRepository $productFiltersRulesRepository,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -42,7 +42,7 @@ class AttributeProcessor implements AttributeProcessorInterface
                     'data' => $values,
                 ]);
             } catch (MissingAkeneoAttributeProcessorException $missingAkeneoAttributeProcessorException) {
-                $this->logger->debug($missingAkeneoAttributeProcessorException->getMessage());
+                $this->akeneoLogger->debug($missingAkeneoAttributeProcessorException->getMessage());
             }
         }
     }

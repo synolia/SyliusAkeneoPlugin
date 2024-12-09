@@ -18,11 +18,11 @@ use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Task\Product\ProcessProductsTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\SetupProductTask;
-use Synolia\SyliusAkeneoPlugin\Task\Product\TearDownProductTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
+use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformer;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
@@ -33,10 +33,14 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
  */
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 {
-    /** @var AkeneoTaskProvider */
+    /** @var TaskProvider */
     private $taskProvider;
 
     private \Akeneo\Pim\ApiClient\AkeneoPimClientInterface $client;
+
+    private ProductFilter $productFilter;
+
+    private ?ProductFiltersRules $productFiltersRules;
 
     protected function setUp(): void
     {
@@ -64,7 +68,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         $productPayload = new ProductPayload($this->client);
         $productPayload->setProcessAsSoonAsPossible(false);
 
-        $setupProductModelsTask = $this->taskProvider->get(SetupProductTask::class);
+        $setupProductModelsTask = $this->taskProvider->get(SetupTask::class);
         $productPayload = $setupProductModelsTask->__invoke($productPayload);
 
         /** @var ProcessProductsTask $processProductsTask */
@@ -72,8 +76,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
         /** @var ProductPayload $productPayload */
         $productPayload = $processProductsTask->__invoke($productPayload);
 
-        /** @var TearDownProductTask $tearDownProductTask */
-        $tearDownProductTask = $this->taskProvider->get(TearDownProductTask::class);
+        $tearDownProductTask = $this->taskProvider->get(TearDownTask::class);
         $tearDownProductTask->__invoke($productPayload);
 
         $productsToTest = [

@@ -23,7 +23,7 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private ProductGroupRepository $productGroupRepository,
         private ProductRepositoryInterface $productRepository,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private EntityManagerInterface $entityManager,
         private ProductGroupProcessor $productGroupProcessor,
     ) {
@@ -49,13 +49,6 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
                 continue;
             }
 
-            /** @var ProductGroupInterface|null $productGroup */
-            $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
-
-            if (!$productGroup instanceof ProductGroupInterface) {
-                continue;
-            }
-
             /** @var ProductInterface|null $product */
             $product = $this->productRepository->findOneByCode($resource['code']);
 
@@ -63,11 +56,18 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
                 continue;
             }
 
+            /** @var ProductGroupInterface|null $productGroup */
+            $productGroup = $this->productGroupRepository->findOneBy(['model' => $resource['parent']]);
+
+            if (!$productGroup instanceof ProductGroupInterface) {
+                continue;
+            }
+
             if (!\array_key_exists($productGroup->getModel(), $this->productGroups)) {
                 $this->productGroups[$productGroup->getModel()] = true;
                 $productGroup->getProducts()->clear();
 
-                $this->logger->info('Cleaned ProductGroup associations', [
+                $this->akeneoLogger->debug('Cleaned ProductGroup associations', [
                     'product_code' => $product->getCode(),
                     'product_group_id' => $productGroup->getId(),
                     'family' => $productGroup->getFamily(),
@@ -77,7 +77,7 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
             $productGroup->addProduct($product);
             $this->entityManager->flush();
 
-            $this->logger->info('Added product to ProductGroup association', [
+            $this->akeneoLogger->debug('Added product to ProductGroup association', [
                 'product_code' => $product->getCode(),
                 'product_group_id' => $productGroup->getId(),
                 'family' => $productGroup->getFamily(),

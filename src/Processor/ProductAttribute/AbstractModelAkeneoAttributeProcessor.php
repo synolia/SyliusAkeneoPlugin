@@ -7,8 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 abstract class AbstractModelAkeneoAttributeProcessor
@@ -17,17 +17,17 @@ abstract class AbstractModelAkeneoAttributeProcessor
 
     public function __construct(
         protected CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
-        protected AkeneoAttributePropertiesProvider $akeneoAttributePropertyProvider,
+        protected AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertyProvider,
         protected AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         protected SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
-        protected LoggerInterface $logger,
+        protected LoggerInterface $akeneoLogger,
         protected string $model,
     ) {
     }
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(sprintf(
+        $this->akeneoLogger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class,

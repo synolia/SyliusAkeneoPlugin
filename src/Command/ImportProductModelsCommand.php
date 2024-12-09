@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,21 +15,20 @@ use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 
+#[AsCommand(
+    name: 'akeneo:import:product-models',
+    description: 'Import Product Models from Akeneo.',
+)]
 final class ImportProductModelsCommand extends AbstractImportCommand
 {
     use LockableTrait;
 
-    protected static $defaultDescription = 'Import Product Models from Akeneo PIM.';
-
-    /** @var string */
-    protected static $defaultName = 'akeneo:import:product-models';
-
     public function __construct(
-        ProductModelPipelineFactory $pipelineFactory,
-        LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory,
+        protected LoggerInterface $akeneoLogger,
+        protected PayloadFactoryInterface $payloadFactory,
+        private ProductModelPipelineFactory $pipelineFactory,
     ) {
-        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory);
     }
 
     /**
@@ -43,11 +44,11 @@ final class ImportProductModelsCommand extends AbstractImportCommand
 
             $this->postExecute();
         } catch (CommandLockedException $commandLockedException) {
-            $this->logger->warning($commandLockedException->getMessage());
+            $this->akeneoLogger->info($commandLockedException->getMessage());
 
-            return 1;
+            return Command::SUCCESS;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Task\Attribute;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
-use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
-use Synolia\SyliusAkeneoPlugin\Manager\ProcessManagerInterface;
-use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Task\AbstractProcessTask;
+use Synolia\SyliusAkeneoPlugin\Provider\Filter\SearchFilterProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Handler\Task\TaskHandlerProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
+use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
 
-final class ProcessAttributeTask extends AbstractProcessTask
+final class ProcessAttributeTask implements AkeneoTaskInterface
 {
+    use TaskHandlerTrait{
+        TaskHandlerTrait::__construct as private __taskHandlerConstruct;
+    }
+
     public function __construct(
-        EntityManagerInterface $entityManager,
-        LoggerInterface $akeneoLogger,
-        ProcessManagerInterface $processManager,
-        BatchAttributesTask $task,
         private ApiConnectionProviderInterface $apiConnectionProvider,
-        private EventDispatcherInterface $eventDispatcher,
-        string $projectDir,
+        private LoggerInterface $akeneoLogger,
+        private SearchFilterProviderInterface $searchFilterProvider,
+        private TaskHandlerProviderInterface $taskHandlerProvider,
     ) {
-        parent::__construct($entityManager, $processManager, $task, $akeneoLogger, $projectDir);
+        $this->__taskHandlerConstruct($taskHandlerProvider);
     }
 
     /**
@@ -34,44 +32,22 @@ final class ProcessAttributeTask extends AbstractProcessTask
      */
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
-        $queryParameters = [];
-        $this->logger->debug(self::class);
+        $this->akeneoLogger->debug(self::class);
 
         if ($payload->isContinue()) {
-            $this->process($payload);
+            $this->continue($payload);
 
             return $payload;
         }
 
-        try {
-            $event = new FilterEvent($payload->getCommandContext());
-            $this->eventDispatcher->dispatch($event);
-
-            $queryParameters['search'] = $event->getFilters();
-            $queryParameters['with_table_select_options'] = true;
-        } catch (CommandContextIsNullException) {
-        } finally {
-            $this->logger->notice('Filters', $queryParameters);
-        }
-
-        $queryParameters = \array_merge_recursive($queryParameters, $payload->getCustomFilters());
-
         $page = $payload->getAkeneoPimClient()->getAttributeApi()->listPerPage(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             true,
-            $queryParameters,
+            $this->searchFilterProvider->get($payload),
         );
 
         $this->handle($payload, $page);
-        $this->processManager->waitForAllProcesses();
 
         return $payload;
-    }
-
-    protected function createBatchPayload(PipelinePayloadInterface $payload): PipelinePayloadInterface
-    {
-        $commandContext = ($payload->hasCommandContext()) ? $payload->getCommandContext() : null;
-
-        return new AttributePayload($payload->getAkeneoPimClient(), $commandContext);
     }
 }

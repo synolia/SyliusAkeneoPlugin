@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Command\CommandLockedException;
@@ -12,19 +14,18 @@ use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 
+#[AsCommand(
+    name: 'akeneo:import:attributes',
+    description: 'Import Attributes and Options from Akeneo PIM.',
+)]
 final class ImportAttributesCommand extends AbstractImportCommand
 {
-    protected static $defaultDescription = 'Import Attributes and Options from Akeneo PIM.';
-
-    /** @var string */
-    protected static $defaultName = 'akeneo:import:attributes';
-
     public function __construct(
-        AttributePipelineFactory $pipelineFactory,
-        LoggerInterface $akeneoLogger,
-        PayloadFactoryInterface $payloadFactory,
+        protected LoggerInterface $akeneoLogger,
+        protected PayloadFactoryInterface $payloadFactory,
+        private AttributePipelineFactory $pipelineFactory,
     ) {
-        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory, self::$defaultName);
+        parent::__construct($akeneoLogger, $payloadFactory, $pipelineFactory);
     }
 
     /**
@@ -40,11 +41,11 @@ final class ImportAttributesCommand extends AbstractImportCommand
 
             $this->postExecute();
         } catch (CommandLockedException $commandLockedException) {
-            $this->logger->warning($commandLockedException->getMessage());
+            $this->akeneoLogger->info($commandLockedException->getMessage());
 
-            return 1;
+            return Command::SUCCESS;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

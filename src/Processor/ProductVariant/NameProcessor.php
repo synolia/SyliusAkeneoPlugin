@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductVariant;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
+use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -38,7 +39,9 @@ class NameProcessor implements NameProcessorInterface
                 if (0 === $key) {
                     $name .= ' ';
                 }
-                $name .= $optionValue->getTranslation($syliusLocale)->getValue() . ' - ';
+                /** @var ProductOptionValueTranslationInterface $translation */
+                $translation = $optionValue->getTranslation($syliusLocale);
+                $name .= $translation->getValue() . ' - ';
             }
 
             if (\substr($name, strlen($name) - 3)) {

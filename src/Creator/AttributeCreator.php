@@ -38,7 +38,7 @@ final class AttributeCreator implements AttributeCreatorInterface
         private RepositoryInterface $productAttributeRepository,
         private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
         private AttributeTypeMatcher $attributeTypeMatcher,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ExcludedAttributesProviderInterface $excludedAttributesProvider,
         private EditionCheckerInterface $editionChecker,
         private ProductAttributeValueRepositoryInterface $productAttributeValueRepository,
@@ -77,7 +77,7 @@ final class AttributeCreator implements AttributeCreatorInterface
 
             return $attribute;
         } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-            $this->logger->warning(sprintf(
+            $this->akeneoLogger->warning(sprintf(
                 '%s: %s',
                 $resource['code'],
                 $unsupportedAttributeTypeException->getMessage(),
@@ -123,14 +123,14 @@ final class AttributeCreator implements AttributeCreatorInterface
 
             $attribute->setCode($attributeCode);
             $this->entityManager->persist($attribute);
-            $this->logger->info(Messages::hasBeenCreated('Attribute', (string) $attribute->getCode()));
+            $this->akeneoLogger->info(Messages::hasBeenCreated('Attribute', (string) $attribute->getCode()));
 
             return $attribute;
         }
 
         $this->migrateType($attribute, $attributeType);
 
-        $this->logger->info(Messages::hasBeenUpdated('Attribute', (string) $attribute->getCode()));
+        $this->akeneoLogger->info(Messages::hasBeenUpdated('Attribute', (string) $attribute->getCode()));
 
         return $attribute;
     }

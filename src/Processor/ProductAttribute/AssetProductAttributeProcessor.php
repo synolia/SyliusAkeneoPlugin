@@ -69,6 +69,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
         }
 
         $scope = $this->productFilterRulesProvider->getProductFiltersRules()->getChannel();
+
         $queryParam = [
             'familyCode' => $assetFamilyCode,
             'attributeCode' => $attributeCode,
@@ -82,6 +83,9 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
         }
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     private function handleAsset(
         ProductInterface $model,
         string $assetFamilyCode,
@@ -90,7 +94,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
         array $queryParam,
         array $assetAttributeResource,
     ): void {
-        if (!\method_exists($model, 'addAsset')) {
+        if (!\method_exists($model, 'addAsset') || !\method_exists($model, 'getAssets')) {
             return;
         }
 
@@ -98,18 +102,6 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
 
         try {
             $asset = $this->assetRepository->findOneBy($queryParam);
-
-            if (!$asset instanceof Asset) {
-                /** @var Asset $asset */
-                $asset = $this->assetFactory->createNew();
-                $this->entityManager->persist($asset);
-                $asset->setFamilyCode($assetFamilyCode);
-                $asset->setAssetCode($assetCode);
-                $asset->setAttributeCode($attributeCode);
-                $asset->setLocale($queryParam['locale']);
-                $asset->setScope($queryParam['scope']);
-                $asset->setType($this->akeneoAssetAttributePropertiesProvider->getType($assetFamilyCode, $attributeCode));
-            }
 
             $assetAttributeValue = $this->akeneoAssetAttributeDataProvider->getData(
                 $assetFamilyCode,
@@ -128,17 +120,135 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
                 $assetAttributeValue,
             );
 
+            if (!$asset instanceof Asset) {
+                $this->akeneoLogger->debug('Created asset for product', [
+                    'product' => $model->getCode(),
+                    'familyCode' => $assetFamilyCode,
+                    'attributeCode' => $attributeCode,
+                    'assetCode' => $assetCode,
+                    'locale' => $queryParam['locale'],
+                    'content' => $data,
+                ]);
+
+                /** @var Asset $asset */
+                $asset = $this->assetFactory->createNew();
+                $this->entityManager->persist($asset);
+                $asset->setFamilyCode($assetFamilyCode);
+                $asset->setAssetCode($assetCode);
+                $asset->setAttributeCode($attributeCode);
+                $asset->setLocale($queryParam['locale']);
+                $asset->setScope($queryParam['scope']);
+                $asset->setType($this->akeneoAssetAttributePropertiesProvider->getType($assetFamilyCode, $attributeCode));
+                $asset->setContent($data);
+                $this->addAssetToProduct(
+                    $model,
+                    $asset,
+                    $assetFamilyCode,
+                    $attributeCode,
+                    $assetCode,
+                    $queryParam,
+                    $data,
+                );
+
+                return;
+            }
+
+            $oldContent = $asset->getContent();
+
+            if ($oldContent === $data) {
+                $this->akeneoLogger->debug('Skipped asset for product as it has same content', [
+                    'product' => $model->getCode(),
+                    'familyCode' => $assetFamilyCode,
+                    'attributeCode' => $attributeCode,
+                    'assetCode' => $assetCode,
+                    'locale' => $queryParam['locale'],
+                    'content' => $data,
+                ]);
+
+                $this->addAssetToProduct(
+                    $model,
+                    $asset,
+                    $assetFamilyCode,
+                    $attributeCode,
+                    $assetCode,
+                    $queryParam,
+                    $data,
+                );
+
+                return;
+            }
+
             $asset->setContent($data);
-            $model->addAsset($asset);
-        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException) {
+            $this->addAssetToProduct(
+                $model,
+                $asset,
+                $assetFamilyCode,
+                $attributeCode,
+                $assetCode,
+                $queryParam,
+                $data,
+            );
+
+            $this->akeneoLogger->debug('Updated asset for product', [
+                'product' => $model->getCode(),
+                'familyCode' => $assetFamilyCode,
+                'attributeCode' => $attributeCode,
+                'assetCode' => $assetCode,
+                'locale' => $queryParam['locale'],
+                'old_content' => $oldContent,
+                'content' => $data,
+            ]);
+        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException $e) {
             $this->akeneoLogger->debug('Error processing asset', [
+                'product' => $model->getCode(),
                 'family_code' => $assetFamilyCode,
                 'attribute_code' => $attributeCode,
                 'asset_code' => $assetCode,
                 'scope' => $queryParam['scope'],
                 'akeneo_locale' => $akeneoLocale,
                 'resource' => $assetAttributeResource,
+                'exception' => $e->getMessage(),
+                'exception_type' => $e::class,
+                'trace' => $e->getTraceAsString(),
             ]);
         }
+    }
+
+    private function addAssetToProduct(
+        ProductInterface $model,
+        Asset $asset,
+        string $assetFamilyCode,
+        string $attributeCode,
+        string $assetCode,
+        array $queryParam,
+        array $data,
+    ): void {
+        if (!\method_exists($model, 'addAsset') || !\method_exists($model, 'getAssets')) {
+            return;
+        }
+
+        if ($model->getAssets()->contains($asset)) {
+            $this->akeneoLogger->debug('Asset already associated to product', [
+                'product' => $model->getCode(),
+                'familyCode' => $assetFamilyCode,
+                'attributeCode' => $attributeCode,
+                'assetCode' => $assetCode,
+                'locale' => $queryParam['locale'],
+                'content' => $data,
+            ]);
+
+            return;
+        }
+
+        $model->addAsset($asset);
+
+        $this->akeneoLogger->debug('Associated asset to product', [
+            'product' => $model->getCode(),
+            'familyCode' => $assetFamilyCode,
+            'attributeCode' => $attributeCode,
+            'assetCode' => $assetCode,
+            'locale' => $queryParam['locale'],
+            'content' => $data,
+        ]);
     }
 }

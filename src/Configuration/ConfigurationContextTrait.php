@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Configuration;
 
 use Symfony\Component\Console\Output\OutputInterface;
+use Synolia\SyliusAkeneoPlugin\Handler\Task\SymfonyProcessTaskHandler;
 
 trait ConfigurationContextTrait
 {
@@ -23,6 +24,10 @@ trait ConfigurationContextTrait
     private int $verbosity = OutputInterface::VERBOSITY_NORMAL;
 
     private array $filters = [];
+
+    private string $handler = SymfonyProcessTaskHandler::HANDLER_CODE;
+
+    private int $fromPage = 1;
 
     public function getBatchSize(): int
     {
@@ -129,6 +134,30 @@ trait ConfigurationContextTrait
     public function setFilters(array $filters): ConfigurationContextInterface
     {
         $this->filters = $filters;
+
+        return $this;
+    }
+
+    public function getHandler(): string
+    {
+        return $this->handler;
+    }
+
+    public function setHandler(string $handler): ConfigurationContextInterface
+    {
+        $this->handler = $handler;
+
+        return $this;
+    }
+
+    public function getFromPage(): int
+    {
+        return $this->fromPage;
+    }
+
+    public function setFromPage(int $fromPage): ConfigurationContextInterface
+    {
+        $this->fromPage = $fromPage;
 
         return $this;
     }

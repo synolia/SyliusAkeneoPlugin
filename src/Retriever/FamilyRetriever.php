@@ -20,7 +20,7 @@ final class FamilyRetriever implements FamilyRetrieverInterface
 
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private CacheInterface $akeneoFamilies,
         private CacheInterface $akeneoFamily,
@@ -82,7 +82,7 @@ final class FamilyRetriever implements FamilyRetrieverInterface
                     }
                 }
             } catch (\Throwable $exception) {
-                $this->logger->warning($exception->getMessage(), [
+                $this->akeneoLogger->warning($exception->getMessage(), [
                     'exception' => $exception,
                 ]);
             }

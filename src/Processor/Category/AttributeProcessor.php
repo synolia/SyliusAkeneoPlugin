@@ -14,6 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubj
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValueInterface;
+use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\ExcludedAttributeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute\TaxonAttributeTypeMatcher;
@@ -21,15 +22,13 @@ use Webmozart\Assert\Assert;
 
 class AttributeProcessor implements CategoryProcessorInterface
 {
-    private array $taxonAttributes = [];
-
     public static function getDefaultPriority(): int
     {
         return 700;
     }
 
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private EntityManagerInterface $entityManager,
         private RepositoryInterface $taxonAttributeRepository,
         private RepositoryInterface $taxonAttributeValueRepository,
@@ -45,6 +44,14 @@ class AttributeProcessor implements CategoryProcessorInterface
     {
         foreach ($resource['values'] as $attributeValue) {
             try {
+                $this->akeneoLogger->info('Processing category attribute for taxon', [
+                    'taxon' => $taxon->getCode(),
+                    'attribute' => $attributeValue,
+                    'type' => $attributeValue['type'],
+                    'locale' => $attributeValue['locale'],
+                    'channel' => $attributeValue['channel'],
+                ]);
+
                 $taxonAttribute = $this->getTaxonAttributes(
                     $attributeValue['attribute_code'],
                     $attributeValue['type'],
@@ -58,14 +65,19 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $attributeValue['data'],
                 );
 
+                $this->akeneoLogger->info('Set TaxonAttribute value', [
+                    'code' => $attributeValue['attribute_code'],
+                    'value' => $value,
+                ]);
+
                 $this->getTaxonAttributeValues(
                     $attributeValue,
                     $taxon,
                     $taxonAttribute,
                     $value,
                 );
-            } catch (UnsupportedAttributeTypeException $e) {
-                $this->logger->warning($e->getMessage(), [
+            } catch (ExcludedAttributeException|UnsupportedAttributeTypeException $e) {
+                $this->akeneoLogger->warning($e->getMessage(), [
                     'trace' => $e->getTrace(),
                     'exception' => $e,
                 ]);
@@ -80,14 +92,13 @@ class AttributeProcessor implements CategoryProcessorInterface
 
     private function getTaxonAttributes(string $attributeCode, string $type): TaxonAttributeInterface
     {
-        if (array_key_exists($attributeCode, $this->taxonAttributes)) {
-            return $this->taxonAttributes[$attributeCode];
-        }
-
         $taxonAttribute = $this->taxonAttributeRepository->findOneBy(['code' => $attributeCode]);
 
         if ($taxonAttribute instanceof TaxonAttribute) {
-            $this->taxonAttributes[$attributeCode] = $taxonAttribute;
+            $this->akeneoLogger->debug('Found TaxonAttribute', [
+                'code' => $attributeCode,
+                'type' => $type,
+            ]);
 
             return $taxonAttribute;
         }
@@ -102,7 +113,10 @@ class AttributeProcessor implements CategoryProcessorInterface
         $taxonAttribute->setTranslatable(false);
 
         $this->entityManager->persist($taxonAttribute);
-        $this->taxonAttributes[$attributeCode] = $taxonAttribute;
+        $this->akeneoLogger->debug('Created TaxonAttribute', [
+            'code' => $attributeCode,
+            'type' => $type,
+        ]);
 
         return $taxonAttribute;
     }

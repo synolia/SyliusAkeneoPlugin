@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\AssetRepository;
@@ -18,6 +19,7 @@ final class AssetProcessor implements AssetProcessorInterface
     public function __construct(
         private EditionCheckerInterface $editionChecker,
         private AssetRepository $assetRepository,
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 
@@ -30,6 +32,7 @@ final class AssetProcessor implements AssetProcessorInterface
          * to import an empty product.
          */
         $this->assetRepository->cleanAssetsForProduct($product);
+        $this->akeneoLogger->info('Dissociated assets for product ' . $product->getCode());
     }
 
     public function support(ProductInterface $product, array $resource): bool

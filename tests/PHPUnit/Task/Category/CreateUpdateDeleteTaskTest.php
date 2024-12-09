@@ -8,11 +8,11 @@ use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Exceptions\NoCategoryResourcesException;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Category\CreateUpdateEntityTask;
-use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 
 /**
  * @internal
@@ -21,6 +21,8 @@ use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
  */
 final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 {
+    private CategoryConfiguration $categoryConfiguration;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,30 +37,19 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $this->categoryConfiguration = $this->buildBasicConfiguration();
     }
 
-    public function testNoCategories(): void
-    {
-        $this->expectExceptionObject(new NoCategoryResourcesException('No resource found.'));
-        $payload = new CategoryPayload($this->createClient());
-
-        /** @var CreateUpdateEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
-        $task->__invoke($payload);
-    }
-
     public function testCreateCategories(): void
     {
         /** @var CategoryConfigurationProviderInterface $configuration */
         $configuration = $this->getContainer()->get(CategoryConfigurationProviderInterface::class);
         $configuration->get()->setCategoryCodesToImport(['master', 'sales']);
 
-        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
+        $payload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
-        $payload = $task->__invoke($retrieveCategoryPayload);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
+        $payload = $setupAttributeTask->__invoke($payload);
 
-        /** @var CreateUpdateEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $task->__invoke($payload);
 
         $taxonRepository = $this->getContainer()->get('sylius.repository.taxon');
@@ -88,14 +79,13 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $this->categoryConfiguration->setNotImportCategories(['clothes_accessories']);
         $this->manager->flush();
 
-        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
+        $payload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
-        $payload = $task->__invoke($retrieveCategoryPayload);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
+        $payload = $setupAttributeTask->__invoke($payload);
 
-        /** @var CreateUpdateEntityTask $task */
-        $task = $this->taskProvider->get(CreateUpdateEntityTask::class);
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
         $task->__invoke($payload);
 
         $taxonRepository = $this->getContainer()->get('sylius.repository.taxon');

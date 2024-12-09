@@ -8,9 +8,11 @@ use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Task\Category\RetrieveCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
+use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 
 /**
  * @internal
@@ -26,6 +28,8 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
     private const CLOTHES_ROOT_CATEGORY_COUNT = 12;
 
     private const CLOTHES_ROOT_CATEGORY_COUNT_WITH_EXCLUSIONS = 7;
+
+    private CategoryConfiguration $categoryConfiguration;
 
     protected function setUp(): void
     {
@@ -48,11 +52,14 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         $configuration->get()->setCategoryCodesToImport(['master']);
         $configuration->get()->setCategoryCodesToExclude([]);
 
-        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
+        $payload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
-        $payload = $task->__invoke($retrieveCategoryPayload);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
+        $payload = $setupAttributeTask->__invoke($payload);
+
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
+        $task->__invoke($payload);
 
         /** @var array $categoriesTree */
         $categoriesTree = $payload->getResources();
@@ -66,11 +73,14 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         $configuration->get()->setCategoryCodesToImport(['master']);
         $configuration->get()->setCategoryCodesToExclude(['sales', 'clothes']);
 
-        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
+        $payload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
-        $payload = $task->__invoke($retrieveCategoryPayload);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
+        $payload = $setupAttributeTask->__invoke($payload);
+
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
+        $task->__invoke($payload);
 
         $categoriesTree = $payload->getResources();
 
@@ -103,11 +113,14 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         $configuration->get()->setCategoryCodesToImport(['clothes']);
         $configuration->get()->setCategoryCodesToExclude([]);
 
-        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
+        $payload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
-        $payload = $task->__invoke($retrieveCategoryPayload);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
+        $payload = $setupAttributeTask->__invoke($payload);
+
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
+        $task->__invoke($payload);
 
         $categoriesTree = $payload->getResources();
 
@@ -135,11 +148,14 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         $configuration->get()->setCategoryCodesToImport(['clothes']);
         $configuration->get()->setCategoryCodesToExclude(['clothes_accessories']);
 
-        $retrieveCategoryPayload = new CategoryPayload($this->createClient());
+        $payload = new CategoryPayload($this->createClient());
 
-        /** @var RetrieveCategoriesTask $task */
-        $task = $this->taskProvider->get(RetrieveCategoriesTask::class);
-        $payload = $task->__invoke($retrieveCategoryPayload);
+        $setupAttributeTask = $this->taskProvider->get(SetupTask::class);
+        $payload = $setupAttributeTask->__invoke($payload);
+
+        /** @var ProcessCategoriesTask $task */
+        $task = $this->taskProvider->get(ProcessCategoriesTask::class);
+        $task->__invoke($payload);
 
         $categoriesTree = $payload->getResources();
 

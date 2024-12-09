@@ -8,9 +8,9 @@ use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
 
@@ -24,7 +24,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
     private const DEFAULT_SCOPE = 'ecommerce';
 
     /** @var AkeneoAttributeDataProviderInterface */
-    private \Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProvider $attributeDataProvider;
+    private \Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProvider $attributeDataProvider;
 
     protected function setUp(): void
     {

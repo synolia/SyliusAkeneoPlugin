@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributePropertiesProvider;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProviderInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AssetCollectionAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
 
 final class AssetAttributeValueValueBuilder implements ProductAttributeValueValueBuilderInterface
 {
     public function __construct(
-        private AkeneoAttributePropertiesProvider $akeneoAttributePropertiesProvider,
+        private AkeneoAttributePropertiesProviderInterface $akeneoAttributePropertiesProvider,
         private AttributeTypeMatcher $attributeTypeMatcher,
     ) {
     }

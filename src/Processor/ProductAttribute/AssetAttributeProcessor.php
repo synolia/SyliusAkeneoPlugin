@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -18,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingLocaleTranslationOrSc
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\MissingScopeException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Attribute\TranslationNotFoundException;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
-use Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeDataProviderInterface;
+use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformerInterface;
 use Webmozart\Assert\Assert;
@@ -32,7 +33,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
         private RepositoryInterface $productAttributeRepository,
-        private LoggerInterface $logger,
+        private LoggerInterface $akeneoLogger,
         private RepositoryInterface $productAttributeValueRepository,
         private FactoryInterface $productAttributeValueFactory,
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
@@ -77,7 +78,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(\sprintf(
+        $this->akeneoLogger->debug(\sprintf(
             'Attribute "%s" is being processed by "%s"',
             $attributeCode,
             static::class,
@@ -128,8 +129,18 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
         foreach ($context['data'] as $assetCodes) {
             foreach ($assetCodes['data'] as $assetCode) {
-                $assetResource = $this->akeneoPimClient->getAssetManagerApi()->get($attributeCode, $assetCode);
-                $this->handleAssetByFamilyResource($context['model'], $attributeCode, $assetResource);
+                try {
+                    $assetResource = $this->akeneoPimClient->getAssetManagerApi()->get($attributeCode, $assetCode);
+                    $this->handleAssetByFamilyResource($context['model'], $attributeCode, $assetResource);
+                } catch (RuntimeException $runtimeException) {
+                    $this->akeneoLogger->error('Error processing asset', [
+                        'product' => $context['model']->getCode(),
+                        'asset_code' => $assetCode,
+                        'exception_code' => $runtimeException->getCode(),
+                        'exception_message' => $runtimeException->getMessage(),
+                        'exception_trace' => $runtimeException->getTraceAsString(),
+                    ]);
+                }
             }
         }
     }
@@ -149,7 +160,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                     $assetAttributeResource,
                 );
             } catch (UnsupportedAttributeTypeException $attributeTypeException) {
-                $this->logger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
+                $this->akeneoLogger->warning('Unsupported attribute type', ['ex' => $attributeTypeException]);
             }
         }
     }

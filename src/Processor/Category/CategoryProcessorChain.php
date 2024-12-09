@@ -13,7 +13,7 @@ final class CategoryProcessorChain implements CategoryProcessorChainInterface
     /** @var array<CategoryProcessorInterface> */
     private array $categoryProcessors;
 
-    public function __construct(Traversable $handlers, private LoggerInterface $logger)
+    public function __construct(Traversable $handlers, private LoggerInterface $akeneoLogger)
     {
         $this->categoryProcessors = iterator_to_array($handlers);
     }
@@ -22,13 +22,13 @@ final class CategoryProcessorChain implements CategoryProcessorChainInterface
     {
         foreach ($this->categoryProcessors as $processor) {
             if ($processor->support($taxon, $resource)) {
-                $this->logger->debug(sprintf('Begin %s', $processor::class), [
+                $this->akeneoLogger->debug(sprintf('Begin %s', $processor::class), [
                     'taxon_code' => $taxon->getCode(),
                 ]);
 
                 $processor->process($taxon, $resource);
 
-                $this->logger->debug(sprintf('End %s', $processor::class), [
+                $this->akeneoLogger->debug(sprintf('End %s', $processor::class), [
                     'taxon_code' => $taxon->getCode(),
                 ]);
             }
