@@ -111,7 +111,7 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
 
     public function __toString(): string
     {
-        return (string) $this->getName();
+        return $this->isTranslatable() ? $this->getName() : $this->getCode();
     }
 
     public function getId(): ?int
