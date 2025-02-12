@@ -27,6 +27,8 @@ class AttributeProcessor implements CategoryProcessorInterface
         return 700;
     }
 
+    private array $alreadyCreatedAttributes = [];
+
     public function __construct(
         private LoggerInterface $akeneoLogger,
         private EntityManagerInterface $entityManager,
@@ -92,6 +94,14 @@ class AttributeProcessor implements CategoryProcessorInterface
 
     private function getTaxonAttributes(string $attributeCode, string $type): TaxonAttributeInterface
     {
+        if (\array_key_exists($attributeCode, $this->alreadyCreatedAttributes)) {
+            if ($this->entityManager->contains($this->alreadyCreatedAttributes[$attributeCode])) {
+                return $this->alreadyCreatedAttributes[$attributeCode];
+            }
+
+            unset($this->alreadyCreatedAttributes[$attributeCode]);
+        }
+
         $taxonAttribute = $this->taxonAttributeRepository->findOneBy(['code' => $attributeCode]);
 
         if ($taxonAttribute instanceof TaxonAttribute) {
@@ -118,7 +128,7 @@ class AttributeProcessor implements CategoryProcessorInterface
             'type' => $type,
         ]);
 
-        return $taxonAttribute;
+        return $this->alreadyCreatedAttributes[$attributeCode] = $taxonAttribute;
     }
 
     private function getTaxonAttributeValues(
@@ -167,5 +177,10 @@ class AttributeProcessor implements CategoryProcessorInterface
         $taxonAttributeValue->setValue($value);
 
         $this->entityManager->persist($taxonAttributeValue);
+    }
+
+    public function getAlreadyCreatedAttributes(): array
+    {
+        return $this->alreadyCreatedAttributes;
     }
 }
