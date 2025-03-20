@@ -36,8 +36,10 @@ final class ExcludedAttributesProvider implements ExcludedAttributesProviderInte
             $excludedAttributeCodes[] = $productConfiguration->getAkeneoEnabledChannelsAttribute();
         }
 
-        if ($productConfiguration->getAkeneoImageAttributes() instanceof Collection &&
-            $productConfiguration->getAkeneoImageAttributes()->count() > 0) {
+        if (
+            $productConfiguration->getAkeneoImageAttributes() instanceof Collection &&
+            $productConfiguration->getAkeneoImageAttributes()->count() > 0
+        ) {
             foreach ($productConfiguration->getAkeneoImageAttributes() as $akeneoImageAttribute) {
                 $excludedAttributeCodes[] = $akeneoImageAttribute->getAkeneoAttributes();
             }

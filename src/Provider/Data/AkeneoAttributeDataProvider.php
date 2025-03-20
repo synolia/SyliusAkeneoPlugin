@@ -24,24 +24,32 @@ final class AkeneoAttributeDataProvider implements AkeneoAttributeDataProviderIn
     {
         $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
 
-        if ($this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
+        if (
+            $this->akeneoAttributePropertyProvider->isUnique($attributeCode) ||
             (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-                !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode))) {
+                !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode))
+        ) {
             return $this->productAttributeValueValueBuilder->build($attributeCode, $akeneoLocale, $scope, $attributeValues[0]['data']);
         }
 
-        if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-            !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+        if (
+            $this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
+            !$this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)
+        ) {
             return $this->getByScope($attributeCode, $attributeValues, $scope);
         }
 
-        if ($this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-            $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+        if (
+            $this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
+            $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)
+        ) {
             return $this->getByLocaleAndScope($attributeCode, $attributeValues, $akeneoLocale, $scope);
         }
 
-        if (!$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
-            $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)) {
+        if (
+            !$this->akeneoAttributePropertyProvider->isScopable($attributeCode) &&
+            $this->akeneoAttributePropertyProvider->isLocalizable($attributeCode)
+        ) {
             return $this->getByLocale($attributeCode, $attributeValues, $akeneoLocale);
         }
 

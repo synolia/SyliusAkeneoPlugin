@@ -55,7 +55,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
                     'product_code' => $product->getCode(),
                 ]);
             }
-        } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
+        } catch (NoAttributeResourcesException | NoProductConfigurationException $exception) {
             $this->akeneoLogger->info($exception->getMessage());
         }
     }
@@ -93,7 +93,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
             $this->getEnabledChannelsAttributeData($product, $resource);
 
             return true;
-        } catch (NoAttributeResourcesException|NoProductConfigurationException $exception) {
+        } catch (NoAttributeResourcesException | NoProductConfigurationException $exception) {
             $this->akeneoLogger->info($exception->getMessage());
 
             return false;

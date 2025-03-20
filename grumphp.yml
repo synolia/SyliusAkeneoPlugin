@@ -5,28 +5,18 @@ grumphp:
     tasks:
         composer:
             no_check_all: true
-        git_blacklist:
-            keywords:
-                - 'var_dump'
-                - 'dump\('
-                - 'print_r'
-                - 'die\('
-                - 'console\.'
-            triggered_by: [php, twig, js]
         jsonlint:
             detect_key_conflicts: true
-#        temporary deactivation due to issue https://github.com/sebastianbergmann/phpcpd/issues/188
-#        phpcpd:
-#            directory:
-#                - src
         phplint:
-            exclude: ['vendor']
+            exclude: ['vendor', 'tests/Application/*']
             triggered_by: ['php']
         phpmd:
+            exclude: ['migrations']
             ruleset: ['ruleset/.php_md.xml']
         phpstan:
             level: ~
             configuration: 'ruleset/phpstan.neon'
+            use_grumphp_paths: false
         securitychecker_symfony: ~
         yamllint:
             parse_custom_tags: true
@@ -36,3 +26,10 @@ grumphp:
         twigcs:
             path: 'src/'
             severity: error
+        phpcs:
+            standard: "ruleset"
+            warning_severity: 0
+            whitelist_patterns:
+                - 'src'
+            exclude:
+                - 'PSR12.Files.FileHeader'

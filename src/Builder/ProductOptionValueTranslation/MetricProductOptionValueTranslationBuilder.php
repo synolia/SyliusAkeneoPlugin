@@ -47,7 +47,7 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
             Assert::string($attributeCode);
 
             return $this->attributeTypeMatcher->match($this->akeneoAttributePropertiesProvider->getType($attributeCode)) instanceof MetricAttributeTypeMatcher;
-        } catch (UnsupportedAttributeTypeException|InvalidArgumentException) {
+        } catch (UnsupportedAttributeTypeException | InvalidArgumentException) {
             return false;
         }
     }

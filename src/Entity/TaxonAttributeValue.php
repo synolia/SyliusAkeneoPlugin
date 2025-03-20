@@ -228,9 +228,6 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         return $this->datetime;
     }
 
-    /**
-     * @param \DateTimeInterface $datetime
-     */
     protected function setDatetime(?\DateTimeInterface $datetime): self
     {
         $this->datetime = $datetime;

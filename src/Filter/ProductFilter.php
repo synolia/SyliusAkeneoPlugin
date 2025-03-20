@@ -226,12 +226,14 @@ final class ProductFilter implements ProductFilterInterface
 
     private function getLocales(ProductFiltersRules $productFilterRules): array
     {
-        if (\in_array($productFilterRules->getCompletenessType(), [
+        if (
+            \in_array($productFilterRules->getCompletenessType(), [
             Operator::LOWER_THAN_ON_ALL_LOCALES,
             Operator::GREATER_THAN_ON_ALL_LOCALES,
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
             Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
-        ])) {
+            ])
+        ) {
             return array_map(function (string $syliusLocale) {
                 return $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
             }, $productFilterRules->getLocales());
@@ -251,12 +253,14 @@ final class ProductFilter implements ProductFilterInterface
             return $queryParameters;
         }
 
-        if (\in_array($completenessType, [
+        if (
+            \in_array($completenessType, [
             Operator::LOWER_THAN_ON_ALL_LOCALES,
             Operator::GREATER_THAN_ON_ALL_LOCALES,
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
             Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
-        ])) {
+            ])
+        ) {
             $queryParameters->addFilter(
                 'completeness',
                 $completeness,

@@ -76,7 +76,7 @@ class AttributeProcessor implements CategoryProcessorInterface
                     $taxonAttribute,
                     $value,
                 );
-            } catch (ExcludedAttributeException|UnsupportedAttributeTypeException $e) {
+            } catch (ExcludedAttributeException | UnsupportedAttributeTypeException $e) {
                 $this->akeneoLogger->warning($e->getMessage(), [
                     'trace' => $e->getTrace(),
                     'exception' => $e,

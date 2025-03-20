@@ -20,7 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
  */
 final class ProcessCategoriesTask implements AkeneoTaskInterface
 {
-    use TaskHandlerTrait{
+    use TaskHandlerTrait {
         TaskHandlerTrait::__construct as private __taskHandlerConstruct;
     }
 

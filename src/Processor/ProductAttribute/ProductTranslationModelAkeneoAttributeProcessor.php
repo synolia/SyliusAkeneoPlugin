@@ -32,7 +32,8 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
-        if (\in_array($this->camelCaseToSnakeCaseNameConverter->normalize($attributeCode), self::NATIVE_PROPERTIES) ||
+        if (
+            \in_array($this->camelCaseToSnakeCaseNameConverter->normalize($attributeCode), self::NATIVE_PROPERTIES) ||
             \in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
         ) {
             return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
@@ -73,7 +74,7 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
                 $this->getSetterMethodFromAttributeCode($attributeCode),
             );
             $reflectionMethod->invoke($translationModel, $attributeValueValue);
-        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException|ReflectionException) {
+        } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException | MissingScopeException | TranslationNotFoundException | ReflectionException) {
         }
     }
 }

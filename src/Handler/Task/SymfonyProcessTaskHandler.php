@@ -181,9 +181,11 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
 
                 $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
-                if ($payload->isBatchingAllowed() &&
+                if (
+                    $payload->isBatchingAllowed() &&
                     $payload->getProcessAsSoonAsPossible() &&
-                    0 === $count % $payload->getBatchSize()) {
+                    0 === $count % $payload->getBatchSize()
+                ) {
                     $this->akeneoLogger->debug('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                     $this->batch($payload, $ids);
                     $ids = [];
@@ -213,9 +215,11 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
 
             $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
-            if ($payload->isBatchingAllowed() &&
+            if (
+                $payload->isBatchingAllowed() &&
                 $payload->getProcessAsSoonAsPossible() &&
-                0 === $count % $payload->getBatchSize()) {
+                0 === $count % $payload->getBatchSize()
+            ) {
                 $this->akeneoLogger->debug('Batching', ['from_id' => $ids[0], 'to_id' => $ids[\count($ids) - 1]]);
                 $this->batch($payload, $ids);
                 $ids = [];

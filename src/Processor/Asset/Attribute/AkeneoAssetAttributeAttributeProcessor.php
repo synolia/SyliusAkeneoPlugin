@@ -117,7 +117,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
             );
 
             $asset->setContent($data);
-        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException) {
+        } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException | MissingScopeException) {
             $this->akeneoLogger->debug('Error processing asset', [
                 'family_code' => $assetFamilyCode,
                 'attribute_code' => $attributeCode,

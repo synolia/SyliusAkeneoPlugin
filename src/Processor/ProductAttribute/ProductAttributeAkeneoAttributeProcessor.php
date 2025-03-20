@@ -88,7 +88,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
                     $attributeCode,
                     $context['scope'],
                 );
-            } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException|MissingScopeException|TranslationNotFoundException $error) {
+            } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException | MissingScopeException | TranslationNotFoundException $error) {
                 $this->akeneoLogger->debug('Attribute translation error', [
                     'attribute_code' => $attributeCode,
                     'sylius_locale' => $syliusLocale,

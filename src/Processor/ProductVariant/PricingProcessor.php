@@ -56,7 +56,7 @@ class PricingProcessor implements PricingProcessorInterface
             $this->getProductConfiguration();
 
             return is_array($this->getPriceAttributeData($resource['values']));
-        } catch (NoAttributeResourcesException|NoProductConfigurationException) {
+        } catch (NoAttributeResourcesException | NoProductConfigurationException) {
             return false;
         }
     }

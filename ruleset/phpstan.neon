@@ -4,8 +4,8 @@ includes:
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
+    paths:
+        - ../src
     bootstrapFiles:
         - ../vendor/autoload.php
     excludePaths:
@@ -19,10 +19,12 @@ parameters:
         - ../src/Form/Type/SettingsType.php
 
         # Test dependencies
-        - ../tests/Application
+        - ../tests/Application?
         - ../tests/PHPUnit
         - ../install
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#Cannot call method [a-zA-Z0-9]+\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
         - '#Call to an undefined method League\\Pipeline\\PipelineInterface\:\:process\(\).#'
         - '#Method Doctrine\\Persistence\\ObjectRepository<object>\:\:findOneBy\(\) invoked with 2 parameters, 1 required.#'

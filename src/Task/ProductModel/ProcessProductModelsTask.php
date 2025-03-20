@@ -17,7 +17,7 @@ use Throwable;
 
 final class ProcessProductModelsTask implements AkeneoTaskInterface
 {
-    use TaskHandlerTrait{
+    use TaskHandlerTrait {
         TaskHandlerTrait::__construct as private __taskHandlerConstruct;
     }
 

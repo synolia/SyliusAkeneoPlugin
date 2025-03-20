@@ -107,7 +107,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                             $attributeCode,
                             $context['scope'],
                         );
-                    } catch (TranslationNotFoundException|MissingScopeException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException) {
+                    } catch (TranslationNotFoundException | MissingScopeException | MissingLocaleTranslationOrScopeException | MissingLocaleTranslationException) {
                     }
                 }
 
@@ -123,7 +123,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
                     $attributeCode,
                     $context['scope'],
                 );
-            } catch (TranslationNotFoundException|MissingScopeException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException) {
+            } catch (TranslationNotFoundException | MissingScopeException | MissingLocaleTranslationOrScopeException | MissingLocaleTranslationException) {
             }
         }
 

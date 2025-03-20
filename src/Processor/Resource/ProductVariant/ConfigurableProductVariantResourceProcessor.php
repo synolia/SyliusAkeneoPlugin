@@ -41,8 +41,10 @@ class ConfigurableProductVariantResourceProcessor implements AkeneoResourceProce
 
     private function getModelCode(ProductGroupInterface $productGroup): string
     {
-        if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON &&
-            $productGroup->getParent() !== null) {
+        if (
+            $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON &&
+            $productGroup->getParent() !== null
+        ) {
             return $productGroup->getParent()->getModel();
         }
 

@@ -31,11 +31,11 @@
 
 ## Requirements
 
-| | Version |
-| :--- |:--------|
-| PHP  | ^8.0    |
-| Sylius | ^1.10   |
-| Akeneo PIM  | >=v6.0  |
+|            | Version |
+|:-----------|:--------|
+| PHP        | ^8.2    |
+| Sylius     | ^1.12   |
+| Akeneo PIM | >=v6.0  |
 
 
 ## Installation
