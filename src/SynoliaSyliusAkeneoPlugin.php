@@ -45,10 +45,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
             ->addTag(AkeneoAttributeProcessorInterface::TAG_ID)
         ;
         $container
-            ->registerForAutoconfiguration(CategoryProcessorInterface::class)
-            ->addTag(CategoryProcessorInterface::TAG_ID)
-        ;
-        $container
             ->registerForAutoconfiguration(ProductProcessorInterface::class)
             ->addTag(ProductProcessorInterface::TAG_ID)
         ;

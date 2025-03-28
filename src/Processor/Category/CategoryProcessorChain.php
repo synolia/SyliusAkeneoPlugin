@@ -6,16 +6,15 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\Category;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
-use Traversable;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 final class CategoryProcessorChain implements CategoryProcessorChainInterface
 {
-    /** @var array<CategoryProcessorInterface> */
-    private array $categoryProcessors;
-
-    public function __construct(Traversable $handlers, private LoggerInterface $akeneoLogger)
-    {
-        $this->categoryProcessors = iterator_to_array($handlers);
+    public function __construct(
+        #[AutowireIterator(CategoryProcessorInterface::class)]
+        private iterable $categoryProcessors,
+        private LoggerInterface $akeneoLogger
+    ) {
     }
 
     public function chain(TaxonInterface $taxon, array $resource): void
