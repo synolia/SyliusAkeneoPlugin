@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
 use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\AkeneoResourceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\Exception\MaxResourceProcessorRetryException;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
@@ -24,7 +25,9 @@ class AssociationTypeResourceProcessor implements AkeneoResourceProcessorInterfa
         private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private ManagerRegistry $managerRegistry,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_MAX_RETRY_COUNT)%')]
         private int $maxRetryCount,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%')]
         private int $retryWaitTime,
         private int $retryCount = 0,
     ) {

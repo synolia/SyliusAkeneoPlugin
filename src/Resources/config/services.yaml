@@ -7,18 +7,10 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-        bind:
-            $projectDir: '%kernel.project_dir%'
-            $maxRetryCount: '%env(int:SYNOLIA_AKENEO_MAX_RETRY_COUNT)%'
-            $retryWaitTime: '%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%'
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{Controller,DependencyInjection,Model,Migrations,Payload,Twig,SynoliaSyliusAkeneoPlugin.php}'
-
-    Synolia\SyliusAkeneoPlugin\Controller\:
-        resource: '../../Controller'
-        tags: ['controller.service_arguments']
+        exclude: '../../{DependencyInjection,Model,Migrations,Payload,Twig,SynoliaSyliusAkeneoPlugin.php}'
 
     Synolia\SyliusAkeneoPlugin\Fixture\:
         resource: '../../Fixture'
