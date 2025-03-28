@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
     protected TaskProvider $taskProvider;
 

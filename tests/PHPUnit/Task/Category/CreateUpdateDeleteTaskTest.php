@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
  *
  * @coversNothing
  */
-final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
+final class CreateUpdateDeleteTaskTest extends AbstractTaskTestCase
 {
     private CategoryConfiguration $categoryConfiguration;
 

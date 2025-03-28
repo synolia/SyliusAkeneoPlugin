@@ -31,7 +31,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
  *
  * @coversNothing
  */
-final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
+final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTestCase
 {
     /** @var TaskProvider */
     private $taskProvider;

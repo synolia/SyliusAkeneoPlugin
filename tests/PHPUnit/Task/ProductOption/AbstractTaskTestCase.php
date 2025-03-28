@@ -13,7 +13,7 @@ use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
     protected function setUp(): void
     {

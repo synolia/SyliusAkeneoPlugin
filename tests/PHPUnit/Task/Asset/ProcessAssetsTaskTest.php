@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  *
  * @coversNothing
  */
-final class ProcessAssetsTaskTest extends AbstractTaskTest
+final class ProcessAssetsTaskTest extends AbstractTaskTestCase
 {
     private const ASSET_COUNT = 8;
 

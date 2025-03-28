@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
  *
  * @coversNothing
  */
-final class RetrieveCategoriesTaskTest extends AbstractTaskTest
+final class RetrieveCategoriesTaskTest extends AbstractTaskTestCase
 {
     private const CATEGORY_COUNT = 67;
 

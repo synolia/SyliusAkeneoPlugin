@@ -29,9 +29,9 @@ use Synolia\SyliusAkeneoPlugin\Task\Association\AssociateProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product\AbstractTaskTest;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product\AbstractTaskTestCase;
 
-class AssociateProductsTaskTest extends AbstractTaskTest
+class AssociateProductsTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;
 

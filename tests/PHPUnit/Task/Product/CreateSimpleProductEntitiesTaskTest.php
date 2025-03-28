@@ -29,7 +29,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  *
  * @coversNothing
  */
-final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
+final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;
 

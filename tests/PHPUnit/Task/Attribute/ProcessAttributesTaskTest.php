@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  *
  * @coversNothing
  */
-final class ProcessAttributesTaskTest extends AbstractTaskTest
+final class ProcessAttributesTaskTest extends AbstractTaskTestCase
 {
     public function testNoAttributes(): void
     {

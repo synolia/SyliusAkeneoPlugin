@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
  *
  * @coversNothing
  */
-final class CreateUpdateTaskTest extends AbstractTaskTest
+final class CreateUpdateTaskTest extends AbstractTaskTestCase
 {
     private ?TaskProvider $taskProvider = null;
 

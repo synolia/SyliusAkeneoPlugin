@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
     /** @var \Synolia\SyliusAkeneoPlugin\Provider\TaskProvider */
     protected $taskProvider;

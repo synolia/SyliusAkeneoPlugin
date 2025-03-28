@@ -18,7 +18,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
     protected function setUp(): void
     {

@@ -25,7 +25,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
     protected function setUp(): void
     {
