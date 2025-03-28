@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
@@ -18,6 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Manager\SettingsManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
+#[AsController]
 final class AttributesController extends AbstractController
 {
     public function __construct(

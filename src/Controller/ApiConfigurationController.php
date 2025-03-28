@@ -10,6 +10,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
@@ -19,6 +20,7 @@ use Webmozart\Assert\Assert;
 /**
  * @deprecated To be removed in 4.0.
  */
+#[AsController]
 final class ApiConfigurationController extends AbstractController
 {
     private const PAGING_SIZE = 1;

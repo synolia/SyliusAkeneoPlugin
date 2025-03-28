@@ -11,6 +11,7 @@ use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Process\Process;
 use Synolia\SyliusAkeneoPlugin\Manager\ProcessManagerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -28,6 +29,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
         protected EntityManagerInterface $entityManager,
         protected ProcessManagerInterface $processManager,
         protected LoggerInterface $akeneoLogger,
+        #[Autowire('%kernel.project_dir%')]
         private string $projectDir,
         private PayloadBatchTaskProvider $payloadBatchTaskProvider,
         private BatchTaskProvider $batchTaskProvider,

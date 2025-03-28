@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\AkeneoResourceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\Exception\MaxResourceProcessorRetryException;
@@ -21,7 +22,9 @@ class ProductVariantResourceProcessor implements AkeneoResourceProcessorInterfac
         private EntityManagerInterface $entityManager,
         private LoggerInterface $akeneoLogger,
         private ManagerRegistry $managerRegistry,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_MAX_RETRY_COUNT)%')]
         private int $maxRetryCount,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%')]
         private int $retryWaitTime,
         private int $retryCount = 0,
         #[TaggedIterator(ProductVariantAkeneoResourceProcessorInterface::class)]
