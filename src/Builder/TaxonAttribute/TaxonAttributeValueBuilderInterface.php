@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute;
 
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+
+#[AutoconfigureTag]
 interface TaxonAttributeValueBuilderInterface
 {
-    public const TAG_ID = 'sylius.akeneo.taxon.attribute_value_builder';
-
     public function support(string $attributeCode, string $type): bool;
 
     /**
