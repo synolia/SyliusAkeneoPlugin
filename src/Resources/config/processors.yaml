@@ -3,9 +3,3 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-
-    # ProductOptionValue Processors
-    Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilder
-        arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface::TAG_ID, default_priority_method: getDefaultPriority }

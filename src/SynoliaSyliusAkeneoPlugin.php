@@ -26,10 +26,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
             ->addTag(AkeneoTaskInterface::TAG_ID)
         ;
         $container->addCompilerPass(new AkeneoTaskCompilerPass());
-        $container
-            ->registerForAutoconfiguration(DynamicOptionValueBuilderInterface::class)
-            ->addTag(DynamicOptionValueBuilderInterface::TAG_ID)
-        ;
     }
 
     public function __toString(): string
