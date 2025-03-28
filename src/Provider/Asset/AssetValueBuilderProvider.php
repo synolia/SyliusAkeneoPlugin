@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\Asset;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 
 final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterface
 {
-    /** @var array<AssetAttributeValueBuilderInterface> */
-    private array $assetAttributeValueBuilders;
-
     public function __construct(
+        #[AutowireIterator(AssetAttributeValueBuilderInterface::class)]
+        private iterable $assetAttributeValueBuilders,
         private LoggerInterface $akeneoLogger,
         private EditionCheckerInterface $editionChecker,
     ) {

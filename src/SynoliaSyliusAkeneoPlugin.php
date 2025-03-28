@@ -7,13 +7,11 @@ namespace Synolia\SyliusAkeneoPlugin;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute\TaxonAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeTypeMatcherCompilerPass;
-use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAssetAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValueValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoDataMigrationTransformerCompilerPass;
@@ -70,10 +68,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
             ->addTag(ProductAttributeValueValueBuilderInterface::TAG_ID)
         ;
         $container
-            ->registerForAutoconfiguration(AssetAttributeValueBuilderInterface::class)
-            ->addTag(AssetAttributeValueBuilderInterface::TAG_ID)
-        ;
-        $container
             ->registerForAutoconfiguration(AssetAttributeTypeMatcherInterface::class)
             ->addTag(AssetAttributeTypeMatcherInterface::TAG_ID)
         ;
@@ -119,7 +113,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoTaxonAttributeValueBuilderCompilerPass());
-        $container->addCompilerPass(new AkeneoAssetAttributeValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoAssetAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoDataMigrationTransformerCompilerPass());
     }

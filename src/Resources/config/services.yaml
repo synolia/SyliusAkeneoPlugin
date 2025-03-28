@@ -105,9 +105,6 @@ services:
 
     BluePsyduck\SymfonyProcessManager\ProcessManager: ~
 
-    Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProvider
-
     Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface:
         class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProvider
 
