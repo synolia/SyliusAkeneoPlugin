@@ -10,32 +10,7 @@ services:
 
     Synolia\SyliusAkeneoPlugin\:
         resource: '../../*'
-        exclude: '../../{DependencyInjection,Model,Migrations,Payload,Twig,SynoliaSyliusAkeneoPlugin.php}'
-
-    Synolia\SyliusAkeneoPlugin\Fixture\:
-        resource: '../../Fixture'
-        tags: ['sylius_fixtures.fixture']
-
-    Synolia\SyliusAkeneoPlugin\Twig\:
-        resource: '../../Twig'
-        tags: ['twig.extension']
-
-    Synolia\SyliusAkeneoPlugin\Menu\AdminApiConfigurationMenuListener:
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
-
-    Synolia\SyliusAkeneoPlugin\Menu\AdminCategoryMenuListener:
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
-
-    Synolia\SyliusAkeneoPlugin\Menu\AdminMenuListener:
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
-
-    Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository:
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@sylius.product_filters_rules_class_metadata'
+        exclude: '../../{DependencyInjection,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
 
     sylius.product_filters_rules_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
@@ -43,32 +18,17 @@ services:
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules'
 
-    Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository:
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@sylius.product_configuration_class_metadata'
-
     sylius.product_configuration_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration'
 
-    Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository:
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@akeneo.category_configuration_class_metadata'
-
     akeneo.category_configuration_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration'
-
-    Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository:
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@akeneo.product_group'
 
     akeneo.product_group:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
@@ -81,11 +41,6 @@ services:
         factory: ['@doctrine.orm.entity_manager', getClassMetadata]
         arguments:
             - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
-
-    Synolia\SyliusAkeneoPlugin\Repository\AssetRepository:
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@sylius.asset_class_metadata'
 
     sylius.asset_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
@@ -114,10 +69,6 @@ services:
     Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
-
-    Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeChoiceType:
-        arguments:
-            - '%sylius.attribute.attribute_types%'
 
     sylius.attribute_type.reference_entity:
         class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
@@ -160,34 +111,6 @@ services:
     Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface:
         class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProvider
 
-    Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\DatabaseMappingAttributeTypeMatcher:
-        arguments:
-            $attributeTypeRegistry: '@sylius.registry.attribute_type'
-
-    Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider:
-        arguments:
-            $defaultSyliusLocaleCode: '%locale%'
-
-    Synolia\SyliusAkeneoPlugin\Form\Extension\TaxonExtension:
-        arguments:
-            $localeProvider: '@sylius.translation_locale_provider.immutable'
-        tags:
-            - { name: form.type_extension, extended_type: Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonType, priority: 200 }
-
-    Synolia\SyliusAkeneoPlugin\Form\Type\TaxonAttributeValueType:
-        arguments:
-            $dataClass: 'Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue'
-            $validationGroups: '%sylius.form.type.product_attribute_value.validation_groups%'
-            $attributeChoiceType: 'Synolia\SyliusAkeneoPlugin\Form\Type\TaxonAttributeChoiceType'
-            $localeRepository: '@sylius.repository.locale'
-            $formTypeRegistry: '@sylius.form_registry.taxon_attribute_type'
-        tags:
-            - { name: form.type }
-
-    Synolia\SyliusAkeneoPlugin\Form\EventSubscriber\BuildTaxonAttributesFormSubscriber:
-        arguments:
-            $localeProvider: '@sylius.translation_locale_provider.immutable'
-
     sylius.form_registry.taxon_attribute_type:
         class: Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry
         calls:
@@ -197,10 +120,3 @@ services:
             - add: ['checkbox', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\CheckboxAttributeType']
             - add: ['integer', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\IntegerAttributeType']
             - add: ['percent', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\PercentAttributeType']
-
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetProductAttributeProcessorInterface:
-      class: Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AssetProductAttributeProcessor
-
-    Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider: ~
-    Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoFamilyPropertiesProvider: ~
-    Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoReferenceEntityAttributePropertiesProvider: ~

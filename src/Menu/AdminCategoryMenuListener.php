@@ -6,7 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\Menu;
 
 use Knp\Menu\ItemInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
+#[AsEventListener(event: 'sylius.menu.admin.main', method: 'addAdminMenuItems')]
 class AdminCategoryMenuListener
 {
     public function addAdminMenuItems(MenuBuilderEvent $event): void

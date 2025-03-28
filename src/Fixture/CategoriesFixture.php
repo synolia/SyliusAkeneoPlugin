@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
@@ -19,6 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
  * Also, if you want to filter some category,
  * don't forget to add all their parents or they won't be imported.
  */
+#[AutoconfigureTag('sylius_fixtures.fixture')]
 final class CategoriesFixture extends AbstractFixture
 {
     public function __construct(

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Twig;
 
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubjectInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+#[AutoconfigureTag('twig.extension')]
 class IsTaxonAttributeEnabled extends AbstractExtension
 {
     private ?bool $enabled = null;
