@@ -11,7 +11,6 @@ use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuild
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\DynamicOptionValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute\TaxonAttributeValueBuilderInterface;
-use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValueValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoDataMigrationTransformerCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentityAttributeTypeMatcherCompilerPass;
@@ -26,7 +25,6 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcesso
 use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransformerInterface;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute\TaxonAttributeTypeMatcherInterface;
 
@@ -45,10 +43,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
             ->addTag(AkeneoTaskInterface::TAG_ID)
         ;
         $container->addCompilerPass(new AkeneoTaskCompilerPass());
-        $container
-            ->registerForAutoconfiguration(AttributeTypeMatcherInterface::class)
-            ->addTag(AttributeTypeMatcherInterface::TAG_ID)
-        ;
         $container
             ->registerForAutoconfiguration(TaxonAttributeTypeMatcherInterface::class)
             ->addTag(TaxonAttributeTypeMatcherInterface::TAG_ID)
@@ -102,7 +96,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
             ->addTag(TableProductAttributeValueProcessorInterface::TAG_ID)
         ;
 
-        $container->addCompilerPass(new AkeneoAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoTaxonAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
