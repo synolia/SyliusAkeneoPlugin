@@ -105,9 +105,6 @@ services:
 
     BluePsyduck\SymfonyProcessManager\ProcessManager: ~
 
-    Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProvider
-
     sylius.form_registry.taxon_attribute_type:
         class: Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry
         calls:
