@@ -24,7 +24,7 @@ class FamilyMeasureRetriever
      */
     public function get(string $measureCode): array
     {
-        if (null === $this->client) {
+        if (!$this->client instanceof AkeneoPimClientInterface) {
             $this->client = $this->clientFactory->createFromApiCredentials();
         }
 

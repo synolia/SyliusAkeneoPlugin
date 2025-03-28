@@ -53,7 +53,7 @@ final class ProductFilter implements ProductFilterInterface
             return [];
         }
 
-        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
+        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !in_array($productFilterRules->getAdvancedFilter(), [null, '', '0'], true)) {
             return $this->getAdvancedFilter($productFilterRules, true);
         }
 
@@ -85,7 +85,7 @@ final class ProductFilter implements ProductFilterInterface
             return [];
         }
 
-        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
+        if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !in_array($productFilterRules->getAdvancedFilter(), [null, '', '0'], true)) {
             return $this->getAdvancedFilter($productFilterRules);
         }
 
@@ -140,7 +140,7 @@ final class ProductFilter implements ProductFilterInterface
         Assert::string($advancedFilter['search']);
 
         $advancedFilter['search'] = json_decode($advancedFilter['search'], true, 512, \JSON_THROW_ON_ERROR);
-        if (true === $isProductModelFilter) {
+        if ($isProductModelFilter) {
             return $this->getProductModelAdvancedFilter($advancedFilter);
         }
 
@@ -213,7 +213,7 @@ final class ProductFilter implements ProductFilterInterface
         ProductFiltersRules $productFilterRules,
         SearchBuilder $queryParameters,
     ): SearchBuilder {
-        if (empty($productFilterRules->getExcludeFamilies())) {
+        if ($productFilterRules->getExcludeFamilies() === []) {
             return $queryParameters;
         }
 
@@ -234,9 +234,7 @@ final class ProductFilter implements ProductFilterInterface
             Operator::GREATER_OR_EQUALS_THAN_ON_ALL_LOCALES,
             ])
         ) {
-            return array_map(function (string $syliusLocale) {
-                return $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale);
-            }, $productFilterRules->getLocales());
+            return array_map(fn (string $syliusLocale) => $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($syliusLocale), $productFilterRules->getLocales());
         }
 
         return $this->syliusAkeneoLocaleCodeProvider->getUsedAkeneoLocales();

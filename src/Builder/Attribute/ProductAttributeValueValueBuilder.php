@@ -9,11 +9,10 @@ use Throwable;
 
 final class ProductAttributeValueValueBuilder
 {
-    private array $attributeValueBuilders;
+    private array $attributeValueBuilders = [];
 
     public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->attributeValueBuilders = [];
     }
 
     public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void

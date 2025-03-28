@@ -23,7 +23,7 @@ final class GetCategoriesTest extends ApiTestCase
     public function testGetCategories(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/' . CategoryApi::CATEGORIES_URI,
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
             ),

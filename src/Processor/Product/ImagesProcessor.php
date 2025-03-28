@@ -30,7 +30,7 @@ final class ImagesProcessor extends AbstractImageProcessor implements ImagesProc
         try {
             $imageAttributes = $this->getProductConfiguration()->getAkeneoImageAttributes();
 
-            if (null === $imageAttributes || 0 === \count($imageAttributes)) {
+            if (!$imageAttributes instanceof Collection || 0 === \count($imageAttributes)) {
                 $this->akeneoLogger->debug(Messages::noConfigurationSet('at least one Akeneo image attribute', 'Import image'));
 
                 return false;

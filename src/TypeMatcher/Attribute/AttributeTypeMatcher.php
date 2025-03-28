@@ -11,11 +11,10 @@ use Throwable;
 final class AttributeTypeMatcher
 {
     /** @var array<AttributeTypeMatcherInterface> */
-    private array $typeMatchers;
+    private array $typeMatchers = [];
 
     public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->typeMatchers = [];
     }
 
     public function addTypeMatcher(AttributeTypeMatcherInterface $typeMatcher): void

@@ -30,7 +30,7 @@ class DatabaseCategoryConfigurationProvider implements CategoryConfigurationProv
      */
     public function get(): CategoryConfigurationInterface
     {
-        if (null !== $this->categoryConfiguration) {
+        if ($this->categoryConfiguration instanceof CategoryConfigurationInterface) {
             return $this->categoryConfiguration;
         }
 

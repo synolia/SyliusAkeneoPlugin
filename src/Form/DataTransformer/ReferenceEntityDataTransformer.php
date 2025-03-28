@@ -21,6 +21,6 @@ final class ReferenceEntityDataTransformer implements DataTransformerInterface
 
     public function reverseTransform(mixed $value): ?array
     {
-        return json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
+        return json_decode((string) $value, true, 512, \JSON_THROW_ON_ERROR);
     }
 }

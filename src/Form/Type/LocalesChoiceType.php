@@ -19,9 +19,7 @@ final class LocalesChoiceType extends AbstractType
     {
         $usedLocalesOnBothPlatforms = $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms();
 
-        $usedLocalesOnBothPlatforms = array_map(function ($locale) {
-            return $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
-        }, $usedLocalesOnBothPlatforms);
+        $usedLocalesOnBothPlatforms = array_map(fn ($locale) => $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale), $usedLocalesOnBothPlatforms);
 
         $resolver->setDefaults([
             'choices' => array_combine($usedLocalesOnBothPlatforms, $usedLocalesOnBothPlatforms),
@@ -30,7 +28,7 @@ final class LocalesChoiceType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }

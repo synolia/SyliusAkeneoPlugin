@@ -30,7 +30,7 @@ final class ProcessAssetsTaskTest extends AbstractTaskTestCase
         $mockedAssetAttributesJson = $this->getFileContent('asset_manager_attributes_all.json');
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AssetFamilyApi::ASSET_FAMILIES_URI),
+            '/' . AssetFamilyApi::ASSET_FAMILIES_URI,
             new Response($this->getFileContent('asset_families.json'), [], HttpResponse::HTTP_OK),
         );
 

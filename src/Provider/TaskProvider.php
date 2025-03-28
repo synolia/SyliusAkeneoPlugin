@@ -10,12 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 final class TaskProvider
 {
     /** @var array<AkeneoTaskInterface> */
-    private array $tasks;
-
-    public function __construct()
-    {
-        $this->tasks = [];
-    }
+    private array $tasks = [];
 
     public function addTask(AkeneoTaskInterface $akeneoTask): void
     {

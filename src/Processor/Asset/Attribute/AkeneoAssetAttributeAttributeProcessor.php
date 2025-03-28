@@ -44,11 +44,7 @@ final class AkeneoAssetAttributeAttributeProcessor implements AkeneoAssetAttribu
         string $attributeCode,
         array $assetAttributeResource = [],
     ): bool {
-        if (!$this->assetAttributeValueBuilder->hasSupportedBuilder($assetFamilyCode, $attributeCode)) {
-            return false;
-        }
-
-        return true;
+        return $this->assetAttributeValueBuilder->hasSupportedBuilder($assetFamilyCode, $attributeCode);
     }
 
     public function process(

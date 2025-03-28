@@ -43,7 +43,7 @@ class ConfigurableProductVariantResourceProcessor implements AkeneoResourceProce
     {
         if (
             $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON &&
-            $productGroup->getParent() !== null
+            $productGroup->getParent() instanceof ProductGroupInterface
         ) {
             return $productGroup->getParent()->getModel();
         }

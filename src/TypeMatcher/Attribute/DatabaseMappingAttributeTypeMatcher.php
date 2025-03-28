@@ -21,10 +21,6 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
 
     public function getType(): string
     {
-        if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
-        }
-
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
             throw new \LogicException('Attribute Type cannot be null.');
         }
@@ -54,10 +50,6 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
 
     public function getTypeClassName(): string
     {
-        if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
-        }
-
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
             throw new \LogicException('Attribute Type cannot be null.');
         }

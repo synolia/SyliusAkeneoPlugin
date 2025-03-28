@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Mapper\LocaleNotFoundException;
 final class SyliusAkeneoLocaleCodeProvider
 {
     /** @var array<string> */
-    private array $localesCode;
+    private array $localesCode = [];
 
     public function __construct(
         private AkeneoPimClientInterface $akeneoPimClient,
@@ -22,7 +22,6 @@ final class SyliusAkeneoLocaleCodeProvider
         private AkeneoSyliusLocaleMapperInterface $akeneoSyliusLocaleMapper,
         private string $defaultSyliusLocaleCode,
     ) {
-        $this->localesCode = [];
     }
 
     public function getUsedLocalesOnBothPlatforms(): array

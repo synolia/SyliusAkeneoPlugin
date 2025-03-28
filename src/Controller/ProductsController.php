@@ -58,19 +58,19 @@ final class ProductsController extends AbstractController
         return $this->render(
             '@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig',
             [
-                'form' => $form->createView(),
+                'form' => $form,
             ],
         );
     }
 
     private function removeElements(?Collection $productConfiguration, ?Collection $productConfigurationData): void
     {
-        if (null === $productConfiguration || null === $productConfigurationData) {
+        if (!$productConfiguration instanceof \Doctrine\Common\Collections\Collection || !$productConfigurationData instanceof \Doctrine\Common\Collections\Collection) {
             return;
         }
 
         foreach ($productConfiguration as $defaultTax) {
-            if (false === array_search($defaultTax, $productConfigurationData->toArray(), true)) {
+            if (!in_array($defaultTax, $productConfigurationData->toArray(), true)) {
                 $this->entityManager->remove($defaultTax);
             }
         }

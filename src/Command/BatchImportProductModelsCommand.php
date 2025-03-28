@@ -34,7 +34,7 @@ final class BatchImportProductModelsCommand extends AbstractBatchCommand
     protected function execute(
         InputInterface $input,
         OutputInterface $output,
-    ) {
+    ): int {
         Assert::string($input->getArgument('ids'));
         $ids = explode(',', $input->getArgument('ids'));
 

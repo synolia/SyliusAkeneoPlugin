@@ -10,7 +10,7 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Pipeline\DummyPayload;
 
 final class BeforeTaskSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             BeforeTaskEvent::class => [

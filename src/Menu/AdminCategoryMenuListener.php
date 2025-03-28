@@ -13,7 +13,7 @@ class AdminCategoryMenuListener
     {
         $menu = $event->getMenu();
 
-        if (null === $menu->getChild('akeneo')) {
+        if (!$menu->getChild('akeneo') instanceof ItemInterface) {
             $menu->addChild('akeneo');
         }
 

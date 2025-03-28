@@ -15,7 +15,7 @@ final class FamilyVariationAxeProcessor
 {
     public int $itemCount = 0;
 
-    private array $familyVariants;
+    private array $familyVariants = [];
 
     public function __construct(
         private EntityRepository $productGroupRepository,
@@ -23,7 +23,6 @@ final class FamilyVariationAxeProcessor
         private FamilyVariantRetrieverInterface $familyVariantRetriever,
         private LoggerInterface $akeneoLogger,
     ) {
-        $this->familyVariants = [];
     }
 
     public function process(array $resource): void

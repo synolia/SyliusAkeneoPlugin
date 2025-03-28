@@ -8,7 +8,6 @@ use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Task\Category\ProcessCategoriesTask;
@@ -29,20 +28,16 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTestCase
 
     private const CLOTHES_ROOT_CATEGORY_COUNT_WITH_EXCLUSIONS = 7;
 
-    private CategoryConfiguration $categoryConfiguration;
-
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/' . CategoryApi::CATEGORIES_URI,
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
             ),
         );
-
-        $this->categoryConfiguration = $this->buildBasicConfiguration();
         $this->manager->flush();
     }
 

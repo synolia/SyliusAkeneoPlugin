@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('synolia_sylius_akeneo');
         $rootNode = $treeBuilder->getRootNode();

@@ -32,12 +32,12 @@ abstract class AbstractTaskTestCase extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getLocales(), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK),
         );
 

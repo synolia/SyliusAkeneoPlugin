@@ -41,14 +41,14 @@ class AssociateProductsTaskTest extends AbstractTaskTestCase
 
     private AkeneoPimClientInterface $client;
 
-    private ?ProductFiltersRules $productFiltersRules;
+    private ?ProductFiltersRules $productFiltersRules = null;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AssociationTypeApi::ASSOCIATION_TYPES_URI),
+            '/' . AssociationTypeApi::ASSOCIATION_TYPES_URI,
             new Response($this->getFileContent('association_types.json'), [], HttpResponse::HTTP_OK),
         );
 

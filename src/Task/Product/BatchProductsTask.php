@@ -29,7 +29,7 @@ final class BatchProductsTask extends AbstractBatchTask
         while ($results = $queryResult->fetchAllAssociative()) {
             foreach ($results as $result) {
                 /** @var array $resource */
-                $resource = json_decode($result['values'], true);
+                $resource = json_decode((string) $result['values'], true);
 
                 try {
                     $this->resourceProcessor->process($resource);

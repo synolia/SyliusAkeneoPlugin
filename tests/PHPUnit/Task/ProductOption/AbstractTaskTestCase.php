@@ -23,7 +23,7 @@ abstract class AbstractTaskTestCase extends ApiTestCase
         $this->manager = $this->getContainer()->get('doctrine')->getManager();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK),
         );
 

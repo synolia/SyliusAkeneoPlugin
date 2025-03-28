@@ -66,7 +66,7 @@ final class ApiConfigurationController extends AbstractController
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/api_configuration.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }

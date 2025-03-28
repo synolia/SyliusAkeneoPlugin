@@ -54,11 +54,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
             return false;
         }
 
-        if ($attribute->getType() === AssetAttributeType::TYPE) {
-            return false;
-        }
-
-        return true;
+        return $attribute->getType() !== AssetAttributeType::TYPE;
     }
 
     public function process(string $attributeCode, array $context = []): void
@@ -66,7 +62,7 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
         $this->akeneoLogger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
-            static::class,
+            self::class,
         ));
 
         if (!$context['model'] instanceof ProductInterface) {

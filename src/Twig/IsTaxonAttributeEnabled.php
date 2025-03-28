@@ -20,7 +20,7 @@ class IsTaxonAttributeEnabled extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('akeneo_is_taxon_attribute_enabled', [$this, 'isTaxonAttributeEnabled']),
+            new TwigFunction('akeneo_is_taxon_attribute_enabled', $this->isTaxonAttributeEnabled(...)),
         ];
     }
 

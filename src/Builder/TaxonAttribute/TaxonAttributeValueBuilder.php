@@ -9,11 +9,10 @@ use Throwable;
 
 final class TaxonAttributeValueBuilder
 {
-    private array $attributeValueBuilders;
+    private array $attributeValueBuilders = [];
 
     public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->attributeValueBuilders = [];
     }
 
     public function addBuilder(TaxonAttributeValueBuilderInterface $attributeValueBuilder): void

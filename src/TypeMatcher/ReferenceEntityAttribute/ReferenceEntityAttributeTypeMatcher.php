@@ -9,12 +9,7 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedReferenceEntityAttributeTyp
 final class ReferenceEntityAttributeTypeMatcher
 {
     /** @var array<ReferenceEntityAttributeTypeMatcherInterface> */
-    private array $typeMatchers;
-
-    public function __construct()
-    {
-        $this->typeMatchers = [];
-    }
+    private array $typeMatchers = [];
 
     public function addTypeMatcher(ReferenceEntityAttributeTypeMatcherInterface $typeMatcher): void
     {

@@ -24,7 +24,7 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTestCase
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 

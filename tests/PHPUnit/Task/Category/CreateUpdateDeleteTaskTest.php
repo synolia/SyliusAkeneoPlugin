@@ -28,7 +28,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTestCase
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/' . CategoryApi::CATEGORIES_URI,
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
             ),

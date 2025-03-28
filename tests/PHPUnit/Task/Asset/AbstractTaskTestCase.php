@@ -29,7 +29,7 @@ abstract class AbstractTaskTestCase extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getLocales(), [], HttpResponse::HTTP_OK),
         );
 

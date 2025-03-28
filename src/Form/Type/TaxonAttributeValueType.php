@@ -37,7 +37,7 @@ class TaxonAttributeValueType extends AbstractResourceType
         $builder
             ->add('localeCode', LocaleChoiceType::class)
             ->add('attribute', $this->attributeChoiceType)
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $attributeValue = $event->getData();
 
                 if (!$attributeValue instanceof TaxonAttributeValue) {
@@ -45,7 +45,7 @@ class TaxonAttributeValueType extends AbstractResourceType
                 }
 
                 $attribute = $attributeValue->getAttribute();
-                if (null === $attribute) {
+                if (!$attribute instanceof \Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface) {
                     return;
                 }
 
@@ -53,7 +53,7 @@ class TaxonAttributeValueType extends AbstractResourceType
 
                 $this->addValueField($event->getForm(), $attribute, $localeCode);
             })
-            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
                 /** @var array $attributeValue */
                 $attributeValue = $event->getData();
 

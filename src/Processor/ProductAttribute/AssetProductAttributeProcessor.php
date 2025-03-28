@@ -50,11 +50,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
             return false;
         }
 
-        if (!\method_exists($model, 'addAsset')) {
-            return false;
-        }
-
-        return true;
+        return \method_exists($model, 'addAsset');
     }
 
     public function process(

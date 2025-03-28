@@ -68,7 +68,7 @@ abstract class AbstractImageProcessor
                             ->getProductMediaFileApi()
                             ->download($image['data'])
                         ;
-                        $imageName = basename($image['data']);
+                        $imageName = basename((string) $image['data']);
                         $imagePath = sys_get_temp_dir() . '/' . $imageName;
                         /** @phpstan-ignore-next-line */
                         file_put_contents($imagePath, $imageResponse->getBody()->getContents());

@@ -38,7 +38,7 @@ final class ProductFilterRulesController extends AbstractController
         }
 
         $productFiltersRules = $this->productFiltersRulesRepository->getProductFiltersRules();
-        if (null === $productFiltersRules) {
+        if (!$productFiltersRules instanceof \Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules) {
             $productFiltersRules = new ProductFiltersRules();
         }
 
@@ -57,8 +57,8 @@ final class ProductFilterRulesController extends AbstractController
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/filters_configuration.html.twig', [
-            'simple_form' => $simpleForm->createView(),
-            'advanced_form' => $advancedForm->createView(),
+            'simple_form' => $simpleForm,
+            'advanced_form' => $advancedForm,
         ]);
     }
 

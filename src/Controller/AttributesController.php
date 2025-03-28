@@ -79,7 +79,7 @@ final class AttributesController extends AbstractController
         }
 
         return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/attributes_configuration.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -89,13 +89,13 @@ final class AttributesController extends AbstractController
         array $attributeAkeneoSyliusMappings,
     ): void {
         foreach ($attributeTypeMappings as $attributeTypeMapping) {
-            if (false === array_search($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
+            if (!in_array($attributeTypeMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_TYPE_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeTypeMapping);
             }
         }
 
         foreach ($attributeAkeneoSyliusMappings as $attributeAkeneoSyliusMapping) {
-            if (false === array_search($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
+            if (!in_array($attributeAkeneoSyliusMapping, $attributes[AttributesTypeMappingType::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE], true)) {
                 $this->entityManager->remove($attributeAkeneoSyliusMapping);
             }
         }

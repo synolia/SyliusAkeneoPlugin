@@ -69,7 +69,7 @@ class AttributeProcessor implements AttributeProcessorInterface
     {
         try {
             return
-                null !== $this->getProductFilterRules() &&
+                $this->getProductFilterRules() instanceof ProductFiltersRules &&
                 is_array($resource['values']) &&
                 count($resource['values']) > 0;
         } catch (NoProductFiltersConfigurationException) {

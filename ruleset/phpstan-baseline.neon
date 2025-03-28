@@ -331,7 +331,7 @@ parameters:
 			path: ../src/Controller/AttributesController.php
 
 		-
-			message: '#^Parameter \#2 \$haystack of function array_search expects array, mixed given\.$#'
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 2
 			path: ../src/Controller/AttributesController.php
@@ -340,12 +340,6 @@ parameters:
 			message: '#^Cannot call method add\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 2
-			path: ../src/Controller/CategoriesController.php
-
-		-
-			message: '#^Instanceof between Synolia\\SyliusAkeneoPlugin\\Repository\\CategoryConfigurationRepository and Synolia\\SyliusAkeneoPlugin\\Repository\\CategoryConfigurationRepository will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
 			path: ../src/Controller/CategoriesController.php
 
 		-
@@ -1153,14 +1147,14 @@ parameters:
 			path: ../src/Fixture/ProductsFixture.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Form\\DataTransformer\\AssetEntityDataTransformer\:\:reverseTransform\(\) should return array\|null but returns mixed\.$#'
-			identifier: return.type
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Form/DataTransformer/AssetEntityDataTransformer.php
 
 		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Form\\DataTransformer\\AssetEntityDataTransformer\:\:reverseTransform\(\) should return array\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Form/DataTransformer/AssetEntityDataTransformer.php
 
@@ -1171,14 +1165,14 @@ parameters:
 			path: ../src/Form/DataTransformer/JsonEntityDataTransformer.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Form\\DataTransformer\\ReferenceEntityDataTransformer\:\:reverseTransform\(\) should return array\|null but returns mixed\.$#'
-			identifier: return.type
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Form/DataTransformer/ReferenceEntityDataTransformer.php
 
 		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Form\\DataTransformer\\ReferenceEntityDataTransformer\:\:reverseTransform\(\) should return array\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Form/DataTransformer/ReferenceEntityDataTransformer.php
 
@@ -1477,6 +1471,12 @@ parameters:
 			path: ../src/Processor/AbstractImageProcessor.php
 
 		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: ../src/Processor/AbstractImageProcessor.php
+
+		-
 			message: '#^Method Doctrine\\Persistence\\ObjectRepository\<Sylius\\Resource\\Model\\ResourceInterface\>\:\:findOneBy\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
@@ -1484,12 +1484,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$code of method Akeneo\\Pim\\ApiClient\\Api\\Operation\\DownloadableResourceInterface\:\:download\(\) expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../src/Processor/AbstractImageProcessor.php
-
-		-
-			message: '#^Parameter \#1 \$path of function basename expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Processor/AbstractImageProcessor.php
@@ -2323,8 +2317,8 @@ parameters:
 			path: ../src/Processor/ProductVariant/AttributeProcessor.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between null and Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
+			message: '#^Instanceof between Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules and Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
 			count: 1
 			path: ../src/Processor/ProductVariant/AttributeProcessor.php
 
@@ -3043,12 +3037,6 @@ parameters:
 			path: ../src/Retriever/FamilyMeasureRetriever.php
 
 		-
-			message: '#^Anonymous function should return array but returns mixed\.$#'
-			identifier: return.type
-			count: 1
-			path: ../src/Retriever/FamilyRetriever.php
-
-		-
 			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamily\(\) should return array but returns mixed\.$#'
 			identifier: return.type
 			count: 1
@@ -3085,6 +3073,12 @@ parameters:
 			path: ../src/Task/Asset/BatchAssetTask.php
 
 		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
 			message: '#^Parameter \#1 \$assetFamilyCode of method Akeneo\\Pim\\ApiClient\\Api\\AssetManager\\AssetApiInterface\:\:all\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -3092,12 +3086,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$assetFamilyCode of method Synolia\\SyliusAkeneoPlugin\\Task\\Asset\\BatchAssetTask\:\:handleAssetByFamilyResource\(\) expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../src/Task/Asset/BatchAssetTask.php
-
-		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Task/Asset/BatchAssetTask.php
@@ -3145,8 +3133,8 @@ parameters:
 			path: ../src/Task/AssociationType/BatchAssociationTypesTask.php
 
 		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Task/AssociationType/BatchAssociationTypesTask.php
 
@@ -3157,8 +3145,8 @@ parameters:
 			path: ../src/Task/Attribute/BatchAttributesTask.php
 
 		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Task/Attribute/BatchAttributesTask.php
 
@@ -3235,8 +3223,8 @@ parameters:
 			path: ../src/Task/Product/BatchProductsTask.php
 
 		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Task/Product/BatchProductsTask.php
 
@@ -3247,19 +3235,13 @@ parameters:
 			path: ../src/Task/ProductModel/BatchProductModelTask.php
 
 		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: ../src/Task/ProductModel/BatchProductModelTask.php
+
+		-
 			message: '#^PHPDoc tag @SuppressWarnings has invalid value \(\(PHPMD\.ExcessiveParameterList\)\)\: Unexpected token "\.ExcessiveParameterList\)", expected ''\)'' at offset 34 on line 2$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: ../src/Task/ProductModel/BatchProductModelTask.php
-
-		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../src/Task/ProductModel/BatchProductModelTask.php
-
-		-
-			message: '#^Instanceof between Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeTypeMapping and Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeTypeMapping will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 2
-			path: ../src/TypeMatcher/Attribute/DatabaseMappingAttributeTypeMatcher.php

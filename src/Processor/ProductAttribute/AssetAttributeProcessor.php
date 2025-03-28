@@ -69,11 +69,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         /** @var AttributeInterface $attribute */
         $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
 
-        if ($attribute instanceof AttributeInterface && $attribute->getType() === AssetAttributeType::TYPE) {
-            return true;
-        }
-
-        return false;
+        return $attribute instanceof AttributeInterface && $attribute->getType() === AssetAttributeType::TYPE;
     }
 
     public function process(string $attributeCode, array $context = []): void
@@ -81,7 +77,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
         $this->akeneoLogger->debug(\sprintf(
             'Attribute "%s" is being processed by "%s"',
             $attributeCode,
-            static::class,
+            self::class,
         ));
 
         Assert::isInstanceOf($context['model'], ProductInterface::class);

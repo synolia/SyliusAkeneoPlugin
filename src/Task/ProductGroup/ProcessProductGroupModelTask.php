@@ -17,7 +17,7 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 class ProcessProductGroupModelTask implements AkeneoTaskInterface
 {
-    private array $productGroups;
+    private array $productGroups = [];
 
     public function __construct(
         private ApiConnectionProviderInterface $apiConnectionProvider,
@@ -27,7 +27,6 @@ class ProcessProductGroupModelTask implements AkeneoTaskInterface
         private EntityManagerInterface $entityManager,
         private ProductGroupProcessor $productGroupProcessor,
     ) {
-        $this->productGroups = [];
     }
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface

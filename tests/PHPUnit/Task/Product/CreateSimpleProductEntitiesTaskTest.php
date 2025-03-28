@@ -217,12 +217,12 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTestCase
     private function initializeProductWithMultiSelectAndCheckbox(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductApi::PRODUCTS_URI),
+            '/' . ProductApi::PRODUCTS_URI,
             new Response($this->getFileContent('products_attributes_value_test.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_for_products_attributes_value_test.json'), [], HttpResponse::HTTP_OK),
         );
 
@@ -256,7 +256,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTestCase
     private function importReferenceEntities(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
 

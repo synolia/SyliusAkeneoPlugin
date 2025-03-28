@@ -43,10 +43,6 @@ final class AssetProcessor implements AssetProcessorInterface
             return false;
         }
 
-        if (!\method_exists($product, 'getAssets')) {
-            return false;
-        }
-
-        return true;
+        return \method_exists($product, 'getAssets');
     }
 }

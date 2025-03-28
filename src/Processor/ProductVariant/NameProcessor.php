@@ -44,7 +44,7 @@ class NameProcessor implements NameProcessorInterface
                 $name .= $translation->getValue() . ' - ';
             }
 
-            if (\substr($name, strlen($name) - 3)) {
+            if (\substr($name, strlen($name) - 3) !== '' && \substr($name, strlen($name) - 3) !== '0') {
                 $name = \substr($name, 0, strlen($name) - 3);
             }
 

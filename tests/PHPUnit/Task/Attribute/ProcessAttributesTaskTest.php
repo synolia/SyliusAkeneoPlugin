@@ -24,7 +24,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTestCase
     public function testNoAttributes(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('empty_attributes.json'), [], HttpResponse::HTTP_OK),
         );
 
@@ -46,7 +46,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTestCase
     public function testCreateUpdateTask(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 

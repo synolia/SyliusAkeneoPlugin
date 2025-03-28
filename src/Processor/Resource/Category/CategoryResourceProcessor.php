@@ -49,7 +49,7 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
             throw new MaxResourceProcessorRetryException();
         }
 
-        if (true === $this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
+        if ($this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
             $this->sortableManager->disableSortableEventListener();
         }
 
@@ -91,7 +91,7 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
             $this->entityManager = $this->getNewEntityManager();
             $this->process($resource);
         } finally {
-            if (true === $this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
+            if ($this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
                 $this->sortableManager->enableSortableEventListener();
             }
         }

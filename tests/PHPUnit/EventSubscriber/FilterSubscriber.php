@@ -14,13 +14,13 @@ class FilterSubscriber implements EventSubscriberInterface
         $commandFilters = $event->getCommandContext()->getFilters();
 
         foreach ($commandFilters as $commandFilter) {
-            parse_str($commandFilter, $commandFilter);
+            parse_str((string) $commandFilter, $commandFilter);
 
             $this->prepareFilter($commandFilter, $event);
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             FilterEvent::class => 'onFilterEvent',

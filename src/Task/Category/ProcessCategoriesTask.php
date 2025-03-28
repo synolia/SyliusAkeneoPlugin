@@ -133,7 +133,7 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
             }
 
             $children = $this->buildTree($elements, $element['code']);
-            if ($children) {
+            if ($children !== []) {
                 $element['children'] = $children;
             }
             $branch[$element['code']] = $element;

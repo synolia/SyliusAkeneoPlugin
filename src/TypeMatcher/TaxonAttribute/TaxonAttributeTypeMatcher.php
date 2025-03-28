@@ -11,11 +11,10 @@ use Throwable;
 final class TaxonAttributeTypeMatcher
 {
     /** @var array<TaxonAttributeTypeMatcherInterface> */
-    private array $typeMatchers;
+    private array $typeMatchers = [];
 
     public function __construct(private LoggerInterface $akeneoLogger)
     {
-        $this->typeMatchers = [];
     }
 
     public function addTypeMatcher(TaxonAttributeTypeMatcherInterface $typeMatcher): void

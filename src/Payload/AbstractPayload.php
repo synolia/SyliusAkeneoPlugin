@@ -30,7 +30,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         protected AkeneoPimClientInterface $akeneoPimClient,
         protected ?CommandContextInterface $commandContext = null,
     ) {
-        if (null !== $commandContext) {
+        if ($commandContext instanceof CommandContextInterface) {
             $this->allowParallel = $commandContext->allowParallel();
             $this->batchSize = $commandContext->getBatchSize();
             $this->batchingAllowed = $commandContext->isBatchingAllowed();
@@ -74,7 +74,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
      */
     public function getCommandContext(): CommandContextInterface
     {
-        if (null === $this->commandContext) {
+        if (!$this->commandContext instanceof CommandContextInterface) {
             throw new CommandContextIsNullException();
         }
 
@@ -83,7 +83,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
 
     public function hasCommandContext(): bool
     {
-        return null !== $this->commandContext;
+        return $this->commandContext instanceof CommandContextInterface;
     }
 
     public function getIds(): array
