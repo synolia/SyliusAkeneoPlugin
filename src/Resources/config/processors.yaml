@@ -4,12 +4,6 @@ services:
         autoconfigure: true
         public: false
 
-    # ProductOptionValueTranslation Processors
-    Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderProcessorInterface:
-        class: Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilder
-        arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderInterface::TAG_ID, default_priority_method: getDefaultPriority }
-
     # ProductOptionValue Processors
     Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilderInterface:
         class: Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue\ProductOptionValueBuilder
