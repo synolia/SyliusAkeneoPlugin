@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\ReversedTransformer;
+use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue;
 
 class TaxonAttributeValueType extends AbstractResourceType
@@ -76,7 +77,7 @@ class TaxonAttributeValueType extends AbstractResourceType
 
     protected function addValueField(
         FormInterface $form,
-        AttributeInterface $attribute,
+        AttributeInterface|TaxonAttributeInterface $attribute,
         ?string $localeCode = null,
     ): void {
         /** @phpstan-ignore-next-line */
