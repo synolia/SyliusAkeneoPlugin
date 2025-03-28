@@ -7,6 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\Form\Extension;
 use Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonType;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -16,10 +18,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Synolia\SyliusAkeneoPlugin\Form\EventSubscriber\BuildTaxonAttributesFormSubscriber;
 use Synolia\SyliusAkeneoPlugin\Form\Type\TaxonAttributeValueType;
 
+#[AutoconfigureTag('form.type_extension', ['extended_type' => TaxonType::class, 'priority' => 200])]
 class TaxonExtension implements FormTypeExtensionInterface
 {
     public function __construct(
         private FactoryInterface $taxonAttributeValueFactory,
+        #[Autowire('@sylius.translation_locale_provider.immutable')]
         private TranslationLocaleProviderInterface $localeProvider,
     ) {
     }

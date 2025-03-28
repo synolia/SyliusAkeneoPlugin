@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Synolia\SyliusAkeneoPlugin\Mapper\AkeneoSyliusLocaleMapperInterface;
 use Synolia\SyliusAkeneoPlugin\Mapper\LocaleNotFoundException;
 
@@ -20,6 +21,7 @@ final class SyliusAkeneoLocaleCodeProvider
         private AkeneoPimClientInterface $akeneoPimClient,
         private RepositoryInterface $channelRepository,
         private AkeneoSyliusLocaleMapperInterface $akeneoSyliusLocaleMapper,
+        #[Autowire('%locale%')]
         private string $defaultSyliusLocaleCode,
     ) {
     }

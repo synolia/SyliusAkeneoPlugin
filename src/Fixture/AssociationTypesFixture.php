@@ -6,10 +6,12 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Association\AssociationTypePayload;
 
+#[AutoconfigureTag('sylius_fixtures.fixture')]
 final class AssociationTypesFixture extends AbstractFixture
 {
     public function __construct(

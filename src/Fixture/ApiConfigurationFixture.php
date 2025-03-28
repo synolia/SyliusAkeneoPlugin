@@ -8,12 +8,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Client\ClientFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 
 /**
  * @deprecated To be removed in 4.0.
  */
+#[AutoconfigureTag('sylius_fixtures.fixture')]
 final class ApiConfigurationFixture extends AbstractFixture
 {
     public function __construct(

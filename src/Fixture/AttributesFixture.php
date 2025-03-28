@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
@@ -14,6 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
  * See how to configure search filters here:
  * https://api.akeneo.com/documentation/filter.html#filter-attributes
  */
+#[AutoconfigureTag('sylius_fixtures.fixture')]
 final class AttributesFixture extends AbstractFixture
 {
     public function __construct(

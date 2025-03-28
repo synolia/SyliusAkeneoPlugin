@@ -7,6 +7,7 @@ namespace Synolia\SyliusAkeneoPlugin\Form\EventSubscriber;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -19,6 +20,7 @@ class BuildTaxonAttributesFormSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private FactoryInterface $taxonAttributeValueFactory,
+        #[Autowire('@sylius.translation_locale_provider.immutable')]
         private TranslationLocaleProviderInterface $localeProvider,
     ) {
     }
