@@ -4,12 +4,6 @@ services:
         autoconfigure: true
         public: false
 
-    # ProductVariant Processors
-    Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorChainInterface:
-        class: Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorChain
-        arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
-
     # ProductAttributeValue Processors
     Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\JsonReferenceEntityAttributeValueProcessor:
         tags:

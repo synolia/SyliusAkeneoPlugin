@@ -6,16 +6,15 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductVariant;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Traversable;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 final class ProductVariantProcessorChain implements ProductVariantProcessorChainInterface
 {
-    /** @var array<ProductVariantProcessorInterface> */
-    private array $productVariantProcessors;
-
-    public function __construct(Traversable $handlers, private LoggerInterface $akeneoLogger)
-    {
-        $this->productVariantProcessors = iterator_to_array($handlers);
+    public function __construct(
+        #[AutowireIterator(ProductVariantProcessorInterface::class)]
+        private iterable $productVariantProcessors,
+        private LoggerInterface $akeneoLogger
+    ) {
     }
 
     public function chain(ProductVariantInterface $productVariant, array $resource): void
