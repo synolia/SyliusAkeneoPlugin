@@ -13,7 +13,6 @@ use Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation\ProductOpti
 use Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute\TaxonAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoAttributeValueValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoDataMigrationTransformerCompilerPass;
-use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoReferenceentityAttributeTypeMatcherCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
 use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaxonAttributeValueBuilderCompilerPass;
 use Synolia\SyliusAkeneoPlugin\Processor\Category\CategoryProcessorInterface;
@@ -23,7 +22,6 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcesso
 use Synolia\SyliusAkeneoPlugin\Processor\ProductVariant\ProductVariantProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 use Synolia\SyliusAkeneoPlugin\Transformer\DataMigration\DataMigrationTransformerInterface;
-use Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute\ReferenceEntityAttributeTypeMatcherInterface;
 
 final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
 {
@@ -43,10 +41,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
         $container
             ->registerForAutoconfiguration(TaxonAttributeValueBuilderInterface::class)
             ->addTag(TaxonAttributeValueBuilderInterface::TAG_ID)
-        ;
-        $container
-            ->registerForAutoconfiguration(ReferenceEntityAttributeTypeMatcherInterface::class)
-            ->addTag(ReferenceEntityAttributeTypeMatcherInterface::TAG_ID)
         ;
         $container
             ->registerForAutoconfiguration(ProductAttributeValueValueBuilderInterface::class)
@@ -85,7 +79,6 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
             ->addTag(OptionValuesProcessorInterface::TAG_ID)
         ;
 
-        $container->addCompilerPass(new AkeneoReferenceentityAttributeTypeMatcherCompilerPass());
         $container->addCompilerPass(new AkeneoAttributeValueValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoTaxonAttributeValueBuilderCompilerPass());
         $container->addCompilerPass(new AkeneoDataMigrationTransformerCompilerPass());
