@@ -70,26 +70,6 @@ services:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
 
-    sylius.attribute_type.reference_entity:
-        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\ReferenceEntityAttributeType
-        tags:
-            - { name: 'sylius.attribute.type', attribute_type: 'reference_entity', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\ReferenceEntityAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\ReferenceEntityAttributeType' }
-
-    sylius.attribute_type.asset:
-        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\AssetAttributeType
-        tags:
-            - { name: 'sylius.attribute.type', attribute_type: 'asset', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\AssetAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\AssetConfigurationAttributeType' }
-
-    sylius.attribute_type.metric:
-        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\MetricAttributeType
-        tags:
-            - { name: 'sylius.attribute.type', attribute_type: 'metric', label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\MetricAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\MetricConfigurationAttributeType' }
-
-    sylius.attribute_type.akeneo_table:
-        class: Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\TableAttributeType
-        tags:
-            - { name: 'sylius.attribute.type', attribute_type: !php/const Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\TableAttributeType::TYPE, label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\TableAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\TableAttributeType' }
-
     BluePsyduck\SymfonyProcessManager\ProcessManager: ~
 
     sylius.form_registry.taxon_attribute_type:

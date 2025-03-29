@@ -6,8 +6,22 @@ namespace Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType;
 
 use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\TableAttributeType as ConfigurationFormType;
+use Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\TableAttributeType as FormType;
 
+#[AsAlias(id: 'sylius.attribute_type.akeneo_table')]
+#[AutoconfigureTag(
+    name: 'sylius.attribute.type',
+    attributes: [
+        'attribute_type' => self::TYPE,
+        'label' => 'json',
+        'form_type' => FormType::class,
+        'configuration_form_type' => ConfigurationFormType::class,
+    ],
+)]
 final class TableAttributeType implements AttributeTypeInterface
 {
     public const TYPE = 'akeneo_table';
