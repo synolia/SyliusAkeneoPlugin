@@ -11,25 +11,17 @@ use Throwable;
 final class DataMigrationTransformer
 {
     public function __construct(
+        /** @var iterable<DataMigrationTransformerInterface> $dataMigrationTransformers */
         #[AutowireIterator(DataMigrationTransformerInterface::class)]
-        private iterable $dataMigrationTransformers
+        private iterable $dataMigrationTransformers,
     ) {
     }
 
-    public function addDataMigrationTransformer(DataMigrationTransformerInterface $dataMigrationTransformer): void
-    {
-        $this->dataMigrationTransformers[$dataMigrationTransformer::class] = $dataMigrationTransformer;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function transform(string $fromType, string $toType, mixed $value)
+    public function transform(string $fromType, string $toType, mixed $value): array
     {
         foreach ($this->dataMigrationTransformers as $dataMigrationTransformer) {
             try {
                 if ($dataMigrationTransformer->support($fromType, $toType)) {
-                    /** @phpstan-ignore-next-line */
                     return $dataMigrationTransformer->transform($value);
                 }
             } catch (Throwable) {

@@ -16,7 +16,7 @@ final class ProductFiltersRulesRepository extends EntityRepository
         #[Autowire('@doctrine.orm.default_entity_manager')]
         EntityManagerInterface $entityManager,
         #[Autowire('@sylius.product_filters_rules_class_metadata')]
-        ClassMetadata $class
+        ClassMetadata $class,
     ) {
         parent::__construct($entityManager, $class);
     }

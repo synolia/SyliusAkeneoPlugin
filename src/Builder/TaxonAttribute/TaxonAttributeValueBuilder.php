@@ -13,13 +13,8 @@ final class TaxonAttributeValueBuilder
     public function __construct(
         #[AutowireIterator(TaxonAttributeValueBuilderInterface::class)]
         private iterable $attributeValueBuilders,
-        private LoggerInterface $akeneoLogger
+        private LoggerInterface $akeneoLogger,
     ) {
-    }
-
-    public function addBuilder(TaxonAttributeValueBuilderInterface $attributeValueBuilder): void
-    {
-        $this->attributeValueBuilders[$attributeValueBuilder::class] = $attributeValueBuilder;
     }
 
     /**

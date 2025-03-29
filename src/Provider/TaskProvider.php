@@ -11,14 +11,10 @@ use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 final class TaskProvider
 {
     public function __construct(
+        /** @var iterable<AkeneoTaskInterface> $tasks */
         #[AutowireIterator(AkeneoTaskInterface::class)]
-        private iterable $tasks
+        private iterable $tasks,
     ) {
-    }
-
-    public function addTask(AkeneoTaskInterface $akeneoTask): void
-    {
-        $this->tasks[$akeneoTask::class] = $akeneoTask;
     }
 
     public function get(string $taskClassName): AkeneoTaskInterface

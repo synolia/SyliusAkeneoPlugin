@@ -13,16 +13,12 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterface
 {
     public function __construct(
+        /** @var iterable<AssetAttributeValueBuilderInterface> $assetAttributeValueBuilders */
         #[AutowireIterator(AssetAttributeValueBuilderInterface::class)]
         private iterable $assetAttributeValueBuilders,
         private LoggerInterface $akeneoLogger,
         private EditionCheckerInterface $editionChecker,
     ) {
-    }
-
-    public function addBuilder(AssetAttributeValueBuilderInterface $assetAttributeValueBuilder): void
-    {
-        $this->assetAttributeValueBuilders[$assetAttributeValueBuilder::class] = $assetAttributeValueBuilder;
     }
 
     /**
@@ -41,10 +37,7 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
         return null;
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function findBuilderByClassName(string $className)
+    public function findBuilderByClassName(string $className): ?AssetAttributeValueBuilderInterface
     {
         foreach ($this->assetAttributeValueBuilders as $attributeValueBuilder) {
             if (!$attributeValueBuilder instanceof $className) {

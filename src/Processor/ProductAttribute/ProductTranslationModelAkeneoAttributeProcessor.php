@@ -31,11 +31,10 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger,
         #[Autowire('%sylius.model.product_translation.class%')]
-        string $model
+        string $model,
     ) {
         parent::__construct($camelCaseToSnakeCaseNameConverter, $akeneoAttributePropertyProvider, $akeneoAttributeDataProvider, $syliusAkeneoLocaleCodeProvider, $akeneoLogger, $model);
     }
-
 
     public static function getDefaultPriority(): int
     {

@@ -13,8 +13,9 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcesso
 final class ChainOptionValuesProcessorProvider implements OptionValuesProcessorProviderInterface
 {
     public function __construct(
+        /** @var iterable<OptionValuesProcessorInterface> $optionValuesProcessors */
         #[AutowireIterator(OptionValuesProcessorInterface::class)]
-        private iterable $optionValuesProcessors
+        private iterable $optionValuesProcessors,
     ) {
     }
 

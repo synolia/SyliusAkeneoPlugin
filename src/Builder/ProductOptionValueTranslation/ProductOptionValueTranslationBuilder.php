@@ -13,8 +13,9 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValueTranslation\
 class ProductOptionValueTranslationBuilder implements ProductOptionValueTranslationBuilderProcessorInterface
 {
     public function __construct(
+        /** @var iterable<ProductOptionValueTranslationBuilderInterface> $productOptionValueTranslationBuilders */
         #[AutowireIterator(ProductOptionValueTranslationBuilderInterface::class)]
-        private iterable $productOptionValueTranslationBuilders
+        private iterable $productOptionValueTranslationBuilders,
     ) {
     }
 

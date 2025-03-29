@@ -11,9 +11,10 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 final class ProductProcessorChain implements ProductProcessorChainInterface
 {
     public function __construct(
+        /** @var iterable<ProductProcessorInterface> $productProcessors */
         #[AutowireIterator(ProductProcessorInterface::class)]
         private iterable $productProcessors,
-        private LoggerInterface $akeneoLogger
+        private LoggerInterface $akeneoLogger,
     ) {
     }
 

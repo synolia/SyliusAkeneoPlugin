@@ -6,7 +6,6 @@ namespace Synolia\SyliusAkeneoPlugin;
 
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Synolia\SyliusAkeneoPlugin\DependencyInjection\Compiler\AkeneoTaskCompilerPass;
 
 final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
 {

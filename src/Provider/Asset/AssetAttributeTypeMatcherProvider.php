@@ -12,15 +12,11 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMat
 final class AssetAttributeTypeMatcherProvider implements AssetAttributeTypeMatcherProviderInterface
 {
     public function __construct(
+        /** @var iterable<AssetAttributeTypeMatcherInterface> $typeMatchers */
         #[AutowireIterator(AssetAttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
-        private LoggerInterface $akeneoLogger
+        private LoggerInterface $akeneoLogger,
     ) {
-    }
-
-    public function addTypeMatcher(AssetAttributeTypeMatcherInterface $typeMatcher): void
-    {
-        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     /**
