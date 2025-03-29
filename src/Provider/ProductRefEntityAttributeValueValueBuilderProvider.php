@@ -11,8 +11,9 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\R
 final class ProductRefEntityAttributeValueValueBuilderProvider implements ProductRefEntityAttributeValueValueBuilderProviderInterface
 {
     public function __construct(
+        /** @var iterable<ReferenceEntityAttributeValueProcessorInterface> $referenceEntityAttributeValueProcessors */
         #[AutowireIterator(ReferenceEntityAttributeValueProcessorInterface::class)]
-        private iterable $referenceEntityAttributeValueProcessors
+        private iterable $referenceEntityAttributeValueProcessors,
     ) {
     }
 

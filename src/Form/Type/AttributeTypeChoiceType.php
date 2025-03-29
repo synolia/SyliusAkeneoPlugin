@@ -13,7 +13,7 @@ final class AttributeTypeChoiceType extends AbstractType
 {
     public function __construct(
         #[Autowire('%sylius.attribute.attribute_types%')]
-        private array $attributeTypes
+        private array $attributeTypes,
     ) {
     }
 

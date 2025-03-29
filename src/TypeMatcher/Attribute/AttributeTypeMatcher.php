@@ -12,15 +12,11 @@ use Throwable;
 final class AttributeTypeMatcher
 {
     public function __construct(
+        /** @var iterable<AttributeTypeMatcherInterface> $typeMatchers */
         #[AutowireIterator(AttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
-        private LoggerInterface $akeneoLogger
+        private LoggerInterface $akeneoLogger,
     ) {
-    }
-
-    public function addTypeMatcher(AttributeTypeMatcherInterface $typeMatcher): void
-    {
-        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     public function match(string $type): AttributeTypeMatcherInterface

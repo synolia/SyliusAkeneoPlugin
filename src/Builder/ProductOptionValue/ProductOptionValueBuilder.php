@@ -12,8 +12,9 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValue\ProductOpti
 class ProductOptionValueBuilder implements ProductOptionValueBuilderInterface
 {
     public function __construct(
+        /** @var iterable<DynamicOptionValueBuilderInterface> $dynamicProductOptionValueBuilders */
         #[AutowireIterator(DynamicOptionValueBuilderInterface::class)]
-        private iterable $dynamicProductOptionValueBuilders
+        private iterable $dynamicProductOptionValueBuilders,
     ) {
     }
 

@@ -13,7 +13,10 @@ class TextToMetricDataMigrationTransformer implements DataMigrationTransformerIn
 
     private const TO_TYPE = MetricAttributeType::TYPE;
 
-    public function transform(string $value): array
+    /**
+     * @param string $value
+     */
+    public function transform(mixed $value): array
     {
         $data = explode(' ', $value);
 

@@ -12,14 +12,10 @@ final class ProductAttributeValueValueBuilder
 {
     public function __construct(
         private LoggerInterface $akeneoLogger,
+        /** @var iterable<ProductAttributeValueValueBuilderInterface> $attributeValueBuilders */
         #[AutowireIterator(ProductAttributeValueValueBuilderInterface::class)]
         private iterable $attributeValueBuilders,
     ) {
-    }
-
-    public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void
-    {
-        $this->attributeValueBuilders[$attributeValueBuilder::class] = $attributeValueBuilder;
     }
 
     /**

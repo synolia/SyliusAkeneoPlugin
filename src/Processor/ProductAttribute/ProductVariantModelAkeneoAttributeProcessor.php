@@ -34,11 +34,10 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger,
         #[Autowire('%sylius.model.product_variant.class%')]
-        string $model
+        string $model,
     ) {
         parent::__construct($camelCaseToSnakeCaseNameConverter, $akeneoAttributePropertyProvider, $akeneoAttributeDataProvider, $syliusAkeneoLocaleCodeProvider, $akeneoLogger, $model);
     }
-
 
     public static function getDefaultPriority(): int
     {

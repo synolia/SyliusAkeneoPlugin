@@ -24,7 +24,7 @@ final class AssetRepository extends EntityRepository
         #[Autowire('@doctrine.orm.default_entity_manager')]
         EntityManagerInterface $entityManager,
         #[Autowire('@sylius.asset_class_metadata')]
-        ClassMetadata $class
+        ClassMetadata $class,
     ) {
         parent::__construct($entityManager, $class);
     }

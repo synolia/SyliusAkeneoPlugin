@@ -24,7 +24,7 @@ final class ProductVariantTranslationModelAkeneoAttributeProcessor extends Abstr
         SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         LoggerInterface $akeneoLogger,
         #[Autowire('%sylius.model.product_variant_translation.class%')]
-        string $model
+        string $model,
     ) {
         parent::__construct($camelCaseToSnakeCaseNameConverter, $akeneoAttributePropertyProvider, $akeneoAttributeDataProvider, $syliusAkeneoLocaleCodeProvider, $akeneoLogger, $model);
     }

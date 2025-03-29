@@ -12,15 +12,11 @@ use Throwable;
 final class TaxonAttributeTypeMatcher
 {
     public function __construct(
+        /** @var iterable<TaxonAttributeTypeMatcherInterface> $typeMatchers */
         #[AutowireIterator(TaxonAttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
-        private LoggerInterface $akeneoLogger
+        private LoggerInterface $akeneoLogger,
     ) {
-    }
-
-    public function addTypeMatcher(TaxonAttributeTypeMatcherInterface $typeMatcher): void
-    {
-        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     /**

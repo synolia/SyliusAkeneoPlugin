@@ -10,4 +10,6 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 interface DataMigrationTransformerInterface
 {
     public function support(string $fromType, string $toType): bool;
+
+    public function transform(mixed $value): array;
 }

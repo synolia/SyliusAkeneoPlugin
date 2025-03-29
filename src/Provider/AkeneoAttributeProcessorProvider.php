@@ -11,8 +11,9 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcess
 final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessorProviderInterface
 {
     public function __construct(
+        /** @var iterable<AkeneoAttributeProcessorInterface> $akeneoAttributeProcessors */
         #[AutowireIterator(AkeneoAttributeProcessorInterface::class)]
-        private iterable $akeneoAttributeProcessors
+        private iterable $akeneoAttributeProcessors,
     ) {
     }
 

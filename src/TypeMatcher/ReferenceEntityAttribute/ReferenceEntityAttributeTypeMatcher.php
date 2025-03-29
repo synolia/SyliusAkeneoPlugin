@@ -10,14 +10,10 @@ use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedReferenceEntityAttributeTyp
 final class ReferenceEntityAttributeTypeMatcher
 {
     public function __construct(
+        /** @var iterable<ReferenceEntityAttributeTypeMatcherInterface> $typeMatchers */
         #[AutowireIterator(ReferenceEntityAttributeTypeMatcherInterface::class)]
-        private iterable $typeMatchers
+        private iterable $typeMatchers,
     ) {
-    }
-
-    public function addTypeMatcher(ReferenceEntityAttributeTypeMatcherInterface $typeMatcher): void
-    {
-        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
     }
 
     public function match(string $type): ReferenceEntityAttributeTypeMatcherInterface

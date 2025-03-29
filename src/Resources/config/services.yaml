@@ -1,6 +1,6 @@
 parameters:
-  env(SYNOLIA_AKENEO_MAX_RETRY_COUNT): 3
-  env(SYNOLIA_AKENEO_RETRY_WAIT_TIME): 5000
+    env(SYNOLIA_AKENEO_MAX_RETRY_COUNT): 3
+    env(SYNOLIA_AKENEO_RETRY_WAIT_TIME): 5000
 
 services:
     _defaults:
