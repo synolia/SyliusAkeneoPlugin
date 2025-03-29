@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\ReferenceEntityAttribute;
 
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedReferenceEntityAttributeTypeException;
 
 final class ReferenceEntityAttributeTypeMatcher
 {
-    /** @var array<ReferenceEntityAttributeTypeMatcherInterface> */
-    private array $typeMatchers = [];
+    public function __construct(
+        #[AutowireIterator(ReferenceEntityAttributeTypeMatcherInterface::class)]
+        private iterable $typeMatchers
+    ) {
+    }
 
     public function addTypeMatcher(ReferenceEntityAttributeTypeMatcherInterface $typeMatcher): void
     {

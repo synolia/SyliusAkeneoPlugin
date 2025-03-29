@@ -93,23 +93,7 @@ services:
     serializer.name_converter.camel_case_to_snake_case:
         class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 
-    Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\AkeneoAttributeProcessorProvider
-        arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
-
-    Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\ProductRefEntityAttributeValueValueBuilderProvider
-        arguments:
-            - !tagged_iterator { tag: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface::TAG_ID, default_priority_method: getDefaultPriority }
-
     BluePsyduck\SymfonyProcessManager\ProcessManager: ~
-
-    Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetValueBuilderProvider
-
-    Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProviderInterface:
-        class: Synolia\SyliusAkeneoPlugin\Provider\Asset\AssetAttributeTypeMatcherProvider
 
     sylius.form_registry.taxon_attribute_type:
         class: Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry

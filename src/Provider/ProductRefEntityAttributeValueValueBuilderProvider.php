@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity\ReferenceEntityAttributeValueProcessorInterface;
-use Traversable;
 
 final class ProductRefEntityAttributeValueValueBuilderProvider implements ProductRefEntityAttributeValueValueBuilderProviderInterface
 {
-    /** @var array<ReferenceEntityAttributeValueProcessorInterface> */
-    private array $referenceEntityAttributeValueProcessors;
-
-    public function __construct(Traversable $handlers)
-    {
-        $this->referenceEntityAttributeValueProcessors = iterator_to_array($handlers);
+    public function __construct(
+        #[AutowireIterator(ReferenceEntityAttributeValueProcessorInterface::class)]
+        private iterable $referenceEntityAttributeValueProcessors
+    ) {
     }
 
     /**

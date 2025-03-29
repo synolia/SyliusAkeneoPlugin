@@ -6,7 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue;
 
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
+#[AutoconfigureTag]
 interface OptionValuesProcessorInterface
 {
     public const TAG_ID = 'sylius.akeneo.option_values_processor';

@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\TaxonAttribute;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Throwable;
 
 final class TaxonAttributeTypeMatcher
 {
-    /** @var array<TaxonAttributeTypeMatcherInterface> */
-    private array $typeMatchers = [];
-
-    public function __construct(private LoggerInterface $akeneoLogger)
-    {
+    public function __construct(
+        #[AutowireIterator(TaxonAttributeTypeMatcherInterface::class)]
+        private iterable $typeMatchers,
+        private LoggerInterface $akeneoLogger
+    ) {
     }
 
     public function addTypeMatcher(TaxonAttributeTypeMatcherInterface $typeMatcher): void
