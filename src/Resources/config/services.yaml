@@ -90,9 +90,6 @@ services:
         tags:
             - { name: 'sylius.attribute.type', attribute_type: !php/const Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\TableAttributeType::TYPE, label: 'json', form_type: 'Synolia\SyliusAkeneoPlugin\Form\Type\AttributeType\TableAttributeType', configuration_form_type: 'Synolia\SyliusAkeneoPlugin\Component\Attribute\AttributeType\Configuration\TableAttributeType' }
 
-    serializer.name_converter.camel_case_to_snake_case:
-        class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
-
     BluePsyduck\SymfonyProcessManager\ProcessManager: ~
 
     sylius.form_registry.taxon_attribute_type:

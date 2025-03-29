@@ -8,55 +8,27 @@ By default, we use :
 
 We also provide other processors that could match your need. You can enable them by registering processors as service:
 
-```yaml
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
+- `Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductModelAkeneoAttributeProcessor`:
+> This service allows you to insert product property by simply matching the attribute name to the model setter
+> So you can add new property with the right type to your model without the need to implement his own import logic.
 
-    # This service allows you to insert product property by simply matching the attribute name to the model setter
-    # So you can easily add new property with the right type to your model without the need to implement his own import logic.
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductModelAkeneoAttributeProcessor:
-        arguments:
-            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-            $model: '%sylius.model.product.class%'
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
+- `Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductTranslationModelAkeneoAttributeProcessor`:
+> This service allows you to insert product translated property by simply matching the attribute name to the model setter
+> So you can add new property with the right type to your model without the need to implement his own import logic.
+> i.e: description akeneo attribute will be set if the model has setDescription() method.
 
-    # This service allows you to insert product translated property by simply matching the attribute name to the model setter
-    # So you can easily add new property with the right type to your model without the need to implement his own import logic.
-    # i.e: description akeneo attribute will be set if the model has setDescription() method.
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductTranslationModelAkeneoAttributeProcessor:
-        arguments:
-            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-            $model: '%sylius.model.product_translation.class%'
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
+- `Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantModelAkeneoAttributeProcessor`:
+> This service allows you to insert product property by simply matching the attribute name to the model setter
+> So you can add new property with the right type to your model without the need to implement his own import logic.
+> i.e.: weight akeneo attribute will be set if the model has setWeight() method.
 
-    # This service allows you to insert product property by simply matching the attribute name to the model setter
-    # So you can easily add new property with the right type to your model without the need to implement his own import logic.
-    # i.e: weight akeneo attribute will be set if the model has setWeight() method.
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantModelAkeneoAttributeProcessor:
-        arguments:
-            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-            $model: '%sylius.model.product_variant.class%'
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-
-    # This service allows you to insert product variant translated property by simply matching the attribute name to the model setter
-    # So you can easily add new property with the right type to your model without the need to implement his own import logic.
-    Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantTranslationModelAkeneoAttributeProcessor:
-        arguments:
-            $camelCaseToSnakeCaseNameConverter: '@serializer.name_converter.camel_case_to_snake_case'
-            $model: '%sylius.model.product_variant_translation.class%'
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-```
+- `Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\ProductVariantTranslationModelAkeneoAttributeProcessor`: 
+> This service allows you to insert product variant translated property by simply matching the attribute name to the model setter
+> So you can add new property with the right type to your model without the need to implement his own import logic.
 
 ###  Writing your own logic
 
-#### You can create your own logic by implementing the interface `Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface` and registering your service.
+#### You can create your own logic by implementing the interface `Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface`.
 
 The `$context` parameter contains these values:
 ```php
@@ -68,7 +40,7 @@ The `$context` parameter contains these values:
 ]
 ```
 
-*i.e:*
+*i.e.:*
 You have added a custom attribute named `externalId` on your ProductVariant entity to be able to map it to an external service.
 
 You can create a class `ProductVariantExternalIdAkeneoAttributeProcessor` that will take care of setting the proper value to your new property.
@@ -98,26 +70,14 @@ class ProductVariantExternalIdAkeneoAttributeProcessor implements AkeneoAttribut
         return true;
     }
     
-    public function process(string $attributeCode,array $context = []) : void
+    public function process(string $attributeCode, array $context = []) : void
     {
-        // i.e: here, you have to define your own logic based on the value you received and the attribute properties
+        // i.e: here, you have to define your own logic based on the value you received and the attribute properties, 
         // you can take a look at the Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder
-        // which is able to handle the data transformation based on the locale, scope and other properties of the attibute.
+        // which is able to handle the data transformation based on the locale, scope and another attribute's properties.
         $context['model']->setExternalId($context['data']);
     }
 }
 ```
-
-And then register your service:
-
-```yaml
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
-
-    App\Processor\ProductAttribute\ProductVariantExternalIdAkeneoAttributeProcessor:
-        tags:
-            - { name: !php/const Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface::TAG_ID }
-```
+*Your service will be automatically registered because of implementation of `AkeneoAttributeProcessorInterface`,
+which is already an [autoconfigured tag](https://symfony.com/doc/current/service_container/tags.html#autoconfiguring-tags).*
