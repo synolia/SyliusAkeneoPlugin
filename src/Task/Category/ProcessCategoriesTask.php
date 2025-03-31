@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\Category;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
@@ -30,8 +31,9 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
         private ApiConnectionProviderInterface $apiConnectionProvider,
         private SearchFilterProviderInterface $searchFilterProvider,
         private TaskHandlerProviderInterface $taskHandlerProvider,
+        private EventDispatcherInterface $dispatcher,
     ) {
-        $this->__taskHandlerConstruct($taskHandlerProvider);
+        $this->__taskHandlerConstruct($taskHandlerProvider, $dispatcher);
     }
 
     /**
@@ -42,12 +44,19 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
         $this->akeneoLogger->debug(self::class);
         $this->akeneoLogger->debug(Messages::retrieveFromAPI($payload->getType()));
 
-        $resources = $payload->getAkeneoPimClient()->getCategoryApi()->all(
+        // This is used to check the filtered categories still exist in the roots categories
+        $allCategories = $payload->getAkeneoPimClient()->getCategoryApi()->all(
+            $this->apiConnectionProvider->get()->getPaginationSize(),
+        );
+
+        $filteredCategories = $payload->getAkeneoPimClient()->getCategoryApi()->all(
             $this->apiConnectionProvider->get()->getPaginationSize(),
             $this->searchFilterProvider->get($payload),
         );
 
-        $categories = iterator_to_array($resources);
+        $categories = iterator_to_array($allCategories);
+        $filteredCategories = iterator_to_array($filteredCategories);
+
         $categoriesTree = $this->buildTree($categories, null);
 
         $rootCategoryCodes = $this->categoryConfigurationProvider->get()->getCategoryCodesToImport();
@@ -60,10 +69,10 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
         /**
          * @var array{code: string} $category
          */
-        foreach ($categories as $key => $category) {
+        foreach ($filteredCategories as $key => $category) {
             if (!\in_array($category['code'], $keptCategories, true)) {
                 $this->akeneoLogger->info(sprintf('%s: %s is not inside selected root categories and will be excluded', $payload->getType(), $category['code']));
-                unset($categories[$key]);
+                unset($filteredCategories[$key]);
             }
         }
 
@@ -71,19 +80,19 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
         /**
          * @var array{code: string} $category
          */
-        foreach ($categories as $key => $category) {
+        foreach ($filteredCategories as $key => $category) {
             if (\in_array($category['code'], $excludedCategories, true)) {
                 $this->akeneoLogger->info(sprintf('%s: %s is explicitly excluded from configuration', $payload->getType(), $category['code']));
-                unset($categories[$key]);
+                unset($filteredCategories[$key]);
             }
         }
 
         $this->akeneoLogger->info(Messages::totalExcludedFromImport($payload->getType(), \count($excludedCategories)));
-        $this->akeneoLogger->info(Messages::totalToImport($payload->getType(), \count($categories)));
+        $this->akeneoLogger->info(Messages::totalToImport($payload->getType(), \count($filteredCategories)));
 
-        $payload->setResources($categories);
+        $payload->setResources($filteredCategories);
 
-        $this->handle($payload, $categories);
+        $this->handle($payload, $filteredCategories);
 
         return $payload;
     }

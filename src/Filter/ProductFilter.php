@@ -45,6 +45,21 @@ final class ProductFilter implements ProductFilterInterface
     ) {
     }
 
+    public function getCategoriesFilters(): array
+    {
+        /** @var ProductFiltersRules $productFilterRules */
+        $productFilterRules = $this->productFiltersRulesRepository->findOneBy([], ['id' => 'DESC']);
+        if (!$productFilterRules instanceof ProductFiltersRules) {
+            return [];
+        }
+
+        $queryParameters = new SearchBuilder();
+        $queryParameters = $this->getUpdatedFilter($productFilterRules, $queryParameters);
+
+        $queryParameters = $queryParameters->getFilters();
+        return $queryParameters;
+    }
+
     public function getProductModelFilters(): array
     {
         /** @var ProductFiltersRules $productFilterRules */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Task\ProductModel;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Logger\Messages;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -26,8 +27,9 @@ final class ProcessProductModelsTask implements AkeneoTaskInterface
         private LoggerInterface $akeneoLogger,
         private SearchFilterProviderInterface $searchFilterProvider,
         private TaskHandlerProviderInterface $taskHandlerProvider,
+        private EventDispatcherInterface $dispatcher,
     ) {
-        $this->__taskHandlerConstruct($taskHandlerProvider);
+        $this->__taskHandlerConstruct($taskHandlerProvider, $dispatcher);
     }
 
     /**
