@@ -15,6 +15,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\Product\IsProductProcessableCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Product\PostFlushEvent;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductGroup\ProductGroupProcessor;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\AkeneoResourceProcessorInterface;
@@ -66,6 +67,7 @@ class ProductModelResourceProcessor implements AkeneoResourceProcessorInterface
 
             $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
             $this->entityManager->flush();
+            $this->dispatcher->dispatch(new PostFlushEvent($resource, $product));
         } catch (ORMInvalidArgumentException $ormInvalidArgumentException) {
             ++$this->retryCount;
             usleep($this->retryWaitTime);
