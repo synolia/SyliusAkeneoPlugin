@@ -12,7 +12,7 @@ final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessor
 {
     public function __construct(
         /** @var iterable<AkeneoAttributeProcessorInterface> $akeneoAttributeProcessors */
-        #[AutowireIterator(AkeneoAttributeProcessorInterface::class)]
+        #[AutowireIterator(AkeneoAttributeProcessorInterface::TAG_ID)]
         private iterable $akeneoAttributeProcessors,
     ) {
     }

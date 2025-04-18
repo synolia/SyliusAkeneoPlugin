@@ -12,7 +12,7 @@ final class CategoryProcessorChain implements CategoryProcessorChainInterface
 {
     public function __construct(
         /** @var iterable<CategoryProcessorInterface> $categoryProcessors */
-        #[AutowireIterator(CategoryProcessorInterface::class)]
+        #[AutowireIterator(CategoryProcessorInterface::TAG_ID)]
         private iterable $categoryProcessors,
         private LoggerInterface $akeneoLogger,
     ) {

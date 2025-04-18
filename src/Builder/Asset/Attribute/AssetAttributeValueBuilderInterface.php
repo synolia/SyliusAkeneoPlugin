@@ -6,9 +6,11 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute;
 
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag]
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface AssetAttributeValueBuilderInterface
 {
+    public const TAG_ID = 'sylius.akeneo.asset_value_builder';
+
     public function support(string $assetFamilyCode, string $attributeCode): bool;
 
     /**

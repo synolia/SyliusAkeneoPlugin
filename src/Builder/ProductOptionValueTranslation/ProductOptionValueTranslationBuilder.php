@@ -14,7 +14,7 @@ class ProductOptionValueTranslationBuilder implements ProductOptionValueTranslat
 {
     public function __construct(
         /** @var iterable<ProductOptionValueTranslationBuilderInterface> $productOptionValueTranslationBuilders */
-        #[AutowireIterator(ProductOptionValueTranslationBuilderInterface::class)]
+        #[AutowireIterator(ProductOptionValueTranslationBuilderInterface::TAG_ID)]
         private iterable $productOptionValueTranslationBuilders,
     ) {
     }

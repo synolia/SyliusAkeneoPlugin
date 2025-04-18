@@ -12,7 +12,7 @@ final class ProductVariantProcessorChain implements ProductVariantProcessorChain
 {
     public function __construct(
         /** @var iterable<ProductVariantProcessorInterface> $productVariantProcessors */
-        #[AutowireIterator(ProductVariantProcessorInterface::class)]
+        #[AutowireIterator(ProductVariantProcessorInterface::TAG_ID)]
         private iterable $productVariantProcessors,
         private LoggerInterface $akeneoLogger,
     ) {

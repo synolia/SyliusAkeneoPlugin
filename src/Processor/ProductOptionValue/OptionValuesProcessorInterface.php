@@ -8,7 +8,7 @@ use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag]
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface OptionValuesProcessorInterface
 {
     public const TAG_ID = 'sylius.akeneo.option_values_processor';

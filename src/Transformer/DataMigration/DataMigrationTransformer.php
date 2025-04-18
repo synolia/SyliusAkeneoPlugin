@@ -12,7 +12,7 @@ final class DataMigrationTransformer
 {
     public function __construct(
         /** @var iterable<DataMigrationTransformerInterface> $dataMigrationTransformers */
-        #[AutowireIterator(DataMigrationTransformerInterface::class)]
+        #[AutowireIterator(DataMigrationTransformerInterface::TAG_ID)]
         private iterable $dataMigrationTransformers,
     ) {
     }

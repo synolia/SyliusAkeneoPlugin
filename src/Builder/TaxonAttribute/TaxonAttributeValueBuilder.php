@@ -11,7 +11,7 @@ use Throwable;
 final class TaxonAttributeValueBuilder
 {
     public function __construct(
-        #[AutowireIterator(TaxonAttributeValueBuilderInterface::class)]
+        #[AutowireIterator(TaxonAttributeValueBuilderInterface::TAG_ID)]
         private iterable $attributeValueBuilders,
         private LoggerInterface $akeneoLogger,
     ) {

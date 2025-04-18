@@ -9,9 +9,11 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag]
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface ProductOptionValueTranslationBuilderInterface
 {
+    public const TAG_ID = 'sylius.akeneo.dynamic_option_value_translation_builder';
+
     public static function getDefaultPriority(): int;
 
     public function support(

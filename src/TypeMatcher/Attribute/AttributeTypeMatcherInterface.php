@@ -7,7 +7,8 @@ namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\TypeMatcherInterface;
 
-#[AutoconfigureTag]
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface AttributeTypeMatcherInterface extends TypeMatcherInterface
 {
+    public const TAG_ID = 'sylius.akeneo.type_matcher';
 }

@@ -12,7 +12,7 @@ use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\Table\TableProduc
 class TableAttributeValueProcessorProvider implements TableAttributeValueProcessorProviderInterface
 {
     public function __construct(
-        #[AutowireIterator(TableProductAttributeValueProcessorInterface::class)]
+        #[AutowireIterator(TableProductAttributeValueProcessorInterface::TAG_ID)]
         private iterable $tableAttributeValueProcessors,
     ) {
     }

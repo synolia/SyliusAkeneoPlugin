@@ -7,9 +7,11 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\Table;
 use Sylius\Component\Product\Model\ProductAttributeInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag]
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface TableProductAttributeValueProcessorInterface
 {
+    public const TAG_ID = 'sylius.akeneo.table_product_attribute_value_processor';
+
     public static function getDefaultPriority(): int;
 
     /**
