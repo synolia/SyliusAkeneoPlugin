@@ -6,7 +6,9 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue;
 
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface DynamicOptionValueBuilderInterface
 {
     public const TAG_ID = 'sylius.akeneo.dynamic_option_value_builder';

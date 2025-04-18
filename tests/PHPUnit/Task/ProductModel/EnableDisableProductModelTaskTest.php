@@ -20,7 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  *
  * @coversNothing
  */
-final class EnableDisableProductModelTaskTest extends AbstractTaskTest
+final class EnableDisableProductModelTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;
 

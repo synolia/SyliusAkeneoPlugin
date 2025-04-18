@@ -29,9 +29,9 @@ use Synolia\SyliusAkeneoPlugin\Task\Association\AssociateProductsTask;
 use Synolia\SyliusAkeneoPlugin\Task\ProductModel\ProcessProductModelsTask;
 use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product\AbstractTaskTest;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product\AbstractTaskTestCase;
 
-class AssociateProductsTaskTest extends AbstractTaskTest
+class AssociateProductsTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;
 
@@ -41,14 +41,14 @@ class AssociateProductsTaskTest extends AbstractTaskTest
 
     private AkeneoPimClientInterface $client;
 
-    private ?ProductFiltersRules $productFiltersRules;
+    private ?ProductFiltersRules $productFiltersRules = null;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AssociationTypeApi::ASSOCIATION_TYPES_URI),
+            '/' . AssociationTypeApi::ASSOCIATION_TYPES_URI,
             new Response($this->getFileContent('association_types.json'), [], HttpResponse::HTTP_OK),
         );
 

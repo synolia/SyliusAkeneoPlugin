@@ -10,7 +10,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 final class AkeneoAttributeToSyliusAttributeTransformer implements AkeneoAttributeToSyliusAttributeTransformerInterface
 {
     /** @var array<AttributeAkeneoSyliusMapping> */
-    private array $attributeAkeneoSyliusMappings;
+    private array $attributeAkeneoSyliusMappings = [];
 
     public function __construct(private EntityRepository $attributeAkeneoSyliusMappingRepository)
     {
@@ -18,7 +18,7 @@ final class AkeneoAttributeToSyliusAttributeTransformer implements AkeneoAttribu
 
     public function transform(string $attribute): string
     {
-        if (empty($this->attributeAkeneoSyliusMappings)) {
+        if ($this->attributeAkeneoSyliusMappings === []) {
             /** @var array<AttributeAkeneoSyliusMapping> $mapping */
             $mapping = $this->attributeAkeneoSyliusMappingRepository->findAll();
 

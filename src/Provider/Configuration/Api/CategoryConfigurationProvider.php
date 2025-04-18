@@ -20,7 +20,7 @@ class CategoryConfigurationProvider implements CategoryConfigurationProviderInte
 
     public function get(): CategoryConfigurationInterface
     {
-        if (null !== $this->configuration) {
+        if ($this->configuration instanceof CategoryConfigurationInterface) {
             return $this->configuration;
         }
 

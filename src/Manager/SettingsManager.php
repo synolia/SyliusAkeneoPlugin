@@ -28,7 +28,7 @@ final class SettingsManager implements SettingsManagerInterface
             return $default;
         }
 
-        return json_decode($setting->getValue(), true, 512, \JSON_THROW_ON_ERROR);
+        return json_decode((string) $setting->getValue(), true, 512, \JSON_THROW_ON_ERROR);
     }
 
     /**

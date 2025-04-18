@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
  *
  * @coversNothing
  */
-final class ProcessAssetsTaskTest extends AbstractTaskTest
+final class ProcessAssetsTaskTest extends AbstractTaskTestCase
 {
     private const ASSET_COUNT = 8;
 
@@ -30,7 +30,7 @@ final class ProcessAssetsTaskTest extends AbstractTaskTest
         $mockedAssetAttributesJson = $this->getFileContent('asset_manager_attributes_all.json');
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AssetFamilyApi::ASSET_FAMILIES_URI),
+            '/' . AssetFamilyApi::ASSET_FAMILIES_URI,
             new Response($this->getFileContent('asset_families.json'), [], HttpResponse::HTTP_OK),
         );
 

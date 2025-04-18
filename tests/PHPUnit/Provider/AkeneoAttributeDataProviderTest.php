@@ -9,21 +9,17 @@ use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProvider;
-use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTestCase;
 
 /**
  * @internal
  *
  * @coversNothing
  */
-final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
+final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
 {
-    private const DEFAULT_SCOPE = 'ecommerce';
-
-    /** @var AkeneoAttributeDataProviderInterface */
     private \Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProvider $attributeDataProvider;
 
     protected function setUp(): void
@@ -31,7 +27,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTest
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 

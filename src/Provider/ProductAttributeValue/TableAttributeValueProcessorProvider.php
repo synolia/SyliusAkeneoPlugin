@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\ProductAttributeValue;
 
 use Sylius\Component\Product\Model\ProductAttributeInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoProductAttributeValueProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\Table\TableProductAttributeValueProcessorInterface;
-use Traversable;
 
 class TableAttributeValueProcessorProvider implements TableAttributeValueProcessorProviderInterface
 {
-    /** @var array<TableProductAttributeValueProcessorInterface> */
-    private array $tableAttributeValueProcessors;
-
-    public function __construct(Traversable $handlers)
-    {
-        $this->tableAttributeValueProcessors = iterator_to_array($handlers);
+    public function __construct(
+        #[AutowireIterator(TableProductAttributeValueProcessorInterface::TAG_ID)]
+        private iterable $tableAttributeValueProcessors,
+    ) {
     }
 
     /**

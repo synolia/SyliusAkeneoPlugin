@@ -20,7 +20,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
  */
 final class ProcessCategoriesTask implements AkeneoTaskInterface
 {
-    use TaskHandlerTrait{
+    use TaskHandlerTrait {
         TaskHandlerTrait::__construct as private __taskHandlerConstruct;
     }
 
@@ -133,7 +133,7 @@ final class ProcessCategoriesTask implements AkeneoTaskInterface
             }
 
             $children = $this->buildTree($elements, $element['code']);
-            if ($children) {
+            if ($children !== []) {
                 $element['children'] = $children;
             }
             $branch[$element['code']] = $element;

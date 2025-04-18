@@ -58,9 +58,7 @@ final class FamilyRetriever implements FamilyRetrieverInterface
         }
 
         /** @phpstan-ignore-next-line */
-        return $this->familiesByCode[$familyCode] = $this->akeneoFamily->get(\sprintf(CacheKey::FAMILY, $familyCode), function () use ($familyCode): array {
-            return $this->getFamilies()[$familyCode];
-        });
+        return $this->familiesByCode[$familyCode] = $this->akeneoFamily->get(\sprintf(CacheKey::FAMILY, $familyCode), fn (): array => $this->getFamilies()[$familyCode]);
     }
 
     public function getFamilyCodeByVariantCode(string $familyVariantCode): string

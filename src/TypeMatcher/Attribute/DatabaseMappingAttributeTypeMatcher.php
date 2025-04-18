@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute;
 
 use Sylius\Component\Registry\ServiceRegistryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\DatabaseProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 
@@ -15,16 +16,13 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
 
     public function __construct(
         private RepositoryInterface $attributeTypeMappingRepository,
+        #[Autowire('@sylius.registry.attribute_type')]
         private ServiceRegistryInterface $attributeTypeRegistry,
     ) {
     }
 
     public function getType(): string
     {
-        if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
-        }
-
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
             throw new \LogicException('Attribute Type cannot be null.');
         }
@@ -54,10 +52,6 @@ final class DatabaseMappingAttributeTypeMatcher implements AttributeTypeMatcherI
 
     public function getTypeClassName(): string
     {
-        if (!$this->storedAttributeTypeMapping instanceof AttributeTypeMapping) {
-            throw new \LogicException('Method support() must be called fist or the type is not supported.');
-        }
-
         if (null === $this->storedAttributeTypeMapping->getAttributeType()) {
             throw new \LogicException('Attribute Type cannot be null.');
         }

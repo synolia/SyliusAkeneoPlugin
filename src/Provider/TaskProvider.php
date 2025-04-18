@@ -5,29 +5,26 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use RuntimeException;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Task\AkeneoTaskInterface;
 
 final class TaskProvider
 {
-    /** @var array<AkeneoTaskInterface> */
-    private array $tasks;
-
-    public function __construct()
-    {
-        $this->tasks = [];
-    }
-
-    public function addTask(AkeneoTaskInterface $akeneoTask): void
-    {
-        $this->tasks[$akeneoTask::class] = $akeneoTask;
+    public function __construct(
+        /** @var iterable<AkeneoTaskInterface> $tasks */
+        #[AutowireIterator(AkeneoTaskInterface::class)]
+        private iterable $tasks,
+    ) {
     }
 
     public function get(string $taskClassName): AkeneoTaskInterface
     {
-        if (!\array_key_exists($taskClassName, $this->tasks)) {
-            throw new RuntimeException('Unable to find task ' . $taskClassName);
+        foreach ($this->tasks as $task) {
+            if ($task::class === $taskClassName) {
+                return $task;
+            }
         }
 
-        return $this->tasks[$taskClassName];
+        throw new RuntimeException('Unable to find task ' . $taskClassName);
     }
 }

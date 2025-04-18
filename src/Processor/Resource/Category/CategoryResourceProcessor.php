@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Category\AfterProcessingTaxonEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Category\BeforeProcessingTaxonEvent;
@@ -32,7 +33,9 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
         private DoctrineSortableManager $sortableManager,
         private CategoryProcessorChainInterface $processorChain,
         private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_MAX_RETRY_COUNT)%')]
         private int $maxRetryCount,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%')]
         private int $retryWaitTime,
         private int $retryCount = 0,
     ) {
@@ -49,7 +52,7 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
             throw new MaxResourceProcessorRetryException();
         }
 
-        if (true === $this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
+        if ($this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
             $this->sortableManager->disableSortableEventListener();
         }
 
@@ -91,7 +94,7 @@ class CategoryResourceProcessor implements AkeneoResourceProcessorInterface
             $this->entityManager = $this->getNewEntityManager();
             $this->process($resource);
         } finally {
-            if (true === $this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
+            if ($this->categoryConfigurationProvider->get()->useAkeneoPositions()) {
                 $this->sortableManager->enableSortableEventListener();
             }
         }

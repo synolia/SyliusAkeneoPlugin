@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider;
 
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingAkeneoAttributeProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute\AkeneoAttributeProcessorInterface;
-use Traversable;
 
 final class AkeneoAttributeProcessorProvider implements AkeneoAttributeProcessorProviderInterface
 {
-    /** @var array<AkeneoAttributeProcessorInterface> */
-    private array $akeneoAttributeProcessors;
-
-    public function __construct(Traversable $handlers)
-    {
-        $this->akeneoAttributeProcessors = iterator_to_array($handlers);
+    public function __construct(
+        /** @var iterable<AkeneoAttributeProcessorInterface> $akeneoAttributeProcessors */
+        #[AutowireIterator(AkeneoAttributeProcessorInterface::TAG_ID)]
+        private iterable $akeneoAttributeProcessors,
+    ) {
     }
 
     public function getProcessor(string $attributeCode, array $context = []): AkeneoAttributeProcessorInterface

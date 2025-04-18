@@ -19,7 +19,7 @@ use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
  *
  * @coversNothing
  */
-final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
+final class CreateUpdateDeleteTaskTest extends AbstractTaskTestCase
 {
     private CategoryConfiguration $categoryConfiguration;
 
@@ -28,7 +28,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/' . CategoryApi::CATEGORIES_URI,
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK),
             ),

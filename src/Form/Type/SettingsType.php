@@ -27,7 +27,7 @@ final class SettingsType extends AbstractType
             $fieldOptions['constraints'] = $configuration['constraints'] ?? [];
 
             // Validator constraints
-            if (!empty($fieldOptions['constraints']) && \is_array($fieldOptions['constraints'])) {
+            if (isset($fieldOptions['constraints']) && $fieldOptions['constraints'] !== [] && \is_array($fieldOptions['constraints'])) {
                 $constraints = [];
                 foreach ($fieldOptions['constraints'] as $class => $constraintOptions) {
                     if (!class_exists($class)) {

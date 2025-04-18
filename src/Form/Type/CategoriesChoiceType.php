@@ -46,7 +46,7 @@ final class CategoriesChoiceType extends AbstractType
         $resolver->setDefaults(['choices' => $categories]);
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }

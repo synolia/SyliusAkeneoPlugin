@@ -4,28 +4,24 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Transformer\DataMigration;
 
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Transformer\DataMigration\NoDataMigrationTransformerFoundException;
 use Throwable;
 
 final class DataMigrationTransformer
 {
-    /** @var array<DataMigrationTransformerInterface> */
-    private array $dataMigrationTransformers = [];
-
-    public function addDataMigrationTransformer(DataMigrationTransformerInterface $dataMigrationTransformer): void
-    {
-        $this->dataMigrationTransformers[$dataMigrationTransformer::class] = $dataMigrationTransformer;
+    public function __construct(
+        /** @var iterable<DataMigrationTransformerInterface> $dataMigrationTransformers */
+        #[AutowireIterator(DataMigrationTransformerInterface::TAG_ID)]
+        private iterable $dataMigrationTransformers,
+    ) {
     }
 
-    /**
-     * @return mixed
-     */
-    public function transform(string $fromType, string $toType, mixed $value)
+    public function transform(string $fromType, string $toType, mixed $value): array
     {
         foreach ($this->dataMigrationTransformers as $dataMigrationTransformer) {
             try {
                 if ($dataMigrationTransformer->support($fromType, $toType)) {
-                    /** @phpstan-ignore-next-line */
                     return $dataMigrationTransformer->transform($value);
                 }
             } catch (Throwable) {

@@ -37,7 +37,7 @@ final class ImportAssociationsCommand extends Command
     protected function execute(
         InputInterface $input,
         OutputInterface $output,
-    ) {
+    ): int {
         if (!$this->lock()) {
             $output->writeln(Messages::commandAlreadyRunning());
 

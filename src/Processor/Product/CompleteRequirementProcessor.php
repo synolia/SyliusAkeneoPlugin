@@ -57,7 +57,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
                         $usedLocalesOnBothPlatform,
                         $this->productFilterRulesProvider->getProductFiltersRules()->getChannel(),
                     );
-                } catch (TranslationNotFoundException|MissingLocaleTranslationOrScopeException|MissingLocaleTranslationException|MissingScopeException) {
+                } catch (TranslationNotFoundException | MissingLocaleTranslationOrScopeException | MissingLocaleTranslationException | MissingScopeException) {
                     $this->akeneoLogger->warning('Could not find translation name for product.', [
                         'product_code' => $product->getCode(),
                         'locale' => $usedLocalesOnBothPlatform,
@@ -74,10 +74,12 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
 
             /** @var ProductConfiguration $configuration */
             $configuration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
-            if (null !== $product->getId() &&
+            if (
+                null !== $product->getId() &&
                 null !== $configuration &&
                 null !== $productTranslation->getSlug() &&
-                false === $configuration->getRegenerateUrlRewrites()) {
+                false === $configuration->getRegenerateUrlRewrites()
+            ) {
                 // no regenerate slug if config disable it
 
                 continue;

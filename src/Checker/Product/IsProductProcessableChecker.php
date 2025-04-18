@@ -40,7 +40,8 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 
             $numberOfVariationAxis = isset($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0;
 
-            if (null === $resource['parent'] &&
+            if (
+                null === $resource['parent'] &&
                 $numberOfVariationAxis > self::ONE_VARIATION_AXIS &&
                 $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST
             ) {
@@ -50,7 +51,8 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
             }
 
             // The common model will not be imported. The first axe on akeneo will become the product on sylius and the next axe on akeneo will become an option for the product variant
-            if (null !== $resource['parent'] &&
+            if (
+                null !== $resource['parent'] &&
                 $numberOfVariationAxis === 2 &&
                 $this->apiConnectionProvider->get()->getAxeAsModel() !== AkeneoAxesEnum::FIRST
             ) {

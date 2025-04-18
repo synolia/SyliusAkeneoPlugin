@@ -33,7 +33,7 @@ class DatabaseApiConfigurationProvider implements ApiConnectionProviderInterface
      */
     public function get(): ApiConnectionInterface
     {
-        if (null !== $this->apiConnection) {
+        if ($this->apiConnection instanceof ApiConnectionInterface) {
             return $this->apiConnection;
         }
 

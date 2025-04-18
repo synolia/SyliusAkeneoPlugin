@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttribute;
 
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface AkeneoAttributeProcessorInterface
 {
     public const TAG_ID = 'sylius.akeneo.attribute_processor';

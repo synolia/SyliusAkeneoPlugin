@@ -50,11 +50,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
             return false;
         }
 
-        if (!\method_exists($model, 'addAsset')) {
-            return false;
-        }
-
-        return true;
+        return \method_exists($model, 'addAsset');
     }
 
     public function process(
@@ -198,7 +194,7 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
                 'old_content' => $oldContent,
                 'content' => $data,
             ]);
-        } catch (MissingLocaleTranslationException|MissingLocaleTranslationOrScopeException|MissingScopeException $e) {
+        } catch (MissingLocaleTranslationException | MissingLocaleTranslationOrScopeException | MissingScopeException $e) {
             $this->akeneoLogger->debug('Error processing asset', [
                 'product' => $model->getCode(),
                 'family_code' => $assetFamilyCode,

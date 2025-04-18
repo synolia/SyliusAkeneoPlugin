@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
@@ -15,6 +16,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\CategoriesConfigurationType;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 
+#[AsController]
 final class CategoriesController extends AbstractController
 {
     public function __construct(
@@ -34,12 +36,8 @@ final class CategoriesController extends AbstractController
 
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
         }
-
-        $categoriesConfigurations = null;
-        if ($this->categoriesConfigurationRepository instanceof CategoryConfigurationRepository) {
-            $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
-        }
-        if (null === $categoriesConfigurations) {
+        $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
+        if (!$categoriesConfigurations instanceof \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration) {
             $categoriesConfigurations = new CategoryConfiguration();
         }
 
@@ -56,7 +54,7 @@ final class CategoriesController extends AbstractController
         return $this->render(
             '@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/categories.html.twig',
             [
-                'form' => $form->createView(),
+                'form' => $form,
             ],
         );
     }

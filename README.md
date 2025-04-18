@@ -1,13 +1,17 @@
-[![License](https://img.shields.io/packagist/l/synolia/sylius-akeneo-plugin.svg)](https://github.com/synolia/SyliusAkeneoPlugin/blob/master/LICENSE)
-[![CI - Analysis](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/analysis.yaml/badge.svg?branch=master)](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/analysis.yaml)
-[![CI - Sylius](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/sylius.yaml/badge.svg?branch=master)](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/sylius.yaml)
+[![License](https://img.shields.io/packagist/l/synolia/sylius-akeneo-plugin.svg)](https://github.com/synolia/SyliusAkeneoPlugin/blob/main/LICENSE)
+[![CI - Analysis](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/analysis.yaml/badge.svg?branch=main)](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/analysis.yaml)
+[![CI - Sylius](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/sylius.yaml/badge.svg?branch=main)](https://github.com/synolia/SyliusAkeneoPlugin/actions/workflows/sylius.yaml)
 [![Version](https://img.shields.io/packagist/v/synolia/sylius-akeneo-plugin.svg)](https://packagist.org/packages/synolia/sylius-akeneo-plugin)
 [![Total Downloads](https://poser.pugx.org/synolia/sylius-akeneo-plugin/downloads)](https://packagist.org/packages/synolia/sylius-akeneo-plugin)
 
 <p align="center">
     <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
-    </a>
+        <picture>
+         <source media="(prefers-color-scheme: dark)" srcset="https://media.sylius.com/sylius-logo-800-dark.png">
+         <source media="(prefers-color-scheme: light)" srcset="https://media.sylius.com/sylius-logo-800.png">
+         <img alt="Sylius Logo." src="https://media.sylius.com/sylius-logo-800.png">
+        </picture>
+   </a>
 </p>
 
 <h1 align="center">Sylius Akeneo Plugin</h1>
@@ -27,11 +31,11 @@
 
 ## Requirements
 
-| | Version |
-| :--- |:--------|
-| PHP  | ^8.0    |
-| Sylius | ^1.10   |
-| Akeneo PIM  | >=v6.0  |
+|            | Version |
+|:-----------|:--------|
+| PHP        | ^8.2    |
+| Sylius     | ^1.12   |
+| Akeneo PIM | >=v6.0  |
 
 
 ## Installation

@@ -6,14 +6,16 @@ namespace Synolia\SyliusAkeneoPlugin\Menu;
 
 use Knp\Menu\ItemInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
+#[AsEventListener(event: 'sylius.menu.admin.main', method: 'addAdminMenuItems')]
 class AdminApiConfigurationMenuListener
 {
     public function addAdminMenuItems(MenuBuilderEvent $event): void
     {
         $menu = $event->getMenu();
 
-        if (null === $menu->getChild('akeneo')) {
+        if (!$menu->getChild('akeneo') instanceof ItemInterface) {
             $menu->addChild('akeneo');
         }
 

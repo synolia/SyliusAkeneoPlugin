@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Factory\ProductFactoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\Product\IsProductProcessableCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
@@ -32,7 +33,9 @@ class ProductModelResourceProcessor implements AkeneoResourceProcessorInterface
         private IsProductProcessableCheckerInterface $isProductProcessableChecker,
         private ProductGroupProcessor $productGroupProcessor,
         private ManagerRegistry $managerRegistry,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_MAX_RETRY_COUNT)%')]
         private int $maxRetryCount,
+        #[Autowire('%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%')]
         private int $retryWaitTime,
         private int $retryCount = 0,
     ) {

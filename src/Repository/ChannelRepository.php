@@ -30,7 +30,7 @@ final class ChannelRepository extends ServiceEntityRepository
     public function findByCurrencyCode(string $currencyCode): iterable
     {
         return $this->createQueryBuilder('c')
-            ->innerJoin('c.baseCurrency', 'bc', 'WITH', 'bc.id = c.baseCurrency')
+            ->innerJoin('c.baseCurrency', 'bc')
             ->where('bc.code = :currencyCode')
             ->setParameter('currencyCode', $currencyCode)
             ->getQuery()

@@ -34,23 +34,31 @@ final class AkeneoAssetAttributeDataProvider implements AkeneoAssetAttributeData
     ) {
         $akeneoLocale = $this->syliusAkeneoLocaleCodeProvider->getAkeneoLocale($locale);
 
-        if (!$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
-            !$this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
+        if (
+            !$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
+            !$this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)
+        ) {
             return $attributeValues[0]['data'];
         }
 
-        if ($this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
-            !$this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
+        if (
+            $this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
+            !$this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)
+        ) {
             return $this->getByScope($assetFamilyCode, $attributeCode, $attributeValues, $scope);
         }
 
-        if ($this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
-            $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
+        if (
+            $this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
+            $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)
+        ) {
             return $this->getByLocaleAndScope($assetFamilyCode, $attributeCode, $attributeValues, $akeneoLocale, $scope);
         }
 
-        if (!$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
-            $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)) {
+        if (
+            !$this->akeneoAssetAttributePropertiesProvider->isScopable($assetFamilyCode, $attributeCode) &&
+            $this->akeneoAssetAttributePropertiesProvider->isLocalizable($assetFamilyCode, $attributeCode)
+        ) {
             return $this->getByLocale($assetFamilyCode, $attributeCode, $attributeValues, $akeneoLocale);
         }
 

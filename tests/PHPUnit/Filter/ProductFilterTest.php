@@ -64,7 +64,7 @@ final class ProductFilterTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }

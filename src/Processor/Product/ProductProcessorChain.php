@@ -6,16 +6,16 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\Product;
 
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Traversable;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 final class ProductProcessorChain implements ProductProcessorChainInterface
 {
-    /** @var array<ProductProcessorInterface> */
-    private array $productProcessors;
-
-    public function __construct(Traversable $handlers, private LoggerInterface $akeneoLogger)
-    {
-        $this->productProcessors = iterator_to_array($handlers);
+    public function __construct(
+        /** @var iterable<ProductProcessorInterface> $productProcessors */
+        #[AutowireIterator(ProductProcessorInterface::TAG_ID)]
+        private iterable $productProcessors,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     public function chain(ProductInterface $product, array $resource): void

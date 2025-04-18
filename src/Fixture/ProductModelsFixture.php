@@ -6,6 +6,7 @@ namespace Synolia\SyliusAkeneoPlugin\Fixture;
 
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Synolia\SyliusAkeneoPlugin\Factory\PayloadFactoryInterface;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -14,6 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
  * See how to configure search filters here:
  * https://api.akeneo.com/documentation/filter.html#filter-on-product-model-properties
  */
+#[AutoconfigureTag('sylius_fixtures.fixture')]
 final class ProductModelsFixture extends AbstractFixture
 {
     public function __construct(

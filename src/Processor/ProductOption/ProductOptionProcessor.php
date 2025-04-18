@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductOption;
 
 use Sylius\Component\Attribute\Model\AttributeInterface;
+use Sylius\Component\Product\Model\ProductOptionInterface;
 use Synolia\SyliusAkeneoPlugin\Manager\ProductOptionManagerInterface;
 
 final class ProductOptionProcessor implements ProductOptionProcessorInterface
@@ -21,7 +22,7 @@ final class ProductOptionProcessor implements ProductOptionProcessorInterface
 
         $productOption = $this->productOptionManager->getProductOptionFromAttribute($attribute);
 
-        if (null === $productOption) {
+        if (!$productOption instanceof ProductOptionInterface) {
             $productOption = $this->productOptionManager->createProductOptionFromAttribute($attribute);
         }
 

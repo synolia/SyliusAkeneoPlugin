@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory;
-use Synolia\SyliusAkeneoPlugin\Filter\ProductFilter;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -31,16 +30,14 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
  *
  * @coversNothing
  */
-final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
+final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTestCase
 {
     /** @var TaskProvider */
     private $taskProvider;
 
     private \Akeneo\Pim\ApiClient\AkeneoPimClientInterface $client;
 
-    private ProductFilter $productFilter;
-
-    private ?ProductFiltersRules $productFiltersRules;
+    private ?ProductFiltersRules $productFiltersRules = null;
 
     protected function setUp(): void
     {
@@ -179,8 +176,6 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
     private function createProductFiltersConfiguration(): void
     {
-        $this->productFilter = $this->getContainer()->get(ProductFilter::class);
-
         $this->productFiltersRules = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([]);
         if (!$this->productFiltersRules instanceof ProductFiltersRules) {
             $this->productFiltersRules = new ProductFiltersRules();
@@ -203,7 +198,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
     private function importReferenceEntities(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
 

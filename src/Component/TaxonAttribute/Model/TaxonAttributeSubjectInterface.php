@@ -12,14 +12,12 @@ interface TaxonAttributeSubjectInterface
 {
     /**
      * @return Collection|TaxonAttributeValueInterface[]
-     *
      * @psalm-return Collection<array-key, TaxonAttributeValue>
      */
     public function getAttributes(): Collection;
 
     /**
      * @return Collection|TaxonAttributeValueInterface[]
-     *
      * @psalm-return Collection<array-key, TaxonAttributeValue>
      */
     public function getAttributesByLocale(

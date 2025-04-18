@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEntity;
 
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+
+#[AutoconfigureTag(name: self::TAG_ID)]
 interface ReferenceEntityAttributeValueProcessorInterface
 {
     public const TAG_ID = 'sylius.akeneo.reference_entity_attribute_value_processor';

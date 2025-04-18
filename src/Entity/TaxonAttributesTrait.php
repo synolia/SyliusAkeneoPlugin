@@ -109,8 +109,10 @@ trait TaxonAttributesTrait
         $localeCode = $localeCode ?: $this->getTranslation()->getLocale();
 
         foreach ($this->getAttributes() as $attribute) {
-            if ($attribute->getAttribute()->getCode() === $attributeCode &&
-                ($attribute->getLocaleCode() === $localeCode || null === $attribute->getLocaleCode())) {
+            if (
+                $attribute->getAttribute()->getCode() === $attributeCode &&
+                ($attribute->getLocaleCode() === $localeCode || null === $attribute->getLocaleCode())
+            ) {
                 return $attribute;
             }
         }

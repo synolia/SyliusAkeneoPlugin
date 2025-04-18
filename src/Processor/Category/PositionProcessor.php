@@ -36,6 +36,6 @@ class PositionProcessor implements CategoryProcessorInterface
      */
     public function support(TaxonInterface $taxon, array $resource): bool
     {
-        return true === $this->categoryConfigurationProvider->get()->useAkeneoPositions() && array_key_exists('position', $resource);
+        return $this->categoryConfigurationProvider->get()->useAkeneoPositions() && array_key_exists('position', $resource);
     }
 }

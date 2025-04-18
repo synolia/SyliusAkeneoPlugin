@@ -5,24 +5,20 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\Asset;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Builder\Asset\Attribute\AssetAttributeValueBuilderInterface;
 use Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 
 final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterface
 {
-    /** @var array<AssetAttributeValueBuilderInterface> */
-    private array $assetAttributeValueBuilders;
-
     public function __construct(
+        /** @var iterable<AssetAttributeValueBuilderInterface> $assetAttributeValueBuilders */
+        #[AutowireIterator(AssetAttributeValueBuilderInterface::TAG_ID)]
+        private iterable $assetAttributeValueBuilders,
         private LoggerInterface $akeneoLogger,
         private EditionCheckerInterface $editionChecker,
     ) {
-    }
-
-    public function addBuilder(AssetAttributeValueBuilderInterface $assetAttributeValueBuilder): void
-    {
-        $this->assetAttributeValueBuilders[$assetAttributeValueBuilder::class] = $assetAttributeValueBuilder;
     }
 
     /**
@@ -41,10 +37,7 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
         return null;
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function findBuilderByClassName(string $className)
+    public function findBuilderByClassName(string $className): ?AssetAttributeValueBuilderInterface
     {
         foreach ($this->assetAttributeValueBuilders as $attributeValueBuilder) {
             if (!$attributeValueBuilder instanceof $className) {
@@ -70,7 +63,7 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
                 if ($attributeValueBuilder->support($assetFamilyCode, $assetCode)) {
                     return true;
                 }
-            } catch (UnsupportedAttributeTypeException $throwable) {
+            } catch (UnsupportedAttributeTypeException) {
                 $this->akeneoLogger->warning('Unsupported AssetAttributeType', [
                     'family_code' => $assetFamilyCode,
                     'asset_code' => $assetCode,

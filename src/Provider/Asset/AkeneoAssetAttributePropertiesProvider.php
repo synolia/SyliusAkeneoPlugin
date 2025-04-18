@@ -25,7 +25,7 @@ final class AkeneoAssetAttributePropertiesProvider implements AkeneoAssetAttribu
 
     public function isLocalizable(string $assetFamilyCode, string $attributeCode): bool
     {
-        return (isset($this->getProperties($assetFamilyCode, $attributeCode)['value_per_locale'])) ? (bool) $this->getProperties($assetFamilyCode, $attributeCode)['value_per_locale'] : false;
+        return isset($this->getProperties($assetFamilyCode, $attributeCode)['value_per_locale']) && (bool) $this->getProperties($assetFamilyCode, $attributeCode)['value_per_locale'];
     }
 
     public function getProperties(string $assetFamilyCode, string $attributeCode): array
@@ -49,7 +49,7 @@ final class AkeneoAssetAttributePropertiesProvider implements AkeneoAssetAttribu
 
     public function isScopable(string $assetFamilyCode, string $attributeCode): bool
     {
-        return (isset($this->getProperties($assetFamilyCode, $attributeCode)['value_per_channel'])) ? (bool) $this->getProperties($assetFamilyCode, $attributeCode)['value_per_channel'] : false;
+        return isset($this->getProperties($assetFamilyCode, $attributeCode)['value_per_channel']) && (bool) $this->getProperties($assetFamilyCode, $attributeCode)['value_per_channel'];
     }
 
     public function getLabel(string $assetFamilyCode, string $attributeCode, ?string $locale): string

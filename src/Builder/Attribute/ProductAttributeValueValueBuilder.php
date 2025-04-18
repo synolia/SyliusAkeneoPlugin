@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Builder\Attribute;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Throwable;
 
 final class ProductAttributeValueValueBuilder
 {
-    private array $attributeValueBuilders;
-
-    public function __construct(private LoggerInterface $akeneoLogger)
-    {
-        $this->attributeValueBuilders = [];
-    }
-
-    public function addBuilder(ProductAttributeValueValueBuilderInterface $attributeValueBuilder): void
-    {
-        $this->attributeValueBuilders[$attributeValueBuilder::class] = $attributeValueBuilder;
+    public function __construct(
+        private LoggerInterface $akeneoLogger,
+        /** @var iterable<ProductAttributeValueValueBuilderInterface> $attributeValueBuilders */
+        #[AutowireIterator(ProductAttributeValueValueBuilderInterface::TAG_ID)]
+        private iterable $attributeValueBuilders,
+    ) {
     }
 
     /**

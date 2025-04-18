@@ -5,20 +5,16 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Builder\TaxonAttribute;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Throwable;
 
 final class TaxonAttributeValueBuilder
 {
-    private array $attributeValueBuilders;
-
-    public function __construct(private LoggerInterface $akeneoLogger)
-    {
-        $this->attributeValueBuilders = [];
-    }
-
-    public function addBuilder(TaxonAttributeValueBuilderInterface $attributeValueBuilder): void
-    {
-        $this->attributeValueBuilders[$attributeValueBuilder::class] = $attributeValueBuilder;
+    public function __construct(
+        #[AutowireIterator(TaxonAttributeValueBuilderInterface::TAG_ID)]
+        private iterable $attributeValueBuilders,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     /**

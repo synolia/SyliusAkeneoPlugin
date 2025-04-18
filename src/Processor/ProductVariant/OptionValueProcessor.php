@@ -102,7 +102,8 @@ class OptionValueProcessor implements OptionValueProcessorInterface
 
             try {
                 // if the attribute is part of the first variation axis, and we import this axis as model, we don't want it as an option of the variant
-                if ($this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST &&
+                if (
+                    $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST &&
                     (is_countable($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0) === 2 &&
                     $this->getAxeLevelForAttributeCode(
                         $familyVariantPayload['variant_attribute_sets'],

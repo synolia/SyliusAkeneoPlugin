@@ -10,21 +10,30 @@ use Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistryInterface;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\ReversedTransformer;
+use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue;
 
+#[AutoconfigureTag('form.type')]
 class TaxonAttributeValueType extends AbstractResourceType
 {
     public function __construct(
+        #[Autowire(TaxonAttributeValue::class)]
         string $dataClass,
+        #[Autowire('sylius_taxon_attribute_value.validation_groups')]
         array $validationGroups,
+        #[Autowire(TaxonAttributeChoiceType::class)]
         protected string $attributeChoiceType,
         protected RepositoryInterface $taxonAttributeRepository,
+        #[Autowire('@sylius.repository.locale')]
         protected RepositoryInterface $localeRepository,
+        #[Autowire('@sylius.form_registry.taxon_attribute_type')]
         protected FormTypeRegistryInterface $formTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
@@ -36,7 +45,7 @@ class TaxonAttributeValueType extends AbstractResourceType
         $builder
             ->add('localeCode', LocaleChoiceType::class)
             ->add('attribute', $this->attributeChoiceType)
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $attributeValue = $event->getData();
 
                 if (!$attributeValue instanceof TaxonAttributeValue) {
@@ -44,7 +53,7 @@ class TaxonAttributeValueType extends AbstractResourceType
                 }
 
                 $attribute = $attributeValue->getAttribute();
-                if (null === $attribute) {
+                if (!$attribute instanceof \Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface) {
                     return;
                 }
 
@@ -52,7 +61,7 @@ class TaxonAttributeValueType extends AbstractResourceType
 
                 $this->addValueField($event->getForm(), $attribute, $localeCode);
             })
-            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
                 /** @var array $attributeValue */
                 $attributeValue = $event->getData();
 
@@ -76,7 +85,7 @@ class TaxonAttributeValueType extends AbstractResourceType
 
     protected function addValueField(
         FormInterface $form,
-        AttributeInterface $attribute,
+        AttributeInterface|TaxonAttributeInterface $attribute,
         ?string $localeCode = null,
     ): void {
         /** @phpstan-ignore-next-line */

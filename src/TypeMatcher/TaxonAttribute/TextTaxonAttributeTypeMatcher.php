@@ -38,7 +38,7 @@ final class TextTaxonAttributeTypeMatcher implements TaxonAttributeTypeMatcherIn
 
     public function getTypeClassName(): string
     {
-        return get_class($this->attributeType);
+        return $this->attributeType::class;
     }
 
     public function getAttributeType(): AttributeTypeInterface

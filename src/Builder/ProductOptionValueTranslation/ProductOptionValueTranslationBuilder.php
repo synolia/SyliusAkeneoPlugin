@@ -7,17 +7,16 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValueTranslation;
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Model\ProductOptionValueTranslationInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValueTranslation\ProductOptionValueTranslationBuilderNotFoundException;
-use Traversable;
 
 class ProductOptionValueTranslationBuilder implements ProductOptionValueTranslationBuilderProcessorInterface
 {
-    /** @var array<ProductOptionValueTranslationBuilderInterface> */
-    private array $productOptionValueTranslationBuilders;
-
-    public function __construct(Traversable $handlers)
-    {
-        $this->productOptionValueTranslationBuilders = iterator_to_array($handlers);
+    public function __construct(
+        /** @var iterable<ProductOptionValueTranslationBuilderInterface> $productOptionValueTranslationBuilders */
+        #[AutowireIterator(ProductOptionValueTranslationBuilderInterface::TAG_ID)]
+        private iterable $productOptionValueTranslationBuilders,
+    ) {
     }
 
     /**

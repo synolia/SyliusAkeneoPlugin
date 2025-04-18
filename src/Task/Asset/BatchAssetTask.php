@@ -37,7 +37,7 @@ final class BatchAssetTask extends AbstractBatchTask
         while ($results = $queryResult->fetchAllAssociative()) {
             foreach ($results as $result) {
                 try {
-                    $resource = \json_decode($result['values'], true, 512, \JSON_THROW_ON_ERROR);
+                    $resource = \json_decode((string) $result['values'], true, 512, \JSON_THROW_ON_ERROR);
 
                     $this->retrieveAssets($payload, $resource);
                     $this->removeEntry($payload, (int) $result['id']);

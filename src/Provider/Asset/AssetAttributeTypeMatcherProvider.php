@@ -5,21 +5,18 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\Asset;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Asset\Attribute\AssetAttributeTypeMatcherInterface;
 
 final class AssetAttributeTypeMatcherProvider implements AssetAttributeTypeMatcherProviderInterface
 {
-    /** @var array<AssetAttributeTypeMatcherInterface> */
-    private array $typeMatchers;
-
-    public function __construct(private LoggerInterface $akeneoLogger)
-    {
-    }
-
-    public function addTypeMatcher(AssetAttributeTypeMatcherInterface $typeMatcher): void
-    {
-        $this->typeMatchers[$typeMatcher::class] = $typeMatcher;
+    public function __construct(
+        /** @var iterable<AssetAttributeTypeMatcherInterface> $typeMatchers */
+        #[AutowireIterator(AssetAttributeTypeMatcherInterface::TAG_ID)]
+        private iterable $typeMatchers,
+        private LoggerInterface $akeneoLogger,
+    ) {
     }
 
     /**

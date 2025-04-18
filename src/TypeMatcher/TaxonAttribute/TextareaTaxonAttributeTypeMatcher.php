@@ -38,7 +38,7 @@ final class TextareaTaxonAttributeTypeMatcher implements TaxonAttributeTypeMatch
 
     public function getTypeClassName(): string
     {
-        return get_class($this->attributeType);
+        return $this->attributeType::class;
     }
 
     public function getAttributeType(): AttributeTypeInterface

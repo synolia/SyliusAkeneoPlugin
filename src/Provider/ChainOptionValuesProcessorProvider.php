@@ -6,18 +6,17 @@ namespace Synolia\SyliusAkeneoPlugin\Provider;
 
 use Sylius\Component\Attribute\Model\AttributeInterface;
 use Sylius\Component\Product\Model\ProductOptionInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Processor\MissingProductOptionValuesProcessorException;
 use Synolia\SyliusAkeneoPlugin\Processor\ProductOptionValue\OptionValuesProcessorInterface;
-use Traversable;
 
 final class ChainOptionValuesProcessorProvider implements OptionValuesProcessorProviderInterface
 {
-    /** @var array<OptionValuesProcessorInterface> */
-    private array $optionValuesProcessors;
-
-    public function __construct(Traversable $handlers)
-    {
-        $this->optionValuesProcessors = iterator_to_array($handlers);
+    public function __construct(
+        /** @var iterable<OptionValuesProcessorInterface> $optionValuesProcessors */
+        #[AutowireIterator(OptionValuesProcessorInterface::TAG_ID)]
+        private iterable $optionValuesProcessors,
+    ) {
     }
 
     /**

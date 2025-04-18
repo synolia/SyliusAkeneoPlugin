@@ -19,7 +19,7 @@ final class ClientFactory implements ClientFactoryInterface
 
     public function createFromApiCredentials(): AkeneoPimClientInterface
     {
-        if (null !== $this->akeneoClient) {
+        if ($this->akeneoClient instanceof AkeneoPimClientInterface) {
             return $this->akeneoClient;
         }
 

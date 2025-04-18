@@ -8,14 +8,14 @@ use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTest;
+use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTestCase;
 
 /**
  * @internal
  *
  * @coversNothing
  */
-final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
+final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTestCase
 {
     private \Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider $attributePropertiesProvider;
 
@@ -24,7 +24,7 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTest
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_all.json'), [], HttpResponse::HTTP_OK),
         );
 

@@ -2,42 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
+namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductOption;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
-use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
-    /** @var \Synolia\SyliusAkeneoPlugin\Provider\TaskProvider */
-    protected $taskProvider;
-
     protected function setUp(): void
     {
         parent::setUp();
         self::bootKernel();
 
-        $this->manager = self::getContainer()->get('doctrine')->getManager();
-
-        $this->initSyliusLocales();
-
-        $this->manager->flush();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
-            new Response($this->getLocales(), [], HttpResponse::HTTP_OK),
-        );
-
-        $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK),
         );
 
@@ -57,10 +43,6 @@ abstract class AbstractTaskTest extends ApiTestCase
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'coloris'),
-            new Response($this->getFileContent('reference_entity_coloris_records.json'), [], HttpResponse::HTTP_OK),
-        );
-        $this->server->setResponseOfPath(
             '/' . FamilyApi::FAMILIES_URI,
             new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK),
         );
@@ -70,25 +52,19 @@ abstract class AbstractTaskTest extends ApiTestCase
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK),
         );
 
-        $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'coloris'),
+            new Response($this->getFileContent('reference_entity_coloris_records.json'), [], HttpResponse::HTTP_OK),
+        );
     }
 
     protected function tearDown(): void
     {
-        $this->server->stop();
         $this->manager->close();
         $this->manager = null;
 
+        $this->server->stop();
+
         parent::tearDown();
-    }
-
-    protected function getAttributes(): string
-    {
-        return $this->getFileContent('attributes_all.json');
-    }
-
-    protected function getLocales(): string
-    {
-        return $this->getFileContent('locales.json');
     }
 }

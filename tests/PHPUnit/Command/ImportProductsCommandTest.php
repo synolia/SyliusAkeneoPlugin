@@ -28,7 +28,7 @@ class ImportProductsCommandTest extends ApiTestCase
         $response = new Response($this->getFileContent('products_all_with_filter.json'), [], HttpResponse::HTTP_OK);
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductApi::PRODUCTS_URI),
+            '/' . ProductApi::PRODUCTS_URI,
             $response,
         );
 

@@ -10,12 +10,14 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\ApiNotConfiguredException;
 use Synolia\SyliusAkeneoPlugin\Form\Type\ProductConfigurationType;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 
+#[AsController]
 final class ProductsController extends AbstractController
 {
     public function __construct(
@@ -58,19 +60,19 @@ final class ProductsController extends AbstractController
         return $this->render(
             '@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig',
             [
-                'form' => $form->createView(),
+                'form' => $form,
             ],
         );
     }
 
     private function removeElements(?Collection $productConfiguration, ?Collection $productConfigurationData): void
     {
-        if (null === $productConfiguration || null === $productConfigurationData) {
+        if (!$productConfiguration instanceof \Doctrine\Common\Collections\Collection || !$productConfigurationData instanceof \Doctrine\Common\Collections\Collection) {
             return;
         }
 
         foreach ($productConfiguration as $defaultTax) {
-            if (false === array_search($defaultTax, $productConfigurationData->toArray(), true)) {
+            if (!in_array($defaultTax, $productConfigurationData->toArray(), true)) {
                 $this->entityManager->remove($defaultTax);
             }
         }

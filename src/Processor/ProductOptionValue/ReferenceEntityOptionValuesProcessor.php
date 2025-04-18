@@ -110,7 +110,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
             }
         }
 
-        foreach ($translations as  $translation) {
+        foreach ($translations as $translation) {
             $locale = $translation['locale'];
 
             if (null === $translation['data']) {

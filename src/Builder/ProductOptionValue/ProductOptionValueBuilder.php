@@ -6,17 +6,16 @@ namespace Synolia\SyliusAkeneoPlugin\Builder\ProductOptionValue;
 
 use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Builder\ProductOptionValue\ProductOptionValueBuilderNotFoundException;
-use Traversable;
 
 class ProductOptionValueBuilder implements ProductOptionValueBuilderInterface
 {
-    /** @var array<DynamicOptionValueBuilderInterface> */
-    private array $dynamicProductOptionValueBuilders;
-
-    public function __construct(Traversable $handlers)
-    {
-        $this->dynamicProductOptionValueBuilders = iterator_to_array($handlers);
+    public function __construct(
+        /** @var iterable<DynamicOptionValueBuilderInterface> $dynamicProductOptionValueBuilders */
+        #[AutowireIterator(DynamicOptionValueBuilderInterface::TAG_ID)]
+        private iterable $dynamicProductOptionValueBuilders,
+    ) {
     }
 
     public function build(ProductOptionInterface $productOption, mixed $values): ProductOptionValueInterface

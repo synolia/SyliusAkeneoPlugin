@@ -25,7 +25,7 @@ use Synolia\SyliusAkeneoPlugin\Form\Type\ProductFilterRuleAdvancedType;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
-abstract class AbstractTaskTest extends ApiTestCase
+abstract class AbstractTaskTestCase extends ApiTestCase
 {
     protected function setUp(): void
     {
@@ -39,12 +39,12 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/' . CategoryApi::CATEGORIES_URI,
             new Response($this->getFileContent('categories_all.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/' . AttributeApi::ATTRIBUTES_URI,
             new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK),
         );
 
@@ -93,12 +93,12 @@ abstract class AbstractTaskTest extends ApiTestCase
             new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK),
         );
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
+            '/' . ProductModelApi::PRODUCT_MODELS_URI,
             new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK),
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductApi::PRODUCTS_URI),
+            '/' . ProductApi::PRODUCTS_URI,
             new Response($this->getFileContent('products_all.json'), [], HttpResponse::HTTP_OK),
         );
 
@@ -107,7 +107,7 @@ abstract class AbstractTaskTest extends ApiTestCase
             new Response($this->getFileContent('product_1111111171.jpg'), [], HttpResponse::HTTP_OK),
         );
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
 

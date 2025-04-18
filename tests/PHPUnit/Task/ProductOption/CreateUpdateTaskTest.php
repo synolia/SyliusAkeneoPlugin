@@ -10,7 +10,6 @@ use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
 use Synolia\SyliusAkeneoPlugin\Payload\Attribute\AttributePayload;
-use Synolia\SyliusAkeneoPlugin\Provider\TaskProvider;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformer;
 use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInterface;
 
@@ -19,18 +18,14 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
  *
  * @coversNothing
  */
-final class CreateUpdateTaskTest extends AbstractTaskTest
+final class CreateUpdateTaskTest extends AbstractTaskTestCase
 {
-    private ?TaskProvider $taskProvider = null;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->taskProvider = $this->getContainer()->get(TaskProvider::class);
-
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/' . LocaleApi::LOCALES_URI,
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK),
         );
     }

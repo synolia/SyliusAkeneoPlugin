@@ -14,7 +14,7 @@ use Synolia\SyliusAkeneoPlugin\Task\TaskHandlerTrait;
 
 final class ProcessAttributeTask implements AkeneoTaskInterface
 {
-    use TaskHandlerTrait{
+    use TaskHandlerTrait {
         TaskHandlerTrait::__construct as private __taskHandlerConstruct;
     }
 
