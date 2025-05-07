@@ -1,5 +1,5 @@
 sylius_akeneo_controllers:
-    resource: '@SynoliaSyliusAkeneoPlugin/Resources/config/routes/admin_controller_routing.yaml'
+    resource: 'routes/admin_controller_routing.yaml'
     prefix: /akeneo
     name_prefix: 'sylius_akeneo_connector_'
 

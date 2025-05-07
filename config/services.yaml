@@ -1,6 +1,21 @@
 parameters:
     env(SYNOLIA_AKENEO_MAX_RETRY_COUNT): 3
     env(SYNOLIA_AKENEO_RETRY_WAIT_TIME): 5000
+    env(SYNOLIA_AKENEO_BASE_URL): 'http://'
+    env(SYNOLIA_AKENEO_CLIENT_ID): ''
+    env(SYNOLIA_AKENEO_CLIENT_SECRET): ''
+    env(SYNOLIA_AKENEO_USERNAME): ''
+    env(SYNOLIA_AKENEO_PASSWORD): ''
+    env(SYNOLIA_AKENEO_AXE_AS_MODEL): first
+    env(SYNOLIA_AKENEO_PAGINATION): 100
+    env(SYNOLIA_AKENEO_EDITION): ee
+    synolia_sylius_akeneo.api_configuration.base_url: '%env(string:SYNOLIA_AKENEO_BASE_URL)%'
+    synolia_sylius_akeneo.api_configuration.client_id: '%env(string:SYNOLIA_AKENEO_CLIENT_ID)%'
+    synolia_sylius_akeneo.api_configuration.client_secret: '%env(string:SYNOLIA_AKENEO_CLIENT_SECRET)%'
+    synolia_sylius_akeneo.api_configuration.username: '%env(string:SYNOLIA_AKENEO_USERNAME)%'
+    synolia_sylius_akeneo.api_configuration.password: '%env(string:SYNOLIA_AKENEO_PASSWORD)%'
+    synolia_sylius_akeneo.api_configuration.axe_as_model: '%env(string:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
+    synolia_sylius_akeneo.api_configuration.pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
 
 services:
     _defaults:
@@ -9,8 +24,8 @@ services:
         public: false
 
     Synolia\SyliusAkeneoPlugin\:
-        resource: '../../*'
-        exclude: '../../{DependencyInjection,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Model,Migrations,Payload,SynoliaSyliusAkeneoPlugin.php}'
 
     sylius.product_filters_rules_class_metadata:
         class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'

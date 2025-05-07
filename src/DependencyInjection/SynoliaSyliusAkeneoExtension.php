@@ -35,9 +35,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
-
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/config'));
         $loader->load('services.yaml');
 
         $this->processApiConfiguration($container, $config);
@@ -50,19 +48,6 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
     {
         $container->prependExtensionConfig('monolog', ['channels' => ['akeneo']]);
 
-        if (!$container->hasExtension('twig')) {
-            return;
-        }
-
-        $viewsPath = \dirname(__DIR__) . '/Resources/views/';
-        // This add our override in twig paths with correct namespace. No need for final user to copy it
-        $paths = [
-            $viewsPath . 'SyliusAttributeBundle' => 'SyliusAttribute',
-        ];
-
-        $container->prependExtensionConfig('twig', [
-            'paths' => $paths,
-        ]);
         $this->prependDoctrineMigrations($container);
     }
 
@@ -73,7 +58,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
 
     protected function getMigrationsDirectory(): string
     {
-        return '@SynoliaSyliusAkeneoPlugin/Migrations';
+        return '@SynoliaSyliusAkeneoPlugin/migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array
@@ -83,29 +68,17 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
 
     private function processApiConfiguration(ContainerBuilder $container, array $config): void
     {
-        // If DotEnvApiConnectionProvider configuration is not set, use default DatabaseApiConfigurationProvider
-        if (\count($config) !== 0 && !\array_key_exists('api_configuration', $config)) {
-            $container->setAlias(ApiConnectionProviderInterface::class, DatabaseApiConfigurationProvider::class);
-
-            return;
-        }
-
-        // If DotEnvApiConnectionProvider configuration is set, remove the DatabaseApiConfigurationProvider
-        $container->removeDefinition(DatabaseApiConfigurationProvider::class);
-        $container->removeDefinition(AdminApiConfigurationMenuListener::class);
-        $container->removeDefinition(ApiConfigurationController::class);
-
-        $dotEnvDefinition = $container->getDefinition(DotEnvApiConnectionProvider::class);
-        $dotEnvDefinition
-            ->setArgument('$baseUrl', $config['api_configuration']['base_url'])
-            ->setArgument('$clientId', $config['api_configuration']['client_id'])
-            ->setArgument('$clientSecret', $config['api_configuration']['client_secret'])
-            ->setArgument('$username', $config['api_configuration']['username'])
-            ->setArgument('$password', $config['api_configuration']['password'])
-            ->setArgument('$edition', $config['api_configuration']['edition'])
-            ->setArgument('$axeAsModel', $config['api_configuration']['axe_as_model'])
-            ->setArgument('$pagination', $config['api_configuration']['pagination'])
-        ;
+//        $dotEnvDefinition = $container->getDefinition(DotEnvApiConnectionProvider::class);
+//        $dotEnvDefinition
+//            ->setArgument('$baseUrl', $config['api_configuration']['base_url'])
+//            ->setArgument('$clientId', $config['api_configuration']['client_id'])
+//            ->setArgument('$clientSecret', $config['api_configuration']['client_secret'])
+//            ->setArgument('$username', $config['api_configuration']['username'])
+//            ->setArgument('$password', $config['api_configuration']['password'])
+//            ->setArgument('$edition', $config['api_configuration']['edition'])
+//            ->setArgument('$axeAsModel', $config['api_configuration']['axe_as_model'])
+//            ->setArgument('$pagination', $config['api_configuration']['pagination'])
+//        ;
 
         $container->setAlias(ApiConnectionProviderInterface::class, DotEnvApiConnectionProvider::class);
     }
