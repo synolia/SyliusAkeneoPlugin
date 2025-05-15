@@ -51,12 +51,6 @@ final class ProductConfigurationType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.products.regenerate_url_rewrites',
                 'required' => false,
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.admin.akeneo.save',
-                'attr' => [
-                    'class' => 'ui icon button primary',
-                ],
-            ])
         ;
     }
 }

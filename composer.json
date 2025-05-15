@@ -5,7 +5,8 @@
         "sylius",
         "sylius-plugin",
         "akeneo",
-        "connector"
+        "connector",
+        "symfony-ux"
     ],
     "description": "Akeneo connector for Sylius.",
     "license": "EUPL-1.2",

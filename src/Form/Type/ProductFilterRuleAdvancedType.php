@@ -26,10 +26,7 @@ final class ProductFilterRuleAdvancedType extends AbstractType
             ])
             ->add('advanced_filter', TextareaType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.advanced_filter',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
+                'help' => 'sylius.ui.admin.akeneo.product_filter_rules.advanced_help',
             ])
         ;
     }

@@ -1,0 +1,24 @@
+{% if form is not defined %}
+    {% set form = hookable_metadata.context.form %}
+    {% form_theme form '@SynoliaSyliusAkeneoPlugin/admin/form/theme.html.twig' %}
+{% endif %}
+
+<div class="page-wrapper">
+    <div class="container-xl">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': form.vars.id}}) }}
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-6">
+                                {{ form_row(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>

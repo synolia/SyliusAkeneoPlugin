@@ -1,0 +1,156 @@
+sylius_twig_hooks:
+    hooks:
+        'synolia.sylius_admin.akeneo': &base
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            navbar:
+                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                priority: 100
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'synolia.sylius_admin.akeneo.content': &content
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 400
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 300
+            footer:
+                template: '@SyliusAdmin/shared/crud/common/content/footer.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.content.header': &header
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'synolia.sylius_admin.akeneo.content.header.title_block': &title_block
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                priority: 100
+            actions:
+                template: '@SyliusAdmin/shared/crud/update/content/header/title_block/actions.html.twig'
+                priority: 0
+
+        'synolia.sylius_admin.akeneo.content.header.title_block.actions': &actions
+            cancel:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/common/content/header/title_block/actions/cancel.html.twig'
+                priority: 100
+            update:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/actions/update.html.twig'
+                priority: 0
+
+        'synolia.sylius_admin.akeneo.categories': *base
+
+        'synolia.sylius_admin.akeneo.categories.content':
+            <<: *content
+            form:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/categories/content/form.html.twig'
+                priority: 200
+
+        'synolia.sylius_admin.akeneo.categories.content.header':
+            <<: *header
+            breadcrumbs:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/categories/content/header/breadcrumbs.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.categories.content.header.title_block':
+            <<: *title_block
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: sylius.ui.admin.akeneo.categories.title
+                    icon: tabler:settings
+                    subheader: sylius.ui.admin.akeneo.categories.subtitle
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.categories.content.header.title_block.actions':
+            <<: *actions
+            cancel:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/common/content/header/title_block/actions/cancel.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.filters_configuration': *base
+
+        'synolia.sylius_admin.akeneo.filters_configuration.content':
+            <<: *content
+            form:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/filters_configuration/content/form.html.twig'
+                priority: 200
+
+        'synolia.sylius_admin.akeneo.filters_configuration.content.header':
+            <<: *header
+            breadcrumbs:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/filters_configuration/content/header/breadcrumbs.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.filters_configuration.content.header.title_block':
+            <<: *title_block
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: sylius.ui.admin.akeneo.product_filter_rules.title
+                    icon: tabler:settings
+                    subheader: sylius.ui.admin.akeneo.product_filter_rules.subtitle
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.filters_configuration.content.header.title_block.actions':
+            <<: *actions
+            update:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/filters_configuration/content/header/title_block/actions/update.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.products_configuration': *base
+
+        'synolia.sylius_admin.akeneo.products_configuration.content':
+            <<: *content
+            form:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/products_configuration/content/form.html.twig'
+                priority: 200
+
+        'synolia.sylius_admin.akeneo.products_configuration.content.header':
+            <<: *header
+            breadcrumbs:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/products_configuration/content/header/breadcrumbs.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.products_configuration.content.header.title_block':
+            <<: *title_block
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: sylius.ui.admin.akeneo.products.title
+                    icon: tabler:settings
+                    subheader: sylius.ui.admin.akeneo.products.subtitle
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.products_configuration.content.header.title_block.actions': *actions
+
+        'synolia.sylius_admin.akeneo.attributes_configuration': *base
+
+        'synolia.sylius_admin.akeneo.attributes_configuration.content':
+            <<: *content
+            form:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/attributes_configuration/content/form.html.twig'
+                priority: 200
+
+        'synolia.sylius_admin.akeneo.attributes_configuration.content.header':
+            <<: *header
+            breadcrumbs:
+                template: '@SynoliaSyliusAkeneoPlugin/admin/attributes_configuration/content/header/breadcrumbs.html.twig'
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.attributes_configuration.content.header.title_block':
+            <<: *title_block
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: sylius.ui.admin.akeneo.attributes.title
+                    icon: tabler:settings
+                    subheader: sylius.ui.admin.akeneo.attributes.subtitle
+                priority: 100
+
+        'synolia.sylius_admin.akeneo.attributes_configuration.content.header.title_block.actions': *actions

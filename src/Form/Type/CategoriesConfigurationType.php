@@ -31,10 +31,6 @@ final class CategoriesConfigurationType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.categories.use_akeneo_positions',
                 'required' => false,
             ])
-            ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'ui icon primary button'],
-                'label' => 'sylius.ui.admin.akeneo.save',
-            ])
         ;
     }
 }

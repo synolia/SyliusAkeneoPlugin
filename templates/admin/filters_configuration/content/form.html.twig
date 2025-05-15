@@ -1,0 +1,56 @@
+{% if simple_form is not defined %}
+    {% set simple_form = hookable_metadata.context.simple_form %}
+    {% form_theme simple_form '@SynoliaSyliusAkeneoPlugin/admin/form/theme.html.twig' %}
+{% endif %}
+
+{% if advanced_form is not defined %}
+    {% set advanced_form = hookable_metadata.context.advanced_form %}
+    {% form_theme advanced_form '@SynoliaSyliusAkeneoPlugin/admin/form/theme.html.twig' %}
+{% endif %}
+
+<div class="page-wrapper">
+    <div class="container-xl" {{ stimulus_controller('@synolia/sylius-akeneo-plugin/form', {
+        'std' : simple_form.vars.id,
+        'adv' : advanced_form.vars.id,
+    }) }}>
+        <div class="form-check form-switch d-inline-flex">
+            <label class="form-check-label ms-n6" for="switchForm">
+                Standard mode
+            </label>
+            <input
+                class="form-check-input mx-2"
+                id="switchForm"
+                name="switchForm"
+                type="checkbox"
+                {{ stimulus_target('@synolia/sylius-akeneo-plugin/form', 'switch') }}
+                {{ stimulus_action('@synolia/sylius-akeneo-plugin/form', 'toggleForms', 'input') }}
+                {% if advanced_form.vars.data.mode is same as 'advanced' %}checked="checked"{% endif %}
+            >
+            <label class="form-check-label opacity-50" for="switchForm">
+                Advanced mode
+            </label>
+        </div>
+        <div class="card togglable">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6">
+                        {{ form_start(simple_form, {'attr': {'novalidate': 'novalidate', 'id': simple_form.vars.id}}) }}
+                        {{ form_row(simple_form) }}
+                        {{ form_end(simple_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card togglable" style="display: none;">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6">
+                        {{ form_start(advanced_form, {'attr': {'novalidate': 'novalidate', 'id': advanced_form.vars.id}}) }}
+                        {{ form_row(advanced_form) }}
+                        {{ form_end(advanced_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

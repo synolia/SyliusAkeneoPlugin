@@ -58,7 +58,8 @@ final class ProductFilterRulesController extends AbstractController
             $this->update($request, $advancedForm);
         }
 
-        return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/filters_configuration.html.twig', [
+        return $this->render('@SynoliaSyliusAkeneoPlugin/admin/layout.html.twig', [
+            'hook_suffix' => 'akeneo.filters_configuration',
             'simple_form' => $simpleForm,
             'advanced_form' => $advancedForm,
         ]);

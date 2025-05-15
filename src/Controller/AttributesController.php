@@ -80,7 +80,8 @@ final class AttributesController extends AbstractController
             return $this->redirectToRoute('sylius_akeneo_connector_attributes');
         }
 
-        return $this->render('@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/attributes_configuration.html.twig', [
+        return $this->render('@SynoliaSyliusAkeneoPlugin/admin/layout.html.twig', [
+            'hook_suffix' => 'akeneo.attributes_configuration',
             'form' => $form,
         ]);
     }

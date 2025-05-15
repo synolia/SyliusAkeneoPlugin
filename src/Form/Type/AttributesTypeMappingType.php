@@ -42,10 +42,6 @@ final class AttributesTypeMappingType extends AbstractType
                 'by_reference' => false,
                 'label' => 'Attributes Akeneo to Sylius Mapping',
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
-            ])
         ;
     }
 

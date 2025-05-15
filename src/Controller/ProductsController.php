@@ -58,8 +58,8 @@ final class ProductsController extends AbstractController
         }
 
         return $this->render(
-            '@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/products_configuration.html.twig',
-            [
+            '@SynoliaSyliusAkeneoPlugin/admin/layout.html.twig', [
+                'hook_suffix' => 'akeneo.products_configuration',
                 'form' => $form,
             ],
         );

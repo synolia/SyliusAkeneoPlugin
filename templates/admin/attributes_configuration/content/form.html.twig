@@ -1,0 +1,29 @@
+{% if form is not defined %}
+    {% set form = hookable_metadata.context.form %}
+    {% form_theme form '@SynoliaSyliusAkeneoPlugin/admin/form/theme.html.twig' %}
+{% endif %}
+
+<div class="page-wrapper">
+    <div class="container-xl" {{ stimulus_controller('@synolia/sylius-akeneo-plugin/form') }}>
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6">
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': form.vars.id}}) }}
+                        {{ form_row(form.settings, {attr: {
+                            'data-action': 'input->synolia--sylius-akeneo-plugin--form#toggleForms'
+                        }}) }}
+                        <div class="togglable" style="display: {{ form.settings.vars.data.import_referential_attributes is same as(true) ? 'block' : 'none' }};">
+                            {{ form_row(form.attributeType) }}
+                        </div>
+                        <div class="togglable" style="display: {{ form.settings.vars.data.import_referential_attributes is same as(true) ? 'block' : 'none' }};">
+                            {{ form_row(form.attributeAkeneoSylius) }}
+                        </div>
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
