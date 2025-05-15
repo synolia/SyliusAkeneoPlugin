@@ -52,7 +52,8 @@ final class CategoriesController extends AbstractController
         }
 
         return $this->render(
-            '@SynoliaSyliusAkeneoPlugin/admin/layout.html.twig', [
+            '@SynoliaSyliusAkeneoPlugin/admin/layout.html.twig',
+            [
                 'hook_suffix' => 'akeneo.categories',
                 'form' => $form,
             ],

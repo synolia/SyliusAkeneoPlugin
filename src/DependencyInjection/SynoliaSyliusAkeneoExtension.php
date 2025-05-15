@@ -10,14 +10,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Synolia\SyliusAkeneoPlugin\Controller\ApiConfigurationController;
 use Synolia\SyliusAkeneoPlugin\Controller\CategoriesController;
-use Synolia\SyliusAkeneoPlugin\Menu\AdminApiConfigurationMenuListener;
 use Synolia\SyliusAkeneoPlugin\Menu\AdminCategoryMenuListener;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\ApiConnectionProviderInterface;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
-use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseApiConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DatabaseCategoryConfigurationProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\DotEnvApiConnectionProvider;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\ExcludedAttributesConfiguration;
@@ -38,7 +35,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__, 2) . '/config'));
         $loader->load('services.yaml');
 
-        $this->processApiConfiguration($container, $config);
+        $this->processApiConfiguration($container);
         $this->processCategoryConfiguration($container, $config);
         $this->processLocaleMapping($container, $config);
         $this->processExcludedAttributes($container, $config);
@@ -66,20 +63,8 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
         return ['Sylius\Bundle\CoreBundle\Migrations'];
     }
 
-    private function processApiConfiguration(ContainerBuilder $container, array $config): void
+    private function processApiConfiguration(ContainerBuilder $container): void
     {
-//        $dotEnvDefinition = $container->getDefinition(DotEnvApiConnectionProvider::class);
-//        $dotEnvDefinition
-//            ->setArgument('$baseUrl', $config['api_configuration']['base_url'])
-//            ->setArgument('$clientId', $config['api_configuration']['client_id'])
-//            ->setArgument('$clientSecret', $config['api_configuration']['client_secret'])
-//            ->setArgument('$username', $config['api_configuration']['username'])
-//            ->setArgument('$password', $config['api_configuration']['password'])
-//            ->setArgument('$edition', $config['api_configuration']['edition'])
-//            ->setArgument('$axeAsModel', $config['api_configuration']['axe_as_model'])
-//            ->setArgument('$pagination', $config['api_configuration']['pagination'])
-//        ;
-
         $container->setAlias(ApiConnectionProviderInterface::class, DotEnvApiConnectionProvider::class);
     }
 

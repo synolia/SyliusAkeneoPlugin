@@ -43,30 +43,6 @@ parameters:
 			path: ../src/Builder/Attribute/MultiSelectProductAttributeValueValueBuilder.php
 
 		-
-			message: '#^Cannot access constant class on mixed\.$#'
-			identifier: classConstant.nonObject
-			count: 1
-			path: ../src/Builder/Attribute/ProductAttributeValueValueBuilder.php
-
-		-
-			message: '#^Cannot call method build\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Builder/Attribute/ProductAttributeValueValueBuilder.php
-
-		-
-			message: '#^Cannot call method support\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Builder/Attribute/ProductAttributeValueValueBuilder.php
-
-		-
-			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../src/Builder/Attribute/ProductAttributeValueValueBuilder.php
-
-		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -205,12 +181,6 @@ parameters:
 			path: ../src/Builder/ProductOptionValue/NonLocalizableOptionValueBuilder.php
 
 		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Builder\\ProductOptionValue\\ProductOptionValueBuilder\:\:\$dynamicProductOptionValueBuilders \(array\<Synolia\\SyliusAkeneoPlugin\\Builder\\ProductOptionValue\\DynamicOptionValueBuilderInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Builder/ProductOptionValue/ProductOptionValueBuilder.php
-
-		-
 			message: '#^Parameter \#1 \$measureCode of method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:getMeasurable\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -227,12 +197,6 @@ parameters:
 			identifier: property.unusedType
 			count: 1
 			path: ../src/Builder/ProductOptionValueTranslation/MetricProductOptionValueTranslationBuilder.php
-
-		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Builder\\ProductOptionValueTranslation\\ProductOptionValueTranslationBuilder\:\:\$productOptionValueTranslationBuilders \(array\<Synolia\\SyliusAkeneoPlugin\\Builder\\ProductOptionValueTranslation\\ProductOptionValueTranslationBuilderInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Builder/ProductOptionValueTranslation/ProductOptionValueTranslationBuilder.php
 
 		-
 			message: '#^Cannot access constant class on mixed\.$#'
@@ -269,18 +233,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: ../src/Command/Context/CommandContext.php
-
-		-
-			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Synolia\\SyliusAkeneoPlugin\\Entity\\ApiConfiguration and ''Synolia\\\\SyliusAkeneoPlugin\\\\Entity\\\\ApiConfiguration'' will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: ../src/Controller/ApiConfigurationController.php
-
-		-
-			message: '#^Cannot call method add\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Controller/ApiConfigurationController.php
 
 		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
@@ -439,49 +391,7 @@ parameters:
 			path: ../src/Creator/AttributeCreator.php
 
 		-
-			message: '#^Cannot access offset ''axe_as_model'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''base_url'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''client_id'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''client_secret'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''edition'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
 			message: '#^Cannot access offset ''excluded_category_codes'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''pagination'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''password'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
@@ -494,12 +404,6 @@ parameters:
 
 		-
 			message: '#^Cannot access offset ''use_akeneo_positions'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
-
-		-
-			message: '#^Cannot access offset ''username'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
@@ -569,6 +473,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Filter/ProductFilter.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:scalarNode\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/ApiConfigurationFixture.php
 
 		-
 			message: '#^Cannot call method booleanNode\(\) on mixed\.$#'
@@ -667,6 +577,12 @@ parameters:
 			path: ../src/Fixture/ApiConfigurationFixture.php
 
 		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:booleanNode\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/AssociationTypesFixture.php
+
+		-
 			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -693,6 +609,12 @@ parameters:
 		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
+			count: 1
+			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:scalarNode\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
 
@@ -725,6 +647,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:booleanNode\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/AttributesFixture.php
 
 		-
 			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
@@ -763,10 +691,22 @@ parameters:
 			path: ../src/Fixture/AttributesFixture.php
 
 		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:end\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/CategoriesFixture.php
+
+		-
 			message: '#^Cannot call method end\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Fixture/CategoriesFixture.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:end\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/CategoryConfigurationFixture.php
 
 		-
 			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
@@ -826,6 +766,12 @@ parameters:
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 2
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:scalarNode\(\)\.$#'
+			identifier: method.notFound
+			count: 1
 			path: ../src/Fixture/ProductConfigurationFixture.php
 
 		-
@@ -945,6 +891,12 @@ parameters:
 		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
+			count: 1
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:enumNode\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: ../src/Fixture/ProductFilterConfigurationFixture.php
 
@@ -1075,6 +1027,12 @@ parameters:
 			path: ../src/Fixture/ProductFilterConfigurationFixture.php
 
 		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:booleanNode\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
 			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -1109,6 +1067,12 @@ parameters:
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:booleanNode\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Fixture/ProductsFixture.php
 
 		-
 			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
@@ -1369,13 +1333,25 @@ parameters:
 			path: ../src/Logger/Messages.php
 
 		-
+			message: '#^Argument of an invalid type object supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: ../src/Manager/Doctrine/DoctrineSortableManager.php
+
+		-
+			message: '#^Method Doctrine\\Common\\EventManager\:\:getListeners\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: ../src/Manager/Doctrine/DoctrineSortableManager.php
+
+		-
 			message: '#^Parameter \#2 \$listener of method Doctrine\\Common\\EventManager\:\:addEventListener\(\) expects object, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Manager/Doctrine/DoctrineSortableManager.php
 
 		-
-			message: '#^Parameter \#1 \$process of method BluePsyduck\\SymfonyProcessManager\\ProcessManager\:\:addProcess\(\) expects Symfony\\Component\\Process\\Process, mixed given\.$#'
+			message: '#^Parameter \#1 \$process of method Synolia\\SyliusAkeneoPlugin\\ProcessManager\\ProcessManager\:\:addProcess\(\) expects Symfony\\Component\\Process\\Process, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Manager/ProcessManager.php
@@ -1615,12 +1591,6 @@ parameters:
 			path: ../src/Processor/Category/AttributeProcessor.php
 
 		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Processor\\Category\\CategoryProcessorChain\:\:\$categoryProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\Category\\CategoryProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Processor/Category/CategoryProcessorChain.php
-
-		-
 			message: '#^Parameter \#1 \$position of method Sylius\\Component\\Taxonomy\\Model\\TaxonInterface\:\:setPosition\(\) expects int\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1775,12 +1745,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Processor/Product/ProductChannelEnablerProcessor.php
-
-		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Processor\\Product\\ProductProcessorChain\:\:\$productProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\Product\\ProductProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Processor/Product/ProductProcessorChain.php
 
 		-
 			message: '#^Instanceof between Sylius\\Component\\Core\\Model\\ProductTaxonInterface and Sylius\\Component\\Core\\Model\\ProductTaxonInterface will always evaluate to true\.$#'
@@ -2497,12 +2461,6 @@ parameters:
 			path: ../src/Processor/ProductVariant/PricingProcessor.php
 
 		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Processor\\ProductVariant\\ProductVariantProcessorChain\:\:\$productVariantProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\ProductVariant\\ProductVariantProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Processor/ProductVariant/ProductVariantProcessorChain.php
-
-		-
 			message: '#^Parameter \#1 \$code of method Sylius\\Resource\\Model\\CodeAwareInterface\:\:setCode\(\) expects string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2617,12 +2575,6 @@ parameters:
 			path: ../src/Processor/Resource/ProductVariant/SimpleProductVariantResourceProcessor.php
 
 		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Provider\\AkeneoAttributeProcessorProvider\:\:\$akeneoAttributeProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttribute\\AkeneoAttributeProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Provider/AkeneoAttributeProcessorProvider.php
-
-		-
 			message: '#^Cannot access offset ''data'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 4
@@ -2705,18 +2657,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: ../src/Provider/Asset/AkeneoAssetAttributePropertiesProvider.php
-
-		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Provider\\ChainOptionValuesProcessorProvider\:\:\$optionValuesProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\ProductOptionValue\\OptionValuesProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Provider/ChainOptionValuesProcessorProvider.php
-
-		-
-			message: '#^Method Doctrine\\Persistence\\ObjectRepository\<Sylius\\Resource\\Model\\ResourceInterface\>\:\:findOneBy\(\) invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: ../src/Provider/Configuration/Api/DatabaseApiConfigurationProvider.php
 
 		-
 			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Provider\\Configuration\\ExcludedAttributesConfiguration\:\:get\(\) should return array\<int, string\> but returns array\.$#'
@@ -2921,18 +2861,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Filter/SearchFilterProvider.php
-
-		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Provider\\ProductAttributeValue\\TableAttributeValueProcessorProvider\:\:\$tableAttributeValueProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttributeValue\\Table\\TableProductAttributeValueProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Provider/ProductAttributeValue/TableAttributeValueProcessorProvider.php
-
-		-
-			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Provider\\ProductRefEntityAttributeValueValueBuilderProvider\:\:\$referenceEntityAttributeValueProcessors \(array\<Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttributeValue\\ReferenceEntity\\ReferenceEntityAttributeValueProcessorInterface\>\) does not accept array\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../src/Provider/ProductRefEntityAttributeValueValueBuilderProvider.php
 
 		-
 			message: '#^Parameter \#1 \$syliusLocale of method Synolia\\SyliusAkeneoPlugin\\Provider\\SyliusAkeneoLocaleCodeProvider\:\:getAkeneoLocale\(\) expects string, mixed given\.$#'

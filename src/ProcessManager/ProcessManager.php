@@ -9,68 +9,75 @@ use Symfony\Component\Process\Process;
 
 /**
  * The process manager for executing multiple processes in parallel.
- *
- * @author BluePsyduck <bluepsyduck@gmx.com>
- * @license http://opensource.org/licenses/GPL-3.0 GPL v3
  */
 class ProcessManager implements ProcessManagerInterface
 {
     /**
      * The number of processes to run in parallel.
+     *
      * @var int
      */
     protected $numberOfParallelProcesses;
 
     /**
      * The interval to wait between the polls of the processes, in milliseconds.
+     *
      * @var int
      */
     protected $pollInterval;
 
     /**
      * The time to delay the start of processes to space them out, in milliseconds.
+     *
      * @var int
      */
     protected $processStartDelay;
 
     /**
      * The processes currently waiting to be executed.
+     *
      * @var array<array{Process<string>, callable|null, array<mixed>}>
      */
     protected $pendingProcessData = [];
 
     /**
      * The processes currently running.
+     *
      * @var array<Process<string>>
      */
     protected $runningProcesses = [];
 
     /**
      * The callback for when a process is about to be started.
+     *
      * @var callable|null
      */
     protected $processStartCallback;
 
     /**
      * The callback for when a process has finished.
+     *
      * @var callable|null
      */
     protected $processFinishCallback;
 
     /**
      * The callback for when a process timed out.
+     *
      * @var callable|null
      */
     protected $processTimeoutCallback;
 
     /**
      * The callback for when a process is checked.
+     *
      * @var callable|null
      */
     protected $processCheckCallback;
 
     /**
      * ProcessManager constructor.
+     *
      * @param int $numberOfParallelProcesses The number of processes to run in parallel.
      * @param int $pollInterval The interval to wait between the polls of the processes, in milliseconds.
      * @param int $processStartDelay The time to delay the start of processes to space them out, in milliseconds.
@@ -78,7 +85,7 @@ class ProcessManager implements ProcessManagerInterface
     public function __construct(
         int $numberOfParallelProcesses = 1,
         int $pollInterval = 100,
-        int $processStartDelay = 0
+        int $processStartDelay = 0,
     ) {
         $this->numberOfParallelProcesses = $numberOfParallelProcesses;
         $this->pollInterval = $pollInterval;
@@ -87,85 +94,96 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Sets the number of processes to run in parallel.
-     * @param int $numberOfParallelProcesses
+     *
      * @return $this
      */
     public function setNumberOfParallelProcesses(int $numberOfParallelProcesses)
     {
         $this->numberOfParallelProcesses = $numberOfParallelProcesses;
         $this->executeNextPendingProcess(); // Start new processes in case we increased the limit.
+
         return $this;
     }
 
     /**
      * Sets the interval to wait between the polls of the processes, in milliseconds.
-     * @param int $pollInterval
+     *
      * @return $this
      */
     public function setPollInterval(int $pollInterval)
     {
         $this->pollInterval = $pollInterval;
+
         return $this;
     }
 
     /**
      * Sets the time to delay the start of processes to space them out, in milliseconds.
-     * @param int $processStartDelay
+     *
      * @return $this
      */
     public function setProcessStartDelay(int $processStartDelay)
     {
         $this->processStartDelay = $processStartDelay;
+
         return $this;
     }
 
     /**
      * Sets the callback for when a process is about to be started.
+     *
      * @param callable|null $processStartCallback The callback, accepting a Process as only argument.
+     *
      * @return $this
      */
     public function setProcessStartCallback(?callable $processStartCallback)
     {
         $this->processStartCallback = $processStartCallback;
+
         return $this;
     }
 
     /**
      * Sets the callback for when a process has finished.
+     *
      * @param callable|null $processFinishCallback The callback, accepting a Process as only argument.
+     *
      * @return $this
      */
     public function setProcessFinishCallback(?callable $processFinishCallback)
     {
         $this->processFinishCallback = $processFinishCallback;
+
         return $this;
     }
 
     /**
      * Sets the callback for when a process timed out.
-     * @param callable|null $processTimeoutCallback
+     *
      * @return $this
      */
     public function setProcessTimeoutCallback(?callable $processTimeoutCallback)
     {
         $this->processTimeoutCallback = $processTimeoutCallback;
+
         return $this;
     }
 
     /**
      * Sets the callback for when a process is checked.
-     * @param callable|null $processCheckCallback
+     *
      * @return $this
      */
     public function setProcessCheckCallback(?callable $processCheckCallback)
     {
         $this->processCheckCallback = $processCheckCallback;
+
         return $this;
     }
 
     /**
      * Invokes the callback if it is an callable.
-     * @param callable|null $callback
+     *
      * @param Process<string> $process
      */
     protected function invokeCallback(?callable $callback, Process $process): void
@@ -177,9 +195,10 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Adds a process to the manager.
+     *
      * @param Process<string> $process
-     * @param callable|null $callback
      * @param array<mixed> $env
+     *
      * @return $this
      */
     public function addProcess(Process $process, callable $callback = null, array $env = [])
@@ -187,6 +206,7 @@ class ProcessManager implements ProcessManagerInterface
         $this->pendingProcessData[] = [$process, $callback, $env];
         $this->executeNextPendingProcess();
         $this->checkRunningProcesses();
+
         return $this;
     }
 
@@ -201,7 +221,7 @@ class ProcessManager implements ProcessManagerInterface
             $data = array_shift($this->pendingProcessData);
             if ($data !== null) {
                 [$process, $callback, $env] = $data;
-                /* @var Process $process */
+                /** @var Process $process */
                 $this->invokeCallback($this->processStartCallback, $process);
                 $process->start($callback, $env);
 
@@ -218,12 +238,11 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Checks whether a pending request is available and can be executed.
-     * @return bool
      */
     protected function canExecuteNextPendingRequest(): bool
     {
-        return count($this->runningProcesses) < $this->numberOfParallelProcesses
-            && count($this->pendingProcessData) > 0;
+        return count($this->runningProcesses) < $this->numberOfParallelProcesses &&
+            count($this->pendingProcessData) > 0;
     }
 
     /**
@@ -238,7 +257,7 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Checks the process whether it has finished.
-     * @param int|null $pid
+     *
      * @param Process<string> $process
      */
     protected function checkRunningProcess(?int $pid, Process $process): void
@@ -257,6 +276,7 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Checks whether the process already timed out.
+     *
      * @param Process<string> $process
      */
     protected function checkProcessTimeout(Process $process): void
@@ -270,6 +290,7 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Waits for all processes to be finished.
+     *
      * @return $this
      */
     public function waitForAllProcesses()
@@ -278,12 +299,12 @@ class ProcessManager implements ProcessManagerInterface
             $this->sleep($this->pollInterval);
             $this->checkRunningProcesses();
         }
+
         return $this;
     }
 
     /**
      * Sleeps for the specified number of milliseconds.
-     * @param int $milliseconds
      */
     protected function sleep(int $milliseconds): void
     {
@@ -292,7 +313,6 @@ class ProcessManager implements ProcessManagerInterface
 
     /**
      * Returns whether the manager still has unfinished processes.
-     * @return bool
      */
     public function hasUnfinishedProcesses(): bool
     {

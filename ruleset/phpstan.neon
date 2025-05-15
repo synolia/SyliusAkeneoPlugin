@@ -12,7 +12,6 @@ parameters:
         # Makes PHPStan crash
         - ../src/Configuration/SettingConfiguration.php
         - ../src/DependencyInjection/Configuration.php
-        - ../src/Migrations/
         - ../src/Entity/
         - ../tests/PHPUnit
         - ../src/Manager/SettingsManager.php
