@@ -31,7 +31,7 @@ final class AssetRepository extends EntityRepository
 
     public function cleanAssetsForProduct(ProductInterface $product): void
     {
-        $query = $this->_em
+        $query = $this->getEntityManager()
             ->createNativeQuery(
                 'DELETE FROM akeneo_assets_products WHERE owner_id = :product_id',
                 new ResultSetMapping(),
