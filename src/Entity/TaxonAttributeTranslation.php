@@ -8,7 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
-use Sylius\Component\Resource\Model\TranslatableInterface;
+use Sylius\Resource\Model\TranslatableInterface;
 use Webmozart\Assert\Assert;
 
 /**

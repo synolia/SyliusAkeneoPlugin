@@ -68,6 +68,7 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
                 /** @var ProductOptionValueInterface $productOptionValue */
                 $productOptionValue = $this->productOptionValueFactory->createNew();
                 $productOptionValue->setCode($transformedCode);
+                $productOptionValue->setOption($productOption);
                 $productOption->addValue($productOptionValue);
 
                 $this->entityManager->persist($productOptionValue);
@@ -109,8 +110,8 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
             if (!$productOptionValueTranslation instanceof ProductOptionValueTranslationInterface) {
                 /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
                 $productOptionValueTranslation = $this->productOptionValueTranslationFactory->createNew();
-                $productOptionValueTranslation->setTranslatable($productOptionValue);
                 $productOptionValueTranslation->setLocale($locale);
+                $productOptionValueTranslation->setTranslatable($productOptionValue);
 
                 $this->entityManager->persist($productOptionValueTranslation);
             }

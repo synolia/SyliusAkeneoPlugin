@@ -131,8 +131,8 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
             if (!$productOptionValueTranslation instanceof ProductOptionValueTranslationInterface) {
                 /** @var ProductOptionValueTranslationInterface $productOptionValueTranslation */
                 $productOptionValueTranslation = $this->productOptionValueTranslationFactory->createNew();
-                $productOptionValueTranslation->setTranslatable($productOptionValue);
                 $productOptionValueTranslation->setLocale($locale);
+                $productOptionValueTranslation->setTranslatable($productOptionValue);
 
                 $this->entityManager->persist($productOptionValueTranslation);
             }

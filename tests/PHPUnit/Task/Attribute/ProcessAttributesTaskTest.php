@@ -71,8 +71,7 @@ final class ProcessAttributesTaskTest extends AbstractTaskTestCase
         /** @var \Sylius\Component\Product\Model\ProductAttribute $colorProductAttribute */
         $colorProductAttribute = $this->getContainer()->get('sylius.repository.product_attribute')->findOneBy(['code' => 'color']);
         $this->assertNotNull($colorProductAttribute);
-        $this->assertEquals('Couleur', $colorProductAttribute->getTranslation('fr_FR')->getName());
-        $this->assertEquals('Color', $colorProductAttribute->getTranslation('en_US')->getName());
+        $this->assertProductAttributeTranslations($colorProductAttribute);
     }
 
     public function testCreateAttributeOptions(): void
