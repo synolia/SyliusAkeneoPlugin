@@ -13,11 +13,11 @@ use donatj\MockWebServer\Response;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 use Webmozart\Assert\Assert;
 
-abstract class ApiTestCase extends AbstractKernelTestCase
+abstract class ApiTestCase extends KernelTestCase
 {
     private const SAMPLE_PATH = '/datas/sample/';
 
