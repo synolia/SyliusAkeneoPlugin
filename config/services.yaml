@@ -16,6 +16,7 @@ parameters:
     synolia_sylius_akeneo.api_configuration.password: '%env(string:SYNOLIA_AKENEO_PASSWORD)%'
     synolia_sylius_akeneo.api_configuration.axe_as_model: '%env(string:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
     synolia_sylius_akeneo.api_configuration.pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
+    synolia_sylius_akeneo.form.type.taxon_attribute_value.validation_groups: 'sylius'
 
 services:
     _defaults:
