@@ -64,19 +64,6 @@ final class Version20200605081308 extends AbstractMigration
           UNIQUE INDEX UNIQ_FF5E270FA2851109 (akeneoAttributeType), 
           PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE akeneo_api_configuration (
-          id INT AUTO_INCREMENT NOT NULL, 
-          baseUrl VARCHAR(255) NOT NULL, 
-          apiClientId VARCHAR(255) NOT NULL, 
-          apiClientSecret VARCHAR(255) NOT NULL, 
-          token VARCHAR(255) DEFAULT NULL, 
-          refreshToken VARCHAR(255) DEFAULT NULL, 
-          paginationSize INT NOT NULL, 
-          isEnterprise TINYINT(1) NOT NULL, 
-          username VARCHAR(255) NOT NULL, 
-          password VARCHAR(255) NOT NULL, 
-          PRIMARY KEY(id)
-        ) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE akeneo_api_product_filters_rules (
           id INT AUTO_INCREMENT NOT NULL, 
           mode VARCHAR(255) NOT NULL, 
@@ -152,7 +139,6 @@ final class Version20200605081308 extends AbstractMigration
         $this->addSql('DROP TABLE akeneo_api_configuration_categories');
         $this->addSql('DROP TABLE akeneo_api_configuration_product_images_mapping');
         $this->addSql('DROP TABLE akeneo_attribute_type_mapping');
-        $this->addSql('DROP TABLE akeneo_api_configuration');
         $this->addSql('DROP TABLE akeneo_api_product_filters_rules');
         $this->addSql('DROP TABLE akeneo_product_group');
         $this->addSql('DROP TABLE akeneo_productgroup_product');

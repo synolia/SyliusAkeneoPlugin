@@ -9,14 +9,11 @@ use ReflectionClass;
 use ReflectionException;
 use Synolia\SyliusAkeneoPlugin\Command\Context\CommandContextInterface;
 use Synolia\SyliusAkeneoPlugin\Configuration\ConfigurationContextTrait;
-use Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
 
 abstract class AbstractPayload implements PipelinePayloadInterface
 {
     use ConfigurationContextTrait;
-
-    protected ApiConfiguration $apiConfiguration;
 
     protected array $ids = [];
 
@@ -55,18 +52,6 @@ abstract class AbstractPayload implements PipelinePayloadInterface
         } catch (ReflectionException) {
             return '';
         }
-    }
-
-    public function getApiConfiguration(): ApiConfiguration
-    {
-        return $this->apiConfiguration;
-    }
-
-    public function setApiConfiguration(ApiConfiguration $apiConfiguration): self
-    {
-        $this->apiConfiguration = $apiConfiguration;
-
-        return $this;
     }
 
     /**

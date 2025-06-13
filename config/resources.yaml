@@ -15,10 +15,6 @@ sylius_resource:
             classes:
                 model: Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration
                 repository: Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository
-        akeneo.api_configuration:
-            driver: doctrine/orm
-            classes:
-                model: Synolia\SyliusAkeneoPlugin\Entity\ApiConfiguration
         akeneo.product_configuration:
             driver: doctrine/orm
             classes:
