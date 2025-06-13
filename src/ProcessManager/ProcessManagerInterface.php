@@ -8,6 +8,10 @@ use Symfony\Component\Process\Process;
 
 /**
  * The interface of the process manager.
+ *
+ * @thanks BluePsyduck <bluepsyduck@gmx.com>
+ *
+ * @see https://github.com/BluePsyduck/symfony-process-manager
  */
 interface ProcessManagerInterface
 {

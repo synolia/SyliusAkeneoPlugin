@@ -9,6 +9,10 @@ use Symfony\Component\Process\Process;
 
 /**
  * The process manager for executing multiple processes in parallel.
+ *
+ * @thanks BluePsyduck <bluepsyduck@gmx.com>
+ *
+ * @see https://github.com/BluePsyduck/symfony-process-manager
  */
 class ProcessManager implements ProcessManagerInterface
 {
