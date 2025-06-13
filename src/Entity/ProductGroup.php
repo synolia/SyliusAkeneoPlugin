@@ -13,43 +13,22 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Sylius\Component\Core\Model\ProductInterface;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table("akeneo_product_group")
- *
- * @IgnoreAnnotation("ORM\InverseJoinColumn")
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_product_group')]
 class ProductGroup implements ProductGroupInterface
 {
-    /**
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Synolia\SyliusAkeneoPlugin\Entity\ProductGroupInterface")
-     *
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true, onDelete="CASCADE")
-     */
     #[ORM\ManyToOne(targetEntity: ProductGroupInterface::class)]
     #[ORM\JoinColumn(referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?ProductGroupInterface $parent = null;
 
-    /** @ORM\Column(type="string", length=255, nullable=false, unique=true) */
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: false, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
     private string $model;
 
-    /** @ORM\Column(type="array") */
     #[ORM\Column(type: Types::ARRAY)]
     private array $variationAxes = [];
 
@@ -61,22 +40,12 @@ class ProductGroup implements ProductGroupInterface
     #[ORM\Column(type: Types::STRING)]
     private string $familyVariant = '';
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Sylius\Component\Core\Model\ProductInterface")
-     *
-     * @ORM\JoinTable(name="akeneo_productgroup_product")
-     *
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     *
-     * @ORM\InverseJoinColumn(name="productgroup_id", referencedColumnName="id")
-     */
     #[JoinTable(name: 'akeneo_productgroup_product')]
     #[JoinColumn(name: 'product_id', referencedColumnName: 'id')]
     #[InverseJoinColumn(name: 'productgroup_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: ProductInterface::class)]
     private Collection $products;
 
-    /** @ORM\Column(type="array") */
     #[ORM\Column(type: Types::ARRAY)]
     private array $associations = [];
 

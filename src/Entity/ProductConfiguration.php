@@ -11,78 +11,43 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository")
- *
- * @ORM\Table("akeneo_api_configuration_product")
- */
 #[ORM\Entity(repositoryClass: ProductConfigurationRepository::class)]
 #[ORM\Table(name: 'akeneo_api_configuration_product')]
 class ProductConfiguration implements ResourceInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $akeneoPriceAttribute = null;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $akeneoEnabledChannelsAttribute = null;
 
-    /** @ORM\Column(type="array", nullable=true) */
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $attributeMapping = null;
 
-    /** @ORM\Column(type="boolean", nullable=true) */
     #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $importMediaFiles = null;
 
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="ProductConfigurationAkeneoImageAttribute",
-     *     mappedBy="productConfiguration",
-     *     orphanRemoval=true,
-     *     cascade={"persist"}
-     * )
-     */
     #[ORM\OneToMany(
         targetEntity: ProductConfigurationAkeneoImageAttribute::class,
         mappedBy: 'productConfiguration',
-        orphanRemoval: true,
         cascade: ['persist'],
+        orphanRemoval: true,
     )]
     private Collection $akeneoImageAttributes;
 
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="ProductConfigurationImageMapping",
-     *     mappedBy="productConfiguration",
-     *     orphanRemoval=true,
-     *     cascade={"persist"}
-     * )
-     */
     #[ORM\OneToMany(
         targetEntity: ProductConfigurationImageMapping::class,
         mappedBy: 'productConfiguration',
-        orphanRemoval: true,
         cascade: ['persist'],
+        orphanRemoval: true,
     )]
     private Collection $productImagesMapping;
 
-    /** @ORM\Column(type="boolean", nullable=true) */
     #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $regenerateUrlRewrites = null;
 

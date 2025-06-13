@@ -53,7 +53,7 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
     #[ORM\Column(name: 'date_value', type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $date;
 
-    #[ORM\Column(name: 'json_value', type: Types::JSON, nullable: true)]
+    #[ORM\Column(name: 'json_value', type: Types::ARRAY, nullable: true)]
     private ?array $json;
 
     public function getId(): int

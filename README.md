@@ -82,10 +82,6 @@
    use Sylius\Component\Product\Model\ProductTranslationInterface;
    use Synolia\SyliusAkeneoPlugin\Entity\ProductAssetTrait;
    
-   /**
-    * @ORM\Entity
-    * @ORM\Table(name="sylius_product")
-    */
    #[ORM\Entity]
    #[ORM\Table(name: 'sylius_product')]
    class Product extends BaseProduct
@@ -119,10 +115,6 @@
    use Sylius\Component\Product\Model\ProductVariantTranslationInterface;
    use Synolia\SyliusAkeneoPlugin\Entity\ProductVariantAssetTrait;
 
-   /**
-    * @ORM\Entity
-    * @ORM\Table(name="sylius_product_variant")
-    */
    #[ORM\Entity]
    #[ORM\Table(name: 'sylius_product_variant')]
    class ProductVariant extends BaseProductVariant
@@ -158,10 +150,6 @@
    use Synolia\SyliusAkeneoPlugin\Component\TaxonAttribute\Model\TaxonAttributeSubjectInterface;
    use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributesTrait;
    
-   /**
-    * @ORM\Entity
-    * @ORM\Table(name="sylius_taxon")
-    */
    #[ORM\Entity]
    #[ORM\Table(name: 'sylius_taxon')]
    class Taxon extends BaseTaxon implements TaxonAttributeSubjectInterface
