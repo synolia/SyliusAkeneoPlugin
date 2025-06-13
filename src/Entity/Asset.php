@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -13,87 +13,47 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\AssetRepository;
 
-/**
- * @ApiResource()
- *
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\AssetRepository")
- *
- * @ORM\Table(name="akeneo_assets")
- */
+#[ApiResource]
 #[ORM\Entity(repositoryClass: AssetRepository::class)]
 #[ORM\Table(name: 'akeneo_assets')]
 #[ORM\Index(columns: ['family_code', 'asset_code', 'attribute_code'], name: 'asset_idx')]
 class Asset implements AssetInterface
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /** @ORM\Column(name="family_code", type="string", length=255) */
     #[ORM\Column(name: 'family_code', type: Types::STRING, length: 255)]
     private string $familyCode;
 
-    /** @ORM\Column(name="asset_code", type="string", length=255) */
     #[ORM\Column(name: 'asset_code', type: Types::STRING, length: 255)]
     private string $assetCode;
 
-    /** @ORM\Column(name="attribute_code", type="string", length=255) */
     #[ORM\Column(name: 'attribute_code', type: Types::STRING, length: 255)]
     private string $attributeCode;
 
-    /** @ORM\Column(type="string", length=255) */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $type;
 
-    /** @ORM\Column(type="string", length=255) */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $locale;
 
-    /** @ORM\Column(type="string", length=255) */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $scope;
 
-    /**
-     * @var Collection|ProductInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity=ProductInterface::class, inversedBy="assets")
-     *
-     * @ORM\JoinTable(name="akeneo_assets_products",
-     *    joinColumns={@ORM\JoinColumn(name="asset_id", referencedColumnName="id")},
-     *    inverseJoinColumns={@ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")},
-     * )
-     */
     #[ORM\ManyToMany(targetEntity: ProductInterface::class, inversedBy: 'assets')]
     #[ORM\JoinTable(name: 'akeneo_assets_products')]
     #[ORM\JoinColumn(name: 'asset_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'owner_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $owner;
 
-    /**
-     * @var Collection|ProductVariantInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity=ProductVariantInterface::class, inversedBy="assets")
-     *
-     * @ORM\JoinTable(name="akeneo_assets_product_variants",
-     *    joinColumns={@ORM\JoinColumn(name="asset_id", referencedColumnName="id")},
-     *    inverseJoinColumns={@ORM\JoinColumn(name="variant_id", referencedColumnName="id", onDelete="CASCADE")}
-     * )
-     */
     #[ORM\ManyToMany(targetEntity: ProductVariantInterface::class, inversedBy: 'assets')]
     #[ORM\JoinTable(name: 'akeneo_assets_product_variants')]
     #[ORM\JoinColumn(name: 'asset_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'variant_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $productVariants;
 
-    /** @ORM\Column(type="json") */
     #[ORM\Column(type: Types::JSON)]
     private array $content = [];
 

@@ -4,63 +4,36 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Attribute\Model\AttributeTranslationInterface;
 use Sylius\Resource\Model\TranslatableInterface;
 use Webmozart\Assert\Assert;
 
-/**
- * @ApiResource()
- *
- * @ORM\Entity()
- *
- * @ORM\Table(
- *     name="akeneo_taxon_attribute_translations",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="attribute_translation", columns={"translatable_id", "locale"})}
- * )
- */
-#[ApiResource()]
-#[ORM\Entity()]
+#[ApiResource]
+#[ORM\Entity]
 #[ORM\Table(name: 'akeneo_taxon_attribute_translations')]
 #[ORM\UniqueConstraint(name: 'attribute_translation', columns: ['translatable_id', 'locale'])]
 class TaxonAttributeTranslation implements AttributeTranslationInterface
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
-    /** @ORM\Column(name="name", type="string", length=255) */
     #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
     protected string $name = '';
 
-    /** @ORM\Column(name="locale", type="string", length=255) */
     #[ORM\Column(name: 'locale', type: Types::STRING, length: 255)]
     protected ?string $locale = null;
 
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="TaxonAttribute",
-     *     inversedBy="translations",
-     *     cascade={"persist", "remove"}
-     * )
-     *
-     * @ORM\JoinColumn(nullable=true)
-     */
     #[ORM\ManyToOne(
         targetEntity: 'TaxonAttribute',
-        inversedBy: 'translations',
         cascade: ['persist', 'remove'],
+        inversedBy: 'translations',
     )]
+
     #[ORM\JoinColumn(nullable: true)]
     protected ?TranslatableInterface $translatable = null;
 
