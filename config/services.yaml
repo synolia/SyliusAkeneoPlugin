@@ -1,0 +1,99 @@
+parameters:
+    env(SYNOLIA_AKENEO_MAX_RETRY_COUNT): 3
+    env(SYNOLIA_AKENEO_RETRY_WAIT_TIME): 5000
+    env(SYNOLIA_AKENEO_BASE_URL): 'http://'
+    env(SYNOLIA_AKENEO_CLIENT_ID): ''
+    env(SYNOLIA_AKENEO_CLIENT_SECRET): ''
+    env(SYNOLIA_AKENEO_USERNAME): ''
+    env(SYNOLIA_AKENEO_PASSWORD): ''
+    env(SYNOLIA_AKENEO_AXE_AS_MODEL): first
+    env(SYNOLIA_AKENEO_PAGINATION): 100
+    env(SYNOLIA_AKENEO_EDITION): ee
+    synolia_sylius_akeneo.api_configuration.base_url: '%env(string:SYNOLIA_AKENEO_BASE_URL)%'
+    synolia_sylius_akeneo.api_configuration.client_id: '%env(string:SYNOLIA_AKENEO_CLIENT_ID)%'
+    synolia_sylius_akeneo.api_configuration.client_secret: '%env(string:SYNOLIA_AKENEO_CLIENT_SECRET)%'
+    synolia_sylius_akeneo.api_configuration.username: '%env(string:SYNOLIA_AKENEO_USERNAME)%'
+    synolia_sylius_akeneo.api_configuration.password: '%env(string:SYNOLIA_AKENEO_PASSWORD)%'
+    synolia_sylius_akeneo.api_configuration.axe_as_model: '%env(string:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
+    synolia_sylius_akeneo.api_configuration.pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
+    synolia_sylius_akeneo.form.type.taxon_attribute_value.validation_groups: 'sylius'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Synolia\SyliusAkeneoPlugin\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Model,Payload,SynoliaSyliusAkeneoPlugin.php}'
+
+    sylius.product_filters_rules_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules'
+
+    sylius.product_configuration_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration'
+
+    akeneo.category_configuration_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration'
+
+    akeneo.product_group:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\ProductGroup'
+
+    akeneo.setting_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\Setting'
+
+    sylius.asset_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\Asset'
+
+    akeneo.taxon_attribute_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute'
+
+    akeneo.taxon_attribute_value_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue'
+
+    akeneo.taxon_attribute_translation_class_metadata:
+        class: 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+        factory: ['@doctrine.orm.entity_manager', getClassMetadata]
+        arguments:
+            - '@Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeTranslation'
+
+    Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+        factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
+        lazy: true
+
+    BluePsyduck\SymfonyProcessManager\ProcessManager: ~
+
+    sylius.form_registry.taxon_attribute_type:
+        class: Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry
+        calls:
+            - add: ['text', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextAttributeType']
+            - add: ['text', 'configuration', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\Configuration\TextAttributeConfigurationType']
+            - add: ['textarea', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\TextareaAttributeType']
+            - add: ['checkbox', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\CheckboxAttributeType']
+            - add: ['integer', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\IntegerAttributeType']
+            - add: ['percent', 'default', 'Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\PercentAttributeType']

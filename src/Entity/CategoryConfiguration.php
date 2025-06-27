@@ -9,46 +9,21 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository")
- *
- * @ORM\Table("akeneo_api_configuration_categories")
- */
 #[ORM\Entity(repositoryClass: CategoryConfigurationRepository::class)]
 #[ORM\Table(name: 'akeneo_api_configuration_categories')]
 class CategoryConfiguration implements ResourceInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    /**
-     * @var array<string>
-     *
-     * @ORM\Column(type="array")
-     */
     #[ORM\Column(type: Types::ARRAY)]
     private array $notImportCategories = [];
 
-    /**
-     * @var array<string>
-     *
-     * @ORM\Column(type="array")
-     */
     #[ORM\Column(type: Types::ARRAY)]
     private array $rootCategories = [];
 
-    /** @ORM\Column(type="boolean") */
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $useAkeneoPositions = false;
 

@@ -12,13 +12,6 @@ use Webmozart\Assert\Assert;
 
 trait TaxonAttributesTrait
 {
-    /** @ORM\OneToMany(
-     *     targetEntity=\Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue::class,
-     *     mappedBy="subject",
-     *     cascade={"persist", "remove"},
-     *     orphanRemoval=true
-     * )
-     */
     #[ORM\OneToMany(
         targetEntity: TaxonAttributeValue::class,
         mappedBy: 'subject',

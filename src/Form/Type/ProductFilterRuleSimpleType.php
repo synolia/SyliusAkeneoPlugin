@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
@@ -40,6 +39,7 @@ final class ProductFilterRuleSimpleType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type',
                 'placeholder' => 'sylius.ui.admin.akeneo.product_filter_rules.no_condition',
                 'required' => false,
+                'help' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_type_help',
             ])
             ->add('locales', LocalesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.locales',
@@ -52,6 +52,7 @@ final class ProductFilterRuleSimpleType extends AbstractType
                         'max' => self::MAX_COMPLETENESS,
                     ]),
                 ],
+                'help' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value_help',
             ])
             ->add('status', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.status',
@@ -60,6 +61,7 @@ final class ProductFilterRuleSimpleType extends AbstractType
                     'sylius.ui.admin.akeneo.product_filter_rules.enabled' => ProductFilterStatusEnum::ENABLED,
                     'sylius.ui.admin.akeneo.product_filter_rules.disabled' => ProductFilterStatusEnum::DISABLED,
                 ],
+                'help' => 'sylius.ui.admin.akeneo.product_filter_rules.status_help',
             ])
             ->add('updated_mode', ChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.updated_mode',
@@ -84,10 +86,7 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ])
             ->add('exclude_families', FamiliesChoiceType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.families',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
+                'help' => 'sylius.ui.admin.akeneo.product_filter_rules.families_help',
             ])
         ;
     }

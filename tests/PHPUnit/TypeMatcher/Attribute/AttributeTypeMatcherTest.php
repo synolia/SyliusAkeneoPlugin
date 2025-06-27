@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\TypeMatcher\Attribute;
 
 use Sylius\Component\Attribute\AttributeType\TextAttributeType;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
 use Synolia\SyliusAkeneoPlugin\Exceptions\UnsupportedAttributeTypeException;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher;
@@ -17,14 +18,13 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\MultiSelectAttributeTypeMat
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\SelectAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextareaAttributeTypeMatcher;
 use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
-use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\AbstractKernelTestCase;
 
 /**
  * @internal
  *
  * @coversNothing
  */
-final class AttributeTypeMatcherTest extends AbstractKernelTestCase
+final class AttributeTypeMatcherTest extends KernelTestCase
 {
     private const FAKE_AKENEO_ATTRIBUTE_TYPE = 'my_fake_attribute_type';
 

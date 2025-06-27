@@ -1,0 +1,9 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}Synolia Sylius Akeneo Plugin{% endblock %}
+
+{% block body %}
+    <div class="page-wrapper">
+        {% hook 'synolia.sylius_admin.' ~ (hook_suffix|default('akeneo')) %}
+    </div>
+{% endblock %}

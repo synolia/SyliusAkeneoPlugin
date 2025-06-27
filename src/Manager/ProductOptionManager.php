@@ -52,8 +52,8 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     public function updateData(AttributeInterface $attribute, ProductOptionInterface $productOption): void
     {
-        $this->updateTranslationsFromAttribute($productOption, $attribute);
         $this->updateProductOptionValues($productOption, $attribute);
+        $this->updateTranslationsFromAttribute($productOption, $attribute);
     }
 
     private function updateTranslationsFromAttribute(
@@ -80,8 +80,8 @@ final class ProductOptionManager implements ProductOptionManagerInterface
             if (!$productOptionTranslation instanceof ProductOptionTranslationInterface) {
                 /** @var ProductOptionTranslationInterface $productOptionTranslation */
                 $productOptionTranslation = $this->productOptionTranslationFactory->createNew();
-                $productOptionTranslation->setTranslatable($productOption);
                 $productOptionTranslation->setLocale($localeCode);
+                $productOptionTranslation->setTranslatable($productOption);
                 $this->entityManager->persist($productOptionTranslation);
             }
 

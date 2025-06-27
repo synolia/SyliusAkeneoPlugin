@@ -9,82 +9,48 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository")
- *
- * @ORM\Table("akeneo_api_product_filters_rules")
- */
 #[ORM\Entity(repositoryClass: ProductFiltersRulesRepository::class)]
 #[ORM\Table(name: 'akeneo_api_product_filters_rules')]
 class ProductFiltersRules implements ResourceInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    /** @ORM\Column(type="string", length=255) */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $mode = null;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $advancedFilter = null;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $completenessType = null;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(type="array")
-     */
     #[ORM\Column(type: Types::ARRAY)]
     private $locales = [];
 
-    /** @ORM\Column(type="integer") */
     #[ORM\Column(type: Types::INTEGER)]
     private int $completenessValue = 100;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $status = null;
 
-    /** @ORM\Column(type="string", length=255, nullable=true) */
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $updatedMode = null;
 
-    /** @ORM\Column(type="datetime") */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTime|\DateTimeInterface $updatedBefore;
 
-    /** @ORM\Column(type="datetime") */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTime|\DateTimeInterface $updatedAfter;
 
-    /** @ORM\Column(type="integer", nullable=true) */
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $updated = null;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(type="array")
-     */
     #[ORM\Column(type: Types::ARRAY)]
     private $excludeFamilies = [];
 
-    /** @ORM\Column(type="string") */
     #[ORM\Column(type: Types::STRING)]
     private string $channel = '';
 

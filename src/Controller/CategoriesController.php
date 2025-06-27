@@ -37,7 +37,7 @@ final class CategoriesController extends AbstractController
             return $this->redirectToRoute('sylius_akeneo_connector_api_configuration');
         }
         $categoriesConfigurations = $this->categoriesConfigurationRepository->getCategoriesConfiguration();
-        if (!$categoriesConfigurations instanceof \Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration) {
+        if (!$categoriesConfigurations instanceof CategoryConfiguration) {
             $categoriesConfigurations = new CategoryConfiguration();
         }
 
@@ -52,8 +52,9 @@ final class CategoriesController extends AbstractController
         }
 
         return $this->render(
-            '@SynoliaSyliusAkeneoPlugin/Admin/AkeneoConnector/categories.html.twig',
+            '@SynoliaSyliusAkeneoPlugin/admin/layout.html.twig',
             [
+                'hook_suffix' => 'akeneo.categories',
                 'form' => $form,
             ],
         );

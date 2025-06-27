@@ -1,0 +1,18 @@
+sylius_akeneo_controllers:
+    resource: '@SynoliaSyliusAkeneoPlugin/config/routes/admin_controller_routing.yaml'
+    prefix: /akeneo
+    name_prefix: 'sylius_akeneo_connector_'
+
+akeneo_admin_attribute_type_routing:
+    resource: |
+        alias: akeneo.attribute_type_mapping
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        except: ['show']
+        redirect: update
+        grid: akeneo_admin_attribute_type_mapping
+        permission: true
+        vars:
+            index:
+                icon: 'file image outline' # choose an icon that will be displayed next to the subheader
+    type: sylius.resource

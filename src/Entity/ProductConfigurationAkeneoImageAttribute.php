@@ -7,48 +7,24 @@ namespace Synolia\SyliusAkeneoPlugin\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table("akeneo_api_configuration_product_akeneo_image_attribute")
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'akeneo_api_configuration_product_akeneo_image_attribute')]
 class ProductConfigurationAkeneoImageAttribute implements ResourceInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    /**
-     * @SerializedName("akeneo_attributes")
-     *
-     * @ORM\Column(type="string", length=255)
-     */
     #[SerializedName('akeneo_attributes')]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $akeneoAttributes = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ProductConfiguration", inversedBy="akeneoImageAttributes")
-     *
-     * @ORM\JoinColumn(nullable=false)
-     */
     #[ORM\ManyToOne(targetEntity: ProductConfiguration::class, inversedBy: 'akeneoImageAttributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?\Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration $productConfiguration = null;
+    private ?ProductConfiguration $productConfiguration = null;
 
     public function getId(): ?int
     {

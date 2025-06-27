@@ -10,13 +10,13 @@ parameters:
 
 synolia_sylius_akeneo:
     api_configuration:
-        base_url: '%env(resolve:SYNOLIA_AKENEO_BASE_URL)%'
-        client_id: '%env(resolve:SYNOLIA_AKENEO_CLIENT_ID)%'
-        client_secret: '%env(resolve:SYNOLIA_AKENEO_CLIENT_SECRET)%'
-        username: '%env(resolve:SYNOLIA_AKENEO_USERNAME)%'
-        password: '%env(resolve:SYNOLIA_AKENEO_PASSWORD)%'
-        edition: '%env(resolve:SYNOLIA_AKENEO_EDITION)%'
-        axe_as_model: '%env(resolve:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
+        base_url: '%env(string:SYNOLIA_AKENEO_BASE_URL)%'
+        client_id: '%env(string:SYNOLIA_AKENEO_CLIENT_ID)%'
+        client_secret: '%env(string:SYNOLIA_AKENEO_CLIENT_SECRET)%'
+        username: '%env(string:SYNOLIA_AKENEO_USERNAME)%'
+        password: '%env(string:SYNOLIA_AKENEO_PASSWORD)%'
+        edition: '%env(string:SYNOLIA_AKENEO_EDITION)%'
+        axe_as_model: '%env(string:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
         pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
     category_configuration:
         root_category_codes:

@@ -1,0 +1,7 @@
+{% from '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' import breadcrumbs %}
+
+{{ breadcrumbs([
+    { name: 'sylius.ui.administration', url: path('sylius_admin_dashboard'), active: false },
+    { name: 'sylius.ui.admin.akeneo.categories.title'|trans },
+    { name: 'sylius.ui.edit'|trans, active: false }
+]) }}

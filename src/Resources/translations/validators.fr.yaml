@@ -1,3 +1,0 @@
-synolia_sylius_akeneo_plugin:
-    base_url:
-        not_blank: URL base Akeneo doit être renseigné.

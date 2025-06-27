@@ -87,7 +87,7 @@ class AssociateProductsTask implements AkeneoTaskInterface
                     }
 
                     /** @var ProductInterface|null $reference */
-                    $reference = $this->entityManager->getPartialReference(ProductInterface::class, $model->getId());
+                    $reference = $this->entityManager->getReference(ProductInterface::class, $model->getId());
 
                     if (null === $reference) {
                         continue;

@@ -1,0 +1,60 @@
+sylius_resource:
+    resources:
+        akeneo.attribute_type_mapping:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping
+                form: Synolia\SyliusAkeneoPlugin\Form\Type\AttributeTypeMappingType
+        akeneo.attribute_akeneo_sylius_mapping:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping
+                form: Synolia\SyliusAkeneoPlugin\Form\Type\AttributeAkeneoSyliusMappingType
+        akeneo.categories_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\CategoryConfiguration
+                repository: Synolia\SyliusAkeneoPlugin\Repository\CategoryConfigurationRepository
+        akeneo.product_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfiguration
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository
+        akeneo.product_image_attribute_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationAkeneoImageAttribute
+        akeneo.product_image_mapping_configuration:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping
+        akeneo.product_group:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductGroup
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository
+        akeneo.setting:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\Setting
+        akeneo.product_filters_rules:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules
+                repository: Synolia\SyliusAkeneoPlugin\Repository\ProductFiltersRulesRepository
+        akeneo.asset:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\Asset
+                repository: Synolia\SyliusAkeneoPlugin\Repository\AssetRepository
+        akeneo.taxon_attribute:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\TaxonAttribute
+            translation:
+                classes:
+                    model: Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeTranslation
+        akeneo.taxon_attribute_value:
+            driver: doctrine/orm
+            classes:
+                model: Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue

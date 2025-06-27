@@ -15,4 +15,9 @@ final class SynoliaSyliusAkeneoPlugin extends Bundle implements \Stringable
     {
         return 'SynoliaSyliusAkeneoPlugin';
     }
+
+    public function getPath(): string
+    {
+        return dirname(__DIR__);
+    }
 }

@@ -23,7 +23,7 @@ Reference entities are identifiable by their special type **Reference Entity**.
 
 By their special type of beeing an attribute of attributes we decided to only show the code value of the reference entity on the attributes grid.
 
-Therefore, if you would like them to be displayed another way, you can edit the reference entity template `src/Resources/views/SyliusAttributeBundle/Types/reference_entity.html.twig`.
+Therefore, if you would like them to be displayed another way, you can edit the reference entity template `templates/SyliusAttributeBundle/Types/reference_entity.html.twig`.
 
 ### On the product edition page (BO)
 

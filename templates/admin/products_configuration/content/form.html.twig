@@ -1,0 +1,32 @@
+{% if form is not defined %}
+    {% set form = hookable_metadata.context.form %}
+    {% form_theme form '@SynoliaSyliusAkeneoPlugin/admin/form/theme.html.twig' %}
+{% endif %}
+
+<div class="page-wrapper">
+    <div class="container-xl" {{ stimulus_controller('@synolia/sylius-akeneo-plugin/form') }}>
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6">
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': form.vars.id}}) }}
+                        {{ form_row(form.akeneoPriceAttribute) }}
+                        {{ form_row(form.akeneoEnabledChannelsAttribute) }}
+                        {{ form_row(form.importMediaFiles, {attr: {
+                            'data-action': 'input->synolia--sylius-akeneo-plugin--form#toggleForms'
+                        }}) }}
+                        <div class="togglable" style="display: {{ form.importMediaFiles.vars.data is same as(true) ? 'block' : 'none' }};">
+                            {{ form_row(form.akeneoImageAttributes) }}
+                        </div>
+                        <div class="togglable" style="display: {{ form.importMediaFiles.vars.data is same as(true) ? 'block' : 'none' }};">
+                            {{ form_row(form.productImagesMapping) }}
+                        </div>
+                        {{ form_row(form.regenerateUrlRewrites) }}
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

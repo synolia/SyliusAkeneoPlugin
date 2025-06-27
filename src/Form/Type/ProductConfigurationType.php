@@ -7,7 +7,6 @@ namespace Synolia\SyliusAkeneoPlugin\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductConfigurationType extends AbstractType
@@ -50,12 +49,6 @@ final class ProductConfigurationType extends AbstractType
             ->add('regenerateUrlRewrites', CheckboxType::class, [
                 'label' => 'sylius.ui.admin.akeneo.products.regenerate_url_rewrites',
                 'required' => false,
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'sylius.ui.admin.akeneo.save',
-                'attr' => [
-                    'class' => 'ui icon button primary',
-                ],
             ])
         ;
     }

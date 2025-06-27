@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Manager;
 
-use BluePsyduck\SymfonyProcessManager\ProcessManager as BluePsyduckProcessManager;
 use Symfony\Component\Process\Process;
+use Synolia\SyliusAkeneoPlugin\ProcessManager\ProcessManager as BluePsyduckProcessManager;
 
 class ProcessManager implements ProcessManagerInterface
 {
