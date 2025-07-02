@@ -11,7 +11,7 @@ final class ReferenceEntityAttributeTypeMatcher
 {
     public function __construct(
         /** @var iterable<ReferenceEntityAttributeTypeMatcherInterface> $typeMatchers */
-        #[AutowireIterator(ReferenceEntityAttributeTypeMatcherInterface::TAG_ID)]
+        #[AutowireIterator(ReferenceEntityAttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
     ) {
     }

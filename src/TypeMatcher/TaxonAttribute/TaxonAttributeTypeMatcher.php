@@ -13,7 +13,7 @@ final class TaxonAttributeTypeMatcher
 {
     public function __construct(
         /** @var iterable<TaxonAttributeTypeMatcherInterface> $typeMatchers */
-        #[AutowireIterator(TaxonAttributeTypeMatcherInterface::TAG_ID)]
+        #[AutowireIterator(TaxonAttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
         private LoggerInterface $akeneoLogger,
     ) {

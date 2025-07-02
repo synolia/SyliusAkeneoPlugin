@@ -14,7 +14,7 @@ final class AssetValueBuilderProvider implements AssetValueBuilderProviderInterf
 {
     public function __construct(
         /** @var iterable<AssetAttributeValueBuilderInterface> $assetAttributeValueBuilders */
-        #[AutowireIterator(AssetAttributeValueBuilderInterface::TAG_ID)]
+        #[AutowireIterator(AssetAttributeValueBuilderInterface::class)]
         private iterable $assetAttributeValueBuilders,
         private LoggerInterface $akeneoLogger,
         private EditionCheckerInterface $editionChecker,

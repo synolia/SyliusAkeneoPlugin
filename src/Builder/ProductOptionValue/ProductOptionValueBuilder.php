@@ -13,7 +13,7 @@ class ProductOptionValueBuilder implements ProductOptionValueBuilderInterface
 {
     public function __construct(
         /** @var iterable<DynamicOptionValueBuilderInterface> $dynamicProductOptionValueBuilders */
-        #[AutowireIterator(DynamicOptionValueBuilderInterface::TAG_ID)]
+        #[AutowireIterator(DynamicOptionValueBuilderInterface::class)]
         private iterable $dynamicProductOptionValueBuilders,
     ) {
     }

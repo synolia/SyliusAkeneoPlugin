@@ -14,7 +14,7 @@ final class ChainOptionValuesProcessorProvider implements OptionValuesProcessorP
 {
     public function __construct(
         /** @var iterable<OptionValuesProcessorInterface> $optionValuesProcessors */
-        #[AutowireIterator(OptionValuesProcessorInterface::TAG_ID)]
+        #[AutowireIterator(OptionValuesProcessorInterface::class)]
         private iterable $optionValuesProcessors,
     ) {
     }
