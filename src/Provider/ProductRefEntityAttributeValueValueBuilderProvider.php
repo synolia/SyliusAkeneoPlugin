@@ -12,7 +12,7 @@ final class ProductRefEntityAttributeValueValueBuilderProvider implements Produc
 {
     public function __construct(
         /** @var iterable<ReferenceEntityAttributeValueProcessorInterface> $referenceEntityAttributeValueProcessors */
-        #[AutowireIterator(ReferenceEntityAttributeValueProcessorInterface::TAG_ID)]
+        #[AutowireIterator(ReferenceEntityAttributeValueProcessorInterface::class)]
         private iterable $referenceEntityAttributeValueProcessors,
     ) {
     }

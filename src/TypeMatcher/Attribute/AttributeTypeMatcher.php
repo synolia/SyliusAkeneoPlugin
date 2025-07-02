@@ -13,7 +13,7 @@ final class AttributeTypeMatcher
 {
     public function __construct(
         /** @var iterable<AttributeTypeMatcherInterface> $typeMatchers */
-        #[AutowireIterator(AttributeTypeMatcherInterface::TAG_ID)]
+        #[AutowireIterator(AttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
         private LoggerInterface $akeneoLogger,
     ) {

@@ -13,7 +13,7 @@ final class AssetAttributeTypeMatcherProvider implements AssetAttributeTypeMatch
 {
     public function __construct(
         /** @var iterable<AssetAttributeTypeMatcherInterface> $typeMatchers */
-        #[AutowireIterator(AssetAttributeTypeMatcherInterface::TAG_ID)]
+        #[AutowireIterator(AssetAttributeTypeMatcherInterface::class)]
         private iterable $typeMatchers,
         private LoggerInterface $akeneoLogger,
     ) {
