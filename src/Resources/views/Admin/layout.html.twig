@@ -20,11 +20,6 @@
     <link rel="stylesheet" href="{{ asset('bundles/synoliasyliusakeneoplugin/main.css') }}">
 {% endblock %}
 
-{% block footer %}
-    {{ parent() }}
-    <div>Plugin version : {{ constant('Synolia\\SyliusAkeneoPlugin\\SynoliaSyliusAkeneoPlugin::VERSION') }}</div>
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/synoliasyliusakeneoplugin/main.js') }}"></script>
