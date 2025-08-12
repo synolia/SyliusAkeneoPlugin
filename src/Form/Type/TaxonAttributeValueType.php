@@ -26,7 +26,7 @@ class TaxonAttributeValueType extends AbstractResourceType
     public function __construct(
         #[Autowire(TaxonAttributeValue::class)]
         string $dataClass,
-        #[Autowire('sylius_taxon_attribute_value.validation_groups')]
+        #[Autowire('%sylius.form.type.product_attribute_value.validation_groups%')]
         array $validationGroups,
         #[Autowire(TaxonAttributeChoiceType::class)]
         protected string $attributeChoiceType,
