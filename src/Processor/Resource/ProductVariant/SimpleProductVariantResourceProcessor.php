@@ -16,6 +16,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\Product\AfterProcessingProductEvent;
 use Synolia\SyliusAkeneoPlugin\Event\Product\BeforeProcessingProductEvent;
+use Synolia\SyliusAkeneoPlugin\Event\Product\PostFlushEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\AfterProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Event\ProductVariant\BeforeProcessingProductVariantEvent;
 use Synolia\SyliusAkeneoPlugin\Processor\Product\ProductProcessorChainInterface;
@@ -91,8 +92,9 @@ class SimpleProductVariantResourceProcessor implements AkeneoResourceProcessorIn
 
             $product = $this->getOrCreateEntity($resource);
             $this->productProcessorChain->chain($product, $resource);
-
             $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+            $this->entityManager->flush();
+            $this->dispatcher->dispatch(new PostFlushEvent($resource, $product));
 
             $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $product));
 
