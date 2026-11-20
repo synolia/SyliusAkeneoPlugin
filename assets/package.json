@@ -35,7 +35,7 @@
     "@hotwired/stimulus": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.9.5",
     "@hotwired/stimulus": "^3.0.0",
     "babel-eslint": "^10.1.0",
