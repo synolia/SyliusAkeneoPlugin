@@ -487,6 +487,30 @@ parameters:
 			path: ../src/Filter/ProductFilter.php
 
 		-
+			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AssociationTypesFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AssociationTypesFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Fixture/AssociationTypesFixture.php
+
+		-
+			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AssociationTypesFixture.php
+
+		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -505,6 +529,12 @@ parameters:
 			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
 
 		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
+
+		-
 			message: '#^Parameter \#1 \$akeneoAttribute of method Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeAkeneoSyliusMapping\:\:setAkeneoAttribute\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -515,6 +545,84 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
+
+		-
+			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AttributesFixture.php
+
+		-
+			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AttributesFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AttributesFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: ../src/Fixture/AttributesFixture.php
+
+		-
+			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AttributesFixture.php
+
+		-
+			message: '#^Cannot call method variablePrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/AttributesFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/CategoriesFixture.php
+
+		-
+			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/CategoryConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method booleanNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/CategoryConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultFalse\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/CategoryConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/CategoryConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: ../src/Fixture/CategoryConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method scalarPrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/CategoryConfigurationFixture.php
 
 		-
 			message: '#^Parameter \#1 \$notImportCategories of method Synolia\\SyliusAkeneoPlugin\\Entity\\CategoryConfiguration\:\:setNotImportCategories\(\) expects array\<string\>, mixed given\.$#'
@@ -549,6 +657,66 @@ parameters:
 		-
 			message: '#^Cannot access offset ''type'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method arrayPrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method booleanNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method children\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultFalse\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultNull\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 10
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method scalarNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method scalarPrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../src/Fixture/ProductConfigurationFixture.php
 
@@ -598,6 +766,72 @@ parameters:
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultNull\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 15
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method enumNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method max\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method min\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method scalarNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 6
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method scalarPrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method values\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
 			path: ../src/Fixture/ProductFilterConfigurationFixture.php
 
 		-
@@ -659,6 +893,78 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: ../src/Fixture/ProductFilterConfigurationFixture.php
+
+		-
+			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Cannot call method variablePrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductModelsFixture.php
+
+		-
+			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductsFixture.php
+
+		-
+			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductsFixture.php
+
+		-
+			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductsFixture.php
+
+		-
+			message: '#^Cannot call method end\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: ../src/Fixture/ProductsFixture.php
+
+		-
+			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductsFixture.php
+
+		-
+			message: '#^Cannot call method variablePrototype\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Fixture/ProductsFixture.php
 
 		-
 			message: '#^Cannot cast mixed to string\.$#'
@@ -2209,13 +2515,13 @@ parameters:
 			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
@@ -2311,13 +2617,13 @@ parameters:
 			path: ../src/Provider/Data/AkeneoAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoAttributeDataProvider.php
@@ -2407,13 +2713,13 @@ parameters:
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
@@ -2575,25 +2881,25 @@ parameters:
 			path: ../src/Retriever/FamilyMeasureRetriever.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:get\(\) should return array but returns mixed\.$#'
-			identifier: return.type
-			count: 2
-			path: ../src/Retriever/FamilyMeasureRetriever.php
-
-		-
 			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:getMeasurable\(\) should return array but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: ../src/Retriever/FamilyMeasureRetriever.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamily\(\) should return array but returns mixed\.$#'
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:get\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 2
+			path: ../src/Retriever/FamilyMeasureRetriever.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamilyCodeByVariantCode\(\) should return string but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: ../src/Retriever/FamilyRetriever.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamilyCodeByVariantCode\(\) should return string but returns mixed\.$#'
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamily\(\) should return array but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: ../src/Retriever/FamilyRetriever.php
