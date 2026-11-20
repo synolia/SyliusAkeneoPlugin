@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\ReversedTransformer;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeInterface;
 use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue;
@@ -23,6 +24,9 @@ use Synolia\SyliusAkeneoPlugin\Entity\TaxonAttributeValue;
 #[AutoconfigureTag('form.type')]
 class TaxonAttributeValueType extends AbstractResourceType
 {
+    /**
+     * @param class-string<FormTypeInterface> $attributeChoiceType
+     */
     public function __construct(
         #[Autowire(TaxonAttributeValue::class)]
         string $dataClass,

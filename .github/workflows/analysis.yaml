@@ -16,16 +16,17 @@ jobs:
             fail-fast: false
             matrix:
                 php:
-                    - 8.2
                     - 8.3
+                    - 8.4
+                    - 8.5
                 symfony:
                     - '6.4.*'
-                    - '7.2.*'
+                    - '7.4.*'
         env:
             APP_ENV: test
         steps:
             -
-                uses: actions/checkout@v3
+                uses: actions/checkout@v7
             -
                 name: 'Setup PHP'
                 uses: shivammathur/setup-php@v2
@@ -39,7 +40,7 @@ jobs:
                 run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
             -
                 name: 'Composer - Set cache'
-                uses: actions/cache@v3
+                uses: actions/cache@v6
                 with:
                     path: '${{ steps.composer-cache.outputs.dir }}'
                     key: 'php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles(''**/composer.json'') }}'
@@ -50,6 +51,9 @@ jobs:
             -
                 name: 'Composer - Github Auth'
                 run: 'composer config -g github-oauth.github.com ${{ github.token }}'
+            -
+                name: 'Composer - Install Symfony Flex'
+                run: 'composer global config --no-plugins allow-plugins.symfony/flex true && composer global require --no-progress --no-scripts --no-plugins symfony/flex:^2.4'
             -
                 name: 'Composer - Restrict Symfony version'
                 run: 'composer config extra.symfony.require "${{ matrix.symfony }}"'
@@ -74,6 +78,6 @@ jobs:
                 run: 'if [ -f grumphp.yml ]; then vendor/bin/grumphp run ; else echo Grumphp ruleset file does not exist, skipping step ; fi'
                 if: 'always() && steps.end-of-setup.outcome == ''success'''
             -
-                uses: symfonycorp/security-checker-action@v3
+                uses: symfonycorp/security-checker-action@v5
                 if: 'always() && steps.end-of-setup.outcome == ''success'''
                 continue-on-error: true
