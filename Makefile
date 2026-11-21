@@ -7,16 +7,16 @@ CONSOLE=cd ${TEST_DIRECTORY} && php bin/console -e test
 COMPOSER=cd ${TEST_DIRECTORY} && composer
 YARN=cd ${TEST_DIRECTORY} && yarn
 
-SYLIUS_VERSION=2.0
-SYMFONY_VERSION=7.2
-PHP_VERSION=8.2
+SYLIUS_VERSION=2.3
+SYMFONY_VERSION=7.4
+PHP_VERSION=8.3
 PLUGIN_NAME=synolia/sylius-akeneo-plugin
 
 ###
 ### DEVELOPMENT
 ### ¯¯¯¯¯¯¯¯¯¯¯
 
-install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=1.14.0] [SYMFONY_VERSION=6.4] [PHP_VERSION=8.2]
+install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=2.3.0] [SYMFONY_VERSION=7.4] [PHP_VERSION=8.3]
 .PHONY: install
 
 reset: ## Remove dependencies
@@ -43,10 +43,12 @@ else
 	${COMPOSER_ROOT} create-project sylius/sylius-standard ${TEST_DIRECTORY} "~${SYLIUS_VERSION}" --no-install --no-scripts
 endif
 	${COMPOSER} config allow-plugins true
+	# sylius-standard 2.2 still registers FOSRestBundle, which sylius/resource-bundle >= 1.14 no longer requires
+	if grep -q 'FOS\\RestBundle' ${TEST_DIRECTORY}/config/bundles.php; then ${COMPOSER} require friendsofsymfony/rest-bundle --no-update; fi
 ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
-	${COMPOSER} require sylius/sylius:"${SYLIUS_VERSION}"
+	${COMPOSER} require sylius/sylius:"${SYLIUS_VERSION}" --no-scripts
 else
-	${COMPOSER} require sylius/sylius:"~${SYLIUS_VERSION}"
+	${COMPOSER} require sylius/sylius:"~${SYLIUS_VERSION}" --no-scripts
 endif
 
 install-plugin:
@@ -54,7 +56,7 @@ install-plugin:
 	${COMPOSER} config extra.symfony.allow-contrib true
 	${COMPOSER} config minimum-stability "dev"
 	${COMPOSER} config prefer-stable true
-	${COMPOSER} require "${PLUGIN_NAME}:*" --prefer-source --no-scripts
+	${COMPOSER} require "${PLUGIN_NAME}:*" --prefer-source --no-scripts -W
 
 	cp -r ${INSTALL_DIRECTORY} tests
 	cp -r tests/data/* ${TEST_DIRECTORY}/

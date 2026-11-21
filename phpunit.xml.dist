@@ -3,7 +3,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/8.5/phpunit.xsd"
          colors="true"
-         bootstrap="config/bootstrap.php">
+         bootstrap="tests/bootstrap.php">
     <testsuites>
         <testsuite name="Test Suite">
             <directory>vendor/synolia/sylius-akeneo-plugin/tests/PHPUnit</directory>
