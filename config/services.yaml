@@ -86,8 +86,6 @@ services:
         factory: ['@Synolia\SyliusAkeneoPlugin\Client\ClientFactory', 'createFromApiCredentials']
         lazy: true
 
-    BluePsyduck\SymfonyProcessManager\ProcessManager: ~
-
     sylius.form_registry.taxon_attribute_type:
         class: Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry
         calls:

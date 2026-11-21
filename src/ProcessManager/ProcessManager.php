@@ -205,7 +205,7 @@ class ProcessManager implements ProcessManagerInterface
      *
      * @return $this
      */
-    public function addProcess(Process $process, callable $callback = null, array $env = [])
+    public function addProcess(Process $process, ?callable $callback = null, array $env = [])
     {
         $this->pendingProcessData[] = [$process, $callback, $env];
         $this->executeNextPendingProcess();

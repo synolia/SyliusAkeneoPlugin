@@ -112,6 +112,9 @@ trait ConfigurationContextTrait
         return $this;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.BooleanGetMethodName")
+     */
     public function getProcessAsSoonAsPossible(): bool
     {
         return $this->processAsSoonAsPossible;

@@ -29,7 +29,7 @@ class ProductGroup implements ProductGroupInterface
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
     private string $model;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $variationAxes = [];
 
     /** @ORM\Column(type="string") */
@@ -46,7 +46,7 @@ class ProductGroup implements ProductGroupInterface
     #[ORM\ManyToMany(targetEntity: ProductInterface::class)]
     private Collection $products;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $associations = [];
 
     public function __construct()

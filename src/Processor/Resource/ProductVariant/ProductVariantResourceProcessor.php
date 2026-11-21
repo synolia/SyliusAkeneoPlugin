@@ -9,7 +9,7 @@ use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\AkeneoResourceProcessorInterface;
 use Synolia\SyliusAkeneoPlugin\Processor\Resource\Exception\MaxResourceProcessorRetryException;
 
@@ -27,7 +27,7 @@ class ProductVariantResourceProcessor implements AkeneoResourceProcessorInterfac
         #[Autowire('%env(int:SYNOLIA_AKENEO_RETRY_WAIT_TIME)%')]
         private int $retryWaitTime,
         private int $retryCount = 0,
-        #[TaggedIterator(ProductVariantAkeneoResourceProcessorInterface::class)]
+        #[AutowireIterator(ProductVariantAkeneoResourceProcessorInterface::class)]
         private iterable $productVariantAkeneoResourceProcessors = [],
     ) {
     }

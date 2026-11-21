@@ -179,7 +179,8 @@ final class ProductFilterTest extends ApiTestCase
                 ],
             ],
         ];
-        Assert::assertEquals($expect, $result->getFilters());
+        // Locales order depends on the database, and does not matter for Akeneo
+        Assert::assertEqualsCanonicalizing($expect, $result->getFilters());
 
         $this->productFiltersRules->setCompletenessType(Operator::GREATER_THAN_ON_ALL_LOCALES);
         $result = $method->invoke(

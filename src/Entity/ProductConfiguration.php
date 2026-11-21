@@ -26,7 +26,7 @@ class ProductConfiguration implements ResourceInterface
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $akeneoEnabledChannelsAttribute = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $attributeMapping = null;
 
     #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
@@ -74,6 +74,9 @@ class ProductConfiguration implements ResourceInterface
         return $this;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.BooleanGetMethodName")
+     */
     public function getImportMediaFiles(): ?bool
     {
         return $this->importMediaFiles;
@@ -146,6 +149,9 @@ class ProductConfiguration implements ResourceInterface
         return $this;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.BooleanGetMethodName")
+     */
     public function getRegenerateUrlRewrites(): ?bool
     {
         return $this->regenerateUrlRewrites;
