@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\Handler\Task;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Handler\Task\TaskHandlerInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 
@@ -16,7 +16,7 @@ class TaskHandlerProvider implements TaskHandlerProviderInterface
      */
     public function __construct(
         private LoggerInterface $akeneoLogger,
-        #[TaggedIterator(TaskHandlerInterface::class)]
+        #[AutowireIterator(TaskHandlerInterface::class)]
         private iterable $taskHandlers = [],
     ) {
     }

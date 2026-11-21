@@ -23,7 +23,7 @@ class ProcessManager implements ProcessManagerInterface
         $this->processManager->setNumberOfParallelProcesses($numberOfParallelProcesses);
     }
 
-    public function addProcess(Process $process, callable $callback = null, array $env = []): ProcessManagerInterface
+    public function addProcess(Process $process, ?callable $callback = null, array $env = []): ProcessManagerInterface
     {
         if ($this->instantProcessing) {
             $this->processManager->addProcess($process, $callback, $env);

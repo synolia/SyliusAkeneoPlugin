@@ -10,7 +10,7 @@ interface ProcessManagerInterface
 {
     public function startAll(): void;
 
-    public function addProcess(Process $process, callable $callback = null, array $env = []): self;
+    public function addProcess(Process $process, ?callable $callback = null, array $env = []): self;
 
     public function setInstantProcessing(bool $instantProcessing): self;
 

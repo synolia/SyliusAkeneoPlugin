@@ -179,7 +179,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
                 );
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
                 $stmt->bindValue('values', json_encode($item, \JSON_THROW_ON_ERROR));
-                $stmt->execute();
+                $stmt->executeStatement();
 
                 $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
@@ -213,7 +213,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
             );
             $stmt = $this->entityManager->getConnection()->prepare($sql);
             $stmt->bindValue('values', json_encode($item, \JSON_THROW_ON_ERROR));
-            $stmt->execute();
+            $stmt->executeStatement();
 
             $ids[] = $this->entityManager->getConnection()->lastInsertId();
 
@@ -274,7 +274,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
             $tableName,
         ))->executeQuery();
 
-        return (int) current($query->fetch());
+        return (int) $query->fetchOne();
     }
 
     private function min(string $tableName): int
@@ -285,7 +285,7 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
             $tableName,
         ))->executeQuery();
 
-        return (int) current($query->fetch());
+        return (int) $query->fetchOne();
     }
 
     private function prepareSelectBatchIdsQuery(

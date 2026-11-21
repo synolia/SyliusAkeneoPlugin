@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Provider\Filter;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Synolia\SyliusAkeneoPlugin\Event\FilterEvent;
 use Synolia\SyliusAkeneoPlugin\Exceptions\Payload\CommandContextIsNullException;
@@ -20,7 +20,7 @@ class SearchFilterProvider implements SearchFilterProviderInterface
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,
         private LoggerInterface $akeneoLogger,
-        #[TaggedIterator(ResourceSearchFilterProviderInterface::class)]
+        #[AutowireIterator(ResourceSearchFilterProviderInterface::class)]
         private iterable $resourceSearchFilterProviders = [],
     ) {
     }

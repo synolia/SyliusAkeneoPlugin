@@ -27,7 +27,7 @@ class ProductFiltersRules implements ResourceInterface
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $completenessType = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private $locales = [];
 
     #[ORM\Column(type: Types::INTEGER)]
@@ -48,7 +48,7 @@ class ProductFiltersRules implements ResourceInterface
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $updated = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private $excludeFamilies = [];
 
     #[ORM\Column(type: Types::STRING)]

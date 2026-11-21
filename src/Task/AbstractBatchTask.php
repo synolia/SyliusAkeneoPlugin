@@ -37,10 +37,10 @@ abstract class AbstractBatchTask implements AkeneoTaskInterface, BatchTaskInterf
         $query->bindValue('id', $id, ParameterType::INTEGER);
 
         try {
-            $query->execute();
+            $query->executeStatement();
             /** @phpstan-ignore-next-line ConnectionLost is throw but phpdoc is not good*/
         } catch (ConnectionLost) {
-            $query->execute();
+            $query->executeStatement();
         }
     }
 }

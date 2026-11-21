@@ -32,6 +32,9 @@ interface ConfigurationContextInterface
 
     public function setProcessAsSoonAsPossible(bool $processAsSoonAsPossible): self;
 
+    /**
+     * @SuppressWarnings("PHPMD.BooleanGetMethodName")
+     */
     public function getProcessAsSoonAsPossible(): bool;
 
     public function disableBatching(): self;

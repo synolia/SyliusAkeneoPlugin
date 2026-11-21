@@ -47,10 +47,10 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ->add('completeness_value', IntegerType::class, [
                 'label' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value',
                 'constraints' => [
-                    new Assert\Range([
-                        'min' => self::MIN_COMPLETENESS,
-                        'max' => self::MAX_COMPLETENESS,
-                    ]),
+                    new Assert\Range(
+                        min: self::MIN_COMPLETENESS,
+                        max: self::MAX_COMPLETENESS,
+                    ),
                 ],
                 'help' => 'sylius.ui.admin.akeneo.product_filter_rules.completeness_value_help',
             ])
