@@ -33,7 +33,8 @@ final class SettingsType extends AbstractType
                     if (!class_exists($class)) {
                         throw new InvalidArgumentException(sprintf('Constraint class "%s" not found', $class));
                     }
-                    $constraints[] = new $class($constraintOptions);
+                    // Symfony 8 constraints only accept named arguments
+                    $constraints[] = new $class(...($constraintOptions ?? []));
                 }
 
                 $fieldOptions['constraints'] = $constraints;

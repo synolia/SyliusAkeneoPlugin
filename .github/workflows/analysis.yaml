@@ -22,6 +22,11 @@ jobs:
                 symfony:
                     - '6.4.*'
                     - '7.4.*'
+                    - '8.1.*'
+                exclude:
+                    -
+                        php: 8.3
+                        symfony: '8.1.*'
         env:
             APP_ENV: test
         steps:
@@ -71,7 +76,7 @@ jobs:
                 if: 'always() && steps.end-of-setup.outcome == ''success'''
             -
                 name: 'PHPMD - Run'
-                run: 'if [ -f ruleset/.php_md.xml ]; then vendor/bin/phpmd src ansi ruleset/.php_md.xml ; else echo PHPMD config file does not exist, skipping step ; fi'
+                run: 'if [ -f ruleset/.php_md.xml ]; then vendor/bin/phpmd analyze src --format ansi --ruleset ruleset/.php_md.xml ; else echo PHPMD config file does not exist, skipping step ; fi'
                 if: 'always() && steps.end-of-setup.outcome == ''success'''
             -
                 name: 'GrumPHP - Run'

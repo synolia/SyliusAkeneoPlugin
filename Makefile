@@ -56,7 +56,7 @@ install-plugin:
 	${COMPOSER} config extra.symfony.allow-contrib true
 	${COMPOSER} config minimum-stability "dev"
 	${COMPOSER} config prefer-stable true
-	${COMPOSER} require "${PLUGIN_NAME}:*" --prefer-source --no-scripts -W
+	${COMPOSER} require "${PLUGIN_NAME}:*" --prefer-source --no-scripts
 
 	cp -r ${INSTALL_DIRECTORY} tests
 	cp -r tests/data/* ${TEST_DIRECTORY}/

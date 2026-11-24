@@ -18,10 +18,10 @@ class CategoryConfiguration implements ResourceInterface
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $notImportCategories = [];
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $rootCategories = [];
 
     #[ORM\Column(type: Types::BOOLEAN)]

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synolia\SyliusAkeneoPlugin\Provider\Task\Batch;
 
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 use Synolia\SyliusAkeneoPlugin\Task\BatchTaskInterface;
 
@@ -14,7 +14,7 @@ class BatchTaskProvider
      * @param BatchTaskProviderInterface[] $providers
      */
     public function __construct(
-        #[TaggedIterator(BatchTaskProviderInterface::class)]
+        #[AutowireIterator(BatchTaskProviderInterface::class)]
         private iterable $providers = [],
     ) {
     }

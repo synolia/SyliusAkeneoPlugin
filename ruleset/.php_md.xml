@@ -30,6 +30,7 @@
         <exclude name="LongVariable"/>
         <exclude name="LongClassName"/>
         <exclude name="ShortMethodName"/>
+        <exclude name="LongMethodName"/>
     </rule>
     <rule ref="rulesets/naming.xml/ShortVariable">
         <properties>
@@ -44,6 +45,11 @@
         </properties>
     </rule>
     <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="70"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongMethodName">
         <properties>
             <property name="maximum" value="70"/>
         </properties>

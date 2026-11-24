@@ -34,7 +34,7 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
     #[ORM\Column(name: 'type', type: Types::STRING, length: 255)]
     protected string $type = TextAttributeType::TYPE;
 
-    #[ORM\Column(name: 'configuration', type: Types::ARRAY)]
+    #[ORM\Column(name: 'configuration', type: Types::JSON)]
     protected array $configuration = [];
 
     #[ORM\Column(name: 'storage_type', type: Types::STRING, length: 255)]

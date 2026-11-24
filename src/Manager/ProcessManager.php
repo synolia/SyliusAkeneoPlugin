@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Synolia\SyliusAkeneoPlugin\Manager;
 
 use Symfony\Component\Process\Process;
-use Synolia\SyliusAkeneoPlugin\ProcessManager\ProcessManager as BluePsyduckProcessManager;
+use Synolia\SyliusAkeneoPlugin\ProcessManager\ProcessManager as ParallelProcessManager;
 
 class ProcessManager implements ProcessManagerInterface
 {
@@ -14,7 +14,7 @@ class ProcessManager implements ProcessManagerInterface
     private bool $instantProcessing = false;
 
     public function __construct(
-        protected BluePsyduckProcessManager $processManager,
+        protected ParallelProcessManager $processManager,
     ) {
     }
 
@@ -23,7 +23,7 @@ class ProcessManager implements ProcessManagerInterface
         $this->processManager->setNumberOfParallelProcesses($numberOfParallelProcesses);
     }
 
-    public function addProcess(Process $process, callable $callback = null, array $env = []): ProcessManagerInterface
+    public function addProcess(Process $process, ?callable $callback = null, array $env = []): ProcessManagerInterface
     {
         if ($this->instantProcessing) {
             $this->processManager->addProcess($process, $callback, $env);

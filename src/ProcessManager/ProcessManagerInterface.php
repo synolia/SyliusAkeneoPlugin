@@ -23,7 +23,7 @@ interface ProcessManagerInterface
      *
      * @return $this
      */
-    public function addProcess(Process $process, callable $callback = null, array $env = []);
+    public function addProcess(Process $process, ?callable $callback = null, array $env = []);
 
     /**
      * Waits for all processes to be finished.

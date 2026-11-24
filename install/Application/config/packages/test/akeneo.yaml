@@ -20,7 +20,6 @@ services:
     Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder: ~
     Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory: ~
-    Synolia\SyliusAkeneoPlugin\Factory\FamilyPipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory: ~
     Synolia\SyliusAkeneoPlugin\Filter\ProductFilter: ~
