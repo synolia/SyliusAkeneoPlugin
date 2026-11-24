@@ -13,6 +13,9 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20261121000000 extends AbstractMigration
 {
+    /** Rows converted by each queued UPDATE: keeps the queue small on large catalogs. */
+    public const BATCH_SIZE = 500;
+
     /** @var array<string, array<string, bool>> table => [column => nullable] */
     private const COLUMNS = [
         'akeneo_api_configuration_categories' => ['notImportCategories' => false, 'rootCategories' => false],
@@ -123,13 +126,14 @@ final class Version20261121000000 extends AbstractMigration
     private function queueDataConversion(string $table, array $columns, callable $converter, string $emptyArray): void
     {
         foreach ($columns as $column => $nullable) {
-            $rows = $this->connection->fetchAllAssociative(sprintf(
+            $rows = $this->connection->iterateAssociative(sprintf(
                 'SELECT id, `%s` AS value FROM `%s` WHERE `%s` IS NOT NULL',
                 $column,
                 $table,
                 $column,
             ));
 
+            $batch = [];
             foreach ($rows as $row) {
                 $value = (string) $row['value'];
                 $converted = $converter($value) ?? ($nullable ? null : $emptyArray);
@@ -138,9 +142,40 @@ final class Version20261121000000 extends AbstractMigration
                     continue;
                 }
 
-                $this->addSql(sprintf('UPDATE `%s` SET `%s` = ? WHERE id = ?', $table, $column), [$converted, $row['id']]);
+                $batch[$row['id']] = $converted;
+
+                if (\count($batch) === self::BATCH_SIZE) {
+                    $this->queueBatchUpdate($table, $column, $batch);
+                    $batch = [];
+                }
+            }
+
+            if ([] !== $batch) {
+                $this->queueBatchUpdate($table, $column, $batch);
             }
         }
+    }
+
+    /**
+     * @param array<int|string, ?string> $values id => value
+     */
+    private function queueBatchUpdate(string $table, string $column, array $values): void
+    {
+        $cases = [];
+        foreach ($values as $id => $value) {
+            array_push($cases, $id, $value);
+        }
+
+        $this->addSql(
+            sprintf(
+                'UPDATE `%s` SET `%s` = CASE id %s END WHERE id IN (%s)',
+                $table,
+                $column,
+                implode(' ', array_fill(0, \count($values), 'WHEN ? THEN ?')),
+                implode(', ', array_fill(0, \count($values), '?')),
+            ),
+            [...$cases, ...array_keys($values)],
+        );
     }
 
     /**

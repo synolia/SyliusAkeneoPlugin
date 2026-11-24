@@ -116,11 +116,11 @@ final class Version20261121000000Test extends TestCase
         $migration->up(new Schema());
         $statements = self::statements($migration);
 
-        $locales = self::indexOf($statements, 'UPDATE `akeneo_api_product_filters_rules` SET `locales` = ? WHERE id = ?', ['["en_US"]', 1]);
+        $locales = self::indexOf($statements, self::conversionSql('akeneo_api_product_filters_rules', 'locales', 1), [1, '["en_US"]', 1]);
         self::assertLessThan(self::indexOfAlter($statements, 'akeneo_api_product_filters_rules'), $locales);
         self::assertGreaterThan(self::indexOfAlter($statements, 'akeneo_api_configuration_product'), $locales);
-        self::indexOf($statements, 'UPDATE `akeneo_api_product_filters_rules` SET `excludeFamilies` = ? WHERE id = ?', ['[]', 1]);
-        self::indexOf($statements, 'UPDATE `akeneo_api_configuration_product` SET `attributeMapping` = ? WHERE id = ?', [null, 1]);
+        self::indexOf($statements, self::conversionSql('akeneo_api_product_filters_rules', 'excludeFamilies', 1), [1, '[]', 1]);
+        self::indexOf($statements, self::conversionSql('akeneo_api_configuration_product', 'attributeMapping', 1), [1, null, 1]);
         self::assertStringContainsString('`json_value` `json_value` JSON DEFAULT NULL', $statements[self::indexOfAlter($statements, 'akeneo_taxon_attribute_values')]['sql']);
         self::assertSame([], array_filter($statements, static fn (array $statement): bool => str_contains($statement['sql'], 'SET `json_value`')), 'Values already stored as JSON must not be updated.');
 
@@ -138,9 +138,53 @@ final class Version20261121000000Test extends TestCase
         $migration->down(new Schema());
         $statements = self::statements($migration);
 
-        $locales = self::indexOf($statements, 'UPDATE `akeneo_api_product_filters_rules` SET `locales` = ? WHERE id = ?', [serialize(['en_US']), 1]);
+        $locales = self::indexOf($statements, self::conversionSql('akeneo_api_product_filters_rules', 'locales', 1), [1, serialize(['en_US']), 1]);
         self::assertGreaterThan(self::indexOfAlter($statements, 'akeneo_api_product_filters_rules'), $locales);
         self::assertSame('["en_US"]', $connection->fetchOne('SELECT locales FROM akeneo_api_product_filters_rules'));
+    }
+
+    public function testDataConversionIsQueuedInBoundedBatches(): void
+    {
+        $connection = self::createConnection();
+        $rowCount = Version20261121000000::BATCH_SIZE + 1;
+        for ($id = 1; $id <= $rowCount; ++$id) {
+            $connection->insert('akeneo_product_group', ['id' => $id, 'variationAxes' => serialize(['size']), 'associations' => serialize([])]);
+        }
+
+        $migration = new Version20261121000000($connection, new NullLogger());
+        $migration->up(new Schema());
+        $updates = array_values(array_filter(
+            self::statements($migration),
+            static fn (array $statement): bool => str_starts_with($statement['sql'], 'UPDATE `akeneo_product_group` SET `variationAxes`'),
+        ));
+
+        self::assertCount(2, $updates);
+        self::assertSame(self::conversionSql('akeneo_product_group', 'variationAxes', Version20261121000000::BATCH_SIZE), $updates[0]['sql']);
+        self::assertSame(self::conversionSql('akeneo_product_group', 'variationAxes', 1), $updates[1]['sql']);
+        self::assertSame([$rowCount, '["size"]', $rowCount], $updates[1]['params']);
+    }
+
+    public function testQueuedDataConversionWritesConvertedValues(): void
+    {
+        $connection = self::createConnection();
+        $connection->insert('akeneo_product_group', ['id' => 1, 'variationAxes' => serialize(['size']), 'associations' => serialize(['UPSELL' => ['SKU-1']])]);
+        $connection->insert('akeneo_product_group', ['id' => 2, 'variationAxes' => serialize(['color', 'size']), 'associations' => '[]']);
+        $connection->insert('akeneo_api_configuration_product', ['id' => 1, 'attributeMapping' => 'N;']);
+
+        $migration = new Version20261121000000($connection, new NullLogger());
+        $migration->up(new Schema());
+        foreach (self::statements($migration) as $statement) {
+            // SQLite cannot run the MySQL ALTER TABLE statements.
+            if (str_starts_with($statement['sql'], 'UPDATE ')) {
+                $connection->executeStatement($statement['sql'], $statement['params']);
+            }
+        }
+
+        self::assertSame(
+            [['variationAxes' => '["size"]', 'associations' => '{"UPSELL":["SKU-1"]}'], ['variationAxes' => '["color","size"]', 'associations' => '[]']],
+            $connection->fetchAllAssociative('SELECT variationAxes, associations FROM akeneo_product_group ORDER BY id'),
+        );
+        self::assertNull($connection->fetchOne('SELECT attributeMapping FROM akeneo_api_configuration_product'));
     }
 
     public static function arrayProvider(): iterable
@@ -203,6 +247,17 @@ final class Version20261121000000Test extends TestCase
         return array_map(
             static fn (Query $query): array => ['sql' => $query->getStatement(), 'params' => $query->getParameters()],
             $migration->getSql(),
+        );
+    }
+
+    private static function conversionSql(string $table, string $column, int $rowCount): string
+    {
+        return sprintf(
+            'UPDATE `%s` SET `%s` = CASE id %s END WHERE id IN (%s)',
+            $table,
+            $column,
+            implode(' ', array_fill(0, $rowCount, 'WHEN ? THEN ?')),
+            implode(', ', array_fill(0, $rowCount, '?')),
         );
     }
 
