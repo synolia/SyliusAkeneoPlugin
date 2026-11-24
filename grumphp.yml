@@ -10,7 +10,7 @@ grumphp:
         phplint:
             exclude: ['vendor', 'tests/Application/*']
             triggered_by: ['php']
-        phpmd:
+        phpmd3:
             exclude: ['migrations']
             ruleset: ['ruleset/.php_md.xml']
         phpstan:
