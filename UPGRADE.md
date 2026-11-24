@@ -10,6 +10,8 @@
   `akeneo_product_group.associations`, `akeneo_taxon_attributes.configuration` and `akeneo_taxon_attribute_values.json_value`.
   * Run `bin/console doctrine:migrations:migrate`: migration `Version20261121000000` converts the existing serialized data to JSON.
   * If you override one of these entities or their mapping, use `Types::JSON` instead of `Types::ARRAY`.
+* **BC BREAK**: Removed `Synolia\SyliusAkeneoPlugin\Checker\IsEnterpriseChecker` and `IsEnterpriseCheckerInterface`, deprecated since v3.1.0.
+  Use `Synolia\SyliusAkeneoPlugin\Checker\EditionCheckerInterface::isEnterprise()` instead.
 
 # UPGRADE FROM `v3.0.0` TO `v3.1.0`
 
