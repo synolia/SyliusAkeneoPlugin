@@ -17,7 +17,7 @@ class DoctrineSortableManager
 
     public function disableSortableEventListener(): void
     {
-        foreach ($this->entityManager->getEventManager()->getListeners() as $eventName => $listeners) {
+        foreach ($this->entityManager->getEventManager()->getAllListeners() as $eventName => $listeners) {
             foreach ($listeners as $listener) {
                 if ($listener instanceof SortableListener) {
                     $this->originalEventListeners[$eventName] = $listener;
