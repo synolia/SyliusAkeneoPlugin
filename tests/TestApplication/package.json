@@ -1,0 +1,5 @@
+{
+    "dependencies": {
+        "@synolia/sylius-akeneo-plugin": "file:../../../assets"
+    }
+}
