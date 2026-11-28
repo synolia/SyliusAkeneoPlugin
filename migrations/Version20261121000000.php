@@ -93,7 +93,7 @@ final class Version20261121000000 extends AbstractMigration
      */
     public static function jsonToSerializedArray(string $value): ?string
     {
-        if (!json_validate($value)) {
+        if (!self::isValidJson($value)) {
             if (\is_array(@unserialize($value, ['allowed_classes' => false]))) {
                 return $value;
             }
@@ -114,9 +114,19 @@ final class Version20261121000000 extends AbstractMigration
         return serialize($array);
     }
 
+    /**
+     * json_validate() requires PHP 8.3.
+     */
+    private static function isValidJson(string $value): bool
+    {
+        json_decode($value);
+
+        return \JSON_ERROR_NONE === json_last_error();
+    }
+
     private static function isJsonArray(string $value): bool
     {
-        return json_validate($value) && \is_array(json_decode($value, true));
+        return self::isValidJson($value) && \is_array(json_decode($value, true));
     }
 
     /**
