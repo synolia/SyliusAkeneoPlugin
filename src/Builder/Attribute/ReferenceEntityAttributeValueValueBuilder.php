@@ -36,7 +36,7 @@ final class ReferenceEntityAttributeValueValueBuilder implements ProductAttribut
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {

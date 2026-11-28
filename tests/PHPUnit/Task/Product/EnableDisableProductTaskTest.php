@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Product;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Synolia\SyliusAkeneoPlugin\Payload\Product\ProductPayload;
@@ -14,9 +15,8 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class EnableDisableProductTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;

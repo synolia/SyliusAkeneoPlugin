@@ -32,7 +32,7 @@ final class ImportCategoriesCommand extends AbstractImportCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

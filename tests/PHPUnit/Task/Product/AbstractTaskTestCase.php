@@ -170,6 +170,16 @@ abstract class AbstractTaskTestCase extends ApiTestCase
         $this->manager->flush();
     }
 
+    protected function importAttributes(): void
+    {
+        $initialPayload = new AttributePayload($this->createClient());
+        $initialPayload->setProcessAsSoonAsPossible(false);
+
+        /** @var \League\Pipeline\Pipeline $attributePipeline */
+        $attributePipeline = $this->getContainer()->get(AttributePipelineFactory::class)->create();
+        $attributePipeline->process($initialPayload);
+    }
+
     private function createProductFiltersConfiguration(): void
     {
         $productFilters = $this->manager->getRepository(ProductFiltersRules::class)->findOneBy([], ['id' => 'DESC']);
@@ -184,15 +194,5 @@ abstract class AbstractTaskTestCase extends ApiTestCase
             ->setAdvancedFilter('')
             ->setCompletenessValue(0)
         ;
-    }
-
-    protected function importAttributes(): void
-    {
-        $initialPayload = new AttributePayload($this->createClient());
-        $initialPayload->setProcessAsSoonAsPossible(false);
-
-        /** @var \League\Pipeline\Pipeline $attributePipeline */
-        $attributePipeline = $this->getContainer()->get(AttributePipelineFactory::class)->create();
-        $attributePipeline->process($initialPayload);
     }
 }

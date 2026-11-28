@@ -21,6 +21,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 200;
+
     private const NATIVE_PROPERTIES = ['slug', 'description', 'short_description', 'meta_description', 'meta_keywords'];
 
     public function __construct(
@@ -38,7 +40,7 @@ final class ProductTranslationModelAkeneoAttributeProcessor extends AbstractMode
 
     public static function getDefaultPriority(): int
     {
-        return 200;
+        return self::DEFAULT_PRIORITY;
     }
 
     public function support(string $attributeCode, array $context = []): bool

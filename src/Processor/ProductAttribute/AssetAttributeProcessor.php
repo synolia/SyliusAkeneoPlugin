@@ -29,6 +29,8 @@ use Webmozart\Assert\Assert;
  */
 final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 100;
+
     public function __construct(
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
         private AkeneoAttributeToSyliusAttributeTransformerInterface $akeneoAttributeToSyliusAttributeTransformer,
@@ -45,7 +47,7 @@ final class AssetAttributeProcessor implements AkeneoAttributeProcessorInterface
 
     public static function getDefaultPriority(): int
     {
-        return 100;
+        return self::DEFAULT_PRIORITY;
     }
 
     public function support(string $attributeCode, array $context = []): bool

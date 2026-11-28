@@ -14,15 +14,16 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Query\Query;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Synolia\SyliusAkeneoPlugin\Migrations\Version20261121000000;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class Version20261121000000Test extends TestCase
 {
     private const TABLES = [
@@ -34,17 +35,13 @@ final class Version20261121000000Test extends TestCase
         'akeneo_taxon_attribute_values' => ['json_value'],
     ];
 
-    /**
-     * @dataProvider arrayProvider
-     */
+    #[DataProvider('arrayProvider')]
     public function testSerializedArrayIsConvertedToJson(array $value, string $json): void
     {
         self::assertSame($json, Version20261121000000::serializedArrayToJson(serialize($value)));
     }
 
-    /**
-     * @dataProvider arrayProvider
-     */
+    #[DataProvider('arrayProvider')]
     public function testJsonIsConvertedBackToSerializedArray(array $value, string $json): void
     {
         self::assertSame(serialize($value), Version20261121000000::jsonToSerializedArray($json));
@@ -61,17 +58,13 @@ final class Version20261121000000Test extends TestCase
         self::assertNull(Version20261121000000::jsonToSerializedArray('null'));
     }
 
-    /**
-     * @dataProvider jsonProvider
-     */
+    #[DataProvider('jsonProvider')]
     public function testValueAlreadyConvertedToJsonIsKept(string $json): void
     {
         self::assertSame($json, Version20261121000000::serializedArrayToJson($json));
     }
 
-    /**
-     * @dataProvider arrayProvider
-     */
+    #[DataProvider('valueProvider')]
     public function testValueAlreadyConvertedBackToSerializedArrayIsKept(array $value): void
     {
         self::assertSame(serialize($value), Version20261121000000::jsonToSerializedArray(serialize($value)));
@@ -199,6 +192,13 @@ final class Version20261121000000Test extends TestCase
     {
         foreach (self::arrayProvider() as $name => [, $json]) {
             yield $name => [$json];
+        }
+    }
+
+    public static function valueProvider(): iterable
+    {
+        foreach (self::arrayProvider() as $name => [$value]) {
+            yield $name => [$value];
         }
     }
 

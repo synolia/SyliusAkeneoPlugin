@@ -26,7 +26,7 @@ final class TextProductAttributeValueValueBuilder implements ProductAttributeVal
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value): string
     {

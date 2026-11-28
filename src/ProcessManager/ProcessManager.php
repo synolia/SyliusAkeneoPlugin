@@ -186,18 +186,6 @@ class ProcessManager implements ProcessManagerInterface
     }
 
     /**
-     * Invokes the callback if it is an callable.
-     *
-     * @param Process<string> $process
-     */
-    protected function invokeCallback(?callable $callback, Process $process): void
-    {
-        if (is_callable($callback)) {
-            $callback($process);
-        }
-    }
-
-    /**
      * Adds a process to the manager.
      *
      * @param Process<string> $process
@@ -212,6 +200,41 @@ class ProcessManager implements ProcessManagerInterface
         $this->checkRunningProcesses();
 
         return $this;
+    }
+
+    /**
+     * Waits for all processes to be finished.
+     *
+     * @return $this
+     */
+    public function waitForAllProcesses()
+    {
+        while ($this->hasUnfinishedProcesses()) {
+            $this->sleep($this->pollInterval);
+            $this->checkRunningProcesses();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns whether the manager still has unfinished processes.
+     */
+    public function hasUnfinishedProcesses(): bool
+    {
+        return count($this->pendingProcessData) > 0 || count($this->runningProcesses) > 0;
+    }
+
+    /**
+     * Invokes the callback if it is an callable.
+     *
+     * @param Process<string> $process
+     */
+    protected function invokeCallback(?callable $callback, Process $process): void
+    {
+        if (is_callable($callback)) {
+            $callback($process);
+        }
     }
 
     /**
@@ -293,33 +316,10 @@ class ProcessManager implements ProcessManagerInterface
     }
 
     /**
-     * Waits for all processes to be finished.
-     *
-     * @return $this
-     */
-    public function waitForAllProcesses()
-    {
-        while ($this->hasUnfinishedProcesses()) {
-            $this->sleep($this->pollInterval);
-            $this->checkRunningProcesses();
-        }
-
-        return $this;
-    }
-
-    /**
      * Sleeps for the specified number of milliseconds.
      */
     protected function sleep(int $milliseconds): void
     {
         usleep($milliseconds * 1000);
-    }
-
-    /**
-     * Returns whether the manager still has unfinished processes.
-     */
-    public function hasUnfinishedProcesses(): bool
-    {
-        return count($this->pendingProcessData) > 0 || count($this->runningProcesses) > 0;
     }
 }

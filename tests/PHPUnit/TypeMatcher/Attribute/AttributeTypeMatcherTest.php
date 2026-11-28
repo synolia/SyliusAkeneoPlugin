@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\TypeMatcher\Attribute;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Component\Attribute\AttributeType\TextAttributeType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeTypeMapping;
@@ -21,9 +23,8 @@ use Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\TextAttributeTypeMatcher;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class AttributeTypeMatcherTest extends KernelTestCase
 {
     private const FAKE_AKENEO_ATTRIBUTE_TYPE = 'my_fake_attribute_type';
@@ -61,7 +62,7 @@ final class AttributeTypeMatcherTest extends KernelTestCase
         $this->assertEquals(TextAttributeType::TYPE, $typeMatcher->getType());
     }
 
-    /** @dataProvider supportedAttributeTypeDataProvider */
+    #[DataProvider('supportedAttributeTypeDataProvider')]
     public function testSupportedAttributeTypeMatcher(
         string $akeneoAttributeType,
         string $expectedTypeMatcherClass,
@@ -69,14 +70,14 @@ final class AttributeTypeMatcherTest extends KernelTestCase
         $this->assertInstanceOf($expectedTypeMatcherClass, $this->attributeTypeMatcher->match($akeneoAttributeType));
     }
 
-    /** @dataProvider unsupportedAttributeTypeDataProvider */
+    #[DataProvider('unsupportedAttributeTypeDataProvider')]
     public function testUnsupportedAttributeTypeMatcher(string $akeneoAttributeType): void
     {
         $this->expectException(UnsupportedAttributeTypeException::class);
         $this->attributeTypeMatcher->match($akeneoAttributeType);
     }
 
-    public function supportedAttributeTypeDataProvider(): \Generator
+    public static function supportedAttributeTypeDataProvider(): \Generator
     {
         yield ['pim_catalog_identifier', TextAttributeTypeMatcher::class];
         yield ['pim_catalog_text', TextAttributeTypeMatcher::class];
@@ -89,7 +90,7 @@ final class AttributeTypeMatcherTest extends KernelTestCase
         yield ['pim_catalog_metric', MetricAttributeTypeMatcher::class];
     }
 
-    public function unsupportedAttributeTypeDataProvider(): \Generator
+    public static function unsupportedAttributeTypeDataProvider(): \Generator
     {
         yield ['pim_catalog_price_collection'];
         yield ['pim_catalog_image'];

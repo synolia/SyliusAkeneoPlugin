@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Entity\ProductConfigurationImageMapping;
 final class ProductImagesMappingType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

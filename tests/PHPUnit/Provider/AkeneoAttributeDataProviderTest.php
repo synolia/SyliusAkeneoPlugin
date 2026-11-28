@@ -6,6 +6,8 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProvider;
@@ -15,9 +17,8 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTestCase
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
 {
     private \Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributeDataProvider $attributeDataProvider;
@@ -43,7 +44,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
         );
     }
 
-    /** @dataProvider uniqueAttributeDataProvider */
+    #[DataProvider('uniqueAttributeDataProvider')]
     public function testUniqueValue(
         $expectedValue,
         $attributeCode,
@@ -57,7 +58,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
         );
     }
 
-    public function uniqueAttributeDataProvider(): \Generator
+    public static function uniqueAttributeDataProvider(): \Generator
     {
         yield ['1234567890142', 'ean', json_decode('[
             {
@@ -82,7 +83,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
           ]', true), '', ''];
     }
 
-    /** @dataProvider nonUniqueNonLocalizableNonScopableAttributeDataProvider */
+    #[DataProvider('nonUniqueNonLocalizableNonScopableAttributeDataProvider')]
     public function testNonUniqueNonLocalizableNonScopableValue(
         $expectedValue,
         $attributeCode,
@@ -96,7 +97,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
         );
     }
 
-    public function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
+    public static function nonUniqueNonLocalizableNonScopableAttributeDataProvider(): \Generator
     {
         yield [['akeneo-600'], 'wash_temperature', json_decode('[
             {
@@ -138,7 +139,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
           ]', true), 'en_US', 'ecommerce'];
     }
 
-    /** @dataProvider nonUniqueNonLocalizableScopableAttributeDataProvider */
+    #[DataProvider('nonUniqueNonLocalizableScopableAttributeDataProvider')]
     public function testNonUniqueNonLocalizableScopableValue(
         $expectedValue,
         $attributeCode,
@@ -152,7 +153,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
         );
     }
 
-    public function nonUniqueNonLocalizableScopableAttributeDataProvider(): \Generator
+    public static function nonUniqueNonLocalizableScopableAttributeDataProvider(): \Generator
     {
         yield ['2011-12-02T00:00:00+01:00', 'release_date', json_decode('[
             {
@@ -163,7 +164,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
           ]', true), 'fr_FR', 'ecommerce'];
     }
 
-    /** @dataProvider nonUniqueLocalizableScopableAttributeDataProvider */
+    #[DataProvider('nonUniqueLocalizableScopableAttributeDataProvider')]
     public function testNonUniqueLocalizableScopableValue(
         $expectedValue,
         $attributeCode,
@@ -177,7 +178,7 @@ final class AkeneoAttributeDataProviderTest extends AbstractTaskTestCase
         );
     }
 
-    public function nonUniqueLocalizableScopableAttributeDataProvider(): \Generator
+    public static function nonUniqueLocalizableScopableAttributeDataProvider(): \Generator
     {
         yield ['description fr', 'variation_description', json_decode('[
             {

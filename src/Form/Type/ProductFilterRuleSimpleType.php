@@ -23,7 +23,7 @@ final class ProductFilterRuleSimpleType extends AbstractType
     public const MAX_COMPLETENESS = 100;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -8,6 +8,8 @@ use Sylius\Component\Product\Model\ProductAttributeInterface;
 
 class NumberTableProductAttributeValueProcessor implements TableProductAttributeValueProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 200;
+
     private const TYPES = [
         'number',
         'text',
@@ -16,9 +18,10 @@ class NumberTableProductAttributeValueProcessor implements TableProductAttribute
 
     public static function getDefaultPriority(): int
     {
-        return 200;
+        return self::DEFAULT_PRIORITY;
     }
 
+    #[\Override]
     public function support(
         ProductAttributeInterface $attribute,
         array $tableConfiguration,
@@ -33,6 +36,7 @@ class NumberTableProductAttributeValueProcessor implements TableProductAttribute
             in_array($tableConfiguration['data_type'], self::TYPES, true);
     }
 
+    #[\Override]
     public function getValue(
         ProductAttributeInterface $attribute,
         array $tableConfiguration,

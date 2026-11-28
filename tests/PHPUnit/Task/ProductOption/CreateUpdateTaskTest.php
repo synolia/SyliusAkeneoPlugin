@@ -6,6 +6,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductOption;
 
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Sylius\Component\Product\Model\ProductOption;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
@@ -15,9 +16,8 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class CreateUpdateTaskTest extends AbstractTaskTestCase
 {
     protected function setUp(): void

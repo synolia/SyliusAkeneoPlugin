@@ -15,10 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 class TranslationProcessor implements CategoryProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 900;
-    }
+    private const DEFAULT_PRIORITY = 900;
 
     public function __construct(
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -27,6 +24,11 @@ class TranslationProcessor implements CategoryProcessorInterface
         private LoggerInterface $akeneoLogger,
         private EntityManagerInterface $entityManager,
     ) {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(TaxonInterface $taxon, array $resource): void
@@ -85,6 +87,7 @@ class TranslationProcessor implements CategoryProcessorInterface
         }
     }
 
+    #[\Override]
     public function support(TaxonInterface $taxon, array $resource): bool
     {
         return true;

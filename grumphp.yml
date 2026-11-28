@@ -8,23 +8,23 @@ grumphp:
         jsonlint:
             detect_key_conflicts: true
         phplint:
-            exclude: ['vendor']
+            exclude: ['vendor', 'var']
             triggered_by: ['php']
         phpmd3:
-            exclude: ['migrations']
             ruleset: ['ruleset/.php_md.xml']
         phpstan:
             level: ~
             configuration: 'ruleset/phpstan.neon'
             use_grumphp_paths: false
-        securitychecker_symfony: ~
         yamllint:
             parse_custom_tags: true
         ecs:
             config: 'ruleset/ecs.php'
             no-progress-bar: true
+        phpmnd:
+            directory: src
         phpcs:
-            standard: "ruleset"
+            standard: 'ruleset'
             warning_severity: 0
             whitelist_patterns:
                 - 'src'

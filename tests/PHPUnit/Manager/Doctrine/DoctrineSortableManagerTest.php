@@ -10,14 +10,14 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\ORMSetup;
 use Gedmo\Sortable\SortableListener;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use Synolia\SyliusAkeneoPlugin\Manager\Doctrine\DoctrineSortableManager;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class DoctrineSortableManagerTest extends TestCase
 {
     private EventManager $eventManager;

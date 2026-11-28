@@ -12,6 +12,8 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductAttributeValueRepository;
 use Sylius\Component\Core\Model\Taxon;
 use Sylius\Component\Core\Model\TaxonInterface;
@@ -26,9 +28,8 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;
@@ -148,7 +149,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTestCase
         );
     }
 
-    public function createSimpleProductsWithMultiSelectCheckboxDataProvider(): \Generator
+    public static function createSimpleProductsWithMultiSelectCheckboxDataProvider(): \Generator
     {
         yield [
             '11834327',
@@ -169,9 +170,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTestCase
         ];
     }
 
-    /**
-     * @dataProvider createSimpleProductsWithMultiSelectCheckboxDataProvider
-     */
+    #[DataProvider('createSimpleProductsWithMultiSelectCheckboxDataProvider')]
     public function testCreateSimpleProductsWithMultiSelectCheckboxTask(
         string $productId,
         string $selectValue,

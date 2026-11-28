@@ -32,7 +32,7 @@ final class ImportAssociationsCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(
         InputInterface $input,

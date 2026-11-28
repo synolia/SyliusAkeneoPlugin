@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use Akeneo\Pim\ApiClient\Search\Operator;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory;
@@ -27,9 +28,8 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTestCase
 {
     /** @var TaskProvider */

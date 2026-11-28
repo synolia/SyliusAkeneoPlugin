@@ -13,6 +13,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\ProductFilterRulesProviderInterface;
 
 final class AttributesProcessor implements AttributesProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 800;
+
     public function __construct(
         private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
         private ProductFilterRulesProviderInterface $productFilterRulesProvider,
@@ -23,7 +25,7 @@ final class AttributesProcessor implements AttributesProcessorInterface
 
     public static function getDefaultPriority(): int
     {
-        return 800;
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -52,6 +54,7 @@ final class AttributesProcessor implements AttributesProcessorInterface
         }
     }
 
+    #[\Override]
     public function support(ProductInterface $product, array $resource): bool
     {
         return (is_countable($resource['values']) ? \count($resource['values']) : 0) > 0;

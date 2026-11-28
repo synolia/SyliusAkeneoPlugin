@@ -14,6 +14,8 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
 {
     private const ONE_VARIATION_AXIS = 1;
 
+    private const TWO_VARIATION_AXES = 2;
+
     public function __construct(
         private LoggerInterface $akeneoLogger,
         private ApiConnectionProviderInterface $apiConnectionProvider,
@@ -53,7 +55,7 @@ final class IsProductProcessableChecker implements IsProductProcessableCheckerIn
             // The common model will not be imported. The first axe on akeneo will become the product on sylius and the next axe on akeneo will become an option for the product variant
             if (
                 null !== $resource['parent'] &&
-                $numberOfVariationAxis === 2 &&
+                $numberOfVariationAxis === self::TWO_VARIATION_AXES &&
                 $this->apiConnectionProvider->get()->getAxeAsModel() !== AkeneoAxesEnum::FIRST
             ) {
                 $this->akeneoLogger->debug('Skipping product import because the parent is null, and it has more than one variation axis.', ['resource' => $resource]);

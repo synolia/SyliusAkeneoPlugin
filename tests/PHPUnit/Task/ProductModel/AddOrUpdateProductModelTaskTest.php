@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Core\Model\Product;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -24,9 +25,8 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class AddOrUpdateProductModelTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;

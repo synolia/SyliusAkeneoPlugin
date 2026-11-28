@@ -18,6 +18,8 @@ use Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformerInte
 
 final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
+    private const DEFAULT_PRIORITY = 100;
+
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
         RepositoryInterface $productOptionValueTranslationRepository,
@@ -31,6 +33,7 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
         parent::__construct($productOptionValueRepository, $productOptionValueTranslationRepository, $productOptionValueFactory, $productOptionValueTranslationFactory, $akeneoLogger, $entityManager, $productOptionValueDataTransformer);
     }
 
+    #[\Override]
     public function support(
         AttributeInterface $attribute,
         ProductOptionInterface $productOption,
@@ -41,9 +44,10 @@ final class SelectOptionValuesProcessor extends AbstractOptionValuesProcessor
 
     public static function getDefaultPriority(): int
     {
-        return 100;
+        return self::DEFAULT_PRIORITY;
     }
 
+    #[\Override]
     public function process(
         AttributeInterface $attribute,
         ProductOptionInterface $productOption,

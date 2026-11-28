@@ -37,6 +37,11 @@ class TaxonAttributeTranslation implements AttributeTranslationInterface
     #[ORM\JoinColumn(nullable: true)]
     protected ?TranslatableInterface $translatable = null;
 
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,10 +97,5 @@ class TaxonAttributeTranslation implements AttributeTranslationInterface
     public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->getName();
     }
 }

@@ -29,7 +29,7 @@ final class BatchImportAssetsCommand extends AbstractBatchCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(
         InputInterface $input,

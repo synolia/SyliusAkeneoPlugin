@@ -24,7 +24,7 @@ final class MultiSelectProductAttributeValueValueBuilder implements ProductAttri
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, mixed $values)
     {

@@ -32,7 +32,7 @@ final class ImportProductModelsCommand extends AbstractImportCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

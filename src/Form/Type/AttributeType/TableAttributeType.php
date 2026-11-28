@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Form\DataTransformer\JsonEntityDataTransformer;
 final class TableAttributeType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

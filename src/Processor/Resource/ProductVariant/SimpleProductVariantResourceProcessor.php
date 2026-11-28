@@ -41,6 +41,33 @@ class SimpleProductVariantResourceProcessor implements AkeneoResourceProcessorIn
     ) {
     }
 
+    public function support(array $resource): bool
+    {
+        return null === $resource['parent'];
+    }
+
+    public function process(array $resource): void
+    {
+        try {
+            $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
+
+            $product = $this->getOrCreateEntity($resource);
+            $this->productProcessorChain->chain($product, $resource);
+            $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
+            $this->entityManager->flush();
+            $this->dispatcher->dispatch(new PostFlushEvent($resource, $product));
+
+            $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $product));
+
+            $productVariant = $this->getOrCreateSimpleVariant($product);
+            $this->productVariantProcessorChain->chain($productVariant, $resource);
+
+            $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
+        } catch (Throwable $throwable) {
+            $this->akeneoLogger->warning($throwable->getMessage(), ['exception' => $throwable]);
+        }
+    }
+
     private function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface
     {
         /** @var ProductVariantInterface $productVariant */
@@ -78,32 +105,5 @@ class SimpleProductVariantResourceProcessor implements AkeneoResourceProcessorIn
         }
 
         return $product;
-    }
-
-    public function support(array $resource): bool
-    {
-        return null === $resource['parent'];
-    }
-
-    public function process(array $resource): void
-    {
-        try {
-            $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
-
-            $product = $this->getOrCreateEntity($resource);
-            $this->productProcessorChain->chain($product, $resource);
-            $this->dispatcher->dispatch(new AfterProcessingProductEvent($resource, $product));
-            $this->entityManager->flush();
-            $this->dispatcher->dispatch(new PostFlushEvent($resource, $product));
-
-            $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $product));
-
-            $productVariant = $this->getOrCreateSimpleVariant($product);
-            $this->productVariantProcessorChain->chain($productVariant, $resource);
-
-            $this->dispatcher->dispatch(new AfterProcessingProductVariantEvent($resource, $productVariant));
-        } catch (Throwable $throwable) {
-            $this->akeneoLogger->warning($throwable->getMessage(), ['exception' => $throwable]);
-        }
     }
 }

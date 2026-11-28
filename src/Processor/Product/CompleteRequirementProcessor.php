@@ -23,6 +23,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class CompleteRequirementProcessor implements CompleteRequirementProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 900;
+
     public function __construct(
         private AkeneoFamilyPropertiesProviderInterface $akeneoFamilyPropertiesProvider,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -38,7 +40,7 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
 
     public static function getDefaultPriority(): int
     {
-        return 900;
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -106,6 +108,12 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         }
     }
 
+    #[\Override]
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        return true;
+    }
+
     private function setProductTranslation(
         ProductInterface $product,
         string $usedLocalesOnBothPlatform,
@@ -126,10 +134,5 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
         $productTranslation->setName($productName);
 
         return $productTranslation;
-    }
-
-    public function support(ProductInterface $product, array $resource): bool
-    {
-        return true;
     }
 }

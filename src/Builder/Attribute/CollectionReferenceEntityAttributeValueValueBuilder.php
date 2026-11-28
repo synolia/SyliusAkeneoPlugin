@@ -22,7 +22,7 @@ final class CollectionReferenceEntityAttributeValueValueBuilder implements Produ
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {

@@ -16,6 +16,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 300;
+
     public function __construct(
         #[Autowire('@serializer.name_converter.camel_case_to_snake_case')]
         CamelCaseToSnakeCaseNameConverter $camelCaseToSnakeCaseNameConverter,
@@ -31,7 +33,7 @@ final class ProductModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttr
 
     public static function getDefaultPriority(): int
     {
-        return 300;
+        return self::DEFAULT_PRIORITY;
     }
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string

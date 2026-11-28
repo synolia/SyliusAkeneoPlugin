@@ -28,6 +28,10 @@ use Webmozart\Assert\Assert;
 
 class OptionValueProcessor implements OptionValueProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 900;
+
+    private const TWO_VARIATION_AXES = 2;
+
     public function __construct(
         private RepositoryInterface $productOptionRepository,
         private RepositoryInterface $productOptionValueRepository,
@@ -104,7 +108,7 @@ class OptionValueProcessor implements OptionValueProcessorInterface
                 // if the attribute is part of the first variation axis, and we import this axis as model, we don't want it as an option of the variant
                 if (
                     $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::FIRST &&
-                    (is_countable($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0) === 2 &&
+                    (is_countable($familyVariantPayload['variant_attribute_sets']) ? \count($familyVariantPayload['variant_attribute_sets']) : 0) === self::TWO_VARIATION_AXES &&
                     $this->getAxeLevelForAttributeCode(
                         $familyVariantPayload['variant_attribute_sets'],
                         $attributeCode,
@@ -121,6 +125,51 @@ class OptionValueProcessor implements OptionValueProcessorInterface
             } catch (CouldNotFindAxeLevelException) {
             }
         }
+    }
+
+    public function support(ProductVariantInterface $productVariant, array $resource): bool
+    {
+        $productModel = $productVariant->getProduct();
+
+        if (!$productModel instanceof ProductInterface) {
+            return false;
+        }
+
+        $productGroup = $this->productGroupRepository->findOneBy(
+            ['model' => $productModel->getCode()],
+        );
+
+        if (!$productGroup instanceof ProductGroup) {
+            $this->akeneoLogger->warning(
+                sprintf(
+                    'Skipped product "%s" because model "%s" does not exist as group.',
+                    $resource['identifier'],
+                    $resource['parent'],
+                ),
+            );
+
+            return false;
+        }
+
+        $variationAxes = $productGroup->getVariationAxes();
+
+        if (0 === \count($variationAxes)) {
+            $this->akeneoLogger->warning(
+                sprintf(
+                    'Skipped product "%s" because group has no variation axis.',
+                    $resource['identifier'],
+                ),
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     /**
@@ -185,50 +234,5 @@ class OptionValueProcessor implements OptionValueProcessorInterface
         }
 
         return $this->productOptionValueDataTransformer->transform($productOption, implode('_', $data));
-    }
-
-    public function support(ProductVariantInterface $productVariant, array $resource): bool
-    {
-        $productModel = $productVariant->getProduct();
-
-        if (!$productModel instanceof ProductInterface) {
-            return false;
-        }
-
-        $productGroup = $this->productGroupRepository->findOneBy(
-            ['model' => $productModel->getCode()],
-        );
-
-        if (!$productGroup instanceof ProductGroup) {
-            $this->akeneoLogger->warning(
-                sprintf(
-                    'Skipped product "%s" because model "%s" does not exist as group.',
-                    $resource['identifier'],
-                    $resource['parent'],
-                ),
-            );
-
-            return false;
-        }
-
-        $variationAxes = $productGroup->getVariationAxes();
-
-        if (0 === \count($variationAxes)) {
-            $this->akeneoLogger->warning(
-                sprintf(
-                    'Skipped product "%s" because group has no variation axis.',
-                    $resource['identifier'],
-                ),
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function getDefaultPriority(): int
-    {
-        return 900;
     }
 }

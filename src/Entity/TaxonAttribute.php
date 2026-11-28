@@ -67,22 +67,17 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
         $this->createdAt = new \DateTime();
     }
 
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
+
     public function getNameByLocaleCode(string $localeCode): string
     {
         /** @var ProductTranslationInterface $translation */
         $translation = $this->getTranslation($localeCode);
 
         return $translation->getName();
-    }
-
-    protected function createTranslation(): AttributeTranslationInterface
-    {
-        return new TaxonAttributeTranslation();
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->getName();
     }
 
     public function getId(): ?int
@@ -182,5 +177,10 @@ class TaxonAttribute implements TaxonAttributeInterface, \Stringable
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    protected function createTranslation(): AttributeTranslationInterface
+    {
+        return new TaxonAttributeTranslation();
     }
 }

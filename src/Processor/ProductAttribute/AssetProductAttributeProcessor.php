@@ -21,6 +21,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class AssetProductAttributeProcessor implements AssetProductAttributeProcessorInterface
 {
+    private const DEFAULT_PRIORITY = -100;
+
     public function __construct(
         private FactoryInterface $assetFactory,
         private RepositoryInterface $assetRepository,
@@ -36,9 +38,10 @@ final class AssetProductAttributeProcessor implements AssetProductAttributeProce
 
     public static function getDefaultPriority(): int
     {
-        return -100;
+        return self::DEFAULT_PRIORITY;
     }
 
+    #[\Override]
     public function support(
         ProductInterface $model,
         string $assetFamilyCode,

@@ -11,10 +11,7 @@ use Synolia\SyliusAkeneoPlugin\Repository\AssetRepository;
 
 final class AssetProcessor implements AssetProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 850;
-    }
+    private const DEFAULT_PRIORITY = 850;
 
     public function __construct(
         private EditionCheckerInterface $editionChecker,
@@ -23,6 +20,12 @@ final class AssetProcessor implements AssetProcessorInterface
     ) {
     }
 
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
+    }
+
+    #[\Override]
     public function process(ProductInterface $product, array $resource): void
     {
         /*
@@ -35,6 +38,7 @@ final class AssetProcessor implements AssetProcessorInterface
         $this->akeneoLogger->info('Dissociated assets for product ' . $product->getCode());
     }
 
+    #[\Override]
     public function support(ProductInterface $product, array $resource): bool
     {
         $isEnterprise = $this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition();

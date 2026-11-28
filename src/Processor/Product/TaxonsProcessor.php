@@ -13,10 +13,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class TaxonsProcessor implements TaxonsProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 500;
-    }
+    private const DEFAULT_PRIORITY = 500;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -24,6 +21,11 @@ final class TaxonsProcessor implements TaxonsProcessorInterface
         private RepositoryInterface $productTaxonRepository,
         private FactoryInterface $productTaxonFactory,
     ) {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -51,6 +53,7 @@ final class TaxonsProcessor implements TaxonsProcessorInterface
         }
     }
 
+    #[\Override]
     public function support(ProductInterface $product, array $resource): bool
     {
         return \array_key_exists('categories', $resource);

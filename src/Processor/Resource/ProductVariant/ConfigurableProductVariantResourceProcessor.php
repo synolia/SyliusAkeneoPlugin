@@ -39,35 +39,6 @@ class ConfigurableProductVariantResourceProcessor implements AkeneoResourceProce
     ) {
     }
 
-    private function getModelCode(ProductGroupInterface $productGroup): string
-    {
-        if (
-            $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON &&
-            $productGroup->getParent() instanceof ProductGroupInterface
-        ) {
-            return $productGroup->getParent()->getModel();
-        }
-
-        return $productGroup->getModel();
-    }
-
-    private function getOrCreateEntity(string $variantCode, ProductInterface $productModel): ProductVariantInterface
-    {
-        $productVariant = $this->productVariantRepository->findOneBy(['code' => $variantCode]);
-
-        if (!$productVariant instanceof ProductVariantInterface) {
-            /** @var ProductVariantInterface $productVariant */
-            $productVariant = $this->productVariantFactory->createForProduct($productModel);
-            $productVariant->setCode($variantCode);
-
-            $this->entityManager->persist($productVariant);
-
-            return $productVariant;
-        }
-
-        return $productVariant;
-    }
-
     public function support(array $resource): bool
     {
         return null !== $resource['parent'];
@@ -130,5 +101,34 @@ class ConfigurableProductVariantResourceProcessor implements AkeneoResourceProce
                 'exception' => $throwable,
             ]);
         }
+    }
+
+    private function getModelCode(ProductGroupInterface $productGroup): string
+    {
+        if (
+            $this->apiConnectionProvider->get()->getAxeAsModel() === AkeneoAxesEnum::COMMON &&
+            $productGroup->getParent() instanceof ProductGroupInterface
+        ) {
+            return $productGroup->getParent()->getModel();
+        }
+
+        return $productGroup->getModel();
+    }
+
+    private function getOrCreateEntity(string $variantCode, ProductInterface $productModel): ProductVariantInterface
+    {
+        $productVariant = $this->productVariantRepository->findOneBy(['code' => $variantCode]);
+
+        if (!$productVariant instanceof ProductVariantInterface) {
+            /** @var ProductVariantInterface $productVariant */
+            $productVariant = $this->productVariantFactory->createForProduct($productModel);
+            $productVariant->setCode($variantCode);
+
+            $this->entityManager->persist($productVariant);
+
+            return $productVariant;
+        }
+
+        return $productVariant;
     }
 }

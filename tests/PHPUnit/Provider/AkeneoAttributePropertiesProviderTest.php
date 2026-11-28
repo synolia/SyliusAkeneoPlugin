@@ -6,15 +6,16 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Provider;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider;
 use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute\AbstractTaskTestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTestCase
 {
     private \Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider $attributePropertiesProvider;
@@ -32,7 +33,7 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTestCase
         $this->attributePropertiesProvider->setLoadsAllAttributesAtOnce(true);
     }
 
-    /** @dataProvider attributePropertiesDataProvider */
+    #[DataProvider('attributePropertiesDataProvider')]
     public function testGetProperties(
         string $attributeCode,
         bool $isNullable,
@@ -44,7 +45,7 @@ final class AkeneoAttributePropertiesProviderTest extends AbstractTaskTestCase
         $this->assertEquals($isScopable, $this->attributePropertiesProvider->isScopable($attributeCode));
     }
 
-    public function attributePropertiesDataProvider(): \Generator
+    public static function attributePropertiesDataProvider(): \Generator
     {
         yield ['ean', true, false, false];
         yield ['wash_temperature', false, false, false];

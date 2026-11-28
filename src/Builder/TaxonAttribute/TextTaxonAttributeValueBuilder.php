@@ -15,6 +15,7 @@ final class TextTaxonAttributeValueBuilder implements TaxonAttributeValueBuilder
     ) {
     }
 
+    #[\Override]
     public function support(string $attributeCode, string $type): bool
     {
         $typeMatcher = $this->attributeTypeMatcher->match($type);
@@ -25,7 +26,7 @@ final class TextTaxonAttributeValueBuilder implements TaxonAttributeValueBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @param string $value
      */

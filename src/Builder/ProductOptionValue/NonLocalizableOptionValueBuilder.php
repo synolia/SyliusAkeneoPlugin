@@ -21,10 +21,7 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 100;
-    }
+    private const DEFAULT_PRIORITY = 100;
 
     public function __construct(
         private FactoryInterface $productOptionValueFactory,
@@ -37,6 +34,12 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
     ) {
     }
 
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
+    }
+
+    #[\Override]
     public function support(ProductOptionInterface $productOption, mixed $values, array $context = []): bool
     {
         try {
@@ -53,6 +56,7 @@ class NonLocalizableOptionValueBuilder implements DynamicOptionValueBuilderInter
         }
     }
 
+    #[\Override]
     public function build(
         ProductOptionInterface $productOption,
         mixed $values,

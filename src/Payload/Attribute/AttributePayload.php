@@ -17,6 +17,8 @@ final class AttributePayload extends AbstractPayload
 
     public const BATCH_COMMAND_NAME = 'akeneo:batch:attributes';
 
+    private ResourceCursorInterface $resources;
+
     public function __construct(
         AkeneoPimClientInterface $akeneoPimClient,
         ?CommandContextInterface $commandContext = null,
@@ -26,8 +28,6 @@ final class AttributePayload extends AbstractPayload
         $this->setTmpTableName(self::TEMP_AKENEO_TABLE_NAME);
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
-
-    private ResourceCursorInterface $resources;
 
     public function getResources(): ResourceCursorInterface
     {

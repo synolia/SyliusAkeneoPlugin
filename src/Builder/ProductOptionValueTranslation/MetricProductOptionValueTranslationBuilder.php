@@ -25,6 +25,8 @@ use Webmozart\Assert\InvalidArgumentException;
 
 class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTranslationBuilderInterface
 {
+    private const DEFAULT_PRIORITY = 100;
+
     private ?string $scope = null;
 
     public function __construct(
@@ -36,6 +38,7 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
     ) {
     }
 
+    #[\Override]
     public function support(
         ProductOptionInterface $productOption,
         ProductOptionValueInterface $productOptionValue,
@@ -88,7 +91,7 @@ class MetricProductOptionValueTranslationBuilder implements ProductOptionValueTr
 
     public static function getDefaultPriority(): int
     {
-        return 100;
+        return self::DEFAULT_PRIORITY;
     }
 
     private function getScope(): string

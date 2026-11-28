@@ -16,6 +16,8 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 100;
+
     private const NATIVE_PROPERTIES = [
         'on_hold',
         'on_hand',
@@ -41,7 +43,7 @@ final class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAke
 
     public static function getDefaultPriority(): int
     {
-        return 100;
+        return self::DEFAULT_PRIORITY;
     }
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string

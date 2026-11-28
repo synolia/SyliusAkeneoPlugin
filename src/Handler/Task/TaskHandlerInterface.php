@@ -11,11 +11,11 @@ use Synolia\SyliusAkeneoPlugin\Payload\PipelinePayloadInterface;
 #[AutoconfigureTag()]
 interface TaskHandlerInterface
 {
-    public function support(PipelinePayloadInterface $pipelinePayload): bool;
-
     public function setUp(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface;
 
     public function tearDown(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface;
+
+    public function support(PipelinePayloadInterface $pipelinePayload): bool;
 
     public function batch(
         PipelinePayloadInterface $pipelinePayload,

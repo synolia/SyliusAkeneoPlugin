@@ -27,7 +27,7 @@ final class TableAttributeType implements AttributeTypeInterface
     public const TYPE = 'akeneo_table';
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStorageType(): string
     {
@@ -35,7 +35,7 @@ final class TableAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getType(): string
     {
@@ -43,7 +43,7 @@ final class TableAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function validate(
         AttributeValueInterface $attributeValue,

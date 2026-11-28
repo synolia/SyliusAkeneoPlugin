@@ -6,6 +6,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Attribute;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Sylius\Component\Product\Model\ProductAttribute;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory;
@@ -16,9 +17,8 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class ProcessAttributesTaskTest extends AbstractTaskTestCase
 {
     public function testNoAttributes(): void
@@ -100,12 +100,6 @@ final class ProcessAttributesTaskTest extends AbstractTaskTestCase
         $this->assertEquals('[coloris]', $productAttribute->getTranslation('en_US')->getName());
     }
 
-    private function assertProductAttributeTranslations(ProductAttribute $productAttribute): void
-    {
-        $this->assertEquals('Couleur', $productAttribute->getTranslation('fr_FR')->getName());
-        $this->assertEquals('Color', $productAttribute->getTranslation('en_US')->getName());
-    }
-
     public function testGetOptions(): void
     {
         $initialPayload = new AttributePayload($this->createClient());
@@ -140,6 +134,12 @@ final class ProcessAttributesTaskTest extends AbstractTaskTestCase
         $this->assertEquals(2, $colorisOption->getValues()->count());
         $this->assertEquals('coloris_akeneo-black', $colorisOption->getValues()->first()->getCode());
         $this->assertEquals('coloris_akeneo-white', $colorisOption->getValues()->last()->getCode());
+    }
+
+    private function assertProductAttributeTranslations(ProductAttribute $productAttribute): void
+    {
+        $this->assertEquals('Couleur', $productAttribute->getTranslation('fr_FR')->getName());
+        $this->assertEquals('Color', $productAttribute->getTranslation('en_US')->getName());
     }
 
     private function assertProductAttributeChoices(ProductAttribute $productAttribute): void

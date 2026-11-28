@@ -36,6 +36,43 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
     ) {
     }
 
+    public function setUp(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
+    {
+        if ($pipelinePayload->isContinue()) {
+            $schemaManager = $this->entityManager->getConnection()->createSchemaManager();
+            $tableExist = $schemaManager->tablesExist([$pipelinePayload->getTmpTableName()]);
+
+            if (true === $tableExist) {
+                return $pipelinePayload;
+            }
+        }
+
+        $this->tearDown($pipelinePayload);
+
+        $query = sprintf(
+            'CREATE TABLE `%s` (
+              `id` INT NOT NULL AUTO_INCREMENT,
+              `values` JSON NULL,
+              PRIMARY KEY (`id`));',
+            $pipelinePayload->getTmpTableName(),
+        );
+        $this->entityManager->getConnection()->executeStatement($query);
+
+        return $pipelinePayload;
+    }
+
+    public function tearDown(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
+    {
+        $schemaManager = $this->entityManager->getConnection()->createSchemaManager();
+        $exists = $schemaManager->tablesExist([$pipelinePayload->getTmpTableName()]);
+
+        if ($exists) {
+            $schemaManager->dropTable($pipelinePayload->getTmpTableName());
+        }
+
+        return $pipelinePayload;
+    }
+
     public function support(PipelinePayloadInterface $pipelinePayload): bool
     {
         return $pipelinePayload->getHandler() === self::HANDLER_CODE;
@@ -227,43 +264,6 @@ class SymfonyProcessTaskHandler implements TaskHandlerInterface
                 $ids = [];
             }
         }
-    }
-
-    public function setUp(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
-    {
-        if ($pipelinePayload->isContinue()) {
-            $schemaManager = $this->entityManager->getConnection()->createSchemaManager();
-            $tableExist = $schemaManager->tablesExist([$pipelinePayload->getTmpTableName()]);
-
-            if (true === $tableExist) {
-                return $pipelinePayload;
-            }
-        }
-
-        $this->tearDown($pipelinePayload);
-
-        $query = sprintf(
-            'CREATE TABLE `%s` (
-              `id` INT NOT NULL AUTO_INCREMENT,
-              `values` JSON NULL,
-              PRIMARY KEY (`id`));',
-            $pipelinePayload->getTmpTableName(),
-        );
-        $this->entityManager->getConnection()->executeStatement($query);
-
-        return $pipelinePayload;
-    }
-
-    public function tearDown(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
-    {
-        $schemaManager = $this->entityManager->getConnection()->createSchemaManager();
-        $exists = $schemaManager->tablesExist([$pipelinePayload->getTmpTableName()]);
-
-        if ($exists) {
-            $schemaManager->dropTable($pipelinePayload->getTmpTableName());
-        }
-
-        return $pipelinePayload;
     }
 
     private function count(string $tableName): int

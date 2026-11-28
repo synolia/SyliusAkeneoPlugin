@@ -47,6 +47,19 @@ class AttributeProcessor implements AttributeProcessorInterface
         }
     }
 
+    #[\Override]
+    public function support(ProductVariantInterface $productVariant, array $resource): bool
+    {
+        try {
+            return
+                $this->getProductFilterRules() instanceof ProductFiltersRules &&
+                is_array($resource['values']) &&
+                count($resource['values']) > 0;
+        } catch (NoProductFiltersConfigurationException) {
+            return false;
+        }
+    }
+
     /**
      * @throws NoProductFiltersConfigurationException
      */
@@ -63,17 +76,5 @@ class AttributeProcessor implements AttributeProcessorInterface
         }
 
         return $this->productFiltersRules = $filters;
-    }
-
-    public function support(ProductVariantInterface $productVariant, array $resource): bool
-    {
-        try {
-            return
-                $this->getProductFilterRules() instanceof ProductFiltersRules &&
-                is_array($resource['values']) &&
-                count($resource['values']) > 0;
-        } catch (NoProductFiltersConfigurationException) {
-            return false;
-        }
     }
 }
