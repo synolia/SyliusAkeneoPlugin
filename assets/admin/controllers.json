@@ -1,0 +1,11 @@
+{
+    "controllers": {
+        "@synolia/sylius-akeneo-plugin": {
+            "form": {
+                "enabled": true,
+                "fetch": "lazy"
+            }
+        }
+    },
+    "entrypoints": []
+}
