@@ -1,89 +1,79 @@
 .DEFAULT_GOAL := help
 SHELL=/bin/bash
-COMPOSER_ROOT=composer
-TEST_DIRECTORY=tests/Application
-INSTALL_DIRECTORY=install/Application
-CONSOLE=cd ${TEST_DIRECTORY} && php bin/console -e test
-COMPOSER=cd ${TEST_DIRECTORY} && composer
-YARN=cd ${TEST_DIRECTORY} && yarn
+COMPOSER_BIN=composer
+TEST_APP_DIR=vendor/sylius/test-application
+APP_ENV ?= test
+CONSOLE=vendor/bin/console -e $(APP_ENV)
+# sylius/test-application frontend requires Yarn classic (1.x): Yarn Berry (PnP, strict peer dependencies) fails to build it
+YARN_BIN ?= $(shell yarn --version 2>/dev/null | grep -q '^1\.' && echo yarn || echo npx --yes yarn@1.22.22)
+YARN=$(YARN_BIN) --cwd $(TEST_APP_DIR)
 
-SYLIUS_VERSION=2.3
-SYMFONY_VERSION=7.4
-PHP_VERSION=8.3
-PLUGIN_NAME=synolia/sylius-akeneo-plugin
+# Leave empty to install the latest versions allowed by composer.json (local development).
+# Set them to restrict the versions (CI), e.g. `make install SYLIUS_VERSION=2.3.0 SYMFONY_VERSION=8.1`.
+SYLIUS_VERSION ?=
+SYMFONY_VERSION ?=
+# Fixtures suite loaded by `make install` (empty: the "default" suite)
+FIXTURES_SUITE ?=
 
 ###
 ### DEVELOPMENT
 ### ¯¯¯¯¯¯¯¯¯¯¯
 
-install: sylius ## Install Plugin on Sylius [SYLIUS_VERSION=2.3.0] [SYMFONY_VERSION=7.4] [PHP_VERSION=8.3]
+install: dependencies frontend database ## Install Plugin with Sylius Test Application [SYLIUS_VERSION=2.3.0] [SYMFONY_VERSION=8.1]
+	$(CONSOLE) cache:clear
 .PHONY: install
 
-reset: ## Remove dependencies
-ifneq ("$(wildcard ${TEST_DIRECTORY}/bin/console)","")
-	${CONSOLE} doctrine:database:drop --force --if-exists || true
+reset: ## Remove dependencies and database
+ifneq ("$(wildcard vendor/bin/console)","")
+	$(CONSOLE) doctrine:database:drop --force --if-exists || true
 endif
-	rm -rf ${TEST_DIRECTORY}
+	rm -rf var/ vendor/ node_modules composer.lock
 .PHONY: reset
 
-phpunit: phpunit-configure phpunit-run ## Run PHPUnit
+phpunit: ## Run PHPUnit
+	vendor/bin/phpunit
 .PHONY: phpunit
+
+serve: ## Start the Symfony local web server (Sylius Test Application) [APP_ENV=test]
+	APP_ENV=$(APP_ENV) symfony server:start -d
+.PHONY: serve
+
+grumphp: ## Run GrumPHP
+	vendor/bin/grumphp run
+.PHONY: grumphp
 
 ###
 ### OTHER
 ### ¯¯¯¯¯¯
 
-sylius: sylius-standard install-plugin update-dependencies install-sylius
-.PHONY: sylius
-
-sylius-standard:
-ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
-	${COMPOSER_ROOT} create-project sylius/sylius-standard:${SYLIUS_VERSION} ${TEST_DIRECTORY} --no-install --no-scripts
-else
-	${COMPOSER_ROOT} create-project sylius/sylius-standard ${TEST_DIRECTORY} "~${SYLIUS_VERSION}" --no-install --no-scripts
+dependencies:
+ifneq ($(SYLIUS_VERSION),)
+	$(COMPOSER_BIN) require --no-update --no-scripts sylius/sylius:"~$(SYLIUS_VERSION)"
+	$(COMPOSER_BIN) require --dev --no-update --no-scripts sylius/test-application:"~$(SYLIUS_VERSION)@alpha"
 endif
-	${COMPOSER} config allow-plugins true
-	# sylius-standard 2.2 still registers FOSRestBundle, which sylius/resource-bundle >= 1.14 no longer requires
-	if grep -q 'FOS\\RestBundle' ${TEST_DIRECTORY}/config/bundles.php; then ${COMPOSER} require friendsofsymfony/rest-bundle --no-update; fi
-ifeq ($(shell [[ $(SYLIUS_VERSION) == *dev ]] && echo true ),true)
-	${COMPOSER} require sylius/sylius:"${SYLIUS_VERSION}" --no-scripts
-else
-	${COMPOSER} require sylius/sylius:"~${SYLIUS_VERSION}" --no-scripts
+ifneq ($(SYMFONY_VERSION),)
+	# extra.symfony.require is only applied by Symfony Flex when it is loaded before the dependency resolution
+	$(COMPOSER_BIN) global show symfony/flex > /dev/null 2>&1 || ($(COMPOSER_BIN) global config --no-plugins allow-plugins.symfony/flex true && $(COMPOSER_BIN) global require --no-progress --no-scripts --no-plugins symfony/flex)
+	# Pin the minor version: "~8.0" would also allow 8.1
+	$(COMPOSER_BIN) config extra.symfony.require "$(SYMFONY_VERSION).*"
 endif
+	$(COMPOSER_BIN) update --no-progress -n
+.PHONY: dependencies
 
-install-plugin:
-	${COMPOSER} config repositories.plugin '{"type": "path", "url": "../../"}'
-	${COMPOSER} config extra.symfony.allow-contrib true
-	${COMPOSER} config minimum-stability "dev"
-	${COMPOSER} config prefer-stable true
-	${COMPOSER} require "${PLUGIN_NAME}:*" --prefer-source --no-scripts
+frontend:
+	php bin/create_node_symlink.php
+	$(YARN) install
+	$(YARN) build
+	# Explicit target: without it, a "public/" folder at the plugin root (bundle assets) would be used as target
+	$(CONSOLE) assets:install $(TEST_APP_DIR)/public
+.PHONY: frontend
 
-	cp -r ${INSTALL_DIRECTORY} tests
-	cp -r tests/data/* ${TEST_DIRECTORY}/
-
-update-dependencies:
-	${COMPOSER} config extra.symfony.require "~${SYMFONY_VERSION}"
-	${COMPOSER} require --dev donatj/mock-webserver:2.7.0 --no-scripts --no-update
-	${COMPOSER} update -n
-
-install-sylius:
-	${CONSOLE} d:d:c --if-not-exists -n
-	${CONSOLE} d:m:m -n
-	${CONSOLE} syl:fix:load akeneo -n
-	${YARN} install
-	${YARN} build
-	${CONSOLE} cache:clear
-
-phpunit-configure:
-	cp phpunit.xml.dist ${TEST_DIRECTORY}/phpunit.xml
-	echo -e "\nMOCK_SERVER_HOST=localhost\nMOCK_SERVER_PORT=8987\n" >> ${TEST_DIRECTORY}/.env.test.local
-	echo -e "\nSYNOLIA_AKENEO_BASE_URL=http://localhost:8987\n" >> ${TEST_DIRECTORY}/.env.test.local
-
-phpunit-run:
-	cd ${TEST_DIRECTORY} && ./vendor/bin/phpunit
-
-grumphp:
-	vendor/bin/grumphp run
+database:
+	$(CONSOLE) doctrine:database:drop --if-exists --force
+	$(CONSOLE) doctrine:database:create
+	$(CONSOLE) doctrine:migrations:migrate -n
+	$(CONSOLE) sylius:fixtures:load -n $(FIXTURES_SUITE)
+.PHONY: database
 
 help: SHELL=/bin/bash
 help: ## Display this help

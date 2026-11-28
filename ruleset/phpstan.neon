@@ -16,11 +16,6 @@ parameters:
         - ../tests/PHPUnit
         - ../src/Manager/SettingsManager.php
         - ../src/Form/Type/SettingsType.php
-
-        # Test dependencies
-        - ../tests/Application?
-        - ../tests/PHPUnit
-        - ../install
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: missingType.generics

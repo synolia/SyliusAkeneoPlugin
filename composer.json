@@ -45,14 +45,20 @@
         "seld/jsonlint": "1.11.0",
         "slevomat/coding-standard": "8.16.0",
         "squizlabs/php_codesniffer": "3.13.6",
-        "sylius-labs/coding-standard": "4.4.0"
+        "sylius-labs/coding-standard": "4.4.0",
+        "sylius/test-application": "^2.2@alpha"
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Synolia\\SyliusAkeneoPlugin\\": "src/",
-            "Synolia\\SyliusAkeneoPlugin\\Migrations\\": "migrations/",
+            "Synolia\\SyliusAkeneoPlugin\\Migrations\\": "migrations/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Synolia\\SyliusAkeneoPlugin\\TestApplication\\": "tests/TestApplication/src/",
             "Tests\\Synolia\\SyliusAkeneoPlugin\\": "tests/"
         }
     },
@@ -63,16 +69,24 @@
             "symfony/thanks": true,
             "phpro/grumphp": true,
             "phpstan/extension-installer": true,
-            "php-http/discovery": true
-        }
-    },
-    "extra": {
-        "symfony": {
-            "require": "^7.4"
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "scripts": {
         "fix-ecs": "ecs check -c ruleset/ecs.php --fix --ansi --clear-cache",
-        "patch": "php bin/patch"
+        "post-install-cmd": [
+            "php bin/create_node_symlink.php"
+        ],
+        "post-update-cmd": [
+            "php bin/create_node_symlink.php"
+        ],
+        "post-create-project-cmd": [
+            "php bin/create_node_symlink.php"
+        ]
+    },
+    "extra": {
+        "public-dir": "vendor/sylius/test-application/public"
     }
 }
