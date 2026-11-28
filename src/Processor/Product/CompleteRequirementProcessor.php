@@ -47,15 +47,16 @@ final class CompleteRequirementProcessor implements CompleteRequirementProcessor
     {
         $missingNameTranslationCount = 0;
         $familyResource = $this->akeneoFamilyPropertiesProvider->getProperties($resource['family']);
+        $attributeAsLabel = $familyResource['attribute_as_label'] ?? null;
 
         foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $usedLocalesOnBothPlatform) {
             $productName = null;
 
-            if (isset($resource['values'][$familyResource['attribute_as_label']])) {
+            if (null !== $attributeAsLabel && isset($resource['values'][$attributeAsLabel])) {
                 try {
                     $productName = $this->akeneoAttributeDataProvider->getData(
-                        $familyResource['attribute_as_label'],
-                        $resource['values'][$familyResource['attribute_as_label']],
+                        $attributeAsLabel,
+                        $resource['values'][$attributeAsLabel],
                         $usedLocalesOnBothPlatform,
                         $this->productFilterRulesProvider->getProductFiltersRules()->getChannel(),
                     );
