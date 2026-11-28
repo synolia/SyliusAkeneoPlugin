@@ -82,16 +82,6 @@ abstract class ApiTestCase extends KernelTestCase
         }
     }
 
-    private function assignLocaleToChannels(LocaleInterface $locale): void
-    {
-        $channels = $this->getContainer()->get('sylius.repository.channel')->findAll();
-
-        /** @var ChannelInterface $channel */
-        foreach ($channels as $channel) {
-            $channel->addLocale($locale);
-        }
-    }
-
     protected function createClient(): AkeneoPimClientInterface
     {
         $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
@@ -130,5 +120,15 @@ abstract class ApiTestCase extends KernelTestCase
                             "access_token" : "access-token"
                         }
             JSON;
+    }
+
+    private function assignLocaleToChannels(LocaleInterface $locale): void
+    {
+        $channels = $this->getContainer()->get('sylius.repository.channel')->findAll();
+
+        /** @var ChannelInterface $channel */
+        foreach ($channels as $channel) {
+            $channel->addLocale($locale);
+        }
     }
 }

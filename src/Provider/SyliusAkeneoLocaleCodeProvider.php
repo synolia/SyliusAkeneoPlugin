@@ -73,6 +73,20 @@ final class SyliusAkeneoLocaleCodeProvider
         return \in_array($locale, $locales, true);
     }
 
+    public function getUsedAkeneoLocales(): array
+    {
+        $locales = [];
+
+        foreach ($this->getUsedLocalesOnSylius() as $syliusLocale) {
+            try {
+                $locales[] = $this->getAkeneoLocale($syliusLocale);
+            } catch (LocaleNotFoundException) {
+            }
+        }
+
+        return $locales;
+    }
+
     private function getUsedLocalesOnAkeneo(): ResourceCursorInterface
     {
         return $this->akeneoPimClient->getLocaleApi()->all();
@@ -88,20 +102,6 @@ final class SyliusAkeneoLocaleCodeProvider
                 /** @phpstan-ignore-next-line */
                 ->map(fn (LocaleInterface $locale): string => (string) $locale->getCode())
                 ->toArray()));
-        }
-
-        return $locales;
-    }
-
-    public function getUsedAkeneoLocales(): array
-    {
-        $locales = [];
-
-        foreach ($this->getUsedLocalesOnSylius() as $syliusLocale) {
-            try {
-                $locales[] = $this->getAkeneoLocale($syliusLocale);
-            } catch (LocaleNotFoundException) {
-            }
         }
 
         return $locales;

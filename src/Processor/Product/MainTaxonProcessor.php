@@ -10,13 +10,15 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
 final class MainTaxonProcessor implements MainTaxonProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 700;
-    }
+    private const DEFAULT_PRIORITY = 700;
 
     public function __construct(private TaxonRepositoryInterface $taxonRepository)
     {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -29,6 +31,7 @@ final class MainTaxonProcessor implements MainTaxonProcessorInterface
         }
     }
 
+    #[\Override]
     public function support(ProductInterface $product, array $resource): bool
     {
         return \array_key_exists('categories', $resource);

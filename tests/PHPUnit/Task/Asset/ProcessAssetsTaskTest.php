@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Asset;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeApi;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetFamilyApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\Asset;
 use Synolia\SyliusAkeneoPlugin\Payload\Asset\AssetPayload;
@@ -16,9 +17,8 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class ProcessAssetsTaskTest extends AbstractTaskTestCase
 {
     private const ASSET_COUNT = 8;

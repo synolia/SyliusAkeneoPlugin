@@ -24,7 +24,7 @@ final class SelectProductAttributeValueValueBuilder implements ProductAttributeV
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {

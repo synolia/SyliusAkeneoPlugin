@@ -18,7 +18,7 @@ final class AttributeTypeChoiceType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -26,7 +26,7 @@ final class AttributeTypeChoiceType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getParent(): string
     {

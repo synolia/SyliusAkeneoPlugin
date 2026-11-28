@@ -27,7 +27,7 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
     use PrependDoctrineMigrationsTrait;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

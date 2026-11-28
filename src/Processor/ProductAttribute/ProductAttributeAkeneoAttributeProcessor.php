@@ -22,6 +22,8 @@ use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTrans
 
 final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcessorInterface
 {
+    private const DEFAULT_PRIORITY = -100;
+
     public function __construct(
         private AkeneoAttributeDataProviderInterface $akeneoAttributeDataProvider,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
@@ -36,9 +38,10 @@ final class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeP
 
     public static function getDefaultPriority(): int
     {
-        return -100;
+        return self::DEFAULT_PRIORITY;
     }
 
+    #[\Override]
     public function support(string $attributeCode, array $context = []): bool
     {
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);

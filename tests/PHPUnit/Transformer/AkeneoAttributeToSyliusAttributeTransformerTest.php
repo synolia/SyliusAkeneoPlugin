@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Transformer;
 
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Synolia\SyliusAkeneoPlugin\Entity\AttributeAkeneoSyliusMapping;
 use Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class AkeneoAttributeToSyliusAttributeTransformerTest extends KernelTestCase
 {
     private ?AkeneoAttributeToSyliusAttributeTransformer $akeneoAttributeToSyliusAttributeTransformer = null;

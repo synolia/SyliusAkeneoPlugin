@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Retriever;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetrieverInterface;
@@ -14,9 +15,8 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class FamilyRetrieverTest extends ApiTestCase
 {
     private ?FamilyRetrieverInterface $familyRetriever = null;

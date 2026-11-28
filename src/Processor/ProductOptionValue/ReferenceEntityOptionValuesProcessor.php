@@ -22,6 +22,8 @@ use Webmozart\Assert\Assert;
 
 final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesProcessor
 {
+    private const DEFAULT_PRIORITY = 90;
+
     public function __construct(
         RepositoryInterface $productOptionValueRepository,
         RepositoryInterface $productOptionValueTranslationRepository,
@@ -48,9 +50,10 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
 
     public static function getDefaultPriority(): int
     {
-        return 90;
+        return self::DEFAULT_PRIORITY;
     }
 
+    #[\Override]
     public function support(
         AttributeInterface $attribute,
         ProductOptionInterface $productOption,
@@ -61,6 +64,7 @@ final class ReferenceEntityOptionValuesProcessor extends AbstractOptionValuesPro
             ($this->editionChecker->isEnterprise() || $this->editionChecker->isSerenityEdition());
     }
 
+    #[\Override]
     public function process(
         AttributeInterface $attribute,
         ProductOptionInterface $productOption,

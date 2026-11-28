@@ -13,7 +13,7 @@ final class TextAttributeType implements AttributeTypeInterface
     public const TYPE = 'text';
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStorageType(): string
     {
@@ -21,7 +21,7 @@ final class TextAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getType(): string
     {
@@ -29,7 +29,7 @@ final class TextAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function validate(
         AttributeValueInterface $attributeValue,

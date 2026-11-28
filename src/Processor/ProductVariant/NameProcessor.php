@@ -15,10 +15,7 @@ use Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider;
 
 class NameProcessor implements NameProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 800;
-    }
+    private const DEFAULT_PRIORITY = 800;
 
     public function __construct(
         private RepositoryInterface $productVariantTranslationRepository,
@@ -28,6 +25,12 @@ class NameProcessor implements NameProcessorInterface
     ) {
     }
 
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
+    }
+
+    #[\Override]
     public function process(ProductVariantInterface $productVariant, array $resource): void
     {
         foreach ($this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms() as $syliusLocale) {
@@ -67,6 +70,7 @@ class NameProcessor implements NameProcessorInterface
         }
     }
 
+    #[\Override]
     public function support(ProductVariantInterface $productVariant, array $resource): bool
     {
         return $productVariant->getOptionValues()->count() > 0;

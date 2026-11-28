@@ -25,7 +25,7 @@ final class DateProductAttributeValueValueBuilder implements ProductAttributeVal
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value): DateTimeInterface
     {

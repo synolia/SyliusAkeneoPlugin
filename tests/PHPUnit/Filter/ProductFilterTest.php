@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Entity\ProductFiltersRules;
 use Synolia\SyliusAkeneoPlugin\Enum\ProductFilterStatusEnum;
@@ -18,9 +19,8 @@ use Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Api\ApiTestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class ProductFilterTest extends ApiTestCase
 {
     private const API_DATETIME_FORMAT = 'Y-m-d H:i:s';

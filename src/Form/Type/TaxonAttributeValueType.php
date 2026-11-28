@@ -87,6 +87,11 @@ class TaxonAttributeValueType extends AbstractResourceType
         );
     }
 
+    public function getBlockPrefix(): string
+    {
+        return 'sylius_taxon_attribute_value';
+    }
+
     protected function addValueField(
         FormInterface $form,
         AttributeInterface|TaxonAttributeInterface $attribute,
@@ -99,10 +104,5 @@ class TaxonAttributeValueType extends AbstractResourceType
             'label' => $attribute->getName(),
             'locale_code' => $localeCode,
         ]);
-    }
-
-    public function getBlockPrefix(): string
-    {
-        return 'sylius_taxon_attribute_value';
     }
 }

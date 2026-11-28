@@ -28,7 +28,7 @@ final class TableAttributeValueValueBuilder implements ProductAttributeValueValu
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {

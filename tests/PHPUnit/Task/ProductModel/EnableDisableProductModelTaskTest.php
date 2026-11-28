@@ -6,6 +6,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\ProductModel;
 
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use donatj\MockWebServer\Response;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Sylius\Component\Core\Model\Product;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\ProductModel\ProductModelPayload;
@@ -17,9 +18,8 @@ use Synolia\SyliusAkeneoPlugin\Task\TearDownTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class EnableDisableProductModelTaskTest extends AbstractTaskTestCase
 {
     private TaskProvider $taskProvider;

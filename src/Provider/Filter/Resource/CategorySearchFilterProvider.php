@@ -20,7 +20,7 @@ class CategorySearchFilterProvider implements ResourceSearchFilterProviderInterf
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get(PayloadInterface $payload): array
     {

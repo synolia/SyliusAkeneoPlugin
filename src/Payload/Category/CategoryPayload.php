@@ -17,6 +17,8 @@ final class CategoryPayload extends AbstractPayload
 
     public const BATCH_COMMAND_NAME = 'akeneo:batch:categories';
 
+    private array $resources;
+
     public function __construct(
         AkeneoPimClientInterface $akeneoPimClient,
         ?CommandContextInterface $commandContext = null,
@@ -26,8 +28,6 @@ final class CategoryPayload extends AbstractPayload
         $this->setTmpTableName(self::TEMP_AKENEO_TABLE_NAME);
         $this->setCommandName(self::BATCH_COMMAND_NAME);
     }
-
-    private array $resources;
 
     public function getResources(): array
     {

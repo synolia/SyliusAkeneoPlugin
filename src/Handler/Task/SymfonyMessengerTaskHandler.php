@@ -24,6 +24,16 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
     ) {
     }
 
+    public function setUp(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
+    {
+        return $pipelinePayload;
+    }
+
+    public function tearDown(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
+    {
+        return $pipelinePayload;
+    }
+
     public function support(PipelinePayloadInterface $pipelinePayload): bool
     {
         return $pipelinePayload->getHandler() === self::HANDLER_CODE;
@@ -46,6 +56,10 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
         } else {
             $this->handleByCursor($pipelinePayload, $handleType, $count, $items);
         }
+    }
+
+    public function continue(PipelinePayloadInterface $pipelinePayload): void
+    {
     }
 
     private function handleByPage(
@@ -107,19 +121,5 @@ class SymfonyMessengerTaskHandler implements TaskHandlerInterface
             $this->batch($payload, $items);
             $items = [];
         }
-    }
-
-    public function setUp(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
-    {
-        return $pipelinePayload;
-    }
-
-    public function tearDown(PipelinePayloadInterface $pipelinePayload): PipelinePayloadInterface
-    {
-        return $pipelinePayload;
-    }
-
-    public function continue(PipelinePayloadInterface $pipelinePayload): void
-    {
     }
 }

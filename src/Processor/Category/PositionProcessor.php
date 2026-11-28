@@ -10,15 +10,17 @@ use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationP
 
 class PositionProcessor implements CategoryProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 800;
-    }
+    private const DEFAULT_PRIORITY = 800;
 
     public function __construct(
         private CategoryConfigurationProviderInterface $categoryConfigurationProvider,
         private LoggerInterface $akeneoLogger,
     ) {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(TaxonInterface $taxon, array $resource): void

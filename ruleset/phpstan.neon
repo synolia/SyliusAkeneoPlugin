@@ -1,28 +1,24 @@
 includes:
-	- phpstan-baseline.neon
+    - phpstan-baseline.neon
 
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
     paths:
         - ../src
     bootstrapFiles:
         - ../vendor/autoload.php
     excludePaths:
-        # Makes PHPStan crash
-        - ../src/Configuration/SettingConfiguration.php
-        - ../src/DependencyInjection/Configuration.php
-        - ../src/Entity/
-        - ../tests/PHPUnit
-        - ../src/Manager/SettingsManager.php
-        - ../src/Form/Type/SettingsType.php
+        - ../bin
+        - ../tests
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: missingType.generics
-        - '#Cannot call method [a-zA-Z0-9]+\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null.#'
-        - '#Call to an undefined method League\\Pipeline\\PipelineInterface\:\:process\(\).#'
-        - '#Method Doctrine\\Persistence\\ObjectRepository<object>\:\:findOneBy\(\) invoked with 2 parameters, 1 required.#'
-        - "#^Call to an undefined method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:getFlashBag\\(\\)\\.$#"
+        # Plugin-specific ignores (with a comment explaining why) go below this line
+        # Sylius 2.2 reports the type as Sylius\Resource\Model\ResourceInterface, Sylius 2.3 as its
+        # Sylius\Component\Resource\Model\ResourceInterface alias: the generated baseline only matches the latter
         -
-          message: '#Property [a-zA-Z0-9\\_]+::\$pipelineFactory is never read, only written.#'
-          path: ../src/Command/*
+            message: '#^Parameter \#1 \$model of method Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttribute\\AbstractModelAkeneoAttributeProcessor\:\:setValueToMethod\(\) expects Sylius\\Resource\\Model\\ResourceInterface, mixed given\.$#'
+            identifier: argument.type
+            path: ../src/Processor/ProductAttribute/AbstractModelAkeneoAttributeProcessor.php

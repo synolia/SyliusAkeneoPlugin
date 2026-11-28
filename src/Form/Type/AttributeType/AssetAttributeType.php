@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Form\DataTransformer\AssetEntityDataTransformer;
 final class AssetAttributeType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

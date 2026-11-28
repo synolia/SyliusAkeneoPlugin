@@ -9,13 +9,15 @@ use Synolia\SyliusAkeneoPlugin\Repository\TaxonRepository;
 
 class ParentProcessor implements CategoryProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 900;
-    }
+    private const DEFAULT_PRIORITY = 900;
 
     public function __construct(private TaxonRepository $taxonRepository)
     {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(TaxonInterface $taxon, array $resource): void

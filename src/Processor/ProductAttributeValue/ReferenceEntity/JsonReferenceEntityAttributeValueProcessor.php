@@ -6,13 +6,15 @@ namespace Synolia\SyliusAkeneoPlugin\Processor\ProductAttributeValue\ReferenceEn
 
 final class JsonReferenceEntityAttributeValueProcessor implements ReferenceEntityAttributeValueProcessorInterface
 {
+    private const DEFAULT_PRIORITY = -100;
+
     public static function getDefaultPriority(): int
     {
-        return -100;
+        return self::DEFAULT_PRIORITY;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function support(
         string $attributeCode,
@@ -27,7 +29,7 @@ final class JsonReferenceEntityAttributeValueProcessor implements ReferenceEntit
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getValue(
         string $attributeCode,

@@ -13,7 +13,7 @@ final class TextareaAttributeType implements AttributeTypeInterface
     public const TYPE = 'textarea';
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStorageType(): string
     {
@@ -21,7 +21,7 @@ final class TextareaAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getType(): string
     {
@@ -29,7 +29,7 @@ final class TextareaAttributeType implements AttributeTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function validate(
         AttributeValueInterface $attributeValue,

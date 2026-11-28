@@ -11,13 +11,13 @@ use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class GetCategoriesTest extends ApiTestCase
 {
     public function testGetCategories(): void

@@ -18,7 +18,7 @@ final class ProductRefEntityAttributeValueValueBuilderProvider implements Produc
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getProcessor(
         string $attributeCode,

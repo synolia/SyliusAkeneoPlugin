@@ -32,7 +32,7 @@ final class CategoryConfigurationFixture extends AbstractFixture
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): string
     {

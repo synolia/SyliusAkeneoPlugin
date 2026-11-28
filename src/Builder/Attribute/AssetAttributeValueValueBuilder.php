@@ -22,7 +22,7 @@ final class AssetAttributeValueValueBuilder implements ProductAttributeValueValu
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value)
     {

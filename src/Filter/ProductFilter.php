@@ -147,7 +147,7 @@ final class ProductFilter implements ProductFilterInterface
         return $advancedFilter;
     }
 
-    private function getProductModelCompletenessTypeAdvancedFilter(array $filter): array
+    private function getProductModelCompletenessFilter(array $filter): array
     {
         $filter['search']['completeness'][0]['operator'] = self::AT_LEAST_COMPLETE;
         if (self::FULL_COMPLETE === $filter['search']['completeness'][0]['value']) {
@@ -163,7 +163,7 @@ final class ProductFilter implements ProductFilterInterface
         $advancedFilter['search'] = array_filter($advancedFilter['search'], static fn (string $key): bool => \in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES), \ARRAY_FILTER_USE_KEY);
 
         if (\array_key_exists('completeness', $advancedFilter['search']) && \is_array($advancedFilter['search']['completeness'])) {
-            $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);
+            $advancedFilter = $this->getProductModelCompletenessFilter($advancedFilter);
         }
 
         return $advancedFilter;

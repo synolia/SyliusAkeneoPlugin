@@ -22,10 +22,7 @@ use Webmozart\Assert\Assert;
 
 class AttributeProcessor implements CategoryProcessorInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 700;
-    }
+    private const DEFAULT_PRIORITY = 700;
 
     public function __construct(
         private LoggerInterface $akeneoLogger,
@@ -38,6 +35,11 @@ class AttributeProcessor implements CategoryProcessorInterface
         private TaxonAttributeValueBuilder $taxonAttributeValueBuilder,
         private SyliusAkeneoLocaleCodeProvider $syliusAkeneoLocaleCodeProvider,
     ) {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(TaxonInterface $taxon, array $resource): void

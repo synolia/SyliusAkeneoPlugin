@@ -22,7 +22,7 @@ final class BooleanProductAttributeValueValueBuilder implements ProductAttribute
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value): bool
     {

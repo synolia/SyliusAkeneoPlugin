@@ -12,17 +12,20 @@ use Synolia\SyliusAkeneoPlugin\Transformer\Configuration\DatabaseCategoryConfigu
 
 class DatabaseCategoryConfigurationProvider implements CategoryConfigurationProviderInterface
 {
-    public static function getDefaultPriority(): int
-    {
-        return 0;
-    }
-
     private ?CategoryConfigurationInterface $categoryConfiguration = null;
 
+    /**
+     * @SuppressWarnings("PHPMD.LongVariable")
+     */
     public function __construct(
         private CategoryConfigurationRepository $categoriesConfigurationRepository,
         private DatabaseCategoryConfigurationToApiConnectionTransformer $databaseCategoryConfigurationToCategoryConfigurationTransformer,
     ) {
+    }
+
+    public static function getDefaultPriority(): int
+    {
+        return 0;
     }
 
     /**

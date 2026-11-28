@@ -15,6 +15,8 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductConfigurationRepository;
 
 final class ProductChannelEnablerProcessor implements ProductChannelEnablerProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 600;
+
     public function __construct(
         private ChannelRepository $channelRepository,
         private ProductConfigurationRepository $productConfigurationRepository,
@@ -24,7 +26,7 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
 
     public static function getDefaultPriority(): int
     {
-        return 600;
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -60,6 +62,19 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
         }
     }
 
+    public function support(ProductInterface $product, array $resource): bool
+    {
+        try {
+            $this->getEnabledChannelsAttributeData($product, $resource);
+
+            return true;
+        } catch (NoAttributeResourcesException | NoProductConfigurationException $exception) {
+            $this->akeneoLogger->info($exception->getMessage());
+
+            return false;
+        }
+    }
+
     private function getEnabledChannelsAttributeData(ProductInterface $product, array $resource): array
     {
         $productConfiguration = $this->productConfigurationRepository->findOneBy([], ['id' => 'DESC']);
@@ -85,18 +100,5 @@ final class ProductChannelEnablerProcessor implements ProductChannelEnablerProce
         }
 
         throw new NoAttributeResourcesException(sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
-    }
-
-    public function support(ProductInterface $product, array $resource): bool
-    {
-        try {
-            $this->getEnabledChannelsAttributeData($product, $resource);
-
-            return true;
-        } catch (NoAttributeResourcesException | NoProductConfigurationException $exception) {
-            $this->akeneoLogger->info($exception->getMessage());
-
-            return false;
-        }
     }
 }

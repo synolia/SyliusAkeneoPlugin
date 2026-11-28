@@ -7,6 +7,7 @@ namespace Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Task\Category;
 use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Synolia\SyliusAkeneoPlugin\Payload\Category\CategoryPayload;
 use Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface;
@@ -15,9 +16,8 @@ use Synolia\SyliusAkeneoPlugin\Task\SetupTask;
 
 /**
  * @internal
- *
- * @coversNothing
  */
+#[CoversNothing]
 final class RetrieveCategoriesTaskTest extends AbstractTaskTestCase
 {
     private const CATEGORY_COUNT = 67;

@@ -11,6 +11,8 @@ use Synolia\SyliusAkeneoPlugin\Repository\ProductGroupRepository;
 
 final class ProductGroupProcessor implements ProductGroupProcessorInterface
 {
+    private const DEFAULT_PRIORITY = 400;
+
     public function __construct(
         private ProductGroupRepository $productGroupRepository,
         private LoggerInterface $akeneoLogger,
@@ -19,7 +21,7 @@ final class ProductGroupProcessor implements ProductGroupProcessorInterface
 
     public static function getDefaultPriority(): int
     {
-        return 400;
+        return self::DEFAULT_PRIORITY;
     }
 
     public function process(ProductInterface $product, array $resource): void
@@ -37,6 +39,7 @@ final class ProductGroupProcessor implements ProductGroupProcessorInterface
         }
     }
 
+    #[\Override]
     public function support(ProductInterface $product, array $resource): bool
     {
         return \array_key_exists('parent', $resource);

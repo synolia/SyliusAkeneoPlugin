@@ -51,7 +51,7 @@ final class ProductConfigurationFixture extends AbstractFixture
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): string
     {

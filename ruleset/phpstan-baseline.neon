@@ -1,3 +1,4 @@
+# Generated with: vendor/bin/phpstan analyse -c ruleset/phpstan.neon --generate-baseline ruleset/phpstan-baseline.neon
 parameters:
 	ignoreErrors:
 		-
@@ -223,10 +224,22 @@ parameters:
 			path: ../src/Builder/TaxonAttribute/TaxonAttributeValueBuilder.php
 
 		-
+			message: '#^Only booleans are allowed in an if condition, mixed given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: ../src/Builder/TaxonAttribute/TaxonAttributeValueBuilder.php
+
+		-
 			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Builder/TaxonAttribute/TaxonAttributeValueBuilder.php
+
+		-
+			message: '#^Parameter \#4 \$value \(string\) of method Synolia\\SyliusAkeneoPlugin\\Builder\\TaxonAttribute\\TextTaxonAttributeValueBuilder\:\:build\(\) should be contravariant with parameter \$value \(mixed\) of method Synolia\\SyliusAkeneoPlugin\\Builder\\TaxonAttribute\\TaxonAttributeValueBuilderInterface\:\:build\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Builder/TaxonAttribute/TextTaxonAttributeValueBuilder.php
 
 		-
 			message: '#^Cannot cast mixed to string\.$#'
@@ -250,6 +263,12 @@ parameters:
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 3
+			path: ../src/Controller/AttributesController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface\:\:getFlashBag\(\)\.$#'
+			identifier: method.notFound
+			count: 2
 			path: ../src/Controller/AttributesController.php
 
 		-
@@ -301,6 +320,12 @@ parameters:
 			path: ../src/Controller/AttributesController.php
 
 		-
+			message: '#^Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface\:\:getFlashBag\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: ../src/Controller/CategoriesController.php
+
+		-
 			message: '#^Cannot call method add\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 2
@@ -313,6 +338,12 @@ parameters:
 			path: ../src/Controller/CategoriesController.php
 
 		-
+			message: '#^Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface\:\:getFlashBag\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: ../src/Controller/ProductFilterRulesController.php
+
+		-
 			message: '#^Cannot call method add\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 2
@@ -323,6 +354,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Controller/ProductFilterRulesController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface\:\:getFlashBag\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: ../src/Controller/ProductsController.php
 
 		-
 			message: '#^Cannot call method add\(\) on mixed\.$#'
@@ -347,12 +384,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Controller/ProductsController.php
-
-		-
-			message: '#^Instanceof between Sylius\\Component\\Attribute\\Model\\AttributeInterface and Sylius\\Component\\Attribute\\Model\\AttributeInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Creator/AttributeCreator.php
 
 		-
 			message: '#^Parameter \#1 \$attribute of method Synolia\\SyliusAkeneoPlugin\\Transformer\\AkeneoAttributeToSyliusAttributeTransformerInterface\:\:transform\(\) expects string, mixed given\.$#'
@@ -421,6 +452,432 @@ parameters:
 			path: ../src/DependencyInjection/SynoliaSyliusAkeneoExtension.php
 
 		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\Asset\:\:\$owner type mapping mismatch\: property can contain Doctrine\\Common\\Collections\\Collection but database expects Doctrine\\Common\\Collections\\Collection&iterable\<Sylius\\Component\\Core\\Model\\ProductInterface\>\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/Asset.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\Asset\:\:\$productVariants type mapping mismatch\: property can contain Doctrine\\Common\\Collections\\Collection but database expects Doctrine\\Common\\Collections\\Collection&iterable\<Sylius\\Component\\Core\\Model\\ProductVariantInterface\>\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/Asset.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeAkeneoSyliusMapping\:\:getId\(\) should return int\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/AttributeAkeneoSyliusMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeAkeneoSyliusMapping\:\:\$akeneoAttribute type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/AttributeAkeneoSyliusMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeAkeneoSyliusMapping\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/AttributeAkeneoSyliusMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeAkeneoSyliusMapping\:\:\$syliusAttribute type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/AttributeAkeneoSyliusMapping.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeTypeMapping\:\:getId\(\) should return int\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/AttributeTypeMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeTypeMapping\:\:\$akeneoAttributeType type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/AttributeTypeMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeTypeMapping\:\:\$attributeType type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/AttributeTypeMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeTypeMapping\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/AttributeTypeMapping.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\CategoryConfiguration\:\:getId\(\) should return int but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/CategoryConfiguration.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\CategoryConfiguration\:\:getNotImportCategories\(\) should return array\<string\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/CategoryConfiguration.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\CategoryConfiguration\:\:getRootCategories\(\) should return array\<string\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/CategoryConfiguration.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\CategoryConfiguration\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/CategoryConfiguration.php
+
+		-
+			message: '#^Trait Synolia\\SyliusAkeneoPlugin\\Entity\\ProductAssetTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: ../src/Entity/ProductAssetTrait.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\:\:getId\(\) should return int\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductConfiguration.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\:\:\$akeneoImageAttributes type mapping mismatch\: property can contain Doctrine\\Common\\Collections\\Collection but database expects Doctrine\\Common\\Collections\\Collection&iterable\<Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationAkeneoImageAttribute\>\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/ProductConfiguration.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/ProductConfiguration.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\:\:\$productImagesMapping type mapping mismatch\: property can contain Doctrine\\Common\\Collections\\Collection but database expects Doctrine\\Common\\Collections\\Collection&iterable\<Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationImageMapping\>\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/ProductConfiguration.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationAkeneoImageAttribute\:\:getId\(\) should return int\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductConfigurationAkeneoImageAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationAkeneoImageAttribute\:\:\$akeneoAttributes type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/ProductConfigurationAkeneoImageAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationAkeneoImageAttribute\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/ProductConfigurationAkeneoImageAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationAkeneoImageAttribute\:\:\$productConfiguration type mapping mismatch\: property can contain Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\|null but database expects Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/ProductConfigurationAkeneoImageAttribute.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationImageMapping\:\:getId\(\) should return int\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductConfigurationImageMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationImageMapping\:\:\$akeneoAttribute type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/ProductConfigurationImageMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationImageMapping\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/ProductConfigurationImageMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationImageMapping\:\:\$productConfiguration type mapping mismatch\: property can contain Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\|null but database expects Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/ProductConfigurationImageMapping.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfigurationImageMapping\:\:\$syliusAttribute type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/ProductConfigurationImageMapping.php
+
+		-
+			message: '#^Call to function array_search\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 2
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 4
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Cannot access offset int\|string\|false on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:getExcludeFamilies\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:getId\(\) should return int\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:getLocales\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_values expects array\<mixed\>, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of function array_search expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:\$excludeFamilies has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:\$locales has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules\:\:\$mode type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/ProductFiltersRules.php
+
+		-
+			message: '#^Call to function array_search\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 2
+			path: ../src/Entity/ProductGroup.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 4
+			path: ../src/Entity/ProductGroup.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductGroup\:\:getAssociations\(\) should return array\<string\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductGroup.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\ProductGroup\:\:getVariationAxes\(\) should return array\<string\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/ProductGroup.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\ProductGroup\:\:\$products type mapping mismatch\: property can contain Doctrine\\Common\\Collections\\Collection but database expects Doctrine\\Common\\Collections\\Collection&iterable\<Sylius\\Component\\Core\\Model\\ProductInterface\>\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/ProductGroup.php
+
+		-
+			message: '#^Trait Synolia\\SyliusAkeneoPlugin\\Entity\\ProductVariantAssetTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: ../src/Entity/ProductVariantAssetTrait.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\Setting\:\:getId\(\) should return int but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/Setting.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\Setting\:\:\$id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: ../src/Entity/Setting.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\:\:getNameByLocaleCode\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^PHPDoc tag @var with type Sylius\\Component\\Product\\Model\\ProductTranslationInterface is not subtype of type Sylius\\Component\\Attribute\\Model\\AttributeTranslationInterface\.$#'
+			identifier: varTag.type
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Parameter \$targetEntity of attribute class Doctrine\\ORM\\Mapping\\OneToMany constructor expects class\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\:\:\$code \(string\) does not accept string\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\:\:\$position \(int\) does not accept int\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\:\:\$storageType \(string\) does not accept string\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\:\:\$type \(string\) does not accept string\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\:\:\$values type mapping mismatch\: property can contain Doctrine\\Common\\Collections\\Collection but database expects Doctrine\\Common\\Collections\\Collection&iterable\<Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\>\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/TaxonAttribute.php
+
+		-
+			message: '#^Parameter \$targetEntity of attribute class Doctrine\\ORM\\Mapping\\ManyToOne constructor expects class\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Entity/TaxonAttributeTranslation.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeTranslation\:\:\$locale type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: ../src/Entity/TaxonAttributeTranslation.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeTranslation\:\:\$translatable type mapping mismatch\: property can contain Sylius\\Resource\\Model\\TranslatableInterface\|null but database expects Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\|null\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/TaxonAttributeTranslation.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:nullOrIsInstanceOf\(\) with Sylius\\Component\\Core\\Model\\TaxonInterface\|null and ''Sylius\\\\Component\\\\Core\\\\Model\\\\TaxonInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\:\:__toString\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\:\:getId\(\) should return int but returns int\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Parameter \$targetEntity of attribute class Doctrine\\ORM\\Mapping\\ManyToOne constructor expects class\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\:\:\$attribute \(Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeInterface\) does not accept Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeInterface\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Property Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\:\:\$attribute type mapping mismatch\: property can contain Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeInterface but database expects Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttribute\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between null and Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeInterface will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 2
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Variable method call on \$this\(Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\)\.$#'
+			identifier: method.dynamicName
+			count: 2
+			path: ../src/Entity/TaxonAttributeValue.php
+
+		-
+			message: '#^Trait Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributesTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: ../src/Entity/TaxonAttributesTrait.php
+
+		-
+			message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
+			identifier: booleanNot.exprNotBoolean
+			count: 1
+			path: ../src/Factory/PayloadFactory.php
+
+		-
 			message: '#^Parameter \#1 \$allowParallel of method Synolia\\SyliusAkeneoPlugin\\Configuration\\ConfigurationContextInterface\:\:setAllowParallel\(\) expects bool, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -437,6 +894,18 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Factory/PayloadFactory.php
+
+		-
+			message: '#^Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.$#'
+			identifier: ternary.shortNotAllowed
+			count: 1
+			path: ../src/Factory/PayloadFactory.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 4
+			path: ../src/Filter/ProductFilter.php
 
 		-
 			message: '#^Cannot access offset ''completeness'' on mixed\.$#'
@@ -463,12 +932,6 @@ parameters:
 			path: ../src/Filter/ProductFilter.php
 
 		-
-			message: '#^Instanceof between Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules and Synolia\\SyliusAkeneoPlugin\\Entity\\ProductFiltersRules will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 2
-			path: ../src/Filter/ProductFilter.php
-
-		-
 			message: '#^Parameter \#1 \$array of function array_filter expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -487,27 +950,9 @@ parameters:
 			path: ../src/Filter/ProductFilter.php
 
 		-
-			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/AssociationTypesFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/AssociationTypesFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: ../src/Fixture/AssociationTypesFixture.php
-
-		-
-			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
+			message: '#^Parameter \#1 \$options \(array\{batch_size\: int, allow_parallel\: bool, max_concurrency\: int\}\) of method Synolia\\SyliusAkeneoPlugin\\Fixture\\AssociationTypesFixture\:\:load\(\) should be contravariant with parameter \$options \(array\<mixed\>\) of method Sylius\\Bundle\\FixturesBundle\\Fixture\\FixtureInterface\:\:load\(\)$#'
+			identifier: method.childParameterType
+			count: 2
 			path: ../src/Fixture/AssociationTypesFixture.php
 
 		-
@@ -529,12 +974,6 @@ parameters:
 			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
 
 		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 4
-			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
-
-		-
 			message: '#^Parameter \#1 \$akeneoAttribute of method Synolia\\SyliusAkeneoPlugin\\Entity\\AttributeAkeneoSyliusMapping\:\:setAkeneoAttribute\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -547,82 +986,16 @@ parameters:
 			path: ../src/Fixture/AttributeAkeneoSyliusMappingFixture.php
 
 		-
-			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
+			message: '#^Parameter \#1 \$options \(array\{batch_size\: int, allow_parallel\: bool, max_concurrency\: int, custom\: array\<mixed\>\}\) of method Synolia\\SyliusAkeneoPlugin\\Fixture\\AttributesFixture\:\:load\(\) should be contravariant with parameter \$options \(array\<mixed\>\) of method Sylius\\Bundle\\FixturesBundle\\Fixture\\FixtureInterface\:\:load\(\)$#'
+			identifier: method.childParameterType
+			count: 2
 			path: ../src/Fixture/AttributesFixture.php
 
 		-
-			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/AttributesFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/AttributesFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 5
-			path: ../src/Fixture/AttributesFixture.php
-
-		-
-			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/AttributesFixture.php
-
-		-
-			message: '#^Cannot call method variablePrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/AttributesFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
+			message: '#^Parameter \#1 \$options \(array\{custom\: array\<string, mixed\>\}\) of method Synolia\\SyliusAkeneoPlugin\\Fixture\\CategoriesFixture\:\:load\(\) should be contravariant with parameter \$options \(array\<mixed\>\) of method Sylius\\Bundle\\FixturesBundle\\Fixture\\FixtureInterface\:\:load\(\)$#'
+			identifier: method.childParameterType
+			count: 2
 			path: ../src/Fixture/CategoriesFixture.php
-
-		-
-			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/CategoryConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method booleanNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/CategoryConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultFalse\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/CategoryConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/CategoryConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 5
-			path: ../src/Fixture/CategoryConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method scalarPrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/CategoryConfigurationFixture.php
 
 		-
 			message: '#^Parameter \#1 \$notImportCategories of method Synolia\\SyliusAkeneoPlugin\\Entity\\CategoryConfiguration\:\:setNotImportCategories\(\) expects array\<string\>, mixed given\.$#'
@@ -657,66 +1030,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''type'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method arrayPrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method booleanNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method children\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultFalse\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultNull\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 10
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method scalarNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method scalarPrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: ../src/Fixture/ProductConfigurationFixture.php
 
@@ -766,72 +1079,6 @@ parameters:
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultNull\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 15
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method enumNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method max\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method min\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method scalarNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 6
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method scalarPrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: ../src/Fixture/ProductFilterConfigurationFixture.php
-
-		-
-			message: '#^Cannot call method values\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 3
 			path: ../src/Fixture/ProductFilterConfigurationFixture.php
 
 		-
@@ -895,75 +1142,15 @@ parameters:
 			path: ../src/Fixture/ProductFilterConfigurationFixture.php
 
 		-
-			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
+			message: '#^Parameter \#1 \$options \(array\{batch_size\: int, allow_parallel\: bool, max_concurrency\: int, custom\: array\<mixed\>\}\) of method Synolia\\SyliusAkeneoPlugin\\Fixture\\ProductModelsFixture\:\:load\(\) should be contravariant with parameter \$options \(array\<mixed\>\) of method Sylius\\Bundle\\FixturesBundle\\Fixture\\FixtureInterface\:\:load\(\)$#'
+			identifier: method.childParameterType
+			count: 2
 			path: ../src/Fixture/ProductModelsFixture.php
 
 		-
-			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductModelsFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductModelsFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 5
-			path: ../src/Fixture/ProductModelsFixture.php
-
-		-
-			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductModelsFixture.php
-
-		-
-			message: '#^Cannot call method variablePrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductModelsFixture.php
-
-		-
-			message: '#^Cannot call method arrayNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductsFixture.php
-
-		-
-			message: '#^Cannot call method defaultTrue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductsFixture.php
-
-		-
-			message: '#^Cannot call method defaultValue\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductsFixture.php
-
-		-
-			message: '#^Cannot call method end\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 5
-			path: ../src/Fixture/ProductsFixture.php
-
-		-
-			message: '#^Cannot call method integerNode\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../src/Fixture/ProductsFixture.php
-
-		-
-			message: '#^Cannot call method variablePrototype\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
+			message: '#^Parameter \#1 \$options \(array\{batch_size\: int, allow_parallel\: bool, max_concurrency\: int, custom\: array\<mixed\>\}\) of method Synolia\\SyliusAkeneoPlugin\\Fixture\\ProductsFixture\:\:load\(\) should be contravariant with parameter \$options \(array\<mixed\>\) of method Sylius\\Bundle\\FixturesBundle\\Fixture\\FixtureInterface\:\:load\(\)$#'
+			identifier: method.childParameterType
+			count: 2
 			path: ../src/Fixture/ProductsFixture.php
 
 		-
@@ -979,8 +1166,8 @@ parameters:
 			path: ../src/Form/DataTransformer/AssetEntityDataTransformer.php
 
 		-
-			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:string\(\) with string will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
+			message: '#^Parameter \#1 \$value \(string\) of method Synolia\\SyliusAkeneoPlugin\\Form\\DataTransformer\\JsonEntityDataTransformer\:\:reverseTransform\(\) should be contravariant with parameter \$value \(mixed\) of method Symfony\\Component\\Form\\DataTransformerInterface\<mixed,mixed\>\:\:reverseTransform\(\)$#'
+			identifier: method.childParameterType
 			count: 1
 			path: ../src/Form/DataTransformer/JsonEntityDataTransformer.php
 
@@ -995,6 +1182,12 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: ../src/Form/DataTransformer/ReferenceEntityDataTransformer.php
+
+		-
+			message: '#^PHPDoc tag @var with type Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValueInterface is not subtype of type Synolia\\SyliusAkeneoPlugin\\Entity\\TaxonAttributeValue\.$#'
+			identifier: varTag.type
+			count: 2
+			path: ../src/Form/EventSubscriber/BuildTaxonAttributesFormSubscriber.php
 
 		-
 			message: '#^Binary operation "\." between ''sylius\.ui\.admin…'' and mixed results in an error\.$#'
@@ -1023,12 +1216,6 @@ parameters:
 		-
 			message: '#^Cannot access offset string on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/Form/Type/AttributeCodeChoiceType.php
-
-		-
-			message: '#^Instanceof between Akeneo\\Pim\\ApiClient\\Pagination\\ResourceCursorInterface and Akeneo\\Pim\\ApiClient\\Pagination\\ResourceCursorInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
 			count: 1
 			path: ../src/Form/Type/AttributeCodeChoiceType.php
 
@@ -1141,6 +1328,96 @@ parameters:
 			path: ../src/Form/Type/LocalesChoiceType.php
 
 		-
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Offset ''choices'' does not exist on array\{required\: true, constraints\: array\{\}, label\: non\-falsy\-string, translation_domain\: ''messages''\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 2
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Offset ''choices'' on array\{required\: true, constraints\: array\{\}, label\: non\-falsy\-string, translation_domain\: ''messages''\} in empty\(\) does not exist\.$#'
+			identifier: empty.offset
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Offset ''constraints'' on array\{required\: true, constraints\: array\{\}\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Offset ''constraints'' on array\{type\: ''Symfony\\\\Component\\\\Form\\\\Extension\\\\Core\\\\Type\\\\CheckboxType'', options\: array\{required\: true\}\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Offset int\|string might not exist on array\{import_referential_attributes\: array\{type\: ''Symfony\\\\Component\\\\Form\\\\Extension\\\\Core\\\\Type\\\\CheckboxType'', options\: array\{required\: true\}\}\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Parameter \#1 \$child of method Symfony\\Component\\Form\\FormBuilderInterface\:\:add\(\) expects string\|Symfony\\Component\\Form\\FormBuilderInterface, int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Parameter \#1 \$keys of function array_combine expects array\<int\|string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Parameter \#2 \$values of function array_combine expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 2
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between array\{\} and array\{\} will always evaluate to false\.$#'
+			identifier: notIdentical.alwaysFalse
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Variable \$constraintOptions on left side of \?\? is never defined\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: ../src/Form/Type/SettingsType.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, mixed given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: ../src/Form/Type/TaxonAttributeChoiceType.php
+
+		-
 			message: '#^Cannot access offset ''code'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -1150,6 +1427,18 @@ parameters:
 			message: '#^Cannot access offset ''identifier'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
+			path: ../src/Handler/Task/SymfonyMessengerTaskHandler.php
+
+		-
+			message: '#^Dynamic call to static method Synolia\\SyliusAkeneoPlugin\\Factory\\Message\\Batch\\BatchMessageFactoryInterface\:\:createFromPayload\(\)\.$#'
+			identifier: staticMethod.dynamicCall
+			count: 1
+			path: ../src/Handler/Task/SymfonyMessengerTaskHandler.php
+
+		-
+			message: '#^Implicit array creation is not allowed \- variable \$identifiers might not exist\.$#'
+			identifier: variable.implicitArray
+			count: 2
 			path: ../src/Handler/Task/SymfonyMessengerTaskHandler.php
 
 		-
@@ -1201,14 +1490,14 @@ parameters:
 			path: ../src/Handler/Task/SymfonyProcessTaskHandler.php
 
 		-
-			message: '#^Parameter \#1 \$array of function current expects array\|object, mixed given\.$#'
+			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array given\.$#'
 			identifier: argument.type
-			count: 2
+			count: 1
 			path: ../src/Handler/Task/SymfonyProcessTaskHandler.php
 
 		-
-			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array given\.$#'
-			identifier: argument.type
+			message: '#^Variable \$result might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: ../src/Handler/Task/SymfonyProcessTaskHandler.php
 
@@ -1217,18 +1506,6 @@ parameters:
 			identifier: phpDoc.parseError
 			count: 1
 			path: ../src/Logger/Messages.php
-
-		-
-			message: '#^Argument of an invalid type object supplied for foreach, only iterables are supported\.$#'
-			identifier: foreach.nonIterable
-			count: 1
-			path: ../src/Manager/Doctrine/DoctrineSortableManager.php
-
-		-
-			message: '#^Method Doctrine\\Common\\EventManager\:\:getListeners\(\) invoked with 0 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: ../src/Manager/Doctrine/DoctrineSortableManager.php
 
 		-
 			message: '#^Parameter \#2 \$listener of method Doctrine\\Common\\EventManager\:\:addEventListener\(\) expects object, mixed given\.$#'
@@ -1247,6 +1524,18 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Manager/ProductOptionManager.php
+
+		-
+			message: '#^Method Doctrine\\Persistence\\ObjectManager\:\:flush\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: ../src/Manager/SettingsManager.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: ../src/Mapper/AkeneoSyliusLocaleMapper.php
 
 		-
 			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Mapper\\AkeneoSyliusLocaleMapper\:\:map\(\) should return array but returns mixed\.$#'
@@ -1591,12 +1880,6 @@ parameters:
 			path: ../src/Processor/Product/CompleteRequirementProcessor.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between null and Synolia\\SyliusAkeneoPlugin\\Entity\\ProductConfiguration will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: ../src/Processor/Product/CompleteRequirementProcessor.php
-
-		-
 			message: '#^Parameter \#2 \$attributes of method Synolia\\SyliusAkeneoPlugin\\Processor\\AbstractImageProcessor\:\:addImage\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1639,12 +1922,6 @@ parameters:
 			path: ../src/Processor/Product/ProductChannelEnablerProcessor.php
 
 		-
-			message: '#^Instanceof between Sylius\\Component\\Core\\Model\\ProductTaxonInterface and Sylius\\Component\\Core\\Model\\ProductTaxonInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Processor/Product/TaxonsProcessor.php
-
-		-
 			message: '#^Parameter \#1 \$array of function array_unique expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1675,7 +1952,7 @@ parameters:
 			path: ../src/Processor/ProductAttribute/AbstractModelAkeneoAttributeProcessor.php
 
 		-
-			message: '#^Parameter \#1 \$model of method Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttribute\\AbstractModelAkeneoAttributeProcessor\:\:setValueToMethod\(\) expects Sylius\\(?:Component\\)?Resource\\Model\\ResourceInterface, mixed given\.$#'
+			message: '#^Parameter \#1 \$model of method Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttribute\\AbstractModelAkeneoAttributeProcessor\:\:setValueToMethod\(\) expects Sylius\\Component\\Resource\\Model\\ResourceInterface, mixed given\.$#'
 			identifier: argument.type
 			count: 2
 			path: ../src/Processor/ProductAttribute/AbstractModelAkeneoAttributeProcessor.php
@@ -1714,12 +1991,6 @@ parameters:
 			message: '#^Cannot access offset ''locale'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
-			path: ../src/Processor/ProductAttribute/AssetAttributeProcessor.php
-
-		-
-			message: '#^Instanceof between Sylius\\Component\\Attribute\\Model\\AttributeInterface and Sylius\\Component\\Attribute\\Model\\AttributeInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
 			path: ../src/Processor/ProductAttribute/AssetAttributeProcessor.php
 
 		-
@@ -1783,6 +2054,12 @@ parameters:
 			path: ../src/Processor/ProductAttribute/AssetProductAttributeProcessor.php
 
 		-
+			message: '#^Only booleans are allowed in an if condition, mixed given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: ../src/Processor/ProductAttribute/AssetProductAttributeProcessor.php
+
+		-
 			message: '#^PHPDoc tag @SuppressWarnings has invalid value \(\(PHPMD\.ExcessiveMethodLength\)\)\: Unexpected token "\.ExcessiveMethodLength\)", expected ''\)'' at offset 34 on line 2$#'
 			identifier: phpDoc.parseError
 			count: 1
@@ -1823,12 +2100,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Processor/ProductAttribute/AssetProductAttributeProcessor.php
-
-		-
-			message: '#^Instanceof between Sylius\\Component\\Attribute\\Model\\AttributeInterface and Sylius\\Component\\Attribute\\Model\\AttributeInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Processor/ProductAttribute/ProductAttributeAkeneoAttributeProcessor.php
 
 		-
 			message: '#^Parameter \#3 \$translations of method Synolia\\SyliusAkeneoPlugin\\Processor\\ProductAttribute\\ProductAttributeAkeneoAttributeProcessor\:\:setAttributeTranslation\(\) expects array, mixed given\.$#'
@@ -1915,6 +2186,18 @@ parameters:
 			path: ../src/Processor/ProductAttribute/ProductAttributeTableProcessor.php
 
 		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 2
+			path: ../src/Processor/ProductAttribute/ProductTranslationModelAkeneoAttributeProcessor.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 2
+			path: ../src/Processor/ProductAttribute/ProductVariantModelAkeneoAttributeProcessor.php
+
+		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -1959,7 +2242,7 @@ parameters:
 		-
 			message: '#^Cannot access offset ''variant_attribute_sets'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
+			count: 2
 			path: ../src/Processor/ProductGroup/FamilyVariationAxeProcessor.php
 
 		-
@@ -2026,6 +2309,12 @@ parameters:
 			message: '#^Possibly invalid array key type mixed\.$#'
 			identifier: offsetAccess.invalidOffset
 			count: 6
+			path: ../src/Processor/ProductGroup/FamilyVariationAxeProcessor.php
+
+		-
+			message: '#^Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.$#'
+			identifier: ternary.shortNotAllowed
+			count: 2
 			path: ../src/Processor/ProductGroup/FamilyVariationAxeProcessor.php
 
 		-
@@ -2215,6 +2504,12 @@ parameters:
 			path: ../src/Processor/ProductVariant/OptionValueProcessor.php
 
 		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: ../src/Processor/ProductVariant/OptionValueProcessor.php
+
+		-
 			message: '#^Cannot access offset ''axes'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
@@ -2229,12 +2524,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''level'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/Processor/ProductVariant/OptionValueProcessor.php
-
-		-
-			message: '#^Instanceof between Sylius\\Component\\Product\\Model\\ProductOptionInterface and Sylius\\Component\\Product\\Model\\ProductOptionInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
 			count: 1
 			path: ../src/Processor/ProductVariant/OptionValueProcessor.php
 
@@ -2335,12 +2624,6 @@ parameters:
 			path: ../src/Processor/ProductVariant/PricingProcessor.php
 
 		-
-			message: '#^Instanceof between Sylius\\Component\\Core\\Model\\ChannelPricingInterface and Sylius\\Component\\Core\\Model\\ChannelPricingInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Processor/ProductVariant/PricingProcessor.php
-
-		-
 			message: '#^Method Doctrine\\Persistence\\ObjectRepository\<Sylius\\Resource\\Model\\ResourceInterface\>\:\:findOneBy\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
@@ -2425,12 +2708,6 @@ parameters:
 			path: ../src/Processor/Resource/Attribute/AttributeResourceProcessor.php
 
 		-
-			message: '#^Instanceof between Sylius\\Component\\Core\\Model\\TaxonInterface and Sylius\\Component\\Core\\Model\\TaxonInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Processor/Resource/Category/CategoryResourceProcessor.php
-
-		-
 			message: '#^Parameter \#1 \$code of method Synolia\\SyliusAkeneoPlugin\\Processor\\Resource\\Category\\CategoryResourceProcessor\:\:getOrCreateEntity\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2473,14 +2750,8 @@ parameters:
 			path: ../src/Processor/Resource/ProductVariant/ConfigurableProductVariantResourceProcessor.php
 
 		-
-			message: '#^Instanceof between Sylius\\Component\\Core\\Model\\ProductInterface and Sylius\\Component\\Core\\Model\\ProductInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Processor/Resource/ProductVariant/SimpleProductVariantResourceProcessor.php
-
-		-
-			message: '#^Instanceof between Sylius\\Component\\Core\\Model\\ProductVariantInterface and Sylius\\Component\\Core\\Model\\ProductVariantInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Processor\\Resource\\ProductVariant\\SimpleProductVariantResourceProcessor\:\:getOrCreateSimpleVariant\(\) should return Sylius\\Component\\Core\\Model\\ProductVariantInterface but returns Sylius\\Component\\Product\\Model\\ProductVariantInterface\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Processor/Resource/ProductVariant/SimpleProductVariantResourceProcessor.php
 
@@ -2515,13 +2786,13 @@ parameters:
 			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#3 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Asset\\AkeneoAssetAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Asset/AkeneoAssetAttributeDataProvider.php
@@ -2617,13 +2888,13 @@ parameters:
 			path: ../src/Provider/Data/AkeneoAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#2 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoAttributeDataProvider.php
@@ -2713,13 +2984,13 @@ parameters:
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
 
 		-
-			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocale\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByLocaleAndScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
@@ -2727,6 +2998,12 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$attributeValues of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getByScope\(\) expects array, mixed given\.$#'
 			identifier: argument.type
+			count: 1
+			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
+
+		-
+			message: '#^Return type \(mixed\) of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProvider\:\:getData\(\) should be covariant with return type \(array\|string\|null\) of method Synolia\\SyliusAkeneoPlugin\\Provider\\Data\\AkeneoReferenceEntityAttributeDataProviderInterface\:\:getData\(\)$#'
+			identifier: method.childReturnType
 			count: 1
 			path: ../src/Provider/Data/AkeneoReferenceEntityAttributeDataProvider.php
 
@@ -2779,10 +3056,22 @@ parameters:
 			path: ../src/Provider/ExcludedAttributesProvider.php
 
 		-
+			message: '#^Implicit array creation is not allowed \- variable \$queryParameters does not exist\.$#'
+			identifier: variable.implicitArray
+			count: 1
+			path: ../src/Provider/Filter/Resource/CategorySearchFilterProvider.php
+
+		-
 			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../src/Provider/Filter/SearchFilterProvider.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: ../src/Provider/SyliusAkeneoLocaleCodeProvider.php
 
 		-
 			message: '#^Parameter \#1 \$array of function array_unique expects an array of values castable to string, list given\.$#'
@@ -2851,6 +3140,12 @@ parameters:
 			path: ../src/Repository/ProductAttributeRepository.php
 
 		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: ../src/Repository/ProductFiltersRulesRepository.php
+
+		-
 			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(array\)\: mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2881,25 +3176,25 @@ parameters:
 			path: ../src/Retriever/FamilyMeasureRetriever.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:getMeasurable\(\) should return array but returns mixed\.$#'
-			identifier: return.type
-			count: 1
-			path: ../src/Retriever/FamilyMeasureRetriever.php
-
-		-
 			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:get\(\) should return array but returns mixed\.$#'
 			identifier: return.type
 			count: 2
 			path: ../src/Retriever/FamilyMeasureRetriever.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamilyCodeByVariantCode\(\) should return string but returns mixed\.$#'
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyMeasureRetriever\:\:getMeasurable\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../src/Retriever/FamilyMeasureRetriever.php
+
+		-
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamily\(\) should return array but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: ../src/Retriever/FamilyRetriever.php
 
 		-
-			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamily\(\) should return array but returns mixed\.$#'
+			message: '#^Method Synolia\\SyliusAkeneoPlugin\\Retriever\\FamilyRetriever\:\:getFamilyCodeByVariantCode\(\) should return string but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: ../src/Retriever/FamilyRetriever.php
@@ -2953,6 +3248,18 @@ parameters:
 			path: ../src/Task/Asset/BatchAssetTask.php
 
 		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Asset\\AssetPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Asset\\BatchAssetTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 2
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Asset\\AssetPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Asset\\BatchAssetTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\BatchTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Asset/BatchAssetTask.php
+
+		-
 			message: '#^Parameter \#2 \$assetCode of method Synolia\\SyliusAkeneoPlugin\\Processor\\Asset\\Attribute\\AkeneoAssetAttributeProcessorInterface\:\:process\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2983,6 +3290,18 @@ parameters:
 			path: ../src/Task/Asset/BatchAssetTask.php
 
 		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Asset\\AssetPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Asset\\ProcessAssetTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Asset/ProcessAssetTask.php
+
+		-
+			message: '#^PHPDoc tag @var with type mixed is not subtype of type string\.$#'
+			identifier: varTag.type
+			count: 1
+			path: ../src/Task/Association/AssociateProductsTask.php
+
+		-
 			message: '#^Parameter \#2 \$association of method Synolia\\SyliusAkeneoPlugin\\Task\\Association\\AssociateProductsTask\:\:retrieveModels\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -3001,6 +3320,24 @@ parameters:
 			path: ../src/Task/AssociationType/BatchAssociationTypesTask.php
 
 		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Association\\AssociationTypePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AssociationType\\BatchAssociationTypesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 2
+			path: ../src/Task/AssociationType/BatchAssociationTypesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Association\\AssociationTypePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AssociationType\\BatchAssociationTypesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\BatchTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/AssociationType/BatchAssociationTypesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Association\\AssociationTypePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AssociationType\\ProcessAssociationTypeTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/AssociationType/ProcessAssociationTypeTask.php
+
+		-
 			message: '#^Cannot cast mixed to int\.$#'
 			identifier: cast.int
 			count: 1
@@ -3013,8 +3350,38 @@ parameters:
 			path: ../src/Task/Attribute/BatchAttributesTask.php
 
 		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Attribute\\AttributePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Attribute\\BatchAttributesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 2
+			path: ../src/Task/Attribute/BatchAttributesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Attribute\\AttributePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Attribute\\BatchAttributesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\BatchTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Attribute/BatchAttributesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Attribute\\AttributePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Attribute\\ProcessAttributeTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Attribute/ProcessAttributeTask.php
+
+		-
 			message: '#^Cannot access offset ''code'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Task/Attribute/RetrieveAttributesTask.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: ../src/Task/Attribute/RetrieveAttributesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Attribute\\AttributePayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Attribute\\RetrieveAttributesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
 			count: 1
 			path: ../src/Task/Attribute/RetrieveAttributesTask.php
 
@@ -3023,6 +3390,18 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Task/Attribute/RetrieveAttributesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Category\\CategoryPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Category\\BatchCategoriesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 2
+			path: ../src/Task/Category/BatchCategoriesTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Category\\CategoryPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Category\\BatchCategoriesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\BatchTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Category/BatchCategoriesTask.php
 
 		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
@@ -3073,6 +3452,12 @@ parameters:
 			path: ../src/Task/Category/ProcessCategoriesTask.php
 
 		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Category\\CategoryPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Category\\ProcessCategoriesTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Category/ProcessCategoriesTask.php
+
+		-
 			message: '#^Parameter \#2 \$branches of method Synolia\\SyliusAkeneoPlugin\\Task\\Category\\ProcessCategoriesTask\:\:findParentNode\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -3103,6 +3488,12 @@ parameters:
 			path: ../src/Task/Product/BatchProductsTask.php
 
 		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\Product\\ProductPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\Product\\ProcessProductsTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/Product/ProcessProductsTask.php
+
+		-
 			message: '#^Cannot cast mixed to int\.$#'
 			identifier: cast.int
 			count: 1
@@ -3119,6 +3510,30 @@ parameters:
 			identifier: phpDoc.parseError
 			count: 1
 			path: ../src/Task/ProductModel/BatchProductModelTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\ProductModel\\ProductModelPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\ProductModel\\BatchProductModelTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 2
+			path: ../src/Task/ProductModel/BatchProductModelTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\ProductModel\\ProductModelPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\ProductModel\\BatchProductModelTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\BatchTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/ProductModel/BatchProductModelTask.php
+
+		-
+			message: '#^Parameter \#1 \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\ProductModel\\ProductModelPayload\) of method Synolia\\SyliusAkeneoPlugin\\Task\\ProductModel\\ProcessProductModelsTask\:\:__invoke\(\) should be contravariant with parameter \$payload \(Synolia\\SyliusAkeneoPlugin\\Payload\\PipelinePayloadInterface\) of method Synolia\\SyliusAkeneoPlugin\\Task\\AkeneoTaskInterface\:\:__invoke\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Task/ProductModel/ProcessProductModelsTask.php
+
+		-
+			message: '#^Parameter \#1 \$value \(string\) of method Synolia\\SyliusAkeneoPlugin\\Transformer\\DataMigration\\TextToMetricDataMigrationTransformer\:\:transform\(\) should be contravariant with parameter \$value \(mixed\) of method Synolia\\SyliusAkeneoPlugin\\Transformer\\DataMigration\\DataMigrationTransformerInterface\:\:transform\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: ../src/Transformer/DataMigration/TextToMetricDataMigrationTransformer.php
 
 		-
 			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array given\.$#'

@@ -22,7 +22,7 @@ final class IntegerProductAttributeValueValueBuilder implements ProductAttribute
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build(string $attributeCode, ?string $locale, ?string $scope, $value): int
     {

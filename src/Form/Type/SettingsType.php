@@ -13,7 +13,7 @@ use Synolia\SyliusAkeneoPlugin\Model\SettingType;
 final class SettingsType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -56,7 +56,7 @@ final class SettingsType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -67,7 +67,7 @@ final class SettingsType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBlockPrefix(): string
     {

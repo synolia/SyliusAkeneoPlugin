@@ -56,6 +56,11 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
     #[ORM\Column(name: 'json_value', type: Types::JSON, nullable: true)]
     private ?array $json;
 
+    public function __toString(): string
+    {
+        return $this->getCode();
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -138,6 +143,26 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         $this->assertAttributeIsSet();
 
         return $this->attribute->getType();
+    }
+
+    public function getTaxon(): ?TaxonInterface
+    {
+        $subject = $this->getSubject();
+
+        Assert::nullOrIsInstanceOf($subject, TaxonInterface::class);
+
+        return $subject;
+    }
+
+    public function setTaxon(?TaxonInterface $taxon): self
+    {
+        $this->setSubject($taxon);
+
+        if ($taxon instanceof TaxonAttributeSubjectInterface) {
+            $taxon->addAttribute($this);
+        }
+
+        return $this;
     }
 
     /**
@@ -235,30 +260,5 @@ class TaxonAttributeValue implements TaxonAttributeValueInterface, ResourceInter
         if (null === $this->attribute) {
             throw new \BadMethodCallException('The attribute is undefined, so you cannot access proxy methods.');
         }
-    }
-
-    public function getTaxon(): ?TaxonInterface
-    {
-        $subject = $this->getSubject();
-
-        Assert::nullOrIsInstanceOf($subject, TaxonInterface::class);
-
-        return $subject;
-    }
-
-    public function setTaxon(?TaxonInterface $taxon): self
-    {
-        $this->setSubject($taxon);
-
-        if ($taxon instanceof TaxonAttributeSubjectInterface) {
-            $taxon->addAttribute($this);
-        }
-
-        return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getCode();
     }
 }
