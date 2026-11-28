@@ -85,7 +85,6 @@ final class ProductFilterTest extends ApiTestCase
         $this->productFiltersRules->setUpdatedMode(Operator::GREATER_THAN);
         $reflectionClass = new \ReflectionClass($this->productFilter);
         $method = $reflectionClass->getMethod('getUpdatedFilter');
-        $method->setAccessible(true);
         /** @var SearchBuilder $result */
         $result = $method->invoke($this->productFilter, $this->productFiltersRules, new SearchBuilder());
         $this->assertInstanceOf(SearchBuilder::class, $result);
@@ -161,7 +160,6 @@ final class ProductFilterTest extends ApiTestCase
     {
         $reflectionClass = new \ReflectionClass($this->productFilter);
         $method = $reflectionClass->getMethod('getCompletenessFilter');
-        $method->setAccessible(true);
 
         $result = $method->invoke(
             $this->productFilter,

@@ -52,7 +52,7 @@ class ProductGroupProcessor
                 $family,
             ));
 
-            $productGroup->setParent($this->productGroupsMapping[$parent] ?? null);
+            $productGroup->setParent(null !== $parent ? $this->productGroupsMapping[$parent] ?? null : null);
             $productGroup->setModel($code);
             $productGroup->setFamily($family);
             $productGroup->setFamilyVariant($familyVariant);
@@ -68,7 +68,7 @@ class ProductGroupProcessor
 
         /** @var ProductGroupInterface $productGroup */
         $productGroup = $this->productGroupFactory->createNew();
-        $productGroup->setParent($this->productGroupsMapping[$parent] ?? null);
+        $productGroup->setParent(null !== $parent ? $this->productGroupsMapping[$parent] ?? null : null);
         $productGroup->setModel($code);
         $productGroup->setFamily($family);
         $productGroup->setFamilyVariant($familyVariant);
