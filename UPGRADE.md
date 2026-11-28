@@ -1,3 +1,8 @@
+# UPGRADE FROM `v5.0.x` TO `v5.1.0`
+
+* **BC BREAK**: Symfony 6.4 is no longer supported: the plugin requires Symfony 7.4 or 8.x.
+* PHP 8.2 is supported again (with Sylius 2.2).
+
 # UPGRADE FROM `v4.x` TO `v5.0.0`
 
 * **BC BREAK**: The plugin now requires Sylius 2. Follow the [Sylius 2 upgrade guide](https://github.com/Sylius/Sylius/blob/2.0/UPGRADE-2.0.md) for your project first.
