@@ -1,16 +1,20 @@
 /vendor/
-**/node_modules/
-**/.*cache
+/node_modules
 /composer.lock
+/var/
 
 /etc/build/*
 !/etc/build/.gitignore
 
-/tests/Application/
-/install/Application/*.local
-/install/app-*
-
-/behat.yml
+/.phpunit.result.cache
+/phpunit.xml
 /phpspec.yml
 
-/.idea
+/tests/TestApplication/.env.local
+/tests/TestApplication/.env.*.local
+
+# JetBrains IDE
+/.idea/
+
+# Front-end dev dependencies of the plugin assets (eslint)
+/assets/node_modules/

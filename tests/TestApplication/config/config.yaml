@@ -1,0 +1,198 @@
+imports:
+    - { resource: "@SynoliaSyliusAkeneoPlugin/config/config.yaml" }
+
+# Entity overrides required by the plugin (assets on products / variants, attributes on taxons)
+doctrine:
+    orm:
+        mappings:
+            TestApplication:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/../../../tests/TestApplication/src/Entity'
+                prefix: Tests\Synolia\SyliusAkeneoPlugin\TestApplication\Entity
+
+sylius_product:
+    resources:
+        product:
+            classes:
+                model: Tests\Synolia\SyliusAkeneoPlugin\TestApplication\Entity\Product\Product
+        product_variant:
+            classes:
+                model: Tests\Synolia\SyliusAkeneoPlugin\TestApplication\Entity\Product\ProductVariant
+
+sylius_taxonomy:
+    resources:
+        taxon:
+            classes:
+                model: Tests\Synolia\SyliusAkeneoPlugin\TestApplication\Entity\Taxonomy\Taxon
+
+when@test:
+    parameters:
+        env(SYNOLIA_AKENEO_BASE_URL): 'http://localhost:8987'
+        env(SYNOLIA_AKENEO_CLIENT_ID): 'test'
+        env(SYNOLIA_AKENEO_CLIENT_SECRET): 'test'
+        env(SYNOLIA_AKENEO_USERNAME): 'test'
+        env(SYNOLIA_AKENEO_PASSWORD): 'test'
+        env(SYNOLIA_AKENEO_EDITION): !php/const \Synolia\SyliusAkeneoPlugin\Config\AkeneoEditionEnum::ENTERPRISE
+        env(SYNOLIA_AKENEO_AXE_AS_MODEL): !php/const \Synolia\SyliusAkeneoPlugin\Config\AkeneoAxesEnum::FIRST
+        env(SYNOLIA_AKENEO_PAGINATION): 100
+
+    synolia_sylius_akeneo:
+        api_configuration:
+            base_url: '%env(string:SYNOLIA_AKENEO_BASE_URL)%'
+            client_id: '%env(string:SYNOLIA_AKENEO_CLIENT_ID)%'
+            client_secret: '%env(string:SYNOLIA_AKENEO_CLIENT_SECRET)%'
+            username: '%env(string:SYNOLIA_AKENEO_USERNAME)%'
+            password: '%env(string:SYNOLIA_AKENEO_PASSWORD)%'
+            edition: '%env(string:SYNOLIA_AKENEO_EDITION)%'
+            axe_as_model: '%env(string:SYNOLIA_AKENEO_AXE_AS_MODEL)%'
+            pagination: '%env(int:SYNOLIA_AKENEO_PAGINATION)%'
+        category_configuration:
+            root_category_codes:
+                - master
+            excluded_category_codes: []
+
+    # Without an explicit metadata cache, DoctrineBundle warms a PHP array cache when debug is off,
+    # which fails because non-lazy console commands load metadata before the warmer runs.
+    doctrine:
+        orm:
+            metadata_cache_driver:
+                type: pool
+                pool: cache.system
+
+    # The "default" suite (loaded by `make install`) only contains the minimal data the tests rely on:
+    # the Sylius demo fixtures are removed, as imported Akeneo data would conflict with them.
+    sylius_fixtures:
+        suites:
+            default:
+                listeners:
+                    images_purger: false
+                    catalog_promotion_processor_executor: false
+                fixtures:
+                    locale: false
+                    currency: false
+                    geographical: false
+                    menu_taxon: false
+                    channel: false
+                    payment_method: false
+                    shipping_method: false
+                    customer_group: false
+                    shop_user: false
+                    admin_user: false
+                    tax_category: false
+                    tax_rate: false
+                    promotion: false
+                    catalog_promotion: false
+                    cap_taxon: false
+                    cap_attribute: false
+                    cap_product: false
+                    dress_taxon: false
+                    dress_attribute: false
+                    dress_option: false
+                    dress_product: false
+                    jeans_taxon: false
+                    jeans_attribute: false
+                    jeans_option: false
+                    jeans_product: false
+                    tshirt_taxon: false
+                    tshirt_attribute: false
+                    tshirt_option: false
+                    tshirt_product: false
+                    product_review: false
+                    similar_product_association: false
+                    order: false
+                    payments: false
+                    address: false
+                    akeneo_currency:
+                        name: currency
+                        options:
+                            currencies:
+                                - 'EUR'
+                                - 'USD'
+                    akeneo_locale:
+                        name: locale
+                        options:
+                            locales:
+                                - 'en_US'
+                                - 'fr_FR'
+                    akeneo_channel:
+                        name: channel
+                        options:
+                            custom:
+                                my_store:
+                                    name: 'Default'
+                                    code: 'FASHION_WEB'
+                                    default_locale: 'en_US'
+                                    base_currency: 'USD'
+                                    currencies:
+                                        - 'USD'
+                                    locales:
+                                        - 'en_US'
+                                        - 'fr_FR'
+                                    enabled: true
+                                    hostname: 'localhost'
+                    akeneo_shop_user:
+                        name: shop_user
+                        options:
+                            custom:
+                                -   email: 'shop@example.com'
+                                    first_name: 'John'
+                                    last_name: 'Doe'
+                                    password: 'sylius'
+                    akeneo_admin_user:
+                        name: admin_user
+                        options:
+                            custom:
+                                -   email: 'sylius@example.com'
+                                    username: 'sylius'
+                                    password: 'sylius'
+                                    enabled: true
+                                    locale_code: 'fr_FR'
+                                    first_name: 'John'
+                                    last_name: 'Doe'
+
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+            public: true
+
+        test.serialize.akeneo: '@Symfony\Component\Serializer\SerializerInterface'
+        Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\BeforeTaskSubscriber: ~
+        Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\AfterTaskSubscriber: ~
+        Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\EventSubscriber\FilterSubscriber: ~
+
+        # The Akeneo API is mocked by donatj/mock-webserver (see tests/TestApplication/.env.test)
+        Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory:
+            arguments:
+                $mockServerHost: '%env(MOCK_SERVER_HOST)%'
+                $mockServerPort: '%env(int:MOCK_SERVER_PORT)%'
+
+        Akeneo\Pim\ApiClient\AkeneoPimClientInterface:
+            factory: ['@Tests\Synolia\SyliusAkeneoPlugin\PHPUnit\Client\ClientFactory', 'createFromApiCredentials']
+            lazy: true
+        Synolia\SyliusAkeneoPlugin\Builder\Attribute\ProductAttributeValueValueBuilder: ~
+        Synolia\SyliusAkeneoPlugin\Factory\AttributePipelineFactory: ~
+        Synolia\SyliusAkeneoPlugin\Factory\CategoryPipelineFactory: ~
+        Synolia\SyliusAkeneoPlugin\Factory\ProductModelPipelineFactory: ~
+        Synolia\SyliusAkeneoPlugin\Factory\AssociationTypePipelineFactory: ~
+        Synolia\SyliusAkeneoPlugin\Filter\ProductFilter: ~
+        Synolia\SyliusAkeneoPlugin\Provider\Data\AkeneoAttributePropertiesProvider: ~
+        Synolia\SyliusAkeneoPlugin\Provider\TaskProvider: ~
+        Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever: ~
+        Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository: ~
+        Synolia\SyliusAkeneoPlugin\Task\ProductGroup\ProcessProductGroupModelTask: ~
+        Synolia\SyliusAkeneoPlugin\Transformer\AkeneoAttributeToSyliusAttributeTransformer: ~
+        Synolia\SyliusAkeneoPlugin\Transformer\ProductOptionValueDataTransformer: ~
+        Synolia\SyliusAkeneoPlugin\TypeMatcher\Attribute\AttributeTypeMatcher: ~
+        Synolia\SyliusAkeneoPlugin\Provider\SyliusAkeneoLocaleCodeProvider:
+            arguments:
+                $defaultSyliusLocaleCode: 'en_US'
+            public: true
+        Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProviderInterface:
+            class: Synolia\SyliusAkeneoPlugin\Provider\Configuration\Api\CategoryConfigurationProvider
+            arguments:
+                $categoryCodesToImport: []
+                $categoryCodesToExclude: []
+                $useAkeneoPositions: false
+            public: true

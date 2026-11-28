@@ -1,7 +1,0 @@
-# Without an explicit metadata cache, DoctrineBundle warms a PHP array cache when debug is off,
-# which fails because non-lazy console commands load metadata before the warmer runs.
-doctrine:
-    orm:
-        metadata_cache_driver:
-            type: pool
-            pool: cache.system
